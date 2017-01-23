@@ -13,14 +13,14 @@
 tf_options <- function(
   optimizer = NULL,
   steps = 100L,
-  model.dir = tf_setting("tf.model.dir", tempfile()))
+  model.dir = tf_setting("tf.model.dir", tempfile("tflearn_")))
 {
   options <- list(
     optimizer = optimizer,
     steps = ensure_scalar_integer(steps),
     model.dir = model.dir
   )
-  
+
   class(options) <- "tf_options"
   options
 }
