@@ -5,7 +5,7 @@
 \title{Options for TensorFlow Routines}
 \usage{
 tf_options(optimizer = NULL, steps = 100L,
-  model.dir = tf_setting("tf.model.dir", tempfile()))
+  model.dir = tf_setting("tf.model.dir", tempfile("tflearn_")))
 }
 \arguments{
 \item{optimizer}{The optimizer to be used. When \code{NULL}, the default

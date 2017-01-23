@@ -1,14 +1,8 @@
-tf_model <- function(name, ...) {
-  object <- list(...)
-  class(object) <- c("tf_model", sprintf("tf_model_%s", name))
-  object
-}
-
 tf_backwards_compatibility_api <- function(envir = parent.frame()) {
 
   # retrieve dots
   dots <- eval(quote(list(...)), envir = envir)
-  
+
   # if tf.options is NULL in envir, initialize it
   if (is.null(envir[["tf.options"]]))
     assign("tf.options", tf_options(), envir = envir)
@@ -67,18 +61,18 @@ tf_columns <- function(x, columns) {
 }
 
 tf_setting <- function(name, default) {
-  
+
   # Check for environment variable with associated name
   env <- toupper(gsub(".", "_", name, fixed = TRUE))
   val <- Sys.getenv(env, unset = NA)
   if (!is.na(val))
     return(val)
-  
+
   # Check for R option with associated name
   val <- getOption(name)
   if (!is.null(val))
     return(val)
-  
+
   # Use default value
   default
 }
