@@ -13,7 +13,7 @@ cache:
 
 before_install:
   - export PATH=$(perl -e 'print join(":", grep { !m{/opt/python/} } split /:/, $ENV{PATH})')
-  - source travis_install.sh
+  - source travis/install.sh
 
 addons:
   apt:

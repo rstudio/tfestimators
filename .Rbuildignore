@@ -1,5 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
-^travis_install\.sh$
 ^man-roxygen/
+^travis/
