@@ -2,9 +2,9 @@ library(tensorflow)
 
 tf$logging$set_verbosity(tf$logging$INFO)
 
-boston_train <- read.csv("inst/data/boston_train.csv", sep = ",")
-boston_test <- read.csv("inst/data/boston_test.csv", sep = ",")
-boston_predict <- read.csv("inst/data/boston_predict.csv", sep = ",")
+boston_train <- read.csv("inst/extdata/boston_train.csv", sep = ",")
+boston_test <- read.csv("inst/extdata/boston_test.csv", sep = ",")
+boston_predict <- read.csv("inst/extdata/boston_predict.csv", sep = ",")
 
 temp_model_dir <- tempfile()
 dir.create(temp_model_dir)

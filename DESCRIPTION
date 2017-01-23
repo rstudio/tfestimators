@@ -8,6 +8,8 @@ Authors@R: c(
          email = "terrytangyuan@gmail.com"),
   person("JJ", "Allaire", role = c("aut", "cph"),
          email = "jj@rstudio.com"),
+  person("Kevin", "Ushey", role = c("aut"),
+         email = "kevin@rstudio.com"),
   person(family = "RStudio", role = "cph"),
   person(family = "Google Inc.", role = c("cph"),
          comment = "Examples and Tutorials")
@@ -23,7 +25,7 @@ SystemRequirements: Python (>= 2.7.0) with header files and shared library;
   TensorFlow (https://www.tensorflow.org/)
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.0)
+Depends: R (>= 3.0.0)
 Imports:
     utils, tensorflow
 RoxygenNote: 5.0.1
