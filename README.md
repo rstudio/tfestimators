@@ -1,3 +1,5 @@
 # tflearn
 
-This package provides high-level interface to TensorFlow in R, using [TF.Learn](https://www.tensorflow.org/tutorials/tflearn/). Note that this project is not related to [tflearn/tflearn](https://github.com/tflearn/tflearn). The TF.Learn we are referring to is the `tensorflow.contrib.learn` module inside TensorFlow.
+This package provides high-level interface to TensorFlow in R, using the [TF.Learn](https://www.tensorflow.org/tutorials/tflearn/) distributed as part of [TensorFlow](https://www.tensorflow.org/).
+
+Please note -- this package is under active development and the API is subject to change while we iron out the interface.
