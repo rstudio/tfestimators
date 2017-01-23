@@ -21,8 +21,18 @@
 #' @name tflearn
 NULL
 
+#' TF.Learn Module
+#'
+#' \code{learn} acts as an interface to the main \href{https://www.tensorflow.org/tutorials/tflearn/}{TF.Learn}
+#' module. Objects and functions defined within this module can be accessed
+#' using the \code{$} function.
+#'
+#' @export
+learn <- NULL
+
 .onLoad <- function(libname, pkgname) {
-  # TBA
+  learn <<- tf$contrib$learn
+  learn
 }
 
 

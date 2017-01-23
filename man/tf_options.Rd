@@ -4,18 +4,18 @@
 \alias{tf_options}
 \title{Options for TensorFlow Routines}
 \usage{
-tf_options(optimizer = NULL, initialize.session = NULL,
-  run.optimizer = NULL)
+tf_options(optimizer = NULL, steps = 100L,
+  model.dir = tf_setting("tf.model.dir", tempfile()))
 }
 \arguments{
-\item{optimizer}{The optimizer to be used.}
+\item{optimizer}{The optimizer to be used. When \code{NULL}, the default
+optimizer associated with the active estimator will be used.}
 
-\item{initialize.session}{A function used to create an initialize a new
-TensorFlow session.}
+\item{steps}{The number of steps to be used when running the associated model.}
 
-\item{run.optimizer}{A function used to run the model. Should accept the parameters
-\code{session}, \code{cost}, \code{optimizer} and \code{feed.dict}, and repeatedly
-run the optimizer until the cost function has been appropriately minimized.}
+\item{model.dir}{The location where model outputs should be written. Defaults
+to a temporary directory within the \code{R} \code{\link{tempdir}}(), as
+produced by \code{\link{tempfile}}().}
 }
 \description{
 Used to control the various facets of layers constructed with the
