@@ -7,6 +7,9 @@
 #' @template roxlate-tf-dots
 #'
 #' @export
+#' @examples
+#' recipe <- tf_simple_recipe(mtcars, response = "mpg", features = c("drat"))
+#' tf_linear_regression(recipe = recipe)
 tf_linear_regression <- function(recipe, tf.options = tf_options(), ...) {
 
   # extract feature columns

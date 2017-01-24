@@ -17,4 +17,8 @@ model fitting process. See \code{\link{tf_options}} for more information.}
 \description{
 Perform linear regression using TensorFlow.
 }
+\examples{
+recipe <- tf_simple_recipe(mtcars, response = "mpg", features = c("drat"))
+tf_linear_regression(recipe = recipe)
+}
 
