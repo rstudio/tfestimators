@@ -4,29 +4,10 @@
 \alias{tf_linear_regression}
 \title{TensorFlow -- Linear Regression}
 \usage{
-tf_linear_regression(x, response, features, intercept = TRUE,
-  input.fn = NULL, tf.options = tf_options(), ...)
+tf_linear_regression(recipe, tf.options = tf_options(), ...)
 }
 \arguments{
-\item{x}{An \R data.frame.}
-
-\item{response}{The name of the response vector (as a length-one character
-vector), or a formula, giving a symbolic description of the model to be
-fitted. When \code{response} is a formula, it is used in preference to other
-parameters to set the \code{response}, \code{features}, and \code{intercept}
-parameters (if available). Currently, only simple linear combinations of
-existing parameters is supposed; e.g. \code{response ~ feature1 + feature2 + ...}.
-The intercept term can be omitted by using \code{- 1} in the model fit.}
-
-\item{features}{The name of the features (terms) to use for the model fit.}
-
-\item{intercept}{Boolean; should the model be fit with an intercept term?}
-
-\item{input.fn}{An \R function accepting an input dataset and returning a
-two-element list -- the first element itself being an \R list mapping
-features (by name) to tensors, and the second defining the response.
-When \code{NULL}, the input function will be automatically constructed
-according to the designated model inputs.}
+\item{recipe}{A recipe. See \code{\link{tf_recipe}} for more details.}
 
 \item{tf.options}{Optional tools used for lower-level tuning of the TensorFlow
 model fitting process. See \code{\link{tf_options}} for more information.}

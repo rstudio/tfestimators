@@ -76,3 +76,57 @@ tf_setting <- function(name, default) {
   # Use default value
   default
 }
+
+#' Construct a tflearn Recipe
+#'
+#' Construct a recipe suitable for use with the higher-level
+#' \code{tflearn} modeling routines.
+#'
+#' @param feature.columns An \R list of tensors, acting as placeholders for
+#'   input data.
+#' @param input.fn An \R function, returning an \R list binding input data
+#'   to the aforementioned feature columns.
+#'
+#' @family recipes
+#' @export
+tf_recipe <- function(feature.columns, input.fn) {
+  object <- list(
+    feature.columns = feature.columns,
+    input.fn = input.fn
+  )
+  class(object) <- "tf_recipe"
+  object
+}
+
+#' Construct a Simple tflearn Recipe
+#'
+#' Construct a simple recipe suitable for use with the higher-level
+#' \code{tflearn} modeling routines. This recipe can be used to directly
+#' model a response variable (\code{response}) as a function of a set of untransformed
+#' features (\code{features}) in a dataset \code{data}.
+#'
+#' @param data A tabular \R data set; typically a \code{data.frame}.
+#' @param response The name of a variable within \code{data}, to be used
+#'   as the response.
+#' @param features The names of variables within \code{data}, to be used
+#'   as features.
+#'
+#' @family recipes
+#' @export
+tf_simple_recipe <- function(data, response, features) {
+
+  feature.columns <- function() {
+    tf_columns(data, features)
+  }
+
+  input.fn <- function() {
+    feature_columns <- lapply(features, function(feature) {
+      tf$constant(data[[feature]])
+    })
+    names(feature_columns) <- features
+    response_column <- tf$constant(data[[response]])
+    list(feature_columns, response_column)
+  }
+
+  tf_recipe(feature.columns, input.fn)
+}

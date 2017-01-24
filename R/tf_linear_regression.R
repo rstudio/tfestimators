@@ -2,66 +2,36 @@
 #'
 #' Perform linear regression using TensorFlow.
 #'
-#' @template roxlate-tf-x
-#' @template roxlate-tf-response
-#' @template roxlate-tf-features
-#' @template roxlate-tf-intercept
-#' @template roxlate-input-fn
-#' @template roxlate-tf-dots
+#' @template roxlate-recipe
 #' @template roxlate-tf-options
+#' @template roxlate-tf-dots
 #'
 #' @export
-tf_linear_regression <- function(x,
-                                 response,
-                                 features,
-                                 intercept = TRUE,
-                                 input.fn = NULL,
-                                 tf.options = tf_options(),
-                                 ...)
-{
-  tf_backwards_compatibility_api()
-  tf_prepare_response_features_intercept(x, response, features, intercept)
+tf_linear_regression <- function(recipe, tf.options = tf_options(), ...) {
 
-  # Construct TF.Learn columns
-  columns <- tf_columns(x, features)
+  # extract feature columns
+  feature_columns <- recipe$feature.columns
+  if (is.function(feature_columns))
+    feature_columns <- feature_columns()
 
-  # Construct regressor accepting those columns
+  # construct estimator accepting those columns
   lr <- learn$LinearRegressor(
-    feature_columns = columns,
+    feature_columns = feature_columns,
+    model_dir = tf.options$model.dir,
     optimizer = tf.options$optimizer
   )
 
-  # Define input function (supplying data to aforementioned
-  # feature placeholders, as well as response)
-  input_fn <- input.fn %||% function(dataset) {
-
-    # Define feature columns
-    feature_columns <- lapply(features, function(feature) {
-      tf$constant(dataset[[feature]])
-    })
-    names(feature_columns) <- features
-
-    # Define response column
-    response_column <- tf$constant(dataset[[response]])
-
-    # Return as two-element list
-    list(feature_columns, response_column)
-
-  }
-
-  # Run the model
+  # fit the model
   lr$fit(
-    input_fn = function() { input_fn(x) },
+    input_fn = recipe$input.fn,
     steps = tf.options$steps
   )
-
-  # TODO: extract some information relevant to the R user
-  # (coefficients?)
 
   tf_model(
     "linear_regression",
     estimator = lr,
-    input_fn = input_fn
+    recipe = recipe
   )
 
 }
+

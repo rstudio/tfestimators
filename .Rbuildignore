@@ -4,3 +4,4 @@
 ^internal/
 ^man-roxygen/
 ^travis/
+/\.!
