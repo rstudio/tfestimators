@@ -86,14 +86,18 @@ tf_setting <- function(name, default) {
 #'   input data.
 #' @param input.fn An \R function, returning an \R list binding input data
 #'   to the aforementioned feature columns.
+#' @param ... Optional named arguments.
 #'
 #' @family recipes
 #' @export
-tf_recipe <- function(feature.columns, input.fn) {
+tf_recipe <- function(feature.columns, input.fn, ...) {
+
   object <- list(
     feature.columns = feature.columns,
-    input.fn = input.fn
+    input.fn = input.fn,
+    ...
   )
+
   class(object) <- "tf_recipe"
   object
 }
@@ -101,30 +105,44 @@ tf_recipe <- function(feature.columns, input.fn) {
 #' Construct a Simple tflearn Recipe
 #'
 #' Construct a simple recipe suitable for use with the higher-level
-#' \code{tflearn} modeling routines. This recipe can be used to directly
-#' model a response variable (\code{response}) as a function of a set of untransformed
-#' features (\code{features}) in a dataset \code{data}.
+#' \code{tflearn} modeling routines. This can be used to directly model a
+#' response variable as a function of a set of untransformed features in a
+#' dataset.
 #'
-#' @param data A tabular \R data set; typically a \code{data.frame}.
-#' @param response The name of a variable within \code{data}, to be used
-#'   as the response.
-#' @param features The names of variables within \code{data}, to be used
-#'   as features.
+#' @param x An \R object; typically a \code{data.frame} or a \code{formula}. See
+#'   examples for usage.
+#' @param ... Optional arguments passed to implementing methods.
 #'
 #' @family recipes
 #' @export
-tf_simple_recipe <- function(data, response, features) {
+#'
+#' @examples
+#' # two ways of constructing the same recipe
+#' tf_simple_recipe(mpg ~ cyl, data = mtcars)
+#' tf_simple_recipe(mtcars, response = "mpg", features = c("cyl"))
+tf_simple_recipe <- function(x, ...) {
+  UseMethod("tf_simple_recipe")
+}
+
+#' @export
+tf_simple_recipe.formula <- function(x, data, ...) {
+  parsed <- parse_formula(x)
+  tf_simple_recipe(data, parsed$response, parsed$features)
+}
+
+#' @export
+tf_simple_recipe.default <- function(x, response, features, ...) {
 
   feature.columns <- function() {
-    tf_columns(data, features)
+    tf_columns(x, features)
   }
 
   input.fn <- function() {
     feature_columns <- lapply(features, function(feature) {
-      tf$constant(data[[feature]])
+      tf$constant(x[[feature]])
     })
     names(feature_columns) <- features
-    response_column <- tf$constant(data[[response]])
+    response_column <- tf$constant(x[[response]])
     list(feature_columns, response_column)
   }
 

@@ -4,22 +4,24 @@
 \alias{tf_simple_recipe}
 \title{Construct a Simple tflearn Recipe}
 \usage{
-tf_simple_recipe(data, response, features)
+tf_simple_recipe(x, ...)
 }
 \arguments{
-\item{data}{A tabular \R data set; typically a \code{data.frame}.}
+\item{x}{An \R object; typically a \code{data.frame} or a \code{formula}. See
+examples for usage.}
 
-\item{response}{The name of a variable within \code{data}, to be used
-as the response.}
-
-\item{features}{The names of variables within \code{data}, to be used
-as features.}
+\item{...}{Optional arguments passed to implementing methods.}
 }
 \description{
 Construct a simple recipe suitable for use with the higher-level
-\code{tflearn} modeling routines. This recipe can be used to directly
-model a response variable (\code{response}) as a function of a set of untransformed
-features (\code{features}) in a dataset \code{data}.
+\code{tflearn} modeling routines. This can be used to directly model a
+response variable as a function of a set of untransformed features in a
+dataset.
+}
+\examples{
+# two ways of constructing the same recipe
+tf_simple_recipe(mpg ~ cyl, data = mtcars)
+tf_simple_recipe(mtcars, response = "mpg", features = c("cyl"))
 }
 \seealso{
 Other recipes: \code{\link{tf_recipe}}

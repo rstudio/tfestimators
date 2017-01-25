@@ -4,7 +4,7 @@
 \alias{tf_recipe}
 \title{Construct a tflearn Recipe}
 \usage{
-tf_recipe(feature.columns, input.fn)
+tf_recipe(feature.columns, input.fn, ...)
 }
 \arguments{
 \item{feature.columns}{An \R list of tensors, acting as placeholders for
@@ -12,6 +12,8 @@ input data.}
 
 \item{input.fn}{An \R function, returning an \R list binding input data
 to the aforementioned feature columns.}
+
+\item{...}{Optional named arguments.}
 }
 \description{
 Construct a recipe suitable for use with the higher-level

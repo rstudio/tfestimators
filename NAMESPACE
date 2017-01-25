@@ -3,6 +3,8 @@
 S3method(coef,tf_model)
 S3method(predict,tf_model)
 S3method(summary,tf_model)
+S3method(tf_simple_recipe,default)
+S3method(tf_simple_recipe,formula)
 export(learn)
 export(tf_linear_regression)
 export(tf_options)
