@@ -20,6 +20,7 @@ Construct a recipe suitable for use with the higher-level
 \code{tflearn} modeling routines.
 }
 \seealso{
-Other recipes: \code{\link{tf_simple_recipe}}
+Other recipes: \code{\link{simple_linear_dnn_combined_recipe}},
+  \code{\link{tf_simple_recipe}}
 }
 

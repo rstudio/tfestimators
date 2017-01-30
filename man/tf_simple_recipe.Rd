@@ -24,6 +24,7 @@ tf_simple_recipe(mpg ~ cyl, data = mtcars)
 tf_simple_recipe(mtcars, response = "mpg", features = c("cyl"))
 }
 \seealso{
-Other recipes: \code{\link{tf_recipe}}
+Other recipes: \code{\link{simple_linear_dnn_combined_recipe}},
+  \code{\link{tf_recipe}}
 }
 

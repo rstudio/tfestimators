@@ -3,23 +3,19 @@
 \name{simple_linear_dnn_combined_recipe.default}
 \alias{simple_linear_dnn_combined_recipe.default}
 \title{#' @export
-#' @family recipes
-#' @examples
-#' # two ways of constructing the same recipe
-#' simple_linear_dnn_combined_recipe(mpg ~ cyl, data = mtcars)
-#' simple_linear_dnn_combined_recipe(mtcars, response = "mpg", features = c("cyl"))
-simple_linear_dnn_combined_recipe <- function(x, ...) {
-  UseMethod("tf_simple_recipe")
+simple_linear_dnn_combined_recipe.formula <- function(x, data, ...) {
+  parsed <- parse_formula(x)
+  simple_linear_dnn_combined_recipe(data, parsed$response, parsed$features)
 }}
 \usage{
-simple_linear_dnn_combined_recipe.default(x, response, linear.features,
-  dnn.features, ...)
+\method{simple_linear_dnn_combined_recipe}{default}(x, response,
+  linear.features, dnn.features, run.config, ...)
 }
 \description{
 #' @export
 simple_linear_dnn_combined_recipe.formula <- function(x, data, ...) {
   parsed <- parse_formula(x)
-  tf_simple_recipe(data, parsed$response, parsed$features)
+  simple_linear_dnn_combined_recipe(data, parsed$response, parsed$features)
 }
 }
 
