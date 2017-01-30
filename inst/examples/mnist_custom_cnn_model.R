@@ -1,5 +1,7 @@
 library(tensorflow)
 
+# TODO: Not working yet - conversion issue between float64 and float32
+
 temp_model_dir <- tempfile()
 dir.create(temp_model_dir)
 
