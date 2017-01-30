@@ -1,5 +1,6 @@
-# Construct column placeholders from vectors in an R object
-tf_columns <- function(x, columns) {
+#' Construct column placeholders from vectors in an R object
+#' @export
+tf_auto_inferred_columns <- function(x, columns) {
   layers <- tf$contrib$layers
   lapply(columns, function(column) {
     v <- x[[column]]
@@ -87,7 +88,7 @@ tf_simple_recipe.formula <- function(x, data, ...) {
 tf_simple_recipe.default <- function(x, response, features, ...) {
 
   feature.columns <- function() {
-    tf_columns(x, features)
+    tf_auto_inferred_columns(x, features)
   }
 
   input.fn <- function() {
