@@ -14,9 +14,9 @@ predict.tf_model <- function(object, newdata, ...) {
 #' @export
 coef.tf_model <- function(object, ...) {
   estimator <- object$estimator
-  nm <- estimator$get_variable_names()
-  variables <- lapply(nm, estimator$get_variable_value)
-  names(variables) <- nm
+  var_names <- estimator$get_variable_names()
+  variables <- lapply(var_names, estimator$get_variable_value)
+  names(variables) <- var_names
   variables
 }
 

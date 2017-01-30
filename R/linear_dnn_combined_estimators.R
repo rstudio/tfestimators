@@ -14,6 +14,7 @@ linear_dnn_combined_recipe <- function(linear.feature.columns, dnn.feature.colum
   object
 }
 
+# TODO:
 #' @export
 #' @family recipes
 #' @examples
@@ -24,6 +25,7 @@ simple_linear_dnn_combined_recipe <- function(x, ...) {
   UseMethod("simple_linear_dnn_combined_recipe")
 }
 
+# TODO: Interface like simple_linear_dnn_combined_recipe(mpg ~ linear(cyl) + dnn(drat) )
 #' #' @export
 #' simple_linear_dnn_combined_recipe.formula <- function(x, data, ...) {
 #'   parsed <- parse_formula(x)
@@ -79,6 +81,7 @@ linear_dnn_combined_regression <- function(recipe,
     linear.feature.columns <- linear.feature.columns()
   if (is.function(dnn.feature.columns))
     dnn.feature.columns <- dnn.feature.columns()
+  # TODO: Decide whether this should be part of tf.options
   args <- list(...)
   if(! "dnn_hidden_units" %in% names(args)) stop("dnn_hidden_units must be provided")
 
