@@ -44,20 +44,21 @@ learn <- NULL
   # clean out any previous shortcuts -- done with a callback to
   # ensure that any shortcut environments restored by front-ends
   # (e.g. RStudio) are cleaned out after initialization
-  if (!is.na(Sys.getenv("RSTUDIO", unset = NA))) {
-    addTaskCallback(function(...) {
-      while ("tflearn:shortcuts" %in% search())
-        detach("tflearn:shortcuts")
-      attach(.shortcuts, name = "tflearn:shortcuts")
-      FALSE
-    })
-  } else {
+  cleanup <- function(...) {
     while ("tflearn:shortcuts" %in% search())
       detach("tflearn:shortcuts")
-    attach(.shortcuts, name = "tflearn:shortcuts")
+    FALSE
   }
+  
+  if (!is.na(Sys.getenv("RSTUDIO", unset = NA)))
+    addTaskCallback(cleanup)
+  else
+    cleanup()
+  
+  do.call("attach", list(.shortcuts, name = "tflearn:shortcuts"))
 }
 
 .onDetach <- function(libpath) {
-  detach("tflearn:shortcuts")
+  while ("tflearn:shortcuts" %in% search())
+    detach("tflearn:shortcuts")
 }
