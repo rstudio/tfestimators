@@ -13,13 +13,13 @@ predict.tf_model <- function(object, input_fn = NULL, type = "raw", ...) {
     input_fn <- object$recipe$input.fn
   }
   if(type == "raw") {
-    predictions <- est$predict(input_fn = input_fn)
+    predictions <- est$predict(input_fn = input_fn, ...)
   } else if (type == "prob") {
-    predictions <- est$predict_proba(input_fn = input_fn)
+    predictions <- est$predict_proba(input_fn = input_fn, ...)
   } else {
     stop(paste0("This type is not supported: ", as.character(type)))
   }
-  return(predictions)
+  return(unlist(iterate(predictions)))
 }
 
 #' @importFrom stats coef
