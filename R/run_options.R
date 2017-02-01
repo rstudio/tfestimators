@@ -10,11 +10,13 @@
 #' @export
 run_options <- function(
   steps = 100L,
-  model.dir = tf_setting("tf.model.dir", tempfile("tflearn_")))
+  model.dir = tf_setting("tf.model.dir", tempfile("tflearn_")),
+  run.config = learn$RunConfig(tf_random_seed=1))
 {
   options <- list(
     steps = ensure_scalar_integer(steps),
-    model.dir = model.dir
+    model.dir = model.dir,
+    run.config = run.config
   )
 
   class(options) <- "run_options"

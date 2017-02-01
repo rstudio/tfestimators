@@ -27,12 +27,13 @@ linear_dnn_combined_regression <- function(recipe,
   # TODO: Fix this in Python side
   if(! "dnn_hidden_units" %in% names(args)) stop("dnn_hidden_units must be provided")
 
-  lm_dnn_r <- do.call(learn$DNNLinearCombinedRegressor, list(
+  lm_dnn_r <- learn$DNNLinearCombinedRegressor(
     linear_feature_columns = linear.feature.columns,
     dnn_feature_columns = dnn.feature.columns,
-    model_dir       = run.options$model.dir %||% run.options$model.dir,
+    model_dir = run.options$model.dir %||% run.options$model.dir,
+    config = run.options$run.config,
     ...
-  ))
+  )
 
   # fit the model
   lm_dnn_r$fit(

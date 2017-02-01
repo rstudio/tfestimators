@@ -24,7 +24,8 @@ linear_regression <- function(recipe,
   # construct estimator accepting those columns
   lr <- do.call(learn$LinearRegressor, list(
     feature_columns = feature_columns,
-    model_dir       = recipe$model.dir %||% run.options$model.dir,
+    model_dir = recipe$model.dir %||% run.options$model.dir,
+    config = run.options$run.config,
     ...
   ))
 
@@ -55,12 +56,13 @@ linear_classification <- function(recipe,
   args <- list(...)
   
   # construct estimator accepting those columns
-  lc <- do.call(learn$LinearClassifier, list(
+  lc <- learn$LinearClassifier(
     feature_columns = feature_columns,
     n_classes = recipe$n.classes %||% 2L,
     model_dir = run.options$model.dir,
+    config = run.options$run.config,
     ...
-  ))
+  )
 
   # fit the model
   lc$fit(

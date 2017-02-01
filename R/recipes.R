@@ -89,13 +89,12 @@ simple_linear_recipe.default <- function(x, response, features, ...) {
 
 #' @family recipes
 #' @export
-linear_dnn_combined_recipe <- function(linear.feature.columns, dnn.feature.columns, input.fn, run.config, ...) {
+linear_dnn_combined_recipe <- function(linear.feature.columns, dnn.feature.columns, input.fn, ...) {
   
   object <- list(
     linear.feature.columns = linear.feature.columns,
     dnn.feature.columns = dnn.feature.columns,
     input.fn = input.fn,
-    run.config = run.config,
     ...
   )
   
@@ -124,7 +123,7 @@ simple_linear_dnn_combined_recipe <- function(x, ...) {
 #' }
 
 #' @export
-simple_linear_dnn_combined_recipe.default <- function(x, response, linear.features, dnn.features, run.config, ...) {
+simple_linear_dnn_combined_recipe.default <- function(x, response, linear.features, dnn.features, ...) {
   
   linear.feature.columns <- function() {
     tf_auto_inferred_columns(x, linear.features)
@@ -144,7 +143,5 @@ simple_linear_dnn_combined_recipe.default <- function(x, response, linear.featur
     list(feature_columns, response_column)
   }
   
-  run.config <- learn$RunConfig(tf_random_seed=1)
-  
-  linear_dnn_combined_recipe(linear.feature.columns, dnn.feature.columns, input.fn, run.config)
+  linear_dnn_combined_recipe(linear.feature.columns, dnn.feature.columns, input.fn)
 }

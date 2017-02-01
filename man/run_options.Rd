@@ -5,7 +5,7 @@
 \title{Options for TensorFlow Routines}
 \usage{
 run_options(steps = 100L, model.dir = tf_setting("tf.model.dir",
-  tempfile("tflearn_")))
+  tempfile("tflearn_")), run.config = learn$RunConfig(tf_random_seed = 1))
 }
 \arguments{
 \item{steps}{The number of steps to be used when running the associated model.}
