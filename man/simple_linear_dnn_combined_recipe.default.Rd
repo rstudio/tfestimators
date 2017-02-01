@@ -18,4 +18,3 @@ simple_linear_dnn_combined_recipe.formula <- function(x, data, ...) {
   simple_linear_dnn_combined_recipe(data, parsed$response, parsed$features)
 }
 }
-

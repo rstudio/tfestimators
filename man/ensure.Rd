@@ -19,4 +19,3 @@ These routines are useful when preparing to pass objects to
 a Spark routine, as it is often necessary to ensure certain
 parameters are scalar integers, or scalar doubles, and so on.
 }
-

@@ -28,5 +28,5 @@ LazyData: true
 Depends: R (>= 3.0.0)
 Imports:
     utils, tensorflow
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.0
 Suggests: testthat

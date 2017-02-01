@@ -18,4 +18,3 @@ produced by \code{\link{tempfile}}().}
 Used to control the various facets of layers constructed with the
 modeling routines included in this package.
 }
-

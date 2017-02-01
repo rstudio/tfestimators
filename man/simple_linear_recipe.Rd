@@ -27,4 +27,3 @@ simple_linear_recipe(mtcars, response = "mpg", features = c("cyl"))
 Other recipes: \code{\link{linear_recipe}},
   \code{\link{simple_linear_dnn_combined_recipe}}
 }
-

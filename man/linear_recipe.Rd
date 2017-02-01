@@ -23,4 +23,3 @@ Construct a recipe suitable for use with the higher-level
 Other recipes: \code{\link{simple_linear_dnn_combined_recipe}},
   \code{\link{simple_linear_recipe}}
 }
-

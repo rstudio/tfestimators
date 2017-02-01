@@ -21,4 +21,3 @@ Perform Linear DNN Combined Regression using TensorFlow.
 recipe <- simple_linear_dnn_combined_recipe(mtcars, response = "mpg", linear.features = c("cyl"), dnn.features = c("drat"))
 linear_dnn_combined_regression(recipe = recipe, dnn_hidden_units = c(10L, 10L, 10L))
 }
-

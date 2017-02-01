@@ -9,4 +9,3 @@ tf_auto_inferred_columns(x, columns)
 \description{
 Construct column placeholders from vectors in an R object
 }
-

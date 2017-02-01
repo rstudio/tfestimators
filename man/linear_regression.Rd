@@ -21,4 +21,3 @@ Perform linear regression using TensorFlow.
 recipe <- simple_linear_recipe(mpg ~ drat, data = mtcars)
 linear_regression(recipe = recipe)
 }
-
