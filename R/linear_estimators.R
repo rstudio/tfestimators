@@ -8,9 +8,9 @@
 #'
 #' @export
 #' @examples
-#' recipe <- tf_simple_recipe(mpg ~ drat, data = mtcars)
-#' tf_linear_regression(recipe = recipe)
-tf_linear_regression <- function(recipe,
+#' recipe <- simple_linear_recipe(mpg ~ drat, data = mtcars)
+#' linear_regression(recipe = recipe)
+linear_regression <- function(recipe,
                                  run.options = run_options(),
                                  ...)
 {
@@ -43,7 +43,7 @@ tf_linear_regression <- function(recipe,
 }
 
 # TODO
-tf_linear_classification <- function(recipe,
+linear_classification <- function(recipe,
                                      run.options = run_options(),
                                      ...)
 {

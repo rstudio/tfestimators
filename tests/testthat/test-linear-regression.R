@@ -1,10 +1,10 @@
 context("Linear Regression")
 
-test_that("tf_linear_regression() produces similar fits to lm()", {
+test_that("linear_regression() produces similar fits to lm()", {
   # skip("NYI")
 
-  recipe <- tf_simple_recipe(mtcars, "mpg", "drat")
-  tf_model <- tf_linear_regression(recipe = recipe)
+  recipe <- simple_linear_recipe(mtcars, "mpg", "drat")
+  tf_model <- linear_regression(recipe = recipe)
   rs_model <- lm(mpg ~ drat, data = mtcars)
 
   tf_coef <- coef(tf_model)
