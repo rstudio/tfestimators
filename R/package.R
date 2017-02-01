@@ -32,15 +32,18 @@ learn <- NULL
 
 .onLoad <- function(libname, pkgname) {
   learn <<- tf$contrib$learn
+  setup_shortcuts()
   learn
 }
 
+.onUnload <- function(libpath) {
+  # TODO
+}
 
 .onAttach <- function(libname, pkgname) {
-  setup_shortcuts()
   attach(.shortcuts, name = "tflearn:shortcuts")
 }
 
-.onUnload <- function(libpath) {
+.onDetach <- function(libpath) {
   detach("tflearn:shortcuts")
 }
