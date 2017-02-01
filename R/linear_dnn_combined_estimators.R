@@ -90,7 +90,7 @@ linear_dnn_combined_regression <- function(recipe,
   lm_dnn_r <- learn$DNNLinearCombinedRegressor(
     linear_feature_columns = linear.feature.columns,
     dnn_feature_columns = dnn.feature.columns,
-    model_dir       = recipe$model.dir %||% tf.options$model.dir,
+    model_dir       = tf.options$model.dir %||% tf.options$model.dir,
     ...
   )
 
