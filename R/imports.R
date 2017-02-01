@@ -1,2 +1,2 @@
-#' @importFrom tensorflow tf shape dict
+#' @import tensorflow
 NULL
