@@ -38,5 +38,3 @@ classifier$fit(input_fn = iris_input_fn, steps = 2)
 
 predictions <- classifier$predict(input_fn = iris_input_fn)
 predictions <- iterate(predictions)
-
-

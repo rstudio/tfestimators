@@ -6,8 +6,15 @@ tf_model <- function(name, ...) {
 
 #' @importFrom stats predict
 #' @export
-predict.tf_model <- function(object, newdata, ...) {
-  # NYI
+predict.tf_model <- function(object, newdata, type = "raw", ...) {
+  # est <- object$estimator
+  # if(type == "raw") {
+  #   est$predict(input_fn, batch_size)
+  # } else if (type == "prob") {
+  #   est$predict_proba(input_fn, batch_size)
+  # } else {
+  #   stop(paste0("This type is not supported: ", as.character(type)))
+  # }
 }
 
 #' @importFrom stats coef

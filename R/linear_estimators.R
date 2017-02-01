@@ -73,6 +73,5 @@ linear_classification <- function(recipe,
     estimator = lc,
     recipe = recipe
   )
-
 }
 

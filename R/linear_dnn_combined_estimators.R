@@ -23,6 +23,8 @@ linear_dnn_combined_regression <- function(recipe,
     dnn.feature.columns <- dnn.feature.columns()
 
   args <- list(...)
+
+  # TODO: Fix this in Python side
   if(! "dnn_hidden_units" %in% names(args)) stop("dnn_hidden_units must be provided")
 
   lm_dnn_r <- do.call(learn$DNNLinearCombinedRegressor, list(
