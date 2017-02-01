@@ -32,7 +32,7 @@ learn <- NULL
 
 .onLoad <- function(libname, pkgname) {
   learn <<- tf$contrib$learn
-  learn
+  setup_shortcuts()
 }
 
 
