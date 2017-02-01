@@ -3,24 +3,38 @@
 #' Used to control the various facets of layers constructed with the
 #' modeling routines included in this package.
 #'
-#' @param optimizer The optimizer to be used. When \code{NULL}, the default
-#'   optimizer associated with the active estimator will be used.
 #' @param steps The number of steps to be used when running the associated model.
 #' @param model.dir The location where model outputs should be written. Defaults
 #'   to a temporary directory within the \code{R} \code{\link{tempdir}}(), as
 #'   produced by \code{\link{tempfile}}().
 #' @export
-tf_options <- function(
-  optimizer = NULL,
+run_options <- function(
   steps = 100L,
   model.dir = tf_setting("tf.model.dir", tempfile("tflearn_")))
 {
   options <- list(
-    optimizer = optimizer,
     steps = ensure_scalar_integer(steps),
     model.dir = model.dir
   )
 
-  class(options) <- "tf_options"
+  class(options) <- "run_options"
   options
+}
+
+
+tf_setting <- function(name, default) {
+  
+  # Check for environment variable with associated name
+  env <- toupper(gsub(".", "_", name, fixed = TRUE))
+  val <- Sys.getenv(env, unset = NA)
+  if (!is.na(val))
+    return(val)
+  
+  # Check for R option with associated name
+  val <- getOption(name)
+  if (!is.null(val))
+    return(val)
+  
+  # Use default value
+  default
 }

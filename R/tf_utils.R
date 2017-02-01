@@ -14,23 +14,6 @@ tf_auto_inferred_columns <- function(x, columns) {
   })
 }
 
-tf_setting <- function(name, default) {
-
-  # Check for environment variable with associated name
-  env <- toupper(gsub(".", "_", name, fixed = TRUE))
-  val <- Sys.getenv(env, unset = NA)
-  if (!is.na(val))
-    return(val)
-
-  # Check for R option with associated name
-  val <- getOption(name)
-  if (!is.null(val))
-    return(val)
-
-  # Use default value
-  default
-}
-
 #' Construct a tflearn Recipe
 #'
 #' Construct a recipe suitable for use with the higher-level

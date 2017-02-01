@@ -11,25 +11,27 @@
 #' recipe <- tf_simple_recipe(mpg ~ drat, data = mtcars)
 #' tf_linear_regression(recipe = recipe)
 tf_linear_regression <- function(recipe,
-                                 tf.options = tf_options(),
+                                 run.options = run_options(),
                                  ...)
 {
   # extract feature columns
   feature_columns <- recipe$feature.columns
   if (is.function(feature_columns))
     feature_columns <- feature_columns()
+  
+  args <- list(...)
 
   # construct estimator accepting those columns
-  lr <- learn$LinearRegressor(
+  lr <- do.call(learn$LinearRegressor, list(
     feature_columns = feature_columns,
-    model_dir       = recipe$model.dir %||% tf.options$model.dir,
-    optimizer       = recipe$optimizer %||% tf.options$optimizer
-  )
+    model_dir       = recipe$model.dir %||% run.options$model.dir,
+    ...
+  ))
 
   # fit the model
   lr$fit(
     input_fn = recipe$input.fn,
-    steps = tf.options$steps
+    steps = run.options$steps
   )
 
   tf_model(
@@ -42,7 +44,7 @@ tf_linear_regression <- function(recipe,
 
 # TODO
 tf_linear_classification <- function(recipe,
-                                     tf.options = tf_options(),
+                                     run.options = run_options(),
                                      ...)
 {
   # extract feature columns
@@ -50,18 +52,20 @@ tf_linear_classification <- function(recipe,
   if (is.function(feature_columns))
     feature_columns <- feature_columns()
 
+  args <- list(...)
+  
   # construct estimator accepting those columns
-  lc <- learn$LinearClassifier(
+  lc <- do.call(learn$LinearClassifier, list(
     feature_columns = feature_columns,
     n_classes = recipe$n.classes %||% 2L,
-    model_dir = tf.options$model.dir,
-    optimizer = tf.options$optimizer
-  )
+    model_dir = run.options$model.dir,
+    ...
+  ))
 
   # fit the model
   lc$fit(
     input_fn = recipe$input.fn,
-    steps = tf.options$steps
+    steps = run.options$steps
   )
 
   tf_model(

@@ -4,15 +4,15 @@
 \alias{linear_dnn_combined_regression}
 \title{TensorFlow -- Linear DNN Combined Regression}
 \usage{
-linear_dnn_combined_regression(recipe, tf.options = tf_options(), ...)
+linear_dnn_combined_regression(recipe, run.options = run_options(), ...)
 }
 \arguments{
 \item{recipe}{A recipe. See \code{\link{tf_recipe}} for more details.}
 
+\item{...}{Optional arguments; currently unused.}
+
 \item{tf.options}{Optional tools used for lower-level tuning of the TensorFlow
 model fitting process. See \code{\link{tf_options}} for more information.}
-
-\item{...}{Optional arguments; currently unused.}
 }
 \description{
 Perform Linear DNN Combined Regression using TensorFlow.

@@ -71,7 +71,7 @@ simple_linear_dnn_combined_recipe.default <- function(x, response, linear.featur
 #' recipe <- simple_linear_dnn_combined_recipe(mtcars, response = "mpg", linear.features = c("cyl"), dnn.features = c("drat"))
 #' linear_dnn_combined_regression(recipe = recipe, dnn_hidden_units = c(10L, 10L, 10L))
 linear_dnn_combined_regression <- function(recipe,
-                                 tf.options = tf_options(),
+                                 run.options = run_options(),
                                  ...)
 {
   # extract feature columns
@@ -85,19 +85,17 @@ linear_dnn_combined_regression <- function(recipe,
   args <- list(...)
   if(! "dnn_hidden_units" %in% names(args)) stop("dnn_hidden_units must be provided")
 
-  # construct estimator accepting those columns
-  # TODO: This type of regressor has a lot of parameters you can specify, e.g. weight column, dropout, biases
-  lm_dnn_r <- learn$DNNLinearCombinedRegressor(
+  lm_dnn_r <- do.call(learn$DNNLinearCombinedRegressor, list(
     linear_feature_columns = linear.feature.columns,
     dnn_feature_columns = dnn.feature.columns,
-    model_dir       = tf.options$model.dir %||% tf.options$model.dir,
+    model_dir       = run.options$model.dir %||% run.options$model.dir,
     ...
-  )
+  ))
 
   # fit the model
   lm_dnn_r$fit(
     input_fn = recipe$input.fn,
-    steps = tf.options$steps
+    steps = run.options$steps
   )
 
   tf_model(
