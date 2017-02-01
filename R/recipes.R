@@ -104,6 +104,8 @@ linear_dnn_combined_recipe <- function(linear.feature.columns, dnn.feature.colum
 }
 
 # TODO:
+#' @title simple_linear_dnn_combined_recipe
+#' @name simple_linear_dnn_combined_recipe
 #' @export
 #' @family recipes
 #' @examples

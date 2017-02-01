@@ -2,6 +2,7 @@
 % Please edit documentation in R/recipes.R
 \name{simple_linear_dnn_combined_recipe}
 \alias{simple_linear_dnn_combined_recipe}
+\title{simple_linear_dnn_combined_recipe}
 \usage{
 simple_linear_dnn_combined_recipe(x, ...)
 }
