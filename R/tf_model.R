@@ -6,15 +6,20 @@ tf_model <- function(name, ...) {
 
 #' @importFrom stats predict
 #' @export
-predict.tf_model <- function(object, newdata, type = "raw", ...) {
-  # est <- object$estimator
-  # if(type == "raw") {
-  #   est$predict(input_fn, batch_size)
-  # } else if (type == "prob") {
-  #   est$predict_proba(input_fn, batch_size)
-  # } else {
-  #   stop(paste0("This type is not supported: ", as.character(type)))
-  # }
+predict.tf_model <- function(object, input_fn = NULL, type = "raw", ...) {
+  est <- object$estimator
+  if(is.null(input_fn)) {
+    warning("input_fn is not provided, using the same input_fn specified in recipe")
+    input_fn <- object$recipe$input.fn
+  }
+  if(type == "raw") {
+    predictions <- est$predict(input_fn = input_fn)
+  } else if (type == "prob") {
+    predictions <- est$predict_proba(input_fn = input_fn)
+  } else {
+    stop(paste0("This type is not supported: ", as.character(type)))
+  }
+  return(predictions)
 }
 
 #' @importFrom stats coef
