@@ -24,9 +24,6 @@ linear_dnn_combined_regression <- function(recipe,
 
   args <- list(...)
 
-  # TODO: Fix this in Python side
-  if(! "dnn_hidden_units" %in% names(args)) stop("dnn_hidden_units must be provided")
-
   lm_dnn_r <- learn$DNNLinearCombinedRegressor(
     linear_feature_columns = linear.feature.columns,
     dnn_feature_columns = dnn.feature.columns,
@@ -73,9 +70,6 @@ linear_dnn_combined_classification <- function(recipe,
     dnn.feature.columns <- dnn.feature.columns()
 
   args <- list(...)
-
-  # TODO: Fix this in Python side
-  if(! "dnn_hidden_units" %in% names(args)) stop("dnn_hidden_units must be provided")
 
   lm_dnn_c <- learn$DNNLinearCombinedClassifier(
     linear_feature_columns = linear.feature.columns,
