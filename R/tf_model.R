@@ -4,7 +4,6 @@ tf_model <- function(name, ...) {
   object
 }
 
-#' @importFrom stats predict
 #' @export
 predict.tf_model <- function(object, input_fn = NULL, type = "raw", ...) {
   est <- object$estimator
@@ -16,7 +15,7 @@ predict.tf_model <- function(object, input_fn = NULL, type = "raw", ...) {
     predictions <- est$predict(input_fn = input_fn, ...)
   } else if (type == "prob") {
     # this only works for classification problems
-    if(length(grep("classification", class(reg))) == 0) {
+    if(length(grep("classification", class(object))) == 0) {
       stop("type = prob only works for classification problems")
     }
     predictions <- est$predict_proba(input_fn = input_fn, ...)
@@ -26,7 +25,6 @@ predict.tf_model <- function(object, input_fn = NULL, type = "raw", ...) {
   return(unlist(iterate(predictions)))
 }
 
-#' @importFrom stats coef
 #' @export
 coef.tf_model <- function(object, ...) {
   estimator <- object$estimator
