@@ -47,3 +47,53 @@ linear_dnn_combined_regression <- function(recipe,
     recipe = recipe
   )
 }
+
+#' TensorFlow -- Linear DNN Combined Classification
+#'
+#' Perform Linear DNN Combined Classification using TensorFlow.
+#'
+#' @template roxlate-recipe
+#' @template roxlate-tf-options
+#' @template roxlate-tf-dots
+#'
+#' @export
+#' @examples
+#' recipe <- simple_linear_dnn_combined_recipe(mtcars, response = "mpg", linear.features = c("cyl"), dnn.features = c("drat"))
+#' linear_dnn_combined_classification(recipe = recipe, dnn_hidden_units = c(10L, 10L, 10L))
+linear_dnn_combined_classification <- function(recipe,
+                                           run.options = run_options(),
+                                           ...)
+{
+  # extract feature columns
+  linear.feature.columns <- recipe$linear.feature.columns
+  dnn.feature.columns <- recipe$dnn.feature.columns
+  if (is.function(linear.feature.columns))
+    linear.feature.columns <- linear.feature.columns()
+  if (is.function(dnn.feature.columns))
+    dnn.feature.columns <- dnn.feature.columns()
+
+  args <- list(...)
+
+  # TODO: Fix this in Python side
+  if(! "dnn_hidden_units" %in% names(args)) stop("dnn_hidden_units must be provided")
+
+  lm_dnn_c <- learn$DNNLinearCombinedRegressor(
+    linear_feature_columns = linear.feature.columns,
+    dnn_feature_columns = dnn.feature.columns,
+    model_dir = run.options$model.dir %||% run.options$model.dir,
+    config = run.options$run.config,
+    ...
+  )
+
+  # fit the model
+  lm_dnn_c$fit(
+    input_fn = recipe$input.fn,
+    steps = run.options$steps
+  )
+
+  tf_model(
+    "linear_dnn_combined_classification",
+    estimator = lm_dnn_c,
+    recipe = recipe
+  )
+}
