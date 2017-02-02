@@ -22,8 +22,6 @@ linear_dnn_combined_regression <- function(recipe,
   if (is.function(dnn.feature.columns))
     dnn.feature.columns <- dnn.feature.columns()
 
-  args <- list(...)
-
   lm_dnn_r <- learn$DNNLinearCombinedRegressor(
     linear_feature_columns = linear.feature.columns,
     dnn_feature_columns = dnn.feature.columns,
@@ -68,8 +66,6 @@ linear_dnn_combined_classification <- function(recipe,
     linear.feature.columns <- linear.feature.columns()
   if (is.function(dnn.feature.columns))
     dnn.feature.columns <- dnn.feature.columns()
-
-  args <- list(...)
 
   lm_dnn_c <- learn$DNNLinearCombinedClassifier(
     linear_feature_columns = linear.feature.columns,

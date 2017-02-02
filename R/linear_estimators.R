@@ -11,15 +11,13 @@
 #' recipe <- simple_linear_recipe(mpg ~ drat, data = mtcars)
 #' linear_regression(recipe = recipe)
 linear_regression <- function(recipe,
-                                 run.options = run_options(),
-                                 ...)
+                              run.options = run_options(),
+                              ...)
 {
   # extract feature columns
   feature_columns <- recipe$feature.columns
   if (is.function(feature_columns))
     feature_columns <- feature_columns()
-  
-  args <- list(...)
 
   # construct estimator accepting those columns
   lr <- do.call(learn$LinearRegressor, list(
@@ -43,18 +41,27 @@ linear_regression <- function(recipe,
 
 }
 
-# TODO
+#' TensorFlow -- Linear Classification
+#'
+#' Perform linear classification using TensorFlow.
+#'
+#' @template roxlate-recipe
+#' @template roxlate-tf-options
+#' @template roxlate-tf-dots
+#'
+#' @export
+#' @examples
+#' recipe <- simple_linear_recipe(mpg ~ drat, data = mtcars)
+#' linear_classification(recipe = recipe)
 linear_classification <- function(recipe,
-                                     run.options = run_options(),
-                                     ...)
+                                  run.options = run_options(),
+                                  ...)
 {
   # extract feature columns
   feature_columns <- recipe$feature.columns
   if (is.function(feature_columns))
     feature_columns <- feature_columns()
 
-  args <- list(...)
-  
   # construct estimator accepting those columns
   lc <- learn$LinearClassifier(
     feature_columns = feature_columns,
