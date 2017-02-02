@@ -15,6 +15,10 @@ predict.tf_model <- function(object, input_fn = NULL, type = "raw", ...) {
   if(type == "raw") {
     predictions <- est$predict(input_fn = input_fn, ...)
   } else if (type == "prob") {
+    # this only works for classification problems
+    if(length(grep("classification", class(reg))) == 0) {
+      stop("type = prob only works for classification problems")
+    }
     predictions <- est$predict_proba(input_fn = input_fn, ...)
   } else {
     stop(paste0("This type is not supported: ", as.character(type)))
