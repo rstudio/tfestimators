@@ -29,7 +29,8 @@ Depends:
     R (>= 3.0.0)
 Imports:
     utils,
-    tensorflow
+    tensorflow,
+    magrittr
 RoxygenNote: 6.0.0
 Suggests:
     testthat

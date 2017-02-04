@@ -4,3 +4,5 @@
 .Ruserdata
 internal/
 .!*
+R/.DS_Store
+.DS_Store
