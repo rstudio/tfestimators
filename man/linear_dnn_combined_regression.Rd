@@ -4,7 +4,8 @@
 \alias{linear_dnn_combined_regression}
 \title{TensorFlow -- Linear DNN Combined Regression}
 \usage{
-linear_dnn_combined_regression(recipe, run.options = run_options(), ...)
+linear_dnn_combined_regression(recipe, run.options = run_options(),
+  skip_fit = FALSE, ...)
 }
 \arguments{
 \item{recipe}{A recipe. See \code{\link{tf_recipe}} for more details.}

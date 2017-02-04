@@ -4,7 +4,8 @@
 \alias{linear_classification}
 \title{TensorFlow -- Linear Classification}
 \usage{
-linear_classification(recipe, run.options = run_options(), ...)
+linear_classification(recipe, run.options = run_options(), skip_fit = FALSE,
+  ...)
 }
 \arguments{
 \item{recipe}{A recipe. See \code{\link{tf_recipe}} for more details.}

@@ -12,6 +12,7 @@
 #' linear_dnn_combined_regression(recipe = recipe, dnn_hidden_units = c(10L, 10L, 10L))
 linear_dnn_combined_regression <- function(recipe,
                                  run.options = run_options(),
+                                 skip_fit = FALSE,
                                  ...)
 {
   # extract feature columns
@@ -30,11 +31,13 @@ linear_dnn_combined_regression <- function(recipe,
     ...
   )
 
-  # fit the model
-  lm_dnn_r$fit(
-    input_fn = recipe$input.fn,
-    steps = run.options$steps
-  )
+  if(!skip_fit) {
+    # fit the model
+    lm_dnn_r$fit(
+      input_fn = recipe$input.fn,
+      steps = run.options$steps
+    )
+  }
 
   tf_model(
     "linear_dnn_combined_regression",
@@ -57,6 +60,7 @@ linear_dnn_combined_regression <- function(recipe,
 #' linear_dnn_combined_classification(recipe = recipe, dnn_hidden_units = c(10L, 10L, 10L))
 linear_dnn_combined_classification <- function(recipe,
                                            run.options = run_options(),
+                                           skip_fit = FALSE,
                                            ...)
 {
   # extract feature columns
@@ -75,11 +79,13 @@ linear_dnn_combined_classification <- function(recipe,
     ...
   )
 
-  # fit the model
-  lm_dnn_c$fit(
-    input_fn = recipe$input.fn,
-    steps = run.options$steps
-  )
+  if(!skip_fit) {
+    # fit the model
+    lm_dnn_c$fit(
+      input_fn = recipe$input.fn,
+      steps = run.options$steps
+    )
+  }
 
   tf_model(
     "linear_dnn_combined_classification",
