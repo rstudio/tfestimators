@@ -7,12 +7,13 @@ tf_model <- function(name, ...) {
 #' @export
 predict.tf_model <- function(object, newdata = NULL, input_fn = NULL, type = "raw", ...) {
   est <- object$estimator
-  if(is.null(input_fn)) {
-    warning("input_fn is not provided, using the same input_fn specified in recipe")
-    input_fn <- object$recipe$input.fn
+  default_input_fn <- object$recipe$input.fn
+  if(is.null(input_fn) && is.null(newdata)) {
+    warning("Neither input_fn or newdata is provided, using the same input_fn specified in recipe")
+    input_fn <- default_input_fn
   }
   if(!is.null(newdata)) {
-    input_fn <- input_fn(newdata = newdata)
+    input_fn <- function(){default_input_fn(newdata = newdata)}
   }
   if(type == "raw") {
     predictions <- est$predict(input_fn = input_fn, ...)

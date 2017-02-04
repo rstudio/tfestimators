@@ -1,13 +1,17 @@
 context("Testing tf_models methods")
 
-test_that("predict() can accept new input_fn() from recipe or use the existing input_fn()", {
+test_that("predict() can accept new input_fn() and newdata or use the existing input_fn()", {
   recipe <- simple_linear_dnn_combined_recipe(mtcars, response = "mpg", linear.features = c("cyl"), dnn.features = c("drat"))
   reg <- linear_dnn_combined_regression(recipe = recipe, dnn_hidden_units = c(1L, 1L), dnn_optimizer = "Adagrad")
-  
-  predictions <- predict(reg, input_fn = recipe$input.fn)
-  expect_equal(length(predictions), 32)
-  expect_warning(predictions <- predict(reg))
-  expect_equal(length(predictions), 32)
+
+  predictions1 <- predict(reg, input_fn = recipe$input.fn)
+  expect_equal(length(predictions1), 32)
+
+  predictions2 <- predict(reg, newdata = mtcars)
+  expect_equal(predictions1, predictions2)
+
+  expect_warning(predictions3 <- predict(reg))
+  expect_equal(length(predictions3), 32)
 })
 
 test_that("predict() produces probabilities of predictions for classification problems", {
