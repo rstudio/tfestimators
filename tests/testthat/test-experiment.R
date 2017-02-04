@@ -7,9 +7,9 @@ test_that("Experiment works", {
                                             dnn_optimizer = "Adagrad",
                                             skip_fit = TRUE)
   
-  experiment <- setup_experiment(estimator = clf$estimator,
-                                 train_input_fn = clf$recipe$input.fn,
-                                 eval_input_fn = clf$recipe$input.fn,
+  experiment <- setup_experiment(tf_model = clf,
+                                 train_data = mtcars,
+                                 eval_data = mtcars,
                                  train_steps = 3L,
                                  eval_steps = 3L)
   experiment_result <- experiment$train_and_evaluate()
