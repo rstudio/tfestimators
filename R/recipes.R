@@ -134,7 +134,8 @@ simple_linear_dnn_combined_recipe.default <- function(x, response, linear.featur
   }
   
   features <- c(linear.features, dnn.features)
-  input.fn <- function() {
+  input.fn <- function(newdata = NULL) {
+    if(!is.null(newdata)) x <- newdata
     feature_columns <- lapply(features, function(feature) {
       tf$constant(x[[feature]])
     })
