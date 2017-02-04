@@ -20,12 +20,12 @@ linear_regression <- function(recipe,
     feature_columns <- feature_columns()
 
   # construct estimator accepting those columns
-  lr <- do.call(learn$LinearRegressor, list(
+  lr <- learn$LinearRegressor(
     feature_columns = feature_columns,
     model_dir = recipe$model.dir %||% run.options$model.dir,
     config = run.options$run.config,
     ...
-  ))
+  )
 
   # fit the model
   lr$fit(
