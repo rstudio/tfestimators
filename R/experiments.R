@@ -7,13 +7,19 @@ attach_data_to_input_fn <- function(dt, input_fn) {
 
 #' @export
 setup_experiment <- function(tf_model,
-                             train_data = NULL,
-                             eval_data = NULL,
+                             train_data,
+                             eval_data,
                              train_steps = 2L,
                              eval_steps = 2L,
                              ...) {
-  # TODO: Check tf_model class
-  # TODO: Check edge cases
+
+  if(!is.tf_model(tf_model)) stop("tf_model must be a tf_model object")
+  not_allowed_args <- c("train_input_fn", "eval_input_fn", "estimator")
+  addtional_args <- list(...)
+  if(length(addtional_args) != 0 && (names(addtional_args) %in% not_allowed_args)) {
+    stop("You cannot use the following args: ", paste(not_allowed_args, collapse = ", "))
+  }
+
   default_input_fn <- tf_model$recipe$input.fn
   train_input_fn <- attach_data_to_input_fn(train_data, default_input_fn)
   eval_input_fn <- attach_data_to_input_fn(eval_data, default_input_fn)

@@ -11,7 +11,8 @@ test_that("Experiment works", {
                                  train_data = mtcars,
                                  eval_data = mtcars,
                                  train_steps = 3L,
-                                 eval_steps = 3L)
+                                 eval_steps = 3L,
+                                 continuous_eval_throttle_secs = 60L)
   experiment_result <- experiment$train_and_evaluate()
   expect_gt(length(experiment_result[[1]]), 1)
 })

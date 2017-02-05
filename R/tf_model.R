@@ -4,6 +4,10 @@ tf_model <- function(name, ...) {
   object
 }
 
+is.tf_model <- function(object) {
+  length(grep("tf_model", "tf_model_someting")) > 0
+}
+
 #' @export
 predict.tf_model <- function(object, newdata = NULL, input_fn = NULL, type = "raw", ...) {
   est <- object$estimator
