@@ -15,4 +15,18 @@ test_that("Experiment works", {
                                  continuous_eval_throttle_secs = 60L)
   experiment_result <- experiment$train_and_evaluate()
   expect_gt(length(experiment_result[[1]]), 1)
+  
+  # Edge cases
+  expect_error(experiment <- setup_experiment(tf_model = clf$estimator,
+                                              train_data = mtcars,
+                                              eval_data = mtcars,
+                                              train_steps = 3L,
+                                              eval_steps = 3L,
+                                              continuous_eval_throttle_secs = 60L))
+  expect_error(experiment <- setup_experiment(tf_model = clf,
+                                              train_input_fn = clf$recipe$input.fn,
+                                              eval_data = mtcars,
+                                              train_steps = 3L,
+                                              eval_steps = 3L,
+                                              continuous_eval_throttle_secs = 60L))
 })
