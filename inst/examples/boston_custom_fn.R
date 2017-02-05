@@ -1,7 +1,7 @@
 library(tflearn)
 
 setup_shortcuts()
-boston_dt <- learn_datasets_lib$load_boston()
+boston_dt <- learn$datasets$load_boston()
 
 boston_input_fn <- function() {
   features <- tf$constant(boston_dt$data)

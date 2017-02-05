@@ -1,9 +1,8 @@
 attach_data_to_input_fn <- function(dt, input_fn) {
-  if(is.null(dt)) {
-    return(input_fn)
-  } else {
-    return(function(){input_fn(newdata = dt)})
-  }
+  if(is.null(dt))
+    input_fn
+  else
+    function(){input_fn(newdata = dt)}
 }
 
 #' @export
