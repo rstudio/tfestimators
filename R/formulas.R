@@ -39,11 +39,11 @@ validate_formula_operators <- function(object) {
 
     # check that this is a call to a known operator
     op <- object[[1]]
-    if (!is.symbol(op))
-      stop("expected a symbol for call; got '", deparse(op), "'")
+    if (!is.symbol(op) & !is.function(eval(op)))
+      stop("expected a symbol or function for call; got '", deparse(op), "'")
 
     ch <- as.character(op)
-    if (!ch %in% c("+", "-", "("))
+    if (!any(ch %in% c("+", "-", "(", "$")))
       stop("unhandled formula operator: expected '+' or '-'; got '", ch, "'")
 
     # validate the rest of the calls
