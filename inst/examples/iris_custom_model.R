@@ -11,18 +11,18 @@ custom_model_fn <- function(features, target) {
 
   # Create three fully connected layers respectively of size 10, 20, and 10 with
   # each layer having a dropout probability of 0.1.
-  features = tf$contrib$layers$stack(
+  features <- tf$contrib$layers$stack(
     features,
     tf$contrib$layers$fully_connected, c(10L, 20L, 10L),
     normalizer_fn = tf$contrib$layers$dropout,
     normalizer_params = list(keep_prob = 0.9))
 
   # Compute logits (1 per class) and compute loss.
-  logits = tf$contrib$layers$fully_connected(features, 3L, activation_fn = NULL)
-  loss = tf$losses$softmax_cross_entropy(target, logits)
+  logits <- tf$contrib$layers$fully_connected(features, 3L, activation_fn = NULL)
+  loss <- tf$losses$softmax_cross_entropy(target, logits)
 
   # Create a tensor for training op.
-  train_op = tf$contrib$layers$optimize_loss(
+  train_op <- tf$contrib$layers$optimize_loss(
     loss,
     tf$contrib$framework$get_global_step(),
     optimizer = 'Adagrad',
@@ -47,7 +47,7 @@ classifier <- tf$contrib$learn$Estimator(
   model_dir = temp_model_dir,
   config = config)
 
-classifier$fit(input_fn = iris_input_fn, steps = 2)
+classifier$fit(input_fn = iris_input_fn, steps = 2L)
 
 # predictions <- classifier$predict(input_fn = iris_input_fn)
 # predictions <- iterate(predictions)
