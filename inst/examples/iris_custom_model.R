@@ -1,20 +1,9 @@
-library(tflearn)
-
-setup_shortcuts()
+library(tensorflow)
 
 temp_model_dir <- tempfile()
 dir.create(temp_model_dir)
 
 iris_data <- learn$datasets$load_dataset("iris")
-
-feature_names <- c("V1", "V2", "V3", "V4")
-iris_features <- as.data.frame(iris_data$data)
-colnames(iris_features) <- feature_names
-iris_labels <- iris_data$target
-
-# tf$python$framework$ops$convert_to_tensor(logits)
-# tf$python$framework$ops$convert_to_tensor(list(raw_features$V1, raw_features$V2))
-# tf$python$framework$ops$convert_to_tensor(list(iris_features$V1, iris_features$V2))
 
 custom_model_fn <- function(features, target) {
 
@@ -46,8 +35,8 @@ custom_model_fn <- function(features, target) {
 }
 
 iris_input_fn <- function() {
-  features <- tf$constant(as.matrix(iris_features))
-  labels <- tf$constant(iris_labels)
+  features <- tf$constant(as.matrix(iris_data$data))
+  labels <- tf$constant(iris_data$target)
   return(list(features, labels))
 }
 
