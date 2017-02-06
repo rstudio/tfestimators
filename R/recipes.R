@@ -122,9 +122,9 @@ linear_dnn_combined_recipe <- function(linear_feature_columns,
 #' @export
 #' @family recipes
 #' @examples
-#' # two ways of constructing the same recipe
-#' simple_linear_dnn_combined_recipe(mpg ~ cyl, data = mtcars)
-#' simple_linear_dnn_combined_recipe(mtcars, response = "mpg", features = c("cyl"))
+#' ## # two ways of constructing the same recipe
+#' ## simple_linear_dnn_combined_recipe(mpg ~ cyl, data = mtcars)
+#' ## simple_linear_dnn_combined_recipe(mtcars, response = "mpg", features = c("cyl"))
 simple_linear_dnn_combined_recipe <- function(x, ...) {
   UseMethod("simple_linear_dnn_combined_recipe")
 }
