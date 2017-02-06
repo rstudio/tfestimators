@@ -4,7 +4,7 @@
 \name{learn}
 \alias{learn}
 \title{TF.Learn Module}
-\format{An object of class \code{NULL} of length 0.}
+\format{An object of class \code{tensorflow.builtin.module} (inherits from \code{tensorflow.builtin.object}, \code{externalptr}) of length 1.}
 \usage{
 learn
 }

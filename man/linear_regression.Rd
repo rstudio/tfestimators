@@ -4,8 +4,7 @@
 \alias{linear_regression}
 \title{TensorFlow -- Linear Regression}
 \usage{
-linear_regression(recipe, run.options = run_options(), skip_fit = FALSE,
-  ...)
+linear_regression(recipe, run_options = NULL, skip_fit = FALSE, ...)
 }
 \arguments{
 \item{recipe}{A recipe. See \code{\link{tf_recipe}} for more details.}

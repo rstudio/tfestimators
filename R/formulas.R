@@ -1,5 +1,3 @@
-"%||%" <- function(x, y) if (is.null(x)) y else x
-
 is.formula <- function(x) {
   inherits(x, "formula")
 }

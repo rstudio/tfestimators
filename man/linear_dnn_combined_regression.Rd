@@ -4,8 +4,8 @@
 \alias{linear_dnn_combined_regression}
 \title{TensorFlow -- Linear DNN Combined Regression}
 \usage{
-linear_dnn_combined_regression(recipe, run.options = run_options(),
-  skip_fit = FALSE, ...)
+linear_dnn_combined_regression(recipe, run_options = NULL, skip_fit = FALSE,
+  ...)
 }
 \arguments{
 \item{recipe}{A recipe. See \code{\link{tf_recipe}} for more details.}
@@ -19,6 +19,6 @@ model fitting process. See \code{\link{tf_options}} for more information.}
 Perform Linear DNN Combined Regression using TensorFlow.
 }
 \examples{
-recipe <- simple_linear_dnn_combined_recipe(mtcars, response = "mpg", linear.features = c("cyl"), dnn.features = c("drat"))
+recipe <- simple_linear_dnn_combined_recipe(mtcars, response = "mpg", linear_features = c("cyl"), dnn_features = c("drat"))
 linear_dnn_combined_regression(recipe = recipe, dnn_hidden_units = c(10L, 10L, 10L))
 }

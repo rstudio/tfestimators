@@ -16,8 +16,10 @@ tf_auto_inferred_columns <- function(x, columns) {
 
 #' @export
 tf_simple_input_fn <-  function(x, response, features) {
+  force(list(x, response, features))
   function(newdata = NULL) {
-    if(!is.null(newdata)) x <- newdata
+    if (!is.null(newdata))
+      x <<- newdata
     feature_columns <- lapply(features, function(feature) {
       tf$constant(x[[feature]])
     })
@@ -32,19 +34,19 @@ tf_simple_input_fn <-  function(x, response, features) {
 #' Construct a recipe suitable for use with the higher-level
 #' \code{tflearn} modeling routines.
 #'
-#' @param feature.columns An \R list of tensors, acting as placeholders for
+#' @param feature_columns An \R list of tensors, acting as placeholders for
 #'   input data.
-#' @param input.fn An \R function, returning an \R list binding input data
+#' @param input_fn An \R function, returning an \R list binding input data
 #'   to the aforementioned feature columns.
 #' @param ... Optional named arguments.
 #'
 #' @family recipes
 #' @export
-linear_recipe <- function(feature.columns, input.fn, ...) {
+linear_recipe <- function(feature_columns, input_fn, ...) {
 
   object <- list(
-    feature.columns = feature.columns,
-    input.fn = input.fn,
+    feature_columns = feature_columns,
+    input_fn = input_fn,
     ...
   )
 
@@ -83,24 +85,27 @@ simple_linear_recipe.formula <- function(x, data, ...) {
 #' @export
 simple_linear_recipe.default <- function(x, response, features, ...) {
 
-  feature.columns <- function() {
+  feature_columns <- function() {
     tf_auto_inferred_columns(x, features)
   }
 
-  input.fn <- tf_simple_input_fn(x, response, features)
+  input_fn <- tf_simple_input_fn(x, response, features)
 
-  linear_recipe(feature.columns, input.fn)
+  linear_recipe(feature_columns, input_fn)
 }
 
 
 #' @family recipes
 #' @export
-linear_dnn_combined_recipe <- function(linear.feature.columns, dnn.feature.columns, input.fn, ...) {
-  
+linear_dnn_combined_recipe <- function(linear_feature_columns,
+                                       dnn_feature_columns,
+                                       input_fn,
+                                       ...)
+{
   object <- list(
-    linear.feature.columns = linear.feature.columns,
-    dnn.feature.columns = dnn.feature.columns,
-    input.fn = input.fn,
+    linear_feature_columns = linear_feature_columns,
+    dnn_feature_columns = dnn_feature_columns,
+    input_fn = input_fn,
     ...
   )
   
@@ -129,18 +134,22 @@ simple_linear_dnn_combined_recipe <- function(x, ...) {
 #' }
 
 #' @export
-simple_linear_dnn_combined_recipe.default <- function(x, response, linear.features, dnn.features, ...) {
-  
-  linear.feature.columns <- function() {
-    tf_auto_inferred_columns(x, linear.features)
+simple_linear_dnn_combined_recipe.default <- function(x,
+                                                      response,
+                                                      linear_features,
+                                                      dnn_features,
+                                                      ...) 
+{
+  linear_feature_columns <- function() {
+    tf_auto_inferred_columns(x, linear_features)
   }
   
-  dnn.feature.columns <- function() {
-    tf_auto_inferred_columns(x, dnn.features)
+  dnn_feature_columns <- function() {
+    tf_auto_inferred_columns(x, dnn_features)
   }
   
-  features <- c(linear.features, dnn.features)
-  input.fn <- tf_simple_input_fn(x, response, features)
+  features <- c(linear_features, dnn_features)
+  input_fn <- tf_simple_input_fn(x, response, features)
   
-  linear_dnn_combined_recipe(linear.feature.columns, dnn.feature.columns, input.fn)
+  linear_dnn_combined_recipe(linear_feature_columns, dnn_feature_columns, input_fn)
 }

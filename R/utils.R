@@ -1,3 +1,5 @@
+"%||%" <- function(x, y) if (is.null(x)) y else x
+
 stopf <- function(fmt, ..., call. = TRUE, domain = NULL) {
   stop(simpleError(
     sprintf(fmt, ...),
@@ -7,4 +9,11 @@ stopf <- function(fmt, ..., call. = TRUE, domain = NULL) {
 
 warnf <- function(fmt, ..., call. = TRUE, immediate. = FALSE) {
   warning(sprintf(fmt, ...), call. = call., immediate. = immediate.)
+}
+
+resolve_fn <- function(object) {
+  if (is.function(object))
+    object()
+  else
+    object
 }

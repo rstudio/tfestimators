@@ -5,13 +5,18 @@ tf_model <- function(name, ...) {
 }
 
 is.tf_model <- function(object) {
-  length(grep("tf_model", "tf_model_someting")) > 0
+  inherits(object, "tf_model")
 }
 
 #' @export
-predict.tf_model <- function(object, newdata = NULL, input_fn = NULL, type = "raw", ...) {
+predict.tf_model <- function(object,
+                             newdata = NULL,
+                             input_fn = NULL,
+                             type = "raw",
+                             ...)
+{
   est <- object$estimator
-  default_input_fn <- object$recipe$input.fn
+  default_input_fn <- object$recipe$input_fn
   if(is.null(input_fn) && is.null(newdata)) {
     warning("Neither input_fn or newdata is provided, using the same input_fn specified in recipe")
     input_fn <- default_input_fn

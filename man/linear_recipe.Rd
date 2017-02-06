@@ -4,13 +4,13 @@
 \alias{linear_recipe}
 \title{Construct a tflearn Recipe}
 \usage{
-linear_recipe(feature.columns, input.fn, ...)
+linear_recipe(feature_columns, input_fn, ...)
 }
 \arguments{
-\item{feature.columns}{An \R list of tensors, acting as placeholders for
+\item{feature_columns}{An \R list of tensors, acting as placeholders for
 input data.}
 
-\item{input.fn}{An \R function, returning an \R list binding input data
+\item{input_fn}{An \R function, returning an \R list binding input data
 to the aforementioned feature columns.}
 
 \item{...}{Optional named arguments.}

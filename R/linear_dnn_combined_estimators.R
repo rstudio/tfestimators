@@ -8,34 +8,33 @@
 #'
 #' @export
 #' @examples
-#' recipe <- simple_linear_dnn_combined_recipe(mtcars, response = "mpg", linear.features = c("cyl"), dnn.features = c("drat"))
+#' recipe <- simple_linear_dnn_combined_recipe(mtcars, response = "mpg", linear_features = c("cyl"), dnn_features = c("drat"))
 #' linear_dnn_combined_regression(recipe = recipe, dnn_hidden_units = c(10L, 10L, 10L))
-linear_dnn_combined_regression <- function(recipe,
-                                 run.options = run_options(),
-                                 skip_fit = FALSE,
-                                 ...)
+linear_dnn_combined_regression <- function(
+  recipe,
+  run_options = NULL,
+  skip_fit = FALSE,
+  ...)
 {
+  run_options <- run_options %||% run_options()
+  
   # extract feature columns
-  linear.feature.columns <- recipe$linear.feature.columns
-  dnn.feature.columns <- recipe$dnn.feature.columns
-  if (is.function(linear.feature.columns))
-    linear.feature.columns <- linear.feature.columns()
-  if (is.function(dnn.feature.columns))
-    dnn.feature.columns <- dnn.feature.columns()
+  linear_feature_columns <- resolve_fn(recipe$linear_feature_columns)
+  dnn_feature_columns <- resolve_fn(recipe$dnn_feature_columns)
 
   lm_dnn_r <- learn$DNNLinearCombinedRegressor(
-    linear_feature_columns = linear.feature.columns,
-    dnn_feature_columns = dnn.feature.columns,
-    model_dir = run.options$model.dir %||% run.options$model.dir,
-    config = run.options$run.config,
+    linear_feature_columns = linear_feature_columns,
+    dnn_feature_columns = dnn_feature_columns,
+    model_dir = run_options$model_dir %||% run_options$model_dir,
+    config = run_options$run_config,
     ...
   )
 
-  if(!skip_fit) {
+  if (!skip_fit) {
     # fit the model
     lm_dnn_r$fit(
-      input_fn = recipe$input.fn,
-      steps = run.options$steps
+      input_fn = recipe$input_fn,
+      steps = run_options$steps
     )
   }
 
@@ -56,34 +55,37 @@ linear_dnn_combined_regression <- function(recipe,
 #'
 #' @export
 #' @examples
-#' recipe <- simple_linear_dnn_combined_recipe(mtcars, response = "mpg", linear.features = c("cyl"), dnn.features = c("drat"))
+#' recipe <- simple_linear_dnn_combined_recipe(mtcars, response = "mpg", linear_features = c("cyl"), dnn_features = c("drat"))
 #' linear_dnn_combined_classification(recipe = recipe, dnn_hidden_units = c(10L, 10L, 10L))
-linear_dnn_combined_classification <- function(recipe,
-                                           run.options = run_options(),
-                                           skip_fit = FALSE,
-                                           ...)
+linear_dnn_combined_classification <- function(
+  recipe,
+  run_options = NULL,
+  skip_fit = FALSE,
+  ...)
 {
+  run_options <- run_options %||% run_options()
+  
   # extract feature columns
-  linear.feature.columns <- recipe$linear.feature.columns
-  dnn.feature.columns <- recipe$dnn.feature.columns
-  if (is.function(linear.feature.columns))
-    linear.feature.columns <- linear.feature.columns()
-  if (is.function(dnn.feature.columns))
-    dnn.feature.columns <- dnn.feature.columns()
+  linear_feature_columns <- recipe$linear_feature_columns
+  dnn_feature_columns <- recipe$dnn_feature_columns
+  if (is.function(linear_feature_columns))
+    linear_feature_columns <- linear_feature_columns()
+  if (is.function(dnn_feature_columns))
+    dnn_feature_columns <- dnn_feature_columns()
 
   lm_dnn_c <- learn$DNNLinearCombinedClassifier(
-    linear_feature_columns = linear.feature.columns,
-    dnn_feature_columns = dnn.feature.columns,
-    model_dir = run.options$model.dir %||% run.options$model.dir,
-    config = run.options$run.config,
+    linear_feature_columns = linear_feature_columns,
+    dnn_feature_columns = dnn_feature_columns,
+    model_dir = run_options$model_dir %||% run_options$model_dir,
+    config = run_options$run_config,
     ...
   )
 
-  if(!skip_fit) {
+  if (!skip_fit) {
     # fit the model
     lm_dnn_c$fit(
-      input_fn = recipe$input.fn,
-      steps = run.options$steps
+      input_fn = recipe$input_fn,
+      steps = run_options$steps
     )
   }
 

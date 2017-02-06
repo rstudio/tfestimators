@@ -1,8 +1,10 @@
 attach_data_to_input_fn <- function(dt, input_fn) {
-  if(is.null(dt))
+  if (is.null(dt))
     input_fn
   else
-    function(){input_fn(newdata = dt)}
+    function() {
+      input_fn(newdata = dt)
+    }
 }
 
 #' @export
@@ -20,7 +22,7 @@ setup_experiment <- function(tf_model,
     stop("You cannot use the following args: ", paste(not_allowed_args, collapse = ", "))
   }
 
-  default_input_fn <- tf_model$recipe$input.fn
+  default_input_fn <- tf_model$recipe$input_fn
   train_input_fn <- attach_data_to_input_fn(train_data, default_input_fn)
   eval_input_fn <- attach_data_to_input_fn(eval_data, default_input_fn)
   

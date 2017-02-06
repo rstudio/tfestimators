@@ -9,7 +9,7 @@ simple_linear_dnn_combined_recipe.formula <- function(x, data, ...) {
 }}
 \usage{
 \method{simple_linear_dnn_combined_recipe}{default}(x, response,
-  linear.features, dnn.features, ...)
+  linear_features, dnn_features, ...)
 }
 \description{
 #' @export
