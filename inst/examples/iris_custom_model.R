@@ -28,7 +28,7 @@ custom_model_fn <- function(features, target) {
     optimizer = 'Adagrad',
     learning_rate = 0.1)
 
-  return(c(list(
+  return(list(list(
     class = tf$argmax(logits, 1L),
     prob = tf$nn$softmax(logits)
   ), loss, train_op))
