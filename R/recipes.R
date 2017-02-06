@@ -113,7 +113,10 @@ linear_dnn_combined_recipe <- function(linear_feature_columns,
   object
 }
 
-# TODO:
+#' Simple Linear DNN Combined Recipe
+#' 
+#' TODO: Description
+#' 
 #' @title simple_linear_dnn_combined_recipe
 #' @name simple_linear_dnn_combined_recipe
 #' @export

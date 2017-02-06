@@ -3,7 +3,7 @@
 #' Perform Linear DNN Combined Regression using TensorFlow.
 #'
 #' @template roxlate-recipe
-#' @template roxlate-tf-options
+#' @template roxlate-run-options
 #' @template roxlate-tf-dots
 #'
 #' @export
@@ -50,7 +50,7 @@ linear_dnn_combined_regression <- function(
 #' Perform Linear DNN Combined Classification using TensorFlow.
 #'
 #' @template roxlate-recipe
-#' @template roxlate-tf-options
+#' @template roxlate-run-options
 #' @template roxlate-tf-dots
 #'
 #' @export

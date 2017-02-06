@@ -3,7 +3,7 @@
 #' Perform linear regression using TensorFlow.
 #'
 #' @template roxlate-recipe
-#' @template roxlate-tf-options
+#' @template roxlate-run-options
 #' @template roxlate-tf-dots
 #'
 #' @export
@@ -49,7 +49,7 @@ linear_regression <- function(recipe,
 #' Perform linear classification using TensorFlow.
 #'
 #' @template roxlate-recipe
-#' @template roxlate-tf-options
+#' @template roxlate-run-options
 #' @template roxlate-tf-dots
 #'
 #' @export

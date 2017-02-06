@@ -6,6 +6,12 @@
 \usage{
 simple_linear_dnn_combined_recipe(x, ...)
 }
+\description{
+Simple Linear DNN Combined Recipe
+}
+\details{
+TODO: Description
+}
 \examples{
 # two ways of constructing the same recipe
 simple_linear_dnn_combined_recipe(mpg ~ cyl, data = mtcars)

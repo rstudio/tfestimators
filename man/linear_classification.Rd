@@ -7,12 +7,12 @@
 linear_classification(recipe, run_options = NULL, skip_fit = FALSE, ...)
 }
 \arguments{
-\item{recipe}{A recipe. See \code{\link{tf_recipe}} for more details.}
+\item{recipe}{A recipe. TODO: fill in the blanks.}
+
+\item{run_options}{Optional tools used for lower-level tuning of the TensorFlow
+model fitting process. See \code{\link{run_options}} for more information.}
 
 \item{...}{Optional arguments; currently unused.}
-
-\item{tf.options}{Optional tools used for lower-level tuning of the TensorFlow
-model fitting process. See \code{\link{tf_options}} for more information.}
 }
 \description{
 Perform linear classification using TensorFlow.
