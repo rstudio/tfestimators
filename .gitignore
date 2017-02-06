@@ -1,8 +1,7 @@
+**/.DS_store
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
 internal/
 .!*
-R/.DS_Store
-.DS_Store
