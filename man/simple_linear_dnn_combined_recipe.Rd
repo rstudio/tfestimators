@@ -13,9 +13,9 @@ Simple Linear DNN Combined Recipe
 TODO: Description
 }
 \examples{
-# two ways of constructing the same recipe
-simple_linear_dnn_combined_recipe(mpg ~ cyl, data = mtcars)
-simple_linear_dnn_combined_recipe(mtcars, response = "mpg", features = c("cyl"))
+## # two ways of constructing the same recipe
+## simple_linear_dnn_combined_recipe(mpg ~ cyl, data = mtcars)
+## simple_linear_dnn_combined_recipe(mtcars, response = "mpg", features = c("cyl"))
 }
 \seealso{
 Other recipes: \code{\link{linear_recipe}},

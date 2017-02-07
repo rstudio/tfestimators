@@ -37,7 +37,7 @@ validate_formula_operators <- function(object) {
 
     # check that this is a call to a known operator
     op <- object[[1]]
-    if (!is.symbol(op) & !is.function(eval(op)))
+    if (!is.symbol(op) && !is.function(eval(op)))
       stop("expected a symbol or function for call; got '", deparse(op), "'")
 
     ch <- as.character(op)
