@@ -17,15 +17,14 @@ test_that("predict() can accept new input_fn() and newdata or use the existing i
       dnn_optimizer = "Adagrad"
     )
 
-  # TODO: hangs
-  # predictions1 <- predict(reg, input_fn = recipe$input_fn)
-  # expect_equal(length(predictions1), 32)
-  # 
-  # predictions2 <- predict(reg, newdata = mtcars)
-  # expect_equal(predictions1, predictions2)
-  # 
-  # expect_warning(predictions3 <- predict(reg))
-  # expect_equal(length(predictions3), 32)
+  predictions1 <- predict(reg, input_fn = recipe$input_fn)
+  expect_equal(length(predictions1), 32)
+
+  predictions2 <- predict(reg, newdata = mtcars)
+  expect_equal(predictions1, predictions2)
+
+  expect_warning(predictions3 <- predict(reg))
+  expect_equal(length(predictions3), 32)
 })
 
 test_that("predict() produces probabilities of predictions for classification problems", {

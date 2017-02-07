@@ -19,9 +19,8 @@ test_that("linear_dnn_combined_regression() runs successfully", {
   
   coefs <- coef(reg)
 
-  # TODO: hangs?
-  # expect_warning(predictions <- predict(reg))
-  # expect_equal(length(predictions), 32)
+  expect_warning(predictions <- predict(reg))
+  expect_equal(length(predictions), 32)
 })
 
 test_that("linear_dnn_combined_classification() runs successfully", {
@@ -45,6 +44,5 @@ test_that("linear_dnn_combined_classification() runs successfully", {
   
   coefs <- coef(clf)
   
-  # TODO: hangs?
-  # expect_warning(predictions <- predict(clf))
+  expect_warning(predictions <- predict(clf))
 })
