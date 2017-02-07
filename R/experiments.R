@@ -7,6 +7,11 @@ attach_data_to_input_fn <- function(dt, input_fn) {
     }
 }
 
+#' @export
+setup_experiment <- function(x, ...) {
+  UseMethod("setup_experiment")
+}
+
 #' @method setup_experiment tf_model
 #' @export
 setup_experiment.tf_model <- function(object,
