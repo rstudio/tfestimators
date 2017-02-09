@@ -48,11 +48,6 @@ test_that("predict() works on a custom model", {
 
   config <- learn$estimators$run_config$RunConfig(tf_random_seed=1)
 
-  classifier <- tf$contrib$learn$Estimator(
-    model_fn = custom_model_fn,
-    model_dir = temp_model_dir,
-    config = config)
-
   classifier <- create_custom_estimator(custom_model_fn, iris_input_fn, 2L,
                                         temp_model_dir, config)
   predictions <- predict(classifier, input_fn = iris_input_fn, type = "raw")

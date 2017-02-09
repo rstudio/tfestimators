@@ -5,7 +5,6 @@ dir.create(temp_model_dir)
 
 iris_data <- learn$datasets$load_dataset("iris")
 
-# TODO: mode is a sensitive word in R
 custom_model_fn <- function(features, target, mode = "train") {
   
   target <- tf$one_hot(target, 3L)
@@ -28,12 +27,7 @@ custom_model_fn <- function(features, target, mode = "train") {
     tf$contrib$framework$get_global_step(),
     optimizer = 'Adagrad',
     learning_rate = 0.1)
-  
-  if (mode == "train")
-    print("training")
-  else if (mode == "eval")
-    print("evaluation") # TODO: Debug in Python code why this is happening
-  
+
   return(learn$ModelFnOps(
     mode = mode,
     predictions = list(
@@ -52,14 +46,12 @@ iris_input_fn <- function() {
 
 config <- learn$estimators$run_config$RunConfig(tf_random_seed=1)
 
-# classifier <- create_custom_estimator(custom_model_fn, temp_model_dir, config)
-
 classifier <- tf$contrib$learn$Estimator(
   model_fn = custom_model_fn,
   model_dir = temp_model_dir,
   config = config)
 
 classifier$fit(input_fn = iris_input_fn, steps = 2L)
-# 
-# predictions <- classifier$predict(input_fn = iris_input_fn)
-# predictions <- iterate(predictions)
+
+predictions <- classifier$predict(input_fn = iris_input_fn)
+predictions <- iterate(predictions)
