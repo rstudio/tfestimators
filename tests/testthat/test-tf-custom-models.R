@@ -19,7 +19,6 @@ test_that("predict() works on a custom model", {
         normalizer_params = list(keep_prob = 0.9)) %>%
       tf$contrib$layers$fully_connected(3L, activation_fn = NULL) # Compute logits (1 per class) and compute loss.
 
-    logits <- tf$contrib$layers$fully_connected(features, 3L, activation_fn = NULL)
     loss <- tf$losses$softmax_cross_entropy(target, logits)
 
     # Create a tensor for training op.
