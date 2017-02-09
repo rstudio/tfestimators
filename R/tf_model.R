@@ -8,6 +8,26 @@ is.tf_model <- function(object) {
   inherits(object, "tf_model")
 }
 
+is.estimator <- function(object) {
+  inherits(object,
+           "tensorflow.contrib.learn.python.learn.estimators.estimator.Estimator")
+}
+
+prepare_predict_input_fn <- function(object,
+                                     newdata = NULL,
+                                     input_fn = NULL) {
+  est <- object$estimator
+  default_input_fn <- object$recipe$input_fn
+  if (is.null(input_fn) && is.null(newdata)) {
+    warning("Neither input_fn or newdata is provided, using the same input_fn specified in recipe")
+    return(default_input_fn)
+  } else if (!is.null(newdata)) {
+    return(function(){default_input_fn(newdata = newdata)})
+  } else {
+    return(input_fn)
+  }
+}
+
 #' @export
 predict.tf_model <- function(object,
                              newdata = NULL,
@@ -16,22 +36,15 @@ predict.tf_model <- function(object,
                              ...)
 {
   est <- object$estimator
-  default_input_fn <- object$recipe$input_fn
-  if(is.null(input_fn) && is.null(newdata)) {
-    warning("Neither input_fn or newdata is provided, using the same input_fn specified in recipe")
-    input_fn <- default_input_fn
-  }
-  if(!is.null(newdata)) {
-    input_fn <- function(){default_input_fn(newdata = newdata)}
-  }
-  if(type == "raw") {
-    predictions <- est$predict(input_fn = input_fn, ...)
+  prepared_input_fn <- prepare_predict_input_fn(object, newdata, input_fn)
+  if (type == "raw") {
+    predictions <- est$predict(input_fn = prepared_input_fn, ...)
   } else if (type == "prob") {
     # this only works for classification problems
-    if(length(grep("classification", class(object))) == 0) {
+    if (length(grep("classification", class(object))) == 0) {
       stop("type = prob only works for classification problems")
     }
-    predictions <- est$predict_proba(input_fn = input_fn, ...)
+    predictions <- est$predict_proba(input_fn = prepared_input_fn, ...)
   } else {
     stop(paste0("This type is not supported: ", as.character(type)))
   }
