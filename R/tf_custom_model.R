@@ -9,6 +9,17 @@ is.tf_custom_model <- function(object) {
 }
 
 #' @export
+custom_model_return_fn <- function(logits, loss, train_op, mode = "train") {
+  learn$ModelFnOps(
+    mode = mode,
+    predictions = list(
+      class = tf$argmax(logits, 1L),
+      prob = tf$nn$softmax(logits)),
+    loss = loss,
+    train_op = train_op)
+}
+
+#' @export
 create_custom_estimator <- function(model_fn, input_fn, steps, model_dir, config, ...) {
   est <- tf$contrib$learn$Estimator(
     model_fn = model_fn,

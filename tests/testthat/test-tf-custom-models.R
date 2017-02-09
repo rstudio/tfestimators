@@ -6,8 +6,7 @@ test_that("predict() works on a custom model", {
 
   iris_data <- learn$datasets$load_dataset("iris")
 
-  # TODO: mode is a sensitive word in R
-  custom_model_fn <- function(features, target, mode = "train") {
+  custom_model_fn <- function(features, target) {
 
     target <- tf$one_hot(target, 3L)
 
@@ -30,13 +29,7 @@ test_that("predict() works on a custom model", {
       optimizer = 'Adagrad',
       learning_rate = 0.1)
 
-    return(learn$ModelFnOps(
-      mode = mode,
-      predictions = list(
-        class = tf$argmax(logits, 1L),
-        prob = tf$nn$softmax(logits)),
-      loss = loss,
-      train_op = train_op))
+    return(custom_model_return_fn(logits, loss, train_op))
   }
 
 
