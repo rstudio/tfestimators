@@ -69,11 +69,8 @@ custom_model_fn <- function(features, target) {
 Note that above we have a wrapper for the return signature using custom_model_return_fn(). This is to avoid as much manual mistake as possible by the users. It also converts the logits so later users can call predict() for both raw predictions and probabilities.
 
 ```
-# We can pass run config into custom estimator as well as other built-in estimators
-config <- learn$estimators$run_config$RunConfig(tf_random_seed=1)
 
-classifier <- create_custom_estimator(custom_model_fn, iris_input_fn, steps = 2L,
-                                    temp_model_dir, config)
+classifier <- create_custom_estimator(custom_model_fn, iris_input_fn)
 
 predictions <- predict(classifier, input_fn = iris_input_fn, type = "raw")
 ```
@@ -107,4 +104,11 @@ experiment_result <- experiment$train_and_evaluate()
 
 We have basic formula support for defining targets vs. features but we are investigating how to achieve something like this `y ~ tf$contrib$layers$real_valued_column(x, someAddtionalArgs) + x2`. We may decide not to support this at all since it's not very customizable. Alternatively, we can provide better helper functions for users to achieve the same thing.
 
+## Run Options
 
+Provides run-time configurations/options for model initialization and fitting, e.g. `steps`, `RunConfig`, `model_dir`, etc. We can define this `run_options` and pass it to built-in estimators or custom estimators.
+
+```
+r_opts = run_options(steps = 2, run_config = learn$RunConfig(tf_random_seed = 1))
+classifier <- create_custom_estimator(custom_model_fn, iris_input_fn, run_options = r_opts)
+```

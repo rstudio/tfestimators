@@ -9,7 +9,7 @@
 #'   produced by \code{\link{tempfile}}().
 #' @export
 run_options <- function(
-  steps = 30L,
+  steps = 2L,
   model_dir  = tf_setting("tflearn.model_dir", tempfile("tflearn_")),
   run_config = learn$RunConfig(tf_random_seed = 1))
 {

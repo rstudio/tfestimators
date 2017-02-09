@@ -38,10 +38,7 @@ test_that("predict() works on a custom model", {
     return(list(features, labels))
   }
 
-  config <- learn$estimators$run_config$RunConfig(tf_random_seed=1)
-
-  classifier <- create_custom_estimator(custom_model_fn, iris_input_fn, 2L,
-                                        temp_model_dir, config)
+  classifier <- create_custom_estimator(custom_model_fn, iris_input_fn)
   predictions <- predict(classifier, input_fn = iris_input_fn, type = "raw")
   expect_equal(length(predictions), 150)
   expect_equal(max(predictions), 2)

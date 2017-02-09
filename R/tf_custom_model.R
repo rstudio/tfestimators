@@ -20,13 +20,22 @@ custom_model_return_fn <- function(logits, loss, train_op, mode = "train") {
 }
 
 #' @export
-create_custom_estimator <- function(model_fn, input_fn, steps, model_dir, config, ...) {
+create_custom_estimator <- function(model_fn,
+                                    input_fn,
+                                    run_options = NULL,
+                                    skip_fit = FALSE, ...)
+{
+  run_options <- run_options %||% run_options()
+
   est <- tf$contrib$learn$Estimator(
     model_fn = model_fn,
-    model_dir = model_dir,
-    config = config,
-    ...)
-  est$fit(input_fn = input_fn, steps = steps)
+    model_dir = run_options$model_dir,
+    config = run_options$run_config,
+    ...
+  )
+  # TODO: Support data, x, y arguments instead of input_fn
+  if (!skip_fit)
+    est$fit(input_fn = input_fn, steps = run_options$steps)
   tf_custom_model(estimator = est, model_fn = model_fn)
 }
 
