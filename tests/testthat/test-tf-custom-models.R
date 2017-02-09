@@ -1,8 +1,6 @@
 context("Testing tf_custom_models methods")
 
 test_that("predict() works on a custom model", {
-  library(tensorflow)
-
   temp_model_dir <- tempfile()
   dir.create(temp_model_dir)
 
