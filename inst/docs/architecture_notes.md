@@ -1,9 +1,11 @@
-# Recipes
+# High-level Architecture Notes 
+
+## Recipes
 
 A recipe includes `input_fn` and `feature_columns` to define the input as well as features vs. targets. Users can use default recipes which just convert numeric columns into `real_valued_column`, factor columns into `sparse_column_with_keys`, etc. Users can also define their own recipes using rather low level APIs. We will provide more helper functions for users to construct customized recipes. Note that `feature_columns` are only useful for linear and DNN models. For other more advanced deep learning models, people usually just focus on defining the model architecture that could serve as additional features.
 
 
-# Linear Models
+## Linear Models
 
 ```
 recipe <- simple_linear_recipe(mtcars, "mpg", "drat")
@@ -16,7 +18,7 @@ predictions <- predict(reg, newdata = mtcars, type = 'raw')
 coefs <- coef(reg)
 ```
 
-# Linear and DNN Combined Models
+## Linear and DNN Combined Models
 
 ```
 recipe <-
@@ -36,7 +38,7 @@ linear_dnn_combined_regression(
 # predict(), coef() is similar to linear models
 ```
 
-# Custom Models
+## Custom Models
 ```
 iris_data <- learn$datasets$load_dataset("iris")
 
@@ -77,7 +79,7 @@ predictions <- predict(classifier, input_fn = iris_input_fn, type = "raw")
 ```
 
 
-# Experiments
+## Experiments
 
 Experiments are designed for easier experiments, e.g. define your model, specify training and evaluation data and steps, frequencies, where to run, etc. 
 
@@ -101,7 +103,7 @@ experiment <- setup_experiment(
 experiment_result <- experiment$train_and_evaluate()
 ```
 
-# Formula
+## Formula Interface
 
 We have basic formula support for defining targets vs. features but we are investigating how to achieve something like this `y ~ tf$contrib$layers$real_valued_column(x, someAddtionalArgs) + x2`. We may decide not to support this at all since it's not very customizable. Alternatively, we can provide better helper functions for users to achieve the same thing.
 
