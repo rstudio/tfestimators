@@ -26,6 +26,7 @@ test_that("predict() works on a custom model", {
       optimizer = 'Adagrad',
       learning_rate = 0.1)
 
+    # TODO: This is only for classification but not for regression
     return(custom_model_return_fn(logits, loss, train_op))
   }
 
@@ -35,12 +36,6 @@ test_that("predict() works on a custom model", {
     labels <- tf$constant(iris_data$target)
     return(list(features, labels))
   }
-
-  # iris_input_fn <- function() {
-  #   features <- tf$constant(as.matrix(iris[, 1:4]))
-  #   labels <- tf$constant(iris[, 5])
-  #   return(list(features, labels))
-  # }
 
   recipe <- custom_model_recipe(model_fn = custom_model_fn, input_fn = iris_input_fn)
 
@@ -55,14 +50,19 @@ test_that("predict() works on a custom model", {
   expect_lte(max(predictions), 1)
   expect_gte(min(predictions), 0)
 
-  # simple_recipe <- simple_custom_model_recipe(x = iris,
-  #                                             response = "Species",
-  #                                             features = c(
-  #                                               "Sepal.Length",
-  #                                               "Sepal.Width",
-  #                                               "Petal.Length",
-  #                                               "Petal.Width"),
-  #                                             model_fn = custom_model_fn)
-  # classifier <- create_custom_estimator(simple_recipe)
+  simple_recipe <- simple_custom_model_recipe(
+    x = iris,
+    response = "Species",
+    features = c(
+      "Sepal.Length",
+      "Sepal.Width",
+      "Petal.Length",
+      "Petal.Width"),
+    model_fn = custom_model_fn)
 
+  classifier <- create_custom_estimator(simple_recipe)
+  predictions <- predict(classifier, newdata = iris, type = "prob")
+  expect_equal(length(predictions), 150 * length(unique(iris$Species)))
+  expect_lte(max(predictions), 1)
+  expect_gte(min(predictions), 0)
 })

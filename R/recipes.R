@@ -15,15 +15,21 @@ tf_auto_inferred_columns <- function(x, columns) {
 }
 
 #' @export
-tf_simple_input_fn <-  function(x, response, features) {
+tf_simple_input_fn <-  function(x, response, features, feature_as_named_list = TRUE) {
   force(list(x, response, features))
   function(newdata = NULL) {
     if (!is.null(newdata))
       x <<- newdata
-    feature_columns <- lapply(features, function(feature) {
-      tf$constant(x[[feature]])
-    })
-    names(feature_columns) <- features
+    if (feature_as_named_list) {
+      # For linear and dnn we have to do this due to nature of feature columns
+      feature_columns <- lapply(features, function(feature) {
+        tf$constant(x[[feature]])
+      })
+      names(feature_columns) <- features
+    } else {
+      # This works for custom model
+      feature_columns <- tf$constant(as.matrix(x[, features]))
+    }
     response_column <- tf$constant(x[[response]])
     list(feature_columns, response_column)
   }
@@ -59,7 +65,8 @@ simple_custom_model_recipe.default <- function(x,
                                                model_fn,
                                                ...)
 {
-  input_fn <- tf_simple_input_fn(x, response, features)
+  input_fn <- tf_simple_input_fn(x, response, features,
+                                 feature_as_named_list = FALSE)
   custom_model_recipe(model_fn, input_fn)
 }
 
