@@ -20,23 +20,21 @@ custom_model_return_fn <- function(logits, loss, train_op, mode = "train") {
 }
 
 #' @export
-create_custom_estimator <- function(model_fn,
-                                    input_fn,
+create_custom_estimator <- function(recipe,
                                     run_options = NULL,
                                     skip_fit = FALSE, ...)
 {
   run_options <- run_options %||% run_options()
 
   est <- tf$contrib$learn$Estimator(
-    model_fn = model_fn,
+    model_fn = recipe$model_fn,
     model_dir = run_options$model_dir,
     config = run_options$run_config,
     ...
   )
-  # TODO: Support data, x, y arguments instead of input_fn
   if (!skip_fit)
-    est$fit(input_fn = input_fn, steps = run_options$steps)
-  tf_custom_model(estimator = est, model_fn = model_fn)
+    est$fit(input_fn = recipe$input_fn, steps = run_options$steps)
+  tf_custom_model(estimator = est, recipe = recipe)
 }
 
 #' @export
@@ -46,7 +44,7 @@ predict.tf_custom_model <- function(object,
                                     type = "raw",
                                     ...) {
   est <- object$estimator
-  input_fn <- prepare_predict_input_fn(object, newdata, input_fn)
+  input_fn <- prepare_predict_input_fn(object, newdata, object$recipe$input_fn)
   predictions <- est$predict(input_fn = input_fn, ...) %>% iterate
   if (type == "raw") {
     unlist(lapply(predictions, function(prediction){

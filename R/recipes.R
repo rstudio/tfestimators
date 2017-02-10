@@ -29,6 +29,40 @@ tf_simple_input_fn <-  function(x, response, features) {
   }
 }
 
+#' @family recipes
+#' @export
+custom_model_recipe <- function(model_fn,
+                                input_fn,
+                                ...)
+{
+  object <- list(
+    model_fn = model_fn,
+    input_fn = input_fn,
+    ...
+  )
+
+  class(object) <- "custom_model_recipe"
+  object
+}
+
+#' @family recipes
+#' @export
+simple_custom_model_recipe <- function(x, ...) {
+  UseMethod("simple_custom_model_recipe")
+}
+
+#' @family recipes
+#' @export
+simple_custom_model_recipe.default <- function(x,
+                                               response,
+                                               features,
+                                               model_fn,
+                                               ...)
+{
+  input_fn <- tf_simple_input_fn(x, response, features)
+  custom_model_recipe(model_fn, input_fn)
+}
+
 #' Construct a tflearn Recipe
 #'
 #' Construct a recipe suitable for use with the higher-level

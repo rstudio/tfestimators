@@ -1,8 +1,6 @@
 context("Testing tf_custom_models methods")
 
 test_that("predict() works on a custom model", {
-  temp_model_dir <- tempfile()
-  dir.create(temp_model_dir)
 
   iris_data <- learn$datasets$load_dataset("iris")
 
@@ -38,14 +36,33 @@ test_that("predict() works on a custom model", {
     return(list(features, labels))
   }
 
-  classifier <- create_custom_estimator(custom_model_fn, iris_input_fn)
+  # iris_input_fn <- function() {
+  #   features <- tf$constant(as.matrix(iris[, 1:4]))
+  #   labels <- tf$constant(iris[, 5])
+  #   return(list(features, labels))
+  # }
+
+  recipe <- custom_model_recipe(model_fn = custom_model_fn, input_fn = iris_input_fn)
+
+  classifier <- create_custom_estimator(recipe)
   predictions <- predict(classifier, input_fn = iris_input_fn, type = "raw")
   expect_equal(length(predictions), 150)
   expect_equal(max(predictions), 2)
   expect_equal(min(predictions), 0)
-  
+
   predictions <- predict(classifier, input_fn = iris_input_fn, type = "prob")
   expect_equal(length(predictions), 150 * length(unique(iris_data$target)))
   expect_lte(max(predictions), 1)
   expect_gte(min(predictions), 0)
+
+  # simple_recipe <- simple_custom_model_recipe(x = iris,
+  #                                             response = "Species",
+  #                                             features = c(
+  #                                               "Sepal.Length",
+  #                                               "Sepal.Width",
+  #                                               "Petal.Length",
+  #                                               "Petal.Width"),
+  #                                             model_fn = custom_model_fn)
+  # classifier <- create_custom_estimator(simple_recipe)
+
 })

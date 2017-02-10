@@ -4,7 +4,7 @@
 \alias{run_options}
 \title{Options for TensorFlow Routines}
 \usage{
-run_options(steps = 30L, model_dir = tf_setting("tflearn.model_dir",
+run_options(steps = 2L, model_dir = tf_setting("tflearn.model_dir",
   tempfile("tflearn_")), run_config = learn$RunConfig(tf_random_seed = 1))
 }
 \arguments{
