@@ -30,7 +30,6 @@ test_that("predict() works on a custom model", {
     return(custom_model_return_fn(logits, loss, train_op))
   }
 
-
   iris_input_fn <- function() {
     features <- tf$constant(as.matrix(iris_data$data))
     labels <- tf$constant(iris_data$target)

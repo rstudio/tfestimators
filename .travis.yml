@@ -26,7 +26,3 @@ addons:
       - libatlas-dev
       - python-joblib
       - python-dev
-
-env:
-  - TENSORFLOW_TEST_EXAMPLES="1"
-    R_GCTORTURE="25"
