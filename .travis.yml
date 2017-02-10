@@ -4,7 +4,9 @@ language: r
 
 warnings_are_errors: false
 
-os: linux
+os:
+  - linux
+  - osx
 
 cache:
   packages: true
@@ -14,6 +16,14 @@ cache:
 before_install:
   - export PATH=$(perl -e 'print join(":", grep { !m{/opt/python/} } split /:/, $ENV{PATH})')
   - source travis/install.sh
+
+env:
+ global:
+   - CRAN: http://cran.rstudio.com
+
+r_github_packages:
+  - rstudio/reticulate
+  - rstudio/tensorflow
 
 addons:
   apt:
@@ -26,3 +36,10 @@ addons:
       - libatlas-dev
       - python-joblib
       - python-dev
+
+notifications:
+  email:
+    recipients:
+      - terrytangyuan@gmail.com
+    on_success: never
+    on_failure: always
