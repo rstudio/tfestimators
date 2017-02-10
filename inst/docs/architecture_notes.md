@@ -1,9 +1,45 @@
 # High-level Architecture Notes 
 
+## Formula Interface
+
+We have basic formula support, e.g. `simple_custom_model_recipe(y ~ x1 + x2)`, for defining targets vs. features but we are investigating how to achieve something like this `y ~ tf$contrib$layers$real_valued_column(x, someAddtionalArgs) + x2`. We may decide not to support this at all since it's not very customizable. Alternatively, we can provide better helper functions for users to achieve the same thing.
+
 ## Recipes
 
 A recipe includes `input_fn` and `feature_columns` to define the input as well as features vs. targets. Users can use default recipes which just convert numeric columns into `real_valued_column`, factor columns into `sparse_column_with_keys`, etc. Users can also define their own recipes using rather low level APIs. We will provide more helper functions for users to construct customized recipes. Note that `feature_columns` are only useful for linear and DNN models. For other more advanced deep learning models, people usually just focus on defining the model architecture that could serve as additional features.
 
+For examples, in order to define a custom estimator, we have the following three approaches:
+
+``` r
+# Formula interface
+formula_recipe <- simple_custom_model_recipe(
+  Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width,
+  data = iris,
+  model_fn = custom_model_fn)
+  
+# Simple non-formula interface
+simple_recipe <- simple_custom_model_recipe(
+  x = iris,
+  response = "Species",
+  features = c(
+    "Sepal.Length",
+    "Sepal.Width",
+    "Petal.Length",
+    "Petal.Width"),
+  model_fn = custom_model_fn)
+  
+# Custom interface (highly customizable)
+recipe <- custom_model_recipe(model_fn = custom_model_fn, input_fn = iris_input_fn)
+```
+
+## Run Options
+
+Provides run-time configurations/options for model initialization and fitting, e.g. `steps`, `RunConfig`, `model_dir`, etc. We can define this `run_options` and pass it to built-in estimators or custom estimators.
+
+```
+r_opts = run_options(steps = 2, run_config = learn$RunConfig(tf_random_seed = 1))
+classifier <- create_custom_estimator(custom_model_fn, iris_input_fn, run_options = r_opts)
+```
 
 ## Linear Models
 
@@ -70,7 +106,8 @@ Note that above we have a wrapper for the return signature using custom_model_re
 
 ```
 
-classifier <- create_custom_estimator(custom_model_fn, iris_input_fn)
+recipe <- custom_model_recipe(model_fn = custom_model_fn, input_fn = iris_input_fn)
+classifier <- create_custom_estimator(recipe)
 
 predictions <- predict(classifier, input_fn = iris_input_fn, type = "raw")
 ```
@@ -98,17 +135,4 @@ experiment <- setup_experiment(
 )
 
 experiment_result <- experiment$train_and_evaluate()
-```
-
-## Formula Interface
-
-We have basic formula support for defining targets vs. features but we are investigating how to achieve something like this `y ~ tf$contrib$layers$real_valued_column(x, someAddtionalArgs) + x2`. We may decide not to support this at all since it's not very customizable. Alternatively, we can provide better helper functions for users to achieve the same thing.
-
-## Run Options
-
-Provides run-time configurations/options for model initialization and fitting, e.g. `steps`, `RunConfig`, `model_dir`, etc. We can define this `run_options` and pass it to built-in estimators or custom estimators.
-
-```
-r_opts = run_options(steps = 2, run_config = learn$RunConfig(tf_random_seed = 1))
-classifier <- create_custom_estimator(custom_model_fn, iris_input_fn, run_options = r_opts)
 ```
