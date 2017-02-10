@@ -37,6 +37,7 @@ test_that("predict() works on a custom model", {
     return(list(features, labels))
   }
 
+  # Custom interface
   recipe <- custom_model_recipe(model_fn = custom_model_fn, input_fn = iris_input_fn)
 
   classifier <- create_custom_estimator(recipe)
@@ -50,6 +51,7 @@ test_that("predict() works on a custom model", {
   expect_lte(max(predictions), 1)
   expect_gte(min(predictions), 0)
 
+  # Simple non-formula interface
   simple_recipe <- simple_custom_model_recipe(
     x = iris,
     response = "Species",
@@ -60,6 +62,18 @@ test_that("predict() works on a custom model", {
       "Petal.Width"),
     model_fn = custom_model_fn)
 
+  classifier <- create_custom_estimator(simple_recipe)
+  predictions <- predict(classifier, newdata = iris, type = "prob")
+  expect_equal(length(predictions), 150 * length(unique(iris$Species)))
+  expect_lte(max(predictions), 1)
+  expect_gte(min(predictions), 0)
+  
+  # Formula interface
+  formula_recipe <- simple_custom_model_recipe(
+    Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width,
+    data = iris,
+    model_fn = custom_model_fn)
+  
   classifier <- create_custom_estimator(simple_recipe)
   predictions <- predict(classifier, newdata = iris, type = "prob")
   expect_equal(length(predictions), 150 * length(unique(iris$Species)))

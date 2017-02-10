@@ -70,6 +70,12 @@ simple_custom_model_recipe.default <- function(x,
   custom_model_recipe(model_fn, input_fn)
 }
 
+#' @export
+simple_custom_model_recipe.formula <- function(x, data, model_fn, ...) {
+  parsed <- parse_formula(x)
+  simple_custom_model_recipe(data, parsed$response, parsed$features, model_fn)
+}
+
 #' Construct a tflearn Recipe
 #'
 #' Construct a recipe suitable for use with the higher-level
