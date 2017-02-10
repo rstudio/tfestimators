@@ -17,6 +17,9 @@ before_install:
   - export PATH=$(perl -e 'print join(":", grep { !m{/opt/python/} } split /:/, $ENV{PATH})')
   - source travis/install.sh
 
+after_failure:
+  - cat /home/travis/build/rstudio/tflearn/tflearn.Rcheck/00check.log
+
 env:
  global:
    - CRAN: http://cran.rstudio.com
