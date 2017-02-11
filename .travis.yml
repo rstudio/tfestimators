@@ -6,7 +6,7 @@ warnings_are_errors: false
 
 os:
   - linux
-  - osx
+  # - osx
 
 cache:
   packages: true
@@ -18,7 +18,8 @@ before_install:
   - source travis/install.sh
 
 after_failure:
-  - cat /home/travis/build/rstudio/tflearn/tflearn.Rcheck/00check.log
+  - cat tflearn/tflearn.Rcheck/*.log
+  - cat tflearn/tflearn.Rcheck/*.out
 
 env:
  global:
