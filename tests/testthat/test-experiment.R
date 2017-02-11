@@ -1,4 +1,4 @@
-context("Test experiment")
+context("Testing experiment")
 
 test_that("Experiment works", {
   

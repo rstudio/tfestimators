@@ -57,9 +57,15 @@ fit <- function(object, ...) {
 }
 
 #' @export
-fit.tf_model <- function(object, steps = 2L, ...)
+fit.tf_model <- function(object, steps = 2L, monitors = NULL, ...)
 {
-  object$estimator$fit(input_fn = object$recipe$input_fn, steps = steps, ...)
+  if (!is.null(monitors))
+    monitors <- list(monitors)
+  object$estimator$fit(
+    input_fn = object$recipe$input_fn,
+    steps = steps,
+    monitors = monitors,
+    ...)
   object
 }
 
