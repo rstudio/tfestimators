@@ -15,7 +15,7 @@ test_that("predict() can accept new input_fn() and newdata or use the existing i
       recipe = recipe,
       dnn_hidden_units = c(1L, 1L),
       dnn_optimizer = "Adagrad"
-    )
+    ) %>% fit()
 
   predictions1 <- predict(reg, input_fn = recipe$input_fn)
   expect_equal(length(predictions1), 32)
@@ -42,7 +42,7 @@ test_that("predict() produces probabilities of predictions for classification pr
       recipe = recipe,
       dnn_hidden_units = c(1L, 1L),
       dnn_optimizer = "Adagrad"
-    )
+    ) %>% fit()
   
   prediction_probs <- predict(clf, input_fn = recipe$input_fn, type = "prob")
   expect_true(prediction_probs <= 1 && prediction_probs >= 0)
@@ -61,7 +61,7 @@ test_that("predict() produces probabilities of predictions for classification pr
       recipe = recipe,
       dnn_hidden_units = c(1L, 1L),
       dnn_optimizer = "Adagrad"
-    )
+    ) %>% fit()
   
   expect_error(predict(reg, input_fn = recipe$input_fn, type = "prob"))
 })

@@ -1,4 +1,4 @@
-context("Test linear dnn combined estimators")
+context("Testing linear dnn combined estimators")
 
 test_that("linear_dnn_combined_regression() runs successfully", {
   
@@ -15,7 +15,7 @@ test_that("linear_dnn_combined_regression() runs successfully", {
       recipe = recipe,
       dnn_hidden_units = c(1L, 1L),
       dnn_optimizer = "Adagrad"
-    )
+    ) %>% fit()
   
   coefs <- coef(reg)
 
@@ -40,7 +40,7 @@ test_that("linear_dnn_combined_classification() runs successfully", {
       recipe = recipe,
       dnn_hidden_units = c(3L, 3L),
       dnn_optimizer = "Adagrad"
-    )
+    ) %>% fit()
   
   coefs <- coef(clf)
   

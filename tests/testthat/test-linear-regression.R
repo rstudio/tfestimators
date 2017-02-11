@@ -1,8 +1,8 @@
-context("Linear Regression")
+context("Testing linear estimators")
 
 test_that("linear_regression() produces similar fits to lm()", {
   recipe <- simple_linear_recipe(mtcars, "mpg", "drat")
-  tf_model <- linear_regression(recipe = recipe)
+  tf_model <- linear_regression(recipe = recipe) %>% fit()
   rs_model <- lm(mpg ~ drat, data = mtcars)
 
   tf_coef <- coef(tf_model)
@@ -20,7 +20,7 @@ test_that("linear_regression() produces similar fits to lm()", {
 
 test_that("linear_classification() runs successfully", {
   recipe <- simple_linear_recipe(mtcars, "vs", "drat")
-  tf_model <- linear_classification(recipe = recipe)
+  tf_model <- linear_classification(recipe = recipe) %>% fit()
   tf_coef <- coef(tf_model)
 
   expect_warning(predictions <- predict(tf_model))

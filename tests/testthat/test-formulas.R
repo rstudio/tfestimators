@@ -1,4 +1,4 @@
-context("Test formulas")
+context("Testing formulas")
 
 test_that("parse_formula parses formula correct", {
   parsed <- parse_formula(y ~ tf$contrib$layers$real_valued_column(x))

@@ -13,8 +13,7 @@ test_that("Experiment works", {
   clf <- linear_dnn_combined_classification(
     recipe = recipe,
     dnn_hidden_units = c(1L, 1L),
-    dnn_optimizer = "Adagrad",
-    skip_fit = TRUE
+    dnn_optimizer = "Adagrad"
   )
   
   experiment <- setup_experiment(

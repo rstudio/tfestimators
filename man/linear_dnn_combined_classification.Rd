@@ -4,8 +4,7 @@
 \alias{linear_dnn_combined_classification}
 \title{TensorFlow -- Linear DNN Combined Classification}
 \usage{
-linear_dnn_combined_classification(recipe, run_options = NULL,
-  skip_fit = FALSE, ...)
+linear_dnn_combined_classification(recipe, run_options = NULL, ...)
 }
 \arguments{
 \item{recipe}{A recipe. TODO: fill in the blanks.}

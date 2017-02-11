@@ -4,7 +4,7 @@
 \alias{linear_classification}
 \title{TensorFlow -- Linear Classification}
 \usage{
-linear_classification(recipe, run_options = NULL, skip_fit = FALSE, ...)
+linear_classification(recipe, run_options = NULL, ...)
 }
 \arguments{
 \item{recipe}{A recipe. TODO: fill in the blanks.}

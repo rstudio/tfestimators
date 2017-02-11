@@ -22,7 +22,7 @@ custom_model_return_fn <- function(logits, loss, train_op, mode = "train") {
 #' @export
 create_custom_estimator <- function(recipe,
                                     run_options = NULL,
-                                    skip_fit = FALSE, ...)
+                                    ...)
 {
   run_options <- run_options %||% run_options()
 
@@ -32,9 +32,12 @@ create_custom_estimator <- function(recipe,
     config = run_options$run_config,
     ...
   )
-  if (!skip_fit)
-    est$fit(input_fn = recipe$input_fn, steps = run_options$steps)
   tf_custom_model(estimator = est, recipe = recipe)
+}
+
+#' @export
+fit.tf_custom_model <- function(object, ...) {
+  fit.tf_model(object, ...)
 }
 
 #' @export

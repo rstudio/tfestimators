@@ -13,7 +13,6 @@
 linear_dnn_combined_regression <- function(
   recipe,
   run_options = NULL,
-  skip_fit = FALSE,
   ...)
 {
   run_options <- run_options %||% run_options()
@@ -29,14 +28,6 @@ linear_dnn_combined_regression <- function(
     config = run_options$run_config,
     ...
   )
-
-  if (!skip_fit) {
-    # fit the model
-    lm_dnn_r$fit(
-      input_fn = recipe$input_fn,
-      steps = run_options$steps
-    )
-  }
 
   tf_model(
     "linear_dnn_combined_regression",
@@ -60,7 +51,6 @@ linear_dnn_combined_regression <- function(
 linear_dnn_combined_classification <- function(
   recipe,
   run_options = NULL,
-  skip_fit = FALSE,
   ...)
 {
   run_options <- run_options %||% run_options()
@@ -80,14 +70,6 @@ linear_dnn_combined_classification <- function(
     config = run_options$run_config,
     ...
   )
-
-  if (!skip_fit) {
-    # fit the model
-    lm_dnn_c$fit(
-      input_fn = recipe$input_fn,
-      steps = run_options$steps
-    )
-  }
 
   tf_model(
     "linear_dnn_combined_classification",

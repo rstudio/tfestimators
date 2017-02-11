@@ -52,6 +52,18 @@ predict.tf_model <- function(object,
 }
 
 #' @export
+fit <- function(object, ...) {
+  UseMethod("fit")
+}
+
+#' @export
+fit.tf_model <- function(object, steps = 2L, ...)
+{
+  object$estimator$fit(input_fn = object$recipe$input_fn, steps = steps, ...)
+  object
+}
+
+#' @export
 coef.tf_model <- function(object, ...) {
   estimator <- object$estimator
   var_names <- estimator$get_variable_names()

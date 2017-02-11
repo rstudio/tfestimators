@@ -12,7 +12,6 @@
 #' linear_regression(recipe = recipe)
 linear_regression <- function(recipe,
                               run_options = NULL,
-                              skip_fit = FALSE,
                               ...)
 {
   run_options <- run_options %||% run_options()
@@ -27,14 +26,6 @@ linear_regression <- function(recipe,
     config = run_options$run_config,
     ...
   )
-
-  if (!skip_fit) {
-    # fit the model
-    lr$fit(
-      input_fn = recipe$input_fn,
-      steps = run_options$steps
-    )
-  }
 
   tf_model(
     "linear_regression",
@@ -58,7 +49,6 @@ linear_regression <- function(recipe,
 #' linear_classification(recipe = recipe)
 linear_classification <- function(recipe,
                                   run_options = NULL,
-                                  skip_fit = FALSE,
                                   ...)
 {
   run_options <- run_options %||% run_options()
@@ -74,14 +64,6 @@ linear_classification <- function(recipe,
     config = run_options$run_config,
     ...
   )
-
-  if (!skip_fit) {
-    # fit the model
-    lc$fit(
-      input_fn = recipe$input_fn,
-      steps = run_options$steps
-    )
-  }
 
   tf_model(
     "linear_classification",
