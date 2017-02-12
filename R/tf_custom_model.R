@@ -61,3 +61,8 @@ predict.tf_custom_model <- function(object,
     stop(paste0("This type is not supported: ", as.character(type)))
   }
 }
+
+#' @export
+coef.tf_custom_model <- function(object, ...) {
+  coef.tf_model(object, ...)
+}

@@ -78,4 +78,7 @@ test_that("predict() works on a custom model", {
   expect_equal(length(predictions), 150 * length(unique(iris$Species)))
   expect_lte(max(predictions), 1)
   expect_gte(min(predictions), 0)
+
+  # coef s3 method
+  expect_gt(length(coef(classifier)), 1)
 })
