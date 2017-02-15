@@ -13,6 +13,11 @@ setup_experiment <- function(x, ...) {
 }
 
 #' @export
+setup_experiment.tf_custom_model <- function(object, ...) {
+  setup_experiment.tf_model(object, ...)
+}
+
+#' @export
 setup_experiment.tf_model <- function(object,
                                       train_data,
                                       eval_data,
