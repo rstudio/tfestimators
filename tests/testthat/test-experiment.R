@@ -25,7 +25,7 @@ test_that("Experiment works", {
     continuous_eval_throttle_secs = 60L
   )
   
-  experiment_result <- experiment$train_and_evaluate()
+  experiment_result <- train_and_evaluate(experiment)
   expect_gt(length(experiment_result[[1]]), 1)
   
   # Edge cases
