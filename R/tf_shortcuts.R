@@ -2,6 +2,7 @@
 
 setup_shortcuts <- function(env = .shortcuts) {
   
+  # TODO: These need to be updated after upgrading TF
   shortcuts <- list(
     learn_lib              = tf$contrib$learn,
     learn_models_lib       = tf$contrib$learn$models,
