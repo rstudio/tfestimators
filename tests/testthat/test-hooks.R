@@ -25,5 +25,5 @@ test_that("Hooks works with linear dnn combined estimators", {
         tensors = list("global_step"),
         every_n_iter = 2L))
   )
-  tf$logging$set_verbosity(old_verbose_level)
+  # tf$logging$set_verbosity(old_verbose_level)
 })

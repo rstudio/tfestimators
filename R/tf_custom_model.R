@@ -26,7 +26,7 @@ create_custom_estimator <- function(recipe,
 {
   run_options <- run_options %||% run_options()
 
-  est <- tf$contrib$learn$Estimator(
+  est <- learn$Estimator(
     model_fn = recipe$model_fn,
     model_dir = run_options$model_dir,
     config = run_options$run_config,
