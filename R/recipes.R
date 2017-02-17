@@ -16,12 +16,10 @@ tf_auto_inferred_columns <- function(x, columns) {
 
 #' @export
 tf_simple_input_fn <-  function(x, response, features, feature_as_named_list = TRUE, id_column = NULL) {
-  if (!is.null(id_column) && is.character(id_column)) {
-      x[id_column] <- 1:nrow(x)
-      features <- c(features, "id_column")
-      # TODO: Support custom id_column function
-  } else {
-      stop("id_column must be character.")
+  if (!is.null(id_column)) {
+    x[id_column] <- 1:nrow(x)
+    features <- c(features, id_column)
+    # TODO: Support custom id_column function
   }
   force(list(x, response, features))
   function(newdata = NULL) {
