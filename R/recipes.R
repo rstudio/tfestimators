@@ -15,7 +15,14 @@ tf_auto_inferred_columns <- function(x, columns) {
 }
 
 #' @export
-tf_simple_input_fn <-  function(x, response, features, feature_as_named_list = TRUE) {
+tf_simple_input_fn <-  function(x, response, features, feature_as_named_list = TRUE, id_column = NULL) {
+  if (!is.null(id_column) && is.character(id_column)) {
+      x[id_column] <- 1:nrow(x)
+      features <- c(features, "id_column")
+      # TODO: Support custom id_column function
+  } else {
+      stop("id_column must be character.")
+  }
   force(list(x, response, features))
   function(newdata = NULL) {
     if (!is.null(newdata))
@@ -75,6 +82,54 @@ simple_custom_model_recipe.formula <- function(x, data, model_fn, ...) {
   parsed <- parse_formula(x)
   simple_custom_model_recipe(data, parsed$response, parsed$features, model_fn)
 }
+
+#' @family recipes
+#' @export
+svm_recipe <- function(feature_columns,
+                       input_fn,
+                       example_id_column,
+                       weight_column_name = NULL,
+                       ...)
+{
+  object <- list(
+    feature_columns = feature_columns,
+    input_fn = input_fn,
+    example_id_column = example_id_column,
+    weight_column_name = weight_column_name,
+    ...
+  )
+
+  class(object) <- "svm_recipe"
+  object
+}
+
+#' @family recipes
+#' @export
+simple_svm_recipe <- function(x, ...) {
+  UseMethod("simple_svm_recipe")
+}
+
+#' @family recipes
+#' @export
+simple_svm_recipe.default <- function(x,
+                                      response,
+                                      features,
+                                      ...)
+{
+  feature_columns <- function() {
+    tf_auto_inferred_columns(x, features)
+  }
+
+  input_fn <- tf_simple_input_fn(x, response, features, id_column = "id_column")
+  svm_recipe(feature_columns, input_fn, example_id_column = "id_column", weight_column_name = NULL)
+}
+
+#' @export
+simple_svm_recipe.formula <- function(x, data, ...) {
+  parsed <- parse_formula(x)
+  simple_svm_recipe(data, parsed$response, parsed$features)
+}
+
 
 #' Construct a tflearn Recipe
 #'
