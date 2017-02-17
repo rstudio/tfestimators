@@ -20,7 +20,7 @@ svm_classification <- function(recipe,
   feature_columns <- resolve_fn(recipe$feature_columns)
   
   # construct estimator accepting those columns
-  lr <- learn$SVM(
+  svm_clf <- learn$SVM(
     feature_columns = feature_columns,
     example_id_column = recipe$example_id_column,
     weight_column_name = recipe$weight_column_name,
@@ -29,8 +29,8 @@ svm_classification <- function(recipe,
   )
   
   tf_model(
-    "linear_regression",
-    estimator = lr,
+    "svm_classification",
+    estimator = svm_clf,
     recipe = recipe
   )
   
