@@ -25,8 +25,16 @@ test_that("Experiment works", {
     continuous_eval_throttle_secs = 60L
   )
   
-  exp_fn <- function() {exp$experiment}
-  # TODO: Work on learn runner after upgrade to 1.0
+  exp_fn <- function(output_dir) {exp$experiment}
+  learn_runner <- learn$python$learn$learn_runner
+  tmp_dir <- tempfile()
+  dir.create(tmp_dir)
+  result <- learn_runner$run(
+    experiment_fn = exp_fn,
+    output_dir = tmp_dir,
+    schedule = "local_run"
+  )
+  expect_gt(length(result[[1]]), 1)
   
   experiment_result <- train_and_evaluate(exp)
   expect_gt(length(experiment_result[[1]]), 1)
