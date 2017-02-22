@@ -9,12 +9,27 @@ is.tf_custom_model <- function(object) {
 }
 
 #' @export
-custom_model_return_fn <- function(logits, loss, train_op, mode = "train") {
+custom_model_classification_return_fn <- function(logits,
+                                                  loss,
+                                                  train_op,
+                                                  mode = "train") {
   learn$ModelFnOps(
     mode = mode,
     predictions = list(
       class = tf$argmax(logits, 1L),
       prob = tf$nn$softmax(logits)),
+    loss = loss,
+    train_op = train_op)
+}
+
+#' @export
+custom_model_regression_return_fn <- function(predictions,
+                                              loss,
+                                              train_op,
+                                              mode = "train") {
+  learn$ModelFnOps(
+    mode = mode,
+    predictions = predictions,
     loss = loss,
     train_op = train_op)
 }
@@ -49,16 +64,22 @@ predict.tf_custom_model <- function(object,
   est <- object$estimator
   input_fn <- prepare_predict_input_fn(object, newdata, object$recipe$input_fn)
   predictions <- est$predict(input_fn = input_fn, ...) %>% iterate
-  if (type == "raw") {
-    unlist(lapply(predictions, function(prediction){
-      prediction$class
-    }))
-  } else if (type == "prob") {
-    unlist(lapply(predictions, function(prediction){
-      prediction$prob
-    }))
+  if (length(names(prediction)) == 1) {
+    # regression
+    return(predictions)
   } else {
-    stop(paste0("This type is not supported: ", as.character(type)))
+    # classification
+    if (type == "raw") {
+      unlist(lapply(predictions, function(prediction){
+        prediction$class
+      }))
+    } else if (type == "prob") {
+      unlist(lapply(predictions, function(prediction){
+        prediction$prob
+      }))
+    } else {
+      stop(paste0("This type is not supported: ", as.character(type)))
+    }
   }
 }
 

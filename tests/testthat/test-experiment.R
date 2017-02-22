@@ -39,9 +39,6 @@ test_that("Experiment works", {
   experiment_result <- train_and_evaluate(exp)
   expect_gt(length(experiment_result[[1]]), 1)
 
-  exp$experiment
-
-
   # Edge cases
   expect_error(exp <- setup_experiment(
     clf$estimator,
