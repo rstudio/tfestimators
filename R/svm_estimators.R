@@ -10,7 +10,7 @@
 #' @examples
 #' recipe <- simple_linear_recipe(mpg ~ drat, data = mtcars)
 #' svm_classifier(recipe = recipe)
-svm_classification <- function(recipe,
+svm_classifier <- function(recipe,
                                run_options = NULL,
                                ...)
 {
@@ -29,7 +29,7 @@ svm_classification <- function(recipe,
   )
   
   tf_model(
-    "svm_classification",
+    "svm_classifier",
     estimator = svm_clf,
     recipe = recipe
   )

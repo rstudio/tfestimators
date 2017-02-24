@@ -9,8 +9,8 @@
 #' @export
 #' @examples
 #' recipe <- simple_linear_dnn_combined_recipe(mtcars, response = "mpg", linear_features = c("cyl"), dnn_features = c("drat"))
-#' linear_dnn_combined_regression(recipe = recipe, dnn_hidden_units = c(10L, 10L, 10L))
-linear_dnn_combined_regression <- function(
+#' linear_dnn_combined_regressor(recipe = recipe, dnn_hidden_units = c(10L, 10L, 10L))
+linear_dnn_combined_regressor <- function(
   recipe,
   run_options = NULL,
   ...)
@@ -30,7 +30,7 @@ linear_dnn_combined_regression <- function(
   )
 
   tf_model(
-    "linear_dnn_combined_regression",
+    "linear_dnn_combined_regressor",
     estimator = lm_dnn_r,
     recipe = recipe
   )
@@ -47,8 +47,8 @@ linear_dnn_combined_regression <- function(
 #' @export
 #' @examples
 #' recipe <- simple_linear_dnn_combined_recipe(mtcars, response = "mpg", linear_features = c("cyl"), dnn_features = c("drat"))
-#' linear_dnn_combined_classification(recipe = recipe, dnn_hidden_units = c(10L, 10L, 10L))
-linear_dnn_combined_classification <- function(
+#' linear_dnn_combined_classifier(recipe = recipe, dnn_hidden_units = c(10L, 10L, 10L))
+linear_dnn_combined_classifier <- function(
   recipe,
   run_options = NULL,
   ...)
@@ -72,7 +72,7 @@ linear_dnn_combined_classification <- function(
   )
 
   tf_model(
-    "linear_dnn_combined_classification",
+    "linear_dnn_combined_classifier",
     estimator = lm_dnn_c,
     recipe = recipe
   )

@@ -11,7 +11,7 @@ test_that("linear_dnn_combined_regression() runs successfully", {
     )
   
   reg <-
-    linear_dnn_combined_regression(
+    linear_dnn_combined_regressor(
       recipe = recipe,
       dnn_hidden_units = c(1L, 1L),
       dnn_optimizer = "Adagrad"
@@ -36,7 +36,7 @@ test_that("linear_dnn_combined_classification() runs successfully", {
     )
   
   clf <-
-    linear_dnn_combined_classification(
+    linear_dnn_combined_classifier(
       recipe = recipe,
       dnn_hidden_units = c(3L, 3L),
       dnn_optimizer = "Adagrad"

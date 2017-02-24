@@ -26,7 +26,7 @@ test_that("predict() works on a custom model", {
       optimizer = 'Adagrad',
       learning_rate = 0.1)
 
-    return(custom_model_classification_return_fn(logits, loss, train_op))
+    return(custom_model_classifier_return_fn(logits, loss, train_op))
   }
 
   iris_input_fn <- function() {

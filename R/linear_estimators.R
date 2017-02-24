@@ -9,8 +9,8 @@
 #' @export
 #' @examples
 #' recipe <- simple_linear_recipe(mpg ~ drat, data = mtcars)
-#' linear_regression(recipe = recipe)
-linear_regression <- function(recipe,
+#' linear_regressor(recipe = recipe)
+linear_regressor <- function(recipe,
                               run_options = NULL,
                               ...)
 {
@@ -28,7 +28,7 @@ linear_regression <- function(recipe,
   )
 
   tf_model(
-    "linear_regression",
+    "linear_regressor",
     estimator = lr,
     recipe = recipe
   )
@@ -47,7 +47,7 @@ linear_regression <- function(recipe,
 #' @examples
 #' recipe <- simple_linear_recipe(mpg ~ drat, data = mtcars)
 #' linear_classification(recipe = recipe)
-linear_classification <- function(recipe,
+linear_classifier <- function(recipe,
                                   run_options = NULL,
                                   ...)
 {
@@ -66,7 +66,7 @@ linear_classification <- function(recipe,
   )
 
   tf_model(
-    "linear_classification",
+    "linear_classifier",
     estimator = lc,
     recipe = recipe
   )

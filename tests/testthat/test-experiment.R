@@ -10,7 +10,7 @@ test_that("Experiment works", {
       dnn_features = c("drat")
     )
 
-  clf <- linear_dnn_combined_classification(
+  clf <- linear_dnn_combined_classifier(
     recipe = recipe,
     dnn_hidden_units = c(1L, 1L),
     dnn_optimizer = "Adagrad"

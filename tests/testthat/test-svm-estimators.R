@@ -12,7 +12,7 @@ test_that("svm_classification() runs successfully", {
     )
 
   # clf <-
-  #   svm_classification(
+  #   svm_classifier(
   #     recipe = recipe
   #   ) %>% fit()
 

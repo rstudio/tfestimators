@@ -9,7 +9,7 @@ is.tf_custom_model <- function(object) {
 }
 
 #' @export
-custom_model_classification_return_fn <- function(logits,
+custom_model_classifier_return_fn <- function(logits,
                                                   loss,
                                                   train_op,
                                                   mode = "train") {
@@ -23,7 +23,7 @@ custom_model_classification_return_fn <- function(logits,
 }
 
 #' @export
-custom_model_regression_return_fn <- function(predictions,
+custom_model_regressor_return_fn <- function(predictions,
                                               loss,
                                               train_op,
                                               mode = "train") {

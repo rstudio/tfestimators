@@ -15,7 +15,7 @@ test_that("Hooks works with linear dnn combined estimators", {
   logging_hook <- tf$python$training$basic_session_run_hooks$LoggingTensorHook
   
   output <- reticulate:::py_capture_output(
-    linear_dnn_combined_regression(
+    linear_dnn_combined_regressor(
       recipe = recipe,
       dnn_hidden_units = c(1L, 1L),
       dnn_optimizer = "Adagrad"

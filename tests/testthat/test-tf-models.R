@@ -11,7 +11,7 @@ test_that("predict() can accept new input_fn() and newdata or use the existing i
     )
   
   reg <-
-    linear_dnn_combined_regression(
+    linear_dnn_combined_regressor(
       recipe = recipe,
       dnn_hidden_units = c(1L, 1L),
       dnn_optimizer = "Adagrad"
@@ -38,7 +38,7 @@ test_that("predict() produces probabilities of predictions for classification pr
     )
   
   clf <-
-    linear_dnn_combined_classification(
+    linear_dnn_combined_classifier(
       recipe = recipe,
       dnn_hidden_units = c(1L, 1L),
       dnn_optimizer = "Adagrad"
@@ -57,7 +57,7 @@ test_that("predict() produces probabilities of predictions for classification pr
     )
   
   reg <-
-    linear_dnn_combined_regression(
+    linear_dnn_combined_regressor(
       recipe = recipe,
       dnn_hidden_units = c(1L, 1L),
       dnn_optimizer = "Adagrad"
