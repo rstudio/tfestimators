@@ -41,7 +41,7 @@ predict.tf_model <- function(object,
     predictions <- est$predict(input_fn = prepared_input_fn, ...)
   } else if (type == "prob") {
     # this only works for classification problems
-    if (length(grep("classification", class(object))) == 0) {
+    if (length(grep("classifier", class(object))) == 0) {
       stop("type = prob only works for classification problems")
     }
     predictions <- est$predict_proba(input_fn = prepared_input_fn, ...)
