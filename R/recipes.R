@@ -5,11 +5,11 @@ tf_auto_inferred_columns <- function(x, columns) {
   lapply(columns, function(column) {
     v <- x[[column]]
     if (is.numeric(v)) {
-      layers$real_valued_column(column)
+      column_real_valued(column)
     } else if (is.factor(v)) {
-      layers$sparse_column_with_keys(column, keys = levels(v))
+      column_with_keys(column, keys = levels(v))
     } else if (is.character(v)) {
-      layers$sparse_column_with_hash_bucket(column)
+      column_with_hash_bucket(column)
     }
   })
 }
