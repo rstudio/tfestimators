@@ -13,9 +13,9 @@ is.estimator <- function(object) {
            "tensorflow.contrib.learn.python.learn.estimators.estimator.Estimator")
 }
 
-prepare_predict_input_fn <- function(object,
-                                     newdata = NULL,
-                                     input_fn = NULL) {
+prepare_input_fn <- function(object,
+                             newdata = NULL,
+                             input_fn = NULL) {
   est <- object$estimator
   default_input_fn <- object$recipe$input_fn
   if (is.null(input_fn) && is.null(newdata)) {
@@ -36,7 +36,7 @@ predict.tf_model <- function(object,
                              ...)
 {
   est <- object$estimator
-  prepared_input_fn <- prepare_predict_input_fn(object, newdata, input_fn)
+  prepared_input_fn <- prepare_input_fn(object, newdata, input_fn)
   if (type == "raw") {
     predictions <- est$predict(input_fn = prepared_input_fn, ...)
   } else if (type == "prob") {
@@ -57,12 +57,13 @@ fit <- function(object, ...) {
 }
 
 #' @export
-fit.tf_model <- function(object, steps = 2L, monitors = NULL, ...)
+fit.tf_model <- function(object, data = NULL, input_fn = NULL, steps = 2L, monitors = NULL, ...)
 {
   if (!is.null(monitors))
     monitors <- list(monitors)
+  suppressWarnings(prepared_input_fn <- prepare_input_fn(object, data, input_fn))
   object$estimator$fit(
-    input_fn = object$recipe$input_fn,
+    input_fn = prepared_input_fn,
     steps = steps,
     monitors = monitors,
     ...)

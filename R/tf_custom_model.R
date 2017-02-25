@@ -62,7 +62,7 @@ predict.tf_custom_model <- function(object,
                                     type = "raw",
                                     ...) {
   est <- object$estimator
-  input_fn <- prepare_predict_input_fn(object, newdata, object$recipe$input_fn)
+  input_fn <- prepare_input_fn(object, newdata, object$recipe$input_fn)
   predictions <- est$predict(input_fn = input_fn, ...) %>% iterate
   if (length(names(predictions)) == 1) {
     # regression
