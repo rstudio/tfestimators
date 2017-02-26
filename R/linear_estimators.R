@@ -28,7 +28,7 @@ linear_regressor <- function(recipe,
   )
 
   tf_model(
-    "linear_regressor",
+    c("linear", "regressor"),
     estimator = lr,
     recipe = recipe
   )
@@ -66,7 +66,7 @@ linear_classifier <- function(recipe,
   )
 
   tf_model(
-    "linear_classifier",
+    c("linear", "classifier"),
     estimator = lc,
     recipe = recipe
   )

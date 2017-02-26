@@ -29,7 +29,7 @@ svm_classifier <- function(recipe,
   )
   
   tf_model(
-    "svm_classifier",
+    c("svm", "classifier"),
     estimator = svm_clf,
     recipe = recipe
   )

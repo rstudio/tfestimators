@@ -1,6 +1,6 @@
-tf_model <- function(name, ...) {
+tf_model <- function(names, ...) {
   object <- list(...)
-  class(object) <- c("tf_model", sprintf("tf_model_%s", name))
+  class(object) <- c("tf_model", names)
   object
 }
 
@@ -8,9 +8,8 @@ is.tf_model <- function(object) {
   inherits(object, "tf_model")
 }
 
-is.estimator <- function(object) {
-  inherits(object,
-           "tensorflow.contrib.learn.python.learn.estimators.estimator.Estimator")
+is.classifier <- function(object) {
+  inherits(object, "classifier")
 }
 
 prepare_input_fn <- function(object,
@@ -41,7 +40,7 @@ predict.tf_model <- function(object,
     predictions <- est$predict(input_fn = prepared_input_fn, ...)
   } else if (type == "prob") {
     # this only works for classification problems
-    if (length(grep("classifier", class(object))) == 0) {
+    if (!is.classifier(object)) {
       stop("type = prob only works for classification problems")
     }
     predictions <- est$predict_proba(input_fn = prepared_input_fn, ...)

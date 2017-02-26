@@ -30,7 +30,7 @@ linear_dnn_combined_regressor <- function(
   )
 
   tf_model(
-    "linear_dnn_combined_regressor",
+    c("linear_dnn_combined", "regressor"),
     estimator = lm_dnn_r,
     recipe = recipe
   )
@@ -72,7 +72,7 @@ linear_dnn_combined_classifier <- function(
   )
 
   tf_model(
-    "linear_dnn_combined_classifier",
+    c("linear_dnn_combined", "classifier"),
     estimator = lm_dnn_c,
     recipe = recipe
   )
