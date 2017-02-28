@@ -15,10 +15,10 @@ svm_classifier <- function(recipe,
                                ...)
 {
   run_options <- run_options %||% run_options()
-  
+
   # extract feature columns
   feature_columns <- resolve_fn(recipe$feature_columns)
-  
+
   # construct estimator accepting those columns
   svm_clf <- learn$SVM(
     feature_columns = feature_columns,
@@ -27,11 +27,11 @@ svm_classifier <- function(recipe,
     model_dir = recipe$model_dir %||% run_options$model_dir,
     config = run_options$run_config
   )
-  
+
   tf_model(
     c("svm", "classifier"),
     estimator = svm_clf,
     recipe = recipe
   )
-  
+
 }
