@@ -2,24 +2,27 @@ context("Testing experiment")
 
 test_that("Experiment works", {
   
-  recipe <-
-    simple_linear_dnn_combined_recipe(
-      mtcars,
-      response = "mpg",
-      linear_features = c("cyl"),
-      dnn_features = c("drat")
-    )
-
-  clf <- linear_dnn_combined_classifier(
-    recipe = recipe,
-    dnn_hidden_units = c(1L, 1L),
-    dnn_optimizer = "Adagrad"
-  )
+  mtcars$vs <- as.factor(mtcars$vs)
+  dnn_feature_columns <- function() {
+    construct_feature_columns(mtcars, "drat")
+  }
+  linear_feature_columns <- function() {
+    construct_feature_columns(mtcars, "cyl")
+  }
+  constructed_input_fn <- construct_input_fn(mtcars, response = "vs", features = c("drat", "cyl"))
+  
+  clf <-
+    linear_dnn_combined_classifier(
+      linear_feature_columns = linear_feature_columns,
+      dnn_feature_columns = dnn_feature_columns,
+      dnn_hidden_units = c(3L, 3L),
+      dnn_optimizer = "Adagrad"
+    ) %>% fit(input_fn = constructed_input_fn)
 
   exp <- setup_experiment(
     clf,
-    train_data = mtcars,
-    eval_data = mtcars,
+    train_input_fn = constructed_input_fn,
+    eval_input_fn = constructed_input_fn,
     train_steps = 3L,
     eval_steps = 3L,
     continuous_eval_throttle_secs = 60L
@@ -50,7 +53,7 @@ test_that("Experiment works", {
 
   expect_error(exp <- setup_experiment(
     clf,
-    train_input_fn = clf$recipe$input_fn,
+    train_input_fn = constructed_input_fn,
     eval_data = mtcars,
     train_steps = 3L,
     eval_steps = 3L,

@@ -4,15 +4,16 @@
 \alias{linear_dnn_combined_classifier}
 \title{TensorFlow -- Linear DNN Combined Classification}
 \usage{
-linear_dnn_combined_classifier(recipe, run_options = NULL, ...)
+linear_dnn_combined_classifier(linear_feature_columns, dnn_feature_columns,
+  run_options = NULL, ...)
 }
 \arguments{
-\item{recipe}{A recipe. TODO: fill in the blanks.}
-
 \item{run_options}{Optional tools used for lower-level tuning of the TensorFlow
 model fitting process. See \code{\link{run_options}} for more information.}
 
 \item{...}{Optional arguments; currently unused.}
+
+\item{recipe}{A recipe. TODO: fill in the blanks.}
 }
 \description{
 Perform Linear DNN Combined Classification using TensorFlow.

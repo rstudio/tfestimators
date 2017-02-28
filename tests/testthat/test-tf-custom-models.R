@@ -35,10 +35,8 @@ test_that("predict() works on a custom model", {
     return(list(features, labels))
   }
 
-  # Custom interface
-  recipe <- custom_model_recipe(model_fn = custom_model_fn, input_fn = iris_input_fn)
 
-  classifier <- create_custom_estimator(recipe) %>% fit()
+  classifier <- create_custom_estimator(model_fn = custom_model_fn) %>% fit(input_fn = iris_input_fn)
   predictions <- predict(classifier, input_fn = iris_input_fn, type = "raw")
   expect_equal(length(predictions), 150)
   expect_equal(max(predictions), 2)
@@ -50,7 +48,7 @@ test_that("predict() works on a custom model", {
   expect_gte(min(predictions), 0)
 
   # Simple non-formula interface
-  simple_recipe <- simple_custom_model_recipe(
+  custructed_input_fn <- construct_input_fn(
     x = iris,
     response = "Species",
     features = c(
@@ -58,26 +56,15 @@ test_that("predict() works on a custom model", {
       "Sepal.Width",
       "Petal.Length",
       "Petal.Width"),
-    model_fn = custom_model_fn)
+    feature_as_named_list = FALSE
+  )
 
-  classifier <- create_custom_estimator(simple_recipe) %>% fit()
-  predictions <- predict(classifier, newdata = iris, type = "prob")
+  classifier <- create_custom_estimator(model_fn = custom_model_fn) %>% 
+    fit(input_fn = custructed_input_fn)
+  predictions <- predict(classifier, input_fn = custructed_input_fn, type = "prob")
   expect_equal(length(predictions), 150 * length(unique(iris$Species)))
   expect_lte(max(predictions), 1)
   expect_gte(min(predictions), 0)
-  
-  # Formula interface
-  formula_recipe <- simple_custom_model_recipe(
-    Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width,
-    data = iris,
-    model_fn = custom_model_fn)
-  
-  classifier <- create_custom_estimator(simple_recipe) %>% fit()
-  predictions <- predict(classifier, newdata = iris, type = "prob")
-  expect_equal(length(predictions), 150 * length(unique(iris$Species)))
-  expect_lte(max(predictions), 1)
-  expect_gte(min(predictions), 0)
-
   # coef s3 method
   expect_gt(length(coef(classifier)), 1)
 })

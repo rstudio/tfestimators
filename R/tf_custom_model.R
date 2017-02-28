@@ -35,34 +35,32 @@ custom_model_regressor_return_fn <- function(predictions,
 }
 
 #' @export
-create_custom_estimator <- function(recipe,
+create_custom_estimator <- function(model_fn,
                                     run_options = NULL,
                                     ...)
 {
   run_options <- run_options %||% run_options()
 
   est <- learn$Estimator(
-    model_fn = recipe$model_fn,
+    model_fn = model_fn,
     model_dir = run_options$model_dir,
     config = run_options$run_config,
     ...
   )
-  tf_custom_model(estimator = est, recipe = recipe)
+  tf_custom_model(estimator = est, model_fn = model_fn)
 }
 
 #' @export
-fit.tf_custom_model <- function(object, ...) {
-  fit.tf_model(object, ...)
+fit.tf_custom_model <- function(object, input_fn, ...) {
+  fit.tf_model(object, input_fn = input_fn, ...)
 }
 
 #' @export
 predict.tf_custom_model <- function(object,
-                                    newdata = NULL,
                                     input_fn = NULL,
                                     type = "raw",
                                     ...) {
   est <- object$estimator
-  input_fn <- prepare_input_fn(object, newdata, object$recipe$input_fn)
   predictions <- est$predict(input_fn = input_fn, ...) %>% iterate
   if (length(names(predictions)) == 1) {
     # regression

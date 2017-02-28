@@ -4,20 +4,16 @@
 \alias{linear_regressor}
 \title{TensorFlow -- Linear Regression}
 \usage{
-linear_regressor(recipe, run_options = NULL, ...)
+linear_regressor(feature_columns, run_options = NULL, ...)
 }
 \arguments{
-\item{recipe}{A recipe. TODO: fill in the blanks.}
-
 \item{run_options}{Optional tools used for lower-level tuning of the TensorFlow
 model fitting process. See \code{\link{run_options}} for more information.}
 
 \item{...}{Optional arguments; currently unused.}
+
+\item{recipe}{A recipe. TODO: fill in the blanks.}
 }
 \description{
 Perform linear regression using TensorFlow.
-}
-\examples{
-recipe <- simple_linear_recipe(mpg ~ drat, data = mtcars)
-linear_regressor(recipe = recipe)
 }

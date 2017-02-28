@@ -7,30 +7,26 @@
 #' @template roxlate-tf-dots
 #'
 #' @export
-#' @examples
-#' recipe <- simple_linear_recipe(mpg ~ drat, data = mtcars)
-#' linear_regressor(recipe = recipe)
-linear_regressor <- function(recipe,
-                              run_options = NULL,
+linear_regressor <- function(feature_columns,
+                             run_options = NULL,
                               ...)
 {
   run_options <- run_options %||% run_options()
   
   # extract feature columns
-  feature_columns <- resolve_fn(recipe$feature_columns)
+  feature_columns <- resolve_fn(feature_columns)
 
   # construct estimator accepting those columns
   lr <- learn$LinearRegressor(
     feature_columns = feature_columns,
-    model_dir = recipe$model_dir %||% run_options$model_dir,
+    model_dir = run_options$model_dir,
     config = run_options$run_config,
     ...
   )
 
   tf_model(
     c("linear", "regressor"),
-    estimator = lr,
-    recipe = recipe
+    estimator = lr
   )
 
 }
@@ -44,22 +40,20 @@ linear_regressor <- function(recipe,
 #' @template roxlate-tf-dots
 #'
 #' @export
-#' @examples
-#' recipe <- simple_linear_recipe(mpg ~ drat, data = mtcars)
-#' linear_classification(recipe = recipe)
-linear_classifier <- function(recipe,
-                                  run_options = NULL,
-                                  ...)
+linear_classifier <- function(feature_columns,
+                              n_classes = 2L,
+                              run_options = NULL,
+                              ...)
 {
   run_options <- run_options %||% run_options()
   
   # extract feature columns
-  feature_columns <- resolve_fn(recipe$feature_columns)
+  feature_columns <- resolve_fn(feature_columns)
 
   # construct estimator accepting those columns
   lc <- learn$LinearClassifier(
     feature_columns = feature_columns,
-    n_classes = recipe$n.classes %||% 2L,
+    n_classes = n_classes,
     model_dir = run_options$model_dir,
     config = run_options$run_config,
     ...
@@ -67,8 +61,7 @@ linear_classifier <- function(recipe,
 
   tf_model(
     c("linear", "classifier"),
-    estimator = lc,
-    recipe = recipe
+    estimator = lc
   )
 }
 

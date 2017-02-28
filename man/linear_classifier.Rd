@@ -4,20 +4,16 @@
 \alias{linear_classifier}
 \title{TensorFlow -- Linear Classification}
 \usage{
-linear_classifier(recipe, run_options = NULL, ...)
+linear_classifier(feature_columns, n_classes = 2L, run_options = NULL, ...)
 }
 \arguments{
-\item{recipe}{A recipe. TODO: fill in the blanks.}
-
 \item{run_options}{Optional tools used for lower-level tuning of the TensorFlow
 model fitting process. See \code{\link{run_options}} for more information.}
 
 \item{...}{Optional arguments; currently unused.}
+
+\item{recipe}{A recipe. TODO: fill in the blanks.}
 }
 \description{
 Perform linear classification using TensorFlow.
-}
-\examples{
-recipe <- simple_linear_recipe(mpg ~ drat, data = mtcars)
-linear_classification(recipe = recipe)
 }
