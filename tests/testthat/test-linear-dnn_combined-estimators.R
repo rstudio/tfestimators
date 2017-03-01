@@ -1,6 +1,6 @@
 context("Testing linear dnn combined estimators")
 
-test_that("linear_dnn_combined_regressor() runs successfully", {
+test_that("linear_dnn_combined_regression() runs successfully", {
   
   dnn_feature_columns <- function() {
     construct_feature_columns(mtcars, "drat")
@@ -24,7 +24,7 @@ test_that("linear_dnn_combined_regressor() runs successfully", {
   expect_equal(length(predictions), 32)
 })
 
-test_that("linear_dnn_combined_classifier() runs successfully", {
+test_that("linear_dnn_combined_classification() runs successfully", {
   
   mtcars$vs <- as.factor(mtcars$vs)
   dnn_feature_columns <- function() {

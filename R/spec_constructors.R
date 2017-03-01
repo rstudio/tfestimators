@@ -1,9 +1,10 @@
 #' Construct column placeholders from vectors in an R object
 #' @export
 construct_feature_columns <- function(x, columns) {
+  # TODO: Use resolve_fn here
   # TODO: Check for existence for column - avoid obscure error messages
   layers <- tf$contrib$layers
-  resolve_fn(lapply(columns, function(column) {
+  lapply(columns, function(column) {
     v <- x[[column]]
     if (is.numeric(v)) {
       column_real_valued(column)
@@ -12,7 +13,7 @@ construct_feature_columns <- function(x, columns) {
     } else if (is.character(v)) {
       column_with_hash_bucket(column)
     }
-  }))
+  })
 }
 
 #' @export

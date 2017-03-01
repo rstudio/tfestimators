@@ -4,16 +4,15 @@
 \alias{svm_classifier}
 \title{TensorFlow -- Support Vector Machines}
 \usage{
-svm_classifier(feature_columns, example_id_column, weight_column_name,
-  run_options = NULL, ...)
+svm_classifier(recipe, run_options = NULL, ...)
 }
 \arguments{
+\item{recipe}{A recipe. TODO: fill in the blanks.}
+
 \item{run_options}{Optional tools used for lower-level tuning of the TensorFlow
 model fitting process. See \code{\link{run_options}} for more information.}
 
 \item{...}{Optional arguments; currently unused.}
-
-\item{recipe}{A recipe. TODO: fill in the blanks.}
 }
 \description{
 Perform Support Vector Machines for binary classification using TensorFlow.

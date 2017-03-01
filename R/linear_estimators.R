@@ -12,6 +12,9 @@ linear_regressor <- function(feature_columns,
                               ...)
 {
   run_options <- run_options %||% run_options()
+  
+  # extract feature columns
+  feature_columns <- resolve_fn(feature_columns)
 
   # construct estimator accepting those columns
   lr <- learn$LinearRegressor(
@@ -43,6 +46,9 @@ linear_classifier <- function(feature_columns,
                               ...)
 {
   run_options <- run_options %||% run_options()
+  
+  # extract feature columns
+  feature_columns <- resolve_fn(feature_columns)
 
   # construct estimator accepting those columns
   lc <- learn$LinearClassifier(
