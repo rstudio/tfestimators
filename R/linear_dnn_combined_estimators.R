@@ -7,9 +7,6 @@
 #' @template roxlate-tf-dots
 #'
 #' @export
-#' @examples
-#' recipe <- simple_linear_dnn_combined_recipe(mtcars, response = "mpg", linear_features = c("cyl"), dnn_features = c("drat"))
-#' linear_dnn_combined_regressor(recipe = recipe, dnn_hidden_units = c(10L, 10L, 10L))
 linear_dnn_combined_regressor <- function(
   linear_feature_columns,
   dnn_feature_columns,
@@ -45,9 +42,6 @@ linear_dnn_combined_regressor <- function(
 #' @template roxlate-tf-dots
 #'
 #' @export
-#' @examples
-#' recipe <- simple_linear_dnn_combined_recipe(mtcars, response = "mpg", linear_features = c("cyl"), dnn_features = c("drat"))
-#' linear_dnn_combined_classifier(recipe = recipe, dnn_hidden_units = c(10L, 10L, 10L))
 linear_dnn_combined_classifier <- function(
   linear_feature_columns,
   dnn_feature_columns,

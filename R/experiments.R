@@ -6,13 +6,13 @@ tf_experiment <- function(name, ...) {
 }
 
 #' @export
-setup_experiment <- function(x, ...) {
-  UseMethod("setup_experiment")
+experiment <- function(x, ...) {
+  UseMethod("experiment")
 }
 
 #' @export
-setup_experiment.tf_custom_model <- function(object, ...) {
-  setup_experiment.tf_model(object, ...)
+experiment.tf_custom_model <- function(object, ...) {
+  experiment.tf_model(object, ...)
 }
 
 #' @export
@@ -46,12 +46,12 @@ train.tf_experiment <- function(object, delay_secs = NULL) {
 }
 
 #' @export
-setup_experiment.tf_model <- function(object,
-                                      train_input_fn,
-                                      eval_input_fn,
-                                      train_steps = 2L,
-                                      eval_steps = 2L,
-                                      ...) {
+experiment.tf_model <- function(object,
+                                train_input_fn,
+                                eval_input_fn,
+                                train_steps = 2L,
+                                eval_steps = 2L,
+                                ...) {
   
   exp <- tf$contrib$learn$Experiment(
     estimator = object$estimator,

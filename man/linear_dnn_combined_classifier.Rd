@@ -18,7 +18,3 @@ model fitting process. See \code{\link{run_options}} for more information.}
 \description{
 Perform Linear DNN Combined Classification using TensorFlow.
 }
-\examples{
-recipe <- simple_linear_dnn_combined_recipe(mtcars, response = "mpg", linear_features = c("cyl"), dnn_features = c("drat"))
-linear_dnn_combined_classifier(recipe = recipe, dnn_hidden_units = c(10L, 10L, 10L))
-}
