@@ -1,3 +1,12 @@
+ensure_valid_column_names <- function(x, columns) {
+  existed_cols <- colnames(x)
+  invalid_columns <- ! columns %in% existed_cols
+  if (any(invalid_columns)) {
+    stop(paste0("The following columns are not in the dataset: ",
+                paste(columns[invalid_columns], collapse = ",")))
+  }
+}
+
 ensure_not_na <- function(object) {
   if (any(is.na(object))) {
     stopf(
