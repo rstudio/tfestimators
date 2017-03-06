@@ -1,5 +1,3 @@
-contrib_layers <- tf$contrib$layers
-
 #' @export
 column_with_keys <- function(...) {
   contrib_layers$sparse_column_with_keys(...)

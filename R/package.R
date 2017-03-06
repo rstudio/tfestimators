@@ -29,36 +29,23 @@ NULL
 #'
 #' @export
 learn <- NULL
+contrib_layers <- NULL
+feature_column_lib <- NULL
 
 .onLoad <- function(libname, pkgname) {
-  learn <<- tf$contrib$learn
-  setup_shortcuts()
-  learn
+  learn <<- import("tensorflow.contrib.learn", delay_load = TRUE)
+  contrib_layers <<- import("tensorflow.contrib.layers", delay_load = TRUE)
+  feature_column_lib <<- import("tensorflow.contrib.layers.python.layers.feature_column", delay_load = TRUE)
 }
 
 .onUnload <- function(libpath) {
-  # TODO
+
 }
 
 .onAttach <- function(libname, pkgname) {
-  # clean out any previous shortcuts -- done with a callback to
-  # ensure that any shortcut environments restored by front-ends
-  # (e.g. RStudio) are cleaned out after initialization
-  cleanup <- function(...) {
-    while ("tflearn:shortcuts" %in% search())
-      detach("tflearn:shortcuts")
-    FALSE
-  }
-  
-  if (!is.na(Sys.getenv("RSTUDIO", unset = NA)))
-    addTaskCallback(cleanup)
-  else
-    cleanup()
-  
-  do.call("attach", list(.shortcuts, name = "tflearn:shortcuts"))
+
 }
 
 .onDetach <- function(libpath) {
-  while ("tflearn:shortcuts" %in% search())
-    detach("tflearn:shortcuts")
+
 }

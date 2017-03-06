@@ -10,7 +10,6 @@ assert_valid_column_names <- function(x, columns) {
 #' Construct column placeholders from vectors in an R object
 #' @export
 construct_feature_columns <- function(x, columns) {
-  layers <- tf$contrib$layers
   assert_valid_column_names(x, columns)
   lapply(columns, function(column) {
     v <- x[[column]]
