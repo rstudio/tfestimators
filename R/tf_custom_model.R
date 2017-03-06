@@ -9,10 +9,10 @@ is.tf_custom_model <- function(object) {
 }
 
 #' @export
-custom_model_classifier_return_fn <- function(logits,
-                                                  loss,
-                                                  train_op,
-                                                  mode = "train") {
+classifier_return_fn <- function(logits,
+                                 loss,
+                                 train_op,
+                                 mode = "train") {
   learn$ModelFnOps(
     mode = mode,
     predictions = list(
@@ -23,10 +23,10 @@ custom_model_classifier_return_fn <- function(logits,
 }
 
 #' @export
-custom_model_regressor_return_fn <- function(predictions,
-                                              loss,
-                                              train_op,
-                                              mode = "train") {
+regressor_return_fn <- function(predictions,
+                                loss,
+                                train_op,
+                                mode = "train") {
   learn$ModelFnOps(
     mode = mode,
     predictions = predictions,
@@ -35,9 +35,9 @@ custom_model_regressor_return_fn <- function(predictions,
 }
 
 #' @export
-create_custom_estimator <- function(model_fn,
-                                    run_options = NULL,
-                                    ...)
+estimator <- function(model_fn,
+                      run_options = NULL,
+                      ...)
 {
   run_options <- run_options %||% run_options()
 

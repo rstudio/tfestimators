@@ -26,7 +26,7 @@ test_that("predict() works on a custom model", {
       optimizer = 'Adagrad',
       learning_rate = 0.1)
 
-    return(custom_model_classifier_return_fn(logits, loss, train_op))
+    return(classifier_return_fn(logits, loss, train_op))
   }
 
   iris_input_fn <- function() {
@@ -36,13 +36,13 @@ test_that("predict() works on a custom model", {
   }
 
 
-  classifier <- create_custom_estimator(model_fn = custom_model_fn) %>% fit(input_fn = iris_input_fn)
-  predictions <- predict(classifier, input_fn = iris_input_fn, type = "raw")
+  estimator <- estimator(model_fn = custom_model_fn) %>% fit(input_fn = iris_input_fn)
+  predictions <- predict(estimator, input_fn = iris_input_fn, type = "raw")
   expect_equal(length(predictions), 150)
   expect_equal(max(predictions), 2)
   expect_equal(min(predictions), 0)
 
-  predictions <- predict(classifier, input_fn = iris_input_fn, type = "prob")
+  predictions <- predict(estimator, input_fn = iris_input_fn, type = "prob")
   expect_equal(length(predictions), 150 * length(unique(iris_data$target)))
   expect_lte(max(predictions), 1)
   expect_gte(min(predictions), 0)
@@ -59,7 +59,7 @@ test_that("predict() works on a custom model", {
     feature_as_named_list = FALSE
   )
 
-  classifier <- create_custom_estimator(model_fn = custom_model_fn) %>% 
+  classifier <- estimator(model_fn = custom_model_fn) %>% 
     fit(input_fn = custructed_input_fn)
   predictions <- predict(classifier, input_fn = custructed_input_fn, type = "prob")
   expect_equal(length(predictions), 150 * length(unique(iris$Species)))
