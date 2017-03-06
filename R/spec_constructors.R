@@ -1,9 +1,17 @@
+assert_valid_column_names <- function(x, columns) {
+  existed_cols <- colnames(x)
+  invalid_columns <- ! columns %in% existed_cols
+  if (any(invalid_columns)) {
+    stop(paste0("The following columns are not in the dataset: ",
+                paste(columns[invalid_columns], collapse = ",")))
+  }
+}
+
 #' Construct column placeholders from vectors in an R object
 #' @export
 construct_feature_columns <- function(x, columns) {
-  # TODO: Use resolve_fn here
-  # TODO: Check for existence for column - avoid obscure error messages
   layers <- tf$contrib$layers
+  assert_valid_column_names(x, columns)
   lapply(columns, function(column) {
     v <- x[[column]]
     if (is.numeric(v)) {
@@ -18,7 +26,9 @@ construct_feature_columns <- function(x, columns) {
 
 #' @export
 construct_input_fn <-  function(x, response, features, feature_as_named_list = TRUE, id_column = NULL) {
-  # TODO: Check for existence for column - avoid obscure error messages
+  assert_valid_column_names(x, features)
+  assert_valid_column_names(x, response)
+  # TODO: Consider removing this part
   if (!is.null(id_column)) {
     x[id_column] <- as.character(1:nrow(x))
     features <- c(features, id_column)
