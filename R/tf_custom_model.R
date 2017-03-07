@@ -9,29 +9,17 @@ is.tf_custom_model <- function(object) {
 }
 
 #' @export
-classifier_return_fn <- function(logits,
-                                 loss,
-                                 train_op,
-                                 mode = "train") {
-  learn$ModelFnOps(
-    mode = mode,
-    predictions = list(
-      class = tf$argmax(logits, 1L),
-      prob = tf$nn$softmax(logits)),
-    loss = loss,
-    train_op = train_op)
-}
-
-#' @export
-regressor_return_fn <- function(predictions,
-                                loss,
-                                train_op,
-                                mode = "train") {
+estimator_spec <- function(predictions,
+                           loss,
+                           train_op,
+                           mode = "train",
+                           ...) {
   learn$ModelFnOps(
     mode = mode,
     predictions = predictions,
     loss = loss,
-    train_op = train_op)
+    train_op = train_op,
+    ...)
 }
 
 #' @export

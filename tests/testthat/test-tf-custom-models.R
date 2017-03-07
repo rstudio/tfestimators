@@ -18,6 +18,9 @@ test_that("predict() works on a custom model", {
       tf$contrib$layers$fully_connected(3L, activation_fn = NULL) # Compute logits (1 per class) and compute loss.
 
     loss <- tf$losses$softmax_cross_entropy(target, logits)
+    predictions <- list(
+      class = tf$argmax(logits, 1L),
+      prob = tf$nn$softmax(logits))
 
     # Create a tensor for training op.
     train_op <- tf$contrib$layers$optimize_loss(
@@ -26,7 +29,7 @@ test_that("predict() works on a custom model", {
       optimizer = 'Adagrad',
       learning_rate = 0.1)
 
-    return(classifier_return_fn(logits, loss, train_op))
+    return(estimator_spec(predictions, loss, train_op))
   }
 
   iris_input_fn <- function() {

@@ -47,11 +47,11 @@ test_that("fit() and predict() works for classifiers", {
   coefs <- coef(clf)
   expect_gt(length(coefs), 0)
   
-  predictions_default <- predict(clf, input_fn = constructed_input_fn)
+  predictions <- predict(clf, input_fn = constructed_input_fn)
   expect_equal(length(predictions), 32)
   # probabilities
   predictions <- predict(clf, input_fn = constructed_input_fn, type = "prob")
-  expect_equal(length(predictions), 32)
+  expect_equal(length(predictions), 64)
   expect_lte(max(predictions), 1)
   expect_gte(min(predictions), 0)
   # other types that is in PredictionKey
