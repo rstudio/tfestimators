@@ -28,12 +28,14 @@ predict.tf_model <- function(object,
       predictions <- est$predict(input_fn = input_fn, outputs = c("classes"), ...)
     } else if (type == "prob") {
       predictions <- est$predict(input_fn = input_fn, outputs = c("probabilities"), ...)
+    } else {
+      predictions <- est$predict(input_fn = input_fn, outputs = c(type), ...)
     }
   } else if (is.regressor(object)) {
     if (type == "raw") {
       predictions <- est$predict(input_fn = input_fn, outputs = c("scores"), ...)
     } else {
-      stop(paste0("This type is not supported: ", type))
+      predictions <- est$predict(input_fn = input_fn, outputs = c(type), ...)
     }
   } else {
     stop("Right now only classifier and regressor are supported")
