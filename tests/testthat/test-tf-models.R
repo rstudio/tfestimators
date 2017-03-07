@@ -19,6 +19,7 @@ test_that("fit() and predict() works for regressors", {
     ) %>% fit(input_fn = constructed_input_fn)
   
   coefs <- coef(reg)
+  expect_gt(length(coefs), 0)
   
   predictions <- predict(reg, input_fn = constructed_input_fn)
   expect_equal(length(predictions), 32)
@@ -44,11 +45,15 @@ test_that("fit() and predict() works for classifiers", {
     ) %>% fit(input_fn = constructed_input_fn)
   
   coefs <- coef(clf)
+  expect_gt(length(coefs), 0)
   
-  predictions <- predict(clf, input_fn = constructed_input_fn)
+  predictions_default <- predict(clf, input_fn = constructed_input_fn)
   expect_equal(length(predictions), 32)
+  # probabilities
   predictions <- predict(clf, input_fn = constructed_input_fn, type = "prob")
   expect_equal(length(predictions), 32)
   expect_lte(max(predictions), 1)
   expect_gte(min(predictions), 0)
+  # other types that is in PredictionKey
+  predictions <- predict(clf, input_fn = constructed_input_fn, type = "logistic")
 })
