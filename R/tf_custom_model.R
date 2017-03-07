@@ -76,7 +76,7 @@ predict.tf_custom_model <- function(object,
         prediction$prob
       }))
     } else {
-      stop(paste0("This type is not supported: ", as.character(type)))
+      stop(paste0("This type is not supported for classification problem: ", as.character(type)))
     }
   }
 }

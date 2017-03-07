@@ -12,6 +12,10 @@ is.classifier <- function(object) {
   inherits(object, "classifier")
 }
 
+is.regressor <- function(object) {
+  inherits(object, "regressor")
+}
+
 #' @export
 predict.tf_model <- function(object,
                              input_fn = NULL,
@@ -19,16 +23,20 @@ predict.tf_model <- function(object,
                              ...)
 {
   est <- object$estimator
-  if (type == "raw") {
-    predictions <- est$predict(input_fn = input_fn, ...)
-  } else if (type == "prob") {
-    # this only works for classification problems
-    if (!is.classifier(object)) {
-      stop("type = prob only works for classification problems")
+  if (is.classifier(object)) {
+    if (type == "raw") {
+      predictions <- est$predict(input_fn = input_fn, outputs = c("classes"), ...)
+    } else if (type == "prob") {
+      predictions <- est$predict(input_fn = input_fn, outputs = c("probabilities"), ...)
     }
-    predictions <- est$predict_proba(input_fn = input_fn, ...)
+  } else if (is.regressor(object)) {
+    if (type == "raw") {
+      predictions <- est$predict(input_fn = input_fn, outputs = c("scores"), ...)
+    } else {
+      stop(paste0("This type is not supported: ", type))
+    }
   } else {
-    stop(paste0("This type is not supported: ", as.character(type)))
+    stop("Right now only classifier and regressor are supported")
   }
   return(unlist(iterate(predictions)))
 }
