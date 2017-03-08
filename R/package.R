@@ -33,9 +33,9 @@ contrib_layers <- NULL
 feature_column_lib <- NULL
 
 .onLoad <- function(libname, pkgname) {
-  learn <<- import("tensorflow.contrib.learn", delay_load = TRUE)
-  contrib_layers <<- import("tensorflow.contrib.layers", delay_load = TRUE)
-  feature_column_lib <<- import("tensorflow.contrib.layers.python.layers.feature_column", delay_load = TRUE)
+  learn <<- reticulate::import("tensorflow.contrib.learn", delay_load = TRUE)
+  contrib_layers <<- reticulate::import("tensorflow.contrib.layers", delay_load = TRUE)
+  feature_column_lib <<- reticulate::import("tensorflow.contrib.layers.python.layers.feature_column", delay_load = TRUE)
 }
 
 .onUnload <- function(libpath) {
