@@ -32,25 +32,6 @@ test_that("predict() works on a custom model", {
     return(estimator_spec(predictions, loss, train_op))
   }
 
-  iris_input_fn <- function() {
-    features <- tf$constant(as.matrix(iris_data$data))
-    labels <- tf$constant(iris_data$target)
-    return(list(features, labels))
-  }
-
-
-  estimator <- estimator(model_fn = custom_model_fn) %>% fit(input_fn = iris_input_fn)
-  predictions <- predict(estimator, input_fn = iris_input_fn, type = "raw")
-  expect_equal(length(predictions), 150)
-  expect_equal(max(predictions), 2)
-  expect_equal(min(predictions), 0)
-
-  predictions <- predict(estimator, input_fn = iris_input_fn, type = "prob")
-  expect_equal(length(predictions), 150 * length(unique(iris_data$target)))
-  expect_lte(max(predictions), 1)
-  expect_gte(min(predictions), 0)
-
-  # Simple non-formula interface
   custructed_input_fn <- construct_input_fn(
     x = iris,
     response = "Species",
