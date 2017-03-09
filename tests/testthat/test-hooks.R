@@ -3,12 +3,8 @@ context("Testing hooks")
 
 test_that("Hooks works with linear dnn combined estimators", {
   mtcars$vs <- as.factor(mtcars$vs)
-  dnn_feature_columns <- function() {
-    construct_feature_columns(mtcars, "drat")
-  }
-  linear_feature_columns <- function() {
-    construct_feature_columns(mtcars, "cyl")
-  }
+  dnn_feature_columns <- construct_feature_columns(mtcars, "drat")
+  linear_feature_columns <- construct_feature_columns(mtcars, "cyl")
   constructed_input_fn <- construct_input_fn(mtcars, response = "vs", features = c("drat", "cyl"))
   
   old_verbose_level <- tf$logging$get_verbosity()
