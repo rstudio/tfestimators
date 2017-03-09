@@ -26,9 +26,7 @@ construct_input_fn <-  function(x, response, features, feature_as_named_list = T
     # TODO: Support custom id_column function
   }
   force(list(x, response, features))
-  function(newdata = NULL) {
-    if (!is.null(newdata))
-      x <<- newdata
+  function() {
     if (feature_as_named_list) {
       # For linear and dnn we have to do this due to nature of feature columns
       feature_columns <- lapply(features, function(feature) {
