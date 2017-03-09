@@ -2,7 +2,7 @@
 #' @export
 construct_feature_columns <- function(x, columns) {
   ensure_valid_column_names(x, columns)
-  lapply(columns, function(column) {
+  column_list <- lapply(columns, function(column) {
     v <- x[[column]]
     if (is.numeric(v)) {
       column_real_valued(column)
@@ -12,6 +12,7 @@ construct_feature_columns <- function(x, columns) {
       column_with_hash_bucket(column)
     }
   })
+  function(){column_list}
 }
 
 #' @export

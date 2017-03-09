@@ -2,12 +2,8 @@ context("Testing linear dnn combined estimators")
 
 test_that("linear_dnn_combined_regressor() runs successfully", {
   
-  dnn_feature_columns <- function() {
-    construct_feature_columns(mtcars, "drat")
-  }
-  linear_feature_columns <- function() {
-    construct_feature_columns(mtcars, "cyl")
-  }
+  dnn_feature_columns <- construct_feature_columns(mtcars, "drat")
+  linear_feature_columns <- construct_feature_columns(mtcars, "cyl")
   constructed_input_fn <- construct_input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
   
   reg <-
@@ -25,12 +21,8 @@ test_that("linear_dnn_combined_regressor() runs successfully", {
 test_that("linear_dnn_combined_classifier() runs successfully", {
   
   mtcars$vs <- as.factor(mtcars$vs)
-  dnn_feature_columns <- function() {
-    construct_feature_columns(mtcars, "drat")
-  }
-  linear_feature_columns <- function() {
-    construct_feature_columns(mtcars, "cyl")
-  }
+  dnn_feature_columns <- construct_feature_columns(mtcars, "drat")
+  linear_feature_columns <- construct_feature_columns(mtcars, "cyl")
   constructed_input_fn <- construct_input_fn(mtcars, response = "vs", features = c("drat", "cyl"))
 
   clf <-

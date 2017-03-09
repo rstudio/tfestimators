@@ -2,12 +2,8 @@ context("Testing tf models")
 
 test_that("fit() and predict() works for regressors", {
   
-  dnn_feature_columns <- function() {
-    construct_feature_columns(mtcars, "drat")
-  }
-  linear_feature_columns <- function() {
-    construct_feature_columns(mtcars, "cyl")
-  }
+  dnn_feature_columns <- construct_feature_columns(mtcars, "drat")
+  linear_feature_columns <- construct_feature_columns(mtcars, "cyl")
   constructed_input_fn <- construct_input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
   
   reg <-
@@ -28,12 +24,8 @@ test_that("fit() and predict() works for regressors", {
 test_that("fit() and predict() works for classifiers", {
   
   mtcars$vs <- as.factor(mtcars$vs)
-  dnn_feature_columns <- function() {
-    construct_feature_columns(mtcars, "drat")
-  }
-  linear_feature_columns <- function() {
-    construct_feature_columns(mtcars, "cyl")
-  }
+  dnn_feature_columns <- construct_feature_columns(mtcars, "drat")
+  linear_feature_columns <- construct_feature_columns(mtcars, "cyl")
   constructed_input_fn <- construct_input_fn(mtcars, response = "vs", features = c("drat", "cyl"))
   
   clf <-

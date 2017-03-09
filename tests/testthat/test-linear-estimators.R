@@ -1,10 +1,7 @@
 context("Testing linear estimators")
 
 test_that("linear_regressor() produces similar fits to lm()", {
-  constructed_feature_columns <- function() {
-    construct_feature_columns(mtcars, "drat")
-  }
-
+  constructed_feature_columns <- construct_feature_columns(mtcars, "drat")
   constructed_input_fn <- construct_input_fn(mtcars, "mpg", "drat")
 
   tf_model <- linear_regressor(feature_columns = constructed_feature_columns) %>%
@@ -19,10 +16,7 @@ test_that("linear_regressor() produces similar fits to lm()", {
 })
 
 test_that("linear_classifier() runs successfully", {
-  constructed_feature_columns <- function() {
-    construct_feature_columns(mtcars, "drat")
-  }
-
+  constructed_feature_columns <- construct_feature_columns(mtcars, "drat")
   constructed_input_fn <- construct_input_fn(mtcars, "vs", "drat")
 
   tf_model <- linear_classifier(feature_columns = constructed_feature_columns) %>%

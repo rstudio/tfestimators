@@ -3,12 +3,8 @@ context("Testing experiment")
 test_that("Experiment works", {
   
   mtcars$vs <- as.factor(mtcars$vs)
-  dnn_feature_columns <- function() {
-    construct_feature_columns(mtcars, "drat")
-  }
-  linear_feature_columns <- function() {
-    construct_feature_columns(mtcars, "cyl")
-  }
+  dnn_feature_columns <- construct_feature_columns(mtcars, "drat")
+  linear_feature_columns <- construct_feature_columns(mtcars, "cyl")
   constructed_input_fn <- construct_input_fn(mtcars, response = "vs", features = c("drat", "cyl"))
 
   clf <-
