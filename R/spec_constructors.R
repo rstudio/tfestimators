@@ -16,9 +16,17 @@ construct_feature_columns <- function(x, columns) {
 }
 
 #' @export
-construct_input_fn <-  function(x, response, features, feature_as_named_list = TRUE, id_column = NULL) {
+construct_input_fn <-  function(
+  x,
+  features,
+  response = NULL,
+  feature_as_named_list = TRUE,
+  id_column = NULL)
+{
   ensure_valid_column_names(x, features)
-  ensure_valid_column_names(x, response)
+  if (!is.null(response)) {
+    ensure_valid_column_names(x, response)
+  }
   # TODO: Consider removing this part
   if (!is.null(id_column)) {
     x[id_column] <- as.character(1:nrow(x))
@@ -38,7 +46,11 @@ construct_input_fn <-  function(x, response, features, feature_as_named_list = T
       # TODO: Consider a separate spec constructor
       feature_columns <- tf$constant(as.matrix(x[, features]))
     }
-    response_column <- tf$constant(x[[response]])
-    list(feature_columns, response_column)
+    if (!is.null(response)) {
+      response_column <- tf$constant(x[[response]])
+      return(list(feature_columns, response_column))
+    } else {
+      return(list(feature_columns))
+    }
   }
 }
