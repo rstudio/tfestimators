@@ -23,7 +23,8 @@ svm_classifier <- function(feature_columns,
     example_id_column = example_id_column,
     weight_column_name = weight_column_name,
     model_dir = run_options$model_dir,
-    config = run_options$run_config
+    config = run_options$run_config,
+    ...
   )
 
   tf_model(

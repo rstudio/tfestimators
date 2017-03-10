@@ -12,7 +12,7 @@ Authors@R: c(
          email = "kevin@rstudio.com"),
   person(family = "RStudio", role = "cph"),
   person(family = "Google Inc.", role = c("cph"),
-         comment = "Examples and Tutorials")
+         comment = "Documentation")
   )
 Description: This package provides access to TensorFlow's high-level
     TF.Learn API for easier machine learning. TensorFlow is an open
@@ -34,4 +34,4 @@ Imports:
 RoxygenNote: 6.0.1
 Suggests:
     testthat
-Remotes: rstudio/tensorflow
+Remotes: rstudio/tensorflow@16aa4cd
