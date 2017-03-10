@@ -48,9 +48,9 @@ construct_input_fn <-  function(
     }
     if (!is.null(response)) {
       response_column <- tf$constant(x[[response]])
-      return(list(feature_columns, response_column))
     } else {
-      return(list(feature_columns))
+      response_column <- NULL
     }
+    list(feature_columns, response_column)
   }
 }
