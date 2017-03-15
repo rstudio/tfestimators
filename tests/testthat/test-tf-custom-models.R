@@ -4,9 +4,9 @@ test_that("predict() works on a custom model", {
 
   iris_data <- learn$datasets$load_dataset("iris")
 
-  custom_model_fn <- function(features, target) {
+  custom_model_fn <- function(features, labels) {
 
-    target <- tf$one_hot(target, 3L)
+    labels <- tf$one_hot(labels, 3L)
 
     # Create three fully connected layers respectively of size 10, 20, and 10 with
     # each layer having a dropout probability of 0.1.
@@ -17,7 +17,7 @@ test_that("predict() works on a custom model", {
         normalizer_params = list(keep_prob = 0.9)) %>%
       tf$contrib$layers$fully_connected(3L, activation_fn = NULL) # Compute logits (1 per class) and compute loss.
 
-    loss <- tf$losses$softmax_cross_entropy(target, logits)
+    loss <- tf$losses$softmax_cross_entropy(labels, logits)
     predictions <- list(
       class = tf$argmax(logits, 1L),
       prob = tf$nn$softmax(logits))
