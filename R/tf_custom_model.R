@@ -72,3 +72,12 @@ predict.tf_custom_model <- function(object,
 coef.tf_custom_model <- function(object, ...) {
   coef.tf_model(object, ...)
 }
+
+
+as_model_fn <- function(f) {
+  tools <- import_package_module("tflearntools.functions")
+  tools$create_model_fn(f)
+}
+
+
+
