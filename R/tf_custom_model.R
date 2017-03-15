@@ -14,7 +14,7 @@ estimator_spec <- function(predictions,
                            train_op,
                            mode = "train",
                            ...) {
-  learn$ModelFnOps(
+  estimator_lib$model_fn_lib$EstimatorSpec(
     mode = mode,
     predictions = predictions,
     loss = loss,
@@ -29,7 +29,7 @@ estimator <- function(model_fn,
 {
   run_options <- run_options %||% run_options()
 
-  est <- learn$Estimator(
+  est <- estimator_lib$Estimator(
     model_fn = model_fn,
     model_dir = run_options$model_dir,
     config = run_options$run_config,

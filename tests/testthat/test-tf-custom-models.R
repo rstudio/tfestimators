@@ -42,8 +42,11 @@ test_that("predict() works on a custom model", {
       "Petal.Width"),
     feature_as_named_list = FALSE
   )
+  run_config <- estimator_lib$run_config
 
-  classifier <- estimator(model_fn = custom_model_fn) %>% 
+  classifier <- estimator(
+      model_fn = custom_model_fn,
+      config = run_config) %>%
     fit(input_fn = custructed_input_fn)
   predictions <- predict(classifier, input_fn = custructed_input_fn, type = "prob")
   expect_equal(length(predictions), 150 * length(unique(iris$Species)))
