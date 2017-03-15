@@ -37,20 +37,20 @@ construct_input_fn <-  function(
   function() {
     if (feature_as_named_list) {
       # For linear and dnn we have to do this due to nature of feature columns
-      feature_columns <- lapply(features, function(feature) {
+      input_features <- lapply(features, function(feature) {
         tf$constant(x[[feature]])
       })
-      names(feature_columns) <- features
+      names(input_features) <- features
     } else {
       # This works for custom model
       # TODO: Consider a separate spec constructor
-      feature_columns <- tf$constant(as.matrix(x[, features]))
+      input_features <- tf$constant(as.matrix(x[, features]))
     }
     if (!is.null(response)) {
-      response_column <- tf$constant(x[[response]])
+      input_response <- tf$constant(x[[response]])
     } else {
-      response_column <- NULL
+      input_response <- NULL
     }
-    list(feature_columns, response_column)
+    list(input_features, input_response)
   }
 }
