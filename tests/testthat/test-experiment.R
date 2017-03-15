@@ -1,24 +1,23 @@
 context("Testing experiment")
 
+source("utils.R")
+
 test_that("Experiment works", {
   
-  mtcars$vs <- as.factor(mtcars$vs)
-  dnn_feature_columns <- construct_feature_columns(mtcars, "drat")
-  linear_feature_columns <- construct_feature_columns(mtcars, "cyl")
-  constructed_input_fn <- construct_input_fn(mtcars, response = "vs", features = c("drat", "cyl"))
+  specs <- mtcars_classification_specs()
 
   clf <-
     linear_dnn_combined_classifier(
-      linear_feature_columns = linear_feature_columns,
-      dnn_feature_columns = dnn_feature_columns,
+      linear_feature_columns = specs$linear_feature_columns,
+      dnn_feature_columns = specs$dnn_feature_columns,
       dnn_hidden_units = c(3L, 3L),
       dnn_optimizer = "Adagrad"
-    ) %>% fit(input_fn = constructed_input_fn)
+    ) %>% fit(input_fn = specs$input_fn)
 
   experiment <- experiment(
     clf,
-    train_input_fn = constructed_input_fn,
-    eval_input_fn = constructed_input_fn,
+    train_input_fn = specs$input_fn,
+    eval_input_fn = specs$input_fn,
     train_steps = 3L,
     eval_steps = 3L,
     continuous_eval_throttle_secs = 60L
@@ -37,21 +36,4 @@ test_that("Experiment works", {
   
   experiment_result <- train_and_evaluate(experiment)
   expect_gt(length(experiment_result[[1]]), 1)
-
-  # Edge cases
-  expect_error(exp <- experiment(
-    clf$estimator,
-    train_data = mtcars,
-    eval_data = mtcars,
-    train_steps = 3L,
-    eval_steps = 3L,
-    continuous_eval_throttle_secs = 60L))
-
-  expect_error(exp <- experiment(
-    clf,
-    train_input_fn = constructed_input_fn,
-    eval_data = mtcars,
-    train_steps = 3L,
-    eval_steps = 3L,
-    continuous_eval_throttle_secs = 60L))
 })
