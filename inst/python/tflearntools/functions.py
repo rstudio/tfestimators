@@ -1,5 +1,6 @@
 
 
+import rpycall
 
 # Take an R model_fn and wrap it in a python function which has the correct
 # signature for model_fn. This is necessary because TF validates the signature
