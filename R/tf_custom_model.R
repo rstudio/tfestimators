@@ -32,7 +32,6 @@ estimator <- function(model_fn,
   est <- estimator_lib$Estimator(
     model_fn = model_fn,
     model_dir = run_options$model_dir,
-    config = run_options$run_config,
     ...
   )
   tf_custom_model(estimator = est, model_fn = model_fn)
