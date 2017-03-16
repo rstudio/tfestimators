@@ -44,7 +44,7 @@ test_that("predict() works on a custom model", {
   )
 
   classifier <- estimator(
-      model_fn = custom_model_fn) %>%
+      model_fn = as_model_fn(custom_model_fn)) %>%
     fit(input_fn = custructed_input_fn)
   predictions <- predict(classifier, input_fn = custructed_input_fn, type = "prob")
   expect_equal(length(predictions), 150 * length(unique(iris$Species)))

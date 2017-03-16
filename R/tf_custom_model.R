@@ -39,7 +39,8 @@ estimator <- function(model_fn,
 
 #' @export
 fit.tf_custom_model <- function(object, input_fn, ...) {
-  fit.tf_model(object, input_fn = input_fn, ...)
+  object$estimator$train(input_fn = input_fn, ...)
+  object
 }
 
 #' @export
