@@ -4,7 +4,7 @@ test_that("predict() works on a custom model", {
 
   iris_data <- learn$datasets$load_dataset("iris")
 
-  custom_model_fn <- function(features, labels, mode) {
+  custom_model_fn <- function(features, labels, mode, params, config) {
     labels <- tf$one_hot(labels, 3L)
 
     # Create three fully connected layers respectively of size 10, 20, and 10 with
