@@ -2,10 +2,6 @@
 #'
 #' Perform Linear DNN Combined Regression using TensorFlow.
 #'
-#' @template roxlate-recipe
-#' @template roxlate-run-options
-#' @template roxlate-tf-dots
-#'
 #' @export
 linear_dnn_combined_regressor <- function(
   linear_feature_columns,
@@ -36,10 +32,6 @@ linear_dnn_combined_regressor <- function(
 #' TensorFlow -- Linear DNN Combined Classification
 #'
 #' Perform Linear DNN Combined Classification using TensorFlow.
-#'
-#' @template roxlate-recipe
-#' @template roxlate-run-options
-#' @template roxlate-tf-dots
 #'
 #' @export
 linear_dnn_combined_classifier <- function(

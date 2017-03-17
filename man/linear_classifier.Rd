@@ -6,14 +6,6 @@
 \usage{
 linear_classifier(feature_columns, n_classes = 2L, run_options = NULL, ...)
 }
-\arguments{
-\item{run_options}{Optional tools used for lower-level tuning of the TensorFlow
-model fitting process. See \code{\link{run_options}} for more information.}
-
-\item{...}{Optional arguments; currently unused.}
-
-\item{recipe}{A recipe. TODO: fill in the blanks.}
-}
 \description{
 Perform linear classification using TensorFlow.
 }

@@ -2,10 +2,6 @@
 #'
 #' Perform linear regression using TensorFlow.
 #'
-#' @template roxlate-recipe
-#' @template roxlate-run-options
-#' @template roxlate-tf-dots
-#'
 #' @export
 linear_regressor <- function(feature_columns,
                              run_options = NULL,
@@ -34,11 +30,6 @@ linear_regressor <- function(feature_columns,
 #' TensorFlow -- Linear Classification
 #'
 #' Perform linear classification using TensorFlow.
-#'
-#' @template roxlate-recipe
-#' @template roxlate-run-options
-#' @template roxlate-tf-dots
-#'
 #' @export
 linear_classifier <- function(feature_columns,
                               n_classes = 2L,

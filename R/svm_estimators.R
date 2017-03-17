@@ -1,11 +1,6 @@
 #' TensorFlow -- Support Vector Machines
 #'
 #' Perform Support Vector Machines for binary classification using TensorFlow.
-#'
-#' @template roxlate-recipe
-#' @template roxlate-run-options
-#' @template roxlate-tf-dots
-#'
 #' @export
 svm_classifier <- function(feature_columns,
                            example_id_column,

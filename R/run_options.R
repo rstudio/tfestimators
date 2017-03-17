@@ -3,13 +3,11 @@
 #' Used to control the various facets of layers constructed with the
 #' modeling routines included in this package.
 #'
-#' @param steps The number of steps to be used when running the associated model.
 #' @param model_dir The location where model outputs should be written. Defaults
 #'   to a temporary directory within the \code{R} \code{\link{tempdir}}(), as
 #'   produced by \code{\link{tempfile}}().
 #' @export
 run_options <- function(
-  steps = 2L,
   model_dir  = tf_setting("tflearn.model_dir", tempfile("tflearn_")),
   run_config = learn$RunConfig(tf_random_seed = 1))
 {

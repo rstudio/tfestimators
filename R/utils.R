@@ -11,6 +11,7 @@ warnf <- function(fmt, ..., call. = TRUE, immediate. = FALSE) {
   warning(sprintf(fmt, ...), call. = call., immediate. = immediate.)
 }
 
+# make sure an object is a function
 resolve_fn <- function(object) {
   if (is.function(object))
     object()

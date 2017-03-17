@@ -4,12 +4,10 @@
 \alias{run_options}
 \title{Options for TensorFlow Routines}
 \usage{
-run_options(steps = 2L, model_dir = tf_setting("tflearn.model_dir",
-  tempfile("tflearn_")), run_config = learn$RunConfig(tf_random_seed = 1))
+run_options(model_dir = tf_setting("tflearn.model_dir", tempfile("tflearn_")),
+  run_config = learn$RunConfig(tf_random_seed = 1))
 }
 \arguments{
-\item{steps}{The number of steps to be used when running the associated model.}
-
 \item{model_dir}{The location where model outputs should be written. Defaults
 to a temporary directory within the \code{R} \code{\link{tempdir}}(), as
 produced by \code{\link{tempfile}}().}

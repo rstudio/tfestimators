@@ -15,8 +15,17 @@ construct_feature_columns <- function(x, columns) {
   function(){column_list}
 }
 
+construct_input_fn <- function(x, ...) {
+  UseMethod("construct_input_fn")
+}
+
+construct_input_fn.formula <- function(x, data, ...) {
+  parsed <- parse_formula(x)
+  construct_input_fn(data, parsed$features, parsed$response, ...) # TODO: Support unsupervised algorithms
+}
+
 #' @export
-construct_input_fn <-  function(
+construct_input_fn.default <-  function(
   x,
   features,
   response = NULL,
@@ -54,3 +63,5 @@ construct_input_fn <-  function(
     list(input_features, input_response)
   }
 }
+
+
