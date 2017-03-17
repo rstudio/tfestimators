@@ -4,8 +4,7 @@ test_that("predict() works on a custom model", {
 
   iris_data <- learn$datasets$load_dataset("iris")
 
-  custom_model_fn <- function(features, labels) {
-
+  custom_model_fn <- function(features, labels, mode) {
     labels <- tf$one_hot(labels, 3L)
 
     # Create three fully connected layers respectively of size 10, 20, and 10 with
@@ -29,7 +28,7 @@ test_that("predict() works on a custom model", {
       optimizer = 'Adagrad',
       learning_rate = 0.1)
 
-    return(estimator_spec(predictions, loss, train_op))
+    return(estimator_spec(predictions, loss, train_op, mode))
   }
 
   custructed_input_fn <- construct_input_fn(
@@ -44,7 +43,7 @@ test_that("predict() works on a custom model", {
   )
 
   classifier <- estimator(
-      model_fn = as_model_fn(custom_model_fn)) %>%
+      model_fn = custom_model_fn) %>%
     fit(input_fn = custructed_input_fn)
   predictions <- predict(classifier, input_fn = custructed_input_fn, type = "prob")
   expect_equal(length(predictions), 150 * length(unique(iris$Species)))

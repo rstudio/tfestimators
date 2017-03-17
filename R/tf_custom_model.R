@@ -12,14 +12,12 @@ is.tf_custom_model <- function(object) {
 estimator_spec <- function(predictions,
                            loss,
                            train_op,
-                           mode = "train",
-                           ...) {
+                           mode) {
   estimator_lib$model_fn_lib$EstimatorSpec(
     mode = mode,
     predictions = predictions,
     loss = loss,
-    train_op = train_op,
-    ...)
+    train_op = train_op)
 }
 
 #' @export
@@ -29,6 +27,7 @@ estimator <- function(model_fn,
 {
   run_options <- run_options %||% run_options()
 
+  model_fn <- as_model_fn(model_fn)
   est <- estimator_lib$Estimator(
     model_fn = model_fn,
     model_dir = run_options$model_dir,
@@ -38,8 +37,8 @@ estimator <- function(model_fn,
 }
 
 #' @export
-fit.tf_custom_model <- function(object, input_fn, ...) {
-  object$estimator$train(input_fn = input_fn, ...)
+fit.tf_custom_model <- function(object, input_fn, steps = 2L, ...) {
+  object$estimator$train(input_fn = input_fn, steps = steps, ...)
   object
 }
 
