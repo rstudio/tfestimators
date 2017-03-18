@@ -4,7 +4,7 @@
 #' @export
 svm_classifier <- function(feature_columns,
                            example_id_column,
-                           weight_column_name,
+                           weight_column_name = NULL,
                            run_options = NULL,
                            ...)
 {

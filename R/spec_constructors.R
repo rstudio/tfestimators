@@ -43,7 +43,12 @@ input_fn.default <-  function(
     if (features_as_named_list) {
       # For canned estimators
       input_features <- lapply(features, function(feature) {
-        tf$constant(x[[feature]])
+        if(is.factor(x[[feature]])) {
+          # factor vars are incorrectly converted as Tensor of type int
+          tf$constant(as.character(x[[feature]]))
+        } else {
+          tf$constant(x[[feature]])
+        }
       })
       names(input_features) <- features
     } else {
