@@ -3,10 +3,12 @@ context("Testing svm estimators")
 test_that("svm_classification() runs successfully", {
 
   mtcars$vs <- as.factor(mtcars$vs)
-  feature_columns <- construct_feature_columns(mtcars, c("drat", "cyl"))
-  constructed_input_fn <- construct_input_fn(mtcars, response = "vs",
-                                             features = c("drat", "cyl"),
-                                             id_column = "id_column")
+  feature_columns <- feature_columns(mtcars, c("drat", "cyl"))
+  constructed_input_fn <- input_fn(
+    mtcars,
+    response = "vs",
+    features = c("drat", "cyl"),
+    id_column = "id_column")
 
   ## https://github.com/rstudio/tensorflow/issues/104
   # clf <-

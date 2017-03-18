@@ -31,7 +31,7 @@ test_that("predict() works on a custom model", {
     return(estimator_spec(predictions, loss, train_op, mode))
   }
 
-  custructed_input_fn <- construct_input_fn(
+  custructed_input_fn <- input_fn(
     x = iris,
     response = "Species",
     features = c(

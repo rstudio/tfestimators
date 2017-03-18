@@ -55,7 +55,7 @@ fit.tf_model <- function(object, input_fn = NULL, steps = 2L, monitors = NULL, .
     monitors <- list(monitors)
   object$estimator$fit(
     input_fn = input_fn,
-    steps = steps,
+    steps = ensure_scalar_integer(steps),
     monitors = monitors,
     ...)
   object

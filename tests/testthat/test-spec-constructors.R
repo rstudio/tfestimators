@@ -1,28 +1,26 @@
-context("Testing tf models")
+context("Testing spec constructors")
 
 test_that("feature columns can be constructed correctly", {
   
-  feature_columns <- construct_feature_columns(mtcars, "drat")
-  expect_equal(length(feature_columns()), 1)
-  expect_true(grepl("RealValuedColumn", class(feature_columns()[[1]])[1]))
-  feature_columns <- construct_feature_columns(mtcars, c("drat", "cyl"))
-  expect_equal(length(feature_columns()), 2)
-  expect_true(grepl("RealValuedColumn", class(feature_columns()[[1]])[1]))
+  fcs <- feature_columns(mtcars, "drat")
+  expect_equal(length(fcs()), 1)
+  expect_true(grepl("RealValuedColumn", class(fcs()[[1]])[1]))
+  fcs <- feature_columns(mtcars, c("drat", "cyl"))
+  expect_equal(length(fcs()), 2)
+  expect_true(grepl("RealValuedColumn", class(fcs()[[1]])[1]))
 })
 
 test_that("input_fn can be constructed correctly", {
 
   features <- c("drat", "cyl")
-  constructed_input_fn <- construct_input_fn(mtcars, response = "mpg", features = features)
-  expect_equal(length(constructed_input_fn()), 2)
-  expect_equal(length(constructed_input_fn()[[1]]), length(features))
-})
-
-test_that("input_fn can be constructed correctly through formula interface", {
+  input_fn1 <- input_fn(mtcars, response = "mpg", features = features)
+  expect_equal(length(input_fn1()), 2)
+  expect_equal(length(input_fn1()[[1]]), length(features))
   
-  features <- c("drat", "cyl")
-  constructed_input_fn <- construct_input_fn(mpg ~ drat + cyl, data = mtcars)
-  expect_equal(length(constructed_input_fn()), 2)
-  expect_equal(length(constructed_input_fn()[[1]]), length(features))
+  # through formula interface
+  input_fn2 <- input_fn(mpg ~ drat + cyl, data = mtcars)
+  expect_equal(length(input_fn2()), 2)
+  expect_equal(length(input_fn2()[[1]]), length(features))
+  
+  expect_equal(input_fn1, input_fn2)
 })
-

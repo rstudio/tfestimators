@@ -1,6 +1,11 @@
+#' @export
+feature_columns <- function(x, ...) {
+  UseMethod("feature_columns")
+}
+
 #' Construct column placeholders from vectors in an R object
 #' @export
-construct_feature_columns <- function(x, columns) {
+feature_columns.default <- function(x, columns) {
   ensure_valid_column_names(x, columns)
   column_list <- lapply(columns, function(column) {
     v <- x[[column]]
@@ -15,17 +20,19 @@ construct_feature_columns <- function(x, columns) {
   function(){column_list}
 }
 
-construct_input_fn <- function(x, ...) {
-  UseMethod("construct_input_fn")
-}
-
-construct_input_fn.formula <- function(x, data, ...) {
-  parsed <- parse_formula(x)
-  construct_input_fn(data, parsed$features, parsed$response, ...) # TODO: Support unsupervised algorithms
+#' @export
+input_fn <- function(x, ...) {
+  UseMethod("input_fn")
 }
 
 #' @export
-construct_input_fn.default <-  function(
+input_fn.formula <- function(x, data, ...) {
+  parsed <- parse_formula(x)
+  input_fn(data, parsed$features, parsed$response, ...) # TODO: Support unsupervised algorithms
+}
+
+#' @export
+input_fn.default <-  function(
   x,
   features,
   response = NULL,

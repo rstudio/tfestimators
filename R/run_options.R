@@ -12,7 +12,6 @@ run_options <- function(
   run_config = learn$RunConfig(tf_random_seed = 1))
 {
   options <- list(
-    steps = ensure_scalar_integer(steps),
     model_dir = model_dir,
     run_config = run_config
   )
