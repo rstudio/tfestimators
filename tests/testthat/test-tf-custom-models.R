@@ -10,7 +10,7 @@ test_that("custom model works on iris data", {
       "Sepal.Width",
       "Petal.Length",
       "Petal.Width"),
-    feature_as_named_list = FALSE
+    features_as_named_list = FALSE
   )
 
   custom_model_fn <- function(features, labels, mode, params, config) {
@@ -55,12 +55,11 @@ test_that("custom model works on iris data", {
 test_that("custom model works on mtcars data", {
 
   mtcars$vs <- as.factor(mtcars$vs)
-  feature_columns <- feature_columns(mtcars, c("drat", "cyl"))
   constructed_input_fn <- input_fn(
     mtcars,
     response = "vs",
     features = c("drat", "cyl"),
-    feature_as_named_list = FALSE
+    features_as_named_list = FALSE
   )
 
   custom_model_fn <- function(features, labels, mode, params, config) {

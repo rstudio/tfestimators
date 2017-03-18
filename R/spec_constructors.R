@@ -36,30 +36,18 @@ input_fn.default <-  function(
   x,
   features,
   response = NULL,
-  feature_as_named_list = TRUE,
-  id_column = NULL)
+  features_as_named_list = TRUE)
 {
-  ensure_valid_column_names(x, features)
-  if (!is.null(response)) {
-    ensure_valid_column_names(x, response)
-  }
-  # TODO: Consider removing this part
-  if (!is.null(id_column)) {
-    x[id_column] <- as.character(1:nrow(x))
-    features <- c(features, id_column)
-    # TODO: Support custom id_column function
-  }
-  force(list(x, response, features))
+  validate_input_fn_args(x, features, response)
   function() {
-    if (feature_as_named_list) {
-      # For linear and dnn we have to do this due to nature of feature columns
+    if (features_as_named_list) {
+      # For canned estimators
       input_features <- lapply(features, function(feature) {
         tf$constant(x[[feature]])
       })
       names(input_features) <- features
     } else {
-      # This works for custom model
-      # TODO: Consider a separate spec constructor
+      # For custom estimators
       input_features <- tf$constant(as.matrix(x[, features]))
     }
     if (!is.null(response)) {
@@ -71,4 +59,10 @@ input_fn.default <-  function(
   }
 }
 
-
+validate_input_fn_args <- function(x, features, response) {
+  ensure_valid_column_names(x, features)
+  if (!is.null(response)) {
+    ensure_valid_column_names(x, response)
+  }
+  force(list(x, features, response))
+}
