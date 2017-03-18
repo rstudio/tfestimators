@@ -7,17 +7,18 @@ feature_columns <- function(x, ...) {
 #' @export
 feature_columns.default <- function(x, columns) {
   ensure_valid_column_names(x, columns)
-  column_list <- lapply(columns, function(column) {
-    v <- x[[column]]
-    if (is.numeric(v)) {
-      column_real_valued(column)
-    } else if (is.factor(v)) {
-      column_with_keys(column, keys = levels(v))
-    } else if (is.character(v)) {
-      column_with_hash_bucket(column)
-    }
-  })
-  function(){column_list}
+  function() {
+    lapply(columns, function(column) {
+      v <- x[[column]]
+      if (is.numeric(v)) {
+        column_real_valued(column)
+      } else if (is.factor(v)) {
+        column_with_keys(column, keys = levels(v))
+      } else if (is.character(v)) {
+        column_with_hash_bucket(column)
+      }
+    })
+  }
 }
 
 #' @export
