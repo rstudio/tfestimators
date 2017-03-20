@@ -40,7 +40,7 @@ input_fn.default <-  function(
   features_as_named_list = TRUE)
 {
   validate_input_fn_args(x, features, response)
-  function() {
+  fn <- function() {
     if (features_as_named_list) {
       # For canned estimators
       input_features <- lapply(features, function(feature) {
@@ -63,6 +63,9 @@ input_fn.default <-  function(
     }
     list(input_features, input_response)
   }
+  return(list(
+    input_fn = fn,
+    features_as_named_list = features_as_named_list))
 }
 
 validate_input_fn_args <- function(x, features, response) {

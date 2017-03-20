@@ -38,7 +38,7 @@ estimator <- function(model_fn,
 
 #' @export
 fit.tf_custom_model <- function(object, input_fn, steps = 2L, ...) {
-  object$estimator$train(input_fn = input_fn, steps = steps, ...)
+  object$estimator$train(input_fn = input_fn$input_fn, steps = steps, ...)
   object
 }
 
@@ -48,7 +48,7 @@ predict.tf_custom_model <- function(object,
                                     type = "raw",
                                     ...) {
   est <- object$estimator
-  predictions <- est$predict(input_fn = input_fn, ...) %>% iterate
+  predictions <- est$predict(input_fn = input_fn$input_fn, ...) %>% iterate
   if (length(names(predictions)) == 1) {
     # regression
     return(predictions)

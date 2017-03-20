@@ -55,8 +55,8 @@ experiment.tf_model <- function(object,
   
   exp <- tf$contrib$learn$Experiment(
     estimator = object$estimator,
-    train_input_fn = train_input_fn,
-    eval_input_fn = eval_input_fn,
+    train_input_fn = train_input_fn$input_fn,
+    eval_input_fn = eval_input_fn$input_fn,
     train_steps = train_steps,
     eval_steps = eval_steps,
     ...)

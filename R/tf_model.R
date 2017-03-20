@@ -23,6 +23,7 @@ predict.tf_model <- function(object,
                              ...)
 {
   est <- object$estimator
+  input_fn <- input_fn$input_fn
   if (is.classifier(object)) {
     if (type == "raw") {
       predictions <- est$predict(input_fn = input_fn, outputs = c("classes"), ...)
@@ -54,7 +55,7 @@ fit.tf_model <- function(object, input_fn = NULL, steps = 2L, monitors = NULL, .
   if (!is.null(monitors))
     monitors <- list(monitors)
   object$estimator$fit(
-    input_fn = input_fn,
+    input_fn = input_fn$input_fn,
     steps = ensure_scalar_integer(steps),
     monitors = monitors,
     ...)
