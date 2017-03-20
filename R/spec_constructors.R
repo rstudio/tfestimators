@@ -39,7 +39,7 @@ input_fn.default <-  function(
   response = NULL,
   features_as_named_list = TRUE)
 {
-  validate_input_fn_args(x, features, response)
+  validate_input_fn_args(x, features, response, features_as_named_list)
   fn <- function() {
     if (features_as_named_list) {
       # For canned estimators
@@ -68,10 +68,13 @@ input_fn.default <-  function(
     features_as_named_list = features_as_named_list))
 }
 
-validate_input_fn_args <- function(x, features, response) {
+validate_input_fn_args <- function(x, features, response, features_as_named_list) {
   ensure_valid_column_names(x, features)
   if (!is.null(response)) {
     ensure_valid_column_names(x, response)
+  }
+  if (!is.logical(features_as_named_list)) {
+    stop("features_as_named_list must be logical")
   }
   force(list(x, features, response))
 }

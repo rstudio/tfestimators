@@ -4,6 +4,12 @@ tf_custom_model <- function(...) {
   object
 }
 
+validate_custom_model_input_fn <- function(input_fn) {
+  if (input_fn$features_as_named_list) {
+    stop("features_as_named_list must be FALSE for custom model")
+  }
+}
+
 is.tf_custom_model <- function(object) {
   inherits(object, "tf_custom_model")
 }
@@ -38,6 +44,7 @@ estimator <- function(model_fn,
 
 #' @export
 fit.tf_custom_model <- function(object, input_fn, steps = 2L, ...) {
+  validate_custom_model_input_fn(input_fn)
   object$estimator$train(input_fn = input_fn$input_fn, steps = steps, ...)
   object
 }
@@ -47,6 +54,7 @@ predict.tf_custom_model <- function(object,
                                     input_fn = NULL,
                                     type = "raw",
                                     ...) {
+  validate_custom_model_input_fn(input_fn)
   est <- object$estimator
   predictions <- est$predict(input_fn = input_fn$input_fn, ...) %>% iterate
   if (length(names(predictions)) == 1) {
