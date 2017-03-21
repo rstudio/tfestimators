@@ -8,14 +8,14 @@ feature_columns <- function(x, ...) {
 feature_columns.default <- function(x, columns) {
   ensure_valid_column_names(x, columns)
   function() {
-    lapply(columns, function(column) {
-      v <- x[[column]]
-      if (is.numeric(v)) {
-        column_real_valued(column)
-      } else if (is.factor(v)) {
-        column_with_keys(column, keys = levels(v))
-      } else if (is.character(v)) {
-        column_with_hash_bucket(column)
+    lapply(columns, function(column_name) {
+      column_values <- x[[column_name]]
+      if (is.numeric(column_values)) {
+        column_real_valued(column_name)
+      } else if (is.factor(column_values)) {
+        column_with_keys(column_name, keys = levels(column_values))
+      } else if (is.character(column_values)) {
+        column_with_hash_bucket(column_name)
       }
     })
   }
