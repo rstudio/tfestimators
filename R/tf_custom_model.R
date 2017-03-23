@@ -5,8 +5,9 @@ tf_custom_model <- function(...) {
 }
 
 validate_custom_model_input_fn <- function(input_fn) {
+  if(is.null(input_fn)) stop("input_fn must be provided instead of NULL")
   if (input_fn$features_as_named_list) {
-    stop("features_as_named_list must be FALSE for custom model")
+    stop("The argument features_as_named_list in your input_fn must be FALSE for custom model")
   }
 }
 
