@@ -20,14 +20,14 @@ run_example <- function(example) {
 }
 
 examples <- if (nzchar(Sys.getenv("TENSORFLOW_TEST_EXAMPLES"))) {
-  c("tflearn/iris_dnn.R",
-    "tflearn/iris_custom_decay_dnn.R")
+  c()
 }
 
-for (example in examples) {
-  test_that(paste(example, "example runs successfully"), {
-    skip_if_no_tensorflow()
-    expect_error(run_example(example), NA)
-  })
+if (!is.null(examples)) {
+  for (example in examples) {
+    test_that(paste(example, "example runs successfully"), {
+      skip_if_no_tensorflow()
+      expect_error(run_example(example), NA)
+    })
+  }
 }
-

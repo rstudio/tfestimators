@@ -1,4 +1,4 @@
-# Components of tflearn Package
+# Architecture and Main Components of This Package
 
 ## Spec Constructors
 
