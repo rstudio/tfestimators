@@ -77,6 +77,11 @@ custom_input_fn <-  function(
 
 ```
 
+## Feature Columns Layers
+
+The feature column layers API are basically wrappers around `tf.contrib.layers.feature_column`, for example, `column_real_valued` is `tf.contrib.layers.feature_column.real_valued_column`, we wrap it this way so users can just type `column_` and utilize the autocomplete functionality in RStudio as well as reducing the appearances of `$` in the code. These are used together with spec constructors. Right now all arguments are just `...`, which means that users will need to look up Python API documentation themselves. A more general and automatic way of generating these wrapper APIs is needed.
+
+
 ## Custom Estimator
 
 The following code snippet demonstrates the construction and fitting of a custom estimator that has custom architectures. Users define the model architecture in a custom model function `custom_model_fn` that contains the following arguments in the signature that users can grab to define customized handling conditionally:
@@ -135,6 +140,14 @@ classifier <- estimator(
 fit(input_fn = constructed_input_fn, steps = 2L)
 ```
 
+Note that the above code contains a lot of `$`s. It is unnecessary to create wrapper APIs for every methods that users might use, e.g. `tf$contrib$layers$optimize_loss`, since custom models are designed to be flexible and extensible so users can insert any arbitrary low level TensorFlow APIs.
+
+Users can use `coef()` to extract the trained coefficients of a model. 
+
+``` r
+coefs <- coef(classifier)
+```
+
 ## Canned Estimators
 
 For canned estimators, users need to specify the input_fn, feature columns, and other required arguments for a particular canned estimator. Note that in the following example, `linear_dnn_combined_classifier` takes two types of feature columns that are used for linear and dnn separately. 
@@ -145,7 +158,7 @@ dnn_feature_columns <- feature_columns(mtcars, "drat")
 linear_feature_columns <- feature_columns(mtcars, "cyl")
 constructed_input_fn <- input_fn(mtcars, response = "vs", features = c("drat", "cyl"))
 
-clf <-
+classifier <-
 	linear_dnn_combined_classifier(
 	  linear_feature_columns = linear_feature_columns,
 	  dnn_feature_columns = dnn_feature_columns,
@@ -154,25 +167,48 @@ clf <-
 	) %>% fit(input_fn = constructed_input_fn$input_fn, steps = 2L)
 ```
 
-Users can use `coef()` to extract the trained coefficients of a model. 
+Users can use `coef()` to extract the trained coefficients of a model.
 
 ``` r
-coefs <- coef(clf)
+coefs <- coef(classifier)
 ```
 
-Once a model is trained, users can use `predict()` that makes predictions on a given input_fn that represents the inference data source. an argument named `type` can be `"raw"` so `predict()` will return the raw predictions outcomes, as well as `"prob"` and `"logistic"` that returns prediction probabilities and logistics if a model is of classification type. 
+Once a model is trained, users can use `predict()` that makes predictions on a given input_fn that represents the inference data source. an argument named `type` can be `"raw"` so `predict()` will return the raw predictions outcomes, as well as `"prob"` and `"logistic"` that returns prediction probabilities and logistics if a model is of classification type.
 
 ``` r
-predictions <- predict(clf, input_fn = constructed_input_fn$input_fn)
-predictions <- predict(clf, input_fn = constructed_input_fn$input_fn, type = "prob")
-predictions <- predict(clf, input_fn = constructed_input_fn$input_fn, type = "logistic")
+predictions <- predict(classifier, input_fn = constructed_input_fn$input_fn)
+predictions <- predict(classifier, input_fn = constructed_input_fn$input_fn, type = "prob")
+predictions <- predict(classifier, input_fn = constructed_input_fn$input_fn, type = "logistic")
 ```
-
 
 ## Run Options
 
-All estimators accept an argument called `run_options` that is a `run_options` object containing the `model_dir` and `RunConfig`. If not specified, default values will be used. 
+All estimators accept an argument called `run_options` that is a `run_options` object containing the `model_dir` and `RunConfig` that specifies the checkpoint directory and the model run-time configuration, such as cluster information, GPU fractions, etc. If not specified, default values will be used.
 
 
+## Experiments
 
+Experiments are designed for easier experiments, e.g. define your model, specify training and evaluation data and steps, frequencies, where to run, metrics to use to monitor the process, etc. They contain all neccessary information required to run experiments and can be easily packed up to run in places like CloudML, local environment, or cluster.
+
+``` r
+clf <-
+  linear_dnn_combined_classifier(
+    linear_feature_columns = linear_feature_columns,
+    dnn_feature_columns = dnn_feature_columns,
+    dnn_hidden_units = c(3L, 3L),
+    dnn_optimizer = "Adagrad"
+  ) %>% fit(input_fn = input_fn)
+
+experiment <- experiment(
+  clf,
+  train_input_fn = input_fn,
+  eval_input_fn = input_fn,
+  train_steps = 3L,
+  eval_steps = 3L,
+  continuous_eval_throttle_secs = 60L
+)
+
+experiment_result <- train_and_evaluate(experiment)
+
+```
 
