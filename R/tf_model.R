@@ -17,7 +17,7 @@ is.regressor <- function(object) {
 }
 
 validate_model_input_fn <- function(input_fn) {
-  if(is.null(input_fn)) stop("input_fn must be provided instead of NULL")
+  validate_input_fn(input_fn)
   # TODO: Decide this after fixing KMeans
   # if (!input_fn$features_as_named_list) {
   #   stop("The argument features_as_named_list in your input_fn must be TRUE for canned estimator.")
@@ -26,7 +26,7 @@ validate_model_input_fn <- function(input_fn) {
 
 #' @export
 predict.tf_model <- function(object,
-                             input_fn = NULL,
+                             input_fn,
                              type = "raw",
                              ...)
 {
@@ -59,7 +59,7 @@ fit <- function(object, ...) {
 }
 
 #' @export
-fit.tf_model <- function(object, input_fn = NULL, steps = 2L, monitors = NULL, ...)
+fit.tf_model <- function(object, input_fn, steps = 2L, monitors = NULL, ...)
 {
   validate_model_input_fn(input_fn)
   if (!is.null(monitors))

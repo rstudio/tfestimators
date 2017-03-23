@@ -42,7 +42,7 @@ input_fn.formula(mpg ~ drat + cyl, data = mtcars)
 
 ```
 
-Users can also write custom function to convert each feature into a `Tensor` or `SparseTensor` according to the needs, e.g. a function called `custom_function`. This function should return a list that consists of `input_fn and` `features_as_named_list` so the custom or canned estimator can recognize them. The following code has a few places commented with "custom code here" that users can use to do customized stuff. Other parts should remain unchanged.
+Users can also write custom function to convert each feature into a `Tensor` or `SparseTensor` according to the needs, e.g. a function called `custom_function`. This function should return a list that consists of `input_fn` and `features_as_named_list` so the custom or canned estimator can recognize them. The following code has a few places commented with "custom code here" that users can use to do customized stuff. Other parts should remain unchanged.
 
 ``` r
 custom_input_fn <-  function(
@@ -164,7 +164,7 @@ classifier <-
 	  dnn_feature_columns = dnn_feature_columns,
 	  dnn_hidden_units = c(3L, 3L),
 	  dnn_optimizer = "Adagrad"
-	) %>% fit(input_fn = constructed_input_fn$input_fn, steps = 2L)
+	) %>% fit(input_fn = constructed_input_fn, steps = 2L)
 ```
 
 Users can use `coef()` to extract the trained coefficients of a model.
@@ -176,9 +176,9 @@ coefs <- coef(classifier)
 Once a model is trained, users can use `predict()` that makes predictions on a given input_fn that represents the inference data source. an argument named `type` can be `"raw"` so `predict()` will return the raw predictions outcomes, as well as `"prob"` and `"logistic"` that returns prediction probabilities and logistics if a model is of classification type.
 
 ``` r
-predictions <- predict(classifier, input_fn = constructed_input_fn$input_fn)
-predictions <- predict(classifier, input_fn = constructed_input_fn$input_fn, type = "prob")
-predictions <- predict(classifier, input_fn = constructed_input_fn$input_fn, type = "logistic")
+predictions <- predict(classifier, input_fn = constructed_input_fn)
+predictions <- predict(classifier, input_fn = constructed_input_fn, type = "prob")
+predictions <- predict(classifier, input_fn = constructed_input_fn, type = "logistic")
 ```
 
 ## Run Options

@@ -68,6 +68,18 @@ input_fn.default <-  function(
     features_as_named_list = features_as_named_list))
 }
 
+validate_input_fn <- function(input_fn) {
+  if (is.null(input_fn$input_fn) || is.null(input_fn$features_as_named_list)) {
+    stop("Your input_fn must return a list with two items: input_fn and features_as_named_list")
+  }
+  if (!is.function(input_fn$input_fn)) {
+    stop("Your input_fn$input_fn must be a function")
+  }
+  if (!is.logical(input_fn$features_as_named_list)) {
+    stop("Your input_fn$features_as_named_list must be logical")
+  }
+}
+
 validate_input_fn_args <- function(x, features, response, features_as_named_list) {
   ensure_valid_column_names(x, features)
   if (!is.null(response)) {
