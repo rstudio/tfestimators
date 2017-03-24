@@ -4,7 +4,7 @@
 \alias{svm_classifier}
 \title{TensorFlow -- Support Vector Machines}
 \usage{
-svm_classifier(feature_columns, example_id_column, weight_column_name,
+svm_classifier(feature_columns, example_id_column, weight_column_name = NULL,
   run_options = NULL, ...)
 }
 \description{

@@ -78,6 +78,18 @@ predict.tf_custom_model <- function(object,
 }
 
 #' @export
+evaluate.tf_custom_model <- function(object,
+                                     input_fn,
+                                     steps = 2L,
+                                     checkpoint_path = NULL,
+                                     ...)
+{
+  validate_custom_model_input_fn(input_fn)
+  est <- object$estimator
+  est$evaluate(input_fn = input_fn$input_fn, steps = steps, ...)
+}
+
+#' @export
 coef.tf_custom_model <- function(object, ...) {
   coef.tf_model(object, ...)
 }

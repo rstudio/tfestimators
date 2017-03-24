@@ -50,6 +50,7 @@ test_that("custom model works on iris data", {
   # expect_gte(min(predictions), 0)
   # coef s3 method
   # expect_gt(length(coef(classifier)), 1) # TODO: Add get_variable_names attr on Python end
+  expect_equal(names(evaluate(classifier, constructed_input_fn)), c("loss", "global_step"))
 })
 
 test_that("custom model works on mtcars data", {
