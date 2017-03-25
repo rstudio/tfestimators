@@ -16,29 +16,16 @@ experiment.tf_custom_model <- function(object, ...) {
 }
 
 #' @export
-train_and_evaluate <- function(x) {
-  UseMethod("train_and_evaluate")
-}
-
-#' @export
 train_and_evaluate.tf_experiment <- function(object) {
   object$experiment$train_and_evaluate()
 }
 
-#' @export
-evaluate <- function(x, delay_secs = NULL) {
-  UseMethod("evaluate")
-}
 
 #' @export
 evaluate.tf_experiment <- function(object, delay_secs = NULL) {
   object$experiment$evaluate(delay_secs = delay_secs)
 }
 
-#' @export
-train <- function(x, delay_secs = NULL) {
-  UseMethod("train")
-}
 
 #' @export
 train.tf_experiment <- function(object, delay_secs = NULL) {

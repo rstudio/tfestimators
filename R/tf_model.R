@@ -54,11 +54,6 @@ predict.tf_model <- function(object,
 }
 
 #' @export
-fit <- function(object, ...) {
-  UseMethod("fit")
-}
-
-#' @export
 fit.tf_model <- function(object, input_fn, steps = 2L, monitors = NULL, ...)
 {
   validate_model_input_fn(input_fn)
