@@ -54,10 +54,14 @@ fit.tf_custom_model <- function(object, input_fn, steps = 2L, ...) {
 predict.tf_custom_model <- function(object,
                                     input_fn,
                                     as_vector = T,
+                                    checkpoint_path = NULL,
                                     ...) {
   validate_custom_model_input_fn(input_fn)
   est <- object$estimator
-  predictions <- est$predict(input_fn = input_fn$input_fn, ...)
+  predictions <- est$predict(
+    input_fn = input_fn$input_fn,
+    checkpoint_path = checkpoint_path, # Wait for merge: https://github.com/tensorflow/tensorflow/pull/8679
+    ...)
   if (as_vector) {
     if (!any(inherits(predictions, "python.builtin.iterator"),
              inherits(predictions, "python.builtin.generator"))) {
@@ -79,7 +83,18 @@ evaluate.tf_custom_model <- function(object,
 {
   validate_custom_model_input_fn(input_fn)
   est <- object$estimator
-  est$evaluate(input_fn = input_fn$input_fn, steps = steps, ...)
+  est$evaluate(input_fn = input_fn$input_fn,
+               steps = steps,
+               checkpoint_path = checkpoint_path,
+               ...)
+}
+
+#' @export
+get_latest_checkpoint <- function(checkpoint_dir, ...) {
+  if (!dir.exists(checkpoint_dir)) {
+    stop(paste0("This checkpoint_dir does not exist: ", checkpoint_dir))
+  }
+  tf$python$training$saver$latest_checkpoint(checkpoint_dir, ...) 
 }
 
 #' @export
