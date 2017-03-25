@@ -53,28 +53,21 @@ fit.tf_custom_model <- function(object, input_fn, steps = 2L, ...) {
 #' @export
 predict.tf_custom_model <- function(object,
                                     input_fn,
-                                    type = "raw",
+                                    as_vector = T,
                                     ...) {
   validate_custom_model_input_fn(input_fn)
   est <- object$estimator
-  predictions <- est$predict(input_fn = input_fn$input_fn, ...) %>% iterate
-  if (length(names(predictions)) == 1) {
-    # regression
-    return(predictions)
-  } else {
-    # classification
-    if (type == "raw") {
-      unlist(lapply(predictions, function(prediction){
-        prediction$class
-      }))
-    } else if (type == "prob") {
-      unlist(lapply(predictions, function(prediction){
-        prediction$prob
-      }))
+  predictions <- est$predict(input_fn = input_fn$input_fn, ...)
+  if (as_vector) {
+    if (!any(inherits(predictions, "python.builtin.iterator"),
+             inherits(predictions, "python.builtin.generator"))) {
+      warning("predictions are not iterable, no need to convert again")
     } else {
-      stop(paste0("This type is not supported for classification problem: ", as.character(type)))
+      predictions <- predictions %>% iterate
     }
+    if (is.list(predictions)) predictions <- unlist(predictions)
   }
+  predictions
 }
 
 #' @export
