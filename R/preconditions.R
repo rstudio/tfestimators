@@ -1,3 +1,4 @@
+#' @export
 ensure_valid_column_names <- function(x, columns) {
   existed_cols <- colnames(x)
   invalid_columns <- ! columns %in% existed_cols

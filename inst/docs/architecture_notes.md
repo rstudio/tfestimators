@@ -56,7 +56,7 @@ custom_input_fn <-  function(
     if (features_as_named_list) {
       # For canned estimators
       input_features <- lapply(features, function(feature) {
-        custom_function(as.character(x[[feature]]))# custom code here
+        custom_function(as.character(x[[feature]])) # custom code here
       })
       names(input_features) <- features
     } else {

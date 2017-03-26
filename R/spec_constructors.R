@@ -80,6 +80,7 @@ validate_input_fn <- function(input_fn) {
   }
 }
 
+#' @export
 validate_input_fn_args <- function(x, features, response, features_as_named_list) {
   ensure_valid_column_names(x, features)
   if (!is.null(response)) {
