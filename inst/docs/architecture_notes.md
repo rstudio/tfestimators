@@ -81,8 +81,15 @@ custom_input_fn <-  function(
 
 The feature column layers API are basically wrappers around `tf.contrib.layers.feature_column`, for example, `column_real_valued` is `tf.contrib.layers.feature_column.real_valued_column`, we wrap it this way so users can just type `column_` and utilize the autocomplete functionality in RStudio as well as reducing the appearances of `$` in the code. These are used together with spec constructors. Right now all arguments are just `...`, which means that users will need to look up Python API documentation themselves. A more general and automatic way of generating these wrapper APIs is needed.
 
+## Estimator
 
-## Custom Estimator
+Estimator is an interface that provides an abstraction for a machine learning model. It is designed to be detailed enough to allow for downstream infrastructure to be written, but general enough to not constrain the type of model represented by an Estimator. Estimators are given input by a user defined input function, as illustrated in earlier section.
+
+The Estimator's architecture is configured using the model_fn, a function which builds a TensorFlow graph and returns necessary information to train a model, evaluate it, and predict with it. Users writing custom estimators to implement custom model architecture only have to implement this function to specify the layers of the custom Estimator. It is possible, and in fact, common, that model_fn contains regular TensorFlow without using any other part of our framework.  It is often the case because existing models are being adapted or converted to be implemented in terms of an estimator.
+
+This library also provides canned estimators that have already implemented the model architecture, such as linear classifier, linear regressor, DNN classifier, DNN regressor, SVM classifier, etc. Users only need to focus on the input sources and the feature columns used to train a model, evaluate it, and predict with it. Users then should be able to choose freely the level of abstraction best suited for the problem at hand.
+
+### Custom Estimator
 
 The following code snippet demonstrates the construction and fitting of a custom estimator that has custom architectures. Users define the model architecture in a custom model function `custom_model_fn` that contains the following arguments in the signature that users can grab to define customized handling conditionally:
 
@@ -135,9 +142,8 @@ custom_model_fn <- function(features, labels, mode, params, config) {
 
 # Initialize and fit the model using the the custom model function we defined
 # and the constructed_input_fn that represents the input data source.  
-classifier <- estimator(
-  model_fn = custom_model_fn) %>%
-fit(input_fn = constructed_input_fn, steps = 2L)
+classifier <- estimator(model_fn = custom_model_fn)
+classifier <- fit(classifier, input_fn = constructed_input_fn, steps = 2L)
 ```
 
 Note that the above code contains a lot of `$`s. It is unnecessary to create wrapper APIs for every methods that users might use, e.g. `tf$contrib$layers$optimize_loss`, since custom models are designed to be flexible and extensible so users can insert any arbitrary low level TensorFlow APIs.
@@ -148,7 +154,7 @@ Users can use `coef()` to extract the trained coefficients of a model.
 coefs <- coef(classifier)
 ```
 
-## Canned Estimators
+### Canned Estimators
 
 For canned estimators, users need to specify the input_fn, feature columns, and other required arguments for a particular canned estimator. Note that in the following example, `linear_dnn_combined_classifier` takes two types of feature columns that are used for linear and dnn separately. 
 
@@ -164,7 +170,9 @@ classifier <-
 	  dnn_feature_columns = dnn_feature_columns,
 	  dnn_hidden_units = c(3L, 3L),
 	  dnn_optimizer = "Adagrad"
-	) %>% fit(input_fn = constructed_input_fn, steps = 2L)
+	)
+
+classifier <- fit(classifier, input_fn = constructed_input_fn, steps = 2L)
 ```
 
 Users can use `coef()` to extract the trained coefficients of a model.
@@ -197,7 +205,8 @@ clf <-
     dnn_feature_columns = dnn_feature_columns,
     dnn_hidden_units = c(3L, 3L),
     dnn_optimizer = "Adagrad"
-  ) %>% fit(input_fn = input_fn)
+  )
+clf <- fit(clf, input_fn = input_fn)
 
 experiment <- experiment(
   clf,
