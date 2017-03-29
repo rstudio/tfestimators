@@ -60,7 +60,7 @@ predict.tf_custom_model <- function(object,
   est <- object$estimator
   predictions <- est$predict(
     input_fn = input_fn$input_fn,
-    checkpoint_path = checkpoint_path, # Wait for merge: https://github.com/tensorflow/tensorflow/pull/8679
+    checkpoint_path = checkpoint_path,
     ...)
   if (as_vector) {
     if (!any(inherits(predictions, "python.builtin.iterator"),
