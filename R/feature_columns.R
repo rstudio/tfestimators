@@ -13,7 +13,7 @@
 #' @param dtype Type of features. Only integer and string are supported.
 #' 
 #' @export
-column_with_keys <- function(column_name, keys, default_value = -1L, combiner = "sum", dtype = tf$string) {
+column_sparse_with_keys <- function(column_name, keys, default_value = -1L, combiner = "sum", dtype = tf$string) {
   tf$contrib$layers$sparse_column_with_keys(
     column_name = column_name,
     keys = keys,
@@ -39,7 +39,7 @@ column_with_keys <- function(column_name, keys, default_value = -1L, combiner = 
 #' @param dtype The type of features. Only string and integer types are supported.
 #' 
 #' @export
-column_with_hash_bucket <- function(column_name, hash_bucket_size, combiner = "sum", dtype = tf$string) {
+column_sparse_with_hash_bucket <- function(column_name, hash_bucket_size, combiner = "sum", dtype = tf$string) {
   tf$contrib$layers$sparse_column_with_hash_bucket(
     column_name = column_name,
     hash_bucket_size = hash_bucket_size,
@@ -130,6 +130,73 @@ column_crossed <- function(columns, hash_bucket_size, combiner = "sum", ckpt_to_
     ckpt_to_load_from = ckpt_to_load_from,
     tensor_name_in_ckpt = tensor_name_in_ckpt,
     hash_key = hash_key
+  )
+}
+
+
+#' Creates a _SparseColumn by combining sparse_id_column with a weight column.
+#' 
+#' Example: 
+#' 
+#' ```python 
+#' sparse_feature = sparse_column_with_hash_bucket(column_name="sparse_col", hash_bucket_size=1000)
+#' weighted_feature = weighted_sparse_column(sparse_id_column=sparse_feature, weight_column_name="weights_col")
+#' ``` 
+#' This configuration assumes that input dictionary of model contains the following two items: 
+#' * (key="sparse_col", value=sparse_tensor) where sparse_tensor is a SparseTensor. 
+#' * (key="weights_col", value=weights_tensor) where weights_tensor is a SparseTensor. 
+#' Following are assumed to be true: 
+#' * sparse_tensor.indices = weights_tensor.indices 
+#' * sparse_tensor.dense_shape = weights_tensor.dense_shape
+#' 
+#' @param sparse_id_column A `_SparseColumn` which is created by `sparse_column_with_*` functions.
+#' @param weight_column_name A string defining a sparse column name which represents weight or value of the corresponding sparse id feature.
+#' @param dtype Type of weights, such as `tf.float32`. Only floating and integer weights are supported. Returns: A _WeightedSparseColumn composed of two sparse features: one represents id, the other represents weight (value) of the id feature in that example.
+#' 
+#' @return A _WeightedSparseColumn composed of two sparse features: one represents id, the other represents weight (value) of the id feature in that example. Raises: ValueError: if dtype is not convertible to float.
+#' 
+#' @section Raises:
+#' ValueError: if dtype is not convertible to float.
+#' 
+#' @export
+column_sparse_weighted <- function(sparse_id_column, weight_column_name, dtype = tf$float32) {
+  tf$contrib$layers$weighted_sparse_column(
+    sparse_id_column = sparse_id_column,
+    weight_column_name = weight_column_name,
+    dtype = dtype
+  )
+}
+
+#' Creates an `_OneHotColumn` for a one-hot or multi-hot repr in a DNN.
+#' 
+#' @param sparse_id_column A _SparseColumn which is created by `sparse_column_with_*` or crossed_column functions. Note that `combiner` defined in `sparse_id_column` is ignored.
+#' 
+#' @return An _OneHotColumn.
+#' 
+#' @export
+column_one_hot <- function(sparse_id_column) {
+  tf$contrib$layers$one_hot_column(
+    sparse_id_column = sparse_id_column
+  )
+}
+
+
+#' Creates a _BucketizedColumn for discretizing dense input.
+#' 
+#' 
+#' @param source_column A _RealValuedColumn defining dense column.
+#' @param boundaries A list or list of floats specifying the boundaries. It has to be sorted.
+#' 
+#' @return A _BucketizedColumn.
+#' 
+#' @section Raises:
+#' ValueError: if 'boundaries' is empty or not sorted.
+#' 
+#' @export
+column_bucketized <- function(source_column, boundaries) {
+  tf$contrib$layers$bucketized_column(
+    source_column = source_column,
+    boundaries = boundaries
   )
 }
 
