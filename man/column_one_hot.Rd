@@ -15,3 +15,12 @@ An _OneHotColumn.
 \description{
 Creates an \code{_OneHotColumn} for a one-hot or multi-hot repr in a DNN.
 }
+\seealso{
+Other feature_column wrappers: \code{\link{column_bucketized}},
+  \code{\link{column_crossed}},
+  \code{\link{column_embedding}},
+  \code{\link{column_real_valued}},
+  \code{\link{column_sparse_weighted}},
+  \code{\link{column_sparse_with_hash_bucket}},
+  \code{\link{column_sparse_with_keys}}
+}

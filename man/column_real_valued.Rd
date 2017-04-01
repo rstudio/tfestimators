@@ -28,3 +28,12 @@ Note that for variable length columns, the normalizer should expect an input_ten
 \description{
 Creates a \code{_RealValuedColumn} for dense numeric data.
 }
+\seealso{
+Other feature_column wrappers: \code{\link{column_bucketized}},
+  \code{\link{column_crossed}},
+  \code{\link{column_embedding}},
+  \code{\link{column_one_hot}},
+  \code{\link{column_sparse_weighted}},
+  \code{\link{column_sparse_with_hash_bucket}},
+  \code{\link{column_sparse_with_keys}}
+}

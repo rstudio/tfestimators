@@ -14,3 +14,11 @@ StopAtStepHook(num_steps = NULL, last_step = NULL)
 \description{
 Monitor to request stop at a specified step.
 }
+\seealso{
+Other session_run_hook wrappers: \code{\link{CheckpointSaverHook}},
+  \code{\link{GlobalStepWaiterHook}},
+  \code{\link{LoggingTensorHook}},
+  \code{\link{NanTensorHook}},
+  \code{\link{StepCounterHook}},
+  \code{\link{SummarySaverHook}}
+}

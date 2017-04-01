@@ -12,6 +12,8 @@
 #' For more information: `tf.embedding_lookup_sparse`.
 #' @param dtype Type of features. Only integer and string are supported.
 #' 
+#' @family feature_column wrappers
+#' 
 #' @export
 column_sparse_with_keys <- function(column_name, keys, default_value = -1L, combiner = "sum", dtype = tf$string) {
   tf$contrib$layers$sparse_column_with_keys(
@@ -38,6 +40,8 @@ column_sparse_with_keys <- function(column_name, keys, default_value = -1L, comb
 #' 
 #' @param dtype The type of features. Only string and integer types are supported.
 #' 
+#' @family feature_column wrappers
+#' 
 #' @export
 column_sparse_with_hash_bucket <- function(column_name, hash_bucket_size, combiner = "sum", dtype = tf$string) {
   tf$contrib$layers$sparse_column_with_hash_bucket(
@@ -62,6 +66,8 @@ column_sparse_with_hash_bucket <- function(column_name, hash_bucket_size, combin
 #' @param normalizer If not None, a function that can be used to normalize the value of the real valued column after default_value is applied for parsing. 
 #' Normalizer function takes the input tensor as its argument, and returns the output tensor. (e.g. lambda x: (x - 3.0) / 4.2). 
 #' Note that for variable length columns, the normalizer should expect an input_tensor of type `SparseTensor`.
+#' 
+#' @family feature_column wrappers
 #' 
 #' @export
 column_real_valued <- function(column_name, dimension = 1L, default_value = NULL, dtype = tf$float32, normalizer = NULL) {
@@ -91,7 +97,9 @@ column_real_valued <- function(column_name, dimension = 1L, default_value = NULL
 #' @param tensor_name_in_ckpt (Optional). Name of the `Tensor` in the provided checkpoint from which to restore the column weights. 
 #' Required if `ckpt_to_load_from` is not None.
 #' @param max_norm (Optional). If not None, embedding values are l2-normalized to the value of max_norm.
-#' @param trainable (Optional). Should the embedding be trainable. Default is True
+#' @param trainable (Optional). Should the embedding be trainable. Default is True.
+#' 
+#' @family feature_column wrappers
 #' 
 #' @export
 column_embedding <- function(sparse_id_column, dimension, combiner = "mean", initializer = NULL, ckpt_to_load_from = NULL, tensor_name_in_ckpt = NULL, max_norm = NULL, trainable = TRUE) {
@@ -120,6 +128,8 @@ column_embedding <- function(sparse_id_column, dimension, combiner = "mean", ini
 #' @param ckpt_to_load_from (Optional). String representing checkpoint name/pattern to restore the column weights. Required if `tensor_name_in_ckpt` is not None.
 #' @param tensor_name_in_ckpt (Optional). Name of the `Tensor` in the provided checkpoint from which to restore the column weights. Required if `ckpt_to_load_from` is not None.
 #' @param hash_key Specify the hash_key that will be used by the `FingerprintCat64` function to combine the crosses fingerprints on SparseFeatureCrossOp (optional).
+#' 
+#' @family feature_column wrappers
 #' 
 #' @export
 column_crossed <- function(columns, hash_bucket_size, combiner = "sum", ckpt_to_load_from = NULL, tensor_name_in_ckpt = NULL, hash_key = NULL) {
@@ -158,6 +168,8 @@ column_crossed <- function(columns, hash_bucket_size, combiner = "sum", ckpt_to_
 #' @section Raises:
 #' ValueError: if dtype is not convertible to float.
 #' 
+#' @family feature_column wrappers
+#' 
 #' @export
 column_sparse_weighted <- function(sparse_id_column, weight_column_name, dtype = tf$float32) {
   tf$contrib$layers$weighted_sparse_column(
@@ -172,6 +184,8 @@ column_sparse_weighted <- function(sparse_id_column, weight_column_name, dtype =
 #' @param sparse_id_column A _SparseColumn which is created by `sparse_column_with_*` or crossed_column functions. Note that `combiner` defined in `sparse_id_column` is ignored.
 #' 
 #' @return An _OneHotColumn.
+#' 
+#' @family feature_column wrappers
 #' 
 #' @export
 column_one_hot <- function(sparse_id_column) {
@@ -188,6 +202,8 @@ column_one_hot <- function(sparse_id_column) {
 #' @param boundaries A list or list of floats specifying the boundaries. It has to be sorted.
 #' 
 #' @return A _BucketizedColumn.
+#' 
+#' @family feature_column wrappers
 #' 
 #' @section Raises:
 #' ValueError: if 'boundaries' is empty or not sorted.

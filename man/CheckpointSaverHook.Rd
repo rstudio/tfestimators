@@ -28,3 +28,11 @@ only in steps where the CheckpointSaverHook was triggered.}
 \description{
 Saves checkpoints every N steps or seconds.
 }
+\seealso{
+Other session_run_hook wrappers: \code{\link{GlobalStepWaiterHook}},
+  \code{\link{LoggingTensorHook}},
+  \code{\link{NanTensorHook}},
+  \code{\link{StepCounterHook}},
+  \code{\link{StopAtStepHook}},
+  \code{\link{SummarySaverHook}}
+}

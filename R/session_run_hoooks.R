@@ -9,6 +9,8 @@
 #' @param formatter function, takes dict of `tag`->`Tensor` and returns a string. 
 #' If `NULL` uses default printing all tensors.
 #' 
+#' @family session_run_hook wrappers
+#' 
 #' @export
 LoggingTensorHook <- function(tensors, every_n_iter = NULL, every_n_secs = NULL, formatter = NULL) {
   tf$python$training$basic_session_run_hooks$LoggingTensorHook(
@@ -23,6 +25,8 @@ LoggingTensorHook <- function(tensors, every_n_iter = NULL, every_n_secs = NULL,
 #' 
 #' @param num_steps Number of steps to execute.
 #' @param last_step Step after which to stop.
+#' 
+#' @family session_run_hook wrappers
 #' 
 #' @export
 StopAtStepHook <- function(num_steps = NULL, last_step = NULL) {
@@ -45,6 +49,8 @@ StopAtStepHook <- function(num_steps = NULL, last_step = NULL) {
 #' Used for callbacks that run immediately after the corresponding CheckpointSaverHook callbacks,
 #' only in steps where the CheckpointSaverHook was triggered.
 #' 
+#' @family session_run_hook wrappers
+#' 
 #' @export
 CheckpointSaverHook <- function(checkpoint_dir, save_secs = NULL, save_steps = NULL, saver = NULL, checkpoint_basename = "model.ckpt", scaffold = NULL, listeners = NULL) {
   tf$python$training$basic_session_run_hooks$CheckpointSaverHook(
@@ -66,6 +72,8 @@ CheckpointSaverHook <- function(checkpoint_dir, save_secs = NULL, save_steps = N
 #' @param output_dir output_dir
 #' @param summary_writer summary_writer
 #' 
+#' @family session_run_hook wrappers
+#' 
 #' @export
 StepCounterHook <- function(every_n_steps = 100L, every_n_secs = NULL, output_dir = NULL, summary_writer = NULL) {
   tf$python$training$basic_session_run_hooks$StepCounterHook(
@@ -83,6 +91,8 @@ StepCounterHook <- function(every_n_steps = 100L, every_n_secs = NULL, output_di
 #' 
 #' @param loss_tensor `Tensor`, the loss tensor.
 #' @param fail_on_nan_loss `bool`, whether to raise exception when loss is NaN.
+#' 
+#' @family session_run_hook wrappers
 #' 
 #' @export
 NanTensorHook <- function(loss_tensor, fail_on_nan_loss = TRUE) {
@@ -105,6 +115,8 @@ NanTensorHook <- function(loss_tensor, fail_on_nan_loss = TRUE) {
 #' They are most likely an output by TF summary methods like `tf.summary.scalar` or `tf.summary.merge_all`. 
 #' It can be passed in as one tensor; if more than one, they must be passed in as a list.
 #' 
+#' @family session_run_hook wrappers
+#' 
 #' @export
 SummarySaverHook <- function(save_steps = NULL, save_secs = NULL, output_dir = NULL, summary_writer = NULL, scaffold = NULL, summary_op = NULL) {
   tf$python$training$basic_session_run_hooks$SummarySaverHook(
@@ -126,6 +138,8 @@ SummarySaverHook <- function(save_steps = NULL, save_secs = NULL, output_dir = N
 #' task_id=0 is the chief.
 #' 
 #' @param wait_until_step an `int` shows until which global step should we wait.
+#' 
+#' @family session_run_hook wrappers
 #' 
 #' @export
 GlobalStepWaiterHook <- function(wait_until_step) {

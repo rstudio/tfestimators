@@ -21,3 +21,11 @@ If \code{NULL} uses default printing all tensors.}
 \description{
 The tensors will be printed to the log, with \code{INFO} severity.
 }
+\seealso{
+Other session_run_hook wrappers: \code{\link{CheckpointSaverHook}},
+  \code{\link{GlobalStepWaiterHook}},
+  \code{\link{NanTensorHook}},
+  \code{\link{StepCounterHook}},
+  \code{\link{StopAtStepHook}},
+  \code{\link{SummarySaverHook}}
+}

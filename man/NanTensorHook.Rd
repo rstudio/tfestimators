@@ -15,3 +15,11 @@ NanTensorHook(loss_tensor, fail_on_nan_loss = TRUE)
 Monitors loss and stops training if loss is NaN.
 Can either fail with exception or just stop training.
 }
+\seealso{
+Other session_run_hook wrappers: \code{\link{CheckpointSaverHook}},
+  \code{\link{GlobalStepWaiterHook}},
+  \code{\link{LoggingTensorHook}},
+  \code{\link{StepCounterHook}},
+  \code{\link{StopAtStepHook}},
+  \code{\link{SummarySaverHook}}
+}

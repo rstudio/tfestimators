@@ -25,3 +25,11 @@ It can be passed in as one tensor; if more than one, they must be passed in as a
 \description{
 Saves summaries every N steps.
 }
+\seealso{
+Other session_run_hook wrappers: \code{\link{CheckpointSaverHook}},
+  \code{\link{GlobalStepWaiterHook}},
+  \code{\link{LoggingTensorHook}},
+  \code{\link{NanTensorHook}},
+  \code{\link{StepCounterHook}},
+  \code{\link{StopAtStepHook}}
+}

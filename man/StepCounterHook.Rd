@@ -19,3 +19,11 @@ StepCounterHook(every_n_steps = 100L, every_n_secs = NULL,
 \description{
 Steps per second monitor.
 }
+\seealso{
+Other session_run_hook wrappers: \code{\link{CheckpointSaverHook}},
+  \code{\link{GlobalStepWaiterHook}},
+  \code{\link{LoggingTensorHook}},
+  \code{\link{NanTensorHook}},
+  \code{\link{StopAtStepHook}},
+  \code{\link{SummarySaverHook}}
+}

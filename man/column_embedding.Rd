@@ -33,8 +33,17 @@ Required if \code{ckpt_to_load_from} is not None.}
 
 \item{max_norm}{(Optional). If not None, embedding values are l2-normalized to the value of max_norm.}
 
-\item{trainable}{(Optional). Should the embedding be trainable. Default is True}
+\item{trainable}{(Optional). Should the embedding be trainable. Default is True.}
 }
 \description{
 Creates an \code{_EmbeddingColumn} for feeding sparse data into a DNN.
+}
+\seealso{
+Other feature_column wrappers: \code{\link{column_bucketized}},
+  \code{\link{column_crossed}},
+  \code{\link{column_one_hot}},
+  \code{\link{column_real_valued}},
+  \code{\link{column_sparse_weighted}},
+  \code{\link{column_sparse_with_hash_bucket}},
+  \code{\link{column_sparse_with_keys}}
 }

@@ -15,3 +15,11 @@ is used to gradually start workers in distributed settings. One example usage
 would be setting \code{wait_until_step=int(K*log(task_id+1))} assuming that
 task_id=0 is the chief.
 }
+\seealso{
+Other session_run_hook wrappers: \code{\link{CheckpointSaverHook}},
+  \code{\link{LoggingTensorHook}},
+  \code{\link{NanTensorHook}},
+  \code{\link{StepCounterHook}},
+  \code{\link{StopAtStepHook}},
+  \code{\link{SummarySaverHook}}
+}

@@ -30,3 +30,12 @@ For more information: \code{tf.embedding_lookup_sparse}.
 \description{
 Creates a _CrossedColumn for performing feature crosses.
 }
+\seealso{
+Other feature_column wrappers: \code{\link{column_bucketized}},
+  \code{\link{column_embedding}},
+  \code{\link{column_one_hot}},
+  \code{\link{column_real_valued}},
+  \code{\link{column_sparse_weighted}},
+  \code{\link{column_sparse_with_hash_bucket}},
+  \code{\link{column_sparse_with_keys}}
+}
