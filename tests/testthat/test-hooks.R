@@ -7,8 +7,7 @@ test_that("Hooks works with linear dnn combined estimators", {
   
   old_verbose_level <- tf$logging$get_verbosity()
   tf$logging$set_verbosity(tf$logging$INFO)
-  logging_hook <- tf$python$training$basic_session_run_hooks$LoggingTensorHook
-  
+
   output <- reticulate:::py_capture_output(
     linear_dnn_combined_regressor(
       linear_feature_columns = specs$linear_feature_columns,
@@ -18,7 +17,7 @@ test_that("Hooks works with linear dnn combined estimators", {
     ) %>% fit(
       input_fn = specs$input_fn,
       steps = 10L,
-      monitors = logging_hook(
+      monitors = LoggingTensorHook(
         tensors = list("global_step"),
         every_n_iter = 2L))
   )
