@@ -37,12 +37,12 @@ Another spec constructor is the input_fn required for the estimators. This is wh
 Users have two ways to specify in-memory data set - using formula interface or passing `features` and `response` arguments. Note that there's an argument named `features_as_named_list` that should be `TRUE` if this is used by a canned estimator and should be `FALSE` if this is used by a custom estimator. 
 
 ``` r
-input_fn.default(mtcars, response = "mpg", features = c("drat", "cyl"))
-input_fn.formula(mpg ~ drat + cyl, data = mtcars)
+input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
+input_fn(mpg ~ drat + cyl, data = mtcars)
 
 ```
 
-Users can also write custom function to convert each feature into a `Tensor` or `SparseTensor` according to the needs, e.g. a function called `custom_function`. This function should return a list that consists of `input_fn` and `features_as_named_list` so the custom or canned estimator can recognize them. The following code has a few places commented with "custom code here" that users can use to do customized stuff. Other parts should remain unchanged.
+Users can also write custom function to convert each feature into a `Tensor` or `SparseTensor` according to the needs, e.g. a function called `custom_function()`. This function should return a list that consists of `input_fn` and `features_as_named_list` so the custom or canned estimator can recognize them. The following code has a few places commented with "custom code here" that users can use to do customized stuff. Other parts should remain unchanged.
 
 ``` r
 custom_input_fn <-  function(
