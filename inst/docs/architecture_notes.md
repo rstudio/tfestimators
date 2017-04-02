@@ -77,9 +77,9 @@ custom_input_fn <-  function(
 
 ```
 
-## Feature Columns Layers
+## Feature Columns
 
-The feature column layers API are basically wrappers around `tf.contrib.layers.feature_column`, for example, `column_real_valued` is `tf.contrib.layers.feature_column.real_valued_column`, we wrap it this way so users can just type `column_` and utilize the autocomplete functionality in RStudio as well as reducing the appearances of `$` in the code. These are used together with spec constructors. Right now all arguments are just `...`, which means that users will need to look up Python API documentation themselves. A more general and automatic way of generating these wrapper APIs is needed.
+The feature columns are wrappers around `tf.contrib.layers.feature_column`, for example, `column_real_valued()` is `tf.contrib.layers.feature_column.real_valued_column`, we wrap it this way so users can just type `column_` and utilize the autocomplete functionality in RStudio as well as reducing the appearances of `$` in the code. These are used together with spec constructors that are used often for constructing canned estimator's features. A variety of feature column funcions are available. For example, `column_one_hot()` specifies a feature column that's one-hot encoded, `column_sparse_weighted()` creates a feature column in combination with a designated weight column.
 
 ## Estimator
 
@@ -193,6 +193,24 @@ predictions <- predict(classifier, input_fn = constructed_input_fn, type = "logi
 
 All estimators accept an argument called `run_options` that is a `run_options` object containing the `model_dir` and `RunConfig` that specifies the checkpoint directory and the model run-time configuration, such as cluster information, GPU fractions, etc. If not specified, default values will be used.
 
+## SessionRunHooks
+
+SessionRunHooks are useful to track training, report progress, request early stopping and more. Users can attach an arbitrary number of hooks to an estimator. SessionRunHooks use the observer pattern and notify at the following points:
+
+ - when a session starts being used
+ - before a call to the `session.run()`
+ - after a call to the `session.run()`
+ - when the session closed
+
+A SessionRunHook encapsulates a piece of reusable/composable computation that can piggyback a call to `MonitoredSession.run()`. A hook can add any ops-or-tensor/feeds to the run call, and when the run call finishes with success gets the outputs it requested. Hooks are allowed to add ops to the graph in `hook.begin()`. The graph is finalized after the `begin()` method is called.
+
+There are a few pre-defined SessionRunHooks available, for example:
+ - `StopAtStepHook`: Request stop based on global_step.
+ - `CheckpointSaverHook`: Saves checkpoint.
+ - `LoggingTensorHook`: Outputs one or more tensor values to log.
+ - `NanTensorHook`: Request stop if given `Tensor` contains Nans.
+ - `SummarySaverHook`: Saves summaries to a summary writer.
+ - `GlobalStepWaiterHook`: Delays execution until reaching a certain global step.
 
 ## Experiments
 
