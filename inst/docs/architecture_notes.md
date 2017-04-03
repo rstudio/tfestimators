@@ -1,4 +1,4 @@
-# Architecture and Main Components of This Package
+# Architecture and Main Components
 
 ## Spec Constructors
 
@@ -42,7 +42,7 @@ input_fn(mpg ~ drat + cyl, data = mtcars)
 
 ```
 
-Users can also write custom function to convert each feature into a `Tensor` or `SparseTensor` according to the needs, e.g. a function called `custom_function()`. This function should return a list that consists of `input_fn` and `features_as_named_list` so the custom or canned estimator can recognize them. The following code has a few places commented with "custom code here" that users can use to do customized stuff. Other parts should remain unchanged.
+Users can also write custom `input_fn` function, e.g. a function called `custom_function()`, to convert each feature into a `Tensor` or `SparseTensor` according to the needs. This function should return a list that consists of `input_fn` and `features_as_named_list` so the custom or canned estimator can recognize them. The following code has a few places commented with "custom code here" that users can use to do customized stuff. Other parts should remain unchanged.
 
 ``` r
 custom_input_fn <-  function(
@@ -56,7 +56,7 @@ custom_input_fn <-  function(
     if (features_as_named_list) {
       # For canned estimators
       input_features <- lapply(features, function(feature) {
-        custom_function(as.character(x[[feature]])) # custom code here
+        custom_function(x[[feature]], ...) # custom code here
       })
       names(input_features) <- features
     } else {
@@ -85,7 +85,7 @@ The feature columns are wrappers around `tf.contrib.layers.feature_column`, for 
 
 Estimator is an interface that provides an abstraction for a machine learning model. It is designed to be detailed enough to allow for downstream infrastructure to be written, but general enough to not constrain the type of model represented by an Estimator. Estimators are given input by a user defined input function, as illustrated in earlier section.
 
-The Estimator's architecture is configured using the model_fn, a function which builds a TensorFlow graph and returns necessary information to train a model, evaluate it, and predict with it. Users writing custom estimators to implement custom model architecture only have to implement this function to specify the layers of the custom Estimator. It is possible, and in fact, common, that model_fn contains regular TensorFlow without using any other part of our framework.  It is often the case because existing models are being adapted or converted to be implemented in terms of an estimator.
+The Estimator's architecture is configured using a user-defined `model_fn`, a function which builds a TensorFlow graph and returns necessary information to train a model, evaluate it, and predict with it. Users writing custom estimators to implement custom model architecture only have to implement this function to specify the layers of the custom Estimator. It is possible, and in fact, common, that `model_fn` contains regular TensorFlow without using any other part of our framework.  It is often the case because existing models are being adapted or converted to be implemented in terms of an estimator.
 
 This library also provides canned estimators that have already implemented the model architecture, such as linear classifier, linear regressor, DNN classifier, DNN regressor, SVM classifier, etc. Users only need to focus on the input sources and the feature columns used to train a model, evaluate it, and predict with it. Users then should be able to choose freely the level of abstraction best suited for the problem at hand.
 
@@ -195,16 +195,16 @@ All estimators accept an argument called `run_options` that is a `run_options` o
 
 ## SessionRunHooks
 
-SessionRunHooks are useful to track training, report progress, request early stopping and more. Users can attach an arbitrary number of hooks to an estimator. SessionRunHooks use the observer pattern and notify at the following points:
+`SessionRunHooks` are useful to track training, report progress, request early stopping and more. Users can attach an arbitrary number of hooks to an estimator. `SessionRunHooks` use the observer pattern and notify at the following points:
 
  - when a session starts being used
  - before a call to the `session.run()`
  - after a call to the `session.run()`
  - when the session closed
 
-A SessionRunHook encapsulates a piece of reusable/composable computation that can piggyback a call to `MonitoredSession.run()`. A hook can add any ops-or-tensor/feeds to the run call, and when the run call finishes with success gets the outputs it requested. Hooks are allowed to add ops to the graph in `hook.begin()`. The graph is finalized after the `begin()` method is called.
+A `SessionRunHook` encapsulates a piece of reusable/composable computation that can piggyback a call to `MonitoredSession.run()`. A hook can add any ops-or-tensor/feeds to the run call, and when the run call finishes with success gets the outputs it requested. Hooks are allowed to add ops to the graph in `hook.begin()`. The graph is finalized after the `begin()` method is called.
 
-There are a few pre-defined SessionRunHooks available, for example:
+There are a few pre-defined `SessionRunHooks` available, for example:
  - `hook_stop_at_step`: Request stop based on global_step.
  - `hook_checkpoint_saver`: Saves checkpoint.
  - `hook_logging_tensor`: Outputs one or more tensor values to log.
@@ -212,11 +212,11 @@ There are a few pre-defined SessionRunHooks available, for example:
  - `hook_summary_saver`: Saves summaries to a summary writer.
  - `hook_global_step_waiter`: Delays execution until reaching a certain global step.
 
-Similarly to feature columns, all available SessionRunHooks are named with `hook_xxx` to utilize the autocomplete functionality to speed up searching for available types of SessionRunHooks.
+Similarly to feature columns, all available `SessionRunHooks` are named with `hook_xxx` to utilize the autocomplete functionality to speed up searching for available types of `SessionRunHooks`.
 
 ## Experiments
 
-Experiments are designed for easier experiments, e.g. define your model, specify training and evaluation data and steps, frequencies, where to run, metrics to use to monitor the process, etc. They contain all neccessary information required to run experiments and can be easily packed up to run in places like CloudML, local environment, or cluster.
+Experiments are designed for easier experiments, e.g. define your model, specify training and evaluation data and steps, frequencies, where to run, metrics to use to monitor the process, etc. They contain all neccessary information required, such as input_fn for both training and evaluation, to run experiments and can be easily packed up to run in places like CloudML, local environment, or cluster.
 
 ``` r
 clf <-

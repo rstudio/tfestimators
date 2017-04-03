@@ -11,6 +11,9 @@ run_options(model_dir = tf_setting("tflearn.model_dir", tempfile("tflearn_")),
 \item{model_dir}{The location where model outputs should be written. Defaults
 to a temporary directory within the \code{R} \code{\link{tempdir}}(), as
 produced by \code{\link{tempfile}}().}
+
+\item{run_config}{A learn$RunConfig object, e.g. learn$RunConfig(tf_random_seed = 1)
+that specifies the run-time configuration of a model operation.}
 }
 \description{
 Used to control the various facets of layers constructed with the

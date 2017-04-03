@@ -6,6 +6,8 @@
 #' @param model_dir The location where model outputs should be written. Defaults
 #'   to a temporary directory within the \code{R} \code{\link{tempdir}}(), as
 #'   produced by \code{\link{tempfile}}().
+#' @param run_config A learn$RunConfig object, e.g. learn$RunConfig(tf_random_seed = 1)
+#' that specifies the run-time configuration of a model operation.
 #' @export
 run_options <- function(
   model_dir  = tf_setting("tflearn.model_dir", tempfile("tflearn_")),
