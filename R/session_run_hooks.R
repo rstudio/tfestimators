@@ -12,7 +12,7 @@
 #' @family session_run_hook wrappers
 #' 
 #' @export
-LoggingTensorHook <- function(tensors, every_n_iter = NULL, every_n_secs = NULL, formatter = NULL) {
+hook_logging_tensor <- function(tensors, every_n_iter = NULL, every_n_secs = NULL, formatter = NULL) {
   tf$python$training$basic_session_run_hooks$LoggingTensorHook(
     tensors = tensors,
     every_n_iter = every_n_iter,
@@ -29,7 +29,7 @@ LoggingTensorHook <- function(tensors, every_n_iter = NULL, every_n_secs = NULL,
 #' @family session_run_hook wrappers
 #' 
 #' @export
-StopAtStepHook <- function(num_steps = NULL, last_step = NULL) {
+hook_stop_at_step <- function(num_steps = NULL, last_step = NULL) {
   tf$python$training$basic_session_run_hooks$StopAtStepHook(
     num_steps = num_steps,
     last_step = last_step
@@ -52,7 +52,7 @@ StopAtStepHook <- function(num_steps = NULL, last_step = NULL) {
 #' @family session_run_hook wrappers
 #' 
 #' @export
-CheckpointSaverHook <- function(checkpoint_dir, save_secs = NULL, save_steps = NULL, saver = NULL, checkpoint_basename = "model.ckpt", scaffold = NULL, listeners = NULL) {
+hook_checkpoint_saver <- function(checkpoint_dir, save_secs = NULL, save_steps = NULL, saver = NULL, checkpoint_basename = "model.ckpt", scaffold = NULL, listeners = NULL) {
   tf$python$training$basic_session_run_hooks$CheckpointSaverHook(
     checkpoint_dir = checkpoint_dir,
     save_secs = save_secs,
@@ -75,7 +75,7 @@ CheckpointSaverHook <- function(checkpoint_dir, save_secs = NULL, save_steps = N
 #' @family session_run_hook wrappers
 #' 
 #' @export
-StepCounterHook <- function(every_n_steps = 100L, every_n_secs = NULL, output_dir = NULL, summary_writer = NULL) {
+hook_step_counter <- function(every_n_steps = 100L, every_n_secs = NULL, output_dir = NULL, summary_writer = NULL) {
   tf$python$training$basic_session_run_hooks$StepCounterHook(
     every_n_steps = every_n_steps,
     every_n_secs = every_n_secs,
@@ -95,7 +95,7 @@ StepCounterHook <- function(every_n_steps = 100L, every_n_secs = NULL, output_di
 #' @family session_run_hook wrappers
 #' 
 #' @export
-NanTensorHook <- function(loss_tensor, fail_on_nan_loss = TRUE) {
+hook_nan_tensor <- function(loss_tensor, fail_on_nan_loss = TRUE) {
   tf$python$training$basic_session_run_hooks$NanTensorHook(
     loss_tensor = loss_tensor,
     fail_on_nan_loss = fail_on_nan_loss
@@ -118,7 +118,7 @@ NanTensorHook <- function(loss_tensor, fail_on_nan_loss = TRUE) {
 #' @family session_run_hook wrappers
 #' 
 #' @export
-SummarySaverHook <- function(save_steps = NULL, save_secs = NULL, output_dir = NULL, summary_writer = NULL, scaffold = NULL, summary_op = NULL) {
+hook_summary_saver <- function(save_steps = NULL, save_secs = NULL, output_dir = NULL, summary_writer = NULL, scaffold = NULL, summary_op = NULL) {
   tf$python$training$basic_session_run_hooks$SummarySaverHook(
     save_steps = save_steps,
     save_secs = save_secs,
@@ -142,7 +142,7 @@ SummarySaverHook <- function(save_steps = NULL, save_secs = NULL, output_dir = N
 #' @family session_run_hook wrappers
 #' 
 #' @export
-GlobalStepWaiterHook <- function(wait_until_step) {
+hook_global_step_waiter <- function(wait_until_step) {
   tf$python$training$basic_session_run_hooks$GlobalStepWaiterHook(
     wait_until_step = wait_until_step
   )

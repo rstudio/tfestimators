@@ -79,7 +79,7 @@ custom_input_fn <-  function(
 
 ## Feature Columns
 
-The feature columns are wrappers around `tf.contrib.layers.feature_column`, for example, `column_real_valued()` is `tf.contrib.layers.feature_column.real_valued_column`, we wrap it this way so users can just type `column_` and utilize the autocomplete functionality in RStudio as well as reducing the appearances of `$` in the code. These are used together with spec constructors that are used often for constructing canned estimator's features. A variety of feature column funcions are available. For example, `column_one_hot()` specifies a feature column that's one-hot encoded, `column_sparse_weighted()` creates a feature column in combination with a designated weight column.
+The feature columns are wrappers around `tf.contrib.layers.feature_column`, for example, `column_real_valued()` is `tf.contrib.layers.feature_column.real_valued_column`, we wrap it this way so users can just type `column_` and utilize the autocomplete functionality in RStudio to find available types of feature columns faster as well as reducing the appearances of `$` in the code. These are used together with spec constructors that are used often for constructing canned estimator's features. A variety of feature column funcions are available. For example, `column_one_hot()` specifies a feature column that's one-hot encoded, `column_sparse_weighted()` creates a feature column in combination with a designated weight column.
 
 ## Estimator
 
@@ -205,12 +205,14 @@ SessionRunHooks are useful to track training, report progress, request early sto
 A SessionRunHook encapsulates a piece of reusable/composable computation that can piggyback a call to `MonitoredSession.run()`. A hook can add any ops-or-tensor/feeds to the run call, and when the run call finishes with success gets the outputs it requested. Hooks are allowed to add ops to the graph in `hook.begin()`. The graph is finalized after the `begin()` method is called.
 
 There are a few pre-defined SessionRunHooks available, for example:
- - `StopAtStepHook`: Request stop based on global_step.
- - `CheckpointSaverHook`: Saves checkpoint.
- - `LoggingTensorHook`: Outputs one or more tensor values to log.
- - `NanTensorHook`: Request stop if given `Tensor` contains Nans.
- - `SummarySaverHook`: Saves summaries to a summary writer.
- - `GlobalStepWaiterHook`: Delays execution until reaching a certain global step.
+ - `hook_stop_at_step`: Request stop based on global_step.
+ - `hook_checkpoint_saver`: Saves checkpoint.
+ - `hook_logging_tensor`: Outputs one or more tensor values to log.
+ - `hook_nan_tensor`: Request stop if given `Tensor` contains Nans.
+ - `hook_summary_saver`: Saves summaries to a summary writer.
+ - `hook_global_step_waiter`: Delays execution until reaching a certain global step.
+
+Similarly to feature columns, all available SessionRunHooks are named with `hook_xxx` to utilize the autocomplete functionality to speed up searching for available types of SessionRunHooks.
 
 ## Experiments
 
