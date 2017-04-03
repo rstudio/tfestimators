@@ -17,7 +17,7 @@ test_that("Hooks works with linear dnn combined estimators", {
     ) %>% fit(
       input_fn = specs$input_fn,
       steps = 10L,
-      monitors = LoggingTensorHook(
+      monitors = hook_logging_tensor(
         tensors = list("global_step"),
         every_n_iter = 2L))
   )
