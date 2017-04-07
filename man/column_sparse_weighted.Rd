@@ -8,7 +8,7 @@ column_sparse_weighted(sparse_id_column, weight_column_name,
   dtype = tf$float32)
 }
 \arguments{
-\item{sparse_id_column}{A \code{_SparseColumn} which is created by \code{sparse_column_with_*} functions.}
+\item{sparse_id_column}{A \code{_SparseColumn} which is created by \code{column_sparse_with_*} functions.}
 
 \item{weight_column_name}{A string defining a sparse column name which represents weight or value of the corresponding sparse id feature.}
 

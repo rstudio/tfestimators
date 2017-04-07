@@ -19,9 +19,9 @@ column_sparse_with_keys <- function(column_name, keys, default_value = -1L, comb
   tf$contrib$layers$sparse_column_with_keys(
     column_name = column_name,
     keys = keys,
-    default_value = default_value,
+    default_value = as_nullable_integer(default_value),
     combiner = combiner,
-    dtype = dtype
+    dtype = check_dtype(dtype)
   )
 }
 
@@ -44,11 +44,15 @@ column_sparse_with_keys <- function(column_name, keys, default_value = -1L, comb
 #' 
 #' @export
 column_sparse_with_hash_bucket <- function(column_name, hash_bucket_size, combiner = "sum", dtype = tf$string) {
+  hash_bucket_size <- as.integer(hash_bucket_size)
+  if (hash_bucket_size <= 1) {
+    stop("hash_bucket_size must be larger than 1")
+  }
   tf$contrib$layers$sparse_column_with_hash_bucket(
     column_name = column_name,
     hash_bucket_size = hash_bucket_size,
     combiner = combiner,
-    dtype = dtype
+    dtype = check_dtype(dtype)
   )
 }
 
@@ -73,9 +77,9 @@ column_sparse_with_hash_bucket <- function(column_name, hash_bucket_size, combin
 column_real_valued <- function(column_name, dimension = 1L, default_value = NULL, dtype = tf$float32, normalizer = NULL) {
   tf$contrib$layers$real_valued_column(
     column_name = column_name,
-    dimension = dimension,
+    dimension = as_nullable_integer(dimension),
     default_value = default_value,
-    dtype = dtype,
+    dtype = check_dtype(dtype),
     normalizer = normalizer
   )
 }
@@ -105,7 +109,7 @@ column_real_valued <- function(column_name, dimension = 1L, default_value = NULL
 column_embedding <- function(sparse_id_column, dimension, combiner = "mean", initializer = NULL, ckpt_to_load_from = NULL, tensor_name_in_ckpt = NULL, max_norm = NULL, trainable = TRUE) {
   tf$contrib$layers$embedding_column(
     sparse_id_column = sparse_id_column,
-    dimension = dimension,
+    dimension = as.integer(dimension),
     combiner = combiner,
     initializer = initializer,
     ckpt_to_load_from = ckpt_to_load_from,
@@ -133,6 +137,10 @@ column_embedding <- function(sparse_id_column, dimension, combiner = "mean", ini
 #' 
 #' @export
 column_crossed <- function(columns, hash_bucket_size, combiner = "sum", ckpt_to_load_from = NULL, tensor_name_in_ckpt = NULL, hash_key = NULL) {
+  hash_bucket_size <- as.integer(hash_bucket_size)
+  if (hash_bucket_size <= 1) {
+    stop("hash_bucket_size must be larger than 1")
+  }
   tf$contrib$layers$crossed_column(
     columns = columns,
     hash_bucket_size = hash_bucket_size,
@@ -159,7 +167,7 @@ column_crossed <- function(columns, hash_bucket_size, combiner = "sum", ckpt_to_
 #' * sparse_tensor.indices = weights_tensor.indices 
 #' * sparse_tensor.dense_shape = weights_tensor.dense_shape
 #' 
-#' @param sparse_id_column A `_SparseColumn` which is created by `sparse_column_with_*` functions.
+#' @param sparse_id_column A `_SparseColumn` which is created by `column_sparse_with_*` functions.
 #' @param weight_column_name A string defining a sparse column name which represents weight or value of the corresponding sparse id feature.
 #' @param dtype Type of weights, such as `tf.float32`. Only floating and integer weights are supported. Returns: A _WeightedSparseColumn composed of two sparse features: one represents id, the other represents weight (value) of the id feature in that example.
 #' 
@@ -175,13 +183,13 @@ column_sparse_weighted <- function(sparse_id_column, weight_column_name, dtype =
   tf$contrib$layers$weighted_sparse_column(
     sparse_id_column = sparse_id_column,
     weight_column_name = weight_column_name,
-    dtype = dtype
+    dtype = check_dtype(dtype)
   )
 }
 
 #' Creates an `_OneHotColumn` for a one-hot or multi-hot repr in a DNN.
 #' 
-#' @param sparse_id_column A _SparseColumn which is created by `sparse_column_with_*` or crossed_column functions. Note that `combiner` defined in `sparse_id_column` is ignored.
+#' @param sparse_id_column A _SparseColumn which is created by `column_sparse_with_*` or crossed_column functions. Note that `combiner` defined in `sparse_id_column` is ignored.
 #' 
 #' @return An _OneHotColumn.
 #' 
