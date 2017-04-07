@@ -14,9 +14,9 @@
 #' @export
 hook_logging_tensor <- function(tensors, every_n_iter = NULL, every_n_secs = NULL, formatter = NULL) {
   tf$python$training$basic_session_run_hooks$LoggingTensorHook(
-    tensors = tensors,
-    every_n_iter = every_n_iter,
-    every_n_secs = every_n_secs,
+    tensors = ensure_named_dict(tensors),
+    every_n_iter = as_nullable_integer(every_n_iter),
+    every_n_secs = as_nullable_integer(every_n_secs),
     formatter = formatter
   )
 }
@@ -31,8 +31,8 @@ hook_logging_tensor <- function(tensors, every_n_iter = NULL, every_n_secs = NUL
 #' @export
 hook_stop_at_step <- function(num_steps = NULL, last_step = NULL) {
   tf$python$training$basic_session_run_hooks$StopAtStepHook(
-    num_steps = num_steps,
-    last_step = last_step
+    num_steps = as_nullable_integer(num_steps),
+    last_step = as_nullable_integer(last_step)
   )
 }
 
@@ -55,8 +55,8 @@ hook_stop_at_step <- function(num_steps = NULL, last_step = NULL) {
 hook_checkpoint_saver <- function(checkpoint_dir, save_secs = NULL, save_steps = NULL, saver = NULL, checkpoint_basename = "model.ckpt", scaffold = NULL, listeners = NULL) {
   tf$python$training$basic_session_run_hooks$CheckpointSaverHook(
     checkpoint_dir = checkpoint_dir,
-    save_secs = save_secs,
-    save_steps = save_steps,
+    save_secs = as_nullable_integer(save_secs),
+    save_steps = as_nullable_integer(save_steps),
     saver = saver,
     checkpoint_basename = checkpoint_basename,
     scaffold = scaffold,
@@ -77,8 +77,8 @@ hook_checkpoint_saver <- function(checkpoint_dir, save_secs = NULL, save_steps =
 #' @export
 hook_step_counter <- function(every_n_steps = 100L, every_n_secs = NULL, output_dir = NULL, summary_writer = NULL) {
   tf$python$training$basic_session_run_hooks$StepCounterHook(
-    every_n_steps = every_n_steps,
-    every_n_secs = every_n_secs,
+    every_n_steps = as.integer(every_n_steps),
+    every_n_secs = as_nullable_integer(every_n_secs),
     output_dir = output_dir,
     summary_writer = summary_writer
   )
@@ -120,8 +120,8 @@ hook_nan_tensor <- function(loss_tensor, fail_on_nan_loss = TRUE) {
 #' @export
 hook_summary_saver <- function(save_steps = NULL, save_secs = NULL, output_dir = NULL, summary_writer = NULL, scaffold = NULL, summary_op = NULL) {
   tf$python$training$basic_session_run_hooks$SummarySaverHook(
-    save_steps = save_steps,
-    save_secs = save_secs,
+    save_steps = as_nullable_integer(save_steps),
+    save_secs = as_nullable_integer(save_secs),
     output_dir = output_dir,
     summary_writer = summary_writer,
     scaffold = scaffold,
@@ -144,6 +144,6 @@ hook_summary_saver <- function(save_steps = NULL, save_secs = NULL, output_dir =
 #' @export
 hook_global_step_waiter <- function(wait_until_step) {
   tf$python$training$basic_session_run_hooks$GlobalStepWaiterHook(
-    wait_until_step = wait_until_step
+    wait_until_step = as.integer(wait_until_step)
   )
 }

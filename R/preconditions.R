@@ -32,26 +32,28 @@ ensure_scalar <- function(object) {
       deparse(substitute(object))
     )
   }
-
   object
 }
 
-#' Enforce Specific Structure for R Objects
-#'
-#' These routines are useful when preparing to pass objects to
-#' a Spark routine, as it is often necessary to ensure certain
-#' parameters are scalar integers, or scalar doubles, and so on.
-#'
-#' @param object An \R object.
-#' @param allow.na Are \code{NA} values permitted for this object?
-#' @param allow.null Are \code{NULL} values permitted for this object?
-#' @param default If \code{object} is \code{NULL}, what value should
-#'   be used in its place? If \code{default} is specified, \code{allow.null}
-#'   is ignored (and assumed to be \code{TRUE}).
-#'
-#' @name ensure
-#' @rdname ensure
-NULL
+ensure_named_dict <- function(x) {
+  if (is.list(x)) {
+    if (is.null(names(x))) {
+      stop("x must be a named list")
+    }
+    dict(x)
+  } else if (inherits(x, "python.builtin.dict")) {
+    x
+  } else {
+    stop("x needs to be a list or dict")
+  }
+}
+
+as_nullable_integer <- function(x) {
+  if (is.null(x))
+    x
+  else
+    as.integer(x)
+}
 
 make_ensure_scalar_impl <- function(checker, message, converter) {
   fn <- function(object,
