@@ -29,5 +29,4 @@ test_that("Hooks works with linear dnn combined estimators", {
       checkpoint_dir = "/tmp/ckpt_dir",
       save_secs = 2))
   expect_true(length(list.files("/tmp/ckpt_dir")) > 1)
-
 })

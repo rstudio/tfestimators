@@ -56,6 +56,9 @@ hook_stop_at_step <- function(num_steps = NULL, last_step = NULL) {
 #' 
 #' @export
 hook_checkpoint_saver <- function(checkpoint_dir, save_secs = NULL, save_steps = NULL, saver = NULL, checkpoint_basename = "model.ckpt", scaffold = NULL, listeners = NULL) {
+  if (!is.null(save_secs) && !is.null(save_steps)) {
+    stop(" Only one of save_secs or save_steps can be specified")
+  }
   tf$python$training$basic_session_run_hooks$CheckpointSaverHook(
     checkpoint_dir = checkpoint_dir,
     save_secs = as_nullable_integer(save_secs),
@@ -122,6 +125,9 @@ hook_nan_tensor <- function(loss_tensor, fail_on_nan_loss = TRUE) {
 #' 
 #' @export
 hook_summary_saver <- function(save_steps = NULL, save_secs = NULL, output_dir = NULL, summary_writer = NULL, scaffold = NULL, summary_op = NULL) {
+  if (!is.null(save_secs) && !is.null(save_steps)) {
+    stop(" Only one of save_secs or save_steps can be specified")
+  }
   tf$python$training$basic_session_run_hooks$SummarySaverHook(
     save_steps = as_nullable_integer(save_steps),
     save_secs = as_nullable_integer(save_secs),
