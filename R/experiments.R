@@ -32,6 +32,8 @@ train.tf_experiment <- function(object, delay_secs = NULL) {
   object$experiment$train(delay_secs = delay_secs)
 }
 
+# TODO: Need to generate doc and args -  reticulate::py_function_wrapper("tf$contrib$learn$Experiment")
+# Doc not generated correctly
 #' @export
 experiment.tf_model <- function(object,
                                 train_input_fn,

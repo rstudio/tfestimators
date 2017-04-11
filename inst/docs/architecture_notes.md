@@ -246,6 +246,8 @@ lr <- fit(
 
 Experiments are designed for easier experiments, e.g. define your model, specify training and evaluation data and steps, frequencies, where to run, metrics to use to monitor the process, etc. They contain all neccessary information required, such as input_fn for both training and evaluation, to run experiments and can be easily packed up to run in places like CloudML, local environment, or cluster.
 
+For example, we firstly construct a classifier
+
 ``` r
 clf <-
   linear_dnn_combined_classifier(
@@ -254,7 +256,12 @@ clf <-
     dnn_hidden_units = c(3L, 3L),
     dnn_optimizer = "Adagrad"
   )
-clf <- fit(clf, input_fn = custom_input_fn)
+  
+```
+
+and then we pass the classifier into `experiment()` together with other neccessary information, such as separate input functions for training and evaluation, training and avaluation steps, etc. Then we can call `train_and_evaluate()` to conduct the experiment by running training and evaluation altogether.
+
+``` r
 
 experiment <- experiment(
   clf,
