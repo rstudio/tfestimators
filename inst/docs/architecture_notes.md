@@ -32,6 +32,8 @@ custom_feature_columns <- function(x, columns) {
 }
 ```
 
+More details about feature column transformation functions will be given in following sections. 
+
 Another spec constructor is the input_fn required for the estimators. This is where users provide an input source, e.g. in-memory dataframe or matrix, streaming data, serialized data formats, etc. 
 
 Users have two ways to specify in-memory data set - using formula interface or passing `features` and `response` arguments. Note that there's an argument named `features_as_named_list` that should be `TRUE` if this is used by a canned estimator and should be `FALSE` if this is used by a custom estimator. 
@@ -213,6 +215,31 @@ There are a few pre-defined `SessionRunHooks` available, for example:
  - `hook_global_step_waiter`: Delays execution until reaching a certain global step.
 
 Similarly to feature columns, all available `SessionRunHooks` are named with `hook_xxx` to utilize the autocomplete functionality to speed up searching for available types of `SessionRunHooks`.
+
+For example, in order to customize the checkpoint saving mechanism, users can initialize a monitor using `hook_checkpoint_saver()` that defines the checkpoint directory and the frequency of saving new checkpoint. 
+
+``` r
+monitor <- hook_checkpoint_saver(
+  checkpoint_dir = "/tmp/ckpt_dir",
+  save_secs = 2)
+```
+
+Once monitor and an estimator are defined, the monitor can be attached to the estimator via the argument `monitors` when fitting the model. 
+
+``` r
+lr <- linear_dnn_combined_regressor(
+  linear_feature_columns = linear_feature_columns,
+  dnn_feature_columns = dnn_feature_columns,
+  dnn_hidden_units = c(1L, 1L),
+  dnn_optimizer = "Adagrad"
+)
+
+lr <- fit(
+  lr,
+  input_fn = custom_input_fn,
+  steps = 10L,
+  monitors = monitor)
+```
 
 ## Experiments
 
