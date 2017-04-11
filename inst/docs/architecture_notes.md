@@ -2,17 +2,19 @@
 
 ## Spec Constructors
 
-Spec constructors are for constructing the input and features for a particular estimator. All estimators require input_fn. Canned estimators, in addition, requires specification for feature columns. 
+Spec constructors are for constructing the input and features for a particular estimator. All estimators require input function. Canned estimators, in addition to the requirement of input function, requires specification for feature columns. 
 
-The first spec constructor is feature columns required for canned estimators such as `DNNEstimator`. This specifies the feature transformations and combinations for a model, e.g. `column_embedding` that converts a categorical variable into embedding and `column_crossed` that combines two variables in a specified way. 
+### Feature Columns
 
-Users can use the default `feature_columns` function to convert columns in an automatic fashion without any fancy feature engineering, e.g. numeric variables are converted using `column_real_valued()`, factor variables are converted using `column_with_keys()`, and character variables are converted using `column_with_hash_bucket()`. 
+The first spec constructor is feature columns required for canned estimators such as `DNNEstimator`. This specifies the feature transformations and combinations for a model, e.g. `column_embedding()` that converts a categorical variable into embedding and `column_crossed()` that combines two variables in a specified way. 
+
+Users can use the default `feature_columns()` function to convert columns in an automatic fashion without any fancy feature engineering, e.g. numeric variables are converted using `column_real_valued()`, factor variables are converted using `column_with_keys()`, and character variables are converted using `column_with_hash_bucket()`. 
 
 ``` r
 fcs <- feature_columns(mtcars, c("drat", "cyl"))
 ```
 
-Users can also write their own custom feature columns transformation function like the following that transforms different columns in a `lapply` loop. 
+Users can also write their own custom feature columns transformation function like the following that transforms different columns in a `lapply` loop.
 
 ``` r
 custom_feature_columns <- function(x, columns) {
@@ -32,7 +34,9 @@ custom_feature_columns <- function(x, columns) {
 }
 ```
 
-More details about feature column transformation functions will be given in following sections. 
+The feature columns transformation functions are wrappers around `tf.contrib.layers.feature_column`, for example, `column_real_valued()` is `tf.contrib.layers.feature_column.real_valued_column`, we wrap it this way so users can just type `column_` and utilize the autocomplete functionality in RStudio to find available types of feature columns faster as well as reducing the appearances of `$` in the code. These are used together with spec constructors that are used often for constructing canned estimator's features. A variety of feature column funcions are available. For example, `column_one_hot()` specifies a feature column that's one-hot encoded, `column_sparse_weighted()` creates a feature column in combination with a designated weight column.
+
+### Input Function
 
 Another spec constructor is the input_fn required for the estimators. This is where users provide an input source, e.g. in-memory dataframe or matrix, streaming data, serialized data formats, etc. 
 
@@ -79,9 +83,6 @@ custom_input_fn <-  function(
 
 ```
 
-## Feature Columns
-
-The feature columns are wrappers around `tf.contrib.layers.feature_column`, for example, `column_real_valued()` is `tf.contrib.layers.feature_column.real_valued_column`, we wrap it this way so users can just type `column_` and utilize the autocomplete functionality in RStudio to find available types of feature columns faster as well as reducing the appearances of `$` in the code. These are used together with spec constructors that are used often for constructing canned estimator's features. A variety of feature column funcions are available. For example, `column_one_hot()` specifies a feature column that's one-hot encoded, `column_sparse_weighted()` creates a feature column in combination with a designated weight column.
 
 ## Estimator
 
@@ -100,7 +101,7 @@ The following code snippet demonstrates the construction and fitting of a custom
 * params that contains the tuning parameters in a model.
 * config that represents the `RunConfig` objects used in a model, including GPU percentages, cluster information, etc.
 
-The `custom_model_fn` function should return a `estimator_spec(predictions, loss, train_op, mode)` that contains the predictions, losses, training op, and mode.
+The `custom_model_fn()` function should return an `estimator_spec(predictions, loss, train_op, mode)` that contains the predictions, losses, training op, and mode.
 
 
 ``` r
@@ -164,7 +165,7 @@ For canned estimators, users need to specify the input_fn, feature columns, and 
 mtcars$vs <- as.factor(mtcars$vs)
 dnn_feature_columns <- feature_columns(mtcars, "drat")
 linear_feature_columns <- feature_columns(mtcars, "cyl")
-constructed_input_fn <- input_fn(mtcars, response = "vs", features = c("drat", "cyl"))
+custom_input_fn <- input_fn(mtcars, response = "vs", features = c("drat", "cyl"))
 
 classifier <-
 	linear_dnn_combined_classifier(
@@ -174,7 +175,7 @@ classifier <-
 	  dnn_optimizer = "Adagrad"
 	)
 
-classifier <- fit(classifier, input_fn = constructed_input_fn, steps = 2L)
+classifier <- fit(classifier, input_fn = custom_input_fn, steps = 2L)
 ```
 
 Users can use `coef()` to extract the trained coefficients of a model.
@@ -186,9 +187,9 @@ coefs <- coef(classifier)
 Once a model is trained, users can use `predict()` that makes predictions on a given input_fn that represents the inference data source. an argument named `type` can be `"raw"` so `predict()` will return the raw predictions outcomes, as well as `"prob"` and `"logistic"` that returns prediction probabilities and logistics if a model is of classification type.
 
 ``` r
-predictions <- predict(classifier, input_fn = constructed_input_fn)
-predictions <- predict(classifier, input_fn = constructed_input_fn, type = "prob")
-predictions <- predict(classifier, input_fn = constructed_input_fn, type = "logistic")
+predictions <- predict(classifier, input_fn = custom_input_fn)
+predictions <- predict(classifier, input_fn = custom_input_fn, type = "prob")
+predictions <- predict(classifier, input_fn = custom_input_fn, type = "logistic")
 ```
 
 ## Run Options
@@ -253,12 +254,12 @@ clf <-
     dnn_hidden_units = c(3L, 3L),
     dnn_optimizer = "Adagrad"
   )
-clf <- fit(clf, input_fn = input_fn)
+clf <- fit(clf, input_fn = custom_input_fn)
 
 experiment <- experiment(
   clf,
-  train_input_fn = input_fn,
-  eval_input_fn = input_fn,
+  train_input_fn = custom_train_input_fn,
+  eval_input_fn = custom_eval_input_fn,
   train_steps = 3L,
   eval_steps = 3L,
   continuous_eval_throttle_secs = 60L
