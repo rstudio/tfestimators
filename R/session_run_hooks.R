@@ -14,7 +14,7 @@
 #' @export
 hook_logging_tensor <- function(tensors, every_n_iter = NULL, every_n_secs = NULL, formatter = NULL) {
   tf$python$training$basic_session_run_hooks$LoggingTensorHook(
-    tensors = ensure_named_dict(tensors),
+    tensors = ensure_dict(tensors, named = F),
     every_n_iter = as_nullable_integer(every_n_iter),
     every_n_secs = as_nullable_integer(every_n_secs),
     formatter = formatter
@@ -30,6 +30,9 @@ hook_logging_tensor <- function(tensors, every_n_iter = NULL, every_n_secs = NUL
 #' 
 #' @export
 hook_stop_at_step <- function(num_steps = NULL, last_step = NULL) {
+  if (!is.null(num_steps) && !is.null(last_step)) {
+    stop(" Only one of num_steps or last_step can be specified")
+  }
   tf$python$training$basic_session_run_hooks$StopAtStepHook(
     num_steps = as_nullable_integer(num_steps),
     last_step = as_nullable_integer(last_step)
