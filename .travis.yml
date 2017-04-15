@@ -15,12 +15,12 @@ cache:
 
 before_install:
   - export PATH=$(perl -e 'print join(":", grep { !m{/opt/python/} } split /:/, $ENV{PATH})')
-  - source travis/install.sh
+  - source scripts/install.sh
   - echo "options(repos = c(CRAN='http://cran.rstudio.com'))" >> ~/.Rprofile
   - Rscript -e 'install.packages(c("devtools", "testthat", "roxygen2"))';
 
 after_failure:
-  - source travis/after_failure.sh
+  - source scripts/after_failure.sh
 
 r_github_packages:
   - rstudio/reticulate
