@@ -18,3 +18,15 @@ mtcars_classification_specs <- function() {
        linear_feature_columns = linear_feature_columns,
        input_fn = constructed_input_fn)
 }
+
+simple_model_fn <- function(features, labels, mode, params, config) {
+  names(features) <- NULL
+  features <- tf$stack(unlist(features))
+  predictions <- tf$python$framework$constant_op$constant(list(runif(1, 5.0, 7.5)))
+  if(mode == "infer") {
+    return(estimator_spec(predictions = predictions, mode = mode, loss = NULL, train_op = NULL))
+  }
+  loss <- tf$losses$mean_squared_error(labels, predictions)
+  train_op <- tf$python$ops$state_ops$assign_add(tf$contrib$framework$get_global_step(), 1L)
+  return(estimator_spec(predictions, loss, train_op, mode))
+}
