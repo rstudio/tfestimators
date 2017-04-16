@@ -68,6 +68,30 @@ input_fn.default <-  function(
     features_as_named_list = features_as_named_list))
 }
 
+#' @export
+numpy_input_fn <-  function(
+  x,
+  features,
+  response = NULL,
+  features_as_named_list = FALSE,
+  batch_size = 10L,
+  shuffle = T)
+{
+  validate_input_fn_args(x, features, response, features_as_named_list)
+  values <- lapply(features, function(feature) {
+    matrix(x[, feature])
+  })
+  names(values) <- features
+  fn <- tf$estimator$inputs$numpy_input_fn(
+    dict(values),
+    matrix(x[,response]),
+    batch_size = batch_size,
+    shuffle = shuffle)
+  return(list(
+    input_fn = fn,
+    features_as_named_list = features_as_named_list))
+}
+
 validate_input_fn <- function(input_fn) {
   if (is.null(input_fn$input_fn) || is.null(input_fn$features_as_named_list)) {
     stop("Your input_fn must return a list with two items: input_fn and features_as_named_list")
