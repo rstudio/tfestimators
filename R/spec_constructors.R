@@ -78,15 +78,32 @@ numpy_input_fn <-  function(
   shuffle = T)
 {
   validate_input_fn_args(x, features, response, features_as_named_list)
-  values <- lapply(features, function(feature) {
-    as.array(x[, feature])
-  })
-  names(values) <- features
-  fn <- tf$estimator$inputs$numpy_input_fn(
-    dict(values),
-    as.array(x[,response]),
-    batch_size = batch_size,
-    shuffle = shuffle)
+  
+  if(features_as_named_list){
+    values <- lapply(features, function(feature) {
+      as.array(x[, feature])
+    })
+    names(values) <- features
+    fn <- tf$estimator$inputs$numpy_input_fn(
+      dict(values),
+      as.array(x[,response]),
+      batch_size = batch_size,
+      shuffle = shuffle)
+  } else {
+    values <- list(features = data.matrix(x)[,features, drop = FALSE])
+    fn <- function(){
+      fun <- tf$estimator$inputs$numpy_input_fn(
+        values,
+        as.array(x[,response]),
+        batch_size = batch_size,
+        shuffle = shuffle)
+      fun <- fun()
+      list(
+        fun[[1]]$features,
+        fun[[2]]
+      )
+    }
+  }
   return(list(
     input_fn = fn,
     features_as_named_list = features_as_named_list))

@@ -21,8 +21,7 @@ test_that("custom model works on iris data", {
   )
   
   simple_custom_model_fn <- function(features, labels, mode, params, config) {
-    names(features) <- NULL
-    features <- tf$reshape(tf$stack(features), c(input_fn_batch_size, num_features))
+    
     # Create three fully connected layers respectively of size 10, 20, and 10 with
     # each layer having a dropout probability of 0.1.
     logits <- features %>%
