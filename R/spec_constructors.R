@@ -90,7 +90,7 @@ numpy_input_fn <-  function(
       batch_size = batch_size,
       shuffle = shuffle)
   } else {
-    values <- list(features = data.matrix(x)[,features])
+    values <- list(features = data.matrix(x)[,features, drop = FALSE])
     fn <- function(){
       fun <- tf$estimator$inputs$numpy_input_fn(
         values,
