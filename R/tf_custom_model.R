@@ -53,7 +53,7 @@ fit.tf_custom_model <- function(object, input_fn, steps = 2L, ...) {
 #' @export
 predict.tf_custom_model <- function(object,
                                     input_fn,
-                                    as_vector = T,
+                                    as_iterable = F,
                                     checkpoint_path = NULL,
                                     ...) {
   validate_custom_model_input_fn(input_fn)
@@ -62,14 +62,13 @@ predict.tf_custom_model <- function(object,
     input_fn = input_fn$input_fn,
     checkpoint_path = checkpoint_path,
     ...)
-  if (as_vector) {
+  if (!as_iterable) {
     if (!any(inherits(predictions, "python.builtin.iterator"),
              inherits(predictions, "python.builtin.generator"))) {
       warning("predictions are not iterable, no need to convert again")
     } else {
       predictions <- predictions %>% iterate
     }
-    if (is.list(predictions)) predictions <- unlist(predictions)
   }
   predictions
 }

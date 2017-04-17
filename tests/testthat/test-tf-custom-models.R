@@ -53,15 +53,29 @@ test_that("custom model works on iris data", {
     return(estimator_spec(predictions, loss, train_op, mode))
   }
   
+  # training
   classifier <- estimator(
     model_fn = simple_custom_model_fn) %>%
     fit(input_fn = constructed_input_fn, steps = 2L)
+  
+  # inference
   predictions <- predict(classifier, input_fn = constructed_input_fn)
   
-  # expect_equal(length(predictions), 150 * length(unique(iris$Species)))
-  # expect_lte(max(predictions), 1)
-  # expect_gte(min(predictions), 0)
-  # coef s3 method
-  # expect_gt(length(coef(classifier)), 1) # TODO: Add get_variable_names attr on Python end
+  # extract predicted classes
+  predicted_classes <- unlist(lapply(predictions, function(prediction) {
+    prediction$class
+  }))
+  expect_equal(length(predicted_classes), 150)
+  
+  # extract predicted probabilities
+  predicted_probs <- lapply(predictions, function(prediction) {
+    prediction$prob
+  })
+  expect_equal(length(predicted_probs), 150)
+  expect_equal(length(unlist(predicted_probs)), 150 * length(unique(iris$Species)))
+  expect_lte(max(unlist(predicted_probs)), 1)
+  expect_gte(min(unlist(predicted_probs)), 0)
+  
+  # evaluate
   expect_equal(names(evaluate(classifier, constructed_input_fn)), c("loss", "global_step"))
 })
