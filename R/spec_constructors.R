@@ -78,7 +78,8 @@ numpy_input_fn <-  function(
   shuffle = TRUE)
 {
   validate_input_fn_args(x, features, response, features_as_named_list)
-  
+  # supporting for unsupervised models as well as ingesting data for inference
+  input_response <- if(is.null(response)) NULL else as.array(x[,response])
   if(features_as_named_list){
     values <- lapply(features, function(feature) {
       as.array(x[, feature])
@@ -86,7 +87,7 @@ numpy_input_fn <-  function(
     names(values) <- features
     fn <- tf$estimator$inputs$numpy_input_fn(
       dict(values),
-      as.array(x[,response]),
+      input_response,
       batch_size = batch_size,
       shuffle = shuffle)
   } else {
@@ -94,7 +95,7 @@ numpy_input_fn <-  function(
     fn <- function(){
       fun <- tf$estimator$inputs$numpy_input_fn(
         values,
-        as.array(x[,response]),
+        input_response,
         batch_size = batch_size,
         shuffle = shuffle)
       fun <- fun()
