@@ -73,9 +73,9 @@ numpy_input_fn <-  function(
   x,
   features,
   response = NULL,
-  features_as_named_list = FALSE,
+  features_as_named_list = TRUE,
   batch_size = 10L,
-  shuffle = T)
+  shuffle = TRUE)
 {
   validate_input_fn_args(x, features, response, features_as_named_list)
   
