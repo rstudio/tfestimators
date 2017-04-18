@@ -4,20 +4,16 @@ source("utils.R")
 
 test_that("custom model works on iris data", {
   
-  input_fn_batch_size <- 10L
-  features <- c(
-    "Sepal.Length",
-    "Sepal.Width",
-    "Petal.Length",
-    "Petal.Width")
-  num_features <- length(features)
-
   constructed_input_fn <- numpy_input_fn(
     x = iris,
     response = "Species",
-    features = features,
+    features = c(
+      "Sepal.Length",
+      "Sepal.Width",
+      "Petal.Length",
+      "Petal.Width"),
     features_as_named_list = FALSE,
-    batch_size = input_fn_batch_size
+    batch_size = 10L
   )
   
   simple_custom_model_fn <- function(features, labels, mode, params, config) {
