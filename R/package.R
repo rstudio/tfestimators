@@ -45,7 +45,7 @@ functional_ops <- NULL
   estimator_lib <<- reticulate::import("tensorflow.python.estimator.estimator", delay_load = TRUE)
   contrib_estimators_lib <<- reticulate::import("tensorflow.contrib.learn.python.learn.estimators", delay_load = TRUE)
   feature_column_lib <<- reticulate::import("tensorflow.contrib.layers.python.layers.feature_column", delay_load = TRUE)
-  np <<- reticulate::import("numpy", convert = FALSE, delay_load = TRUE)
+  np <<- reticulate::import("numpy", convert = FALSE, delay_load = FALSE)
   random_ops <<- reticulate::import("tensorflow.python.ops.random_ops", delay_load = TRUE)
   math_ops <<- reticulate::import("tensorflow.python.ops.math_ops", delay_load = TRUE)
   array_ops <<- reticulate::import("tensorflow.python.ops.array_ops", delay_load = TRUE)
