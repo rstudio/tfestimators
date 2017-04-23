@@ -23,12 +23,12 @@ state_saving_rnn_estimator <- function(
   run_options <- run_options %||% run_options()
   rnn_estimator <- contrib_estimators_lib$state_saving_rnn_estimator$StateSavingRnnEstimator(
     problem_type = problem_type,
-    num_unroll = num_unroll,
-    batch_size = batch_size,
+    num_unroll = as.integer(num_unroll),
+    batch_size = as.integer(batch_size),
     sequence_feature_columns = sequence_feature_columns,
     context_feature_columns = context_feature_columns,
-    num_classes = num_classes,
-    num_units = num_units,
+    num_classes = as_nullable_integer(num_classes),
+    num_units = as_nullable_integer(num_units),
     cell_type = cell_type,
     optimizer_type = optimizer_type,
     learning_rate = learning_rate,
@@ -37,9 +37,9 @@ state_saving_rnn_estimator <- function(
     gradient_clipping_norm = gradient_clipping_norm,
     dropout_keep_probabilities = dropout_keep_probabilities,
     feature_engineering_fn = feature_engineering_fn,
-    num_threads = num_threads,
-    queue_capacity=queue_capacity,
-    seed = seed,
+    num_threads = as.integer(num_threads),
+    queue_capacity = as.integer(queue_capacity),
+    seed = as_nullable_integer(seed),
     model_dir = run_options$model_dir,
     config = run_options$run_config
   )

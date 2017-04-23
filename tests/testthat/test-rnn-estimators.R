@@ -49,7 +49,8 @@ test_that("state_saving_rnn_estimator works on sin sequence data", {
         labels <- tf$python$ops$array_ops$slice(sin_curves,
                                                 np$array(list(1), dtype = np$int64),
                                                 np$array(list(sequence_length), dtype = np$int64))
-        return(tuple(list(inputs = inputs), labels))},
+        return(tuple(list(inputs = inputs), labels))
+      },
       features_as_named_list = TRUE)
   }
   
