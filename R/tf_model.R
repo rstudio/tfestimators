@@ -61,10 +61,23 @@ fit.tf_model <- function(object, input_fn, steps = 2L, monitors = NULL, ...)
     monitors <- list(monitors)
   object$estimator$fit(
     input_fn = input_fn$input_fn,
-    steps = ensure_scalar_integer(steps),
+    steps = as.integer(steps),
     monitors = monitors,
     ...)
   object
+}
+
+#' @export
+evaluate.tf_model <- function(object, input_fn, steps = 2L, hooks = NULL, ...)
+{
+  validate_model_input_fn(input_fn)
+  if (!is.null(hooks))
+    hooks <- list(hooks)
+  object$estimator$evaluate(
+    input_fn = input_fn$input_fn,
+    steps = as.integer(steps),
+    hooks = hooks,
+    ...)
 }
 
 #' @export

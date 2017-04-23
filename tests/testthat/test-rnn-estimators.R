@@ -58,7 +58,6 @@ test_that("state_saving_rnn_estimator works on sin sequence data", {
   eval_input_fn <- get_sin_input_fn(sequence_length, pi / 32, seed = 4321)
   
   fit(rnn_sequence_estimator, input_fn = train_input_fn, steps = train_steps)
-  
-  loss <- rnn_sequence_estimator$estimator$evaluate(input_fn = eval_input_fn$input_fn, steps = eval_steps)$loss
-  expect_lte(loss, 0.05)
+
+  # TODO: Add predict for tf_model with type estimator
 })

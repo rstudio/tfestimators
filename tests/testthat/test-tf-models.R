@@ -2,7 +2,7 @@ context("Testing tf models")
 
 source("utils.R")
 
-test_that("fit() and predict() works for regressors", {
+test_that("fit(), predict(), and evaluate() work for regressors", {
   
   specs <- mtcars_regression_specs()
 
@@ -19,9 +19,12 @@ test_that("fit() and predict() works for regressors", {
   
   predictions <- predict(reg, input_fn = specs$input_fn)
   expect_equal(length(predictions), 32)
+  
+  loss <- evaluate(reg, input_fn = specs$input_fn)$loss
+  expect_lte(loss, 400)
 })
 
-test_that("fit() and predict() works for classifiers", {
+test_that("fit(), predict(), and evaluate() work for classifiers", {
   
   specs <- mtcars_classification_specs()
 
@@ -45,4 +48,7 @@ test_that("fit() and predict() works for classifiers", {
   expect_gte(min(predictions), 0)
   # other types that is in PredictionKey
   predictions <- predict(clf, input_fn = specs$input_fn, type = "logistic")
+  
+  accuracy <- evaluate(clf, input_fn = specs$input_fn)$accuracy
+  expect_lte(accuracy, 0.6)
 })
