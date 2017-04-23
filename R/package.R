@@ -32,11 +32,13 @@ learn <- NULL
 contrib_layers <- NULL
 feature_column_lib <- NULL
 estimator_lib <- NULL
+contrib_estimators_lib <- NULL
 
 .onLoad <- function(libname, pkgname) {
   learn <<- reticulate::import("tensorflow.contrib.learn", delay_load = TRUE)
   contrib_layers <<- reticulate::import("tensorflow.contrib.layers", delay_load = TRUE)
   estimator_lib <<- reticulate::import("tensorflow.python.estimator.estimator", delay_load = TRUE)
+  contrib_estimators_lib <<- reticulate::import("tensorflow.contrib.learn.python.learn.estimators", delay_load = TRUE)
   feature_column_lib <<- reticulate::import("tensorflow.contrib.layers.python.layers.feature_column", delay_load = TRUE)
 }
 
