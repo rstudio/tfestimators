@@ -104,3 +104,32 @@ get_batched_sin_input_fn <- function(batch_size, sequence_length, increment, see
     features_as_named_list = TRUE)
 }
 
+# TODO: Make this a separate list input_fn
+fake_sequence_input_fn <- function() {
+  list(
+    input_fn = function() {
+      # [batch_size, sequence_length, num_features]
+      # [2, 3, 1]
+      inputs <- tf$constant(
+        np$array(
+          list(
+            list(list(1), list(2), list(3)),
+            list(list(4), list(5), list(6))
+          ),
+          dtype = np$int64
+        )
+      )
+      # [batch_size, sequence_length]
+      # [2, 3]
+      labels <- tf$constant(
+        np$array(
+          list(
+            list(1, 2, 3), list(4, 5, 6)
+          )
+        )
+      )
+      return(tuple(list(inputs = inputs), labels))
+    },
+    features_as_named_list = TRUE
+  )
+}
