@@ -69,6 +69,34 @@ input_fn.default <-  function(
 }
 
 #' @export
+input_fn.list <- function(
+  x,
+  features,
+  response, # TODO: Support unsupervised
+  features_as_named_list = TRUE # TODO: Support this
+) {
+  validate_input_fn_args(x, features, response, features_as_named_list)
+  list(
+    input_fn = function() {
+      inputs <- tf$constant(
+        np$array(
+          x$features,
+          dtype = np$int64
+        )
+      )
+      labels <- tf$constant(
+        np$array(
+          x$response
+        )
+      )
+      return(list(list(inputs = inputs), labels))
+    },
+    features_as_named_list = TRUE
+  )
+}
+
+
+#' @export
 numpy_input_fn <-  function(
   x,
   features,

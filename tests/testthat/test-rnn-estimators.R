@@ -98,6 +98,6 @@ test_that("dynamic_rnn_estimator works on fake sequence data", {
   eval_input_fn <- fake_sequence_input_fn()
 
   fit(rnn_sequence_estimator, input_fn = train_input_fn, steps = train_steps)
+  evaluation <- evaluate(rnn_sequence_estimator, input_fn = eval_input_fn, steps = 2L)
+  expect_lte(evaluation$loss, 4)
 })
-
-
