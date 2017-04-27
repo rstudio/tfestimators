@@ -4,7 +4,7 @@ source("utils.R")
 
 test_that("custom model works on iris data", {
   
-  constructed_input_fn <- numpy_input_fn(
+  constructed_input_fn <- input_fn(
     x = iris,
     response = "Species",
     features = c(

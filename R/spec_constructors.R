@@ -63,9 +63,9 @@ input_fn.default <-  function(
     }
     list(input_features, input_response)
   }
-  return(list(
+  list(
     input_fn = fn,
-    features_as_named_list = features_as_named_list))
+    features_as_named_list = features_as_named_list)
 }
 
 #' @export
@@ -97,7 +97,7 @@ input_fn.list <- function(
 
 
 #' @export
-numpy_input_fn <-  function(
+input_fn.data.frame <-  function(
   x,
   features,
   response = NULL,
@@ -133,9 +133,9 @@ numpy_input_fn <-  function(
       )
     }
   }
-  return(list(
+  list(
     input_fn = fn,
-    features_as_named_list = features_as_named_list))
+    features_as_named_list = features_as_named_list)
 }
 
 validate_input_fn <- function(input_fn) {

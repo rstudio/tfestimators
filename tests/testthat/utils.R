@@ -5,7 +5,7 @@ library(tensorflow)
 mtcars_regression_specs <- function() {
   dnn_feature_columns <- feature_columns(mtcars, "drat")
   linear_feature_columns <- feature_columns(mtcars, "cyl")
-  constructed_input_fn <- input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
+  constructed_input_fn <- input_fn.default(mtcars, response = "mpg", features = c("drat", "cyl"))
   list(dnn_feature_columns = dnn_feature_columns,
        linear_feature_columns = linear_feature_columns,
        input_fn = constructed_input_fn)
@@ -14,7 +14,7 @@ mtcars_regression_specs <- function() {
 mtcars_regression_specs_numpy_input_fn <- function() {
   dnn_feature_columns <- feature_columns(mtcars, "drat")
   linear_feature_columns <- feature_columns(mtcars, "cyl")
-  constructed_input_fn <- numpy_input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
+  constructed_input_fn <- input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
   list(dnn_feature_columns = dnn_feature_columns,
        linear_feature_columns = linear_feature_columns,
        input_fn = constructed_input_fn)
@@ -24,7 +24,7 @@ mtcars_classification_specs <- function() {
   mtcars$vs <- as.factor(mtcars$vs)
   dnn_feature_columns <- feature_columns(mtcars, "drat")
   linear_feature_columns <- feature_columns(mtcars, "cyl")
-  constructed_input_fn <- input_fn(mtcars, response = "vs", features = c("drat", "cyl"))
+  constructed_input_fn <- input_fn.default(mtcars, response = "vs", features = c("drat", "cyl"))
   list(dnn_feature_columns = dnn_feature_columns,
        linear_feature_columns = linear_feature_columns,
        input_fn = constructed_input_fn)
@@ -34,7 +34,7 @@ mtcars_classification_specs_numpy_input_fn <- function() {
   mtcars$vs <- as.factor(mtcars$vs)
   dnn_feature_columns <- feature_columns(mtcars, "drat")
   linear_feature_columns <- feature_columns(mtcars, "cyl")
-  constructed_input_fn <- numpy_input_fn(mtcars, response = "vs", features = c("drat", "cyl"))
+  constructed_input_fn <- input_fn(mtcars, response = "vs", features = c("drat", "cyl"))
   list(dnn_feature_columns = dnn_feature_columns,
        linear_feature_columns = linear_feature_columns,
        input_fn = constructed_input_fn)
@@ -114,6 +114,6 @@ fake_sequence_input_fn <- function() {
         list(list(4), list(5), list(6))),
       response = list(
         list(1, 2, 3), list(4, 5, 6))),
-    features = "features",
+    features = c("features"),
     response = "response")
 }

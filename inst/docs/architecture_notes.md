@@ -42,6 +42,8 @@ Another spec constructor is the input_fn required for the estimators. This is wh
 
 Users have two ways to specify in-memory data set - using formula interface or passing `features` and `response` arguments. Note that there's an argument named `features_as_named_list` that should be `TRUE` if this is used by a canned estimator and should be `FALSE` if this is used by a custom estimator. 
 
+Users can use built-in `input_fn()` on `data.frame` objects like the following:
+
 ``` r
 input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
 input_fn(mpg ~ drat + cyl, data = mtcars)

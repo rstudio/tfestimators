@@ -10,7 +10,7 @@ test_that("feature columns can be constructed correctly", {
   expect_true(grepl("RealValuedColumn", class(fcs()[[1]])[1]))
 })
 
-test_that("input_fn can be constructed correctly", {
+test_that("input_fn can be constructed correctly using custom input_fn", {
 
   features <- c("drat", "cyl")
   input_fn1 <- input_fn(mtcars, response = "mpg", features = features)$input_fn
@@ -25,10 +25,10 @@ test_that("input_fn can be constructed correctly", {
   expect_equal(input_fn1, input_fn2)
 })
 
-test_that("numpy_input_fn can be constructed correctly", {
+test_that("input_fn can be constructed correctly from data.frame objects", {
   
   features <- c("drat", "cyl")
-  input_fn1 <- numpy_input_fn(mtcars, response = "mpg", features = features)$input_fn
+  input_fn1 <- input_fn(mtcars, response = "mpg", features = features)$input_fn
   expect_equal(length(input_fn1()), 2)
   expect_equal(length(input_fn1()[[1]]), length(features))
   
