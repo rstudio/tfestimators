@@ -40,15 +40,35 @@ The feature columns transformation functions are wrappers around `tf.contrib.lay
 
 Another spec constructor is the input_fn required for the estimators. This is where users provide an input source, e.g. in-memory dataframe or matrix, streaming data, serialized data formats, etc. 
 
-Users have two ways to specify in-memory data set - using formula interface or passing `features` and `response` arguments. Note that there's an argument named `features_as_named_list` that should be `TRUE` if this is used by a canned estimator and should be `FALSE` if this is used by a custom estimator. 
-
-Users can use built-in `input_fn()` on `data.frame` objects like the following:
+Users have two ways to specify in-memory data set - using formula interface or passing `features` and `response` arguments. For example, users can use built-in `input_fn()` on `data.frame` objects like the following:
 
 ``` r
 input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
-input_fn(mpg ~ drat + cyl, data = mtcars)
-
 ```
+
+or use the formulate interface like below where left-hand and right-hand side of the `~` represent response column and feature columns respectively:
+
+``` r
+input_fn(mpg ~ drat + cyl, data = mtcars)
+```
+
+Note that there's an argument named `features_as_named_list` that should be `TRUE` if this is used by a canned estimator and should be `FALSE` if this is used by a custom estimator. 
+
+There's also a built-in `input_fn()` that works on lists, for example:
+
+``` r
+input_fn(
+  x = list(
+    features = list(
+      list(list(1), list(2), list(3)),
+      list(list(4), list(5), list(6))),
+    response = list(
+      list(1, 2, 3), list(4, 5, 6))),
+  features = "features",
+  response = "response")
+````
+
+In the above example, the data is a list of two named lists where each named list can be seen as different columns in a dataset. In this case, a column named `features` is being used as features to the model and a column named `response` is being used as the response variable. This nested lists format is particularly useful when constructing sequence input to Recurrent Neural Networks (RNN). Once the data is defined using `input_fn()`, it can be used directly in RNN constructor.
 
 Users can also write custom `input_fn` function, e.g. a function called `custom_function()`, to convert each feature into a `Tensor` or `SparseTensor` according to the needs. This function should return a list that consists of `input_fn` and `features_as_named_list` so the custom or canned estimator can recognize them. The following code has a few places commented with "custom code here" that users can use to do customized stuff. Other parts should remain unchanged.
 
@@ -84,23 +104,6 @@ custom_input_fn <-  function(
 }
 
 ```
-
-There's also a built-in `input_fn()` that works on lists, for example:
-
-``` r
-input_fn(
-  x = list(
-    features = list(
-      list(list(1), list(2), list(3)),
-      list(list(4), list(5), list(6))),
-    response = list(
-      list(1, 2, 3), list(4, 5, 6))),
-  features = "features",
-  response = "response")
-````
-
-In the above example, the data is a list of two named lists where each named list can be seen as different columns in a dataset. In this case, a column named `features` is being used as features to the model and a column named `response` is being used as the response variable. This nested lists format is particularly useful when constructing sequence input to Recurrent Neural Networks (RNN). Once the data is defined using `input_fn()`, it can be used directly in RNN constructor.
-
 
 ## Estimator
 
