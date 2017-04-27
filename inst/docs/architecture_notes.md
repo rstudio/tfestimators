@@ -83,6 +83,22 @@ custom_input_fn <-  function(
 
 ```
 
+There's also a built-in `input_fn()` that works on lists, for example:
+
+``` r
+input_fn(
+  x = list(
+    features = list(
+      list(list(1), list(2), list(3)),
+      list(list(4), list(5), list(6))),
+    response = list(
+      list(1, 2, 3), list(4, 5, 6))),
+  features = "features",
+  response = "response")
+````
+
+In the above example, the data is a list of two named lists where each named list can be seen as different columns in a dataset. In this case, a column named `features` is being used as features to the model and a column named `response` is being used as the response variable. This nested lists format is particularly useful when constructing sequence input to Recurrent Neural Networks (RNN). Once the data is defined using `input_fn()`, it can be used directly in RNN constructor.
+
 
 ## Estimator
 
