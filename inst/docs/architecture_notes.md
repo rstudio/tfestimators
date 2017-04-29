@@ -134,34 +134,41 @@ constructed_input_fn <- input_fn(
 	  "Sepal.Width",
 	  "Petal.Length",
 	  "Petal.Width"),
-	features_as_named_list = FALSE
+	features_as_named_list = FALSE,
+	batch_size = 10L
 )
 
 custom_model_fn <- function(features, labels, mode, params, config) {
-	labels <- tf$one_hot(labels, 3L)
-
-	# Create three fully connected layers respectively of size 10, 20, and 10 with
-	# each layer having a dropout probability of 0.1.
-	logits <- features %>%
-	  tf$contrib$layers$stack(
-	    tf$contrib$layers$fully_connected, c(10L, 20L, 10L),
-	    normalizer_fn = tf$contrib$layers$dropout,
-	    normalizer_params = list(keep_prob = 0.9)) %>%
-	  tf$contrib$layers$fully_connected(3L, activation_fn = NULL) # Compute logits (1 per class) and compute loss.
-
-	loss <- tf$losses$softmax_cross_entropy(labels, logits)
-	predictions <- list(
-	  class = tf$argmax(logits, 1L),
-	  prob = tf$nn$softmax(logits))
-
-	# Create a tensor for training op.
-	train_op <- tf$contrib$layers$optimize_loss(
-	  loss,
-	  tf$contrib$framework$get_global_step(),
-	  optimizer = 'Adagrad',
-	  learning_rate = 0.1)
-
-	return(estimator_spec(predictions, loss, train_op, mode))
+	  # Create three fully connected layers respectively of size 10, 20, and 10 with
+    # each layer having a dropout probability of 0.1.
+    logits <- features %>%
+      tf$contrib$layers$stack(
+        tf$contrib$layers$fully_connected, c(10L, 20L, 10L),
+        normalizer_fn = tf$contrib$layers$dropout,
+        normalizer_params = list(keep_prob = 0.9)) %>%
+      tf$contrib$layers$fully_connected(3L, activation_fn = NULL) # Compute logits (1 per class) and compute loss.
+    
+    predictions <- list(
+      class = tf$argmax(logits, 1L),
+      prob = tf$nn$softmax(logits))
+    
+    # Return estimator_spec early with NULL loss and train_op during inference mode
+    if(mode == "infer"){
+      return(estimator_spec(
+      predictions = predictions, mode = mode, loss = NULL, train_op = NULL))
+    }
+    
+    labels <- tf$one_hot(labels, 3L)
+    loss <- tf$losses$softmax_cross_entropy(labels, logits)
+    
+    # Create a tensor for training op.
+    train_op <- tf$contrib$layers$optimize_loss(
+      loss,
+      tf$contrib$framework$get_global_step(),
+      optimizer = 'Adagrad',
+      learning_rate = 0.1)
+    
+    return(estimator_spec(predictions, loss, train_op, mode))
 }
 
 # Initialize and fit the model using the the custom model function we defined
@@ -172,10 +179,33 @@ classifier <- fit(classifier, input_fn = constructed_input_fn, steps = 2L)
 
 Note that the above code contains a lot of `$`s. It is unnecessary to create wrapper APIs for every methods that users might use, e.g. `tf$contrib$layers$optimize_loss`, since custom models are designed to be flexible and extensible so users can insert any arbitrary low level TensorFlow APIs.
 
-Users can use `coef()` to extract the trained coefficients of a model. 
+Users can then supply an `input_fn` and make predictions. 
 
 ``` r
-coefs <- coef(classifier)
+predictions <- predict(classifier, input_fn = constructed_input_fn)
+```
+
+Since our predictions is defined as a list of two items in the custom model function like follows:
+
+``` r
+predictions <- list(
+  class = tf$argmax(logits, 1L),
+  prob = tf$nn$softmax(logits))
+```
+
+we can use the following trick to loop through each prediction and extract the predicted classes and probabilities.
+
+``` r
+# extract predicted classes
+predicted_classes <- unlist(lapply(predictions, function(prediction) {
+  prediction$class
+}))
+
+# extract predicted probabilities
+predicted_probs <- lapply(predictions, function(prediction) {
+  prediction$prob
+})
+
 ```
 
 ### Canned Estimators
