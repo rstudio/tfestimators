@@ -107,7 +107,7 @@ custom_input_fn <-  function(
 
 Users are encounraged to follow the above skeleton but it's not designed to work with any type of models. For example, if a user want to construct some completed input, such as a batched sequence input similar to a sine curve for feeding RNNs, he can define something similar to the following using mostly low-level TensorFlow APIs:
 
-```
+``` r
 get_batched_sin_input_fn <- function(batch_size, sequence_length, increment, seed = NULL) {
   list(
     input_fn = function() {
@@ -139,6 +139,13 @@ get_batched_sin_input_fn <- function(batch_size, sequence_length, increment, see
     },
     features_as_named_list = TRUE)
 }
+```
+
+Users can then further define `input_fn` for training and evaluation:
+
+``` r
+train_input_fn <- get_batched_sin_input_fn(batch_size, sequence_length, pi / 32, seed = 1234)
+eval_input_fn <- get_batched_sin_input_fn(batch_size, sequence_length, pi / 32, seed = 4321)
 ```
 
 ## Estimator
