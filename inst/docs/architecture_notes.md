@@ -105,6 +105,42 @@ custom_input_fn <-  function(
 
 ```
 
+Users are encounraged to follow the above skeleton but it's not designed to work with any type of models. For example, if a user want to construct some completed input, such as a batched sequence input similar to a sine curve for feeding RNNs, he can define something similar to the following using mostly low-level TensorFlow APIs:
+
+```
+get_batched_sin_input_fn <- function(batch_size, sequence_length, increment, seed = NULL) {
+  list(
+    input_fn = function() {
+      starts <- random_ops$random_uniform(
+        list(batch_size), minval = 0, maxval = pi * 2.0,
+        dtype = tf$python$framework$dtypes$float32, seed = seed)
+      sin_curves <- functional_ops$map_fn(
+        function(x){
+          math_ops$sin(
+            math_ops$linspace(
+              array_ops$reshape(x[1], list()),
+              (sequence_length - 1) * increment,
+              as.integer(sequence_length + 1)))
+        },
+        tuple(starts),
+        dtype = tf$python$framework$dtypes$float32
+      )
+      inputs <- array_ops$expand_dims(
+        array_ops$slice(
+          sin_curves,
+          np$array(list(0, 0), dtype = np$int64),
+          np$array(list(batch_size, sequence_length), dtype = np$int64)),
+        2L
+      )
+      labels <- array_ops$slice(sin_curves,
+                                np$array(list(0, 1), dtype = np$int64),
+                                np$array(list(batch_size, sequence_length), dtype = np$int64))
+      return(tuple(list(inputs = inputs), labels))
+    },
+    features_as_named_list = TRUE)
+}
+```
+
 ## Estimator
 
 Estimator is an interface that provides an abstraction for a machine learning model. It is designed to be detailed enough to allow for downstream infrastructure to be written, but general enough to not constrain the type of model represented by an Estimator. Estimators are given input by a user defined input function, as illustrated in earlier section.
