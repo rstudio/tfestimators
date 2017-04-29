@@ -33,6 +33,14 @@ test_that("input_fn can be constructed correctly from data.frame objects", {
   expect_equal(length(input_fn1()[[1]]), length(features))
 })
 
+test_that("input_fn can be constructed correctly from matrix objects", {
+  
+  features <- c("drat", "cyl")
+  input_fn1 <- input_fn(as.matrix(mtcars), response = "mpg", features = features)$input_fn
+  expect_equal(length(input_fn1()), 2)
+  expect_equal(length(input_fn1()[[1]]), length(features))
+})
+
 test_that("input_fn can be constructed correctly from list objects", {
   fake_sequence_input_fn <-
     input_fn(

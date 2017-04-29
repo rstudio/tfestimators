@@ -138,6 +138,19 @@ input_fn.data.frame <-  function(
     features_as_named_list = features_as_named_list)
 }
 
+
+#' @export
+input_fn.matrix <- function(
+  x,
+  features,
+  response = NULL,
+  features_as_named_list = TRUE,
+  batch_size = 10L,
+  shuffle = TRUE
+) {
+  input_fn(as.data.frame(x), features, response, features_as_named_list, batch_size, shuffle)
+}
+
 validate_input_fn <- function(input_fn) {
   if (is.null(input_fn$input_fn) || is.null(input_fn$features_as_named_list)) {
     stop("Your input_fn must return a list with two items: input_fn and features_as_named_list")
