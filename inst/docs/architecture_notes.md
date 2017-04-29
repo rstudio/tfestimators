@@ -2,7 +2,7 @@
 
 ## Spec Constructors
 
-Spec constructors are for constructing the input and features for a particular estimator. All estimators require input function. Canned estimators, in addition to the requirement of input function, requires specification for feature columns. 
+Spec constructors are for constructing the input and features for a particular estimator. All estimators require input function. Canned estimators, in addition to the requirement of input function, require specification for feature columns. 
 
 ### Feature Columns
 
@@ -38,7 +38,7 @@ The feature columns transformation functions are wrappers around `tf.contrib.lay
 
 ### Input Function
 
-Another spec constructor is the input_fn required for the estimators. This is where users provide an input source, e.g. in-memory dataframe or matrix, streaming data, serialized data formats, etc. 
+Another spec constructor is the input function required for the estimators. This is where users provide the input sources to feed into the model, e.g. in-memory dataframe/matrix, streaming data, serialized data formats, etc. 
 
 Users have two ways to specify in-memory data set - using formula interface or passing `features` and `response` arguments. For example, users can use built-in `input_fn()` on `data.frame` objects like the following:
 
@@ -54,7 +54,7 @@ input_fn(mpg ~ drat + cyl, data = mtcars)
 
 Note that there's an argument named `features_as_named_list` that should be `TRUE` if this is used by a canned estimator and should be `FALSE` if this is used by a custom estimator. 
 
-There's also a built-in `input_fn()` that works on lists, for example:
+There's also a built-in `input_fn()` that works on nested lists, for example:
 
 ``` r
 input_fn(
@@ -70,7 +70,7 @@ input_fn(
 
 In the above example, the data is a list of two named lists where each named list can be seen as different columns in a dataset. In this case, a column named `features` is being used as features to the model and a column named `response` is being used as the response variable. This nested lists format is particularly useful when constructing sequence input to Recurrent Neural Networks (RNN). Once the data is defined using `input_fn()`, it can be used directly in RNN constructor.
 
-Users can also write custom `input_fn` function, e.g. a function called `custom_function()`, to convert each feature into a `Tensor` or `SparseTensor` according to the needs. This function should return a list that consists of `input_fn` and `features_as_named_list` so the custom or canned estimator can recognize them. The following code has a few places commented with "custom code here" that users can use to do customized stuff. Other parts should remain unchanged.
+Users can also write custom input function, e.g. a function `custom_input_fn()`, to convert each feature into a `Tensor` or `SparseTensor` according to the needs. This function should return a list that consists of `input_fn` and `features_as_named_list` so the custom or canned estimator can recognize them. The following skeleton code has a few places commented with "custom code here" that users can use to do customized operation. Other parts should remain unchanged.
 
 ``` r
 custom_input_fn <-  function(
@@ -105,7 +105,7 @@ custom_input_fn <-  function(
 
 ```
 
-Users are encounraged to follow the above skeleton but it's not designed to work with any type of models. For example, if a user want to construct some completed input, such as a batched sequence input similar to a sine curve for feeding RNNs, he can define something similar to the following using mostly low-level TensorFlow APIs:
+Users are encounraged to follow the above skeleton but it may not be suitable for all types of models. For example, if a user want to construct some complicated input, such as a batched sequence input similar to a sine curve for feeding RNNs, he can define something similar to the following using mostly low-level TensorFlow APIs:
 
 ``` r
 get_batched_sin_input_fn <- function(batch_size, sequence_length, increment, seed = NULL) {
