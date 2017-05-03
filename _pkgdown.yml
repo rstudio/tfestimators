@@ -1,0 +1,53 @@
+template:
+  params:
+    bootswatch: cosmo
+
+navbar:
+  title: "tflearn"
+  type: inverse
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Architecture"
+      href: articles/architecture.html
+    - text: "Reference"
+      href: reference/index.html
+  right:
+   - icon: fa-github
+     href: https://github.com/rstudio/tflearn
+
+reference:
+
+  - title: "Canned Estimators"
+    contents:
+      - linear_regressor
+      - linear_classifier
+      - svm_classifier
+      - linear_dnn_combined_regressor
+      - linear_dnn_combined_classifier
+
+  - title: "Feature Columns"
+    contents: 
+      - feature_columns.default
+      - column_bucketized
+      - column_crossed
+      - column_embedding
+      - column_one_hot
+      - column_real_valued
+      - column_sparse_weighted
+      - column_sparse_with_hash_bucket
+      - column_sparse_with_keys
+      
+  - title: "Run Hooks"
+    contents:
+      - hook_checkpoint_saver
+      - hook_global_step_waiter
+      - hook_logging_tensor
+      - hook_nan_tensor
+      - hook_step_counter
+      - hook_stop_at_step
+      - hook_summary_saver
+      
+  - title: "Configuration"
+    contents:
+      - run_options
