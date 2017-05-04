@@ -5,3 +5,11 @@
 This package provides a high-level interface to TensorFlow in R, using the [TFLearn](https://www.tensorflow.org/tutorials/tflearn/) module distributed as part of [TensorFlow](https://www.tensorflow.org/).
 
 Please note -- this package is under active development and the API is subject to change while we iron out the interface.
+
+To generate and preview docs locally, run:
+
+``` r
+devtools::install_github("hadley/pkgdown")
+pkgdown::build_site()
+```
+
