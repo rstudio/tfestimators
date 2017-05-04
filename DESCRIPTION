@@ -6,11 +6,11 @@ Date: 2017-01-22
 Authors@R: c(
   person("Yuan", "Tang", role = c("aut", "cre"),
          email = "terrytangyuan@gmail.com"),
-  person("JJ", "Allaire", role = c("aut", "cph"),
+  person("JJ", "Allaire", role = c("aut"),
          email = "jj@rstudio.com"),
+  person("RStudio", role = c("cph", "fnd")),  
   person("Kevin", "Ushey", role = c("aut"),
          email = "kevin@rstudio.com"),
-  person(family = "RStudio", role = "cph"),
   person(family = "Google Inc.", role = c("cph"),
          comment = "Documentation")
   )
@@ -34,5 +34,7 @@ Imports:
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
 Suggests:
-    testthat
+    testthat,
+    knitr
+VignetteBuilder: knitr
 Remotes: rstudio/tensorflow@16aa4cd
