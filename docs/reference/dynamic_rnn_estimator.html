@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Linear DNN Combined Regression — linear_dnn_combined_regressor • tflearn</title>
+<title>Dynamic RNN Estimator — dynamic_rnn_estimator • tflearn</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -79,21 +79,25 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Linear DNN Combined Regression</h1>
+    <h1>Dynamic RNN Estimator</h1>
     </div>
 
     
-    <p>Perform Linear DNN Combined Regression using TensorFlow.</p>
+    <p>Dynamic RNN Estimator</p>
     
 
-    <pre class="usage"><span class='fu'>linear_dnn_combined_regressor</span>(<span class='no'>linear_feature_columns</span>, <span class='no'>dnn_feature_columns</span>,
-  <span class='kw'>run_options</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>dynamic_rnn_estimator</span>(<span class='no'>problem_type</span>, <span class='no'>prediction_type</span>, <span class='no'>sequence_feature_columns</span>,
+  <span class='kw'>context_feature_columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>num_classes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>num_units</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>cell_type</span> <span class='kw'>=</span> <span class='st'>"basic_rnn"</span>, <span class='kw'>optimizer</span> <span class='kw'>=</span> <span class='st'>"SGD"</span>, <span class='kw'>learning_rate</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+  <span class='kw'>predict_probabilities</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>momentum</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gradient_clipping_norm</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>dropout_keep_probabilities</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>feature_engineering_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>run_options</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
         
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other canned estimator: <code><a href='dynamic_rnn_estimator.html'>dynamic_rnn_estimator</a></code>,
-  <code><a href='linear_classifier.html'>linear_classifier</a></code>,
+    <p>Other canned estimator: <code><a href='linear_classifier.html'>linear_classifier</a></code>,
   <code><a href='linear_dnn_combined_classifier.html'>linear_dnn_combined_classifier</a></code>,
+  <code><a href='linear_dnn_combined_regressor.html'>linear_dnn_combined_regressor</a></code>,
   <code><a href='linear_regressor.html'>linear_regressor</a></code>,
   <code><a href='state_saving_rnn_estimator.html'>state_saving_rnn_estimator</a></code></p>
     

@@ -22,9 +22,10 @@ reference:
     contents:
       - linear_regressor
       - linear_classifier
-      - svm_classifier
       - linear_dnn_combined_regressor
       - linear_dnn_combined_classifier
+      - state_saving_rnn_estimator
+      - dynamic_rnn_estimator
 
   - title: "Feature Columns"
     contents: 

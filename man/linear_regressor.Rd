@@ -2,10 +2,17 @@
 % Please edit documentation in R/linear_estimators.R
 \name{linear_regressor}
 \alias{linear_regressor}
-\title{TensorFlow -- Linear Regression}
+\title{Linear Regression}
 \usage{
 linear_regressor(feature_columns, run_options = NULL, ...)
 }
 \description{
 Perform linear regression using TensorFlow.
+}
+\seealso{
+Other canned estimator: \code{\link{dynamic_rnn_estimator}},
+  \code{\link{linear_classifier}},
+  \code{\link{linear_dnn_combined_classifier}},
+  \code{\link{linear_dnn_combined_regressor}},
+  \code{\link{state_saving_rnn_estimator}}
 }

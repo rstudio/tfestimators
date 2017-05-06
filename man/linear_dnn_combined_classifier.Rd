@@ -2,11 +2,18 @@
 % Please edit documentation in R/linear_dnn_combined_estimators.R
 \name{linear_dnn_combined_classifier}
 \alias{linear_dnn_combined_classifier}
-\title{TensorFlow -- Linear DNN Combined Classification}
+\title{Linear DNN Combined Classification}
 \usage{
 linear_dnn_combined_classifier(linear_feature_columns, dnn_feature_columns,
   run_options = NULL, ...)
 }
 \description{
 Perform Linear DNN Combined Classification using TensorFlow.
+}
+\seealso{
+Other canned estimator: \code{\link{dynamic_rnn_estimator}},
+  \code{\link{linear_classifier}},
+  \code{\link{linear_dnn_combined_regressor}},
+  \code{\link{linear_regressor}},
+  \code{\link{state_saving_rnn_estimator}}
 }
