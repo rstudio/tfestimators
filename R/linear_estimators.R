@@ -5,19 +5,19 @@
 #' @export
 #' @family canned estimator
 linear_regressor <- function(feature_columns,
-                             run_options = NULL,
+                             model_dir = NULL,
+                             config = NULL,
                               ...)
 {
-  run_options <- run_options %||% run_options()
-  
+
   # extract feature columns
   feature_columns <- resolve_fn(feature_columns)
 
   # construct estimator accepting those columns
   lr <- learn$LinearRegressor(
     feature_columns = feature_columns,
-    model_dir = run_options$model_dir,
-    config = run_options$run_config,
+    model_dir = model_dir,
+    config = config,
     ...
   )
 
@@ -35,11 +35,11 @@ linear_regressor <- function(feature_columns,
 #' @family canned estimator
 linear_classifier <- function(feature_columns,
                               n_classes = 2L,
-                              run_options = NULL,
+                              model_dir = NULL,
+                              config = NULL,
                               ...)
 {
-  run_options <- run_options %||% run_options()
-  
+
   # extract feature columns
   feature_columns <- resolve_fn(feature_columns)
 
@@ -47,8 +47,8 @@ linear_classifier <- function(feature_columns,
   lc <- learn$LinearClassifier(
     feature_columns = feature_columns,
     n_classes = n_classes,
-    model_dir = run_options$model_dir,
-    config = run_options$run_config,
+    model_dir = model_dir,
+    config = config,
     ...
   )
 

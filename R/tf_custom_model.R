@@ -35,18 +35,63 @@ estimator_spec <- function(predictions,
 
 #' Custom estimator constructor
 #' 
+#' This is the core Estimator class to train and evaluate TensorFlow models.
+#' 
+#' The `Estimator` object wraps a model which is specified by a `model_fn`,
+#' which, given inputs and a number of other parameters, returns the ops
+#' necessary to perform training, evaluation, or predictions. 
+#' 
+#' All outputs (checkpoints, event files, etc.) are written to `model_dir`, or a
+#' subdirectory thereof. If `model_dir` is not set, a temporary directory is
+#' used. 
+#' 
+#' The `config` argument can be passed `RunConfig` object containing information
+#' about the execution environment. It is passed on to the `model_fn`, if the
+#' `model_fn` has a parameter named "config" (and input functions in the same
+#' manner). If the `config` parameter is not passed, it is instantiated by the
+#' `Estimator`. Not passing config means that defaults useful for local execution
+#' are used. `Estimator` makes config available to the model (for instance, to
+#' allow specialization based on the number of workers available), and also uses
+#' some of its fields to control internals, especially regarding checkpointing. 
+#' 
+#' The `params` argument contains hyperparameters. It is passed to the
+#' `model_fn`, if the `model_fn` has a parameter named "params", and to the input
+#' functions in the same manner. `Estimator` only passes params along, it does
+#' not inspect it. The structure of `params` is therefore entirely up to the
+#' developer. 
+#' 
+#' None of `Estimator`'s methods can be overridden in subclasses (its
+#' constructor enforces this). Subclasses should use `model_fn` to configure
+#' the base class, and may add methods implementing specialized functionality.
+#' 
+#' @param model_fn Model function. Follows the signature: 
+#' * Args: * `features`: single `Tensor` or `dict` of `Tensor`s (depending on data passed to `train`), 
+#' * `labels`: `Tensor` or `dict` of `Tensor`s (for multi-head models). If mode is `ModeKeys.PREDICT`, `labels=NULL` will be passed. 
+#' If the `model_fn`'s signature does not accept `mode`, the `model_fn` must still be able to handle `labels=NULL`. 
+#' * `mode`: Optional. Specifies if this training, evaluation or prediction. See `ModeKeys`. 
+#' * `params`: Optional `dict` of hyperparameters. Will receive what is passed to Estimator in `params` parameter. 
+#' This allows to configure Estimators from hyper parameter tuning. 
+#' * `config`: Optional configuration object. Will receive what is passed to Estimator in `config` parameter, or the default `config`. 
+#' Allows updating things in your model_fn based on configuration such as `num_ps_replicas`, or `model_dir`.
+#' @param model_dir Directory to save model parameters, graph and etc. This can also be used to load checkpoints from the directory 
+#' into a estimator to continue training a previously saved model. 
+#' If `NULL`, the model_dir in `config` will be used if set. If both are set, they must be same.
+#' If both are `NULL`, a temporary directory will be used.
+#' @param config Configuration object.
+#' @param params `dict` of hyper parameters that will be passed into `model_fn`. Keys are names of parameters, values are basic python types.
+#' 
 #' @export
 #' @family custom estimator
 estimator <- function(model_fn,
-                      run_options = NULL,
+                      model_dir = NULL,
+                      config = NULL,
                       ...)
 {
-  run_options <- run_options %||% run_options()
-
   model_fn <- as_model_fn(model_fn)
   est <- estimator_lib$Estimator(
     model_fn = model_fn,
-    model_dir = run_options$model_dir,
+    model_dir = model_dir,
+    config = config,
     ...
   )
   tf_custom_model(estimator = est, model_fn = model_fn)

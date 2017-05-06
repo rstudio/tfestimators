@@ -57,7 +57,4 @@ reference:
       - hook_step_counter
       - hook_stop_at_step
       - hook_summary_saver
-      
-  - title: "Configuration"
-    contents:
-      - run_options
+

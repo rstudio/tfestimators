@@ -21,9 +21,9 @@ state_saving_rnn_estimator <- function(
   num_threads = 3L,
   queue_capacity = 1000L,
   seed = NULL,
-  run_options = NULL)
+  model_dir = NULL,
+  config = NULL)
 {
-  run_options <- run_options %||% run_options()
   rnn_estimator <- contrib_estimators_lib$state_saving_rnn_estimator$StateSavingRnnEstimator(
     problem_type = problem_type,
     num_unroll = as.integer(num_unroll),
@@ -43,8 +43,8 @@ state_saving_rnn_estimator <- function(
     num_threads = as.integer(num_threads),
     queue_capacity = as.integer(queue_capacity),
     seed = as_nullable_integer(seed),
-    model_dir = run_options$model_dir,
-    config = run_options$run_config
+    model_dir = model_dir,
+    config = config
   )
   
   tf_model(
@@ -73,9 +73,9 @@ dynamic_rnn_estimator <- function(
   gradient_clipping_norm = 5.0,
   dropout_keep_probabilities = NULL,
   feature_engineering_fn = NULL,
-  run_options = NULL)
+  model_dir = NULL,
+  config = NULL)
 {
-  run_options <- run_options %||% run_options()
   rnn_estimator <- contrib_estimators_lib$dynamic_rnn_estimator$DynamicRnnEstimator(
     problem_type = problem_type,
     prediction_type = prediction_type,
@@ -91,8 +91,8 @@ dynamic_rnn_estimator <- function(
     gradient_clipping_norm = gradient_clipping_norm,
     dropout_keep_probabilities = dropout_keep_probabilities,
     feature_engineering_fn = feature_engineering_fn,
-    model_dir = run_options$model_dir,
-    config = run_options$run_config
+    model_dir = model_dir,
+    config = config
   )
   
   tf_model(

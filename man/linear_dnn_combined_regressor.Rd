@@ -5,7 +5,7 @@
 \title{Linear DNN Combined Regression}
 \usage{
 linear_dnn_combined_regressor(linear_feature_columns, dnn_feature_columns,
-  run_options = NULL, ...)
+  model_dir = NULL, config = NULL, ...)
 }
 \description{
 Perform Linear DNN Combined Regression using TensorFlow.

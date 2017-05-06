@@ -11,7 +11,7 @@ state_saving_rnn_estimator(problem_type, num_unroll, batch_size,
   momentum = NULL, gradient_clipping_norm = 5,
   dropout_keep_probabilities = NULL, feature_engineering_fn = NULL,
   num_threads = 3L, queue_capacity = 1000L, seed = NULL,
-  run_options = NULL)
+  model_dir = NULL, config = NULL)
 }
 \description{
 State Saving RNN Estimator

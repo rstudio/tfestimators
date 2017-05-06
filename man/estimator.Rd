@@ -4,10 +4,60 @@
 \alias{estimator}
 \title{Custom estimator constructor}
 \usage{
-estimator(model_fn, run_options = NULL, ...)
+estimator(model_fn, model_dir = NULL, config = NULL, ...)
+}
+\arguments{
+\item{model_fn}{Model function. Follows the signature:
+\itemize{
+\item Args: * \code{features}: single \code{Tensor} or \code{dict} of \code{Tensor}s (depending on data passed to \code{train}),
+\item \code{labels}: \code{Tensor} or \code{dict} of \code{Tensor}s (for multi-head models). If mode is \code{ModeKeys.PREDICT}, \code{labels=NULL} will be passed.
+If the \code{model_fn}'s signature does not accept \code{mode}, the \code{model_fn} must still be able to handle \code{labels=NULL}.
+\item \code{mode}: Optional. Specifies if this training, evaluation or prediction. See \code{ModeKeys}.
+\item \code{params}: Optional \code{dict} of hyperparameters. Will receive what is passed to Estimator in \code{params} parameter.
+This allows to configure Estimators from hyper parameter tuning.
+\item \code{config}: Optional configuration object. Will receive what is passed to Estimator in \code{config} parameter, or the default \code{config}.
+Allows updating things in your model_fn based on configuration such as \code{num_ps_replicas}, or \code{model_dir}.
+}}
+
+\item{model_dir}{Directory to save model parameters, graph and etc. This can also be used to load checkpoints from the directory
+into a estimator to continue training a previously saved model.
+If \code{NULL}, the model_dir in \code{config} will be used if set. If both are set, they must be same.
+If both are \code{NULL}, a temporary directory will be used.}
+
+\item{config}{Configuration object.}
+
+\item{params}{\code{dict} of hyper parameters that will be passed into \code{model_fn}. Keys are names of parameters, values are basic python types.}
 }
 \description{
-Custom estimator constructor
+This is the core Estimator class to train and evaluate TensorFlow models.
+}
+\details{
+The \code{Estimator} object wraps a model which is specified by a \code{model_fn},
+which, given inputs and a number of other parameters, returns the ops
+necessary to perform training, evaluation, or predictions.
+
+All outputs (checkpoints, event files, etc.) are written to \code{model_dir}, or a
+subdirectory thereof. If \code{model_dir} is not set, a temporary directory is
+used.
+
+The \code{config} argument can be passed \code{RunConfig} object containing information
+about the execution environment. It is passed on to the \code{model_fn}, if the
+\code{model_fn} has a parameter named "config" (and input functions in the same
+manner). If the \code{config} parameter is not passed, it is instantiated by the
+\code{Estimator}. Not passing config means that defaults useful for local execution
+are used. \code{Estimator} makes config available to the model (for instance, to
+allow specialization based on the number of workers available), and also uses
+some of its fields to control internals, especially regarding checkpointing.
+
+The \code{params} argument contains hyperparameters. It is passed to the
+\code{model_fn}, if the \code{model_fn} has a parameter named "params", and to the input
+functions in the same manner. \code{Estimator} only passes params along, it does
+not inspect it. The structure of \code{params} is therefore entirely up to the
+developer.
+
+None of \code{Estimator}'s methods can be overridden in subclasses (its
+constructor enforces this). Subclasses should use \code{model_fn} to configure
+the base class, and may add methods implementing specialized functionality.
 }
 \seealso{
 Other custom estimator: \code{\link{estimator_spec}},

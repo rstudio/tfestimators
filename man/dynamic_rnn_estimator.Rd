@@ -9,7 +9,7 @@ dynamic_rnn_estimator(problem_type, prediction_type, sequence_feature_columns,
   cell_type = "basic_rnn", optimizer = "SGD", learning_rate = 0.1,
   predict_probabilities = F, momentum = NULL, gradient_clipping_norm = 5,
   dropout_keep_probabilities = NULL, feature_engineering_fn = NULL,
-  run_options = NULL)
+  model_dir = NULL, config = NULL)
 }
 \description{
 Dynamic RNN Estimator

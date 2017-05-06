@@ -4,7 +4,7 @@
 \alias{linear_regressor}
 \title{Linear Regression}
 \usage{
-linear_regressor(feature_columns, run_options = NULL, ...)
+linear_regressor(feature_columns, model_dir = NULL, config = NULL, ...)
 }
 \description{
 Perform linear regression using TensorFlow.

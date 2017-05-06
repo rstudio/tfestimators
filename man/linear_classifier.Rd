@@ -4,7 +4,8 @@
 \alias{linear_classifier}
 \title{Linear Classification}
 \usage{
-linear_classifier(feature_columns, n_classes = 2L, run_options = NULL, ...)
+linear_classifier(feature_columns, n_classes = 2L, model_dir = NULL,
+  config = NULL, ...)
 }
 \description{
 Perform linear classification using TensorFlow.

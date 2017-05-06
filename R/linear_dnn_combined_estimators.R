@@ -7,11 +7,11 @@
 linear_dnn_combined_regressor <- function(
   linear_feature_columns,
   dnn_feature_columns,
-  run_options = NULL,
+  model_dir = NULL,
+  config = NULL,
   ...)
 {
-  run_options <- run_options %||% run_options()
-  
+
   # extract feature columns
   linear_feature_columns <- resolve_fn(linear_feature_columns)
   dnn_feature_columns <- resolve_fn(dnn_feature_columns)
@@ -19,8 +19,8 @@ linear_dnn_combined_regressor <- function(
   lm_dnn_r <- learn$DNNLinearCombinedRegressor(
     linear_feature_columns = linear_feature_columns,
     dnn_feature_columns = dnn_feature_columns,
-    model_dir = run_options$model_dir %||% run_options$model_dir,
-    config = run_options$run_config,
+    model_dir = model_dir,
+    config = config,
     ...
   )
 
@@ -39,19 +39,19 @@ linear_dnn_combined_regressor <- function(
 linear_dnn_combined_classifier <- function(
   linear_feature_columns,
   dnn_feature_columns,
-  run_options = NULL,
+  model_dir = NULL,
+  config = NULL,
   ...)
 {
-  run_options <- run_options %||% run_options()
-  
+
   linear_feature_columns <- resolve_fn(linear_feature_columns)
   dnn_feature_columns <- resolve_fn(dnn_feature_columns)
 
   lm_dnn_c <- learn$DNNLinearCombinedClassifier(
     linear_feature_columns = linear_feature_columns,
     dnn_feature_columns = dnn_feature_columns,
-    model_dir = run_options$model_dir %||% run_options$model_dir,
-    config = run_options$run_config,
+    model_dir = model_dir,
+    config = config,
     ...
   )
 
