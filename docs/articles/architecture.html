@@ -64,14 +64,126 @@
     
     
 <div class="contents">
-<div id="spec-constructors" class="section level2">
+<div id="estimator" class="section level2">
 <h2 class="hasAnchor">
-<a href="#spec-constructors" class="anchor"></a>Spec Constructors</h2>
-<p>Spec constructors are for constructing the input and features for a particular estimator. All estimators require input function. Canned estimators, in addition to the requirement of input function, require specification for feature columns.</p>
-<div id="feature-columns" class="section level3">
+<a href="#estimator" class="anchor"></a>Estimator</h2>
+<p>Estimator is a class that provides an abstraction for a machine learning model. It is designed to be detailed enough to allow for downstream infrastructure to be written, but general enough to not constrain the type of model represented by an Estimator. The general interface for users of Estimator is loosely modeled after Scikit-learn and consists of only three methods: <code>fit()</code> trains the model, given training data; <code>evaluate()</code> computes evaluation metrics over test data; and <code>predict()</code> performs inference on new data given a trained model. (TODO: More description)</p>
+<div id="canned-estimators" class="section level3">
 <h3 class="hasAnchor">
-<a href="#feature-columns" class="anchor"></a>Feature Columns</h3>
-<p>The first spec constructor is feature columns required for canned estimators such as <code>DNNEstimator</code>. This specifies the feature transformations and combinations for a model, e.g. <code><a href="../reference/column_embedding.html">column_embedding()</a></code> that converts a categorical variable into embedding and <code><a href="../reference/column_crossed.html">column_crossed()</a></code> that combines two variables in a specified way.</p>
+<a href="#canned-estimators" class="anchor"></a>Canned Estimators</h3>
+<p>This library provides canned Estimators that have already implemented the model layers and architecture, such as Estimators for linear models, Deep Neural Networks, Support Vector Machines, state saving Recurrent Neural Networks, dynamic Recurrent Neural Networks, etc. Users only need to focus on defining the input and features used to train a model, evaluate it, and predict with it. Users then should be able to choose freely the level of abstraction best suited for the problem at hand.</p>
+<p>In order to use canned Estimators, users need to specify the input function, feature columns, and other required parameters that are specific to the choice of canned Estimator.</p>
+<p>Users firstly specify the feature columns that represent the feature transformations to be used by the Estimator. Here we use the default function <code>feature_columns()</code> to automatically map each features in a dataset into a feature column according to their types, e.g. factor variable, numeric variable, etc.:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars$vs &lt;-<span class="st"> </span><span class="kw">as.factor</span>(mtcars$vs)
+dnn_feature_columns &lt;-<span class="st"> </span><span class="kw">feature_columns</span>(mtcars, <span class="st">"drat"</span>)
+linear_feature_columns &lt;-<span class="st"> </span><span class="kw">feature_columns</span>(mtcars, <span class="st">"cyl"</span>)</code></pre></div>
+<p>Then use <code>input_fn</code> to specify the response variable as well as the predictor variables in the dataset, which converts the variables in the in-memory data set into Tensors that can be consumed by Estimator:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">custom_input_fn &lt;-<span class="st"> </span><span class="kw">input_fn</span>(mtcars, <span class="dt">response =</span> <span class="st">"vs"</span>, <span class="dt">features =</span> <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>))</code></pre></div>
+<p>Next, we intialize the Linear DNN Combined canned Estimator by passing the feature columns and other parameters that specifies the layers and architecture of the model. Note that for this particular canned Estimator, it takes two types of feature columns that are used for constructing linear layer and fully connected deep layers separately:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+classifier &lt;-
+<span class="st">    </span><span class="kw"><a href="../reference/linear_dnn_combined_classifier.html">linear_dnn_combined_classifier</a></span>(
+      <span class="dt">linear_feature_columns =</span> linear_feature_columns,
+      <span class="dt">dnn_feature_columns =</span> dnn_feature_columns,
+      <span class="dt">dnn_hidden_units =</span> <span class="kw">c</span>(3L, 3L),
+      <span class="dt">dnn_optimizer =</span> <span class="st">"Adagrad"</span>
+    )</code></pre></div>
+<p>Users can then call <code>fit()</code> to train the initialized Estimator for a number of steps:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">classifier &lt;-<span class="st"> </span><span class="kw">fit</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn, <span class="dt">steps =</span> 2L)</code></pre></div>
+<p>Once a model is trained, users can use <code>predict()</code> that makes predictions on a given input function that represents the inference data source. an argument named <code>type</code> can be <code>"raw"</code> so <code>predict()</code> will return the raw predictions outcomes, as well as <code>"prob"</code> and <code>"logistic"</code> that returns prediction probabilities and logistics if a model is of classification type.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn)
+predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn, <span class="dt">type =</span> <span class="st">"prob"</span>)
+predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn, <span class="dt">type =</span> <span class="st">"logistic"</span>)</code></pre></div>
+<p>There’s also a function called <code>coef()</code> that can be used extract the trained coefficients of a model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">coefs &lt;-<span class="st"> </span><span class="kw">coef</span>(classifier)</code></pre></div>
+</div>
+<div id="custom-estimator" class="section level3">
+<h3 class="hasAnchor">
+<a href="#custom-estimator" class="anchor"></a>Custom Estimator</h3>
+<p>Users can also implement their own custom Estimator by configuring the layers and architecture of the Estimator. The Estimator’s architecture is configured using a user-defined <code>model_fn</code>, a function which builds a TensorFlow graph and returns necessary information to train a model, evaluate it, and predict with it. Users writing custom estimators to implement custom model architecture only have to implement this function to specify the layers of the custom Estimator. It is possible, and in fact, common, that <code>model_fn</code> contains regular TensorFlow without using any other part of our framework. It is often the case because existing models are being adapted or converted to be implemented in terms of an estimator.</p>
+<p>Users define the model architecture in a custom model function <code>custom_model_fn</code> that contains the following arguments in the signature that users can grab to define customized handling conditionally:</p>
+<ul>
+<li>features and labels of the model.</li>
+<li>mode that contains the different modes of a model, such as training, inference, or evaluation.</li>
+<li>params that contains the tuning parameters in a model.</li>
+<li>config that represents the <code>RunConfig</code> objects used in a model, including GPU percentages, cluster information, etc.</li>
+</ul>
+<p>The <code>custom_model_fn()</code> function should return an <code>estimator_spec(predictions, loss, train_op, mode)</code> that contains the predictions, losses, training op, and mode.</p>
+<p>The following example demonstrates the construction and fitting of a custom estimator that has custom architectures.</p>
+<p>Firstly, let’s define the input using <code>input_fn()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">constructed_input_fn &lt;-<span class="st"> </span><span class="kw">input_fn</span>(
+    <span class="dt">x =</span> iris,
+    <span class="dt">response =</span> <span class="st">"Species"</span>,
+    <span class="dt">features =</span> <span class="kw">c</span>(
+      <span class="st">"Sepal.Length"</span>,
+      <span class="st">"Sepal.Width"</span>,
+      <span class="st">"Petal.Length"</span>,
+      <span class="st">"Petal.Width"</span>),
+    <span class="dt">features_as_named_list =</span> <span class="ot">FALSE</span>,
+    <span class="dt">batch_size =</span> 10L
+)</code></pre></div>
+<p>Next, we define the custom model function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+custom_model_fn &lt;-<span class="st"> </span>function(features, labels, mode, params, config) {
+      <span class="co"># Create three fully connected layers respectively of size 10, 20, and 10 with</span>
+    <span class="co"># each layer having a dropout probability of 0.1.</span>
+    logits &lt;-<span class="st"> </span>features %&gt;%
+<span class="st">      </span>tf$contrib$layers$<span class="kw">stack</span>(
+        tf$contrib$layers$fully_connected, <span class="kw">c</span>(10L, 20L, 10L),
+        <span class="dt">normalizer_fn =</span> tf$contrib$layers$dropout,
+        <span class="dt">normalizer_params =</span> <span class="kw">list</span>(<span class="dt">keep_prob =</span> <span class="fl">0.9</span>)) %&gt;%
+<span class="st">      </span>tf$contrib$layers$<span class="kw">fully_connected</span>(3L, <span class="dt">activation_fn =</span> <span class="ot">NULL</span>) <span class="co"># Compute logits (1 per class) and compute loss.</span>
+    
+    predictions &lt;-<span class="st"> </span><span class="kw">list</span>(
+      <span class="dt">class =</span> tf$<span class="kw">argmax</span>(logits, 1L),
+      <span class="dt">prob =</span> tf$nn$<span class="kw">softmax</span>(logits))
+    
+    <span class="co"># Return estimator_spec early with NULL loss and train_op during inference mode</span>
+    if(mode ==<span class="st"> "infer"</span>){
+      <span class="kw">return</span>(<span class="kw">estimator_spec</span>(
+      <span class="dt">predictions =</span> predictions, <span class="dt">mode =</span> mode, <span class="dt">loss =</span> <span class="ot">NULL</span>, <span class="dt">train_op =</span> <span class="ot">NULL</span>))
+    }
+    
+    labels &lt;-<span class="st"> </span>tf$<span class="kw">one_hot</span>(labels, 3L)
+    loss &lt;-<span class="st"> </span>tf$losses$<span class="kw">softmax_cross_entropy</span>(labels, logits)
+    
+    <span class="co"># Create a tensor for training op.</span>
+    train_op &lt;-<span class="st"> </span>tf$contrib$layers$<span class="kw">optimize_loss</span>(
+      loss,
+      tf$contrib$framework$<span class="kw">get_global_step</span>(),
+      <span class="dt">optimizer =</span> <span class="st">'Adagrad'</span>,
+      <span class="dt">learning_rate =</span> <span class="fl">0.1</span>)
+    
+    <span class="kw">return</span>(<span class="kw">estimator_spec</span>(predictions, loss, train_op, mode))
+}
+
+<span class="co"># Initialize and fit the model using the the custom model function we defined</span>
+<span class="co"># and the constructed_input_fn that represents the input data source.  </span>
+classifier &lt;-<span class="st"> </span><span class="kw">estimator</span>(<span class="dt">model_fn =</span> custom_model_fn)
+classifier &lt;-<span class="st"> </span><span class="kw">fit</span>(classifier, <span class="dt">input_fn =</span> constructed_input_fn, <span class="dt">steps =</span> 2L)</code></pre></div>
+<p>Note that the above code contains a lot of <code>$</code>s. It is unnecessary to create wrapper APIs for every methods that users might use, e.g. <code>tf$contrib$layers$optimize_loss</code>, since custom models are designed to be flexible and extensible so users can insert any arbitrary low level TensorFlow APIs.</p>
+<p>Users can then supply new data in <code>input_fn</code> to <code>predict()</code> and make predictions using the trained model:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> constructed_input_fn)</code></pre></div>
+<p>Since our predictions is defined as a list of two named items in the custom model function like follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">list</span>(
+  <span class="dt">class =</span> tf$<span class="kw">argmax</span>(logits, 1L),
+  <span class="dt">prob =</span> tf$nn$<span class="kw">softmax</span>(logits))</code></pre></div>
+<p>we can use the following trick to loop through each prediction and collect the predicted classes and probabilities.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># extract predicted classes</span>
+predicted_classes &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(predictions, function(prediction) {
+  prediction$class
+}))
+
+<span class="co"># extract predicted probabilities</span>
+predicted_probs &lt;-<span class="st"> </span><span class="kw">lapply</span>(predictions, function(prediction) {
+  prediction$prob
+})</code></pre></div>
+</div>
+</div>
+<div id="feature-columns" class="section level2">
+<h2 class="hasAnchor">
+<a href="#feature-columns" class="anchor"></a>Feature Columns</h2>
+<p>Feature columns are used to specify the feature transformations and combinations for a model, e.g. <code><a href="../reference/column_embedding.html">column_embedding()</a></code> that converts a categorical variable into embedding and <code><a href="../reference/column_crossed.html">column_crossed()</a></code> that combines two variables in a specified way.</p>
 <p>Users can use the default <code>feature_columns()</code> function to convert columns in an automatic fashion without any fancy feature engineering, e.g. numeric variables are converted using <code><a href="../reference/column_real_valued.html">column_real_valued()</a></code>, factor variables are converted using <code>column_with_keys()</code>, and character variables are converted using <code>column_with_hash_bucket()</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fcs &lt;-<span class="st"> </span><span class="kw">feature_columns</span>(mtcars, <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>))</code></pre></div>
 <p>Users can also write their own custom feature columns transformation function like the following that transforms different columns in a <code>lapply</code> loop.</p>
@@ -90,12 +202,12 @@
     })
   }
 }</code></pre></div>
-<p>The feature columns transformation functions are wrappers around <code>tf.contrib.layers.feature_column</code>, for example, <code><a href="../reference/column_real_valued.html">column_real_valued()</a></code> is <code>tf.contrib.layers.feature_column.real_valued_column</code>, we wrap it this way so users can just type <code>column_</code> and utilize the autocomplete functionality in RStudio to find available types of feature columns faster as well as reducing the appearances of <code>$</code> in the code. These are used together with spec constructors that are used often for constructing canned estimator’s features. A variety of feature column funcions are available. For example, <code><a href="../reference/column_one_hot.html">column_one_hot()</a></code> specifies a feature column that’s one-hot encoded, <code><a href="../reference/column_sparse_weighted.html">column_sparse_weighted()</a></code> creates a feature column in combination with a designated weight column.</p>
+<p>The feature columns transformation functions are wrappers around Python <code>tf.contrib.layers.feature_column</code> module, for example, <code><a href="../reference/column_real_valued.html">column_real_valued()</a></code> is essentially <code>tf.contrib.layers.feature_column.real_valued_column</code>, we wrap it this way so users can just type <code>column_</code> and utilize the autocomplete functionality in RStudio to find available types of feature columns faster as well as reducing the appearances of <code>$</code> in the code. A variety of feature column functions are available. For example, <code><a href="../reference/column_one_hot.html">column_one_hot()</a></code> specifies a feature column that’s one-hot encoded, <code><a href="../reference/column_sparse_weighted.html">column_sparse_weighted()</a></code> creates a feature column in combination with a designated weight column.</p>
 </div>
-<div id="input-function" class="section level3">
-<h3 class="hasAnchor">
-<a href="#input-function" class="anchor"></a>Input Function</h3>
-<p>Another spec constructor is the input function required for the estimators. This is where users provide the input sources to feed into the model, e.g. in-memory dataframe/matrix, streaming data, serialized data formats, etc.</p>
+<div id="input-function" class="section level2">
+<h2 class="hasAnchor">
+<a href="#input-function" class="anchor"></a>Input Function</h2>
+<p>Input function is where users provide the input sources to feed into the model, e.g. in-memory dataframe/matrix, streaming data, serialized data formats, etc.</p>
 <p>Users have two ways to specify in-memory data set - using formula interface or passing <code>features</code> and <code>response</code> arguments. For example, users can use built-in <code>input_fn()</code> on <code>data.frame</code> objects like the following:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">input_fn</span>(mtcars, <span class="dt">response =</span> <span class="st">"mpg"</span>, <span class="dt">features =</span> <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>))</code></pre></div>
 <p>or use the formulate interface like below where left-hand and right-hand side of the <code>~</code> represent response column and feature columns respectively:</p>
@@ -178,116 +290,31 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">train_input_fn &lt;-<span class="st"> </span><span class="kw">get_batched_sin_input_fn</span>(batch_size, sequence_length, pi /<span class="st"> </span><span class="dv">32</span>, <span class="dt">seed =</span> <span class="dv">1234</span>)
 eval_input_fn &lt;-<span class="st"> </span><span class="kw">get_batched_sin_input_fn</span>(batch_size, sequence_length, pi /<span class="st"> </span><span class="dv">32</span>, <span class="dt">seed =</span> <span class="dv">4321</span>)</code></pre></div>
 </div>
-</div>
-<div id="estimator" class="section level2">
+<div id="experiments" class="section level2">
 <h2 class="hasAnchor">
-<a href="#estimator" class="anchor"></a>Estimator</h2>
-<p>Estimator is an interface that provides an abstraction for a machine learning model. It is designed to be detailed enough to allow for downstream infrastructure to be written, but general enough to not constrain the type of model represented by an Estimator. Estimators are given input by a user defined input function, as illustrated in earlier section.</p>
-<p>The Estimator’s architecture is configured using a user-defined <code>model_fn</code>, a function which builds a TensorFlow graph and returns necessary information to train a model, evaluate it, and predict with it. Users writing custom estimators to implement custom model architecture only have to implement this function to specify the layers of the custom Estimator. It is possible, and in fact, common, that <code>model_fn</code> contains regular TensorFlow without using any other part of our framework. It is often the case because existing models are being adapted or converted to be implemented in terms of an estimator.</p>
-<p>This library also provides canned estimators that have already implemented the model architecture, such as linear classifier, linear regressor, DNN classifier, DNN regressor, SVM classifier, etc. Users only need to focus on the input sources and the feature columns used to train a model, evaluate it, and predict with it. Users then should be able to choose freely the level of abstraction best suited for the problem at hand.</p>
-<div id="custom-estimator" class="section level3">
-<h3 class="hasAnchor">
-<a href="#custom-estimator" class="anchor"></a>Custom Estimator</h3>
-<p>The following code snippet demonstrates the construction and fitting of a custom estimator that has custom architectures. Users define the model architecture in a custom model function <code>custom_model_fn</code> that contains the following arguments in the signature that users can grab to define customized handling conditionally:</p>
-<ul>
-<li>features and labels of the model.</li>
-<li>mode that contains the different modes of a model, such as training, inference, or evaluation.</li>
-<li>params that contains the tuning parameters in a model.</li>
-<li>config that represents the <code>RunConfig</code> objects used in a model, including GPU percentages, cluster information, etc.</li>
-</ul>
-<p>The <code>custom_model_fn()</code> function should return an <code>estimator_spec(predictions, loss, train_op, mode)</code> that contains the predictions, losses, training op, and mode.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">constructed_input_fn &lt;-<span class="st"> </span><span class="kw">input_fn</span>(
-    <span class="dt">x =</span> iris,
-    <span class="dt">response =</span> <span class="st">"Species"</span>,
-    <span class="dt">features =</span> <span class="kw">c</span>(
-      <span class="st">"Sepal.Length"</span>,
-      <span class="st">"Sepal.Width"</span>,
-      <span class="st">"Petal.Length"</span>,
-      <span class="st">"Petal.Width"</span>),
-    <span class="dt">features_as_named_list =</span> <span class="ot">FALSE</span>,
-    <span class="dt">batch_size =</span> 10L
+<a href="#experiments" class="anchor"></a>Experiments</h2>
+<p>Experiments are designed for easier experiments, e.g. define your model, specify training and evaluation data and steps, frequencies, where to run, metrics to use to monitor the process, etc. They contain all neccessary information required, such as input_fn for both training and evaluation, to run experiments and can be easily packed up to run in places like CloudML, local environment, or cluster.</p>
+<p>For example, we firstly construct a classifier</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clf &lt;-
+<span class="st">  </span><span class="kw"><a href="../reference/linear_dnn_combined_classifier.html">linear_dnn_combined_classifier</a></span>(
+    <span class="dt">linear_feature_columns =</span> linear_feature_columns,
+    <span class="dt">dnn_feature_columns =</span> dnn_feature_columns,
+    <span class="dt">dnn_hidden_units =</span> <span class="kw">c</span>(3L, 3L),
+    <span class="dt">dnn_optimizer =</span> <span class="st">"Adagrad"</span>
+  )
+  </code></pre></div>
+<p>and then we pass the classifier into <code>experiment()</code> together with other neccessary information, such as separate input functions for training and evaluation, training and avaluation steps, etc. Then we can call <code>train_and_evaluate()</code> to conduct the experiment by running training and evaluation altogether.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+experiment &lt;-<span class="st"> </span><span class="kw">experiment</span>(
+  clf,
+  <span class="dt">train_input_fn =</span> custom_train_input_fn,
+  <span class="dt">eval_input_fn =</span> custom_eval_input_fn,
+  <span class="dt">train_steps =</span> 3L,
+  <span class="dt">eval_steps =</span> 3L,
+  <span class="dt">continuous_eval_throttle_secs =</span> 60L
 )
 
-custom_model_fn &lt;-<span class="st"> </span>function(features, labels, mode, params, config) {
-      <span class="co"># Create three fully connected layers respectively of size 10, 20, and 10 with</span>
-    <span class="co"># each layer having a dropout probability of 0.1.</span>
-    logits &lt;-<span class="st"> </span>features %&gt;%
-<span class="st">      </span>tf$contrib$layers$<span class="kw">stack</span>(
-        tf$contrib$layers$fully_connected, <span class="kw">c</span>(10L, 20L, 10L),
-        <span class="dt">normalizer_fn =</span> tf$contrib$layers$dropout,
-        <span class="dt">normalizer_params =</span> <span class="kw">list</span>(<span class="dt">keep_prob =</span> <span class="fl">0.9</span>)) %&gt;%
-<span class="st">      </span>tf$contrib$layers$<span class="kw">fully_connected</span>(3L, <span class="dt">activation_fn =</span> <span class="ot">NULL</span>) <span class="co"># Compute logits (1 per class) and compute loss.</span>
-    
-    predictions &lt;-<span class="st"> </span><span class="kw">list</span>(
-      <span class="dt">class =</span> tf$<span class="kw">argmax</span>(logits, 1L),
-      <span class="dt">prob =</span> tf$nn$<span class="kw">softmax</span>(logits))
-    
-    <span class="co"># Return estimator_spec early with NULL loss and train_op during inference mode</span>
-    if(mode ==<span class="st"> "infer"</span>){
-      <span class="kw">return</span>(<span class="kw">estimator_spec</span>(
-      <span class="dt">predictions =</span> predictions, <span class="dt">mode =</span> mode, <span class="dt">loss =</span> <span class="ot">NULL</span>, <span class="dt">train_op =</span> <span class="ot">NULL</span>))
-    }
-    
-    labels &lt;-<span class="st"> </span>tf$<span class="kw">one_hot</span>(labels, 3L)
-    loss &lt;-<span class="st"> </span>tf$losses$<span class="kw">softmax_cross_entropy</span>(labels, logits)
-    
-    <span class="co"># Create a tensor for training op.</span>
-    train_op &lt;-<span class="st"> </span>tf$contrib$layers$<span class="kw">optimize_loss</span>(
-      loss,
-      tf$contrib$framework$<span class="kw">get_global_step</span>(),
-      <span class="dt">optimizer =</span> <span class="st">'Adagrad'</span>,
-      <span class="dt">learning_rate =</span> <span class="fl">0.1</span>)
-    
-    <span class="kw">return</span>(<span class="kw">estimator_spec</span>(predictions, loss, train_op, mode))
-}
-
-<span class="co"># Initialize and fit the model using the the custom model function we defined</span>
-<span class="co"># and the constructed_input_fn that represents the input data source.  </span>
-classifier &lt;-<span class="st"> </span><span class="kw">estimator</span>(<span class="dt">model_fn =</span> custom_model_fn)
-classifier &lt;-<span class="st"> </span><span class="kw">fit</span>(classifier, <span class="dt">input_fn =</span> constructed_input_fn, <span class="dt">steps =</span> 2L)</code></pre></div>
-<p>Note that the above code contains a lot of <code>$</code>s. It is unnecessary to create wrapper APIs for every methods that users might use, e.g. <code>tf$contrib$layers$optimize_loss</code>, since custom models are designed to be flexible and extensible so users can insert any arbitrary low level TensorFlow APIs.</p>
-<p>Users can then supply an <code>input_fn</code> and make predictions.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> constructed_input_fn)</code></pre></div>
-<p>Since our predictions is defined as a list of two items in the custom model function like follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">list</span>(
-  <span class="dt">class =</span> tf$<span class="kw">argmax</span>(logits, 1L),
-  <span class="dt">prob =</span> tf$nn$<span class="kw">softmax</span>(logits))</code></pre></div>
-<p>we can use the following trick to loop through each prediction and extract the predicted classes and probabilities.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># extract predicted classes</span>
-predicted_classes &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(predictions, function(prediction) {
-  prediction$class
-}))
-
-<span class="co"># extract predicted probabilities</span>
-predicted_probs &lt;-<span class="st"> </span><span class="kw">lapply</span>(predictions, function(prediction) {
-  prediction$prob
-})</code></pre></div>
-</div>
-<div id="canned-estimators" class="section level3">
-<h3 class="hasAnchor">
-<a href="#canned-estimators" class="anchor"></a>Canned Estimators</h3>
-<p>For canned estimators, users need to specify the input_fn, feature columns, and other required arguments for a particular canned estimator. Note that in the following example, <code>linear_dnn_combined_classifier</code> takes two types of feature columns that are used for linear and dnn separately.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars$vs &lt;-<span class="st"> </span><span class="kw">as.factor</span>(mtcars$vs)
-dnn_feature_columns &lt;-<span class="st"> </span><span class="kw">feature_columns</span>(mtcars, <span class="st">"drat"</span>)
-linear_feature_columns &lt;-<span class="st"> </span><span class="kw">feature_columns</span>(mtcars, <span class="st">"cyl"</span>)
-custom_input_fn &lt;-<span class="st"> </span><span class="kw">input_fn</span>(mtcars, <span class="dt">response =</span> <span class="st">"vs"</span>, <span class="dt">features =</span> <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>))
-
-classifier &lt;-
-<span class="st">    </span><span class="kw"><a href="../reference/linear_dnn_combined_classifier.html">linear_dnn_combined_classifier</a></span>(
-      <span class="dt">linear_feature_columns =</span> linear_feature_columns,
-      <span class="dt">dnn_feature_columns =</span> dnn_feature_columns,
-      <span class="dt">dnn_hidden_units =</span> <span class="kw">c</span>(3L, 3L),
-      <span class="dt">dnn_optimizer =</span> <span class="st">"Adagrad"</span>
-    )
-
-classifier &lt;-<span class="st"> </span><span class="kw">fit</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn, <span class="dt">steps =</span> 2L)</code></pre></div>
-<p>Users can use <code>coef()</code> to extract the trained coefficients of a model.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">coefs &lt;-<span class="st"> </span><span class="kw">coef</span>(classifier)</code></pre></div>
-<p>Once a model is trained, users can use <code>predict()</code> that makes predictions on a given input_fn that represents the inference data source. an argument named <code>type</code> can be <code>"raw"</code> so <code>predict()</code> will return the raw predictions outcomes, as well as <code>"prob"</code> and <code>"logistic"</code> that returns prediction probabilities and logistics if a model is of classification type.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn)
-predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn, <span class="dt">type =</span> <span class="st">"prob"</span>)
-predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn, <span class="dt">type =</span> <span class="st">"logistic"</span>)</code></pre></div>
-</div>
+experiment_result &lt;-<span class="st"> </span><span class="kw">train_and_evaluate</span>(experiment)</code></pre></div>
 </div>
 <div id="run-options" class="section level2">
 <h2 class="hasAnchor">
@@ -327,32 +354,6 @@ lr &lt;-<span class="st"> </span><span class="kw">fit</span>(
   <span class="dt">steps =</span> 10L,
   <span class="dt">monitors =</span> monitor)</code></pre></div>
 </div>
-<div id="experiments" class="section level2">
-<h2 class="hasAnchor">
-<a href="#experiments" class="anchor"></a>Experiments</h2>
-<p>Experiments are designed for easier experiments, e.g. define your model, specify training and evaluation data and steps, frequencies, where to run, metrics to use to monitor the process, etc. They contain all neccessary information required, such as input_fn for both training and evaluation, to run experiments and can be easily packed up to run in places like CloudML, local environment, or cluster.</p>
-<p>For example, we firstly construct a classifier</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clf &lt;-
-<span class="st">  </span><span class="kw"><a href="../reference/linear_dnn_combined_classifier.html">linear_dnn_combined_classifier</a></span>(
-    <span class="dt">linear_feature_columns =</span> linear_feature_columns,
-    <span class="dt">dnn_feature_columns =</span> dnn_feature_columns,
-    <span class="dt">dnn_hidden_units =</span> <span class="kw">c</span>(3L, 3L),
-    <span class="dt">dnn_optimizer =</span> <span class="st">"Adagrad"</span>
-  )
-  </code></pre></div>
-<p>and then we pass the classifier into <code>experiment()</code> together with other neccessary information, such as separate input functions for training and evaluation, training and avaluation steps, etc. Then we can call <code>train_and_evaluate()</code> to conduct the experiment by running training and evaluation altogether.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
-experiment &lt;-<span class="st"> </span><span class="kw">experiment</span>(
-  clf,
-  <span class="dt">train_input_fn =</span> custom_train_input_fn,
-  <span class="dt">eval_input_fn =</span> custom_eval_input_fn,
-  <span class="dt">train_steps =</span> 3L,
-  <span class="dt">eval_steps =</span> 3L,
-  <span class="dt">continuous_eval_throttle_secs =</span> 60L
-)
-
-experiment_result &lt;-<span class="st"> </span><span class="kw">train_and_evaluate</span>(experiment)</code></pre></div>
-</div>
 </div>
   </div>
 
@@ -360,11 +361,12 @@ experiment_result &lt;-<span class="st"> </span><span class="kw">train_and_evalu
         <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#spec-constructors">Spec Constructors</a></li>
-      <li><a href="#estimator">Estimator</a></li>
+<li><a href="#estimator">Estimator</a></li>
+      <li><a href="#feature-columns">Feature Columns</a></li>
+      <li><a href="#input-function">Input Function</a></li>
+      <li><a href="#experiments">Experiments</a></li>
       <li><a href="#run-options">Run Options</a></li>
       <li><a href="#sessionrunhooks">SessionRunHooks</a></li>
-      <li><a href="#experiments">Experiments</a></li>
       </ul>
 </div>
       </div>
