@@ -27,6 +27,15 @@ reference:
       - state_saving_rnn_estimator
       - dynamic_rnn_estimator
 
+  - title: "Custom Estimator"
+    contents:
+      - estimator
+      - estimator_spec
+      - fit.tf_custom_model
+      - predict.tf_custom_model
+      - evaluate.tf_custom_model
+      - export_savedmodel.tf_custom_model
+
   - title: "Feature Columns"
     contents: 
       - feature_columns.default

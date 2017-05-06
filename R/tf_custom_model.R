@@ -15,7 +15,13 @@ is.tf_custom_model <- function(object) {
   inherits(object, "tf_custom_model")
 }
 
+#' Ops and objects returned from a `model_fn` and passed to `Estimator`.
+#' 
+#' `EstimatorSpec` fully defines the model to be run by `Estimator`.
+#' 
+#' 
 #' @export
+#' @family custom estimator
 estimator_spec <- function(predictions,
                            loss,
                            train_op,
@@ -27,7 +33,10 @@ estimator_spec <- function(predictions,
     train_op = train_op)
 }
 
+#' Custom estimator constructor
+#' 
 #' @export
+#' @family custom estimator
 estimator <- function(model_fn,
                       run_options = NULL,
                       ...)
@@ -43,25 +52,60 @@ estimator <- function(model_fn,
   tf_custom_model(estimator = est, model_fn = model_fn)
 }
 
+#' Trains a model given training data input_fn.
+#' 
+#' 
+#' 
+#' @param input_fn Input function returning a list of: features - `Tensor` or dictionary of string feature name to `Tensor`. labels - `Tensor` or dictionary of `Tensor` with labels.
+#' @param hooks List of `SessionRunHook` subclass instances. Used for callbacks inside the training loop.
+#' @param steps Number of steps for which to train model. If `NULL`, train forever or train until input_fn generates the `OutOfRange` or `StopIteration` error. 'steps' works incrementally. If you call two times train(steps=10) then training occurs in total 20 steps. If `OutOfRange` or `StopIteration` error occurs in the middle, training stops before 20 steps. If you don't want to have incremental behaviour please set `max_steps` instead. If set, `max_steps` must be `NULL`.
+#' @param max_steps Number of total steps for which to train model. If `NULL`, train forever or train until input_fn generates the `OutOfRange` or `StopIteration` error. If set, `steps` must be `NULL`. If `OutOfRange` or `StopIteration` error occurs in the middle, training stops before `max_steps` steps.
+#' 
+#' @return `self`, for chaining.
+#' 
+#' @section Raises:
+#' ValueError: If both `steps` and `max_steps` are not `NULL`. ValueError: If either `steps` or `max_steps` is <= 0.
+#' 
 #' @export
-fit.tf_custom_model <- function(object, input_fn, steps = 2L, ...) {
+#' @family custom estimator
+fit.tf_custom_model <- function(object, input_fn, steps = 2L, hooks = NULL, max_steps = NULL) {
   validate_custom_model_input_fn(input_fn)
-  object$estimator$train(input_fn = input_fn$input_fn, steps = steps, ...)
+  object$estimator$train(
+    input_fn = input_fn$input_fn,
+    steps = steps,
+    hooks = hooks,
+    max_steps = max_steps)
   object
 }
 
+#' Returns predictions for given features.
+#' 
+#' @param input_fn Input function returning features which is a dictionary of string feature name to `Tensor` or `SparseTensor`. If it returns a list, first item is extracted as features. Prediction continues until `input_fn` raises an end-of-input exception (`OutOfRangeError` or `StopIteration`).
+#' @param predict_keys list of `str`, name of the keys to predict. It is used if the `EstimatorSpec.predictions` is a `dict`. If `predict_keys` is used then rest of the predictions will be filtered from the dictionary. If `NULL`, returns all.
+#' @param hooks List of `SessionRunHook` subclass instances. Used for callbacks inside the prediction call.
+#' @param checkpoint_path Path of a specific checkpoint to predict. If `NULL`, the latest checkpoint in `model_dir` is used.
+#' 
+#' @section Yields:
+#' Evaluated values of `predictions` tensors.
+#' 
+#' @section Raises:
+#' ValueError: Could not find a trained model in model_dir. ValueError: if batch length of predictions are not same. ValueError: If there is a conflict between `predict_keys` and `predictions`. For example if `predict_keys` is not `NULL` but `EstimatorSpec.predictions` is not a `dict`.
+#' 
 #' @export
+#' @family custom estimator
 predict.tf_custom_model <- function(object,
                                     input_fn,
-                                    as_iterable = F,
                                     checkpoint_path = NULL,
-                                    ...) {
+                                    predict_keys = NULL,
+                                    hooks = NULL,
+                                    as_iterable = F) {
   validate_custom_model_input_fn(input_fn)
   est <- object$estimator
   predictions <- est$predict(
     input_fn = input_fn$input_fn,
     checkpoint_path = checkpoint_path,
-    ...)
+    hooks = hooks,
+    predict_keys = predict_keys)
   if (!as_iterable) {
     if (!any(inherits(predictions, "python.builtin.iterator"),
              inherits(predictions, "python.builtin.generator"))) {
@@ -73,27 +117,90 @@ predict.tf_custom_model <- function(object,
   predictions
 }
 
+#' Evaluates the model given evaluation data input_fn.
+#' 
+#' For each step, calls `input_fn`, which returns one batch of data.
+#' Evaluates until:
+#' - `steps` batches are processed, or
+#' - `input_fn` raises an end-of-input exception (`OutOfRangeError` or
+#' `StopIteration`).
+#' 
+#' @param input_fn Input function returning a list of: features - Dictionary of string feature name to `Tensor` or `SparseTensor`. labels - `Tensor` or dictionary of `Tensor` with labels.
+#' @param steps Number of steps for which to evaluate model. If `NULL`, evaluates until `input_fn` raises an end-of-input exception.
+#' @param hooks List of `SessionRunHook` subclass instances. Used for callbacks inside the evaluation call.
+#' @param checkpoint_path Path of a specific checkpoint to evaluate. If `NULL`, the latest checkpoint in `model_dir` is used.
+#' @param name Name of the evaluation if user needs to run multiple evaluations on different data sets, such as on training data vs test data. Metrics for different evaluations are saved in separate folders, and appear separately in tensorboard.
+#' 
+#' @return A dict containing the evaluation metrics specified in `model_fn` keyed by name, as well as an entry `global_step` which contains the value of the global step for which this evaluation was performed.
+#' @section Raises:
+#' ValueError: If `steps <= 0`. ValueError: If no model has been trained, namely `model_dir`, or the given `checkpoint_path` is empty.
+#' 
 #' @export
+#' @family custom estimator
 evaluate.tf_custom_model <- function(object,
                                      input_fn,
                                      steps = 2L,
                                      checkpoint_path = NULL,
-                                     ...)
+                                     name = NULL)
 {
   validate_custom_model_input_fn(input_fn)
   est <- object$estimator
   est$evaluate(input_fn = input_fn$input_fn,
                steps = steps,
                checkpoint_path = checkpoint_path,
-               ...)
+               name = name)
 }
 
+#' Exports inference graph as a SavedModel into given dir.
+#' 
+#' This method builds a new graph by first calling the
+#' serving_input_receiver_fn to obtain feature `Tensor`s, and then calling
+#' this `Estimator`'s model_fn to generate the model graph based on those
+#' features. It restores the given checkpoint (or, lacking that, the most
+#' recent checkpoint) into this graph in a fresh session. Finally it creates
+#' a timestamped export directory below the given export_dir_base, and writes
+#' a `SavedModel` into it containing a single `MetaGraphDef` saved from this
+#' session. The exported `MetaGraphDef` will provide one `SignatureDef` for each
+#' element of the export_outputs dict returned from the model_fn, named using
+#' the same keys. One of these keys is always
+#' signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY, indicating which
+#' signature will be served when a serving request does not specify one.
+#' For each signature, the outputs are provided by the corresponding
+#' `ExportOutput`s, and the inputs are always the input receivers provided by
+#' the serving_input_receiver_fn. Extra assets may be written into the SavedModel via the extra_assets
+#' argument. This should be a dict, where each key gives a destination path
+#' (including the filename) relative to the assets.extra directory. The
+#' corresponding value gives the full path of the source file to be copied.
+#' For example, the simple case of copying a single file without renaming it
+#' is specified as `{'my_asset_file.txt': '/path/to/my_asset_file.txt'}`.
+#' 
+#' @param export_dir_base A string containing a directory in which to create timestamped subdirectories containing exported SavedModels.
+#' @param serving_input_receiver_fn A function that takes no argument and returns a `ServingInputReceiver`.
+#' @param assets_extra A dict specifying how to populate the assets.extra directory within the exported SavedModel, or `NULL` if no extra assets are needed.
+#' @param as_text whether to write the SavedModel proto in text format.
+#' @param checkpoint_path The checkpoint path to export. If `NULL` (the default), the most recent checkpoint found within the model directory is chosen.
+#' 
+#' @return The string path to the exported directory.
+#' 
+#' @section Raises:
+#' ValueError: if no serving_input_receiver_fn is provided, no export_outputs are provided, or no checkpoint can be found.
+#' 
 #' @export
-get_latest_checkpoint <- function(checkpoint_dir, ...) {
-  if (!dir.exists(checkpoint_dir)) {
-    stop(paste0("This checkpoint_dir does not exist: ", checkpoint_dir))
-  }
-  tf$python$training$saver$latest_checkpoint(checkpoint_dir, ...) 
+#' @family custom estimator
+export_savedmodel.tf_custom_model <- function(
+  object,
+  export_dir_base,
+  serving_input_receiver_fn,
+  assets_extra = NULL,
+  as_text = FALSE,
+  checkpoint_path = NULL) {
+  object$estimator$export_savedmodel(
+    export_dir_base = export_dir_base,
+    serving_input_receiver_fn = serving_input_receiver_fn,
+    assets_extra = assets_extra,
+    as_text = as_text,
+    checkpoint_path = checkpoint_path
+  )
 }
 
 #' @export

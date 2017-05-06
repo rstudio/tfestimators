@@ -108,7 +108,7 @@ predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classi
 <li>params that contains the tuning parameters in a model.</li>
 <li>config that represents the <code>RunConfig</code> objects used in a model, including GPU percentages, cluster information, etc.</li>
 </ul>
-<p>The <code>custom_model_fn()</code> function should return an <code>estimator_spec(predictions, loss, train_op, mode)</code> that contains the predictions, losses, training op, and mode.</p>
+<p>The <code>custom_model_fn()</code> function should return an <code><a href="../reference/estimator_spec.html">estimator_spec(predictions, loss, train_op, mode)</a></code> that contains the predictions, losses, training op, and mode.</p>
 <p>The following example demonstrates the construction and fitting of a custom estimator that has custom architectures.</p>
 <p>Firstly, let’s define the input using <code>input_fn()</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">constructed_input_fn &lt;-<span class="st"> </span><span class="kw">input_fn</span>(
@@ -140,7 +140,7 @@ custom_model_fn &lt;-<span class="st"> </span>function(features, labels, mode, p
     
     <span class="co"># Return estimator_spec early with NULL loss and train_op during inference mode</span>
     if(mode ==<span class="st"> "infer"</span>){
-      <span class="kw">return</span>(<span class="kw">estimator_spec</span>(
+      <span class="kw">return</span>(<span class="kw"><a href="../reference/estimator_spec.html">estimator_spec</a></span>(
       <span class="dt">predictions =</span> predictions, <span class="dt">mode =</span> mode, <span class="dt">loss =</span> <span class="ot">NULL</span>, <span class="dt">train_op =</span> <span class="ot">NULL</span>))
     }
     
@@ -154,12 +154,12 @@ custom_model_fn &lt;-<span class="st"> </span>function(features, labels, mode, p
       <span class="dt">optimizer =</span> <span class="st">'Adagrad'</span>,
       <span class="dt">learning_rate =</span> <span class="fl">0.1</span>)
     
-    <span class="kw">return</span>(<span class="kw">estimator_spec</span>(predictions, loss, train_op, mode))
+    <span class="kw">return</span>(<span class="kw"><a href="../reference/estimator_spec.html">estimator_spec</a></span>(predictions, loss, train_op, mode))
 }
 
 <span class="co"># Initialize and fit the model using the the custom model function we defined</span>
 <span class="co"># and the constructed_input_fn that represents the input data source.  </span>
-classifier &lt;-<span class="st"> </span><span class="kw">estimator</span>(<span class="dt">model_fn =</span> custom_model_fn)
+classifier &lt;-<span class="st"> </span><span class="kw"><a href="../reference/estimator.html">estimator</a></span>(<span class="dt">model_fn =</span> custom_model_fn)
 classifier &lt;-<span class="st"> </span><span class="kw">fit</span>(classifier, <span class="dt">input_fn =</span> constructed_input_fn, <span class="dt">steps =</span> 2L)</code></pre></div>
 <p>Note that the above code contains a lot of <code>$</code>s. It is unnecessary to create wrapper APIs for every methods that users might use, e.g. <code>tf$contrib$layers$optimize_loss</code>, since custom models are designed to be flexible and extensible so users can insert any arbitrary low level TensorFlow APIs.</p>
 <p>Users can then supply new data in <code>input_fn</code> to <code>predict()</code> and make predictions using the trained model:</p>
