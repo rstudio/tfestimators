@@ -178,6 +178,7 @@ predicted_classes &lt;-<span class="st"> </span><span class="kw">unlist</span>(<
 predicted_probs &lt;-<span class="st"> </span><span class="kw">lapply</span>(predictions, function(prediction) {
   prediction$prob
 })</code></pre></div>
+<p>Users can also pass <code>model_dir</code> which is the directory to save model parameters, graph and etc. This can also be used to load checkpoints from the directory into a estimator to continue training a previously saved model. Users can also pass a <code>config</code> to canned Estimator or custom Estimator that specify the model run-time configuration, such as cluster information, GPU fractions, etc.</p>
 </div>
 </div>
 <div id="feature-columns" class="section level2">
@@ -293,7 +294,7 @@ eval_input_fn &lt;-<span class="st"> </span><span class="kw">get_batched_sin_inp
 <div id="experiments" class="section level2">
 <h2 class="hasAnchor">
 <a href="#experiments" class="anchor"></a>Experiments</h2>
-<p>Experiments are designed for easier experiments, e.g. define your model, specify training and evaluation data and steps, frequencies, where to run, metrics to use to monitor the process, etc. They contain all neccessary information required, such as input_fn for both training and evaluation, to run experiments and can be easily packed up to run in places like CloudML, local environment, or cluster.</p>
+<p>Experiments are designed for easier experiments, e.g. define your model, specify training and evaluation data and steps, frequencies, where to run, metrics to use to monitor the process, etc. They contain all neccessary information required, such as <code>input_fn</code> for both training and evaluation, to run experiments and can be easily packed up to run in cloud, local, or cluster environment.</p>
 <p>For example, we firstly construct a classifier</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clf &lt;-
 <span class="st">  </span><span class="kw"><a href="../reference/linear_dnn_combined_classifier.html">linear_dnn_combined_classifier</a></span>(
@@ -315,11 +316,6 @@ experiment &lt;-<span class="st"> </span><span class="kw">experiment</span>(
 )
 
 experiment_result &lt;-<span class="st"> </span><span class="kw">train_and_evaluate</span>(experiment)</code></pre></div>
-</div>
-<div id="run-options" class="section level2">
-<h2 class="hasAnchor">
-<a href="#run-options" class="anchor"></a>Run Options</h2>
-<p>All estimators accept an argument called <code>run_options</code> that is a <code>run_options</code> object containing the <code>model_dir</code> and <code>RunConfig</code> that specifies the checkpoint directory and the model run-time configuration, such as cluster information, GPU fractions, etc. If not specified, default values will be used.</p>
 </div>
 <div id="sessionrunhooks" class="section level2">
 <h2 class="hasAnchor">
@@ -365,7 +361,6 @@ lr &lt;-<span class="st"> </span><span class="kw">fit</span>(
       <li><a href="#feature-columns">Feature Columns</a></li>
       <li><a href="#input-function">Input Function</a></li>
       <li><a href="#experiments">Experiments</a></li>
-      <li><a href="#run-options">Run Options</a></li>
       <li><a href="#sessionrunhooks">SessionRunHooks</a></li>
       </ul>
 </div>

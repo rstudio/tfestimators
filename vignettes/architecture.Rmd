@@ -171,6 +171,8 @@ predicted_probs <- lapply(predictions, function(prediction) {
 
 ```
 
+Users can also pass `model_dir` which is the directory to save model parameters, graph and etc. This can also be used to load checkpoints from the directory into a estimator to continue training a previously saved model. Users can also pass a `config` to canned Estimator or custom Estimator that specify the model run-time configuration, such as cluster information, GPU fractions, etc.
+
 
 ## Feature Columns
 
@@ -318,7 +320,7 @@ eval_input_fn <- get_batched_sin_input_fn(batch_size, sequence_length, pi / 32, 
 
 ## Experiments
 
-Experiments are designed for easier experiments, e.g. define your model, specify training and evaluation data and steps, frequencies, where to run, metrics to use to monitor the process, etc. They contain all neccessary information required, such as input_fn for both training and evaluation, to run experiments and can be easily packed up to run in places like CloudML, local environment, or cluster.
+Experiments are designed for easier experiments, e.g. define your model, specify training and evaluation data and steps, frequencies, where to run, metrics to use to monitor the process, etc. They contain all neccessary information required, such as `input_fn` for both training and evaluation, to run experiments and can be easily packed up to run in cloud, local, or cluster environment.
 
 For example, we firstly construct a classifier
 
@@ -349,11 +351,6 @@ experiment <- experiment(
 experiment_result <- train_and_evaluate(experiment)
 
 ```
-
-
-## Run Options
-
-All estimators accept an argument called `run_options` that is a `run_options` object containing the `model_dir` and `RunConfig` that specifies the checkpoint directory and the model run-time configuration, such as cluster information, GPU fractions, etc. If not specified, default values will be used.
 
 ## SessionRunHooks
 
