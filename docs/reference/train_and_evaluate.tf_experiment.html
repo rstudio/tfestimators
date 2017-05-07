@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Returns predictions for given features. — predict.tf_custom_model • tflearn</title>
+<title>Interleaves training and evaluation. — train_and_evaluate.tf_experiment • tflearn</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -79,66 +79,43 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Returns predictions for given features.</h1>
+    <h1>Interleaves training and evaluation.</h1>
     </div>
 
     
-    <p>Returns predictions for given features.</p>
+    <p>The frequency of evaluation is controlled by the contructor arg
+<code>min_eval_frequency</code>. When this parameter is 0, evaluation happens
+only after training has completed. Note that evaluation cannot happen
+more frequently than checkpoints are taken. If no new snapshots are
+available when evaluation is supposed to occur, then evaluation doesn't
+happen for another <code>min_eval_frequency</code> steps (assuming a checkpoint is
+available at that point). Thus, settings <code>min_eval_frequency</code> to 1 means
+that the model will be evaluated everytime there is a new checkpoint. This is particular useful for a "Master" task in the cloud, whose
+responsibility it is to take checkpoints, evaluate those checkpoints,
+and write out summaries. Participating in training as the supervisor
+allows such a task to accomplish the first and last items, while
+performing evaluation allows for the second. Returns: The result of the <code>evaluate</code> call to the <code>Estimator</code> as well as the export results using the specified <code>ExportStrategy</code>.</p>
     
 
-    <pre class="usage"><span class='co'># S3 method for tf_custom_model</span>
-<span class='fu'>predict</span>(<span class='no'>object</span>, <span class='no'>input_fn</span>, <span class='kw'>checkpoint_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>predict_keys</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>as_iterable</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>input_fn</th>
-      <td><p>Input function returning features which is a dictionary of string feature name to <code>Tensor</code> or <code>SparseTensor</code>. If it returns a list, first item is extracted as features. Prediction continues until <code>input_fn</code> raises an end-of-input exception (<code>OutOfRangeError</code> or <code>StopIteration</code>).</p></td>
-    </tr>
-    <tr>
-      <th>checkpoint_path</th>
-      <td><p>Path of a specific checkpoint to predict. If <code>NULL</code>, the latest checkpoint in <code>model_dir</code> is used.</p></td>
-    </tr>
-    <tr>
-      <th>predict_keys</th>
-      <td><p>list of <code>str</code>, name of the keys to predict. It is used if the <code>EstimatorSpec.predictions</code> is a <code>dict</code>. If <code>predict_keys</code> is used then rest of the predictions will be filtered from the dictionary. If <code>NULL</code>, returns all.</p></td>
-    </tr>
-    <tr>
-      <th>hooks</th>
-      <td><p>List of <code>SessionRunHook</code> subclass instances. Used for callbacks inside the prediction call.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="yields"><a class="anchor" href="#yields"></a>Yields</h2>
+    <pre class="usage"><span class='co'># S3 method for tf_experiment</span>
+<span class='fu'>train_and_evaluate</span>(<span class='no'>object</span>)</pre>
+        
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-    <p>Evaluated values of <code>predictions</code> tensors.</p>
-    
-    <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
-
-    
-    <p>ValueError: Could not find a trained model in model_dir. ValueError: if batch length of predictions are not same. ValueError: If there is a conflict between <code>predict_keys</code> and <code>predictions</code>. For example if <code>predict_keys</code> is not <code>NULL</code> but <code>EstimatorSpec.predictions</code> is not a <code>dict</code>.</p>
+    <p>The result of the <code>evaluate</code> call to the <code>Estimator</code> as well as the export results using the specified <code>ExportStrategy</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other custom estimator methods: <code><a href='estimator_spec.html'>estimator_spec</a></code>,
-  <code><a href='estimator.html'>estimator</a></code>,
-  <code><a href='evaluate.tf_custom_model.html'>evaluate.tf_custom_model</a></code>,
-  <code><a href='export_savedmodel.tf_custom_model.html'>export_savedmodel.tf_custom_model</a></code>,
-  <code><a href='fit.tf_custom_model.html'>fit.tf_custom_model</a></code></p>
+    <p>Other experiment methods: <code><a href='evaluate.tf_experiment.html'>evaluate.tf_experiment</a></code>,
+  <code><a href='train.tf_experiment.html'>train.tf_experiment</a></code></p>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#yields">Yields</a></li>
-
-      <li><a href="#raises">Raises</a></li>
+      <li><a href="#value">Value</a></li>
 
       <li><a href="#see-also">See also</a></li>
           </ul>

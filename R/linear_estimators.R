@@ -3,7 +3,7 @@
 #' Perform linear regression using TensorFlow.
 #'
 #' @export
-#' @family canned estimator
+#' @family canned estimators
 linear_regressor <- function(feature_columns,
                              model_dir = NULL,
                              config = NULL,
@@ -32,7 +32,7 @@ linear_regressor <- function(feature_columns,
 #'
 #' Perform linear classification using TensorFlow.
 #' @export
-#' @family canned estimator
+#' @family canned estimators
 linear_classifier <- function(feature_columns,
                               n_classes = 2L,
                               model_dir = NULL,

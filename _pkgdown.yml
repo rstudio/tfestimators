@@ -57,4 +57,10 @@ reference:
       - hook_step_counter
       - hook_stop_at_step
       - hook_summary_saver
+  
+  - title: "Experiment"
+    contents:
+      - train.tf_experiment
+      - evaluate.tf_experiment
+      - train_and_evaluate.tf_experiment
 

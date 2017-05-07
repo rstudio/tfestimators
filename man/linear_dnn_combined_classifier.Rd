@@ -11,7 +11,7 @@ linear_dnn_combined_classifier(linear_feature_columns, dnn_feature_columns,
 Perform Linear DNN Combined Classification using TensorFlow.
 }
 \seealso{
-Other canned estimator: \code{\link{dynamic_rnn_estimator}},
+Other canned estimators: \code{\link{dynamic_rnn_estimator}},
   \code{\link{linear_classifier}},
   \code{\link{linear_dnn_combined_regressor}},
   \code{\link{linear_regressor}},

@@ -36,7 +36,7 @@ ValueError: If \code{steps <= 0}. ValueError: If no model has been trained, name
 }
 
 \seealso{
-Other custom estimator: \code{\link{estimator_spec}},
+Other custom estimator methods: \code{\link{estimator_spec}},
   \code{\link{estimator}},
   \code{\link{export_savedmodel.tf_custom_model}},
   \code{\link{fit.tf_custom_model}},

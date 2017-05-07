@@ -10,7 +10,7 @@ estimator_spec(predictions, loss, train_op, mode)
 \code{EstimatorSpec} fully defines the model to be run by \code{Estimator}.
 }
 \seealso{
-Other custom estimator: \code{\link{estimator}},
+Other custom estimator methods: \code{\link{estimator}},
   \code{\link{evaluate.tf_custom_model}},
   \code{\link{export_savedmodel.tf_custom_model}},
   \code{\link{fit.tf_custom_model}},

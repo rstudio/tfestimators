@@ -50,7 +50,7 @@ ValueError: if no serving_input_receiver_fn is provided, no export_outputs are p
 }
 
 \seealso{
-Other custom estimator: \code{\link{estimator_spec}},
+Other custom estimator methods: \code{\link{estimator_spec}},
   \code{\link{estimator}},
   \code{\link{evaluate.tf_custom_model}},
   \code{\link{fit.tf_custom_model}},

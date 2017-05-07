@@ -11,7 +11,7 @@ linear_classifier(feature_columns, n_classes = 2L, model_dir = NULL,
 Perform linear classification using TensorFlow.
 }
 \seealso{
-Other canned estimator: \code{\link{dynamic_rnn_estimator}},
+Other canned estimators: \code{\link{dynamic_rnn_estimator}},
   \code{\link{linear_dnn_combined_classifier}},
   \code{\link{linear_dnn_combined_regressor}},
   \code{\link{linear_regressor}},

@@ -21,7 +21,7 @@ is.tf_custom_model <- function(object) {
 #' 
 #' 
 #' @export
-#' @family custom estimator
+#' @family custom estimator methods
 estimator_spec <- function(predictions,
                            loss,
                            train_op,
@@ -82,7 +82,7 @@ estimator_spec <- function(predictions,
 #' @param params `dict` of hyper parameters that will be passed into `model_fn`. Keys are names of parameters, values are basic python types.
 #' 
 #' @export
-#' @family custom estimator
+#' @family custom estimator methods
 estimator <- function(model_fn,
                       model_dir = NULL,
                       config = NULL,
@@ -113,7 +113,7 @@ estimator <- function(model_fn,
 #' ValueError: If both `steps` and `max_steps` are not `NULL`. ValueError: If either `steps` or `max_steps` is <= 0.
 #' 
 #' @export
-#' @family custom estimator
+#' @family custom estimator methods
 fit.tf_custom_model <- function(object, input_fn, steps = NULL, hooks = NULL, max_steps = NULL) {
   validate_custom_model_input_fn(input_fn)
   object$estimator$train(
@@ -138,7 +138,7 @@ fit.tf_custom_model <- function(object, input_fn, steps = NULL, hooks = NULL, ma
 #' ValueError: Could not find a trained model in model_dir. ValueError: if batch length of predictions are not same. ValueError: If there is a conflict between `predict_keys` and `predictions`. For example if `predict_keys` is not `NULL` but `EstimatorSpec.predictions` is not a `dict`.
 #' 
 #' @export
-#' @family custom estimator
+#' @family custom estimator methods
 predict.tf_custom_model <- function(object,
                                     input_fn,
                                     checkpoint_path = NULL,
@@ -182,7 +182,7 @@ predict.tf_custom_model <- function(object,
 #' ValueError: If `steps <= 0`. ValueError: If no model has been trained, namely `model_dir`, or the given `checkpoint_path` is empty.
 #' 
 #' @export
-#' @family custom estimator
+#' @family custom estimator methods
 evaluate.tf_custom_model <- function(object,
                                      input_fn,
                                      steps = NULL,
@@ -232,7 +232,7 @@ evaluate.tf_custom_model <- function(object,
 #' ValueError: if no serving_input_receiver_fn is provided, no export_outputs are provided, or no checkpoint can be found.
 #' 
 #' @export
-#' @family custom estimator
+#' @family custom estimator methods
 export_savedmodel.tf_custom_model <- function(
   object,
   export_dir_base,

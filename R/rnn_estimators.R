@@ -1,7 +1,7 @@
 #' State Saving RNN Estimator
 #' 
 #' @export
-#' @family canned estimator
+#' @family canned estimators
 state_saving_rnn_estimator <- function(
   problem_type,
   num_unroll,
@@ -57,7 +57,7 @@ state_saving_rnn_estimator <- function(
 #' Dynamic RNN Estimator
 #' 
 #' @export
-#' @family canned estimator
+#' @family canned estimators
 dynamic_rnn_estimator <- function(
   problem_type,
   prediction_type,

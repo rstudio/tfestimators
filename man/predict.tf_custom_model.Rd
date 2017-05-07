@@ -30,7 +30,7 @@ ValueError: Could not find a trained model in model_dir. ValueError: if batch le
 }
 
 \seealso{
-Other custom estimator: \code{\link{estimator_spec}},
+Other custom estimator methods: \code{\link{estimator_spec}},
   \code{\link{estimator}},
   \code{\link{evaluate.tf_custom_model}},
   \code{\link{export_savedmodel.tf_custom_model}},

@@ -61,7 +61,7 @@ constructor enforces this). Subclasses should use \code{model_fn} to configure
 the base class, and may add methods implementing specialized functionality.
 }
 \seealso{
-Other custom estimator: \code{\link{estimator_spec}},
+Other custom estimator methods: \code{\link{estimator_spec}},
   \code{\link{evaluate.tf_custom_model}},
   \code{\link{export_savedmodel.tf_custom_model}},
   \code{\link{fit.tf_custom_model}},

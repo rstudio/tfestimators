@@ -10,7 +10,7 @@ linear_regressor(feature_columns, model_dir = NULL, config = NULL, ...)
 Perform linear regression using TensorFlow.
 }
 \seealso{
-Other canned estimator: \code{\link{dynamic_rnn_estimator}},
+Other canned estimators: \code{\link{dynamic_rnn_estimator}},
   \code{\link{linear_classifier}},
   \code{\link{linear_dnn_combined_classifier}},
   \code{\link{linear_dnn_combined_regressor}},
