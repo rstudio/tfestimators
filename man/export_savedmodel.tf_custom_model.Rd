@@ -2,9 +2,9 @@
 % Please edit documentation in R/tf_custom_model.R
 \name{export_savedmodel.tf_custom_model}
 \alias{export_savedmodel.tf_custom_model}
-\title{Exports inference graph as a SavedModel into given dir.}
+\title{Exports inference graph as a SavedModel into a given directory.}
 \usage{
-export_savedmodel.tf_custom_model(object, export_dir_base,
+\method{export_savedmodel}{tf_custom_model}(object, export_dir_base,
   serving_input_receiver_fn, assets_extra = NULL, as_text = FALSE,
   checkpoint_path = NULL)
 }

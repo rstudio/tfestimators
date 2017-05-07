@@ -4,7 +4,7 @@
 \alias{fit.tf_custom_model}
 \title{Trains a model given training data input_fn.}
 \usage{
-\method{fit}{tf_custom_model}(object, input_fn, steps = 2L, hooks = NULL,
+\method{fit}{tf_custom_model}(object, input_fn, steps = NULL, hooks = NULL,
   max_steps = NULL)
 }
 \arguments{

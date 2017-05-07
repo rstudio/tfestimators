@@ -65,7 +65,8 @@ estimator_spec <- function(predictions,
 #' the base class, and may add methods implementing specialized functionality.
 #' 
 #' @param model_fn Model function. Follows the signature: 
-#' * Args: * `features`: single `Tensor` or `dict` of `Tensor`s (depending on data passed to `train`), 
+#' * Args: 
+#' * `features`: single `Tensor` or `dict` of `Tensor`s (depending on data passed to `train`), 
 #' * `labels`: `Tensor` or `dict` of `Tensor`s (for multi-head models). If mode is `ModeKeys.PREDICT`, `labels=NULL` will be passed. 
 #' If the `model_fn`'s signature does not accept `mode`, the `model_fn` must still be able to handle `labels=NULL`. 
 #' * `mode`: Optional. Specifies if this training, evaluation or prediction. See `ModeKeys`. 
@@ -85,14 +86,14 @@ estimator_spec <- function(predictions,
 estimator <- function(model_fn,
                       model_dir = NULL,
                       config = NULL,
-                      ...)
+                      params = NULL)
 {
   model_fn <- as_model_fn(model_fn)
   est <- estimator_lib$Estimator(
     model_fn = model_fn,
     model_dir = model_dir,
     config = config,
-    ...
+    params = params
   )
   tf_custom_model(estimator = est, model_fn = model_fn)
 }
@@ -113,13 +114,13 @@ estimator <- function(model_fn,
 #' 
 #' @export
 #' @family custom estimator
-fit.tf_custom_model <- function(object, input_fn, steps = 2L, hooks = NULL, max_steps = NULL) {
+fit.tf_custom_model <- function(object, input_fn, steps = NULL, hooks = NULL, max_steps = NULL) {
   validate_custom_model_input_fn(input_fn)
   object$estimator$train(
     input_fn = input_fn$input_fn,
-    steps = steps,
+    steps = as_nullable_integer(steps),
     hooks = hooks,
-    max_steps = max_steps)
+    max_steps = as_nullable_integer(max_steps))
   object
 }
 
@@ -184,19 +185,19 @@ predict.tf_custom_model <- function(object,
 #' @family custom estimator
 evaluate.tf_custom_model <- function(object,
                                      input_fn,
-                                     steps = 2L,
+                                     steps = NULL,
                                      checkpoint_path = NULL,
                                      name = NULL)
 {
   validate_custom_model_input_fn(input_fn)
   est <- object$estimator
   est$evaluate(input_fn = input_fn$input_fn,
-               steps = steps,
+               steps = as_nullable_integer(steps),
                checkpoint_path = checkpoint_path,
                name = name)
 }
 
-#' Exports inference graph as a SavedModel into given dir.
+#' Exports inference graph as a SavedModel into a given directory.
 #' 
 #' This method builds a new graph by first calling the
 #' serving_input_receiver_fn to obtain feature `Tensor`s, and then calling

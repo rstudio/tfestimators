@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Exports inference graph as a SavedModel into given dir. — export_savedmodel.tf_custom_model • tflearn</title>
+<title>Exports inference graph as a SavedModel into a given directory. — export_savedmodel.tf_custom_model • tflearn</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -79,7 +79,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Exports inference graph as a SavedModel into given dir.</h1>
+    <h1>Exports inference graph as a SavedModel into a given directory.</h1>
     </div>
 
     
@@ -105,7 +105,8 @@ For example, the simple case of copying a single file without renaming it
 is specified as <code>{'my_asset_file.txt': '/path/to/my_asset_file.txt'}</code>.</p>
     
 
-    <pre class="usage"><span class='fu'>export_savedmodel.tf_custom_model</span>(<span class='no'>object</span>, <span class='no'>export_dir_base</span>,
+    <pre class="usage"><span class='co'># S3 method for tf_custom_model</span>
+<span class='fu'>export_savedmodel</span>(<span class='no'>object</span>, <span class='no'>export_dir_base</span>,
   <span class='no'>serving_input_receiver_fn</span>, <span class='kw'>assets_extra</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>as_text</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>checkpoint_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     

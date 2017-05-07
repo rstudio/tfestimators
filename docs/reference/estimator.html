@@ -86,7 +86,7 @@
     <p>This is the core Estimator class to train and evaluate TensorFlow models.</p>
     
 
-    <pre class="usage"><span class='fu'>estimator</span>(<span class='no'>model_fn</span>, <span class='kw'>model_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>config</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>estimator</span>(<span class='no'>model_fn</span>, <span class='kw'>model_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>config</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -94,7 +94,8 @@
     <tr>
       <th>model_fn</th>
       <td><p>Model function. Follows the signature:</p><ul>
-<li><p>Args: * <code>features</code>: single <code>Tensor</code> or <code>dict</code> of <code>Tensor</code>s (depending on data passed to <code>train</code>),</p></li>
+<li><p>Args:</p></li>
+<li><p><code>features</code>: single <code>Tensor</code> or <code>dict</code> of <code>Tensor</code>s (depending on data passed to <code>train</code>),</p></li>
 <li><p><code>labels</code>: <code>Tensor</code> or <code>dict</code> of <code>Tensor</code>s (for multi-head models). If mode is <code>ModeKeys.PREDICT</code>, <code>labels=NULL</code> will be passed.
 If the <code>model_fn</code>'s signature does not accept <code>mode</code>, the <code>model_fn</code> must still be able to handle <code>labels=NULL</code>.</p></li>
 <li><p><code>mode</code>: Optional. Specifies if this training, evaluation or prediction. See <code>ModeKeys</code>.</p></li>

@@ -4,7 +4,7 @@
 \alias{evaluate.tf_custom_model}
 \title{Evaluates the model given evaluation data input_fn.}
 \usage{
-\method{evaluate}{tf_custom_model}(object, input_fn, steps = 2L,
+\method{evaluate}{tf_custom_model}(object, input_fn, steps = NULL,
   checkpoint_path = NULL, name = NULL)
 }
 \arguments{

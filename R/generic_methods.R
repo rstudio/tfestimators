@@ -20,6 +20,11 @@ fit <- function(object, ...) {
 }
 
 #' @export
+export_savedmodel <- function(object, ...) {
+  UseMethod("export_savedmodel")
+}
+
+#' @export
 coef <- function(object, ...) {
   UseMethod("coef")
 }

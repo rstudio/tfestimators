@@ -72,5 +72,5 @@ test_that("custom model works on iris data", {
   expect_gte(min(unlist(predicted_probs)), 0)
   
   # evaluate
-  expect_equal(names(evaluate(classifier, constructed_input_fn)), c("loss", "global_step"))
+  expect_equal(names(evaluate(classifier, constructed_input_fn, steps = 2L)), c("loss", "global_step"))
 })

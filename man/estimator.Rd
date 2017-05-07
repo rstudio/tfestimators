@@ -4,12 +4,13 @@
 \alias{estimator}
 \title{Custom estimator constructor}
 \usage{
-estimator(model_fn, model_dir = NULL, config = NULL, ...)
+estimator(model_fn, model_dir = NULL, config = NULL, params = NULL)
 }
 \arguments{
 \item{model_fn}{Model function. Follows the signature:
 \itemize{
-\item Args: * \code{features}: single \code{Tensor} or \code{dict} of \code{Tensor}s (depending on data passed to \code{train}),
+\item Args:
+\item \code{features}: single \code{Tensor} or \code{dict} of \code{Tensor}s (depending on data passed to \code{train}),
 \item \code{labels}: \code{Tensor} or \code{dict} of \code{Tensor}s (for multi-head models). If mode is \code{ModeKeys.PREDICT}, \code{labels=NULL} will be passed.
 If the \code{model_fn}'s signature does not accept \code{mode}, the \code{model_fn} must still be able to handle \code{labels=NULL}.
 \item \code{mode}: Optional. Specifies if this training, evaluation or prediction. See \code{ModeKeys}.
