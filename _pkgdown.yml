@@ -60,6 +60,7 @@ reference:
   
   - title: "Experiment"
     contents:
+      - experiment.tf_model
       - train.tf_experiment
       - evaluate.tf_experiment
       - train_and_evaluate.tf_experiment

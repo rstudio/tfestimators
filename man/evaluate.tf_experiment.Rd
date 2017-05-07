@@ -20,6 +20,7 @@ exhausted or another exception is raised. Start the evaluation after
 \code{self._eval_delay_secs} seconds.
 }
 \seealso{
-Other experiment methods: \code{\link{train.tf_experiment}},
+Other experiment methods: \code{\link{experiment.tf_model}},
+  \code{\link{train.tf_experiment}},
   \code{\link{train_and_evaluate.tf_experiment}}
 }

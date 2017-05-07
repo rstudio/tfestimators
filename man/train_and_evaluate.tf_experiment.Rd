@@ -25,5 +25,6 @@ performing evaluation allows for the second. Returns: The result of the \code{ev
 }
 \seealso{
 Other experiment methods: \code{\link{evaluate.tf_experiment}},
+  \code{\link{experiment.tf_model}},
   \code{\link{train.tf_experiment}}
 }
