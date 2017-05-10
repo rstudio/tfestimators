@@ -1,9 +1,9 @@
 ---
-title: "TF.Learn Architecture and Components"
+title: "Package Architecture and Components"
 output: 
   rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{TF.Learn Architecture and Components}
+  %\VignetteIndexEntry{Package Architecture and Components}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

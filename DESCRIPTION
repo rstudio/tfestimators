@@ -1,6 +1,6 @@
-Package: tflearn
+Package: tfestimators
 Type: Package
-Title: High-level TF.Learn Interface to TensorFlow in R
+Title: High-level Estimator Interface to TensorFlow in R
 Version: 0.0.1
 Date: 2017-01-22
 Authors@R: c(
@@ -15,12 +15,12 @@ Authors@R: c(
          comment = "Documentation")
   )
 Description: This package provides access to TensorFlow's high-level
-    TF.Learn API for easier machine learning. TensorFlow is an open
+    Estimator API for easier machine learning. TensorFlow is an open
     source software library for numerical computation using data flow
     graphs.
 License: Apache License 2.0
-URL: https://github.com/rstudio/tflearn
-BugReports: https://github.com/rstudio/tflearn/issues
+URL: https://github.com/rstudio/tfestimators
+BugReports: https://github.com/rstudio/tfestimators/issues
 SystemRequirements: Python (>= 2.7.0) with header files and shared library;
     TensorFlow (https://www.tensorflow.org/)
 Encoding: UTF-8

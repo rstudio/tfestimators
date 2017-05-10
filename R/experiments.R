@@ -6,11 +6,6 @@ tf_experiment <- function(name, ...) {
 }
 
 #' @export
-experiment <- function(x, ...) {
-  UseMethod("experiment")
-}
-
-#' @export
 experiment.tf_custom_model <- function(object, ...) {
   experiment.tf_model(object, ...)
 }
@@ -127,7 +122,7 @@ experiment.tf_model <- function(object,
                                 export_strategies = NULL,
                                 train_steps_per_iteration = NULL) {
   
-  exp <- tf$contrib$learn$Experiment(
+  exp <- contrib_learn$Experiment(
     estimator = object$estimator,
     train_input_fn = train_input_fn$input_fn,
     eval_input_fn = eval_input_fn$input_fn,

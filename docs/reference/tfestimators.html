@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Interleaves training and evaluation. — train_and_evaluate.tf_experiment • tfestimators</title>
+<title>High-level Estimator API in TensorFlow for R — tfestimators • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -79,36 +79,30 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Interleaves training and evaluation.</h1>
+    <h1>High-level Estimator API in TensorFlow for R</h1>
     </div>
 
     
-    <p>The frequency of evaluation is controlled by the contructor arg
-<code>min_eval_frequency</code>. When this parameter is 0, evaluation happens
-only after training has completed. Note that evaluation cannot happen
-more frequently than checkpoints are taken. If no new snapshots are
-available when evaluation is supposed to occur, then evaluation doesn't
-happen for another <code>min_eval_frequency</code> steps (assuming a checkpoint is
-available at that point). Thus, settings <code>min_eval_frequency</code> to 1 means
-that the model will be evaluated everytime there is a new checkpoint. This is particular useful for a "Master" task in the cloud, whose
-responsibility it is to take checkpoints, evaluate those checkpoints,
-and write out summaries. Participating in training as the supervisor
-allows such a task to accomplish the first and last items, while
-performing evaluation allows for the second. Returns: The result of the <code>evaluate</code> call to the <code>Estimator</code> as well as the export results using the specified <code>ExportStrategy</code>.</p>
+    <p>This library provides an R interface to the <a href = 'https://github.com/tensorflow/tensorflow/tree/master/tensorflow/python/estimator'>Estimator</a>
+API inside TensorFlow that's designed to streamline the process of creating, evaluating, and deploying
+general machine learning and deep learning models.</p>
     
 
-    <pre class="usage"><span class='co'># S3 method for tf_experiment</span>
-<span class='fu'>train_and_evaluate</span>(<span class='no'>object</span>)</pre>
         
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The result of the <code>evaluate</code> call to the <code>Estimator</code> as well as the export results using the specified <code>ExportStrategy</code>.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <p>Other experiment methods: <code><a href='evaluate.tf_experiment.html'>evaluate.tf_experiment</a></code>,
-  <code><a href='experiment.tf_model.html'>experiment.tf_model</a></code>,
-  <code><a href='train.tf_experiment.html'>train.tf_experiment</a></code></p>
+    <p><a href = 'https://tensorflow.org'>TensorFlow</a> is an open source software library
+for numerical computation using data flow graphs. Nodes in the graph
+represent mathematical operations, while the graph edges represent the
+multidimensional data arrays (tensors) communicated between them. The
+flexible architecture allows you to deploy computation to one or more CPUs or
+GPUs in a desktop, server, or mobile device with a single API.</p>
+<p>The <a href = 'https://www.tensorflow.org/api_docs/python/index.html'>TensorFlow
+API</a> is composed of a set of Python modules that enable constructing and
+executing TensorFlow graphs. The tensorflow package provides access to the
+complete TensorFlow API from within R.</p>
+<p>For additional documentation on the tensorflow package see
+<a href = 'https://rstudio.github.io/tensorflow'>https://rstudio.github.io/tensorflow</a></p>
     
 
   </div>
@@ -116,9 +110,7 @@ performing evaluation allows for the second. Returns: The result of the <code>ev
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#details">Details</a></li>
           </ul>
 
   </div>

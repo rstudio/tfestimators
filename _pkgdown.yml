@@ -3,7 +3,7 @@ template:
     bootswatch: cosmo
 
 navbar:
-  title: "tflearn"
+  title: "tfestimators"
   type: inverse
   left:
     - text: "Home"
@@ -14,7 +14,7 @@ navbar:
       href: reference/index.html
   right:
    - icon: fa-github
-     href: https://github.com/rstudio/tflearn
+     href: https://github.com/rstudio/tfestimators
 
 reference:
 

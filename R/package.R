@@ -1,5 +1,8 @@
-
-#' High-level TF.Learn API in TensorFlow for R
+#' High-level Estimator API in TensorFlow for R
+#' 
+#' This library provides an R interface to the \href{https://github.com/tensorflow/tensorflow/tree/master/tensorflow/python/estimator}{Estimator}
+#' API inside TensorFlow that's designed to streamline the process of creating, evaluating, and deploying
+#' general machine learning and deep learning models.
 #'
 #' \href{https://tensorflow.org}{TensorFlow} is an open source software library
 #' for numerical computation using data flow graphs. Nodes in the graph
@@ -18,17 +21,10 @@
 #'
 #'
 #' @docType package
-#' @name tflearn
+#' @name tfestimators
 NULL
 
-#' TF.Learn Module
-#'
-#' \code{learn} acts as an interface to the main \href{https://www.tensorflow.org/tutorials/tflearn/}{TF.Learn}
-#' module. Objects and functions defined within this module can be accessed
-#' using the \code{$} function.
-#'
-#' @export
-learn <- NULL
+contrib_learn <- NULL
 contrib_layers <- NULL
 feature_column_lib <- NULL
 estimator_lib <- NULL
@@ -40,7 +36,7 @@ array_ops <- NULL
 functional_ops <- NULL
 
 .onLoad <- function(libname, pkgname) {
-  learn <<- reticulate::import("tensorflow.contrib.learn", delay_load = TRUE)
+  contrib_learn <<- reticulate::import("tensorflow.contrib.learn", delay_load = TRUE)
   contrib_layers <<- reticulate::import("tensorflow.contrib.layers", delay_load = TRUE)
   estimator_lib <<- reticulate::import("tensorflow.python.estimator.estimator", delay_load = TRUE)
   contrib_estimators_lib <<- reticulate::import("tensorflow.contrib.learn.python.learn.estimators", delay_load = TRUE)

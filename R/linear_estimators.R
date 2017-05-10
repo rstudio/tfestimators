@@ -14,7 +14,7 @@ linear_regressor <- function(feature_columns,
   feature_columns <- resolve_fn(feature_columns)
 
   # construct estimator accepting those columns
-  lr <- learn$LinearRegressor(
+  lr <- contrib_learn$LinearRegressor(
     feature_columns = feature_columns,
     model_dir = model_dir,
     config = config,
@@ -44,7 +44,7 @@ linear_classifier <- function(feature_columns,
   feature_columns <- resolve_fn(feature_columns)
 
   # construct estimator accepting those columns
-  lc <- learn$LinearClassifier(
+  lc <- contrib_learn$LinearClassifier(
     feature_columns = feature_columns,
     n_classes = n_classes,
     model_dir = model_dir,
