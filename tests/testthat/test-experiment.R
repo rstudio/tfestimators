@@ -24,7 +24,7 @@ test_that("Experiment works", {
   )
   
   exp_fn <- function(output_dir) {experiment$experiment}
-  learn_runner <- learn$python$learn$learn_runner
+  learn_runner <- contrib_learn$python$learn$learn_runner
   tmp_dir <- tempfile()
   dir.create(tmp_dir)
   result <- learn_runner$run(
