@@ -1,4 +1,4 @@
 library(testthat)
-library(tflearn)
+library(tfestimators)
 
-test_check("tflearn")
+test_check("tfestimators")

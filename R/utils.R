@@ -25,7 +25,7 @@ resolve_fn <- function(object) {
 import_package_module <- function(module, convert = TRUE) {
   
   # path to package provided python modules
-  python_path <- system.file("python", package = "tflearn")
+  python_path <- system.file("python", package = "tfestimators")
   
   # add it to sys.path if it isn't already there
   sys <- import("sys", convert = FALSE)

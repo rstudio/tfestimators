@@ -256,7 +256,7 @@ coef.tf_custom_model <- function(object, ...) {
 
 
 as_model_fn <- function(f) {
-  tools <- import_package_module("tflearntools.functions")
+  tools <- import_package_module("estimatortools.functions")
   tools$as_model_fn(f)
 }
 

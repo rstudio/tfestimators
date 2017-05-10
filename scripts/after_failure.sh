@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cat tflearn/tflearn.Rcheck/*.log
-cat tflearn/tflearn.Rcheck/*.out
+cat tfestimators/tfestimators.Rcheck/*.log
+cat tfestimators/tfestimators.Rcheck/*.out
