@@ -2,13 +2,47 @@
 % Please edit documentation in R/linear_estimators.R
 \name{linear_classifier}
 \alias{linear_classifier}
-\title{Linear Classification}
+\title{Linear classifier model.}
 \usage{
-linear_classifier(feature_columns, n_classes = 2L, model_dir = NULL,
-  config = NULL, ...)
+linear_classifier(feature_columns, model_dir = NULL, n_classes = 2L,
+  weight_column_name = NULL, optimizer = NULL, gradient_clip_norm = NULL,
+  enable_centered_bias = FALSE, config = NULL,
+  feature_engineering_fn = NULL)
+}
+\arguments{
+\item{feature_columns}{An iterable containing all the feature columns used by the model. All items in the set should be instances of classes derived from \code{FeatureColumn}.}
+
+\item{model_dir}{Directory to save model parameters, graph and etc. This can also be used to load checkpoints from the directory into a estimator to continue training a previously saved model.}
+
+\item{n_classes}{number of label classes. Default is binary classification. Note that class labels are integers representing the class index (i.e. values from 0 to n_classes-1). For arbitrary label values (e.g. string labels), convert to class indices first.}
+
+\item{weight_column_name}{A string defining feature column name representing weights. It is used to down weight or boost examples during training. It will be multiplied by the loss of the example.}
+
+\item{optimizer}{The optimizer used to train the model. If specified, it should be either an instance of \code{tf.Optimizer} or the SDCAOptimizer. If \code{NULL}, the Ftrl optimizer will be used.}
+
+\item{gradient_clip_norm}{A \code{float} > 0. If provided, gradients are clipped to their global norm with this clipping ratio. See \code{tf.clip_by_global_norm} for more details.}
+
+\item{enable_centered_bias}{A bool. If TRUE, estimator will learn a centered bias variable for each class. Rest of the model structure learns the residual after centered bias.}
+
+\item{config}{\code{RunConfig} object to configure the runtime settings.}
+
+\item{feature_engineering_fn}{Feature engineering function. Takes features and labels which are the output of \code{input_fn} and returns features and labels which will be fed into the model.}
 }
 \description{
-Perform linear classification using TensorFlow.
+Train a linear model to classify instances into one of multiple possible
+classes. When number of possible classes is 2, this is binary classification.
+}
+\details{
+Input of \code{fit} and \code{evaluate} should have following features, otherwise there will be a \code{KeyError}:
+\itemize{
+\item if \code{weight_column_name} is not \code{NULL}, a feature with \code{key=weight_column_name} whose value is a \code{Tensor}.
+\item for each \code{column} in \code{feature_columns}:
+}
+\itemize{
+\item if \code{column} is a \code{SparseColumn}, a feature with \code{key=column.name} whose \code{value} is a \code{SparseTensor}.
+\item if \code{column} is a \code{WeightedSparseColumn}, two features: the first with \code{key} the id column name, the second with \code{key} the weight column name. Both features' \code{value} must be a \code{SparseTensor}.
+\item if \code{column} is a \code{RealValuedColumn}, a feature with \code{key=column.name} whose \code{value} is a \code{Tensor}.
+}
 }
 \seealso{
 Other canned estimators: \code{\link{dynamic_rnn_estimator}},

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Linear Classification — linear_classifier • tfestimators</title>
+<title>Linear classifier model. — linear_classifier • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -79,16 +79,72 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Linear Classification</h1>
+    <h1>Linear classifier model.</h1>
     </div>
 
     
-    <p>Perform linear classification using TensorFlow.</p>
+    <p>Train a linear model to classify instances into one of multiple possible
+classes. When number of possible classes is 2, this is binary classification.</p>
     
 
-    <pre class="usage"><span class='fu'>linear_classifier</span>(<span class='no'>feature_columns</span>, <span class='kw'>n_classes</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>model_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>config</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
-        
+    <pre class="usage"><span class='fu'>linear_classifier</span>(<span class='no'>feature_columns</span>, <span class='kw'>model_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>n_classes</span> <span class='kw'>=</span> <span class='fl'>2L</span>,
+  <span class='kw'>weight_column_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>optimizer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gradient_clip_norm</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>enable_centered_bias</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>config</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>feature_engineering_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>feature_columns</th>
+      <td><p>An iterable containing all the feature columns used by the model. All items in the set should be instances of classes derived from <code>FeatureColumn</code>.</p></td>
+    </tr>
+    <tr>
+      <th>model_dir</th>
+      <td><p>Directory to save model parameters, graph and etc. This can also be used to load checkpoints from the directory into a estimator to continue training a previously saved model.</p></td>
+    </tr>
+    <tr>
+      <th>n_classes</th>
+      <td><p>number of label classes. Default is binary classification. Note that class labels are integers representing the class index (i.e. values from 0 to n_classes-1). For arbitrary label values (e.g. string labels), convert to class indices first.</p></td>
+    </tr>
+    <tr>
+      <th>weight_column_name</th>
+      <td><p>A string defining feature column name representing weights. It is used to down weight or boost examples during training. It will be multiplied by the loss of the example.</p></td>
+    </tr>
+    <tr>
+      <th>optimizer</th>
+      <td><p>The optimizer used to train the model. If specified, it should be either an instance of <code>tf.Optimizer</code> or the SDCAOptimizer. If <code>NULL</code>, the Ftrl optimizer will be used.</p></td>
+    </tr>
+    <tr>
+      <th>gradient_clip_norm</th>
+      <td><p>A <code>float</code> &gt; 0. If provided, gradients are clipped to their global norm with this clipping ratio. See <code>tf.clip_by_global_norm</code> for more details.</p></td>
+    </tr>
+    <tr>
+      <th>enable_centered_bias</th>
+      <td><p>A bool. If TRUE, estimator will learn a centered bias variable for each class. Rest of the model structure learns the residual after centered bias.</p></td>
+    </tr>
+    <tr>
+      <th>config</th>
+      <td><p><code>RunConfig</code> object to configure the runtime settings.</p></td>
+    </tr>
+    <tr>
+      <th>feature_engineering_fn</th>
+      <td><p>Feature engineering function. Takes features and labels which are the output of <code>input_fn</code> and returns features and labels which will be fed into the model.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Input of <code>fit</code> and <code>evaluate</code> should have following features, otherwise there will be a <code>KeyError</code>:</p><ul>
+<li><p>if <code>weight_column_name</code> is not <code>NULL</code>, a feature with <code>key=weight_column_name</code> whose value is a <code>Tensor</code>.</p></li>
+<li><p>for each <code>column</code> in <code>feature_columns</code>:</p></li>
+</ul>
+<ul>
+<li><p>if <code>column</code> is a <code>SparseColumn</code>, a feature with <code>key=column.name</code> whose <code>value</code> is a <code>SparseTensor</code>.</p></li>
+<li><p>if <code>column</code> is a <code>WeightedSparseColumn</code>, two features: the first with <code>key</code> the id column name, the second with <code>key</code> the weight column name. Both features' <code>value</code> must be a <code>SparseTensor</code>.</p></li>
+<li><p>if <code>column</code> is a <code>RealValuedColumn</code>, a feature with <code>key=column.name</code> whose <code>value</code> is a <code>Tensor</code>.</p></li>
+</ul>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p>Other canned estimators: <code><a href='dynamic_rnn_estimator.html'>dynamic_rnn_estimator</a></code>,
@@ -102,7 +158,10 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 
