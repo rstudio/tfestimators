@@ -16,7 +16,7 @@
 #' 
 #' @export
 column_sparse_with_keys <- function(column_name, keys, default_value = -1L, combiner = "sum", dtype = tf$string) {
-  tf$contrib$layers$sparse_column_with_keys(
+  contrib_feature_column_lib$sparse_column_with_keys(
     column_name = column_name,
     keys = keys,
     default_value = as_nullable_integer(default_value),
@@ -48,7 +48,7 @@ column_sparse_with_hash_bucket <- function(column_name, hash_bucket_size, combin
   if (hash_bucket_size <= 1) {
     stop("hash_bucket_size must be larger than 1")
   }
-  tf$contrib$layers$sparse_column_with_hash_bucket(
+  contrib_feature_column_lib$sparse_column_with_hash_bucket(
     column_name = column_name,
     hash_bucket_size = hash_bucket_size,
     combiner = combiner,
@@ -75,7 +75,7 @@ column_sparse_with_hash_bucket <- function(column_name, hash_bucket_size, combin
 #' 
 #' @export
 column_real_valued <- function(column_name, dimension = 1L, default_value = NULL, dtype = tf$float32, normalizer = NULL) {
-  tf$contrib$layers$real_valued_column(
+  contrib_feature_column_lib$real_valued_column(
     column_name = column_name,
     dimension = as_nullable_integer(dimension),
     default_value = default_value,
@@ -107,7 +107,7 @@ column_real_valued <- function(column_name, dimension = 1L, default_value = NULL
 #' 
 #' @export
 column_embedding <- function(sparse_id_column, dimension, combiner = "mean", initializer = NULL, ckpt_to_load_from = NULL, tensor_name_in_ckpt = NULL, max_norm = NULL, trainable = TRUE) {
-  tf$contrib$layers$embedding_column(
+  contrib_feature_column_lib$embedding_column(
     sparse_id_column = sparse_id_column,
     dimension = as.integer(dimension),
     combiner = combiner,
@@ -141,7 +141,7 @@ column_crossed <- function(columns, hash_bucket_size, combiner = "sum", ckpt_to_
   if (hash_bucket_size <= 1) {
     stop("hash_bucket_size must be larger than 1")
   }
-  tf$contrib$layers$crossed_column(
+  contrib_feature_column_lib$crossed_column(
     columns = columns,
     hash_bucket_size = hash_bucket_size,
     combiner = combiner,
@@ -180,7 +180,7 @@ column_crossed <- function(columns, hash_bucket_size, combiner = "sum", ckpt_to_
 #' 
 #' @export
 column_sparse_weighted <- function(sparse_id_column, weight_column_name, dtype = tf$float32) {
-  tf$contrib$layers$weighted_sparse_column(
+  contrib_feature_column_lib$weighted_sparse_column(
     sparse_id_column = sparse_id_column,
     weight_column_name = weight_column_name,
     dtype = check_dtype(dtype)
@@ -218,7 +218,7 @@ column_one_hot <- function(sparse_id_column) {
 #' 
 #' @export
 column_bucketized <- function(source_column, boundaries) {
-  tf$contrib$layers$bucketized_column(
+  contrib_feature_column_lib$bucketized_column(
     source_column = source_column,
     boundaries = boundaries
   )
