@@ -24,28 +24,35 @@
 #' @name tfestimators
 NULL
 
-contrib_learn <- NULL
-contrib_layers <- NULL
-contrib_feature_column_lib <- NULL
 estimator_lib <- NULL
-contrib_estimators_lib <- NULL
-np <- NULL
 random_ops <- NULL
 math_ops <- NULL
 array_ops <- NULL
 functional_ops <- NULL
 
+contrib_learn <- NULL
+contrib_layers <- NULL
+contrib_feature_column_lib <- NULL
+contrib_estimators_lib <- NULL
+
+np <- NULL
+
 .onLoad <- function(libname, pkgname) {
-  contrib_learn <<- reticulate::import("tensorflow.contrib.learn", delay_load = TRUE)
-  contrib_layers <<- reticulate::import("tensorflow.contrib.layers", delay_load = TRUE)
+  # core modules
   estimator_lib <<- reticulate::import("tensorflow.python.estimator.estimator", delay_load = TRUE)
-  contrib_estimators_lib <<- reticulate::import("tensorflow.contrib.learn.python.learn.estimators", delay_load = TRUE)
-  contrib_feature_column_lib <<- reticulate::import("tensorflow.contrib.layers.python.layers.feature_column", delay_load = TRUE)
-  np <<- reticulate::import("numpy", convert = FALSE, delay_load = FALSE)
   random_ops <<- reticulate::import("tensorflow.python.ops.random_ops", delay_load = TRUE)
   math_ops <<- reticulate::import("tensorflow.python.ops.math_ops", delay_load = TRUE)
   array_ops <<- reticulate::import("tensorflow.python.ops.array_ops", delay_load = TRUE)
   functional_ops <<- reticulate::import("tensorflow.python.ops.functional_ops", delay_load = TRUE)
+
+  # contrib modules
+  contrib_learn <<- reticulate::import("tensorflow.contrib.learn", delay_load = TRUE)
+  contrib_layers <<- reticulate::import("tensorflow.contrib.layers", delay_load = TRUE)
+  contrib_estimators_lib <<- reticulate::import("tensorflow.contrib.learn.python.learn.estimators", delay_load = TRUE)
+  contrib_feature_column_lib <<- reticulate::import("tensorflow.contrib.layers.python.layers.feature_column", delay_load = TRUE)
+  
+  # other modules
+  np <<- reticulate::import("numpy", convert = FALSE, delay_load = FALSE)
 }
 
 .onUnload <- function(libpath) {

@@ -64,4 +64,9 @@ reference:
       - train.tf_experiment
       - evaluate.tf_experiment
       - train_and_evaluate.tf_experiment
+  
+  - title: "Run Configuration"
+    contents:
+      - run_config
+      - task_type
 
