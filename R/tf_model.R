@@ -17,11 +17,7 @@ is.regressor <- function(object) {
 }
 
 validate_model_input_fn <- function(input_fn) {
-  validate_input_fn(input_fn)
-  # TODO: Decide this after fixing KMeans
-  # if (!input_fn$features_as_named_list) {
-  #   stop("The argument features_as_named_list in your input_fn must be TRUE for canned estimator.")
-  # }
+  # validate_input_fn(input_fn)
 }
 
 #' @export
@@ -32,7 +28,7 @@ predict.tf_model <- function(object,
 {
   validate_model_input_fn(input_fn)
   est <- object$estimator
-  input_fn <- input_fn$input_fn
+  input_fn <- input_fn(TRUE)
   if (is.classifier(object)) {
     if (type == "raw") {
       predictions <- est$predict(input_fn = input_fn, outputs = c("classes"), ...)
@@ -60,7 +56,7 @@ fit.tf_model <- function(object, input_fn, steps = 2L, monitors = NULL, ...)
   if (!is.null(monitors))
     monitors <- list(monitors)
   object$estimator$fit(
-    input_fn = input_fn$input_fn,
+    input_fn = input_fn(TRUE),
     steps = as.integer(steps),
     monitors = monitors,
     ...)
@@ -74,7 +70,7 @@ evaluate.tf_model <- function(object, input_fn, steps = 2L, hooks = NULL, ...)
   if (!is.null(hooks))
     hooks <- list(hooks)
   object$estimator$evaluate(
-    input_fn = input_fn$input_fn,
+    input_fn = input_fn(TRUE),
     steps = as.integer(steps),
     hooks = hooks,
     ...)

@@ -54,60 +54,60 @@ simple_dummy_model_fn <- function(features, labels, mode, params, config) {
 
 
 get_non_batched_sin_input_fn <- function(sequence_length, increment, seed = NULL) {
-  list(
-    input_fn = function() {
-      start <- random_ops$random_uniform(
-        list(), minval = 0, maxval = pi * 2.0,
-        dtype = tf$python$framework$dtypes$float32, seed = seed)
-      sin_curves <- math_ops$sin(
-        math_ops$linspace(
-          start, (sequence_length - 1) * increment,
-          as.integer(sequence_length + 1)))
-      inputs <- array_ops$slice(sin_curves,
-                                np$array(list(0), dtype = np$int64),
-                                np$array(list(sequence_length), dtype = np$int64))
-      labels <- array_ops$slice(sin_curves,
-                                np$array(list(1), dtype = np$int64),
-                                np$array(list(sequence_length), dtype = np$int64))
-      return(tuple(list(inputs = inputs), labels))
-    },
-    features_as_named_list = TRUE)
+    function(features_as_named_list) {
+      function() {
+        start <- random_ops$random_uniform(
+          list(), minval = 0, maxval = pi * 2.0,
+          dtype = tf$python$framework$dtypes$float32, seed = seed)
+        sin_curves <- math_ops$sin(
+          math_ops$linspace(
+            start, (sequence_length - 1) * increment,
+            as.integer(sequence_length + 1)))
+        inputs <- array_ops$slice(sin_curves,
+                                  np$array(list(0), dtype = np$int64),
+                                  np$array(list(sequence_length), dtype = np$int64))
+        labels <- array_ops$slice(sin_curves,
+                                  np$array(list(1), dtype = np$int64),
+                                  np$array(list(sequence_length), dtype = np$int64))
+        tuple(list(inputs = inputs), labels)
+      }
+    }
 }
 
 get_batched_sin_input_fn <- function(batch_size, sequence_length, increment, seed = NULL) {
-  list(
-    input_fn = function() {
-      starts <- random_ops$random_uniform(
-        list(batch_size), minval = 0, maxval = pi * 2.0,
-        dtype = tf$python$framework$dtypes$float32, seed = seed)
-      sin_curves <- functional_ops$map_fn(
-        function(x){
-          math_ops$sin(
-            math_ops$linspace(
-              array_ops$reshape(x[1], list()),
-              (sequence_length - 1) * increment,
-              as.integer(sequence_length + 1)))
-        },
-        tuple(starts),
-        dtype = tf$python$framework$dtypes$float32
-      )
-      inputs <- array_ops$expand_dims(
-        array_ops$slice(
-          sin_curves,
-          np$array(list(0, 0), dtype = np$int64),
-          np$array(list(batch_size, sequence_length), dtype = np$int64)),
-        2L
-      )
-      labels <- array_ops$slice(sin_curves,
-                                np$array(list(0, 1), dtype = np$int64),
-                                np$array(list(batch_size, sequence_length), dtype = np$int64))
-      return(tuple(list(inputs = inputs), labels))
-    },
-    features_as_named_list = TRUE)
+    function(features_as_named_list) {
+      function() {
+        starts <- random_ops$random_uniform(
+          list(batch_size), minval = 0, maxval = pi * 2.0,
+          dtype = tf$python$framework$dtypes$float32, seed = seed)
+        sin_curves <- functional_ops$map_fn(
+          function(x){
+            math_ops$sin(
+              math_ops$linspace(
+                array_ops$reshape(x[1], list()),
+                (sequence_length - 1) * increment,
+                as.integer(sequence_length + 1)))
+          },
+          tuple(starts),
+          dtype = tf$python$framework$dtypes$float32
+        )
+        inputs <- array_ops$expand_dims(
+          array_ops$slice(
+            sin_curves,
+            np$array(list(0, 0), dtype = np$int64),
+            np$array(list(batch_size, sequence_length), dtype = np$int64)),
+          2L
+        )
+        labels <- array_ops$slice(sin_curves,
+                                  np$array(list(0, 1), dtype = np$int64),
+                                  np$array(list(batch_size, sequence_length), dtype = np$int64))
+        tuple(list(inputs = inputs), labels)
+      }
+  }
 }
 
 fake_sequence_input_fn <- function() {
-  input_fn(
+  function(features_as_named_list) input_fn(
     x = list(
       features = list(
         list(list(1), list(2), list(3)),

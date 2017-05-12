@@ -121,11 +121,10 @@ experiment.tf_model <- function(object,
                                 delay_workers_by_global_step = NULL,
                                 export_strategies = NULL,
                                 train_steps_per_iteration = NULL) {
-  
   exp <- contrib_learn$Experiment(
     estimator = object$estimator,
-    train_input_fn = train_input_fn$input_fn,
-    eval_input_fn = eval_input_fn$input_fn,
+    train_input_fn = train_input_fn(is.tf_model(object)),
+    eval_input_fn = eval_input_fn(is.tf_model(object)),
     train_steps = as.integer(train_steps),
     eval_steps = as.integer(eval_steps),
     eval_metrics = eval_metrics,

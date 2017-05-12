@@ -12,7 +12,6 @@ test_that("custom model works on iris data", {
       "Sepal.Width",
       "Petal.Length",
       "Petal.Width"),
-    features_as_named_list = FALSE,
     batch_size = 10L
   )
   
