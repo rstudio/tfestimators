@@ -114,7 +114,7 @@ estimator <- function(model_fn,
 fit.tf_custom_model <- function(object, input_fn, steps = NULL, hooks = NULL, max_steps = NULL) {
   validate_custom_model_input_fn(input_fn)
   object$estimator$train(
-    input_fn = input_fn(FALSE),
+    input_fn = input_fn(get_input_fn_type(object)),
     steps = as_nullable_integer(steps),
     hooks = hooks,
     max_steps = as_nullable_integer(max_steps))
@@ -145,7 +145,7 @@ predict.tf_custom_model <- function(object,
   validate_custom_model_input_fn(input_fn)
   est <- object$estimator
   predictions <- est$predict(
-    input_fn = input_fn(FALSE),
+    input_fn = input_fn(get_input_fn_type(object)),
     checkpoint_path = checkpoint_path,
     hooks = hooks,
     predict_keys = predict_keys)
@@ -186,9 +186,9 @@ evaluate.tf_custom_model <- function(object,
                                      checkpoint_path = NULL,
                                      name = NULL)
 {
-  # validate_custom_model_input_fn(input_fn)
+  validate_custom_model_input_fn(input_fn)
   est <- object$estimator
-  est$evaluate(input_fn = input_fn(FALSE),
+  est$evaluate(input_fn = input_fn(get_input_fn_type(object)),
                steps = as_nullable_integer(steps),
                checkpoint_path = checkpoint_path,
                name = name)

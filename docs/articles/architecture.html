@@ -119,7 +119,6 @@ predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classi
       <span class="st">"Sepal.Width"</span>,
       <span class="st">"Petal.Length"</span>,
       <span class="st">"Petal.Width"</span>),
-    <span class="dt">features_as_named_list =</span> <span class="ot">FALSE</span>,
     <span class="dt">batch_size =</span> 10L
 )</code></pre></div>
 <p>Next, we define the custom model function:</p>
@@ -213,7 +212,6 @@ predicted_probs &lt;-<span class="st"> </span><span class="kw">lapply</span>(pre
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">input_fn</span>(mtcars, <span class="dt">response =</span> <span class="st">"mpg"</span>, <span class="dt">features =</span> <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>))</code></pre></div>
 <p>or use the formulate interface like below where left-hand and right-hand side of the <code>~</code> represent response column and feature columns respectively:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">input_fn</span>(mpg ~<span class="st"> </span>drat +<span class="st"> </span>cyl, <span class="dt">data =</span> mtcars)</code></pre></div>
-<p>Note that there’s an argument named <code>features_as_named_list</code> that should be <code>TRUE</code> if this is used by a canned estimator and should be <code>FALSE</code> if this is used by a custom estimator.</p>
 <p>There’s also a built-in <code>input_fn()</code> that works on nested lists, for example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">input_fn</span>(
   <span class="dt">x =</span> <span class="kw">list</span>(
@@ -225,67 +223,65 @@ predicted_probs &lt;-<span class="st"> </span><span class="kw">lapply</span>(pre
   <span class="dt">features =</span> <span class="st">"features"</span>,
   <span class="dt">response =</span> <span class="st">"response"</span>)</code></pre></div>
 <p>In the above example, the data is a list of two named lists where each named list can be seen as different columns in a dataset. In this case, a column named <code>features</code> is being used as features to the model and a column named <code>response</code> is being used as the response variable. This nested lists format is particularly useful when constructing sequence input to Recurrent Neural Networks (RNN). Once the data is defined using <code>input_fn()</code>, it can be used directly in RNN constructor.</p>
-<p>Users can also write custom input function, e.g. a function <code>custom_input_fn()</code>, to convert each feature into a <code>Tensor</code> or <code>SparseTensor</code> according to the needs. This function should return a list that consists of <code>input_fn</code> and <code>features_as_named_list</code> so the custom or canned estimator can recognize them. The following skeleton code has a few places commented with “custom code here” that users can use to do customized operation. Other parts should remain unchanged.</p>
+<p>Users can also write custom input function, e.g. a function <code>custom_input_fn()</code>, to convert each feature into a <code>Tensor</code> or <code>SparseTensor</code> according to the needs. The following skeleton code has a few places commented with “custom code here” that users can use to do customized operation. Other parts should remain unchanged.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">custom_input_fn &lt;-<span class="st">  </span>function(
   x,
   features,
-  <span class="dt">response =</span> <span class="ot">NULL</span>,
-  <span class="dt">features_as_named_list =</span> <span class="ot">TRUE</span>)
+  <span class="dt">response =</span> <span class="ot">NULL</span>)
 {
-  <span class="kw">validate_input_fn_args</span>(x, features, response, features_as_named_list)
-  fn &lt;-<span class="st"> </span>function() {
-    if (features_as_named_list) {
-      <span class="co"># For canned estimators</span>
-      input_features &lt;-<span class="st"> </span><span class="kw">lapply</span>(features, function(feature) {
-        <span class="kw">custom_function</span>(x[[feature]], ...) <span class="co"># custom code here</span>
-      })
-      <span class="kw">names</span>(input_features) &lt;-<span class="st"> </span>features
-    } else {
-      <span class="co"># For custom estimators</span>
-      input_features &lt;-<span class="st"> </span><span class="kw">custom_function</span>(<span class="kw">as.matrix</span>(x[, features]), ...) <span class="co"># custom code here</span>
+  <span class="kw">validate_input_fn_args</span>(x, features, response)
+  function(is_canned_estimator) {
+    function() {
+      if (is_canned_estimator) {
+        <span class="co"># Change this block if this input_fn is used in canned estimators</span>
+        input_features &lt;-<span class="st"> </span><span class="kw">lapply</span>(features, function(feature) {
+          <span class="kw">custom_function</span>(x[[feature]], ...) <span class="co"># custom code here</span>
+        })
+        <span class="kw">names</span>(input_features) &lt;-<span class="st"> </span>features
+      } else {
+        <span class="co"># Change this block if this input_fn is used in custom estimators</span>
+        input_features &lt;-<span class="st"> </span><span class="kw">custom_function</span>(<span class="kw">as.matrix</span>(x[, features]), ...) <span class="co"># custom code here</span>
+      }
+      if (!<span class="kw">is.null</span>(response)) {
+        input_response &lt;-<span class="st"> </span><span class="kw">custom_function</span>(x[[response]], ...) <span class="co"># custom code here</span>
+      } else {
+        input_response &lt;-<span class="st"> </span><span class="ot">NULL</span>
+      }
+      <span class="kw">list</span>(input_features, input_response)
     }
-    if (!<span class="kw">is.null</span>(response)) {
-      input_response &lt;-<span class="st"> </span><span class="kw">custom_function</span>(x[[response]], ...) <span class="co"># custom code here</span>
-    } else {
-      input_response &lt;-<span class="st"> </span><span class="ot">NULL</span>
-    }
-    <span class="kw">list</span>(input_features, input_response)
   }
-  <span class="kw">return</span>(<span class="kw">list</span>(
-    <span class="dt">input_fn =</span> fn,
-    <span class="dt">features_as_named_list =</span> features_as_named_list))
 }</code></pre></div>
 <p>Users are encounraged to follow the above skeleton but it may not be suitable for all types of models. For example, if a user want to construct some complicated input, such as a batched sequence input similar to a sine curve for feeding RNNs, he can define something similar to the following using mostly low-level TensorFlow APIs:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">get_batched_sin_input_fn &lt;-<span class="st"> </span>function(batch_size, sequence_length, increment, <span class="dt">seed =</span> <span class="ot">NULL</span>) {
-  <span class="kw">list</span>(
-    <span class="dt">input_fn =</span> function() {
-      starts &lt;-<span class="st"> </span>random_ops$<span class="kw">random_uniform</span>(
-        <span class="kw">list</span>(batch_size), <span class="dt">minval =</span> <span class="dv">0</span>, <span class="dt">maxval =</span> pi *<span class="st"> </span><span class="fl">2.0</span>,
-        <span class="dt">dtype =</span> tf$python$framework$dtypes$float32, <span class="dt">seed =</span> seed)
-      sin_curves &lt;-<span class="st"> </span>functional_ops$<span class="kw">map_fn</span>(
-        function(x){
-          math_ops$<span class="kw">sin</span>(
-            math_ops$<span class="kw">linspace</span>(
-              array_ops$<span class="kw">reshape</span>(x[<span class="dv">1</span>], <span class="kw">list</span>()),
-              (sequence_length -<span class="st"> </span><span class="dv">1</span>) *<span class="st"> </span>increment,
-              <span class="kw">as.integer</span>(sequence_length +<span class="st"> </span><span class="dv">1</span>)))
-        },
-        <span class="kw">tuple</span>(starts),
-        <span class="dt">dtype =</span> tf$python$framework$dtypes$float32
-      )
-      inputs &lt;-<span class="st"> </span>array_ops$<span class="kw">expand_dims</span>(
-        array_ops$<span class="kw">slice</span>(
-          sin_curves,
-          np$<span class="kw">array</span>(<span class="kw">list</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">dtype =</span> np$int64),
-          np$<span class="kw">array</span>(<span class="kw">list</span>(batch_size, sequence_length), <span class="dt">dtype =</span> np$int64)),
-        2L
-      )
-      labels &lt;-<span class="st"> </span>array_ops$<span class="kw">slice</span>(sin_curves,
-                                np$<span class="kw">array</span>(<span class="kw">list</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">dtype =</span> np$int64),
-                                np$<span class="kw">array</span>(<span class="kw">list</span>(batch_size, sequence_length), <span class="dt">dtype =</span> np$int64))
-      <span class="kw">return</span>(<span class="kw">tuple</span>(<span class="kw">list</span>(<span class="dt">inputs =</span> inputs), labels))
-    },
-    <span class="dt">features_as_named_list =</span> <span class="ot">TRUE</span>)
+    function(unused_arg) {
+      function() {
+        starts &lt;-<span class="st"> </span>random_ops$<span class="kw">random_uniform</span>(
+          <span class="kw">list</span>(batch_size), <span class="dt">minval =</span> <span class="dv">0</span>, <span class="dt">maxval =</span> pi *<span class="st"> </span><span class="fl">2.0</span>,
+          <span class="dt">dtype =</span> tf$python$framework$dtypes$float32, <span class="dt">seed =</span> seed)
+        sin_curves &lt;-<span class="st"> </span>functional_ops$<span class="kw">map_fn</span>(
+          function(x){
+            math_ops$<span class="kw">sin</span>(
+              math_ops$<span class="kw">linspace</span>(
+                array_ops$<span class="kw">reshape</span>(x[<span class="dv">1</span>], <span class="kw">list</span>()),
+                (sequence_length -<span class="st"> </span><span class="dv">1</span>) *<span class="st"> </span>increment,
+                <span class="kw">as.integer</span>(sequence_length +<span class="st"> </span><span class="dv">1</span>)))
+          },
+          <span class="kw">tuple</span>(starts),
+          <span class="dt">dtype =</span> tf$python$framework$dtypes$float32
+        )
+        inputs &lt;-<span class="st"> </span>array_ops$<span class="kw">expand_dims</span>(
+          array_ops$<span class="kw">slice</span>(
+            sin_curves,
+            np$<span class="kw">array</span>(<span class="kw">list</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">dtype =</span> np$int64),
+            np$<span class="kw">array</span>(<span class="kw">list</span>(batch_size, sequence_length), <span class="dt">dtype =</span> np$int64)),
+          2L
+        )
+        labels &lt;-<span class="st"> </span>array_ops$<span class="kw">slice</span>(sin_curves,
+                                  np$<span class="kw">array</span>(<span class="kw">list</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">dtype =</span> np$int64),
+                                  np$<span class="kw">array</span>(<span class="kw">list</span>(batch_size, sequence_length), <span class="dt">dtype =</span> np$int64))
+        <span class="kw">tuple</span>(<span class="kw">list</span>(<span class="dt">inputs =</span> inputs), labels)
+      }
+  }
 }</code></pre></div>
 <p>Users can then further define <code>input_fn</code> for training and evaluation:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">train_input_fn &lt;-<span class="st"> </span><span class="kw">get_batched_sin_input_fn</span>(batch_size, sequence_length, pi /<span class="st"> </span><span class="dv">32</span>, <span class="dt">seed =</span> <span class="dv">1234</span>)

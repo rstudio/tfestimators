@@ -123,8 +123,8 @@ experiment.tf_model <- function(object,
                                 train_steps_per_iteration = NULL) {
   exp <- contrib_learn$Experiment(
     estimator = object$estimator,
-    train_input_fn = train_input_fn(is.tf_model(object)),
-    eval_input_fn = eval_input_fn(is.tf_model(object)),
+    train_input_fn = train_input_fn(get_input_fn_type(object)),
+    eval_input_fn = eval_input_fn(get_input_fn_type(object)),
     train_steps = as.integer(train_steps),
     eval_steps = as.integer(eval_steps),
     eval_metrics = eval_metrics,

@@ -28,7 +28,7 @@ predict.tf_model <- function(object,
 {
   validate_model_input_fn(input_fn)
   est <- object$estimator
-  input_fn <- input_fn(TRUE)
+  input_fn <- input_fn(get_input_fn_type(object))
   if (is.classifier(object)) {
     if (type == "raw") {
       predictions <- est$predict(input_fn = input_fn, outputs = c("classes"), ...)
@@ -56,7 +56,7 @@ fit.tf_model <- function(object, input_fn, steps = 2L, monitors = NULL, ...)
   if (!is.null(monitors))
     monitors <- list(monitors)
   object$estimator$fit(
-    input_fn = input_fn(TRUE),
+    input_fn = input_fn(get_input_fn_type(object)),
     steps = as.integer(steps),
     monitors = monitors,
     ...)
@@ -70,7 +70,7 @@ evaluate.tf_model <- function(object, input_fn, steps = 2L, hooks = NULL, ...)
   if (!is.null(hooks))
     hooks <- list(hooks)
   object$estimator$evaluate(
-    input_fn = input_fn(TRUE),
+    input_fn = input_fn(get_input_fn_type(object)),
     steps = as.integer(steps),
     hooks = hooks,
     ...)
@@ -85,7 +85,3 @@ coef.tf_model <- function(object, ...) {
   variables
 }
 
-#' @export
-summary.tf_model <- function(object, ...) {
-  # NYI
-}

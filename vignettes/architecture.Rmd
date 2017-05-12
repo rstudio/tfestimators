@@ -92,7 +92,6 @@ constructed_input_fn <- input_fn(
 	  "Sepal.Width",
 	  "Petal.Length",
 	  "Petal.Width"),
-	features_as_named_list = FALSE,
 	batch_size = 10L
 )
 ```
@@ -222,8 +221,6 @@ or use the formulate interface like below where left-hand and right-hand side of
 input_fn(mpg ~ drat + cyl, data = mtcars)
 ```
 
-Note that there's an argument named `features_as_named_list` that should be `TRUE` if this is used by a canned estimator and should be `FALSE` if this is used by a custom estimator. 
-
 There's also a built-in `input_fn()` that works on nested lists, for example:
 
 ``` r
@@ -240,37 +237,35 @@ input_fn(
 
 In the above example, the data is a list of two named lists where each named list can be seen as different columns in a dataset. In this case, a column named `features` is being used as features to the model and a column named `response` is being used as the response variable. This nested lists format is particularly useful when constructing sequence input to Recurrent Neural Networks (RNN). Once the data is defined using `input_fn()`, it can be used directly in RNN constructor.
 
-Users can also write custom input function, e.g. a function `custom_input_fn()`, to convert each feature into a `Tensor` or `SparseTensor` according to the needs. This function should return a list that consists of `input_fn` and `features_as_named_list` so the custom or canned estimator can recognize them. The following skeleton code has a few places commented with "custom code here" that users can use to do customized operation. Other parts should remain unchanged.
+Users can also write custom input function, e.g. a function `custom_input_fn()`, to convert each feature into a `Tensor` or `SparseTensor` according to the needs. The following skeleton code has a few places commented with "custom code here" that users can use to do customized operation. Other parts should remain unchanged.
 
 ``` r
 custom_input_fn <-  function(
   x,
   features,
-  response = NULL,
-  features_as_named_list = TRUE)
+  response = NULL)
 {
-  validate_input_fn_args(x, features, response, features_as_named_list)
-  fn <- function() {
-    if (features_as_named_list) {
-      # For canned estimators
-      input_features <- lapply(features, function(feature) {
-        custom_function(x[[feature]], ...) # custom code here
-      })
-      names(input_features) <- features
-    } else {
-      # For custom estimators
-      input_features <- custom_function(as.matrix(x[, features]), ...) # custom code here
+  validate_input_fn_args(x, features, response)
+  function(is_canned_estimator) {
+    function() {
+      if (is_canned_estimator) {
+        # Change this block if this input_fn is used in canned estimators
+        input_features <- lapply(features, function(feature) {
+          custom_function(x[[feature]], ...) # custom code here
+        })
+        names(input_features) <- features
+      } else {
+        # Change this block if this input_fn is used in custom estimators
+        input_features <- custom_function(as.matrix(x[, features]), ...) # custom code here
+      }
+      if (!is.null(response)) {
+        input_response <- custom_function(x[[response]], ...) # custom code here
+      } else {
+        input_response <- NULL
+      }
+      list(input_features, input_response)
     }
-    if (!is.null(response)) {
-      input_response <- custom_function(x[[response]], ...) # custom code here
-    } else {
-      input_response <- NULL
-    }
-    list(input_features, input_response)
   }
-  return(list(
-    input_fn = fn,
-    features_as_named_list = features_as_named_list))
 }
 
 ```
@@ -279,35 +274,35 @@ Users are encounraged to follow the above skeleton but it may not be suitable fo
 
 ``` r
 get_batched_sin_input_fn <- function(batch_size, sequence_length, increment, seed = NULL) {
-  list(
-    input_fn = function() {
-      starts <- random_ops$random_uniform(
-        list(batch_size), minval = 0, maxval = pi * 2.0,
-        dtype = tf$python$framework$dtypes$float32, seed = seed)
-      sin_curves <- functional_ops$map_fn(
-        function(x){
-          math_ops$sin(
-            math_ops$linspace(
-              array_ops$reshape(x[1], list()),
-              (sequence_length - 1) * increment,
-              as.integer(sequence_length + 1)))
-        },
-        tuple(starts),
-        dtype = tf$python$framework$dtypes$float32
-      )
-      inputs <- array_ops$expand_dims(
-        array_ops$slice(
-          sin_curves,
-          np$array(list(0, 0), dtype = np$int64),
-          np$array(list(batch_size, sequence_length), dtype = np$int64)),
-        2L
-      )
-      labels <- array_ops$slice(sin_curves,
-                                np$array(list(0, 1), dtype = np$int64),
-                                np$array(list(batch_size, sequence_length), dtype = np$int64))
-      return(tuple(list(inputs = inputs), labels))
-    },
-    features_as_named_list = TRUE)
+    function(unused_arg) {
+      function() {
+        starts <- random_ops$random_uniform(
+          list(batch_size), minval = 0, maxval = pi * 2.0,
+          dtype = tf$python$framework$dtypes$float32, seed = seed)
+        sin_curves <- functional_ops$map_fn(
+          function(x){
+            math_ops$sin(
+              math_ops$linspace(
+                array_ops$reshape(x[1], list()),
+                (sequence_length - 1) * increment,
+                as.integer(sequence_length + 1)))
+          },
+          tuple(starts),
+          dtype = tf$python$framework$dtypes$float32
+        )
+        inputs <- array_ops$expand_dims(
+          array_ops$slice(
+            sin_curves,
+            np$array(list(0, 0), dtype = np$int64),
+            np$array(list(batch_size, sequence_length), dtype = np$int64)),
+          2L
+        )
+        labels <- array_ops$slice(sin_curves,
+                                  np$array(list(0, 1), dtype = np$int64),
+                                  np$array(list(batch_size, sequence_length), dtype = np$int64))
+        tuple(list(inputs = inputs), labels)
+      }
+  }
 }
 ```
 

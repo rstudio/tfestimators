@@ -1,3 +1,27 @@
+#' @export
+feature_columns <- function(x, ...) {
+  UseMethod("feature_columns")
+}
+
+#' Construct column placeholders from vectors in an R object
+#' @export
+feature_columns.default <- function(x, columns) {
+  ensure_valid_column_names(x, columns)
+  function() {
+    lapply(columns, function(column_name) {
+      column_values <- x[[column_name]]
+      if (is.numeric(column_values)) {
+        column_real_valued(column_name)
+      } else if (is.factor(column_values)) {
+        column_with_keys(column_name, keys = levels(column_values))
+      } else if (is.character(column_values)) {
+        column_with_hash_bucket(column_name)
+      }
+    })
+  }
+}
+
+
 #' Creates a _SparseColumn with keys.
 #' 
 #' @param column_name A string defining sparse column name.
