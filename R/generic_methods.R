@@ -3,7 +3,6 @@ train <- function(object, ...) {
   UseMethod("train")
 }
 
-
 #' @export
 evaluate <- function(object, ...) {
   UseMethod("evaluate")
@@ -32,10 +31,5 @@ experiment <- function(x, ...) {
 #' @export
 coef <- function(object, ...) {
   UseMethod("coef")
-}
-
-#' @export
-summary <- function(object, ...) {
-  UseMethod("summary")
 }
 

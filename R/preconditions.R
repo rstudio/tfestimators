@@ -55,13 +55,6 @@ as_nullable_integer <- function(x) {
     as.integer(x)
 }
 
-check_dtype <- function(dtype) {
-  if (!inherits(dtype, "tensorflow.python.framework.dtypes.DType")) {
-    stop("dtype must of tf$DType objects, e.g. tf$int64")
-  }
-  dtype
-}
-
 make_ensure_scalar_impl <- function(checker, message, converter) {
   fn <- function(object,
                  allow.na = FALSE,
