@@ -37,4 +37,4 @@ Suggests:
     testthat,
     knitr
 VignetteBuilder: knitr
-Remotes: rstudio/tensorflow@cd8c384
+Remotes: rstudio/tensorflow@11c0d71
