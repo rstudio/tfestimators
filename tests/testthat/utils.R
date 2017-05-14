@@ -107,7 +107,7 @@ get_batched_sin_input_fn <- function(batch_size, sequence_length, increment, see
 }
 
 fake_sequence_input_fn <- function() {
-  function(features_as_named_list) input_fn(
+  function(unused) input_fn(
     x = list(
       features = list(
         list(list(1), list(2), list(3)),

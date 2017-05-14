@@ -55,7 +55,7 @@ input_fn.list <- function(
   response # TODO: Support unsupervised
 ) {
   validate_input_fn_args(x, features, response)
-  function(features_as_named_list) {
+  function(features_as_named_list = T) {
     if (features_as_named_list) {
       inputs <- tf$constant(
         np$array(

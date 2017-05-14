@@ -21,8 +21,8 @@ test_that("input_fn can be constructed correctly from data.frame objects", {
   input_fn1 <- input_fn(mtcars, response = "mpg", features = features)(TRUE)
   expect_equal(length(input_fn1()), 2)
   expect_equal(names(input_fn1()[[1]]), features)
-  expect_true(is.tensor(input_fn()[[1]][[1]]))
-  expect_true(is.tensor(input_fn()[[2]]))
+  expect_true(is.tensor(input_fn1()[[1]][[1]]))
+  expect_true(is.tensor(input_fn1()[[2]]))
 })
 
 test_that("input_fn can be constructed correctly from matrix objects", {
