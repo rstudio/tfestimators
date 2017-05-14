@@ -1,16 +1,6 @@
-context("Testing spec constructors")
+context("Testing input_fn")
 
-test_that("feature columns can be constructed correctly", {
-  
-  fcs <- feature_columns(mtcars, "drat")
-  expect_equal(length(fcs()), 1)
-  expect_true(grepl("RealValuedColumn", class(fcs()[[1]])[1]))
-  fcs <- feature_columns(mtcars, c("drat", "cyl"))
-  expect_equal(length(fcs()), 2)
-  expect_true(grepl("RealValuedColumn", class(fcs()[[1]])[1]))
-})
-
-test_that("input_fn can be constructed correctly using custom input_fn", {
+test_that("input_fn can be constructed through formula interface", {
 
   features <- c("drat", "cyl")
   input_fn1 <- input_fn(mtcars, response = "mpg", features = features)(TRUE)
@@ -30,7 +20,7 @@ test_that("input_fn can be constructed correctly from data.frame objects", {
   features <- c("drat", "cyl")
   input_fn1 <- input_fn(mtcars, response = "mpg", features = features)(TRUE)
   expect_equal(length(input_fn1()), 2)
-  expect_equal(length(input_fn1()[[1]]), length(features))
+  expect_equal(names(input_fn1()[[1]]), features)
 })
 
 test_that("input_fn can be constructed correctly from matrix objects", {
@@ -38,7 +28,7 @@ test_that("input_fn can be constructed correctly from matrix objects", {
   features <- c("drat", "cyl")
   input_fn1 <- input_fn(as.matrix(mtcars), response = "mpg", features = features)(TRUE)
   expect_equal(length(input_fn1()), 2)
-  expect_equal(length(input_fn1()[[1]]), length(features))
+  expect_equal(names(input_fn1()[[1]]), features)
 })
 
 test_that("input_fn can be constructed correctly from list objects", {
