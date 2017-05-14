@@ -11,6 +11,7 @@ Authors@R: c(
   person("RStudio", role = c("cph", "fnd")),  
   person("Kevin", "Ushey", role = c("aut"),
          email = "kevin@rstudio.com"),
+  person("Daniel", "Falbel", role = c("ctb", "cph")),
   person(family = "Google Inc.", role = c("cph"),
          comment = "Documentation")
   )
