@@ -56,17 +56,21 @@ input_fn.list <- function(
 ) {
   validate_input_fn_args(x, features, response)
   function(features_as_named_list) {
-    inputs <- tf$constant(
-      np$array(
-        x$features,
-        dtype = np$int64
+    if (features_as_named_list) {
+      inputs <- tf$constant(
+        np$array(
+          x$features,
+          dtype = np$int64
+        )
       )
-    )
-    labels <- tf$constant(
-      np$array(
-        x$response
+      labels <- tf$constant(
+        np$array(
+          x$response
+        )
       )
-    )
+    } else {
+      stop("input_fn.list() does not support custom estimator yet")
+    }
     list(list(inputs = inputs), labels)
   }
 }
@@ -124,12 +128,8 @@ input_fn.matrix <- function(
 }
 
 validate_input_fn <- function(input_fn) {
-  if (is.null(input_fn$input_fn)) {
-    stop("Your input_fn must return a list with one item: input_fn")
-  }
-  if (!is.function(input_fn$input_fn)) {
-    stop("Your input_fn$input_fn must be a function")
-  }
+  if (!is.function(input_fn)) stop("input_fn must be a function")
+  if (length(formals(input_fn)) != 1) stop("input_fn must contain exactly one argument")
 }
 
 #' @export

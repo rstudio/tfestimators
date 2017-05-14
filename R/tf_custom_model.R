@@ -4,10 +4,6 @@ tf_custom_model <- function(...) {
   object
 }
 
-validate_custom_model_input_fn <- function(input_fn) {
-  # validate_input_fn(input_fn)
-}
-
 is.tf_custom_model <- function(object) {
   inherits(object, "tf_custom_model")
 }
@@ -112,7 +108,7 @@ estimator <- function(model_fn,
 #' @export
 #' @family custom estimator methods
 fit.tf_custom_model <- function(object, input_fn, steps = NULL, hooks = NULL, max_steps = NULL) {
-  validate_custom_model_input_fn(input_fn)
+  validate_input_fn(input_fn)
   object$estimator$train(
     input_fn = input_fn(get_input_fn_type(object)),
     steps = as_nullable_integer(steps),
@@ -142,7 +138,7 @@ predict.tf_custom_model <- function(object,
                                     predict_keys = NULL,
                                     hooks = NULL,
                                     as_iterable = F) {
-  validate_custom_model_input_fn(input_fn)
+  validate_input_fn(input_fn)
   est <- object$estimator
   predictions <- est$predict(
     input_fn = input_fn(get_input_fn_type(object)),
@@ -186,7 +182,7 @@ evaluate.tf_custom_model <- function(object,
                                      checkpoint_path = NULL,
                                      name = NULL)
 {
-  validate_custom_model_input_fn(input_fn)
+  validate_input_fn(input_fn)
   est <- object$estimator
   est$evaluate(input_fn = input_fn(get_input_fn_type(object)),
                steps = as_nullable_integer(steps),

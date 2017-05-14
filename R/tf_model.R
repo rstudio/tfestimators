@@ -16,17 +16,13 @@ is.regressor <- function(object) {
   inherits(object, "regressor")
 }
 
-validate_model_input_fn <- function(input_fn) {
-  # validate_input_fn(input_fn)
-}
-
 #' @export
 predict.tf_model <- function(object,
                              input_fn,
                              type = "raw",
                              ...)
 {
-  validate_model_input_fn(input_fn)
+  validate_input_fn(input_fn)
   est <- object$estimator
   input_fn <- input_fn(get_input_fn_type(object))
   if (is.classifier(object)) {
@@ -52,7 +48,7 @@ predict.tf_model <- function(object,
 #' @export
 fit.tf_model <- function(object, input_fn, steps = 2L, monitors = NULL, ...)
 {
-  validate_model_input_fn(input_fn)
+  validate_input_fn(input_fn)
   if (!is.null(monitors))
     monitors <- list(monitors)
   object$estimator$fit(
@@ -66,7 +62,7 @@ fit.tf_model <- function(object, input_fn, steps = 2L, monitors = NULL, ...)
 #' @export
 evaluate.tf_model <- function(object, input_fn, steps = 2L, hooks = NULL, ...)
 {
-  validate_model_input_fn(input_fn)
+  validate_input_fn(input_fn)
   if (!is.null(hooks))
     hooks <- list(hooks)
   object$estimator$evaluate(
