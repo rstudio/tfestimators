@@ -47,6 +47,13 @@ reference:
       - column_sparse_weighted
       - column_sparse_with_hash_bucket
       - column_sparse_with_keys
+  
+  - title: "Input Function"
+    contents:
+      - input_fn.data.frame
+      - input_fn.default
+      - input_fn.list
+      - input_fn.matrix
       
   - title: "Run Hooks"
     contents:

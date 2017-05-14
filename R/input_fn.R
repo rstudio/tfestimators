@@ -8,13 +8,19 @@ input_fn <- function(x, ...) {
   UseMethod("input_fn")
 }
 
+# # TODO: Support unsupervised algorithms
 #' @export
 input_fn.formula <- function(x, data, ...) {
   parsed <- parse_formula(x)
-  input_fn(data, parsed$features, parsed$response, ...) # TODO: Support unsupervised algorithms
+  input_fn(data, parsed$features, parsed$response, ...)
 }
 
+#' This function provides a skeleton of constructing a custom input function.
+#' 
+#' Type `input_fn.default` to print out the skeleton code and create your own.
+#' 
 #' @export
+#' @family input function constructors
 input_fn.default <-  function(
   x,
   features,
@@ -48,11 +54,35 @@ input_fn.default <-  function(
   }
 }
 
+
+# TODO: Support unsupervised
+
+#' Construct input function from a list object used to feed the estimator.
+#' 
+#' This is particularly useful when constructing dynamic length of inputs for
+#' models like recurrent neural networks.
+#' 
+#' @param x The list that represents the input source
+#' @param features The names of features to be used
+#' @param response The response variable name to be used
+#' 
+#' @examples
+#' input_fn(
+#'    x = list(
+#'      feature_names = list(
+#'        list(list(1), list(2), list(3)),
+#'        list(list(4), list(5), list(6))),
+#'      response = list(
+#'        list(1, 2, 3), list(4, 5, 6))),
+#'    features = c("feature_names"),
+#'    response = "response")
+#' 
 #' @export
+#' @family input function constructors
 input_fn.list <- function(
   x,
   features,
-  response # TODO: Support unsupervised
+  response
 ) {
   validate_input_fn_args(x, features, response)
   function(features_as_named_list = T) {
@@ -75,15 +105,40 @@ input_fn.list <- function(
   }
 }
 
+#' Construct input function from a data.frame object used to feed the estimator.
+#' 
+#' @param x The data.frame that represents the input source
+#' @param features The names of features to be used
+#' @param response The response variable name to be used
+#' @param batch_size The size of batches
+#' @param shuffle Whether to shuffles the queue. Avoid shuffle at prediction time
+#' @param num_epochs The number of epochs to iterate over data. If `NULL` will run forever.
+#' @param queue_capacity The size of queue to accumulate.
+#' @param num_threads The number of threads used for reading and enqueueing. 
+#' In order to have predicted and repeatable order of reading and enqueueing,
+#' such as in prediction and evaluation mode, `num_threads` should be 1.
+#' 
+#' @examples
+#' features <- c("drat", "cyl")
+#' input_fn1 <- input_fn(mtcars, response = "mpg", features = features)
+#' 
 #' @export
+#' @family input function constructors
 input_fn.data.frame <-  function(
   x,
   features,
   response = NULL,
   batch_size = 10L,
-  shuffle = TRUE)
+  shuffle = TRUE,
+  num_epochs = 1L,
+  queue_capacity = 1000L,
+  num_threads = 1L)
 {
   validate_input_fn_args(x, features, response)
+  num_epochs <- as.integer(num_epochs)
+  batch_size <- as.integer(batch_size)
+  queue_capacity <- as.integer(queue_capacity)
+  num_threads <- as.integer(num_threads)
   # supporting for unsupervised models as well as ingesting data for inference
   input_response <- if(is.null(response)) NULL else as.array(x[,response])
   fn <- function(features_as_named_list) {
@@ -96,7 +151,10 @@ input_fn.data.frame <-  function(
         dict(values),
         input_response,
         batch_size = batch_size,
-        shuffle = shuffle)
+        shuffle = shuffle,
+        num_epochs = num_epochs,
+        queue_capacity = queue_capacity,
+        num_threads = num_threads)
     } else {
       values <- list(features = data.matrix(x)[,features, drop = FALSE])
       fn <- function(){
@@ -104,7 +162,10 @@ input_fn.data.frame <-  function(
           values,
           input_response,
           batch_size = batch_size,
-          shuffle = shuffle)
+          shuffle = shuffle,
+          num_epochs = num_epochs,
+          queue_capacity = queue_capacity,
+          num_threads = num_threads)
         fun <- fun()
         list(
           fun[[1]]$features,
@@ -115,16 +176,24 @@ input_fn.data.frame <-  function(
   }
 }
 
-
+#' Construct input function from a matrix object used to feed the estimator.
+#' 
+#' This is essentially the same as \code{\link{input_fn.data.frame}}.
+#' 
 #' @export
+#' @family input function constructors
 input_fn.matrix <- function(
   x,
   features,
   response = NULL,
   batch_size = 10L,
-  shuffle = TRUE
+  shuffle = TRUE,
+  num_epochs = 1L,
+  queue_capacity = 1000L,
+  num_threads = 1L
 ) {
-  input_fn(as.data.frame(x), features, response, batch_size, shuffle)
+  input_fn(as.data.frame(x), features, response, batch_size,
+           shuffle, num_epochs, queue_capacity, num_threads)
 }
 
 validate_input_fn <- function(input_fn) {
