@@ -5,7 +5,7 @@
 \title{TensorFlow -- Support Vector Machines}
 \usage{
 svm_classifier(feature_columns, example_id_column, weight_column_name = NULL,
-  run_options = NULL, ...)
+  model_dir = NULL, config = NULL)
 }
 \description{
 Perform Support Vector Machines for binary classification using TensorFlow.
