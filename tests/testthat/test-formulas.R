@@ -1,11 +1,11 @@
 context("Testing formulas")
 
 test_that("parse_formula parses formula correct", {
-  parsed <- parse_formula(y ~ tf$contrib$layers$real_valued_column(x))
-  expect_equal(parsed$features, "tf$contrib$layers$real_valued_column(x)")
+  parsed <- parse_formula(y ~ tf$Tensor(x))
+  expect_equal(parsed$features, "tf$Tensor(x)")
   expect_equal(parsed$response, "y")
   expect_equal(parsed$intercept, TRUE)
   
-  parsed <- parse_formula(y ~ tf$contrib$layers$real_valued_column(x) + x1)
-  expect_equal(parsed$features, c("tf$contrib$layers$real_valued_column(x)", "x1"))
+  parsed <- parse_formula(y ~ tf$Tensor(x) + x1)
+  expect_equal(parsed$features, c("tf$Tensor(x)", "x1"))
 })

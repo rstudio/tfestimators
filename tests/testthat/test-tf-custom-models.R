@@ -69,6 +69,8 @@ test_that("custom model works on iris data", {
   expect_equal(length(unlist(predicted_probs)), 150 * length(unique(iris$Species)))
   expect_lte(max(unlist(predicted_probs)), 1)
   expect_gte(min(unlist(predicted_probs)), 0)
+  # each row of probability should sum to 1
+  expect_equal(lapply(predictions, function(pred) sum(pred$prob)), rep(list(1), length(predictions)))
   
   # evaluate
   expect_equal(names(evaluate(classifier, constructed_input_fn, steps = 2L)), c("loss", "global_step"))

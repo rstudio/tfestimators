@@ -170,16 +170,12 @@ classifier &lt;-<span class="st"> </span><span class="kw">fit</span>(classifier,
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">list</span>(
   <span class="dt">class =</span> tf$<span class="kw">argmax</span>(logits, 1L),
   <span class="dt">prob =</span> tf$nn$<span class="kw">softmax</span>(logits))</code></pre></div>
-<p>we can use the following trick to loop through each prediction and collect the predicted classes and probabilities.</p>
+<p>we can then loop through each prediction and collect the predicted classes and probabilities like the following:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># extract predicted classes</span>
-predicted_classes &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(predictions, function(prediction) {
-  prediction$class
-}))
+predicted_classes &lt;-<span class="st"> </span><span class="kw">lapply</span>(predictions, function(prediction) prediction$class)
 
-<span class="co"># extract predicted probabilities</span>
-predicted_probs &lt;-<span class="st"> </span><span class="kw">lapply</span>(predictions, function(prediction) {
-  prediction$prob
-})</code></pre></div>
+<span class="co"># extract the raw probabilities for each new row of data and for each class</span>
+predicted_raw_probs &lt;-<span class="st"> </span><span class="kw">lapply</span>(predictions, function(prediction) prediction$prob)</code></pre></div>
 <p>Users can also pass <code>model_dir</code> which is the directory to save model parameters, graph and etc. This can also be used to load checkpoints from the directory into a estimator to continue training a previously saved model. Users can also pass a <code>config</code> to canned Estimator or custom Estimator that specify the model run-time configuration, such as cluster information, GPU fractions, etc.</p>
 </div>
 </div>

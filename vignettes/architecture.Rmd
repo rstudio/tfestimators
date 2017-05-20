@@ -155,18 +155,14 @@ predictions <- list(
   prob = tf$nn$softmax(logits))
 ```
 
-we can use the following trick to loop through each prediction and collect the predicted classes and probabilities.
+we can then loop through each prediction and collect the predicted classes and probabilities like the following:
 
 ``` r
 # extract predicted classes
-predicted_classes <- unlist(lapply(predictions, function(prediction) {
-  prediction$class
-}))
+predicted_classes <- lapply(predictions, function(prediction) prediction$class)
 
-# extract predicted probabilities
-predicted_probs <- lapply(predictions, function(prediction) {
-  prediction$prob
-})
+# extract the raw probabilities for each new row of data and for each class
+predicted_raw_probs <- lapply(predictions, function(prediction) prediction$prob)
 
 ```
 
