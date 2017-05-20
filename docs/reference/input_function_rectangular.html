@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Construct input function from a list object used to feed the estimator. — input_fn.list • tfestimators</title>
+<title>Input function constructor for rectangular input — input_function_rectangular • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -82,23 +82,30 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Construct input function from a list object used to feed the estimator.</h1>
+    <h1>Input function constructor for rectangular input</h1>
     </div>
 
     
-    <p>This is particularly useful when constructing dynamic length of inputs for
-models like recurrent neural networks.</p>
+    <p>Input function constructor for rectangular input</p>
+<p>Construct input function from a data.frame or matrix object used to feed the estimator.</p>
     
 
-    <pre class="usage"><span class='co'># S3 method for list</span>
-<span class='fu'>input_fn</span>(<span class='no'>x</span>, <span class='no'>features</span>, <span class='no'>response</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for data.frame</span>
+<span class='fu'>input_fn</span>(<span class='no'>x</span>, <span class='no'>features</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>batch_size</span> <span class='kw'>=</span> <span class='fl'>10L</span>, <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>num_epochs</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
+  <span class='kw'>queue_capacity</span> <span class='kw'>=</span> <span class='fl'>1000L</span>, <span class='kw'>num_threads</span> <span class='kw'>=</span> <span class='fl'>1L</span>)
+
+<span class='co'># S3 method for matrix</span>
+<span class='fu'>input_fn</span>(<span class='no'>x</span>, <span class='no'>features</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>batch_size</span> <span class='kw'>=</span> <span class='fl'>10L</span>,
+  <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>num_epochs</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>queue_capacity</span> <span class='kw'>=</span> <span class='fl'>1000L</span>,
+  <span class='kw'>num_threads</span> <span class='kw'>=</span> <span class='fl'>1L</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>The list that represents the input source</p></td>
+      <td><p>The data.frame or matrix that represents the input source</p></td>
     </tr>
     <tr>
       <th>features</th>
@@ -108,44 +115,38 @@ models like recurrent neural networks.</p>
       <th>response</th>
       <td><p>The response variable name to be used</p></td>
     </tr>
+    <tr>
+      <th>batch_size</th>
+      <td><p>The size of batches</p></td>
+    </tr>
+    <tr>
+      <th>shuffle</th>
+      <td><p>Whether to shuffles the queue. Avoid shuffle at prediction time</p></td>
+    </tr>
+    <tr>
+      <th>num_epochs</th>
+      <td><p>The number of epochs to iterate over data. If <code>NULL</code> will run forever.</p></td>
+    </tr>
+    <tr>
+      <th>queue_capacity</th>
+      <td><p>The size of queue to accumulate.</p></td>
+    </tr>
+    <tr>
+      <th>num_threads</th>
+      <td><p>The number of threads used for reading and enqueueing.
+In order to have predicted and repeatable order of reading and enqueueing,
+such as in prediction and evaluation mode, <code>num_threads</code> should be 1.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other input function constructors: <code><a href='input_fn.data.frame.html'>input_fn.data.frame</a></code>,
-  <code><a href='input_fn.default.html'>input_fn.default</a></code>,
-  <code><a href='input_fn.matrix.html'>input_fn.matrix</a></code></p>
+    <p>Other input function constructors: <code><a href='input_function_list.html'>input_function_list</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>input_fn</span>(
-   <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'>list</span>(
-     <span class='kw'>feature_names</span> <span class='kw'>=</span> <span class='fu'>list</span>(
-       <span class='fu'>list</span>(<span class='fu'>list</span>(<span class='fl'>1</span>), <span class='fu'>list</span>(<span class='fl'>2</span>), <span class='fu'>list</span>(<span class='fl'>3</span>)),
-       <span class='fu'>list</span>(<span class='fu'>list</span>(<span class='fl'>4</span>), <span class='fu'>list</span>(<span class='fl'>5</span>), <span class='fu'>list</span>(<span class='fl'>6</span>))),
-     <span class='kw'>response</span> <span class='kw'>=</span> <span class='fu'>list</span>(
-       <span class='fu'>list</span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>), <span class='fu'>list</span>(<span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>6</span>))),
-   <span class='kw'>features</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"feature_names"</span>),
-   <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>"response"</span>)</div><div class='output co'>#&gt; function(features_as_named_list = T) {
-#&gt;     if (features_as_named_list) {
-#&gt;       inputs &lt;- tf$constant(
-#&gt;         np$array(
-#&gt;           x$features,
-#&gt;           dtype = np$int64
-#&gt;         )
-#&gt;       )
-#&gt;       labels &lt;- tf$constant(
-#&gt;         np$array(
-#&gt;           x$response
-#&gt;         )
-#&gt;       )
-#&gt;     } else {
-#&gt;       stop("input_fn.list() does not support custom estimator yet")
-#&gt;     }
-#&gt;     list(list(inputs = inputs), labels)
-#&gt;   }
-#&gt; &lt;environment: 0x10d506a38&gt;</div><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>features</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"drat"</span>, <span class='st'>"cyl"</span>)
+<span class='no'>input_fn1</span> <span class='kw'>&lt;-</span> <span class='fu'>input_fn</span>(<span class='no'>mtcars</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>"mpg"</span>, <span class='kw'>features</span> <span class='kw'>=</span> <span class='no'>features</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

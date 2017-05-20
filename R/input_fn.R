@@ -8,6 +8,11 @@ input_fn <- function(x, ...) {
   UseMethod("input_fn")
 }
 
+#' @export
+input_fn.default <- function(x, ...) {
+  input_fn.data.frame(x, ...)
+}
+
 # # TODO: Support unsupervised algorithms
 #' @export
 input_fn.formula <- function(x, data, ...) {
@@ -15,45 +20,10 @@ input_fn.formula <- function(x, data, ...) {
   input_fn(data, parsed$features, parsed$response, ...)
 }
 
-#' This function provides a skeleton of constructing a custom input function.
+#' Input function constructor for list input
 #' 
-#' Type `input_fn.default` to print out the skeleton code and create your own.
-#' 
-#' @export
-#' @family input function constructors
-input_fn.default <-  function(
-  x,
-  features,
-  response = NULL)
-{
-  validate_input_fn_args(x, features, response)
-  function(features_as_named_list) {
-    function() {
-      if (features_as_named_list) {
-        # For canned estimators
-        input_features <- lapply(features, function(feature) {
-          if(is.factor(x[[feature]])) {
-            # factor vars are incorrectly converted as Tensor of type int
-            tf$constant(as.character(x[[feature]]))
-          } else {
-            tf$constant(x[[feature]])
-          }
-        })
-        names(input_features) <- features
-      } else {
-        # For custom estimators
-        input_features <- tf$constant(as.matrix(x[, features]))
-      }
-      if (!is.null(response)) {
-        input_response <- tf$constant(x[[response]])
-      } else {
-        input_response <- NULL
-      }
-      list(input_features, input_response)
-    }
-  }
-}
-
+#' @name input_function_list
+NULL
 
 # TODO: Support unsupervised
 
@@ -67,7 +37,7 @@ input_fn.default <-  function(
 #' @param response The response variable name to be used
 #' 
 #' @examples
-#' input_fn(
+#' input_fn1 <- input_fn(
 #'    x = list(
 #'      feature_names = list(
 #'        list(list(1), list(2), list(3)),
@@ -79,6 +49,7 @@ input_fn.default <-  function(
 #' 
 #' @export
 #' @family input function constructors
+#' @rdname input_function_list
 input_fn.list <- function(
   x,
   features,
@@ -105,9 +76,14 @@ input_fn.list <- function(
   }
 }
 
-#' Construct input function from a data.frame object used to feed the estimator.
+#' Input function constructor for rectangular input
 #' 
-#' @param x The data.frame that represents the input source
+#' @name input_function_rectangular
+NULL
+
+#' Construct input function from a data.frame or matrix object used to feed the estimator.
+#' 
+#' @param x The data.frame or matrix that represents the input source
 #' @param features The names of features to be used
 #' @param response The response variable name to be used
 #' @param batch_size The size of batches
@@ -124,6 +100,7 @@ input_fn.list <- function(
 #' 
 #' @export
 #' @family input function constructors
+#' @rdname input_function_rectangular
 input_fn.data.frame <-  function(
   x,
   features,
@@ -176,12 +153,8 @@ input_fn.data.frame <-  function(
   }
 }
 
-#' Construct input function from a matrix object used to feed the estimator.
-#' 
-#' This is essentially the same as \code{\link{input_fn.data.frame}}.
-#' 
 #' @export
-#' @family input function constructors
+#' @rdname input_function_rectangular
 input_fn.matrix <- function(
   x,
   features,

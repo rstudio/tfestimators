@@ -51,4 +51,3 @@ test_that("input_fn can be constructed correctly from list objects", {
   expect_true(is.tensor(fake_sequence_input_fn[[1]][[1]]))
   expect_true(is.tensor(fake_sequence_input_fn[[2]]))
 })
-

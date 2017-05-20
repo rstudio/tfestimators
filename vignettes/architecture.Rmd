@@ -209,7 +209,7 @@ The feature columns transformation functions are wrappers around Python `tf.cont
 
 Input function is where users provide the input sources to feed into the model, e.g. in-memory dataframe/matrix, streaming data, serialized data formats, etc. 
 
-Users have two ways to specify in-memory data set - using formula interface or passing `features` and `response` arguments. For example, users can use built-in `input_fn()` on `data.frame` objects like the following:
+Users have two ways to specify in-memory data set - using formula interface or passing `features` and `response` arguments. For example, users can use built-in `input_fn()` on `data.frame/matrix` objects like the following:
 
 ``` r
 input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))

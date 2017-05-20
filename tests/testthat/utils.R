@@ -2,19 +2,45 @@
 
 library(tensorflow)
 
+
+input_fn_custom <-  function(
+  x,
+  features,
+  response = NULL)
+{
+  validate_input_fn_args(x, features, response)
+  function(features_as_named_list) {
+    function() {
+      if (features_as_named_list) {
+        # For canned estimators
+        input_features <- lapply(features, function(feature) {
+          if(is.factor(x[[feature]])) {
+            # factor vars are incorrectly converted as Tensor of type int
+            tf$constant(as.character(x[[feature]]))
+          } else {
+            tf$constant(x[[feature]])
+          }
+        })
+        names(input_features) <- features
+      } else {
+        # For custom estimators
+        input_features <- tf$constant(as.matrix(x[, features]))
+      }
+      if (!is.null(response)) {
+        input_response <- tf$constant(x[[response]])
+      } else {
+        input_response <- NULL
+      }
+      list(input_features, input_response)
+    }
+  }
+}
+
+# using custom input_fn
 mtcars_regression_specs <- function() {
   dnn_feature_columns <- feature_columns(mtcars, "drat")
   linear_feature_columns <- feature_columns(mtcars, "cyl")
-  constructed_input_fn <- input_fn.default(mtcars, response = "mpg", features = c("drat", "cyl"))
-  list(dnn_feature_columns = dnn_feature_columns,
-       linear_feature_columns = linear_feature_columns,
-       input_fn = constructed_input_fn)
-}
-
-mtcars_regression_specs_numpy_input_fn <- function() {
-  dnn_feature_columns <- feature_columns(mtcars, "drat")
-  linear_feature_columns <- feature_columns(mtcars, "cyl")
-  constructed_input_fn <- input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
+  constructed_input_fn <- input_fn_custom(mtcars, response = "mpg", features = c("drat", "cyl"))
   list(dnn_feature_columns = dnn_feature_columns,
        linear_feature_columns = linear_feature_columns,
        input_fn = constructed_input_fn)
@@ -24,7 +50,17 @@ mtcars_classification_specs <- function() {
   mtcars$vs <- as.factor(mtcars$vs)
   dnn_feature_columns <- feature_columns(mtcars, "drat")
   linear_feature_columns <- feature_columns(mtcars, "cyl")
-  constructed_input_fn <- input_fn.default(mtcars, response = "vs", features = c("drat", "cyl"))
+  constructed_input_fn <- input_fn_custom(mtcars, response = "vs", features = c("drat", "cyl"))
+  list(dnn_feature_columns = dnn_feature_columns,
+       linear_feature_columns = linear_feature_columns,
+       input_fn = constructed_input_fn)
+}
+
+# using built-in input_fn
+mtcars_regression_specs_numpy_input_fn <- function() {
+  dnn_feature_columns <- feature_columns(mtcars, "drat")
+  linear_feature_columns <- feature_columns(mtcars, "cyl")
+  constructed_input_fn <- input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
   list(dnn_feature_columns = dnn_feature_columns,
        linear_feature_columns = linear_feature_columns,
        input_fn = constructed_input_fn)

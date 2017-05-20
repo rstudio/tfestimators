@@ -211,7 +211,7 @@ predicted_probs &lt;-<span class="st"> </span><span class="kw">lapply</span>(pre
 <h2 class="hasAnchor">
 <a href="#input-function" class="anchor"></a>Input Function</h2>
 <p>Input function is where users provide the input sources to feed into the model, e.g. in-memory dataframe/matrix, streaming data, serialized data formats, etc.</p>
-<p>Users have two ways to specify in-memory data set - using formula interface or passing <code>features</code> and <code>response</code> arguments. For example, users can use built-in <code>input_fn()</code> on <code>data.frame</code> objects like the following:</p>
+<p>Users have two ways to specify in-memory data set - using formula interface or passing <code>features</code> and <code>response</code> arguments. For example, users can use built-in <code>input_fn()</code> on <code>data.frame/matrix</code> objects like the following:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">input_fn</span>(mtcars, <span class="dt">response =</span> <span class="st">"mpg"</span>, <span class="dt">features =</span> <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>))</code></pre></div>
 <p>or use the formulate interface like below where left-hand and right-hand side of the <code>~</code> represent response column and feature columns respectively:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">input_fn</span>(mpg ~<span class="st"> </span>drat +<span class="st"> </span>cyl, <span class="dt">data =</span> mtcars)</code></pre></div>
