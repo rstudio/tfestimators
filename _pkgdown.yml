@@ -52,8 +52,7 @@ reference:
   
   - title: "Input Function"
     contents:
-      - input_function_rectangular
-      - input_function_list
+      - input_fn
 
   - title: "Run Hooks"
     contents:

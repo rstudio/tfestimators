@@ -1,3 +1,12 @@
+#' Input function constructor from various types of input used to feed the estimator
+#' 
+#' @param x The object that represents the input source
+#' @param features The names of features to be used
+#' @param response The response variable name to be used
+#' 
+#' @name input_fn
+NULL
+
 #' @export
 get_input_fn_type <- function(object) {
   is.tf_model(object)
@@ -9,34 +18,29 @@ input_fn <- function(x, ...) {
 }
 
 #' @export
+#' @rdname input_fn
 input_fn.default <- function(x, ...) {
   input_fn.data.frame(x, ...)
 }
 
-# # TODO: Support unsupervised algorithms
 #' @export
+#' @rdname input_fn
+#' @examples 
+#' # Construct the input function through formula interface
+#' input_fn1 <- input_fn(mpg ~ drat + cyl, mtcars)
+#' 
 input_fn.formula <- function(x, data, ...) {
   parsed <- parse_formula(x)
   input_fn(data, parsed$features, parsed$response, ...)
 }
 
-#' Input function constructor for list input
-#' 
-#' @name input_function_list
-NULL
-
-# TODO: Support unsupervised
-
-#' Construct input function from a list object used to feed the estimator.
-#' 
-#' This is particularly useful when constructing dynamic length of inputs for
-#' models like recurrent neural networks.
-#' 
-#' @param x The list that represents the input source
-#' @param features The names of features to be used
-#' @param response The response variable name to be used
+#' For list objects, this method is particularly useful when constructing dynamic length 
+#' of inputs for models like recurrent neural networks.
+#' Note that some arguments are not available yet for input_fn applied to list objects. 
+#' See S3 method signatures below for more details.
 #' 
 #' @examples
+#' # Construct the input function from a list object
 #' input_fn1 <- input_fn(
 #'    x = list(
 #'      feature_names = list(
@@ -49,7 +53,7 @@ NULL
 #' 
 #' @export
 #' @family input function constructors
-#' @rdname input_function_list
+#' @rdname input_fn
 input_fn.list <- function(
   x,
   features,
@@ -76,16 +80,7 @@ input_fn.list <- function(
   }
 }
 
-#' Input function constructor for rectangular input
-#' 
-#' @name input_function_rectangular
-NULL
 
-#' Construct input function from a data.frame or matrix object used to feed the estimator.
-#' 
-#' @param x The data.frame or matrix that represents the input source
-#' @param features The names of features to be used
-#' @param response The response variable name to be used
 #' @param batch_size The size of batches
 #' @param shuffle Whether to shuffles the queue. Avoid shuffle at prediction time
 #' @param num_epochs The number of epochs to iterate over data. If `NULL` will run forever.
@@ -95,12 +90,12 @@ NULL
 #' such as in prediction and evaluation mode, `num_threads` should be 1.
 #' 
 #' @examples
-#' features <- c("drat", "cyl")
-#' input_fn1 <- input_fn(mtcars, response = "mpg", features = features)
+#' # Construct the input function from a data.frame object
+#' input_fn1 <- input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
 #' 
 #' @export
 #' @family input function constructors
-#' @rdname input_function_rectangular
+#' @rdname input_fn
 input_fn.data.frame <-  function(
   x,
   features,
@@ -154,7 +149,7 @@ input_fn.data.frame <-  function(
 }
 
 #' @export
-#' @rdname input_function_rectangular
+#' @rdname input_fn
 input_fn.matrix <- function(
   x,
   features,

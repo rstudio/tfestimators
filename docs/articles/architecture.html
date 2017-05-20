@@ -81,7 +81,7 @@
 dnn_feature_columns &lt;-<span class="st"> </span><span class="kw">feature_columns</span>(mtcars, <span class="st">"drat"</span>)
 linear_feature_columns &lt;-<span class="st"> </span><span class="kw">feature_columns</span>(mtcars, <span class="st">"cyl"</span>)</code></pre></div>
 <p>Then use <code>input_fn</code> to specify the response variable as well as the predictor variables in the dataset, which converts the variables in the in-memory data set into Tensors that can be consumed by Estimator:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">custom_input_fn &lt;-<span class="st"> </span><span class="kw">input_fn</span>(mtcars, <span class="dt">response =</span> <span class="st">"vs"</span>, <span class="dt">features =</span> <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">custom_input_fn &lt;-<span class="st"> </span><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mtcars, <span class="dt">response =</span> <span class="st">"vs"</span>, <span class="dt">features =</span> <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>))</code></pre></div>
 <p>Next, we intialize the Linear DNN Combined canned Estimator by passing the feature columns and other parameters that specifies the layers and architecture of the model. Note that for this particular canned Estimator, it takes two types of feature columns that are used for constructing linear layer and fully connected deep layers separately:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
 classifier &lt;-
@@ -113,8 +113,8 @@ predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classi
 </ul>
 <p>The <code>custom_model_fn()</code> function should return an <code><a href="../reference/estimator_spec.html">estimator_spec(predictions, loss, train_op, mode)</a></code> that contains the predictions, losses, training op, and mode.</p>
 <p>The following example demonstrates the construction and fitting of a custom estimator that has custom architectures.</p>
-<p>Firstly, let’s define the input using <code>input_fn()</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">constructed_input_fn &lt;-<span class="st"> </span><span class="kw">input_fn</span>(
+<p>Firstly, let’s define the input using <code><a href="../reference/input_fn.html">input_fn()</a></code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">constructed_input_fn &lt;-<span class="st"> </span><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(
     <span class="dt">x =</span> iris,
     <span class="dt">response =</span> <span class="st">"Species"</span>,
     <span class="dt">features =</span> <span class="kw">c</span>(
@@ -211,12 +211,12 @@ predicted_probs &lt;-<span class="st"> </span><span class="kw">lapply</span>(pre
 <h2 class="hasAnchor">
 <a href="#input-function" class="anchor"></a>Input Function</h2>
 <p>Input function is where users provide the input sources to feed into the model, e.g. in-memory dataframe/matrix, streaming data, serialized data formats, etc.</p>
-<p>Users have two ways to specify in-memory data set - using formula interface or passing <code>features</code> and <code>response</code> arguments. For example, users can use built-in <code>input_fn()</code> on <code>data.frame/matrix</code> objects like the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">input_fn</span>(mtcars, <span class="dt">response =</span> <span class="st">"mpg"</span>, <span class="dt">features =</span> <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>))</code></pre></div>
+<p>Users have two ways to specify in-memory data set - using formula interface or passing <code>features</code> and <code>response</code> arguments. For example, users can use built-in <code><a href="../reference/input_fn.html">input_fn()</a></code> on <code>data.frame/matrix</code> objects like the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mtcars, <span class="dt">response =</span> <span class="st">"mpg"</span>, <span class="dt">features =</span> <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>))</code></pre></div>
 <p>or use the formulate interface like below where left-hand and right-hand side of the <code>~</code> represent response column and feature columns respectively:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">input_fn</span>(mpg ~<span class="st"> </span>drat +<span class="st"> </span>cyl, <span class="dt">data =</span> mtcars)</code></pre></div>
-<p>There’s also a built-in <code>input_fn()</code> that works on nested lists, for example:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">input_fn</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mpg ~<span class="st"> </span>drat +<span class="st"> </span>cyl, <span class="dt">data =</span> mtcars)</code></pre></div>
+<p>There’s also a built-in <code><a href="../reference/input_fn.html">input_fn()</a></code> that works on nested lists, for example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(
   <span class="dt">x =</span> <span class="kw">list</span>(
     <span class="dt">features =</span> <span class="kw">list</span>(
       <span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">1</span>), <span class="kw">list</span>(<span class="dv">2</span>), <span class="kw">list</span>(<span class="dv">3</span>)),
@@ -225,7 +225,7 @@ predicted_probs &lt;-<span class="st"> </span><span class="kw">lapply</span>(pre
       <span class="kw">list</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="kw">list</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>))),
   <span class="dt">features =</span> <span class="st">"features"</span>,
   <span class="dt">response =</span> <span class="st">"response"</span>)</code></pre></div>
-<p>In the above example, the data is a list of two named lists where each named list can be seen as different columns in a dataset. In this case, a column named <code>features</code> is being used as features to the model and a column named <code>response</code> is being used as the response variable. This nested lists format is particularly useful when constructing sequence input to Recurrent Neural Networks (RNN). Once the data is defined using <code>input_fn()</code>, it can be used directly in RNN constructor.</p>
+<p>In the above example, the data is a list of two named lists where each named list can be seen as different columns in a dataset. In this case, a column named <code>features</code> is being used as features to the model and a column named <code>response</code> is being used as the response variable. This nested lists format is particularly useful when constructing sequence input to Recurrent Neural Networks (RNN). Once the data is defined using <code><a href="../reference/input_fn.html">input_fn()</a></code>, it can be used directly in RNN constructor.</p>
 <p>Users can also write custom input function, e.g. a function <code>custom_input_fn()</code>, to convert each feature into a <code>Tensor</code> or <code>SparseTensor</code> according to the needs. The following skeleton code has a few places commented with “custom code here” that users can use to do customized operation. Other parts should remain unchanged.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">custom_input_fn &lt;-<span class="st">  </span>function(
   x,
