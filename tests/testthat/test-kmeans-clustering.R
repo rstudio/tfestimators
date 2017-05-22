@@ -6,7 +6,7 @@ test_that("kmeans_clustering() runs successfully", {
   # constructed_input_fn <- input_fn(
   #   mtcars,
   #   features = c("drat", "cyl", "qsec"),
-  #   features_as_named_list = F)
+  #   features_as_named_list = FALSE)
   # kmeans <- learn$KMeansClustering(
   #   num_clusters = 3,
   #   model_dir = model_dir)

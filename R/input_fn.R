@@ -61,7 +61,7 @@ input_fn.list <- function(
   response
 ) {
   validate_input_fn_args(object, features, response)
-  function(features_as_named_list = T) {
+  function(features_as_named_list = TRUE) {
     if (features_as_named_list) {
       inputs <- tf$constant(
         np$array(
