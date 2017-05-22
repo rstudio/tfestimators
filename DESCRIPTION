@@ -29,6 +29,7 @@ Depends:
     R (>= 3.0.0)
 Imports:
     utils,
+    reticulate (>= 0.8),
     tensorflow (>= 0.7.0.9008),
     magrittr
 Roxygen: list(markdown = TRUE)

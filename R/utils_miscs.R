@@ -23,16 +23,7 @@ resolve_fn <- function(object) {
 # utility function for importing python modules defined in the
 # inst/python directory of the package
 import_package_module <- function(module, convert = TRUE) {
-  
-  # path to package provided python modules
   python_path <- system.file("python", package = "tfestimators")
-  
-  # add it to sys.path if it isn't already there
-  sys <- import("sys", convert = FALSE)
-  if (!python_path %in% reticulate::py_to_r(sys$path))
-    sys$path$append(python_path)
-  
-  # import
-  import(module, convert = convert)
+  import_from_path(module, python_path, convert = convert)
 }
 

@@ -19,6 +19,7 @@
 #' For additional documentation on the tensorflow package see
 #' \href{https://rstudio.github.io/tensorflow}{https://rstudio.github.io/tensorflow}
 #'
+#' @import reticulate
 #' @import tensorflow
 #'
 #' @docType package
