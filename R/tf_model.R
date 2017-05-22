@@ -72,6 +72,7 @@ evaluate.tf_model <- function(object, input_fn, steps = 2L, hooks = NULL, ...)
     ...)
 }
 
+#' @importFrom stats coef 
 #' @export
 coef.tf_model <- function(object, ...) {
   estimator <- object$estimator

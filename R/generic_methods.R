@@ -28,8 +28,4 @@ experiment <- function(x, ...) {
   UseMethod("experiment")
 }
 
-#' @export
-coef <- function(object, ...) {
-  UseMethod("coef")
-}
 
