@@ -14,11 +14,6 @@ train_and_evaluate <- function(object, ...) {
 }
 
 #' @export
-fit <- function(object, ...) {
-  UseMethod("fit")
-}
-
-#' @export
 export_savedmodel <- function(object, ...) {
   UseMethod("export_savedmodel")
 }
