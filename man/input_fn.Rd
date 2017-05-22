@@ -9,22 +9,22 @@
 \alias{input_fn.matrix}
 \title{Input function constructor from various types of input used to feed the estimator}
 \usage{
-\method{input_fn}{default}(x, ...)
+\method{input_fn}{default}(object, ...)
 
-\method{input_fn}{formula}(x, data, ...)
+\method{input_fn}{formula}(object, data, ...)
 
-\method{input_fn}{list}(x, features, response)
+\method{input_fn}{list}(object, features, response)
 
-\method{input_fn}{data.frame}(x, features, response = NULL,
+\method{input_fn}{data.frame}(object, features, response = NULL,
   batch_size = 10L, shuffle = TRUE, num_epochs = 1L,
   queue_capacity = 1000L, num_threads = 1L)
 
-\method{input_fn}{matrix}(x, features, response = NULL, batch_size = 10L,
-  shuffle = TRUE, num_epochs = 1L, queue_capacity = 1000L,
-  num_threads = 1L)
+\method{input_fn}{matrix}(object, features, response = NULL,
+  batch_size = 10L, shuffle = TRUE, num_epochs = 1L,
+  queue_capacity = 1000L, num_threads = 1L)
 }
 \arguments{
-\item{x}{The object that represents the input source}
+\item{object}{The object that represents the input source}
 
 \item{features}{The names of features to be used}
 
@@ -56,7 +56,7 @@ input_fn1 <- input_fn(mpg ~ drat + cyl, mtcars)
 
 # Construct the input function from a list object
 input_fn1 <- input_fn(
-   x = list(
+   object = list(
      feature_names = list(
        list(list(1), list(2), list(3)),
        list(list(4), list(5), list(6))),

@@ -85,7 +85,7 @@ Firstly, let's define the input using `input_fn()`:
 
 ``` r
 constructed_input_fn <- input_fn(
-	x = iris,
+	object = iris,
 	response = "Species",
 	features = c(
 	  "Sepal.Length",
@@ -221,7 +221,7 @@ There's also a built-in `input_fn()` that works on nested lists, for example:
 
 ``` r
 input_fn(
-  x = list(
+  object = list(
     features = list(
       list(list(1), list(2), list(3)),
       list(list(4), list(5), list(6))),

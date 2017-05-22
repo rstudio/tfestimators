@@ -94,29 +94,29 @@ See S3 method signatures below for more details.</p>
     
 
     <pre class="usage"><span class='co'># S3 method for default</span>
-<span class='fu'>input_fn</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+<span class='fu'>input_fn</span>(<span class='no'>object</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for formula</span>
-<span class='fu'>input_fn</span>(<span class='no'>x</span>, <span class='no'>data</span>, <span class='no'>...</span>)
+<span class='fu'>input_fn</span>(<span class='no'>object</span>, <span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>input_fn</span>(<span class='no'>x</span>, <span class='no'>features</span>, <span class='no'>response</span>)
+<span class='fu'>input_fn</span>(<span class='no'>object</span>, <span class='no'>features</span>, <span class='no'>response</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>input_fn</span>(<span class='no'>x</span>, <span class='no'>features</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+<span class='fu'>input_fn</span>(<span class='no'>object</span>, <span class='no'>features</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>batch_size</span> <span class='kw'>=</span> <span class='fl'>10L</span>, <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>num_epochs</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
   <span class='kw'>queue_capacity</span> <span class='kw'>=</span> <span class='fl'>1000L</span>, <span class='kw'>num_threads</span> <span class='kw'>=</span> <span class='fl'>1L</span>)
 
 <span class='co'># S3 method for matrix</span>
-<span class='fu'>input_fn</span>(<span class='no'>x</span>, <span class='no'>features</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>batch_size</span> <span class='kw'>=</span> <span class='fl'>10L</span>,
-  <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>num_epochs</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>queue_capacity</span> <span class='kw'>=</span> <span class='fl'>1000L</span>,
-  <span class='kw'>num_threads</span> <span class='kw'>=</span> <span class='fl'>1L</span>)</pre>
+<span class='fu'>input_fn</span>(<span class='no'>object</span>, <span class='no'>features</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>batch_size</span> <span class='kw'>=</span> <span class='fl'>10L</span>, <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>num_epochs</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
+  <span class='kw'>queue_capacity</span> <span class='kw'>=</span> <span class='fl'>1000L</span>, <span class='kw'>num_threads</span> <span class='kw'>=</span> <span class='fl'>1L</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
+      <th>object</th>
       <td><p>The object that represents the input source</p></td>
     </tr>
     <tr>
@@ -158,7 +158,7 @@ such as in prediction and evaluation mode, <code>num_threads</code> should be 1.
 
 <span class='co'># Construct the input function from a list object</span>
 <span class='no'>input_fn1</span> <span class='kw'>&lt;-</span> <span class='fu'>input_fn</span>(
-   <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'>list</span>(
+   <span class='kw'>object</span> <span class='kw'>=</span> <span class='fu'>list</span>(
      <span class='kw'>feature_names</span> <span class='kw'>=</span> <span class='fu'>list</span>(
        <span class='fu'>list</span>(<span class='fu'>list</span>(<span class='fl'>1</span>), <span class='fu'>list</span>(<span class='fl'>2</span>), <span class='fu'>list</span>(<span class='fl'>3</span>)),
        <span class='fu'>list</span>(<span class='fu'>list</span>(<span class='fl'>4</span>), <span class='fu'>list</span>(<span class='fl'>5</span>), <span class='fu'>list</span>(<span class='fl'>6</span>))),

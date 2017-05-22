@@ -5,7 +5,7 @@ source("utils.R")
 test_that("custom model works on iris data", {
   
   constructed_input_fn <- input_fn(
-    x = iris,
+    object = iris,
     response = "Species",
     features = c(
       "Sepal.Length",

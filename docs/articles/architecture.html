@@ -115,7 +115,7 @@ predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classi
 <p>The following example demonstrates the construction and fitting of a custom estimator that has custom architectures.</p>
 <p>Firstly, let’s define the input using <code><a href="../reference/input_fn.html">input_fn()</a></code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">constructed_input_fn &lt;-<span class="st"> </span><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(
-    <span class="dt">x =</span> iris,
+    <span class="dt">object =</span> iris,
     <span class="dt">response =</span> <span class="st">"Species"</span>,
     <span class="dt">features =</span> <span class="kw">c</span>(
       <span class="st">"Sepal.Length"</span>,
@@ -213,7 +213,7 @@ predicted_raw_probs &lt;-<span class="st"> </span><span class="kw">lapply</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mpg ~<span class="st"> </span>drat +<span class="st"> </span>cyl, <span class="dt">data =</span> mtcars)</code></pre></div>
 <p>There’s also a built-in <code><a href="../reference/input_fn.html">input_fn()</a></code> that works on nested lists, for example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(
-  <span class="dt">x =</span> <span class="kw">list</span>(
+  <span class="dt">object =</span> <span class="kw">list</span>(
     <span class="dt">features =</span> <span class="kw">list</span>(
       <span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">1</span>), <span class="kw">list</span>(<span class="dv">2</span>), <span class="kw">list</span>(<span class="dv">3</span>)),
       <span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">4</span>), <span class="kw">list</span>(<span class="dv">5</span>), <span class="kw">list</span>(<span class="dv">6</span>))),

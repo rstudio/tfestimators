@@ -1,6 +1,6 @@
 #' Input function constructor from various types of input used to feed the estimator
 #' 
-#' @param x The object that represents the input source
+#' @param object The object that represents the input source
 #' @param features The names of features to be used
 #' @param response The response variable name to be used
 #' 
@@ -13,14 +13,14 @@ get_input_fn_type <- function(object) {
 }
 
 #' @export
-input_fn <- function(x, ...) {
+input_fn <- function(object, ...) {
   UseMethod("input_fn")
 }
 
 #' @export
 #' @rdname input_fn
-input_fn.default <- function(x, ...) {
-  input_fn.data.frame(x, ...)
+input_fn.default <- function(object, ...) {
+  input_fn.data.frame(object, ...)
 }
 
 #' @export
@@ -29,8 +29,8 @@ input_fn.default <- function(x, ...) {
 #' # Construct the input function through formula interface
 #' input_fn1 <- input_fn(mpg ~ drat + cyl, mtcars)
 #' 
-input_fn.formula <- function(x, data, ...) {
-  parsed <- parse_formula(x)
+input_fn.formula <- function(object, data, ...) {
+  parsed <- parse_formula(object)
   input_fn(data, parsed$features, parsed$response, ...)
 }
 
@@ -42,7 +42,7 @@ input_fn.formula <- function(x, data, ...) {
 #' @examples
 #' # Construct the input function from a list object
 #' input_fn1 <- input_fn(
-#'    x = list(
+#'    object = list(
 #'      feature_names = list(
 #'        list(list(1), list(2), list(3)),
 #'        list(list(4), list(5), list(6))),
@@ -55,22 +55,22 @@ input_fn.formula <- function(x, data, ...) {
 #' @family input function constructors
 #' @rdname input_fn
 input_fn.list <- function(
-  x,
+  object,
   features,
   response
 ) {
-  validate_input_fn_args(x, features, response)
+  validate_input_fn_args(object, features, response)
   function(features_as_named_list = T) {
     if (features_as_named_list) {
       inputs <- tf$constant(
         np$array(
-          x$features,
+          object$features,
           dtype = np$int64
         )
       )
       labels <- tf$constant(
         np$array(
-          x$response
+          object$response
         )
       )
     } else {
@@ -97,7 +97,7 @@ input_fn.list <- function(
 #' @family input function constructors
 #' @rdname input_fn
 input_fn.data.frame <-  function(
-  x,
+  object,
   features,
   response = NULL,
   batch_size = 10L,
@@ -106,17 +106,17 @@ input_fn.data.frame <-  function(
   queue_capacity = 1000L,
   num_threads = 1L)
 {
-  validate_input_fn_args(x, features, response)
+  validate_input_fn_args(object, features, response)
   num_epochs <- as.integer(num_epochs)
   batch_size <- as.integer(batch_size)
   queue_capacity <- as.integer(queue_capacity)
   num_threads <- as.integer(num_threads)
   # supporting for unsupervised models as well as ingesting data for inference
-  input_response <- if(is.null(response)) NULL else as.array(x[,response])
+  input_response <- if(is.null(response)) NULL else as.array(object[,response])
   fn <- function(features_as_named_list) {
     if(features_as_named_list){
       values <- lapply(features, function(feature) {
-        as.array(x[, feature])
+        as.array(object[, feature])
       })
       names(values) <- features
       fn <- tf$estimator$inputs$numpy_input_fn(
@@ -128,7 +128,7 @@ input_fn.data.frame <-  function(
         queue_capacity = queue_capacity,
         num_threads = num_threads)
     } else {
-      values <- list(features = data.matrix(x)[,features, drop = FALSE])
+      values <- list(features = data.matrix(object)[,features, drop = FALSE])
       fn <- function(){
         fun <- tf$estimator$inputs$numpy_input_fn(
           values,
@@ -151,7 +151,7 @@ input_fn.data.frame <-  function(
 #' @export
 #' @rdname input_fn
 input_fn.matrix <- function(
-  x,
+  object,
   features,
   response = NULL,
   batch_size = 10L,
@@ -160,7 +160,7 @@ input_fn.matrix <- function(
   queue_capacity = 1000L,
   num_threads = 1L
 ) {
-  input_fn(as.data.frame(x), features, response, batch_size,
+  input_fn(as.data.frame(object), features, response, batch_size,
            shuffle, num_epochs, queue_capacity, num_threads)
 }
 
@@ -170,10 +170,10 @@ validate_input_fn <- function(input_fn) {
 }
 
 #' @export
-validate_input_fn_args <- function(x, features, response) {
-  ensure_valid_column_names(x, features)
+validate_input_fn_args <- function(object, features, response) {
+  ensure_valid_column_names(object, features)
   if (!is.null(response)) {
-    ensure_valid_column_names(x, response)
+    ensure_valid_column_names(object, response)
   }
-  force(list(x, features, response))
+  force(list(object, features, response))
 }
