@@ -30,7 +30,7 @@ Depends:
     R (>= 3.0.0)
 Imports:
     utils,
-    tensorflow,
+    tensorflow (>= 0.7.0.9008),
     magrittr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
@@ -38,4 +38,5 @@ Suggests:
     testthat,
     knitr
 VignetteBuilder: knitr
-Remotes: rstudio/tensorflow@11c0d71
+Remotes:
+  rstudio/tensorflow
