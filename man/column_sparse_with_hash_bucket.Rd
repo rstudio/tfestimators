@@ -12,9 +12,10 @@ column_sparse_with_hash_bucket(column_name, hash_bucket_size,
 
 \item{hash_bucket_size}{An int that is > 1. The number of buckets.}
 
-\item{combiner}{A string specifying how to reduce if the sparse column is multivalent.
-Currently "mean", "sqrtn" and "sum" are supported, with "sum" the default.
-"sqrtn" often achieves good accuracy, in particular with bag-of-words columns.
+\item{combiner}{A string specifying how to reduce if the sparse column is
+multivalent. Currently "mean", "sqrtn" and "sum" are supported, with "sum"
+the default. "sqrtn" often achieves good accuracy, in particular with
+bag-of-words columns.
 \itemize{
 \item "sum": do not normalize features in the column
 \item "mean": do l1 normalization on features in the column
@@ -23,7 +24,8 @@ Currently "mean", "sqrtn" and "sum" are supported, with "sum" the default.
 
 For more information: \code{tf.embedding_lookup_sparse}.}
 
-\item{dtype}{The type of features. Only string and integer types are supported.}
+\item{dtype}{The type of features. Only string and integer types are
+supported.}
 }
 \description{
 Creates a _SparseColumn with hashed bucket configuration.

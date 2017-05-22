@@ -9,7 +9,8 @@ column_bucketized(source_column, boundaries)
 \arguments{
 \item{source_column}{A _RealValuedColumn defining dense column.}
 
-\item{boundaries}{A list or list of floats specifying the boundaries. It has to be sorted.}
+\item{boundaries}{A list or list of floats specifying the boundaries. It has
+to be sorted.}
 }
 \value{
 A _BucketizedColumn.
@@ -18,8 +19,7 @@ A _BucketizedColumn.
 Creates a _BucketizedColumn for discretizing dense input.
 }
 \section{Raises}{
-
-ValueError: if 'boundaries' is empty or not sorted.
+ ValueError: if 'boundaries' is empty or not sorted.
 }
 
 \seealso{

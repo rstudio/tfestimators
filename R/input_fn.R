@@ -1,9 +1,10 @@
-#' Input function constructor from various types of input used to feed the estimator
+#' Input function constructor from various types of input used to feed the
+#' estimator
 #' 
 #' @param object The object that represents the input source
 #' @param features The names of features to be used
 #' @param response The response variable name to be used
-#' 
+#'   
 #' @name input_fn
 NULL
 
@@ -34,9 +35,9 @@ input_fn.formula <- function(object, data, ...) {
   input_fn(data, parsed$features, parsed$response, ...)
 }
 
-#' For list objects, this method is particularly useful when constructing dynamic length 
-#' of inputs for models like recurrent neural networks.
-#' Note that some arguments are not available yet for input_fn applied to list objects. 
+#' For list objects, this method is particularly useful when constructing
+#' dynamic length of inputs for models like recurrent neural networks. Note that
+#' some arguments are not available yet for input_fn applied to list objects. 
 #' See S3 method signatures below for more details.
 #' 
 #' @examples
@@ -82,13 +83,15 @@ input_fn.list <- function(
 
 
 #' @param batch_size The size of batches
-#' @param shuffle Whether to shuffles the queue. Avoid shuffle at prediction time
-#' @param num_epochs The number of epochs to iterate over data. If `NULL` will run forever.
+#' @param shuffle Whether to shuffles the queue. Avoid shuffle at prediction 
+#'   time
+#' @param num_epochs The number of epochs to iterate over data. If `NULL` will 
+#'   run forever.
 #' @param queue_capacity The size of queue to accumulate.
-#' @param num_threads The number of threads used for reading and enqueueing. 
-#' In order to have predicted and repeatable order of reading and enqueueing,
-#' such as in prediction and evaluation mode, `num_threads` should be 1.
-#' 
+#' @param num_threads The number of threads used for reading and enqueueing. In 
+#'   order to have predicted and repeatable order of reading and enqueueing, 
+#'   such as in prediction and evaluation mode, `num_threads` should be 1.
+#'   
 #' @examples
 #' # Construct the input function from a data.frame object
 #' input_fn1 <- input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))

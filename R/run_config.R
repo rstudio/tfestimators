@@ -13,7 +13,7 @@
 #' }
 #' 
 #' @family run_config methods
-#' 
+#'   
 #' @export
 run_config <- function() {
   estimator_lib$run_config$RunConfig()

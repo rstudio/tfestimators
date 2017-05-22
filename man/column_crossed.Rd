@@ -8,24 +8,35 @@ column_crossed(columns, hash_bucket_size, combiner = "sum",
   ckpt_to_load_from = NULL, tensor_name_in_ckpt = NULL, hash_key = NULL)
 }
 \arguments{
-\item{columns}{An iterable of _FeatureColumn. Items can be an instance of _SparseColumn, _CrossedColumn, or _BucketizedColumn.}
+\item{columns}{An iterable of _FeatureColumn. Items can be an instance of
+_SparseColumn, _CrossedColumn, or _BucketizedColumn.}
 
 \item{hash_bucket_size}{An int that is > 1. The number of buckets.}
 
-\item{combiner}{A string specifying how to reduce if there are multiple entries in a single row. Currently "mean", "sqrtn" and "sum" are supported, with "sum" the default.
-"sqrtn" often achieves good accuracy, in particular with bag-of-words columns. Each of this can be thought as example level normalizations on the column::
+\item{combiner}{A string specifying how to reduce if there are multiple
+entries in a single row. Currently "mean", "sqrtn" and "sum" are supported,
+with "sum" the default. "sqrtn" often achieves good accuracy, in particular
+with bag-of-words columns. Each of this can be thought as example level
+normalizations on the column:
 \itemize{
 \item "sum": do not normalize
 \item "mean": do l1 normalization
 \item "sqrtn": do l2 normalization
-For more information: \code{tf.embedding_lookup_sparse}.
-}}
+}
 
-\item{ckpt_to_load_from}{(Optional). String representing checkpoint name/pattern to restore the column weights. Required if \code{tensor_name_in_ckpt} is not None.}
+For more information: \code{tf.embedding_lookup_sparse}.}
 
-\item{tensor_name_in_ckpt}{(Optional). Name of the \code{Tensor} in the provided checkpoint from which to restore the column weights. Required if \code{ckpt_to_load_from} is not None.}
+\item{ckpt_to_load_from}{(Optional). String representing checkpoint
+name/pattern to restore the column weights. Required if
+\code{tensor_name_in_ckpt} is not None.}
 
-\item{hash_key}{Specify the hash_key that will be used by the \code{FingerprintCat64} function to combine the crosses fingerprints on SparseFeatureCrossOp (optional).}
+\item{tensor_name_in_ckpt}{(Optional). Name of the \code{Tensor} in the provided
+checkpoint from which to restore the column weights. Required if
+\code{ckpt_to_load_from} is not None.}
+
+\item{hash_key}{Specify the hash_key that will be used by the
+\code{FingerprintCat64} function to combine the crosses fingerprints on
+SparseFeatureCrossOp (optional).}
 }
 \description{
 Creates a _CrossedColumn for performing feature crosses.

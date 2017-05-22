@@ -7,7 +7,8 @@
 \alias{input_fn.list}
 \alias{input_fn.data.frame}
 \alias{input_fn.matrix}
-\title{Input function constructor from various types of input used to feed the estimator}
+\title{Input function constructor from various types of input used to feed the
+estimator}
 \usage{
 \method{input_fn}{default}(object, ...)
 
@@ -32,22 +33,25 @@
 
 \item{batch_size}{The size of batches}
 
-\item{shuffle}{Whether to shuffles the queue. Avoid shuffle at prediction time}
+\item{shuffle}{Whether to shuffles the queue. Avoid shuffle at prediction
+time}
 
-\item{num_epochs}{The number of epochs to iterate over data. If \code{NULL} will run forever.}
+\item{num_epochs}{The number of epochs to iterate over data. If \code{NULL} will
+run forever.}
 
 \item{queue_capacity}{The size of queue to accumulate.}
 
-\item{num_threads}{The number of threads used for reading and enqueueing.
-In order to have predicted and repeatable order of reading and enqueueing,
+\item{num_threads}{The number of threads used for reading and enqueueing. In
+order to have predicted and repeatable order of reading and enqueueing,
 such as in prediction and evaluation mode, \code{num_threads} should be 1.}
 }
 \description{
-Input function constructor from various types of input used to feed the estimator
+Input function constructor from various types of input used to feed the
+estimator
 
-For list objects, this method is particularly useful when constructing dynamic length
-of inputs for models like recurrent neural networks.
-Note that some arguments are not available yet for input_fn applied to list objects.
+For list objects, this method is particularly useful when constructing
+dynamic length of inputs for models like recurrent neural networks. Note that
+some arguments are not available yet for input_fn applied to list objects.
 See S3 method signatures below for more details.
 }
 \examples{

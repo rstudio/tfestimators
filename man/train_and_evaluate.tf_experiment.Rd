@@ -7,21 +7,24 @@
 \method{train_and_evaluate}{tf_experiment}(object)
 }
 \value{
-The result of the \code{evaluate} call to the \code{Estimator} as well as the export results using the specified \code{ExportStrategy}.
+The result of the \code{evaluate} call to the \code{Estimator} as well as the
+export results using the specified \code{ExportStrategy}.
 }
 \description{
 The frequency of evaluation is controlled by the contructor arg
-\code{min_eval_frequency}. When this parameter is 0, evaluation happens
-only after training has completed. Note that evaluation cannot happen
-more frequently than checkpoints are taken. If no new snapshots are
-available when evaluation is supposed to occur, then evaluation doesn't
-happen for another \code{min_eval_frequency} steps (assuming a checkpoint is
-available at that point). Thus, settings \code{min_eval_frequency} to 1 means
-that the model will be evaluated everytime there is a new checkpoint. This is particular useful for a "Master" task in the cloud, whose
-responsibility it is to take checkpoints, evaluate those checkpoints,
-and write out summaries. Participating in training as the supervisor
-allows such a task to accomplish the first and last items, while
-performing evaluation allows for the second. Returns: The result of the \code{evaluate} call to the \code{Estimator} as well as the export results using the specified \code{ExportStrategy}.
+\code{min_eval_frequency}. When this parameter is 0, evaluation happens only after
+training has completed. Note that evaluation cannot happen more frequently
+than checkpoints are taken. If no new snapshots are available when evaluation
+is supposed to occur, then evaluation doesn't happen for another
+\code{min_eval_frequency} steps (assuming a checkpoint is available at that
+point). Thus, settings \code{min_eval_frequency} to 1 means that the model will be
+evaluated everytime there is a new checkpoint. This is particular useful for
+a "Master" task in the cloud, whose responsibility it is to take checkpoints,
+evaluate those checkpoints, and write out summaries. Participating in
+training as the supervisor allows such a task to accomplish the first and
+last items, while performing evaluation allows for the second. Returns: The
+result of the \code{evaluate} call to the \code{Estimator} as well as the export
+results using the specified \code{ExportStrategy}.
 }
 \seealso{
 Other experiment methods: \code{\link{evaluate.tf_experiment}},

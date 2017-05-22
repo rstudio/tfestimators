@@ -1,5 +1,5 @@
 #' TensorFlow -- Support Vector Machines
-#'
+#' 
 #' Perform Support Vector Machines for binary classification using TensorFlow.
 #' @export
 svm_classifier <- function(feature_columns,

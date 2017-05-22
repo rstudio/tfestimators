@@ -8,15 +8,18 @@ hook_logging_tensor(tensors, every_n_iter = NULL, every_n_secs = NULL,
   formatter = NULL)
 }
 \arguments{
-\item{tensors}{\code{dict} that maps string-valued tags to tensors/tensor names, or \code{iterable} of tensors/tensor names.}
+\item{tensors}{\code{dict} that maps string-valued tags to tensors/tensor names,
+or \code{iterable} of tensors/tensor names.}
 
-\item{every_n_iter}{\code{int}, print the values of \code{tensors} once every N local steps taken on the current worker.}
+\item{every_n_iter}{\code{int}, print the values of \code{tensors} once every N local
+steps taken on the current worker.}
 
-\item{every_n_secs}{\code{int} or \code{float}, print the values of \code{tensors} once every N seconds.
-Exactly one of \code{every_n_iter} and \code{every_n_secs} should be provided.}
+\item{every_n_secs}{\code{int} or \code{float}, print the values of \code{tensors} once
+every N seconds. Exactly one of \code{every_n_iter} and \code{every_n_secs} should be
+provided.}
 
-\item{formatter}{function, takes dict of \code{tag}->\code{Tensor} and returns a string.
-If \code{NULL} uses default printing all tensors.}
+\item{formatter}{function, takes dict of \code{tag}->\code{Tensor} and returns a
+string. If \code{NULL} uses default printing all tensors.}
 }
 \description{
 The tensors will be printed to the log, with \code{INFO} severity.

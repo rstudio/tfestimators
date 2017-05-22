@@ -21,9 +21,10 @@ hook_checkpoint_saver(checkpoint_dir, save_secs = NULL, save_steps = NULL,
 
 \item{scaffold}{\code{Scaffold}, use to get saver object.}
 
-\item{listeners}{List of \code{CheckpointSaverListener} subclass instances.
-Used for callbacks that run immediately after the corresponding CheckpointSaverHook callbacks,
-only in steps where the CheckpointSaverHook was triggered.}
+\item{listeners}{List of \code{CheckpointSaverListener} subclass instances. Used
+for callbacks that run immediately after the corresponding
+CheckpointSaverHook callbacks, only in steps where the CheckpointSaverHook
+was triggered.}
 }
 \description{
 Saves checkpoints every N steps or seconds.

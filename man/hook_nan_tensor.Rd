@@ -12,8 +12,8 @@ hook_nan_tensor(loss_tensor, fail_on_nan_loss = TRUE)
 \item{fail_on_nan_loss}{\code{bool}, whether to raise exception when loss is NaN.}
 }
 \description{
-Monitors loss and stops training if loss is NaN.
-Can either fail with exception or just stop training.
+Monitors loss and stops training if loss is NaN. Can either fail with
+exception or just stop training.
 }
 \seealso{
 Other session_run_hook wrappers: \code{\link{hook_checkpoint_saver}},

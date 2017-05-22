@@ -1,7 +1,7 @@
 #' Linear DNN Combined Regression
-#'
+#' 
 #' Perform Linear DNN Combined Regression using TensorFlow.
-#'
+#' 
 #' @export
 #' @family canned estimators
 linear_dnn_combined_regressor <- function(
@@ -31,9 +31,9 @@ linear_dnn_combined_regressor <- function(
 }
 
 #' Linear DNN Combined Classification
-#'
+#' 
 #' Perform Linear DNN Combined Classification using TensorFlow.
-#'
+#' 
 #' @export
 #' @family canned estimators
 linear_dnn_combined_classifier <- function(

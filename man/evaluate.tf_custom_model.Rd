@@ -8,22 +8,32 @@
   checkpoint_path = NULL, name = NULL)
 }
 \arguments{
-\item{input_fn}{Input function returning a list of: features - Dictionary of string feature name to \code{Tensor} or \code{SparseTensor}. labels - \code{Tensor} or dictionary of \code{Tensor} with labels.}
+\item{input_fn}{Input function returning a list of: features - Dictionary of
+string feature name to \code{Tensor} or \code{SparseTensor}. labels - \code{Tensor} or
+dictionary of \code{Tensor} with labels.}
 
-\item{steps}{Number of steps for which to evaluate model. If \code{NULL}, evaluates until \code{input_fn} raises an end-of-input exception.}
+\item{steps}{Number of steps for which to evaluate model. If \code{NULL},
+evaluates until \code{input_fn} raises an end-of-input exception.}
 
-\item{checkpoint_path}{Path of a specific checkpoint to evaluate. If \code{NULL}, the latest checkpoint in \code{model_dir} is used.}
+\item{checkpoint_path}{Path of a specific checkpoint to evaluate. If \code{NULL},
+the latest checkpoint in \code{model_dir} is used.}
 
-\item{name}{Name of the evaluation if user needs to run multiple evaluations on different data sets, such as on training data vs test data. Metrics for different evaluations are saved in separate folders, and appear separately in tensorboard.}
+\item{name}{Name of the evaluation if user needs to run multiple evaluations
+on different data sets, such as on training data vs test data. Metrics for
+different evaluations are saved in separate folders, and appear separately
+in tensorboard.}
 
-\item{hooks}{List of \code{SessionRunHook} subclass instances. Used for callbacks inside the evaluation call.}
+\item{hooks}{List of \code{SessionRunHook} subclass instances. Used for callbacks
+inside the evaluation call.}
 }
 \value{
-A dict containing the evaluation metrics specified in \code{model_fn} keyed by name, as well as an entry \code{global_step} which contains the value of the global step for which this evaluation was performed.
+A dict containing the evaluation metrics specified in \code{model_fn}
+keyed by name, as well as an entry \code{global_step} which contains the value
+of the global step for which this evaluation was performed.
 }
 \description{
-For each step, calls \code{input_fn}, which returns one batch of data.
-Evaluates until:
+For each step, calls \code{input_fn}, which returns one batch of data. Evaluates
+until:
 \itemize{
 \item \code{steps} batches are processed, or
 \item \code{input_fn} raises an end-of-input exception (\code{OutOfRangeError} or
@@ -31,8 +41,8 @@ Evaluates until:
 }
 }
 \section{Raises}{
-
-ValueError: If \code{steps <= 0}. ValueError: If no model has been trained, namely \code{model_dir}, or the given \code{checkpoint_path} is empty.
+ ValueError: If \code{steps <= 0}. ValueError: If no model has
+been trained, namely \code{model_dir}, or the given \code{checkpoint_path} is empty.
 }
 
 \seealso{

@@ -9,44 +9,49 @@
   checkpoint_path = NULL)
 }
 \arguments{
-\item{export_dir_base}{A string containing a directory in which to create timestamped subdirectories containing exported SavedModels.}
+\item{export_dir_base}{A string containing a directory in which to create
+timestamped subdirectories containing exported SavedModels.}
 
-\item{serving_input_receiver_fn}{A function that takes no argument and returns a \code{ServingInputReceiver}.}
+\item{serving_input_receiver_fn}{A function that takes no argument and
+returns a \code{ServingInputReceiver}.}
 
-\item{assets_extra}{A dict specifying how to populate the assets.extra directory within the exported SavedModel, or \code{NULL} if no extra assets are needed.}
+\item{assets_extra}{A dict specifying how to populate the assets.extra
+directory within the exported SavedModel, or \code{NULL} if no extra assets are
+needed.}
 
 \item{as_text}{whether to write the SavedModel proto in text format.}
 
-\item{checkpoint_path}{The checkpoint path to export. If \code{NULL} (the default), the most recent checkpoint found within the model directory is chosen.}
+\item{checkpoint_path}{The checkpoint path to export. If \code{NULL} (the
+default), the most recent checkpoint found within the model directory is
+chosen.}
 }
 \value{
 The string path to the exported directory.
 }
 \description{
-This method builds a new graph by first calling the
-serving_input_receiver_fn to obtain feature \code{Tensor}s, and then calling
-this \code{Estimator}'s model_fn to generate the model graph based on those
-features. It restores the given checkpoint (or, lacking that, the most
-recent checkpoint) into this graph in a fresh session. Finally it creates
-a timestamped export directory below the given export_dir_base, and writes
-a \code{SavedModel} into it containing a single \code{MetaGraphDef} saved from this
-session. The exported \code{MetaGraphDef} will provide one \code{SignatureDef} for each
-element of the export_outputs dict returned from the model_fn, named using
-the same keys. One of these keys is always
-signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY, indicating which
-signature will be served when a serving request does not specify one.
+This method builds a new graph by first calling the serving_input_receiver_fn
+to obtain feature \code{Tensor}s, and then calling this \code{Estimator}'s model_fn to
+generate the model graph based on those features. It restores the given
+checkpoint (or, lacking that, the most recent checkpoint) into this graph in
+a fresh session. Finally it creates a timestamped export directory below the
+given export_dir_base, and writes a \code{SavedModel} into it containing a single
+\code{MetaGraphDef} saved from this session. The exported \code{MetaGraphDef} will
+provide one \code{SignatureDef} for each element of the export_outputs dict
+returned from the model_fn, named using the same keys. One of these keys is
+always signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY, indicating
+which signature will be served when a serving request does not specify one.
 For each signature, the outputs are provided by the corresponding
 \code{ExportOutput}s, and the inputs are always the input receivers provided by
-the serving_input_receiver_fn. Extra assets may be written into the SavedModel via the extra_assets
-argument. This should be a dict, where each key gives a destination path
-(including the filename) relative to the assets.extra directory. The
-corresponding value gives the full path of the source file to be copied.
-For example, the simple case of copying a single file without renaming it
-is specified as \code{{'my_asset_file.txt': '/path/to/my_asset_file.txt'}}.
+the serving_input_receiver_fn. Extra assets may be written into the
+SavedModel via the extra_assets argument. This should be a dict, where each
+key gives a destination path (including the filename) relative to the
+assets.extra directory. The corresponding value gives the full path of the
+source file to be copied. For example, the simple case of copying a single
+file without renaming it is specified as \code{{'my_asset_file.txt': '/path/to/my_asset_file.txt'}}.
 }
 \section{Raises}{
-
-ValueError: if no serving_input_receiver_fn is provided, no export_outputs are provided, or no checkpoint can be found.
+ ValueError: if no serving_input_receiver_fn is provided, no
+export_outputs are provided, or no checkpoint can be found.
 }
 
 \seealso{

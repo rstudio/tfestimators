@@ -8,14 +8,21 @@ column_sparse_weighted(sparse_id_column, weight_column_name,
   dtype = tf$float32)
 }
 \arguments{
-\item{sparse_id_column}{A \code{_SparseColumn} which is created by \code{column_sparse_with_*} functions.}
+\item{sparse_id_column}{A \code{_SparseColumn} which is created by
+\code{column_sparse_with_*} functions.}
 
-\item{weight_column_name}{A string defining a sparse column name which represents weight or value of the corresponding sparse id feature.}
+\item{weight_column_name}{A string defining a sparse column name which
+represents weight or value of the corresponding sparse id feature.}
 
-\item{dtype}{Type of weights, such as \code{tf.float32}. Only floating and integer weights are supported. Returns: A _WeightedSparseColumn composed of two sparse features: one represents id, the other represents weight (value) of the id feature in that example.}
+\item{dtype}{Type of weights, such as \code{tf.float32}. Only floating and integer
+weights are supported. Returns: A _WeightedSparseColumn composed of two
+sparse features: one represents id, the other represents weight (value) of
+the id feature in that example.}
 }
 \value{
-A _WeightedSparseColumn composed of two sparse features: one represents id, the other represents weight (value) of the id feature in that example. Raises: ValueError: if dtype is not convertible to float.
+A _WeightedSparseColumn composed of two sparse features: one
+represents id, the other represents weight (value) of the id feature in
+that example. Raises: ValueError: if dtype is not convertible to float.
 }
 \description{
 Example:
@@ -25,18 +32,23 @@ Example:
 weighted_feature = weighted_sparse_column(sparse_id_column=sparse_feature, weight_column_name="weights_col")
 }
 
-This configuration assumes that input dictionary of model contains the following two items:
+This configuration assumes that input dictionary of model contains
+the following two items:
 \itemize{
-\item (key="sparse_col", value=sparse_tensor) where sparse_tensor is a SparseTensor.
-\item (key="weights_col", value=weights_tensor) where weights_tensor is a SparseTensor.
+\item (key="sparse_col", value=sparse_tensor) where sparse_tensor is
+a SparseTensor.
+\item (key="weights_col", value=weights_tensor) where weights_tensor is
+a SparseTensor.
+}
+
 Following are assumed to be true:
-\item sparse_tensor.indices = weights_tensor.indices
-\item sparse_tensor.dense_shape = weights_tensor.dense_shape
+\itemize{
+\item sparse_tensor.indices == weights_tensor.indices
+\item sparse_tensor.dense_shape == weights_tensor.dense_shape
 }
 }
 \section{Raises}{
-
-ValueError: if dtype is not convertible to float.
+ ValueError: if dtype is not convertible to float.
 }
 
 \seealso{

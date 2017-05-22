@@ -7,7 +7,9 @@
 column_one_hot(sparse_id_column)
 }
 \arguments{
-\item{sparse_id_column}{A _SparseColumn which is created by \code{column_sparse_with_*} or crossed_column functions. Note that \code{combiner} defined in \code{sparse_id_column} is ignored.}
+\item{sparse_id_column}{A _SparseColumn which is created by
+\code{column_sparse_with_*} or crossed_column functions. Note that \code{combiner}
+defined in \code{sparse_id_column} is ignored.}
 }
 \value{
 An _OneHotColumn.

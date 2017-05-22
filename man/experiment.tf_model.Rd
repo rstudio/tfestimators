@@ -18,50 +18,55 @@
 If\code{eval_steps} is \code{None}, this should be configured only to produce for a
 finite number of batches (generally, 1 epoch over the evaluation data).}
 
-\item{train_steps}{Perform this many steps of training. \code{NULL}, the default, means train forever.}
+\item{train_steps}{Perform this many steps of training. \code{NULL}, the default,
+means train forever.}
 
-\item{eval_steps}{\code{evaluate} runs until input is exhausted (or another exception is raised),
-or for \code{eval_steps} steps, if specified.}
+\item{eval_steps}{\code{evaluate} runs until input is exhausted (or another
+exception is raised), or for \code{eval_steps} steps, if specified.}
 
-\item{eval_metrics}{\code{list} of string, metric function. If \code{NULL}, default
-set is used. This should be \code{NULL} if the \code{estimator} is \code{tf.estimator.Estimator}.
-If metrics are provided they will be \emph{appended} to the default set.}
+\item{eval_metrics}{\code{list} of string, metric function. If \code{NULL}, default set
+is used. This should be \code{NULL} if the \code{estimator} is
+\code{tf.estimator.Estimator}. If metrics are provided they will be \emph{appended}
+to the default set.}
 
-\item{train_monitors}{A list of monitors to pass to the \code{Estimator}'s \code{fit} function.}
+\item{train_monitors}{A list of monitors to pass to the \code{Estimator}'s \code{fit}
+function.}
 
-\item{eval_hooks}{A list of \code{SessionRunHook} hooks to pass to the \code{Estimator}'s
-\code{evaluate} function.}
+\item{eval_hooks}{A list of \code{SessionRunHook} hooks to pass to the
+\code{Estimator}'s \code{evaluate} function.}
 
 \item{local_eval_frequency}{(applies only to local_run) Frequency of running
 eval in steps. If \code{None}, runs evaluation only at the end of training.}
 
 \item{eval_delay_secs}{Start evaluating after waiting for this many seconds.}
 
-\item{continuous_eval_throttle_secs}{Do not re-evaluate unless the last evaluation
-was started at least this many seconds ago for continuous_eval().}
+\item{continuous_eval_throttle_secs}{Do not re-evaluate unless the last
+evaluation was started at least this many seconds ago for
+continuous_eval().}
 
 \item{delay_workers_by_global_step}{if \code{TRUE} delays training workers based
 on global step instead of time.}
 
-\item{export_strategies}{Iterable of \code{ExportStrategy}s, or a single one, or \code{NULL}.}
+\item{export_strategies}{Iterable of \code{ExportStrategy}s, or a single one, or
+\code{NULL}.}
 
 \item{train_steps_per_iteration}{(applies only to continuous_train_and_eval).
-Perform this many (integer) number of train steps for each training-evaluation
-iteration. With a small value, the model will be evaluated more frequently
-with more checkpoints saved. If \code{NULL}, will use a default value (which is
-smaller than \code{train_steps} if provided).}
+Perform this many (integer) number of train steps for each
+training-evaluation iteration. With a small value, the model will be
+evaluated more frequently with more checkpoints saved. If \code{NULL}, will use
+a default value (which is smaller than \code{train_steps} if provided).}
 
 \item{min_eval_frequency:}{(applies only to train_and_evaluate). the minimum
-number of steps between evaluations. Of course, evaluation does not
-occur if no new snapshot is available, hence, this is the minimum.
-If 0, the evaluation will only happen after training.
-If NULL, defaults to 1, unless model_dir is on GCS, in which case the default is 1000.}
+number of steps between evaluations. Of course, evaluation does not occur
+if no new snapshot is available, hence, this is the minimum. If 0, the
+evaluation will only happen after training. If NULL, defaults to 1, unless
+model_dir is on GCS, in which case the default is 1000.}
 }
 \description{
-An Experiment contains all information needed to train a model.
-After an experiment is created (by passing an Estimator and inputs for
-training and evaluation), an Experiment instance knows how to invoke training
-and eval loops in a sensible fashion for distributed training.
+An Experiment contains all information needed to train a model. After an
+experiment is created (by passing an Estimator and inputs for training and
+evaluation), an Experiment instance knows how to invoke training and eval
+loops in a sensible fashion for distributed training.
 }
 \seealso{
 Other experiment methods: \code{\link{evaluate.tf_experiment}},

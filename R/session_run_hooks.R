@@ -2,15 +2,18 @@
 #' 
 #' The tensors will be printed to the log, with `INFO` severity.
 #' 
-#' @param tensors `dict` that maps string-valued tags to tensors/tensor names, or `iterable` of tensors/tensor names.
-#' @param every_n_iter `int`, print the values of `tensors` once every N local steps taken on the current worker.
-#' @param every_n_secs `int` or `float`, print the values of `tensors` once every N seconds. 
-#' Exactly one of `every_n_iter` and `every_n_secs` should be provided.
-#' @param formatter function, takes dict of `tag`->`Tensor` and returns a string. 
-#' If `NULL` uses default printing all tensors.
-#' 
+#' @param tensors `dict` that maps string-valued tags to tensors/tensor names,
+#'   or `iterable` of tensors/tensor names.
+#' @param every_n_iter `int`, print the values of `tensors` once every N local
+#'   steps taken on the current worker.
+#' @param every_n_secs `int` or `float`, print the values of `tensors` once
+#'   every N seconds. Exactly one of `every_n_iter` and `every_n_secs` should be
+#'   provided.
+#' @param formatter function, takes dict of `tag`->`Tensor` and returns a
+#'   string. If `NULL` uses default printing all tensors.
+#'   
 #' @family session_run_hook wrappers
-#' 
+#'   
 #' @export
 hook_logging_tensor <- function(tensors, every_n_iter = NULL, every_n_secs = NULL, formatter = NULL) {
   tf$python$training$basic_session_run_hooks$LoggingTensorHook(
@@ -48,12 +51,13 @@ hook_stop_at_step <- function(num_steps = NULL, last_step = NULL) {
 #' @param saver `Saver` object, used for saving.
 #' @param checkpoint_basename `str`, base name for the checkpoint files.
 #' @param scaffold `Scaffold`, use to get saver object.
-#' @param listeners List of `CheckpointSaverListener` subclass instances. 
-#' Used for callbacks that run immediately after the corresponding CheckpointSaverHook callbacks,
-#' only in steps where the CheckpointSaverHook was triggered.
-#' 
+#' @param listeners List of `CheckpointSaverListener` subclass instances. Used
+#'   for callbacks that run immediately after the corresponding
+#'   CheckpointSaverHook callbacks, only in steps where the CheckpointSaverHook
+#'   was triggered.
+#'   
 #' @family session_run_hook wrappers
-#' 
+#'   
 #' @export
 hook_checkpoint_saver <- function(checkpoint_dir, save_secs = NULL, save_steps = NULL, saver = NULL, checkpoint_basename = "model.ckpt", scaffold = NULL, listeners = NULL) {
   if (!is.null(save_secs) && !is.null(save_steps)) {
@@ -92,14 +96,14 @@ hook_step_counter <- function(every_n_steps = 100L, every_n_secs = NULL, output_
 
 #' NaN Loss monitor.
 #' 
-#' Monitors loss and stops training if loss is NaN.
-#' Can either fail with exception or just stop training.
+#' Monitors loss and stops training if loss is NaN. Can either fail with
+#' exception or just stop training.
 #' 
 #' @param loss_tensor `Tensor`, the loss tensor.
 #' @param fail_on_nan_loss `bool`, whether to raise exception when loss is NaN.
-#' 
+#'   
 #' @family session_run_hook wrappers
-#' 
+#'   
 #' @export
 hook_nan_tensor <- function(loss_tensor, fail_on_nan_loss = TRUE) {
   tf$python$training$basic_session_run_hooks$NanTensorHook(
@@ -112,17 +116,22 @@ hook_nan_tensor <- function(loss_tensor, fail_on_nan_loss = TRUE) {
 #' 
 #' 
 #' 
-#' @param save_steps `int`, save summaries every N steps. Exactly one of `save_secs` and `save_steps` should be set.
+#' @param save_steps `int`, save summaries every N steps. Exactly one of
+#'   `save_secs` and `save_steps` should be set.
 #' @param save_secs `int`, save summaries every N seconds.
-#' @param output_dir `string`, the directory to save the summaries to. Only used if no `summary_writer` is supplied.
-#' @param summary_writer `SummaryWriter`. If `NULL` and an `output_dir` was passed, one will be created accordingly.
+#' @param output_dir `string`, the directory to save the summaries to. Only used
+#'   if no `summary_writer` is supplied.
+#' @param summary_writer `SummaryWriter`. If `NULL` and an `output_dir` was
+#'   passed, one will be created accordingly.
 #' @param scaffold `Scaffold` to get summary_op if it's not provided.
-#' @param summary_op `Tensor` of type `string` containing the serialized `Summary` protocol buffer or a list of `Tensor`. 
-#' They are most likely an output by TF summary methods like `tf.summary.scalar` or `tf.summary.merge_all`. 
-#' It can be passed in as one tensor; if more than one, they must be passed in as a list.
-#' 
+#' @param summary_op `Tensor` of type `string` containing the serialized
+#'   `Summary` protocol buffer or a list of `Tensor`. They are most likely an
+#'   output by TF summary methods like `tf.summary.scalar` or
+#'   `tf.summary.merge_all`. It can be passed in as one tensor; if more than
+#'   one, they must be passed in as a list.
+#'   
 #' @family session_run_hook wrappers
-#' 
+#'   
 #' @export
 hook_summary_saver <- function(save_steps = NULL, save_secs = NULL, output_dir = NULL, summary_writer = NULL, scaffold = NULL, summary_op = NULL) {
   if (!is.null(save_secs) && !is.null(save_steps)) {
@@ -143,13 +152,13 @@ hook_summary_saver <- function(save_steps = NULL, save_secs = NULL, output_dir =
 #' 
 #' This hook delays execution until global step reaches to `wait_until_step`. It
 #' is used to gradually start workers in distributed settings. One example usage
-#' would be setting `wait_until_step=int(K*log(task_id+1))` assuming that
+#' would be setting `wait_until_step=int(K*log(task_id+1))` assuming that 
 #' task_id=0 is the chief.
 #' 
 #' @param wait_until_step an `int` shows until which global step should we wait.
-#' 
+#'   
 #' @family session_run_hook wrappers
-#' 
+#'   
 #' @export
 hook_global_step_waiter <- function(wait_until_step) {
   tf$python$training$basic_session_run_hooks$GlobalStepWaiterHook(

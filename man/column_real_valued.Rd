@@ -11,19 +11,29 @@ column_real_valued(column_name, dimension = 1L, default_value = NULL,
 \item{column_name}{A string defining real valued column name.}
 
 \item{dimension}{An integer specifying dimension of the real valued column.
-The default is 1. When dimension is not None, the Tensor representing the _RealValuedColumn will have the shape of \link{batch_size, dimension}.
-A None dimension means the feature column should be treat as variable length and will be parsed as a \code{SparseTensor}.}
+The default is 1. When dimension is not None, the Tensor representing the
+_RealValuedColumn will have the shape of \link{batch_size, dimension}. A None
+dimension means the feature column should be treat as variable length and
+will be parsed as a \code{SparseTensor}.}
 
-\item{default_value}{A single value compatible with dtype or a list of values compatible with dtype which the column takes on during tf.Example parsing
-if data is missing. When dimension is not None, a default value of None will cause tf.parse_example to fail if an example does not contain this column.
-If a single value is provided, the same value will be applied as the default value for every dimension. If a list of values is provided,
-the length of the list should be equal to the value of \code{dimension}. Only scalar default value is supported in case dimension is not specified.}
+\item{default_value}{A single value compatible with dtype or a list of values
+compatible with dtype which the column takes on during tf.Example parsing
+if data is missing. When dimension is not None, a default value of None
+will cause tf.parse_example to fail if an example does not contain this
+column. If a single value is provided, the same value will be applied as
+the default value for every dimension. If a list of values is provided, the
+length of the list should be equal to the value of \code{dimension}. Only scalar
+default value is supported in case dimension is not specified.}
 
-\item{dtype}{defines the type of values. Default value is tf.float32. Must be a non-quantized, real integer or floating point type.}
+\item{dtype}{defines the type of values. Default value is tf.float32. Must be
+a non-quantized, real integer or floating point type.}
 
-\item{normalizer}{If not None, a function that can be used to normalize the value of the real valued column after default_value is applied for parsing.
-Normalizer function takes the input tensor as its argument, and returns the output tensor. (e.g. lambda x: (x - 3.0) / 4.2).
-Note that for variable length columns, the normalizer should expect an input_tensor of type \code{SparseTensor}.}
+\item{normalizer}{If not None, a function that can be used to normalize the
+value of the real valued column after default_value is applied for parsing.
+Normalizer function takes the input tensor as its argument, and returns the
+output tensor. (e.g. lambda x: (x - 3.0) / 4.2). Note that for variable
+length columns, the normalizer should expect an input_tensor of type
+\code{SparseTensor}.}
 }
 \description{
 Creates a \code{_RealValuedColumn} for dense numeric data.

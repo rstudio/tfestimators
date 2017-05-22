@@ -7,7 +7,8 @@
 \method{evaluate}{tf_experiment}(object, delay_secs = NULL)
 }
 \arguments{
-\item{delay_secs}{Start evaluating after this many seconds. If \code{NULL}, defaults to using \code{self._eval_delays_secs}.}
+\item{delay_secs}{Start evaluating after this many seconds. If \code{NULL},
+defaults to using \code{self._eval_delays_secs}.}
 }
 \value{
 The result of the \code{evaluate} call to the \code{Estimator}.

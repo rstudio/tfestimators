@@ -8,13 +8,26 @@
   max_steps = NULL)
 }
 \arguments{
-\item{input_fn}{Input function returning a list of: features - \code{Tensor} or dictionary of string feature name to \code{Tensor}. labels - \code{Tensor} or dictionary of \code{Tensor} with labels.}
+\item{input_fn}{Input function returning a list of: features - \code{Tensor} or
+dictionary of string feature name to \code{Tensor}. labels - \code{Tensor} or
+dictionary of \code{Tensor} with labels.}
 
-\item{steps}{Number of steps for which to train model. If \code{NULL}, train forever or train until input_fn generates the \code{OutOfRange} or \code{StopIteration} error. 'steps' works incrementally. If you call two times train(steps=10) then training occurs in total 20 steps. If \code{OutOfRange} or \code{StopIteration} error occurs in the middle, training stops before 20 steps. If you don't want to have incremental behaviour please set \code{max_steps} instead. If set, \code{max_steps} must be \code{NULL}.}
+\item{steps}{Number of steps for which to train model. If \code{NULL}, train
+forever or train until input_fn generates the \code{OutOfRange} or
+\code{StopIteration} error. 'steps' works incrementally. If you call two times
+train(steps=10) then training occurs in total 20 steps. If \code{OutOfRange} or
+\code{StopIteration} error occurs in the middle, training stops before 20 steps.
+If you don't want to have incremental behaviour please set \code{max_steps}
+instead. If set, \code{max_steps} must be \code{NULL}.}
 
-\item{hooks}{List of \code{SessionRunHook} subclass instances. Used for callbacks inside the training loop.}
+\item{hooks}{List of \code{SessionRunHook} subclass instances. Used for callbacks
+inside the training loop.}
 
-\item{max_steps}{Number of total steps for which to train model. If \code{NULL}, train forever or train until input_fn generates the \code{OutOfRange} or \code{StopIteration} error. If set, \code{steps} must be \code{NULL}. If \code{OutOfRange} or \code{StopIteration} error occurs in the middle, training stops before \code{max_steps} steps.}
+\item{max_steps}{Number of total steps for which to train model. If \code{NULL},
+train forever or train until input_fn generates the \code{OutOfRange} or
+\code{StopIteration} error. If set, \code{steps} must be \code{NULL}. If \code{OutOfRange} or
+\code{StopIteration} error occurs in the middle, training stops before
+\code{max_steps} steps.}
 }
 \value{
 \code{self}, for chaining.
@@ -23,8 +36,8 @@
 Trains a model given training data input_fn.
 }
 \section{Raises}{
-
-ValueError: If both \code{steps} and \code{max_steps} are not \code{NULL}. ValueError: If either \code{steps} or \code{max_steps} is <= 0.
+ ValueError: If both \code{steps} and \code{max_steps} are not \code{NULL}.
+ValueError: If either \code{steps} or \code{max_steps} is <= 0.
 }
 
 \seealso{

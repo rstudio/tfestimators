@@ -8,25 +8,35 @@
   predict_keys = NULL, hooks = NULL, as_iterable = F)
 }
 \arguments{
-\item{input_fn}{Input function returning features which is a dictionary of string feature name to \code{Tensor} or \code{SparseTensor}. If it returns a list, first item is extracted as features. Prediction continues until \code{input_fn} raises an end-of-input exception (\code{OutOfRangeError} or \code{StopIteration}).}
+\item{input_fn}{Input function returning features which is a dictionary of
+string feature name to \code{Tensor} or \code{SparseTensor}. If it returns a list,
+first item is extracted as features. Prediction continues until \code{input_fn}
+raises an end-of-input exception (\code{OutOfRangeError} or \code{StopIteration}).}
 
-\item{checkpoint_path}{Path of a specific checkpoint to predict. If \code{NULL}, the latest checkpoint in \code{model_dir} is used.}
+\item{checkpoint_path}{Path of a specific checkpoint to predict. If \code{NULL},
+the latest checkpoint in \code{model_dir} is used.}
 
-\item{predict_keys}{list of \code{str}, name of the keys to predict. It is used if the \code{EstimatorSpec.predictions} is a \code{dict}. If \code{predict_keys} is used then rest of the predictions will be filtered from the dictionary. If \code{NULL}, returns all.}
+\item{predict_keys}{list of \code{str}, name of the keys to predict. It is used if
+the \code{EstimatorSpec.predictions} is a \code{dict}. If \code{predict_keys} is used then
+rest of the predictions will be filtered from the dictionary. If \code{NULL},
+returns all.}
 
-\item{hooks}{List of \code{SessionRunHook} subclass instances. Used for callbacks inside the prediction call.}
+\item{hooks}{List of \code{SessionRunHook} subclass instances. Used for callbacks
+inside the prediction call.}
 }
 \description{
 Returns predictions for given features.
 }
 \section{Yields}{
-
-Evaluated values of \code{predictions} tensors.
+ Evaluated values of \code{predictions} tensors.
 }
 
 \section{Raises}{
-
-ValueError: Could not find a trained model in model_dir. ValueError: if batch length of predictions are not same. ValueError: If there is a conflict between \code{predict_keys} and \code{predictions}. For example if \code{predict_keys} is not \code{NULL} but \code{EstimatorSpec.predictions} is not a \code{dict}.
+ ValueError: Could not find a trained model in model_dir.
+ValueError: if batch length of predictions are not same. ValueError: If
+there is a conflict between \code{predict_keys} and \code{predictions}. For example
+if \code{predict_keys} is not \code{NULL} but \code{EstimatorSpec.predictions} is not a
+\code{dict}.
 }
 
 \seealso{

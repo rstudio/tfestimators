@@ -9,31 +9,43 @@ column_embedding(sparse_id_column, dimension, combiner = "mean",
   tensor_name_in_ckpt = NULL, max_norm = NULL, trainable = TRUE)
 }
 \arguments{
-\item{sparse_id_column}{A \code{_SparseColumn} which is created by for example \code{sparse_column_with_*} or crossed_column functions. Note that \code{combiner} defined in \code{sparse_id_column} is ignored.}
+\item{sparse_id_column}{A \code{_SparseColumn} which is created by for example
+\code{sparse_column_with_*} or crossed_column functions. Note that \code{combiner}
+defined in \code{sparse_id_column} is ignored.}
 
 \item{dimension}{An integer specifying dimension of the embedding.}
 
-\item{combiner}{A string specifying how to reduce if there are multiple entries in a single row. Currently "mean", "sqrtn" and "sum" are supported, with "mean" the default.
-"sqrtn" often achieves good accuracy, in particular with bag-of-words columns. Each of this can be thought as example level normalizations on the column:
+\item{combiner}{A string specifying how to reduce if there are multiple
+entries in a single row. Currently "mean", "sqrtn" and "sum" are supported,
+with "mean" the default. "sqrtn" often achieves good accuracy, in
+particular with bag-of-words columns. Each of this can be thought as
+example level normalizations on the column:
 \itemize{
 \item "sum": do not normalize
 \item "mean": do l1 normalization
 \item "sqrtn": do l2 normalization
-For more information: \code{tf.embedding_lookup_sparse}.
-}}
+}
 
-\item{initializer}{A variable initializer function to be used in embedding variable initialization.
-If not specified, defaults to \code{tf.truncated_normal_initializer} with mean 0.0 and standard deviation 1/sqrt(sparse_id_column.length).}
+For more information: \code{tf.embedding_lookup_sparse}.}
 
-\item{ckpt_to_load_from}{(Optional). String representing checkpoint name/pattern to restore the column weights.
-Required if \code{tensor_name_in_ckpt} is not None.}
+\item{initializer}{A variable initializer function to be used in embedding
+variable initialization. If not specified, defaults to
+\code{tf.truncated_normal_initializer} with mean 0.0 and standard deviation
+1/sqrt(sparse_id_column.length).}
 
-\item{tensor_name_in_ckpt}{(Optional). Name of the \code{Tensor} in the provided checkpoint from which to restore the column weights.
-Required if \code{ckpt_to_load_from} is not None.}
+\item{ckpt_to_load_from}{(Optional). String representing checkpoint
+name/pattern to restore the column weights. Required if
+\code{tensor_name_in_ckpt} is not None.}
 
-\item{max_norm}{(Optional). If not None, embedding values are l2-normalized to the value of max_norm.}
+\item{tensor_name_in_ckpt}{(Optional). Name of the \code{Tensor} in the provided
+checkpoint from which to restore the column weights. Required if
+\code{ckpt_to_load_from} is not None.}
 
-\item{trainable}{(Optional). Should the embedding be trainable. Default is True.}
+\item{max_norm}{(Optional). If not None, embedding values are l2-normalized
+to the value of max_norm.}
+
+\item{trainable}{(Optional). Should the embedding be trainable. Default is
+True.}
 }
 \description{
 Creates an \code{_EmbeddingColumn} for feeding sparse data into a DNN.

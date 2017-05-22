@@ -12,17 +12,20 @@ column_sparse_with_keys(column_name, keys, default_value = -1L,
 
 \item{keys}{A list defining vocabulary. Must be castable to \code{dtype}.}
 
-\item{default_value}{The value to use for out-of-vocabulary feature values. Default is -1.}
+\item{default_value}{The value to use for out-of-vocabulary feature values.
+Default is -1.}
 
-\item{combiner}{A string specifying how to reduce if the sparse column is multivalent.
-Currently "mean", "sqrtn" and "sum" are supported, with "sum" the default.
-"sqrtn" often achieves good accuracy, in particular with bag-of-words columns.
+\item{combiner}{A string specifying how to reduce if the sparse column is
+multivalent. Currently "mean", "sqrtn" and "sum" are supported, with "sum"
+the default. "sqrtn" often achieves good accuracy, in particular with
+bag-of-words columns.
 \itemize{
 \item "sum": do not normalize features in the column
 \item "mean": do l1 normalization on features in the column
 \item "sqrtn": do l2 normalization on features in the column
-For more information: \code{tf.embedding_lookup_sparse}.
-}}
+}
+
+For more information: \code{tf.embedding_lookup_sparse}.}
 
 \item{dtype}{Type of features. Only integer and string are supported.}
 }
