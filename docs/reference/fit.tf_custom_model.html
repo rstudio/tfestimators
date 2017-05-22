@@ -98,19 +98,32 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>input_fn</th>
-      <td><p>Input function returning a list of: features - <code>Tensor</code> or dictionary of string feature name to <code>Tensor</code>. labels - <code>Tensor</code> or dictionary of <code>Tensor</code> with labels.</p></td>
+      <td><p>Input function returning a list of: features - <code>Tensor</code> or
+dictionary of string feature name to <code>Tensor</code>. labels - <code>Tensor</code> or
+dictionary of <code>Tensor</code> with labels.</p></td>
     </tr>
     <tr>
       <th>steps</th>
-      <td><p>Number of steps for which to train model. If <code>NULL</code>, train forever or train until input_fn generates the <code>OutOfRange</code> or <code>StopIteration</code> error. 'steps' works incrementally. If you call two times train(steps=10) then training occurs in total 20 steps. If <code>OutOfRange</code> or <code>StopIteration</code> error occurs in the middle, training stops before 20 steps. If you don't want to have incremental behaviour please set <code>max_steps</code> instead. If set, <code>max_steps</code> must be <code>NULL</code>.</p></td>
+      <td><p>Number of steps for which to train model. If <code>NULL</code>, train
+forever or train until input_fn generates the <code>OutOfRange</code> or
+<code>StopIteration</code> error. 'steps' works incrementally. If you call two times
+train(steps=10) then training occurs in total 20 steps. If <code>OutOfRange</code> or
+<code>StopIteration</code> error occurs in the middle, training stops before 20 steps.
+If you don't want to have incremental behaviour please set <code>max_steps</code>
+instead. If set, <code>max_steps</code> must be <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>hooks</th>
-      <td><p>List of <code>SessionRunHook</code> subclass instances. Used for callbacks inside the training loop.</p></td>
+      <td><p>List of <code>SessionRunHook</code> subclass instances. Used for callbacks
+inside the training loop.</p></td>
     </tr>
     <tr>
       <th>max_steps</th>
-      <td><p>Number of total steps for which to train model. If <code>NULL</code>, train forever or train until input_fn generates the <code>OutOfRange</code> or <code>StopIteration</code> error. If set, <code>steps</code> must be <code>NULL</code>. If <code>OutOfRange</code> or <code>StopIteration</code> error occurs in the middle, training stops before <code>max_steps</code> steps.</p></td>
+      <td><p>Number of total steps for which to train model. If <code>NULL</code>,
+train forever or train until input_fn generates the <code>OutOfRange</code> or
+<code>StopIteration</code> error. If set, <code>steps</code> must be <code>NULL</code>. If <code>OutOfRange</code> or
+<code>StopIteration</code> error occurs in the middle, training stops before
+<code>max_steps</code> steps.</p></td>
     </tr>
     </table>
     
@@ -120,8 +133,8 @@
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
-    
-    <p>ValueError: If both <code>steps</code> and <code>max_steps</code> are not <code>NULL</code>. ValueError: If either <code>steps</code> or <code>max_steps</code> is &lt;= 0.</p>
+    <p>ValueError: If both <code>steps</code> and <code>max_steps</code> are not <code>NULL</code>.
+ValueError: If either <code>steps</code> or <code>max_steps</code> is &lt;= 0.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

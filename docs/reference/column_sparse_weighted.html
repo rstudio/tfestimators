@@ -97,38 +97,48 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>sparse_id_column</th>
-      <td><p>A <code>_SparseColumn</code> which is created by <code>column_sparse_with_*</code> functions.</p></td>
+      <td><p>A <code>_SparseColumn</code> which is created by
+<code>column_sparse_with_*</code> functions.</p></td>
     </tr>
     <tr>
       <th>weight_column_name</th>
-      <td><p>A string defining a sparse column name which represents weight or value of the corresponding sparse id feature.</p></td>
+      <td><p>A string defining a sparse column name which
+represents weight or value of the corresponding sparse id feature.</p></td>
     </tr>
     <tr>
       <th>dtype</th>
-      <td><p>Type of weights, such as <code>tf.float32</code>. Only floating and integer weights are supported. Returns: A _WeightedSparseColumn composed of two sparse features: one represents id, the other represents weight (value) of the id feature in that example.</p></td>
+      <td><p>Type of weights, such as <code>tf.float32</code>. Only floating and integer
+weights are supported. Returns: A _WeightedSparseColumn composed of two
+sparse features: one represents id, the other represents weight (value) of
+the id feature in that example.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A _WeightedSparseColumn composed of two sparse features: one represents id, the other represents weight (value) of the id feature in that example. Raises: ValueError: if dtype is not convertible to float.</p>
+    <p>A _WeightedSparseColumn composed of two sparse features: one
+represents id, the other represents weight (value) of the id feature in
+that example. Raises: ValueError: if dtype is not convertible to float.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <pre>sparse_feature = sparse_column_with_hash_bucket(column_name="sparse_col", hash_bucket_size=1000)
 weighted_feature = weighted_sparse_column(sparse_id_column=sparse_feature, weight_column_name="weights_col")
 </pre>
-    <p>This configuration assumes that input dictionary of model contains the following two items:</p><ul>
-<li><p>(key="sparse_col", value=sparse_tensor) where sparse_tensor is a SparseTensor.</p></li>
-<li><p>(key="weights_col", value=weights_tensor) where weights_tensor is a SparseTensor.
-Following are assumed to be true:</p></li>
-<li><p>sparse_tensor.indices = weights_tensor.indices</p></li>
-<li><p>sparse_tensor.dense_shape = weights_tensor.dense_shape</p></li>
+    <p>This configuration assumes that input dictionary of model contains
+the following two items:</p><ul>
+<li><p>(key="sparse_col", value=sparse_tensor) where sparse_tensor is
+a SparseTensor.</p></li>
+<li><p>(key="weights_col", value=weights_tensor) where weights_tensor is
+a SparseTensor.</p></li>
+</ul>
+    <p>Following are assumed to be true:</p><ul>
+<li><p>sparse_tensor.indices == weights_tensor.indices</p></li>
+<li><p>sparse_tensor.dense_shape == weights_tensor.dense_shape</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
-    
     <p>ValueError: if dtype is not convertible to float.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

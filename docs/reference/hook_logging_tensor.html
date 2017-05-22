@@ -97,21 +97,24 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>tensors</th>
-      <td><p><code>dict</code> that maps string-valued tags to tensors/tensor names, or <code>iterable</code> of tensors/tensor names.</p></td>
+      <td><p><code>dict</code> that maps string-valued tags to tensors/tensor names,
+or <code>iterable</code> of tensors/tensor names.</p></td>
     </tr>
     <tr>
       <th>every_n_iter</th>
-      <td><p><code>int</code>, print the values of <code>tensors</code> once every N local steps taken on the current worker.</p></td>
+      <td><p><code>int</code>, print the values of <code>tensors</code> once every N local
+steps taken on the current worker.</p></td>
     </tr>
     <tr>
       <th>every_n_secs</th>
-      <td><p><code>int</code> or <code>float</code>, print the values of <code>tensors</code> once every N seconds.
-Exactly one of <code>every_n_iter</code> and <code>every_n_secs</code> should be provided.</p></td>
+      <td><p><code>int</code> or <code>float</code>, print the values of <code>tensors</code> once
+every N seconds. Exactly one of <code>every_n_iter</code> and <code>every_n_secs</code> should be
+provided.</p></td>
     </tr>
     <tr>
       <th>formatter</th>
-      <td><p>function, takes dict of <code>tag</code>-&gt;<code>Tensor</code> and returns a string.
-If <code>NULL</code> uses default printing all tensors.</p></td>
+      <td><p>function, takes dict of <code>tag</code>-&gt;<code>Tensor</code> and returns a
+string. If <code>NULL</code> uses default printing all tensors.</p></td>
     </tr>
     </table>
     

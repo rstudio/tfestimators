@@ -87,17 +87,19 @@
 
     
     <p>The frequency of evaluation is controlled by the contructor arg
-<code>min_eval_frequency</code>. When this parameter is 0, evaluation happens
-only after training has completed. Note that evaluation cannot happen
-more frequently than checkpoints are taken. If no new snapshots are
-available when evaluation is supposed to occur, then evaluation doesn't
-happen for another <code>min_eval_frequency</code> steps (assuming a checkpoint is
-available at that point). Thus, settings <code>min_eval_frequency</code> to 1 means
-that the model will be evaluated everytime there is a new checkpoint. This is particular useful for a "Master" task in the cloud, whose
-responsibility it is to take checkpoints, evaluate those checkpoints,
-and write out summaries. Participating in training as the supervisor
-allows such a task to accomplish the first and last items, while
-performing evaluation allows for the second. Returns: The result of the <code>evaluate</code> call to the <code>Estimator</code> as well as the export results using the specified <code>ExportStrategy</code>.</p>
+<code>min_eval_frequency</code>. When this parameter is 0, evaluation happens only after
+training has completed. Note that evaluation cannot happen more frequently
+than checkpoints are taken. If no new snapshots are available when evaluation
+is supposed to occur, then evaluation doesn't happen for another
+<code>min_eval_frequency</code> steps (assuming a checkpoint is available at that
+point). Thus, settings <code>min_eval_frequency</code> to 1 means that the model will be
+evaluated everytime there is a new checkpoint. This is particular useful for
+a "Master" task in the cloud, whose responsibility it is to take checkpoints,
+evaluate those checkpoints, and write out summaries. Participating in
+training as the supervisor allows such a task to accomplish the first and
+last items, while performing evaluation allows for the second. Returns: The
+result of the <code>evaluate</code> call to the <code>Estimator</code> as well as the export
+results using the specified <code>ExportStrategy</code>.</p>
     
 
     <pre class="usage"><span class='co'># S3 method for tf_experiment</span>
@@ -105,7 +107,8 @@ performing evaluation allows for the second. Returns: The result of the <code>ev
         
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The result of the <code>evaluate</code> call to the <code>Estimator</code> as well as the export results using the specified <code>ExportStrategy</code>.</p>
+    <p>The result of the <code>evaluate</code> call to the <code>Estimator</code> as well as the
+export results using the specified <code>ExportStrategy</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

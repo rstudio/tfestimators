@@ -30,10 +30,9 @@ reference:
       - dynamic_rnn
       - state_saving_rnn
 
-  - title: "Custom Estimator"
+  - title: "Estimator Methods"
     contents:
-      - estimator
-      - estimator_spec
+      - input_fn
       - fit.tf_custom_model
       - predict.tf_custom_model
       - evaluate.tf_custom_model
@@ -50,11 +49,19 @@ reference:
       - column_sparse_weighted
       - column_sparse_with_hash_bucket
       - column_sparse_with_keys
-  
-  - title: "Input Function"
-    contents:
-      - input_fn
 
+  - title: "Custom Estimators"
+    contents:
+      - estimator
+      - estimator_spec
+  
+  - title: "Experiment API"
+    contents:
+      - experiment.tf_model
+      - train.tf_experiment
+      - evaluate.tf_experiment
+      - train_and_evaluate.tf_experiment
+    
   - title: "Run Hooks"
     contents:
       - hook_checkpoint_saver
@@ -64,13 +71,6 @@ reference:
       - hook_step_counter
       - hook_stop_at_step
       - hook_summary_saver
-  
-  - title: "Experiment"
-    contents:
-      - experiment.tf_model
-      - train.tf_experiment
-      - evaluate.tf_experiment
-      - train_and_evaluate.tf_experiment
   
   - title: "Run Configuration"
     contents:

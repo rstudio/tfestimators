@@ -100,31 +100,46 @@ classes. When number of possible classes is 2, this is binary classification.</p
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>feature_columns</th>
-      <td><p>An iterable containing all the feature columns used by the model. All items in the set should be instances of classes derived from <code>FeatureColumn</code>.</p></td>
+      <td><p>An iterable containing all the feature columns used by
+the model. All items in the set should be instances of classes derived from
+<code>FeatureColumn</code>.</p></td>
     </tr>
     <tr>
       <th>model_dir</th>
-      <td><p>Directory to save model parameters, graph and etc. This can also be used to load checkpoints from the directory into a estimator to continue training a previously saved model.</p></td>
+      <td><p>Directory to save model parameters, graph and etc. This can
+also be used to load checkpoints from the directory into a estimator to
+continue training a previously saved model.</p></td>
     </tr>
     <tr>
       <th>n_classes</th>
-      <td><p>number of label classes. Default is binary classification. Note that class labels are integers representing the class index (i.e. values from 0 to n_classes-1). For arbitrary label values (e.g. string labels), convert to class indices first.</p></td>
+      <td><p>number of label classes. Default is binary classification.
+Note that class labels are integers representing the class index (i.e.
+values from 0 to n_classes-1). For arbitrary label values (e.g. string
+labels), convert to class indices first.</p></td>
     </tr>
     <tr>
       <th>weight_column_name</th>
-      <td><p>A string defining feature column name representing weights. It is used to down weight or boost examples during training. It will be multiplied by the loss of the example.</p></td>
+      <td><p>A string defining feature column name representing
+weights. It is used to down weight or boost examples during training. It
+will be multiplied by the loss of the example.</p></td>
     </tr>
     <tr>
       <th>optimizer</th>
-      <td><p>The optimizer used to train the model. If specified, it should be either an instance of <code>tf.Optimizer</code> or the SDCAOptimizer. If <code>NULL</code>, the Ftrl optimizer will be used.</p></td>
+      <td><p>The optimizer used to train the model. If specified, it
+should be either an instance of <code>tf.Optimizer</code> or the SDCAOptimizer. If
+<code>NULL</code>, the Ftrl optimizer will be used.</p></td>
     </tr>
     <tr>
       <th>gradient_clip_norm</th>
-      <td><p>A <code>float</code> &gt; 0. If provided, gradients are clipped to their global norm with this clipping ratio. See <code>tf.clip_by_global_norm</code> for more details.</p></td>
+      <td><p>A <code>float</code> &gt; 0. If provided, gradients are clipped
+to their global norm with this clipping ratio. See <code>tf.clip_by_global_norm</code>
+for more details.</p></td>
     </tr>
     <tr>
       <th>enable_centered_bias</th>
-      <td><p>A bool. If TRUE, estimator will learn a centered bias variable for each class. Rest of the model structure learns the residual after centered bias.</p></td>
+      <td><p>A bool. If TRUE, estimator will learn a centered
+bias variable for each class. Rest of the model structure learns the
+residual after centered bias.</p></td>
     </tr>
     <tr>
       <th>config</th>
@@ -132,29 +147,36 @@ classes. When number of possible classes is 2, this is binary classification.</p
     </tr>
     <tr>
       <th>feature_engineering_fn</th>
-      <td><p>Feature engineering function. Takes features and labels which are the output of <code>input_fn</code> and returns features and labels which will be fed into the model.</p></td>
+      <td><p>Feature engineering function. Takes features
+and labels which are the output of <code>input_fn</code> and returns features and
+labels which will be fed into the model.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Input of <code>fit</code> and <code>evaluate</code> should have following features, otherwise there will be a <code>KeyError</code>:</p><ul>
-<li><p>if <code>weight_column_name</code> is not <code>NULL</code>, a feature with <code>key=weight_column_name</code> whose value is a <code>Tensor</code>.</p></li>
-<li><p>for each <code>column</code> in <code>feature_columns</code>:</p></li>
-</ul>
-<ul>
-<li><p>if <code>column</code> is a <code>SparseColumn</code>, a feature with <code>key=column.name</code> whose <code>value</code> is a <code>SparseTensor</code>.</p></li>
-<li><p>if <code>column</code> is a <code>WeightedSparseColumn</code>, two features: the first with <code>key</code> the id column name, the second with <code>key</code> the weight column name. Both features' <code>value</code> must be a <code>SparseTensor</code>.</p></li>
-<li><p>if <code>column</code> is a <code>RealValuedColumn</code>, a feature with <code>key=column.name</code> whose <code>value</code> is a <code>Tensor</code>.</p></li>
+    <p>Input of <code>fit</code> and <code>evaluate</code> should have following features, otherwise there
+will be a <code>KeyError</code>:</p><ul>
+<li><p>if <code>weight_column_name</code> is not <code>NULL</code>, a feature with <code>key=weight_column_name</code>
+whose value is a <code>Tensor</code>.</p></li>
+<li><p>for each <code>column</code> in <code>feature_columns</code>:</p><ul>
+<li><p>if <code>column</code> is a <code>SparseColumn</code>, a feature with <code>key=column.name</code> whose
+<code>value</code> is a <code>SparseTensor</code>.</p></li>
+<li><p>if <code>column</code> is a <code>WeightedSparseColumn</code>, two features: the first with
+<code>key</code> the id column name, the second with <code>key</code> the weight column name.
+Both features' <code>value</code> must be a <code>SparseTensor</code>.</p></li>
+<li><p>if <code>column</code> is a <code>RealValuedColumn</code>, a feature with <code>key=column.name</code>
+whose <code>value</code> is a <code>Tensor</code>.</p></li>
+</ul></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other canned estimators: <code><a href='dynamic_rnn_estimator.html'>dynamic_rnn_estimator</a></code>,
+    <p>Other canned estimators: <code><a href='dynamic_rnn.html'>dynamic_rnn</a></code>,
   <code><a href='linear_dnn_combined_classifier.html'>linear_dnn_combined_classifier</a></code>,
   <code><a href='linear_dnn_combined_regressor.html'>linear_dnn_combined_regressor</a></code>,
   <code><a href='linear_regressor.html'>linear_regressor</a></code>,
-  <code><a href='state_saving_rnn_estimator.html'>state_saving_rnn_estimator</a></code></p>
+  <code><a href='state_saving_rnn.html'>state_saving_rnn</a></code></p>
     
 
   </div>

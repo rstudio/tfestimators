@@ -98,7 +98,9 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>sparse_id_column</th>
-      <td><p>A <code>_SparseColumn</code> which is created by for example <code>sparse_column_with_*</code> or crossed_column functions. Note that <code>combiner</code> defined in <code>sparse_id_column</code> is ignored.</p></td>
+      <td><p>A <code>_SparseColumn</code> which is created by for example
+<code>sparse_column_with_*</code> or crossed_column functions. Note that <code>combiner</code>
+defined in <code>sparse_id_column</code> is ignored.</p></td>
     </tr>
     <tr>
       <th>dimension</th>
@@ -106,36 +108,46 @@
     </tr>
     <tr>
       <th>combiner</th>
-      <td><p>A string specifying how to reduce if there are multiple entries in a single row. Currently "mean", "sqrtn" and "sum" are supported, with "mean" the default.
-"sqrtn" often achieves good accuracy, in particular with bag-of-words columns. Each of this can be thought as example level normalizations on the column:</p><ul>
+      <td><p>A string specifying how to reduce if there are multiple
+entries in a single row. Currently "mean", "sqrtn" and "sum" are supported,
+with "mean" the default. "sqrtn" often achieves good accuracy, in
+particular with bag-of-words columns. Each of this can be thought as
+example level normalizations on the column:</p><ul>
 <li><p>"sum": do not normalize</p></li>
 <li><p>"mean": do l1 normalization</p></li>
-<li><p>"sqrtn": do l2 normalization
-For more information: <code>tf.embedding_lookup_sparse</code>.</p></li>
-</ul></td>
+<li><p>"sqrtn": do l2 normalization</p></li>
+</ul>
+
+<p>For more information: <code>tf.embedding_lookup_sparse</code>.</p></td>
     </tr>
     <tr>
       <th>initializer</th>
-      <td><p>A variable initializer function to be used in embedding variable initialization.
-If not specified, defaults to <code>tf.truncated_normal_initializer</code> with mean 0.0 and standard deviation 1/sqrt(sparse_id_column.length).</p></td>
+      <td><p>A variable initializer function to be used in embedding
+variable initialization. If not specified, defaults to
+<code>tf.truncated_normal_initializer</code> with mean 0.0 and standard deviation
+1/sqrt(sparse_id_column.length).</p></td>
     </tr>
     <tr>
       <th>ckpt_to_load_from</th>
-      <td><p>(Optional). String representing checkpoint name/pattern to restore the column weights.
-Required if <code>tensor_name_in_ckpt</code> is not None.</p></td>
+      <td><p>(Optional). String representing checkpoint
+name/pattern to restore the column weights. Required if
+<code>tensor_name_in_ckpt</code> is not None.</p></td>
     </tr>
     <tr>
       <th>tensor_name_in_ckpt</th>
-      <td><p>(Optional). Name of the <code>Tensor</code> in the provided checkpoint from which to restore the column weights.
-Required if <code>ckpt_to_load_from</code> is not None.</p></td>
+      <td><p>(Optional). Name of the <code>Tensor</code> in the provided
+checkpoint from which to restore the column weights. Required if
+<code>ckpt_to_load_from</code> is not None.</p></td>
     </tr>
     <tr>
       <th>max_norm</th>
-      <td><p>(Optional). If not None, embedding values are l2-normalized to the value of max_norm.</p></td>
+      <td><p>(Optional). If not None, embedding values are l2-normalized
+to the value of max_norm.</p></td>
     </tr>
     <tr>
       <th>trainable</th>
-      <td><p>(Optional). Should the embedding be trainable. Default is True.</p></td>
+      <td><p>(Optional). Should the embedding be trainable. Default is
+True.</p></td>
     </tr>
     </table>
     

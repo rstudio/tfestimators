@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Evaluate on the evaluation data. — evaluate.tf_experiment • tfestimators</title>
+<title>State Saving RNN Estimator — state_saving_rnn • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -82,49 +82,35 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Evaluate on the evaluation data.</h1>
+    <h1>State Saving RNN Estimator</h1>
     </div>
 
     
-    <p>Runs evaluation on the evaluation data and returns the result. Runs for
-<code>self._eval_steps</code> steps, or if it's <code>NULL</code>, then run until input is
-exhausted or another exception is raised. Start the evaluation after
-<code>delay_secs</code> seconds, or if it's <code>NULL</code>, defaults to using
-<code>self._eval_delay_secs</code> seconds.</p>
+    <p>State Saving RNN Estimator</p>
     
 
-    <pre class="usage"><span class='co'># S3 method for tf_experiment</span>
-<span class='fu'>evaluate</span>(<span class='no'>object</span>, <span class='kw'>delay_secs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>delay_secs</th>
-      <td><p>Start evaluating after this many seconds. If <code>NULL</code>,
-defaults to using <code>self._eval_delays_secs</code>.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>The result of the <code>evaluate</code> call to the <code>Estimator</code>.</p>
-    
+    <pre class="usage"><span class='fu'>state_saving_rnn</span>(<span class='no'>problem_type</span>, <span class='no'>num_unroll</span>, <span class='no'>batch_size</span>, <span class='no'>sequence_feature_columns</span>,
+  <span class='kw'>context_feature_columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>num_classes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>num_units</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>cell_type</span> <span class='kw'>=</span> <span class='st'>"basic_rnn"</span>, <span class='kw'>optimizer_type</span> <span class='kw'>=</span> <span class='st'>"SGD"</span>, <span class='kw'>learning_rate</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+  <span class='kw'>predict_probabilities</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>momentum</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gradient_clipping_norm</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>dropout_keep_probabilities</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>feature_engineering_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>num_threads</span> <span class='kw'>=</span> <span class='fl'>3L</span>, <span class='kw'>queue_capacity</span> <span class='kw'>=</span> <span class='fl'>1000L</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>model_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>config</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+        
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other experiment methods: <code><a href='experiment.tf_model.html'>experiment.tf_model</a></code>,
-  <code><a href='train.tf_experiment.html'>train.tf_experiment</a></code>,
-  <code><a href='train_and_evaluate.tf_experiment.html'>train_and_evaluate.tf_experiment</a></code></p>
+    <p>Other canned estimators: <code><a href='dynamic_rnn.html'>dynamic_rnn</a></code>,
+  <code><a href='linear_classifier.html'>linear_classifier</a></code>,
+  <code><a href='linear_dnn_combined_classifier.html'>linear_dnn_combined_classifier</a></code>,
+  <code><a href='linear_dnn_combined_regressor.html'>linear_dnn_combined_regressor</a></code>,
+  <code><a href='linear_regressor.html'>linear_regressor</a></code></p>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-
       <li><a href="#see-also">See also</a></li>
           </ul>
 

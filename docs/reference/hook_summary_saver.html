@@ -97,7 +97,8 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>save_steps</th>
-      <td><p><code>int</code>, save summaries every N steps. Exactly one of <code>save_secs</code> and <code>save_steps</code> should be set.</p></td>
+      <td><p><code>int</code>, save summaries every N steps. Exactly one of
+<code>save_secs</code> and <code>save_steps</code> should be set.</p></td>
     </tr>
     <tr>
       <th>save_secs</th>
@@ -105,11 +106,13 @@
     </tr>
     <tr>
       <th>output_dir</th>
-      <td><p><code>string</code>, the directory to save the summaries to. Only used if no <code>summary_writer</code> is supplied.</p></td>
+      <td><p><code>string</code>, the directory to save the summaries to. Only used
+if no <code>summary_writer</code> is supplied.</p></td>
     </tr>
     <tr>
       <th>summary_writer</th>
-      <td><p><code>SummaryWriter</code>. If <code>NULL</code> and an <code>output_dir</code> was passed, one will be created accordingly.</p></td>
+      <td><p><code>SummaryWriter</code>. If <code>NULL</code> and an <code>output_dir</code> was
+passed, one will be created accordingly.</p></td>
     </tr>
     <tr>
       <th>scaffold</th>
@@ -117,9 +120,11 @@
     </tr>
     <tr>
       <th>summary_op</th>
-      <td><p><code>Tensor</code> of type <code>string</code> containing the serialized <code>Summary</code> protocol buffer or a list of <code>Tensor</code>.
-They are most likely an output by TF summary methods like <code>tf.summary.scalar</code> or <code>tf.summary.merge_all</code>.
-It can be passed in as one tensor; if more than one, they must be passed in as a list.</p></td>
+      <td><p><code>Tensor</code> of type <code>string</code> containing the serialized
+<code>Summary</code> protocol buffer or a list of <code>Tensor</code>. They are most likely an
+output by TF summary methods like <code>tf.summary.scalar</code> or
+<code>tf.summary.merge_all</code>. It can be passed in as one tensor; if more than
+one, they must be passed in as a list.</p></td>
     </tr>
     </table>
     
