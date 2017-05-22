@@ -1,0 +1,46 @@
+---
+title: "R Interface to TensorFlow Estimators"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# R Interface to TensorFlow Estimators
+
+![](images/tensorflow-2-100709406-large.jpg){align=right width=50%}
+
+The **tfestimators** package is an R interface to TensorFlow Estimators, a high-level API that provides:
+
+- Implementations of many model types including linear models, support vector machines, deep neural networks, state saving recurrent neural networks, and dynamic recurrent neural networks.
+
+- A flexible framework for defining arbitrary new model types (Estimators)
+
+- An Experiment API that provides distributed training and hyperparameter tuning for both canned and custom estimators.
+
+## Quick Start
+
+
+
+## Canned Estimators
+
+
+
+
+## Estimator Methods
+
+
+## Learning More
+
+
+
+
+
+
+
+
+
+
+
+

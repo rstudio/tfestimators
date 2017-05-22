@@ -1,8 +1,12 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
+^index.*$
 ^internal/
 ^man-roxygen/
 ^travis/
 /\.!
-^docs$
+^docs/
+^images/
+
+
