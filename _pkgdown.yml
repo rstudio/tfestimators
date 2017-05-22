@@ -28,6 +28,7 @@ reference:
       - linear_dnn_combined_classifier
       - state_saving_rnn_estimator
       - dynamic_rnn_estimator
+      - svm_classifier
 
   - title: "Custom Estimator"
     contents:
