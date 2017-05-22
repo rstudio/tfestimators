@@ -46,7 +46,7 @@ predict.tf_model <- function(object,
 }
 
 #' @export
-fit.tf_model <- function(object, input_fn, steps = 2L, monitors = NULL, ...)
+train.tf_model <- function(object, input_fn, steps = 2L, monitors = NULL, ...)
 {
   validate_input_fn(input_fn)
   if (!is.null(monitors))

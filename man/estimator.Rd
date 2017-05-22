@@ -72,6 +72,6 @@ base class, and may add methods implementing specialized functionality.
 Other custom estimator methods: \code{\link{estimator_spec}},
   \code{\link{evaluate.tf_custom_model}},
   \code{\link{export_savedmodel.tf_custom_model}},
-  \code{\link{fit.tf_custom_model}},
-  \code{\link{predict.tf_custom_model}}
+  \code{\link{predict.tf_custom_model}},
+  \code{\link{train.tf_custom_model}}
 }

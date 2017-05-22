@@ -10,6 +10,6 @@ test_that("kmeans_clustering() runs successfully", {
   # kmeans <- learn$KMeansClustering(
   #   num_clusters = 3,
   #   model_dir = model_dir)
-  # kmeans$fit(input_fn = constructed_input_fn, steps = 1L)
+  # kmeans$train(input_fn = constructed_input_fn, steps = 1L)
   # kmeans$score(input_fn = constructed_input_fn)
 })

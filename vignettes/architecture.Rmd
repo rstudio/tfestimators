@@ -46,10 +46,10 @@ classifier <-
 	)
 ```
 
-Users can then call `fit()` to train the initialized Estimator for a number of steps:
+Users can then call `train()` to train the initialized Estimator for a number of steps:
 
 ``` r
-classifier <- fit(classifier, input_fn = custom_input_fn, steps = 2L)
+classifier <- train(classifier, input_fn = custom_input_fn, steps = 2L)
 ```
 
 Once a model is trained, users can use `predict()` that makes predictions on a given input function that represents the inference data source. an argument named `type` can be `"raw"` so `predict()` will return the raw predictions outcomes, as well as `"prob"` and `"logistic"` that returns prediction probabilities and logistics if a model is of classification type.
@@ -136,7 +136,7 @@ custom_model_fn <- function(features, labels, mode, params, config) {
 # Initialize and fit the model using the the custom model function we defined
 # and the constructed_input_fn that represents the input data source.  
 classifier <- estimator(model_fn = custom_model_fn)
-classifier <- fit(classifier, input_fn = constructed_input_fn, steps = 2L)
+classifier <- train(classifier, input_fn = constructed_input_fn, steps = 2L)
 ```
 
 Note that the above code contains a lot of `$`s. It is unnecessary to create wrapper APIs for every methods that users might use, e.g. `tf$contrib$layers$optimize_loss`, since custom models are designed to be flexible and extensible so users can insert any arbitrary low level TensorFlow APIs.
@@ -382,8 +382,7 @@ lr <- linear_dnn_combined_regressor(
   dnn_optimizer = "Adagrad"
 )
 
-lr <- fit(
-  lr,
+lr %>% train(
   input_fn = custom_input_fn,
   steps = 10L,
   monitors = monitor)

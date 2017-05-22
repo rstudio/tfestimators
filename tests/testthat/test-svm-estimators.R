@@ -27,5 +27,5 @@ test_that("svm_classification() runs successfully on mtcars data", {
       example_id_column = "example_id",
       weight_column_name = "weights"
     )
-  # fit(clf, input_fn = constructed_input_fn)
+  # train(clf, input_fn = constructed_input_fn)
 })

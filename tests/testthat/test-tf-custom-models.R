@@ -50,7 +50,7 @@ test_that("custom model works on iris data", {
   # training
   classifier <- estimator(
     model_fn = simple_custom_model_fn) %>%
-    fit(input_fn = constructed_input_fn, steps = 2L)
+    train(input_fn = constructed_input_fn, steps = 2L)
   
   # inference
   predictions <- predict(classifier, input_fn = constructed_input_fn)

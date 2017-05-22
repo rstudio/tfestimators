@@ -44,5 +44,5 @@ Other custom estimator methods: \code{\link{estimator_spec}},
   \code{\link{estimator}},
   \code{\link{evaluate.tf_custom_model}},
   \code{\link{export_savedmodel.tf_custom_model}},
-  \code{\link{fit.tf_custom_model}}
+  \code{\link{train.tf_custom_model}}
 }

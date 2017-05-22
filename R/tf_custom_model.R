@@ -126,7 +126,7 @@ estimator <- function(model_fn,
 #'   
 #' @export
 #' @family custom estimator methods
-fit.tf_custom_model <- function(object, input_fn, steps = NULL, hooks = NULL, max_steps = NULL) {
+train.tf_custom_model <- function(object, input_fn, steps = NULL, hooks = NULL, max_steps = NULL) {
   validate_input_fn(input_fn)
   object$estimator$train(
     input_fn = input_fn(get_input_fn_type(object)),

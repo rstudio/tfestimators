@@ -2,7 +2,7 @@ context("Testing tf models")
 
 source("utils.R")
 
-test_that("fit(), predict(), and evaluate() work for regressors", {
+test_that("train(), predict(), and evaluate() work for regressors", {
   
   specs <- mtcars_regression_specs()
 
@@ -12,7 +12,7 @@ test_that("fit(), predict(), and evaluate() work for regressors", {
       dnn_feature_columns = specs$dnn_feature_columns,
       dnn_hidden_units = c(1L, 1L),
       dnn_optimizer = "Adagrad"
-    ) %>% fit(input_fn = specs$input_fn)
+    ) %>% train(input_fn = specs$input_fn)
   
   coefs <- coef(reg)
   expect_gt(length(coefs), 0)
@@ -24,7 +24,7 @@ test_that("fit(), predict(), and evaluate() work for regressors", {
   expect_lte(loss, 400)
 })
 
-test_that("fit(), predict(), and evaluate() work for classifiers", {
+test_that("train(), predict(), and evaluate() work for classifiers", {
   
   specs <- mtcars_classification_specs()
 
@@ -34,7 +34,7 @@ test_that("fit(), predict(), and evaluate() work for classifiers", {
       dnn_feature_columns = specs$dnn_feature_columns,
       dnn_hidden_units = c(3L, 3L),
       dnn_optimizer = "Adagrad"
-    ) %>% fit(input_fn = specs$input_fn)
+    ) %>% train(input_fn = specs$input_fn)
   
   coefs <- coef(clf)
   expect_gt(length(coefs), 0)

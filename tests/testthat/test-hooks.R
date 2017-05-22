@@ -10,7 +10,7 @@ test_that("Hooks works with linear dnn combined estimators", {
       dnn_feature_columns = specs$dnn_feature_columns,
       dnn_hidden_units = c(1L, 1L),
       dnn_optimizer = "Adagrad"
-    ) %>% fit(
+    ) %>% train(
       input_fn = specs$input_fn,
       steps = 10L,
       monitors = hook_logging_tensor(
@@ -22,7 +22,7 @@ test_that("Hooks works with linear dnn combined estimators", {
     dnn_feature_columns = specs$dnn_feature_columns,
     dnn_hidden_units = c(1L, 1L),
     dnn_optimizer = "Adagrad"
-  ) %>% fit(
+  ) %>% train(
     input_fn = specs$input_fn,
     steps = 10L,
     monitors = hook_checkpoint_saver(

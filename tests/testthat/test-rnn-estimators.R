@@ -34,7 +34,7 @@ test_that("state_saving_rnn_estimator works on sine sequence data", {
   train_input_fn <- get_non_batched_sin_input_fn(sequence_length, pi / 32, seed = 1234)
   eval_input_fn <- get_non_batched_sin_input_fn(sequence_length, pi / 32, seed = 4321)
 
-  fit(rnn_sequence_estimator, input_fn = train_input_fn, steps = train_steps)
+  train(rnn_sequence_estimator, input_fn = train_input_fn, steps = train_steps)
 })
 
 
@@ -67,7 +67,7 @@ test_that("dynamic_rnn_estimator works on sine sequence data", {
   train_input_fn <- get_batched_sin_input_fn(batch_size, sequence_length, pi / 32, seed = 1234)
   eval_input_fn <- get_batched_sin_input_fn(batch_size, sequence_length, pi / 32, seed = 4321)
 
-  fit(rnn_sequence_estimator, input_fn = train_input_fn, steps = train_steps)
+  train(rnn_sequence_estimator, input_fn = train_input_fn, steps = train_steps)
 })
 
 test_that("dynamic_rnn_estimator works on fake sequence data", {
@@ -97,7 +97,7 @@ test_that("dynamic_rnn_estimator works on fake sequence data", {
   train_input_fn <- fake_sequence_input_fn()
   eval_input_fn <- fake_sequence_input_fn()
 
-  fit(rnn_sequence_estimator, input_fn = train_input_fn, steps = train_steps)
+  train(rnn_sequence_estimator, input_fn = train_input_fn, steps = train_steps)
   evaluation <- evaluate(rnn_sequence_estimator, input_fn = eval_input_fn, steps = 2L)
   expect_lte(evaluation$loss, 4)
 })

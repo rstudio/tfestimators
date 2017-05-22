@@ -12,7 +12,7 @@ test_that("Experiment works", {
       dnn_feature_columns = specs$dnn_feature_columns,
       dnn_hidden_units = c(3L, 3L),
       dnn_optimizer = "Adagrad"
-    ) %>% fit(input_fn = specs$input_fn)
+    ) %>% train(input_fn = specs$input_fn)
 
   experiment <- experiment(
     clf,

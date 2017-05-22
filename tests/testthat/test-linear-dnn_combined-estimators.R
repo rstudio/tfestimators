@@ -11,7 +11,7 @@ test_that("linear_dnn_combined_regressor() runs successfully", {
       dnn_feature_columns = specs$dnn_feature_columns,
       dnn_hidden_units = c(1L, 1L),
       dnn_optimizer = "Adagrad"
-    ) %>% fit(input_fn = specs$input_fn)
+    ) %>% train(input_fn = specs$input_fn)
 
   predictions <- predict(reg, input_fn = specs$input_fn)
   expect_equal(length(predictions), 32)
@@ -26,7 +26,7 @@ test_that("linear_dnn_combined_classifier() runs successfully", {
       dnn_feature_columns = specs$dnn_feature_columns,
       dnn_hidden_units = c(3L, 3L),
       dnn_optimizer = "Adagrad"
-    ) %>% fit(input_fn = specs$input_fn)
+    ) %>% train(input_fn = specs$input_fn)
 
   predictions <- predict(clf, input_fn = specs$input_fn)
   expect_equal(length(predictions), 32)

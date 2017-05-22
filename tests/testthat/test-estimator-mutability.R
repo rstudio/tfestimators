@@ -6,10 +6,10 @@ test_that("linear_regressor() is mutable and results are correct", {
   specs <- mtcars_regression_specs()
   
   tf_model <- linear_regressor(feature_columns = specs$linear_feature_columns)
-  fit(tf_model, input_fn = specs$input_fn)
+  train(tf_model, input_fn = specs$input_fn)
 
   tf_model2 <- linear_regressor(feature_columns = specs$linear_feature_columns) %>%
-    fit(input_fn = specs$input_fn)
+    train(input_fn = specs$input_fn)
   
   tf_coef <- coef(tf_model)
   tf_coef2 <- coef(tf_model2)
