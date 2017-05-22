@@ -101,8 +101,9 @@ model &lt;-<span class="st"> </span><span class="kw"><a href="reference/linear_r
 <li><p>Define an input function that provides the feature and response data for training.</p></li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># segment mtcars into test and training datasets</span>
-train &lt;-<span class="st"> </span>mtcars[<span class="dv">6</span>:<span class="dv">32</span>,]
-test &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span>:<span class="dv">5</span>,]
+test_obs &lt;-<span class="st"> </span><span class="kw">as.integer</span>(<span class="fl">0.2</span> *<span class="st"> </span><span class="kw">nrow</span>(mtcars))
+train &lt;-<span class="st"> </span>mtcars[-(<span class="dv">1</span>:test_obs),]
+test &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span>:test_obs,]
 
 <span class="co"># helper to yield an input_fn for a given slice of mtcars</span>
 mtcars_input_fn &lt;-<span class="st"> </span>function(data) {
@@ -111,23 +112,18 @@ mtcars_input_fn &lt;-<span class="st"> </span>function(data) {
 
 <span class="co"># train the model</span>
 model %&gt;%<span class="st"> </span><span class="kw">train</span>(<span class="kw">mtcars_input_fn</span>(train))</code></pre></div>
-<pre><code>## $estimator
-## RegressionHead
-## 
-## attr(,"class")
-## [1] "tf_model"  "linear"    "regressor"</code></pre>
 <p>We can evaluate the model’s accuracy using the <code>evaluate()</code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
 <pre><code>## $loss
-## [1] 313.8698
+## [1] 297.4577
 ## 
 ## $global_step
 ## [1] 2</code></pre>
 <p>Now we can generate predictions:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span>,]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span>:<span class="dv">3</span>,]
 model %&gt;%<span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
-<pre><code>##   scores 
-## 3.441562</code></pre>
+<pre><code>##   scores   scores   scores 
+## 2.811502 3.488924 3.488924</code></pre>
 </div>
 </div>
 <div id="canned-estimators" class="section level2">
