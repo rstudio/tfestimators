@@ -49,7 +49,8 @@ First, we create the estimator using the `linear_regressor()` function:
 
 ```{r}
 library(tfestimators)
-model <- linear_regressor(feature_columns(mtcars, c("drat", "cyl")))
+features <- c("drat", "cyl")
+model <- linear_regressor(feature_columns(mtcars, features))
 ```
 
 Then we train the model using the `mtcars` dataset. We'll do two things to setup for training:
@@ -65,7 +66,7 @@ test <- mtcars[1:5,]
 
 # helper to yield an input_fn for a given slice of mtcars
 mtcars_input_fn <- function(data) {
-  input_fn(data, response = "mpg", features = c("drat", "cyl"))
+  input_fn(data, response = "mpg", features = features)
 }
 
 # train the model

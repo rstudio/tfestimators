@@ -93,7 +93,8 @@
 <p>Let’s create a simple linear regression with the <code>mtcars</code> dataset to demonstrate the use of estimators.</p>
 <p>First, we create the estimator using the <code><a href="reference/linear_regressor.html">linear_regressor()</a></code> function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tfestimators)
-model &lt;-<span class="st"> </span><span class="kw"><a href="reference/linear_regressor.html">linear_regressor</a></span>(<span class="kw">feature_columns</span>(mtcars, <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>)))</code></pre></div>
+features &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>)
+model &lt;-<span class="st"> </span><span class="kw"><a href="reference/linear_regressor.html">linear_regressor</a></span>(<span class="kw">feature_columns</span>(mtcars, features))</code></pre></div>
 <p>Then we train the model using the <code>mtcars</code> dataset. We’ll do two things to setup for training:</p>
 <ol style="list-style-type: decimal">
 <li><p>Segment <code>mtcars</code> into training and test datasets; and</p></li>
@@ -105,7 +106,7 @@ test &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span>:<span class=
 
 <span class="co"># helper to yield an input_fn for a given slice of mtcars</span>
 mtcars_input_fn &lt;-<span class="st"> </span>function(data) {
-  <span class="kw"><a href="reference/input_fn.html">input_fn</a></span>(data, <span class="dt">response =</span> <span class="st">"mpg"</span>, <span class="dt">features =</span> <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>))
+  <span class="kw"><a href="reference/input_fn.html">input_fn</a></span>(data, <span class="dt">response =</span> <span class="st">"mpg"</span>, <span class="dt">features =</span> features)
 }
 
 <span class="co"># train the model</span>
@@ -118,14 +119,14 @@ model %&gt;%<span class="st"> </span><span class="kw">train</span>(<span class="
 <p>We can evaluate the model’s accuracy using the <code>evaluate()</code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
 <pre><code>## $loss
-## [1] 307.9282
+## [1] 309.6492
 ## 
 ## $global_step
 ## [1] 2</code></pre>
 <p>Now we can generate predictions:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(mtcars[<span class="dv">1</span>,]))</code></pre></div>
 <pre><code>##   scores 
-## 3.618452</code></pre>
+## 3.566927</code></pre>
 </div>
 </div>
 <div id="canned-estimators" class="section level2">
