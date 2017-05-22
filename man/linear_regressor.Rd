@@ -58,9 +58,9 @@ key=weight column name, value=a \code{SparseTensor}}
 }
 }
 \seealso{
-Other canned estimators: \code{\link{dynamic_rnn_estimator}},
+Other canned estimators: \code{\link{dynamic_rnn}},
   \code{\link{linear_classifier}},
   \code{\link{linear_dnn_combined_classifier}},
   \code{\link{linear_dnn_combined_regressor}},
-  \code{\link{state_saving_rnn_estimator}}
+  \code{\link{state_saving_rnn}}
 }

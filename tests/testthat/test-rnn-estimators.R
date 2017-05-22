@@ -18,7 +18,7 @@ test_that("state_saving_rnn_estimator works on sine sequence data", {
     tf$contrib$layers$feature_column$real_valued_column('inputs', dimension = 1L)
   )
 
-  rnn_sequence_estimator <- state_saving_rnn_estimator(
+  rnn_sequence_estimator <- state_saving_rnn(
     problem_type = contrib_estimators_lib$constants$ProblemType$LINEAR_REGRESSION,
     num_units = num_units,
     cell_type = 'lstm',
@@ -54,7 +54,7 @@ test_that("dynamic_rnn_estimator works on sine sequence data", {
     tf$contrib$layers$feature_column$real_valued_column('inputs', dimension = num_units[1])
   )
 
-  rnn_sequence_estimator <- dynamic_rnn_estimator(
+  rnn_sequence_estimator <- dynamic_rnn(
     problem_type = contrib_estimators_lib$constants$ProblemType$LINEAR_REGRESSION,
     prediction = contrib_estimators_lib$rnn_common$PredictionType$MULTIPLE_VALUE,
     num_units = num_units,
@@ -84,7 +84,7 @@ test_that("dynamic_rnn_estimator works on fake sequence data", {
     tf$contrib$layers$feature_column$real_valued_column('inputs', dimension = num_units[1])
   )
 
-  rnn_sequence_estimator <- dynamic_rnn_estimator(
+  rnn_sequence_estimator <- dynamic_rnn(
     problem_type = contrib_estimators_lib$constants$ProblemType$LINEAR_REGRESSION,
     prediction = contrib_estimators_lib$rnn_common$PredictionType$MULTIPLE_VALUE,
     num_units = num_units,
