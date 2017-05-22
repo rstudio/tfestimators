@@ -82,7 +82,8 @@ model %>% evaluate(mtcars_input_fn(test))
 Now we can generate predictions:
 
 ```{r}
-model %>% predict(mtcars_input_fn(mtcars[1,]))
+obs <- mtcars[1,]
+model %>% predict(mtcars_input_fn(obs))
 ```
 
 
