@@ -54,7 +54,7 @@ np <- NULL
   contrib_feature_column_lib <<- reticulate::import("tensorflow.contrib.layers.python.layers.feature_column", delay_load = TRUE)
   
   # other modules
-  np <<- reticulate::import("numpy", convert = FALSE, delay_load = FALSE)
+  np <<- reticulate::import("numpy", convert = FALSE, delay_load = TRUE)
 }
 
 .onUnload <- function(libpath) {
