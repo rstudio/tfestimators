@@ -88,8 +88,8 @@ classifier &lt;-
       <span class="dt">dnn_hidden_units =</span> <span class="kw">c</span>(3L, 3L),
       <span class="dt">dnn_optimizer =</span> <span class="st">"Adagrad"</span>
     )</code></pre></div>
-<p>Users can then call <code>fit()</code> to train the initialized Estimator for a number of steps:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">classifier &lt;-<span class="st"> </span><span class="kw">fit</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn, <span class="dt">steps =</span> 2L)</code></pre></div>
+<p>Users can then call <code>train()</code> to train the initialized Estimator for a number of steps:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">classifier &lt;-<span class="st"> </span><span class="kw">train</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn, <span class="dt">steps =</span> 2L)</code></pre></div>
 <p>Once a model is trained, users can use <code>predict()</code> that makes predictions on a given input function that represents the inference data source. an argument named <code>type</code> can be <code>"raw"</code> so <code>predict()</code> will return the raw predictions outcomes, as well as <code>"prob"</code> and <code>"logistic"</code> that returns prediction probabilities and logistics if a model is of classification type.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn)
 predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn, <span class="dt">type =</span> <span class="st">"prob"</span>)
@@ -159,7 +159,7 @@ custom_model_fn &lt;-<span class="st"> </span>function(features, labels, mode, p
 <span class="co"># Initialize and fit the model using the the custom model function we defined</span>
 <span class="co"># and the constructed_input_fn that represents the input data source.  </span>
 classifier &lt;-<span class="st"> </span><span class="kw"><a href="../reference/estimator.html">estimator</a></span>(<span class="dt">model_fn =</span> custom_model_fn)
-classifier &lt;-<span class="st"> </span><span class="kw">fit</span>(classifier, <span class="dt">input_fn =</span> constructed_input_fn, <span class="dt">steps =</span> 2L)</code></pre></div>
+classifier &lt;-<span class="st"> </span><span class="kw">train</span>(classifier, <span class="dt">input_fn =</span> constructed_input_fn, <span class="dt">steps =</span> 2L)</code></pre></div>
 <p>Note that the above code contains a lot of <code>$</code>s. It is unnecessary to create wrapper APIs for every methods that users might use, e.g. <code>tf$contrib$layers$optimize_loss</code>, since custom models are designed to be flexible and extensible so users can insert any arbitrary low level TensorFlow APIs.</p>
 <p>Users can then supply new data in <code>input_fn</code> to <code>predict()</code> and make predictions using the trained model:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> constructed_input_fn)</code></pre></div>
@@ -336,8 +336,7 @@ experiment_result &lt;-<span class="st"> </span><span class="kw">train_and_evalu
   <span class="dt">dnn_optimizer =</span> <span class="st">"Adagrad"</span>
 )
 
-lr &lt;-<span class="st"> </span><span class="kw">fit</span>(
-  lr,
+lr %&gt;%<span class="st"> </span><span class="kw">train</span>(
   <span class="dt">input_fn =</span> custom_input_fn,
   <span class="dt">steps =</span> 10L,
   <span class="dt">monitors =</span> monitor)</code></pre></div>

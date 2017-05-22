@@ -31,7 +31,7 @@ reference:
   - title: "Estimator Methods"
     contents:
       - input_fn
-      - fit.tf_custom_model
+      - train.tf_custom_model
       - predict.tf_custom_model
       - evaluate.tf_custom_model
       - export_savedmodel.tf_custom_model

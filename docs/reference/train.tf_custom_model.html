@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Exports inference graph as a SavedModel into a given directory. — export_savedmodel.tf_custom_model • tfestimators</title>
+<title>Trains a model given training data input_fn. — train.tf_custom_model • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -79,83 +79,67 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Exports inference graph as a SavedModel into a given directory.</h1>
+    <h1>Trains a model given training data input_fn.</h1>
     </div>
 
     
-    <p>This method builds a new graph by first calling the serving_input_receiver_fn
-to obtain feature <code>Tensor</code>s, and then calling this <code>Estimator</code>'s model_fn to
-generate the model graph based on those features. It restores the given
-checkpoint (or, lacking that, the most recent checkpoint) into this graph in
-a fresh session. Finally it creates a timestamped export directory below the
-given export_dir_base, and writes a <code>SavedModel</code> into it containing a single
-<code>MetaGraphDef</code> saved from this session. The exported <code>MetaGraphDef</code> will
-provide one <code>SignatureDef</code> for each element of the export_outputs dict
-returned from the model_fn, named using the same keys. One of these keys is
-always signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY, indicating
-which signature will be served when a serving request does not specify one.
-For each signature, the outputs are provided by the corresponding
-<code>ExportOutput</code>s, and the inputs are always the input receivers provided by
-the serving_input_receiver_fn. Extra assets may be written into the
-SavedModel via the extra_assets argument. This should be a dict, where each
-key gives a destination path (including the filename) relative to the
-assets.extra directory. The corresponding value gives the full path of the
-source file to be copied. For example, the simple case of copying a single
-file without renaming it is specified as <code>{'my_asset_file.txt': '/path/to/my_asset_file.txt'}</code>.</p>
+    <p>Trains a model given training data input_fn.</p>
     
 
     <pre class="usage"><span class='co'># S3 method for tf_custom_model</span>
-<span class='fu'>export_savedmodel</span>(<span class='no'>object</span>, <span class='no'>export_dir_base</span>,
-  <span class='no'>serving_input_receiver_fn</span>, <span class='kw'>assets_extra</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>as_text</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>checkpoint_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+<span class='fu'>train</span>(<span class='no'>object</span>, <span class='no'>input_fn</span>, <span class='kw'>steps</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_steps</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>export_dir_base</th>
-      <td><p>A string containing a directory in which to create
-timestamped subdirectories containing exported SavedModels.</p></td>
+      <th>input_fn</th>
+      <td><p>Input function returning a list of: features - <code>Tensor</code> or
+dictionary of string feature name to <code>Tensor</code>. labels - <code>Tensor</code> or
+dictionary of <code>Tensor</code> with labels.</p></td>
     </tr>
     <tr>
-      <th>serving_input_receiver_fn</th>
-      <td><p>A function that takes no argument and
-returns a <code>ServingInputReceiver</code>.</p></td>
+      <th>steps</th>
+      <td><p>Number of steps for which to train model. If <code>NULL</code>, train
+forever or train until input_fn generates the <code>OutOfRange</code> or
+<code>StopIteration</code> error. 'steps' works incrementally. If you call two times
+train(steps=10) then training occurs in total 20 steps. If <code>OutOfRange</code> or
+<code>StopIteration</code> error occurs in the middle, training stops before 20 steps.
+If you don't want to have incremental behaviour please set <code>max_steps</code>
+instead. If set, <code>max_steps</code> must be <code>NULL</code>.</p></td>
     </tr>
     <tr>
-      <th>assets_extra</th>
-      <td><p>A dict specifying how to populate the assets.extra
-directory within the exported SavedModel, or <code>NULL</code> if no extra assets are
-needed.</p></td>
+      <th>hooks</th>
+      <td><p>List of <code>SessionRunHook</code> subclass instances. Used for callbacks
+inside the training loop.</p></td>
     </tr>
     <tr>
-      <th>as_text</th>
-      <td><p>whether to write the SavedModel proto in text format.</p></td>
-    </tr>
-    <tr>
-      <th>checkpoint_path</th>
-      <td><p>The checkpoint path to export. If <code>NULL</code> (the
-default), the most recent checkpoint found within the model directory is
-chosen.</p></td>
+      <th>max_steps</th>
+      <td><p>Number of total steps for which to train model. If <code>NULL</code>,
+train forever or train until input_fn generates the <code>OutOfRange</code> or
+<code>StopIteration</code> error. If set, <code>steps</code> must be <code>NULL</code>. If <code>OutOfRange</code> or
+<code>StopIteration</code> error occurs in the middle, training stops before
+<code>max_steps</code> steps.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The string path to the exported directory.</p>
+    <p><code>self</code>, for chaining.</p>
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
-    <p>ValueError: if no serving_input_receiver_fn is provided, no
-export_outputs are provided, or no checkpoint can be found.</p>
+    <p>ValueError: If both <code>steps</code> and <code>max_steps</code> are not <code>NULL</code>.
+ValueError: If either <code>steps</code> or <code>max_steps</code> is &lt;= 0.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p>Other custom estimator methods: <code><a href='estimator_spec.html'>estimator_spec</a></code>,
   <code><a href='estimator.html'>estimator</a></code>,
   <code><a href='evaluate.tf_custom_model.html'>evaluate.tf_custom_model</a></code>,
-  <code><a href='predict.tf_custom_model.html'>predict.tf_custom_model</a></code>,
-  <code><a href='train.tf_custom_model.html'>train.tf_custom_model</a></code></p>
+  <code><a href='export_savedmodel.tf_custom_model.html'>export_savedmodel.tf_custom_model</a></code>,
+  <code><a href='predict.tf_custom_model.html'>predict.tf_custom_model</a></code></p>
     
 
   </div>

@@ -47,25 +47,41 @@ Let's create a simple linear regression with the `mtcars` dataset to demonstrate
 
 First, we create the estimator using the `linear_regressor()` function:
 
-```{r results='hide'}
+```{r}
 library(tfestimators)
 model <- linear_regressor(feature_columns(mtcars, c("drat", "cyl")))
 ```
 
-Then we train the model using the `mtcars` dataset:
+Then we train the model using the `mtcars` dataset. We'll do two things to setup for training:
 
-```{r, results='hide'}
-# define an input function for the training data
-input <- input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
+1. Segment `mtcars` into training and test datasets; and
 
-# fit the model
-model %>% fit(input)
+2. Define an input function that provides the feature and response data for training.
+
+```{r}
+# segment mtcars into test and training datasets
+train <- mtcars[6:32,]
+test <- mtcars[1:5,]
+
+# helper to yield an input_fn for a given slice of mtcars
+mtcars_input_fn <- function(data) {
+  input_fn(data, response = "mpg", features = c("drat", "cyl"))
+}
+
+# train the model
+model %>% train(mtcars_input_fn(train))
+```
+
+We can evaluate the model's accuracy using the `evaluate()` function (here we use the `test` dataset rather than the `train` dataset):
+
+```{r}
+model %>% evaluate(mtcars_input_fn(test))
 ```
 
 Now we can generate predictions:
 
 ```{r}
-model %>% predict(input)
+model %>% predict(mtcars_input_fn(mtcars[1,]))
 ```
 
 
@@ -93,7 +109,7 @@ To train and generate predictions with estimators you use the following set of g
 | Method  | Description |
 |------------------|----------------------------------------------------------------|
 | `input_fn()`  |  Input function constructor from various types of input used to feed the estimator.  |
-| `fit()`  |  Trains a model given training data input_fn.. |
+| `train()`  |  Trains a model given training data input_fn.. |
 | `predict()`  |  Returns predictions for given features. |
 | `evaluate()`  |  Evaluates the model given evaluation data input_fn. |
 | `export_savedmodel` | Exports inference graph as a SavedModel into a given directory. |
