@@ -21,19 +21,87 @@ The **tfestimators** package is an R interface to TensorFlow Estimators, a high-
 
 ## Quick Start
 
+### Installation
+
+To use **tfestimators** you need to install both the R package as well as [TensorFlow](https://rstudio.github.io/tensorflow/) iteslf.
+
+First, install the tfestimators R package as follows:
+
+```{r, eval=FALSE}
+devtools::install_github("rstudio/tfestimators")
+```
+
+Then, use the `install_tensorflow()` function to install TensorFlow:
+
+```{r, eval=FALSE}
+library(keras)
+install_tensorflow()
+```
+
+This will provide you with a default installation of TensorFlow suitable for use with the tfestimators R package. See the [article on TensorFlow installation](https://rstudio.github.io/tensorflow/installation.html) to learn about more advanced options.
+
+
+### Using Estimators
+
+Let's create a simple linear regression with the `mtcars` dataset to demonstrate the use of estimators.
+
+First, we create the estimator using the `linear_regressor()` function:
+
+```{r results='hide'}
+library(tfestimators)
+model <- linear_regressor(feature_columns(mtcars, c("drat", "cyl")))
+```
+
+Then we train the model using the `mtcars` dataset:
+
+```{r, results='hide'}
+# define an input function for the training data
+input <- input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
+
+# fit the model
+model %>% fit(input)
+```
+
+Now we can generate predictions:
+
+```{r}
+model %>% predict(input)
+```
+
+
 
 
 ## Canned Estimators
 
+The **tfestimators** package includes a wide variety of canned estimators for common machine learning tasks. Available estimators include:
 
-
+| Estimator  | Description |
+|------------------|----------------------------------------------------------------|
+| `linear_regressor()`  | Linear regressor model.  |
+| `linear_classifier()`  |  Linear classifier model. |
+| `linear_dnn_combined_regressor()`  |  Linear DNN Combined Regression. |
+| `linear_dnn_combined_classifier()`  |  Linear DNN Combined Classification. |
+| `svm_classifier()`  |  TensorFlow -- Support Vector Machines. |
+| `linear_dnn_combined_regressor()`  |  Dynamic RNN Estimator. |
+| `dynamic_rnn()`  |  Linear DNN Combined Regression. |
+| `state_saving_rnn()`  |  State Saving RNN Estimator. |
 
 ## Estimator Methods
+
+To train and generate predictions with estimators you use the following set of generic functions:
+
+| Method  | Description |
+|------------------|----------------------------------------------------------------|
+| `input_fn()`  |  Input function constructor from various types of input used to feed the estimator.  |
+| `fit()`  |  Trains a model given training data input_fn.. |
+| `predict()`  |  Returns predictions for given features. |
+| `evaluate()`  |  Evaluates the model given evaluation data input_fn. |
+| `export_savedmodel` | Exports inference graph as a SavedModel into a given directory. |
 
 
 ## Learning More
 
-
+See the [architecture overview](articles/architecture.html) to learn more about using TensorFlow Estimators.
 
 
 
