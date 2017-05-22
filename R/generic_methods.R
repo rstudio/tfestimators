@@ -1,6 +1,6 @@
 #' @export
 train <- function(object, ...) {
-  invisible(UseMethod("train"))
+  UseMethod("train")
 }
 
 #' @export
@@ -15,7 +15,7 @@ train_and_evaluate <- function(object, ...) {
 
 #' @export
 export_savedmodel <- function(object, ...) {
-  invisible(UseMethod("export_savedmodel"))
+  UseMethod("export_savedmodel")
 }
 
 #' @export

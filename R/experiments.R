@@ -68,7 +68,7 @@ evaluate.tf_experiment <- function(object, delay_secs = NULL) {
 #' @export
 #' @family experiment methods
 train.tf_experiment <- function(object, delay_secs = NULL) {
-  object$experiment$train(delay_secs = delay_secs)
+  invisible(object$experiment$train(delay_secs = delay_secs))
 }
 
 #' Experiment constructor

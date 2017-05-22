@@ -56,7 +56,7 @@ train.tf_model <- function(object, input_fn, steps = 2L, monitors = NULL, ...)
     steps = as.integer(steps),
     monitors = monitors,
     ...)
-  object
+  invisible(object)
 }
 
 #' @export

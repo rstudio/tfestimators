@@ -133,7 +133,7 @@ train.tf_custom_model <- function(object, input_fn, steps = NULL, hooks = NULL, 
     steps = as_nullable_integer(steps),
     hooks = hooks,
     max_steps = as_nullable_integer(max_steps))
-  object
+  invisible(object)
 }
 
 #' Returns predictions for given features.
@@ -278,13 +278,13 @@ export_savedmodel.tf_custom_model <- function(
   assets_extra = NULL,
   as_text = FALSE,
   checkpoint_path = NULL) {
-  object$estimator$export_savedmodel(
+  invisible(object$estimator$export_savedmodel(
     export_dir_base = export_dir_base,
     serving_input_receiver_fn = serving_input_receiver_fn,
     assets_extra = assets_extra,
     as_text = as_text,
     checkpoint_path = checkpoint_path
-  )
+  ))
 }
 
 #' @export
