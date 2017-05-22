@@ -34,7 +34,7 @@ devtools::install_github("rstudio/tfestimators")
 Then, use the `install_tensorflow()` function to install TensorFlow:
 
 ```{r, eval=FALSE}
-library(keras)
+library(tfestimators)
 install_tensorflow()
 ```
 
