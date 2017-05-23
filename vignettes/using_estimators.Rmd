@@ -1,0 +1,149 @@
+---
+title: "Using Estimators"
+output: 
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using Estimators}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+
+The core components of the TensorFlow Estimator API include:
+
+- Canned estimators (pre-built implementations of various models).
+
+- Custom estimators (custom model implementations).
+
+- Estimator methods (core methods like `train()`, `predict()`, etc. which work the same for all canned and custom estimators).
+
+- Feature columns (definitions of how features should be transformed during modeling).
+
+- Input functions (sources of data for training and prediction).
+
+In addition, there are APIs that cover more advanced training scenarios:
+
+- Experiments (wrappers around estimators that handle concerns like distributed training, hyperparameter tuning, etc.)
+
+- Run hooks (callbacks for recording context and interacting with training as it proceeds)
+
+Below we enumerate some of the core functions in each of these componets to provide a high level overview of what's available. See the linked articles for more details on using all of the components together.
+
+
+## Canned Estimators
+
+The **tfestimators** package includes a wide variety of canned estimators for common machine learning tasks. Available estimators include:
+
+| Estimator  | Description |
+|---------------------------------------|----------------------------------------------------------------|
+| `linear_regressor()`  | Linear regressor model.  |
+| `linear_classifier()`  |  Linear classifier model. |
+| `linear_dnn_combined_regressor()`  |  Linear DNN Combined Regression. |
+| `linear_dnn_combined_classifier()`  |  Linear DNN Combined Classification. |
+| `svm_classifier()`  |  TensorFlow -- Support Vector Machines. |
+| `linear_dnn_combined_regressor()`  |  Dynamic RNN Estimator. |
+| `dynamic_rnn()`  |  Linear DNN Combined Regression. |
+| `state_saving_rnn()`  |  State Saving RNN Estimator. |
+
+Before you can use an estimator you need to define a set of feature columns and provide an input function. The following two sections cover how to do this.
+
+## Feature Columns
+
+Users firstly specify the feature columns that represent the feature transformations to be used by the Estimator. Here we use the default function `feature_columns()` to automatically map each features in a dataset into a feature column according to their types, e.g. factor variable, numeric variable, etc.:
+
+``` r
+mtcars$vs <- as.factor(mtcars$vs)
+dnn_feature_columns <- feature_columns(mtcars, "drat")
+linear_feature_columns <- feature_columns(mtcars, "cyl")
+```
+
+The examples above provide columns as-is from a data frame. There are also a variety of functions available for transforming features prior to using them in training:
+
+| Method  | Description |
+|---------------------------------------|----------------------------------------------------------------|
+| `feature_columns()`  | Construct column placeholders from vectors in an R object   |
+| `column_bucketized()`  | Creates a _BucketizedColumn for discretizing dense input.   |
+| `column_crossed()`  |  Creates a _CrossedColumn for performing feature crosses.  |
+| `column_embedding()`  | Creates an _EmbeddingColumn for feeding sparse data into a DNN.   |
+| `column_one_hot()`  | Creates an _OneHotColumn for a one-hot or multi-hot repr in a DNN.   |
+| `column_real_valued()`  | Creates a _RealValuedColumn for dense numeric data.   |
+| `column_sparse_weighted()`  | Creates a _SparseColumn by combining sparse_id_column with a weight column.  |
+| `column_sparse_with_hash_bucket()`  | Creates a _SparseColumn with hashed bucket configuration.  |
+| `column_sparse_with_keys()`  | Creates a _SparseColumn with keys.   |
+
+
+## Input Functions
+
+Input functions are used to provide data to Estimtor training and prediction methods. The R interface provides several high-level input function implementations for various common R data sources, including:
+
+- Formulas
+- Matrices
+- Data Frames
+- Lists of vectors
+
+For example:
+
+``` r
+input <- input_fn(mtcars, response = "vs", features = c("drat", "cyl"))
+```
+
+
+## Creating an Estimator
+
+Here's an example of creating a Linear DNN Combined canned Estimator. In creating the estimator we pass the feature columns and other parameters that specifies the layers and architecture of the model. Note that for this particular canned Estimator, it takes two types of feature columns that are used for constructing linear layer and fully connected deep layers separately:
+
+``` r
+classifier <-
+	linear_dnn_combined_classifier(
+	  linear_feature_columns = linear_feature_columns,
+	  dnn_feature_columns = dnn_feature_columns,
+	  dnn_hidden_units = c(3L, 3L),
+	  dnn_optimizer = "Adagrad"
+	)
+```
+
+## Training and Prediction
+
+Users can then call `train()` to train the initialized Estimator for a number of steps:
+
+``` r
+classifier <- train(classifier, input_fn = custom_input_fn, steps = 2L)
+```
+
+Once a model is trained, users can use `predict()` that makes predictions on a given input function that represents the inference data source. an argument named `type` can be `"raw"` so `predict()` will return the raw predictions outcomes, as well as `"prob"` and `"logistic"` that returns prediction probabilities and logistics if a model is of classification type.
+
+``` r
+predictions <- predict(classifier, input_fn = custom_input_fn)
+predictions <- predict(classifier, input_fn = custom_input_fn, type = "prob")
+predictions <- predict(classifier, input_fn = custom_input_fn, type = "logistic")
+```
+
+There's also a function called `coef()` that can be used extract the trained coefficients of a model.
+
+``` r
+coefs <- coef(classifier)
+```
+
+There are a number of estimator methods which can be used generically with any canned or custom estimator:
+
+To train and generate predictions with estimators you use the following set of generic functions:
+
+| Method  | Description |
+|---------------------------------------|----------------------------------------------------------------|
+| `input_fn()`  |  Input function constructor from various types of input used to feed the estimator.  |
+| `train()`  |  Trains a model given training data input_fn.. |
+| `predict()`  |  Returns predictions for given features. |
+| `evaluate()`  |  Evaluates the model given evaluation data input_fn. |
+| `export_savedmodel()` | Exports inference graph as a SavedModel into a given directory. |
+
+
+
+
+
+

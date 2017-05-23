@@ -1,0 +1,47 @@
+---
+title: "Feature Columns"
+output: 
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Feature Columns}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Feature columns are used to specify the feature transformations and combinations for a model, e.g. `column_embedding()` that converts a categorical variable into embedding and `column_crossed()` that combines two variables in a specified way. 
+
+Users can use the default `feature_columns()` function to convert columns in an automatic fashion without any fancy feature engineering, e.g. numeric variables are converted using `column_real_valued()`, factor variables are converted using `column_with_keys()`, and character variables are converted using `column_with_hash_bucket()`. 
+
+``` r
+fcs <- feature_columns(mtcars, c("drat", "cyl"))
+```
+
+Users can also write their own custom feature columns transformation function like the following that transforms different columns in a `lapply` loop.
+
+``` r
+custom_feature_columns <- function(x, columns) {
+  ensure_valid_column_names(x, columns)
+  function() {
+    lapply(columns, function(column_name) {
+      column_values <- x[[column_name]]
+      if (column_name == "profit") {
+        column_real_valued(column_name)
+      } else if (column_name == "profession") {
+        column_with_keys(column_name)
+      } else {
+      	...
+      }
+    })
+  }
+}
+```
+
+The feature columns transformation functions are wrappers around Python `tf.contrib.layers.feature_column` module, for example, `column_real_valued()` is essentially `tf.contrib.layers.feature_column.real_valued_column`, we wrap it this way so users can just type `column_` and utilize the autocomplete functionality in RStudio to find available types of feature columns faster as well as reducing the appearances of `$` in the code. A variety of feature column functions are available. For example, `column_one_hot()` specifies a feature column that's one-hot encoded, `column_sparse_weighted()` creates a feature column in combination with a designated weight column.
+
+

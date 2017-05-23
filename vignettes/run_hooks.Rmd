@@ -1,0 +1,63 @@
+---
+title: "Run Hooks"
+output: 
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Run Hooks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+`SessionRunHooks` are useful to track training, report progress, request early stopping and more. Users can attach an arbitrary number of hooks to an estimator. `SessionRunHooks` use the observer pattern and notify at the following points:
+
+ - when a session starts being used
+ - before a call to the `session.run()`
+ - after a call to the `session.run()`
+ - when the session closed
+
+A `SessionRunHook` encapsulates a piece of reusable/composable computation that can piggyback a call to `MonitoredSession.run()`. A hook can add any ops-or-tensor/feeds to the run call, and when the run call finishes with success gets the outputs it requested. Hooks are allowed to add ops to the graph in `hook.begin()`. The graph is finalized after the `begin()` method is called.
+
+There are a few pre-defined `SessionRunHooks` available, for example:
+Run hooks are useful for tracking training, reporting progress, requesting early stopping, and more. Users can attach an arbitrary number of hooks to an estimator. Some built-in run hooks include:
+
+| Method  | Description |
+|---------------------------------------|----------------------------------------------------------------|
+| `hook_checkpoint_saver()`  |  Saves checkpoints every N steps or seconds. |
+| `hook_global_step_waiter()`  | Delay execution until global step reaches to wait_until_step. |
+| `hook_logging_tensor()`  | Prints the given tensors once every N local steps or once every N seconds. |
+| `hook_nan_tensor()`  | NaN Loss monitor. |
+| `hook_step_counter()`  | Steps per second monitor. |
+| `hook_stop_at_step()`  | Monitor to request stop at a specified step. |
+| `hook_summary_saver()`  | Saves summaries every N steps. |
+
+
+Similarly to feature columns, all available `SessionRunHooks` are named with `hook_xxx` to utilize the autocomplete functionality to speed up searching for available types of `SessionRunHooks`.
+
+For example, in order to customize the checkpoint saving mechanism, users can initialize a monitor using `hook_checkpoint_saver()` that defines the checkpoint directory and the frequency of saving new checkpoint. 
+
+``` r
+monitor <- hook_checkpoint_saver(
+  checkpoint_dir = "/tmp/ckpt_dir",
+  save_secs = 2)
+```
+
+Once monitor and an estimator are defined, the monitor can be attached to the estimator via the argument `monitors` when fitting the model. 
+
+``` r
+lr <- linear_dnn_combined_regressor(
+  linear_feature_columns = linear_feature_columns,
+  dnn_feature_columns = dnn_feature_columns,
+  dnn_hidden_units = c(1L, 1L),
+  dnn_optimizer = "Adagrad"
+)
+
+lr %>% train(
+  input_fn = custom_input_fn,
+  steps = 10L,
+  monitors = monitor)
+```

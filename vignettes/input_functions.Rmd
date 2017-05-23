@@ -1,0 +1,121 @@
+---
+title: "Input Functions"
+output: 
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Input Functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Input function is where users provide the input sources to feed into the model, e.g. in-memory dataframe/matrix, streaming data, serialized data formats, etc. 
+
+Users have two ways to specify in-memory data set - using formula interface or passing `features` and `response` arguments. For example, users can use built-in `input_fn()` on `data.frame/matrix` objects like the following:
+
+``` r
+input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
+```
+
+or use the formulate interface like below where left-hand and right-hand side of the `~` represent response column and feature columns respectively:
+
+``` r
+input_fn(mpg ~ drat + cyl, data = mtcars)
+```
+
+There's also a built-in `input_fn()` that works on nested lists, for example:
+
+``` r
+input_fn(
+  object = list(
+    features = list(
+      list(list(1), list(2), list(3)),
+      list(list(4), list(5), list(6))),
+    response = list(
+      list(1, 2, 3), list(4, 5, 6))),
+  features = "features",
+  response = "response")
+````
+
+In the above example, the data is a list of two named lists where each named list can be seen as different columns in a dataset. In this case, a column named `features` is being used as features to the model and a column named `response` is being used as the response variable. This nested lists format is particularly useful when constructing sequence input to Recurrent Neural Networks (RNN). Once the data is defined using `input_fn()`, it can be used directly in RNN constructor.
+
+Users can also write custom input function, e.g. a function `custom_input_fn()`, to convert each feature into a `Tensor` or `SparseTensor` according to the needs. The following skeleton code has a few places commented with "custom code here" that users can use to do customized operation. Other parts should remain unchanged.
+
+``` r
+custom_input_fn <-  function(
+  x,
+  features,
+  response = NULL)
+{
+  validate_input_fn_args(x, features, response)
+  function(is_canned_estimator) {
+    function() {
+      if (is_canned_estimator) {
+        # Change this block if this input_fn is used in canned estimators
+        input_features <- lapply(features, function(feature) {
+          custom_function(x[[feature]], ...) # custom code here
+        })
+        names(input_features) <- features
+      } else {
+        # Change this block if this input_fn is used in custom estimators
+        input_features <- custom_function(as.matrix(x[, features]), ...) # custom code here
+      }
+      if (!is.null(response)) {
+        input_response <- custom_function(x[[response]], ...) # custom code here
+      } else {
+        input_response <- NULL
+      }
+      list(input_features, input_response)
+    }
+  }
+}
+
+```
+
+Users are encounraged to follow the above skeleton but it may not be suitable for all types of models. For example, if a user want to construct some complicated input, such as a batched sequence input similar to a sine curve for feeding RNNs, he can define something similar to the following using mostly low-level TensorFlow APIs:
+
+``` r
+get_batched_sin_input_fn <- function(batch_size, sequence_length, increment, seed = NULL) {
+    function(unused_arg) {
+      function() {
+        starts <- random_ops$random_uniform(
+          list(batch_size), minval = 0, maxval = pi * 2.0,
+          dtype = tf$python$framework$dtypes$float32, seed = seed)
+        sin_curves <- functional_ops$map_fn(
+          function(x){
+            math_ops$sin(
+              math_ops$linspace(
+                array_ops$reshape(x[1], list()),
+                (sequence_length - 1) * increment,
+                as.integer(sequence_length + 1)))
+          },
+          tuple(starts),
+          dtype = tf$python$framework$dtypes$float32
+        )
+        inputs <- array_ops$expand_dims(
+          array_ops$slice(
+            sin_curves,
+            np$array(list(0, 0), dtype = np$int64),
+            np$array(list(batch_size, sequence_length), dtype = np$int64)),
+          2L
+        )
+        labels <- array_ops$slice(sin_curves,
+                                  np$array(list(0, 1), dtype = np$int64),
+                                  np$array(list(batch_size, sequence_length), dtype = np$int64))
+        tuple(list(inputs = inputs), labels)
+      }
+  }
+}
+```
+
+Users can then further define `input_fn` for training and evaluation:
+
+``` r
+train_input_fn <- get_batched_sin_input_fn(batch_size, sequence_length, pi / 32, seed = 1234)
+eval_input_fn <- get_batched_sin_input_fn(batch_size, sequence_length, pi / 32, seed = 4321)
+```
+

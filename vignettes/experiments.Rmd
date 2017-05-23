@@ -1,0 +1,56 @@
+---
+title: "Experiments"
+output: 
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Experiments}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Experiments are designed for easier experiments, e.g. define your model, specify training and evaluation data and steps, frequencies, where to run, metrics to use to monitor the process, etc. They contain all neccessary information required, such as `input_fn` for both training and evaluation, to run experiments and can be easily packed up to run in cloud, local, or cluster environment.
+
+For example, we firstly construct a classifier
+
+``` r
+clf <-
+  linear_dnn_combined_classifier(
+    linear_feature_columns = linear_feature_columns,
+    dnn_feature_columns = dnn_feature_columns,
+    dnn_hidden_units = c(3L, 3L),
+    dnn_optimizer = "Adagrad"
+  )
+  
+```
+
+and then we pass the classifier into `experiment()` together with other neccessary information, such as separate input functions for training and evaluation, training and avaluation steps, etc. Then we can call `train_and_evaluate()` to conduct the experiment by running training and evaluation altogether.
+
+``` r
+
+experiment <- experiment(
+  clf,
+  train_input_fn = custom_train_input_fn,
+  eval_input_fn = custom_eval_input_fn,
+  train_steps = 3L,
+  eval_steps = 3L,
+  continuous_eval_throttle_secs = 60L
+)
+
+experiment_result <- train_and_evaluate(experiment)
+```
+
+The following functions are available for working with experiments:
+
+| Method  | Description |
+|---------------------------------------|----------------------------------------------------------------|
+| `experiment()`  |  Create an experiment.  |
+| `train()`  |  Training method for experiments. |
+| `evaluate()`  |  Evaluation method for experiments. |
+| `train_and_evaluate()`  |  Interleave training and evaluation. |
+
+

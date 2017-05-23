@@ -31,8 +31,60 @@
 <li>
   <a href="index.html">Home</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Using
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li class="dropdown-header">Getting Started</li>
+    <li>
+      <a href="articles/using_estimators.html">Using Estimators</a>
+    </li>
+    <li>
+      <a href="articles/input_functions.html">Input Functions</a>
+    </li>
+    <li>
+      <a href="articles/feature_columns.html">Feature Columns</a>
+    </li>
+    <li class="divider">
+    </li>
+<li class="dropdown-header">Canned Estimators</li>
+    <li>
+      <a href="articles/linear_estimators.html">Linear Models</a>
+    </li>
+    <li>
+      <a href="articles/linear_dnn_combined_estimators.html">Linear/DNN Models</a>
+    </li>
+    <li>
+      <a href="articles/support_vector_machines.html">Support Vector Machines</a>
+    </li>
+    <li>
+      <a href="articles/recurrent_nueral_networks.html">Recurrent Nueral Networks</a>
+    </li>
+    <li class="divider">
+    </li>
+<li class="dropdown-header">Advanced</li>
+    <li>
+      <a href="articles/experiments.html">Experiments</a>
+    </li>
+    <li>
+      <a href="articles/run_hooks.html">Run Hooks</a>
+    </li>
+    <li>
+      <a href="articles/run_configuration.html">Run Configuration</a>
+    </li>
+    <li>
+      <a href="articles/custom_estimators.html">Custom Estimators</a>
+    </li>
+  </ul>
+</li>
 <li>
-  <a href="articles/architecture.html">Architecture</a>
+  <a href="articles/deployment.html">Deployment</a>
+</li>
+<li>
+  <a href="articles/examples/index.html">Examples</a>
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
@@ -64,13 +116,12 @@
 <div id="r-interface-to-tensorflow-estimators" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#r-interface-to-tensorflow-estimators" class="anchor"></a>R Interface to TensorFlow Estimators</h1></div>
-<div class="figure">
-<img src="images/tensorflow-2-100709406-large.jpg" align="right" style="width:50.0%">
-</div>
+<p><img src="images/tensorflow-2-100709406-large.jpg" align="right" width="50%" style="margin-left: 15px;"></p>
 <p>The <strong>tfestimators</strong> package is an R interface to TensorFlow Estimators, a high-level API that provides:</p>
 <ul>
 <li><p>Implementations of many model types including linear models, support vector machines, deep neural networks, state saving recurrent neural networks, and dynamic recurrent neural networks.</p></li>
 <li><p>A flexible framework for defining arbitrary new model types (Estimators)</p></li>
+<li><p>Standalone deployment of models (no R runtime required) in a wide variety of environments.</p></li>
 <li><p>An Experiment API that provides distributed training and hyperparameter tuning for both canned and custom estimators.</p></li>
 </ul>
 <div id="quick-start" class="section level2">
@@ -87,9 +138,9 @@
 <span class="kw"><a href="reference/reexports.html">install_tensorflow</a></span>()</code></pre></div>
 <p>This will provide you with a default installation of TensorFlow suitable for use with the tfestimators R package. See the <a href="https://rstudio.github.io/tensorflow/installation.html">article on TensorFlow installation</a> to learn about more advanced options.</p>
 </div>
-<div id="using-estimators" class="section level3">
+<div id="simple-example" class="section level3">
 <h3 class="hasAnchor">
-<a href="#using-estimators" class="anchor"></a>Using Estimators</h3>
+<a href="#simple-example" class="anchor"></a>Simple Example</h3>
 <p>Let’s create a simple linear regression with the <code>mtcars</code> dataset to demonstrate the use of estimators.</p>
 <p>First, some standard setup. Input to estimators is provided by an input function (<code>input_fn</code>) rather than as a plain matrix or data frame. Here we define a helper function that will yield an <code>input_fn</code> for a given subset of our data:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tfestimators)
@@ -115,7 +166,7 @@ model %&gt;%<span class="st"> </span><span class="kw">train</span>(<span class="
 <p>We can evaluate the model’s accuracy using the <code>evaluate()</code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
 <pre><code>## $loss
-## [1] 339.6262
+## [1] 447.1786
 ## 
 ## $global_step
 ## [1] 2</code></pre>
@@ -123,95 +174,34 @@ model %&gt;%<span class="st"> </span><span class="kw">train</span>(<span class="
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span>:<span class="dv">3</span>,]
 model %&gt;%<span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
 <pre><code>##   scores   scores   scores 
-## 3.635143 3.302599 2.920073</code></pre>
+## 2.846182 2.989065 3.926641</code></pre>
 </div>
-</div>
-<div id="canned-estimators" class="section level2">
-<h2 class="hasAnchor">
-<a href="#canned-estimators" class="anchor"></a>Canned Estimators</h2>
-<p>The <strong>tfestimators</strong> package includes a wide variety of canned estimators for common machine learning tasks. Available estimators include:</p>
-<table class="table">
-<thead><tr class="header">
-<th>Estimator</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code><a href="reference/linear_regressor.html">linear_regressor()</a></code></td>
-<td>Linear regressor model.</td>
-</tr>
-<tr class="even">
-<td><code><a href="reference/linear_classifier.html">linear_classifier()</a></code></td>
-<td>Linear classifier model.</td>
-</tr>
-<tr class="odd">
-<td><code><a href="reference/linear_dnn_combined_regressor.html">linear_dnn_combined_regressor()</a></code></td>
-<td>Linear DNN Combined Regression.</td>
-</tr>
-<tr class="even">
-<td><code><a href="reference/linear_dnn_combined_classifier.html">linear_dnn_combined_classifier()</a></code></td>
-<td>Linear DNN Combined Classification.</td>
-</tr>
-<tr class="odd">
-<td><code><a href="reference/svm_classifier.html">svm_classifier()</a></code></td>
-<td>TensorFlow – Support Vector Machines.</td>
-</tr>
-<tr class="even">
-<td><code><a href="reference/linear_dnn_combined_regressor.html">linear_dnn_combined_regressor()</a></code></td>
-<td>Dynamic RNN Estimator.</td>
-</tr>
-<tr class="odd">
-<td><code><a href="reference/dynamic_rnn.html">dynamic_rnn()</a></code></td>
-<td>Linear DNN Combined Regression.</td>
-</tr>
-<tr class="even">
-<td><code><a href="reference/state_saving_rnn.html">state_saving_rnn()</a></code></td>
-<td>State Saving RNN Estimator.</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="estimator-methods" class="section level2">
-<h2 class="hasAnchor">
-<a href="#estimator-methods" class="anchor"></a>Estimator Methods</h2>
-<p>To train and generate predictions with estimators you use the following set of generic functions:</p>
-<table style="width:100%;" class="table">
-<colgroup>
-<col width="22%">
-<col width="77%">
-</colgroup>
-<thead><tr class="header">
-<th>Method</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code><a href="reference/input_fn.html">input_fn()</a></code></td>
-<td>Input function constructor from various types of input used to feed the estimator.</td>
-</tr>
-<tr class="even">
-<td><code>train()</code></td>
-<td>Trains a model given training data input_fn..</td>
-</tr>
-<tr class="odd">
-<td><code>predict()</code></td>
-<td>Returns predictions for given features.</td>
-</tr>
-<tr class="even">
-<td><code>evaluate()</code></td>
-<td>Evaluates the model given evaluation data input_fn.</td>
-</tr>
-<tr class="odd">
-<td><code>export_savedmodel</code></td>
-<td>Exports inference graph as a SavedModel into a given directory.</td>
-</tr>
-</tbody>
-</table>
 </div>
 <div id="learning-more" class="section level2">
 <h2 class="hasAnchor">
 <a href="#learning-more" class="anchor"></a>Learning More</h2>
-<p>See the <a href="articles/architecture.html">architecture overview</a> to learn more about using TensorFlow Estimators.</p>
+<p>These articles cover the basics of using TensorFlow Estimators:</p>
+<ul>
+<li><a href="articles/using_estimators.html">Using Estimators</a></li>
+<li><a href="articles/input_functions.html">Input Functions</a></li>
+<li><a href="articles/feature_columns.html">Feature Columns</a></li>
+</ul>
+<p>These articles provide in depth documentation and example uses of canned estimators:</p>
+<ul>
+<li><a href="articles/linear_estimators.html">Linear Models</a></li>
+<li><a href="articles/linear_dnn_combined_estimators.html">Linear/DNN Models</a></li>
+<li><a href="articles/support_vector_machines.html">Support Vector Machines</a></li>
+<li><a href="articles/recurrent_nueral_networks.html">Recurrent Nueral Networks</a></li>
+</ul>
+<p>These articles describe more advanced topics/usage:</p>
+<ul>
+<li><a href="articles/experiments.html">Experiments</a></li>
+<li><a href="articles/run_hooks.html">Run Hooks</a></li>
+<li><a href="articles/run_configuration.html">Run Configuration</a></li>
+<li><a href="articles/custom_estimators.html">Custom Estimators</a></li>
+</ul>
+<p>One of the best ways to learn is from reviewing and experimenting with examples. See the <a href="articles/examples/examples.html">Examples</a> page for a variety of examples to help you get started.</p>
+<p>When you have built your model and are ready to deploy it, see the <a href="articles/deployment.html">Deployment</a> page for an in-depth review of deployment options.</p>
 </div>
 </div>
 </div>
