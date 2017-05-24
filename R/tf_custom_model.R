@@ -128,11 +128,15 @@ estimator <- function(model_fn,
 #' @family custom estimator methods
 train.tf_custom_model <- function(object, input_fn, steps = NULL, hooks = NULL, max_steps = NULL) {
   validate_input_fn(input_fn)
-  object$estimator$train(
-    input_fn = input_fn(get_input_fn_type(object)),
-    steps = as_nullable_integer(steps),
-    hooks = hooks,
-    max_steps = as_nullable_integer(max_steps))
+  # show training loss metrics 
+  # (https://www.tensorflow.org/get_started/monitors#enabling_logging_with_tensorflow)
+  with_logging_verbosity(tf$logging$INFO, {
+    object$estimator$train(
+      input_fn = input_fn(get_input_fn_type(object)),
+      steps = as_nullable_integer(steps),
+      hooks = hooks,
+      max_steps = as_nullable_integer(max_steps)) 
+  })
   invisible(object)
 }
 
@@ -298,5 +302,12 @@ as_model_fn <- function(f) {
   tools$as_model_fn(f)
 }
 
+
+with_logging_verbosity <- function(verbosity, expr) {
+  old <- tf$logging$get_verbosity()
+  on.exit(tf$logging$set_verbosity(old), add = TRUE)
+  tf$logging$set_verbosity(verbosity)
+  force(expr)
+}
 
 
