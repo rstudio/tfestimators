@@ -21,12 +21,7 @@ A \code{_CategoricalColumn} composed of two sparse features: one represents id, 
 Use this when each of your sparse inputs has both an ID and a value. For
 example, if you're representing text documents as a collection of word
 frequencies, you can provide 2 parallel sparse input features ('terms' and
-'frequencies' below). Example: Input \code{tf.Example} objects:
-\link[= features { feature { key: "terms" value {bytes_list {value: "very" value: "model"}} } feature { key: "frequencies" value {float_list {value: 0.3 value: 0.1}} } }, features { feature { key: "terms" value {bytes_list {value: "when" value: "course" value: "human"}} } feature { key: "frequencies" value {float_list {value: 0.4 value: 0.1 value: 0.2}} } }
-]{ features { feature { key: "terms" value {bytes_list {value: "very" value: "model"}} } feature { key: "frequencies" value {float_list {value: 0.3 value: 0.1}} } }, features { feature { key: "terms" value {bytes_list {value: "when" value: "course" value: "human"}} } feature { key: "frequencies" value {float_list {value: 0.4 value: 0.1 value: 0.2}} } }
-} \code{python categorical_column = categorical_column_with_hash_bucket( column_name='terms', hash_bucket_size=1000) weighted_column = weighted_categorical_column( categorical_column=categorical_column, weight_feature_key='frequencies') columns = [weighted_column, ...] features = tf.parse_example(..., features=make_parse_example_spec(columns)) linear_prediction, _, _ = linear_model(features, columns)} This assumes the input dictionary contains a \code{SparseTensor} for key
-'terms', and a \code{SparseTensor} for key 'frequencies'. These 2 tensors must have
-the same indices and dense shape.
+'frequencies' below).
 }
 \section{Raises}{
 
@@ -37,6 +32,7 @@ ValueError: if \code{dtype} is not convertible to float.
 Other feature_column wrappers: \code{\link{column_bucketized}},
   \code{\link{column_categorical_with_hash_bucket}},
   \code{\link{column_categorical_with_identity}},
+  \code{\link{column_categorical_with_vocabulary_file}},
   \code{\link{column_categorical_with_vocabulary_list}},
   \code{\link{column_crossed}},
   \code{\link{column_embedding}},

@@ -9,17 +9,23 @@ column_embedding(categorical_column, dimension, combiner = "mean",
   tensor_name_in_ckpt = NULL, max_norm = NULL, trainable = TRUE)
 }
 \arguments{
-\item{categorical_column}{A \code{_CategoricalColumn} created by a \code{categorical_column_with_*} function. This column produces the sparse IDs that are inputs to the embedding lookup.}
+\item{categorical_column}{A \code{_CategoricalColumn} created by a \code{categorical_column_with_*} function.
+This column produces the sparse IDs that are inputs to the embedding lookup.}
 
 \item{dimension}{An integer specifying dimension of the embedding, must be > 0.}
 
-\item{combiner}{A string specifying how to reduce if there are multiple entries in a single row. Currently 'mean', 'sqrtn' and 'sum' are supported, with 'mean' the default. 'sqrtn' often achieves good accuracy, in particular with bag-of-words columns. Each of this can be thought as example level normalizations on the column. For more information, see \code{tf.embedding_lookup_sparse}.}
+\item{combiner}{A string specifying how to reduce if there are multiple entries in a single row.
+Currently 'mean', 'sqrtn' and 'sum' are supported, with 'mean' the default. 'sqrtn' often achieves good accuracy, in particular with bag-of-words columns.
+Each of this can be thought as example level normalizations on the column. For more information, see \code{tf.embedding_lookup_sparse}.}
 
-\item{initializer}{A variable initializer function to be used in embedding variable initialization. If not specified, defaults to \code{tf.truncated_normal_initializer} with mean \code{0.0} and standard deviation \code{1/sqrt(dimension)}.}
+\item{initializer}{A variable initializer function to be used in embedding variable initialization.
+If not specified, defaults to \code{tf.truncated_normal_initializer} with mean \code{0.0} and standard deviation \code{1/sqrt(dimension)}.}
 
-\item{ckpt_to_load_from}{String representing checkpoint name/pattern from which to restore column weights. Required if \code{tensor_name_in_ckpt} is not \code{NULL}.}
+\item{ckpt_to_load_from}{String representing checkpoint name/pattern from which to restore column weights.
+Required if \code{tensor_name_in_ckpt} is not \code{NULL}.}
 
-\item{tensor_name_in_ckpt}{Name of the \code{Tensor} in \code{ckpt_to_load_from} from which to restore the column weights. Required if \code{ckpt_to_load_from} is not \code{NULL}.}
+\item{tensor_name_in_ckpt}{Name of the \code{Tensor} in \code{ckpt_to_load_from} from which to restore the column weights.
+Required if \code{ckpt_to_load_from} is not \code{NULL}.}
 
 \item{max_norm}{If not \code{NULL}, embedding values are l2-normalized to this value.}
 
@@ -31,14 +37,7 @@ column_embedding(categorical_column, dimension, combiner = "mean",
 \description{
 Use this when your inputs are sparse, but you want to convert them to a dense
 representation (e.g., to feed to a DNN). Inputs must be a \code{_CategoricalColumn} created by any of the
-\code{categorical_column_*} function. Here is an example embedding of an identity
-column for a DNN model: ```python
-video_id = categorical_column_with_identity( key='video_id', num_buckets=1000000, default_value=0)
-columns = [embedding_column(video_id, 9),...]
-features = tf.parse_example(..., features=make_parse_example_spec(columns))
-dense_tensor = input_layer(features, columns)\preformatted{
-[embedding_column(video_id, 9),...]: R:embedding_column(video_id,%209),...
-}
+\code{categorical_column_*} function.
 }
 \section{Raises}{
 
@@ -49,6 +48,7 @@ ValueError: if \code{dimension} not > 0. ValueError: if exactly one of \code{ckp
 Other feature_column wrappers: \code{\link{column_bucketized}},
   \code{\link{column_categorical_with_hash_bucket}},
   \code{\link{column_categorical_with_identity}},
+  \code{\link{column_categorical_with_vocabulary_file}},
   \code{\link{column_categorical_with_vocabulary_list}},
   \code{\link{column_crossed}},
   \code{\link{column_numeric}},

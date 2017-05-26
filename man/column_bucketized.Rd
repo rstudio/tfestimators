@@ -17,39 +17,30 @@ A \code{_BucketizedColumn}.
 \description{
 Buckets include the left boundary, and exclude the right boundary. Namely,
 \code{boundaries=[0., 1., 2.]} generates buckets \code{(-inf, 0.)}, \code{[0., 1.)},
-\code{[1., 2.)}, and \code{[2., +inf)}. For example, if the inputs are \code{boundaries} = [0, 10, 100] input tensor = [[-5, 10000] [150, 10] [5, 100]] then the output will be output = [[0, 3] [3, 2] [1, 3]] Example: \code{python price = numeric_column('price') bucketized_price = bucketized_column(price, boundaries=[...]) columns = [bucketized_price, ...] features = tf.parse_example(..., features=make_parse_example_spec(columns)) linear_prediction = linear_model(features, columns) # or columns = [bucketized_price, ...] features = tf.parse_example(..., features=make_parse_example_spec(columns)) dense_tensor = input_layer(features, columns)} \code{bucketized_column} can also be crossed with another categorical column using
-\code{crossed_column}:\preformatted{price = numeric_column('price')
-# bucketized_column converts numerical feature to a categorical one.
-bucketized_price = bucketized_column(price, boundaries=[...])
-# 'keywords' is a string feature.
-price_x_keywords = crossed_column([bucketized_price, 'keywords'], 50K)
-columns = [price_x_keywords, ...]
-features = tf.parse_example(..., features=make_parse_example_spec(columns))
-linear_prediction = linear_model(features, columns)
-}
-
-[0., 1.)\code{,}[1., 2.)\code{, and}[2., +inf)\code{. For example, if the inputs are}boundaries` = [0, 10, 100]: R:0.,%201.)%60,%0A%60[1.,%202.)%60,%20and%20%60[2.,%20+inf)%60.%20For%20example,%20if%20the%20inputs%20are%20%60boundaries%60%20=%20[0,%2010,%20100
+\code{[1., 2.)}, and \code{[2., +inf)}. For example, if the inputs are \code{boundaries} = [0, 10, 100]
+input tensor = [[-5, 10000] [150, 10] [5, 100]]
+then the output will be output = [[0, 3] [3, 2] [1, 3]]\preformatted{
+[0., 1., 2.]: R:0.,%201.,%202.
+[0., 1.)`,
+`[1., 2.)`, and `[2., +inf)`. For example, if the inputs are `boundaries` = [0, 10, 100]: R:0.,%201.)%60,%0A%60[1.,%202.)%60,%20and%20%60[2.,%20+inf)%60.%20For%20example,%20if%20the%20inputs%20are%20%60boundaries%60%20=%20[0,%2010,%20100
 [[-5, 10000]: R:[-5,%2010000
 [150, 10]: R:150,%2010
 [5, 100]: R:5,%20100
 [[0, 3]: R:[0,%203
 [3, 2]: R:3,%202
 [1, 3]: R:1,%203
-[...]: R:...
-[bucketized_price, ...]: R:bucketized_price,%20...
-[bucketized_price, ...]: R:bucketized_price,%20...
-[...]: R:...
-[bucketized_price, 'keywords']: R:bucketized_price,%20'keywords'
-[price_x_keywords, ...]: R:price_x_keywords,%20...
+}
 }
 \section{Raises}{
 
-ValueError: If \code{source_column} is not a numeric column, or if it is not one-dimensional. ValueError: If \code{boundaries} is not a sorted list or list.
+ValueError: If \code{source_column} is not a numeric column, or if it is not one-dimensional.
+ValueError: If \code{boundaries} is not a sorted list or list.
 }
 
 \seealso{
 Other feature_column wrappers: \code{\link{column_categorical_with_hash_bucket}},
   \code{\link{column_categorical_with_identity}},
+  \code{\link{column_categorical_with_vocabulary_file}},
   \code{\link{column_categorical_with_vocabulary_list}},
   \code{\link{column_crossed}},
   \code{\link{column_embedding}},

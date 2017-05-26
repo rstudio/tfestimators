@@ -8,11 +8,16 @@ column_numeric(key, shape = list(1L), default_value = NULL,
   dtype = tf$float32, normalizer_fn = NULL)
 }
 \arguments{
-\item{key}{A unique string identifying the input feature. It is used as the column name and the dictionary key for feature parsing configs, feature \code{Tensor} objects, and feature columns.}
+\item{key}{A unique string identifying the input feature.
+It is used as the column name and the dictionary key for feature parsing configs, feature \code{Tensor} objects, and feature columns.}
 
-\item{shape}{An iterable of integers specifies the shape of the \code{Tensor}. An integer can be given which means a single dimension \code{Tensor} with given width. The \code{Tensor} representing the column will have the shape of \link{batch_size} + \code{shape}.}
+\item{shape}{An iterable of integers specifies the shape of the \code{Tensor}.
+An integer can be given which means a single dimension \code{Tensor} with given width.
+The \code{Tensor} representing the column will have the shape of \link{batch_size} + \code{shape}.}
 
-\item{default_value}{A single value compatible with \code{dtype} or an iterable of values compatible with \code{dtype} which the column takes on during \code{tf.Example} parsing if data is missing. A default value of \code{NULL} will cause \code{tf.parse_example} to fail if an example does not contain this column. If a single value is provided, the same value will be applied as the default value for every item. If an iterable of values is provided, the shape of the \code{default_value} should be equal to the given \code{shape}.}
+\item{default_value}{A single value compatible with \code{dtype} or an iterable of values compatible with \code{dtype} which the column takes on during
+\code{tf.Example} parsing if data is missing. A default value of \code{NULL} will cause \code{tf.parse_example} to fail if an example does
+not contain this column. If a single value is provided, the same value will be applied as the default value for every item. If an iterable of values is provided, the shape of the \code{default_value} should be equal to the given \code{shape}.}
 
 \item{dtype}{defines the type of values. Default value is \code{tf.float32}. Must be a non-quantized, real integer or floating point type.}
 
@@ -22,29 +27,20 @@ column_numeric(key, shape = list(1L), default_value = NULL,
 A \code{_NumericColumn}.
 }
 \description{
-Example: ```python
-price = numeric_column('price')
-columns = [price, ...]
-features = tf.parse_example(..., features=make_parse_example_spec(columns))
-dense_tensor = input_layer(features, columns) # or
-bucketized_price = bucketized_column(price, boundaries=[...])
-columns = [bucketized_price, ...]
-features = tf.parse_example(..., features=make_parse_example_spec(columns))
-linear_prediction = linear_model(features, columns)\preformatted{
-[price, ...]: R:price,%20...
-[...]: R:...
-[bucketized_price, ...]: R:bucketized_price,%20...
-}
+Represents real valued or numerical features.
 }
 \section{Raises}{
 
-TypeError: if any dimension in shape is not an int ValueError: if any dimension in shape is not a positive integer TypeError: if \code{default_value} is an iterable but not compatible with \code{shape} TypeError: if \code{default_value} is not compatible with \code{dtype}. ValueError: if \code{dtype} is not convertible to \code{tf.float32}.
+TypeError: if any dimension in shape is not an int ValueError: if any dimension in shape is not a positive integer
+TypeError: if \code{default_value} is an iterable but not compatible with \code{shape} TypeError: if \code{default_value} is not compatible with \code{dtype}.
+ValueError: if \code{dtype} is not convertible to \code{tf.float32}.
 }
 
 \seealso{
 Other feature_column wrappers: \code{\link{column_bucketized}},
   \code{\link{column_categorical_with_hash_bucket}},
   \code{\link{column_categorical_with_identity}},
+  \code{\link{column_categorical_with_vocabulary_file}},
   \code{\link{column_categorical_with_vocabulary_list}},
   \code{\link{column_crossed}},
   \code{\link{column_embedding}},

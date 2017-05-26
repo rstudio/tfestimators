@@ -135,22 +135,10 @@
     
     <p>Use this when your sparse features are in string or integer format, and you
 want to distribute your inputs into a finite number of buckets by hashing.
-output_id = Hash(input_feature_string) <!-- % bucket_size For input dictionary \code{features}, \code{features[key]} is either \code{Tensor} or -->
+output_id = Hash(input_feature_string) <!-- % bucket_size For input dictionary \code{features}, \code{features$key$} is either \code{Tensor} or -->
 <code>SparseTensor</code>. If <code>Tensor</code>, missing values can be represented by <code>-1</code> for int
 and <code>''</code> for string. Note that these values are independent of the
-<code>default_value</code> argument. Example: ```python
-keywords = categorical_column_with_hash_bucket("keywords", 10K)
-columns = [keywords, ...]
-features = tf.parse_example(..., features=make_parse_example_spec(columns))
-linear_prediction = linear_model(features, columns) # or
-keywords_embedded = embedding_column(keywords, 16)
-columns = [keywords_embedded, ...]
-features = tf.parse_example(..., features=make_parse_example_spec(columns))
-dense_tensor = input_layer(features, columns)</p><pre>
-[key]: R:key
-[keywords, ...]: R:keywords,<!-- %20... -->
-[keywords_embedded, ...]: R:keywords_embedded,<!-- %20... -->
-</pre>
+<code>default_value</code> argument.</p>
     
 
     <pre class="usage"><span class='fu'>column_categorical_with_hash_bucket</span>(<span class='no'>key</span>, <span class='no'>hash_bucket_size</span>, <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>string</span>)</pre>
@@ -185,6 +173,7 @@ dense_tensor = input_layer(features, columns)</p><pre>
 
     <p>Other feature_column wrappers: <code><a href='column_bucketized.html'>column_bucketized</a></code>,
   <code><a href='column_categorical_with_identity.html'>column_categorical_with_identity</a></code>,
+  <code><a href='column_categorical_with_vocabulary_file.html'>column_categorical_with_vocabulary_file</a></code>,
   <code><a href='column_categorical_with_vocabulary_list.html'>column_categorical_with_vocabulary_list</a></code>,
   <code><a href='column_crossed.html'>column_crossed</a></code>,
   <code><a href='column_embedding.html'>column_embedding</a></code>,

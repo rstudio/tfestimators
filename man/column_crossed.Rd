@@ -7,7 +7,11 @@
 column_crossed(keys, hash_bucket_size, hash_key = NULL)
 }
 \arguments{
-\item{keys}{An iterable identifying the features to be crossed. Each element can be either: * string: Will use the corresponding feature which must be of string type. * \code{_CategoricalColumn}: Will use the transformed tensor produced by this column. Does not support hashed categorical column.}
+\item{keys}{An iterable identifying the features to be crossed. Each element can be either:
+\itemize{
+\item string: Will use the corresponding feature which must be of string type.
+\item \code{_CategoricalColumn}: Will use the transformed tensor produced by this column. Does not support hashed categorical column.
+}}
 
 \item{hash_bucket_size}{An int > 1. The number of buckets.}
 
@@ -20,72 +24,11 @@ A \code{_CrossedColumn}.
 Crossed features will be hashed according to \code{hash_bucket_size}. Conceptually,
 the transformation can be thought of as: Hash(cartesian product of features) % \code{hash_bucket_size} For example, if the input features are:
 \itemize{
-\item SparseTensor referred by first key: shape = \link{2, 2} \link{0, 0}: "a" \link{1, 0}: "b" \link{1, 1}: "c" * SparseTensor referred by second key: shape = \link{2, 1} \link{0, 0}: "d" \link{1, 0}: "e" then crossed feature will look like: shape = \link{2, 2} \link{0, 0}: Hash64("d", Hash64("a")) % hash_bucket_size \link{1, 0}: Hash64("e", Hash64("b")) % hash_bucket_size \link{1, 1}: Hash64("e", Hash64("c")) % hash_bucket_size Here is an example to create a linear model with crosses of string features:
-}\preformatted{keywords_x_doc_terms = crossed_column(['keywords', 'doc_terms'], 50K)
-columns = [keywords_x_doc_terms, ...]
-features = tf.parse_example(..., features=make_parse_example_spec(columns))
-linear_prediction = linear_model(features, columns)
-``` You could also use vocabulary lookup before crossing:
-```python
-keywords = categorical_column_with_vocabulary_file( 'keywords', '/path/to/vocabulary/file', vocabulary_size=1K)
-keywords_x_doc_terms = crossed_column([keywords, 'doc_terms'], 50K)
-columns = [keywords_x_doc_terms, ...]
-features = tf.parse_example(..., features=make_parse_example_spec(columns))
-linear_prediction = linear_model(features, columns)
-``` If an input feature is of numeric type, you can use
-`categorical_column_with_identity`, or `bucketized_column`, as in the example:
-```python
-# vertical_id is an integer categorical feature.
-vertical_id = categorical_column_with_identity('vertical_id', 10K)
-price = numeric_column('price')
-# bucketized_column converts numerical feature to a categorical one.
-bucketized_price = bucketized_column(price, boundaries=[...])
-vertical_id_x_price = crossed_column([vertical_id, bucketized_price], 50K)
-columns = [vertical_id_x_price, ...]
-features = tf.parse_example(..., features=make_parse_example_spec(columns))
-linear_prediction = linear_model(features, columns)
-``` To use crossed column in DNN model, you need to add it in an embedding column
-as in this example:
-```python
-vertical_id_x_price = crossed_column([vertical_id, bucketized_price], 50K)
-vertical_id_x_price_embedded = embedding_column(vertical_id_x_price, 10)
-dense_tensor = input_layer(features, [vertical_id_x_price_embedded, ...])
+\item SparseTensor referred by first key: shape = \link{2, 2} \link{0, 0}: "a" \link{1, 0}: "b" \link{1, 1}: "c"
+\item SparseTensor referred by second key:
+shape = \link{2, 1} \link{0, 0}: "d" \link{1, 0}: "e" then crossed feature will look like: shape = \link{2, 2} \link{0, 0}: Hash64("d", Hash64("a")) % hash_bucket_size \link{1, 0}: Hash64("e", Hash64("b")) % hash_bucket_size \link{1, 1}: Hash64("e", Hash64("c")) % hash_bucket_size
 }
 }
-\section{the transformation can be thought of as}{
-
-Hash(cartesian product of features) % \code{hash_bucket_size}
-}
-
-\section{then crossed feature will look like}{
-
-shape = \link{2, 2} \link{0, 0}: Hash64("d", Hash64("a")) % hash_bucket_size \link{1, 0}: Hash64("e", Hash64("b")) % hash_bucket_size \link{1, 1}: Hash64("e", Hash64("c")) % hash_bucket_size
-}
-
-\section{Here is an example to create a linear model with crosses of string features}{
-\preformatted{
-
-['keywords', 'doc_terms']: R:'keywords',%20'doc_terms'
-[keywords_x_doc_terms, ...]: R:keywords_x_doc_terms,%20...
-}
-}
-
-\section{You could also use vocabulary lookup before crossing}{
-\preformatted{
-
-[keywords, 'doc_terms']: R:keywords,%20'doc_terms'
-[keywords_x_doc_terms, ...]: R:keywords_x_doc_terms,%20...
-}
-}
-
-\section{as in this example}{
-\preformatted{
-
-[vertical_id, bucketized_price]: R:vertical_id,%20bucketized_price
-[vertical_id_x_price_embedded, ...]: R:vertical_id_x_price_embedded,%20...
-}
-}
-
 \section{Raises}{
 
 ValueError: If \code{len(keys) < 2}. ValueError: If any of the keys is neither a string nor \code{_CategoricalColumn}. ValueError: If any of the keys is \code{_HashedCategoricalColumn}. ValueError: If \code{hash_bucket_size < 1}.
@@ -95,6 +38,7 @@ ValueError: If \code{len(keys) < 2}. ValueError: If any of the keys is neither a
 Other feature_column wrappers: \code{\link{column_bucketized}},
   \code{\link{column_categorical_with_hash_bucket}},
   \code{\link{column_categorical_with_identity}},
+  \code{\link{column_categorical_with_vocabulary_file}},
   \code{\link{column_categorical_with_vocabulary_list}},
   \code{\link{column_embedding}},
   \code{\link{column_numeric}},

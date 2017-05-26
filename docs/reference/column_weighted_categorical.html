@@ -136,11 +136,7 @@
     <p>Use this when each of your sparse inputs has both an ID and a value. For
 example, if you're representing text documents as a collection of word
 frequencies, you can provide 2 parallel sparse input features ('terms' and
-'frequencies' below). Example: Input <code>tf.Example</code> objects:
- features  feature  key: "terms" value bytes_list value: "very" value: "model"  feature  key: "frequencies" value float_list value: 0.3 value: 0.1  , features  feature  key: "terms" value bytes_list value: "when" value: "course" value: "human"  feature  key: "frequencies" value float_list value: 0.4 value: 0.1 value: 0.2  
- <code>python categorical_column = categorical_column_with_hash_bucket( column_name='terms', hash_bucket_size=1000) weighted_column = weighted_categorical_column( categorical_column=categorical_column, weight_feature_key='frequencies') columns = [weighted_column, ...] features = tf.parse_example(..., features=make_parse_example_spec(columns)) linear_prediction, _, _ = linear_model(features, columns)</code> This assumes the input dictionary contains a <code>SparseTensor</code> for key
-'terms', and a <code>SparseTensor</code> for key 'frequencies'. These 2 tensors must have
-the same indices and dense shape.</p>
+'frequencies' below).</p>
     
 
     <pre class="usage"><span class='fu'>column_weighted_categorical</span>(<span class='no'>categorical_column</span>, <span class='no'>weight_feature_key</span>,
@@ -177,6 +173,7 @@ the same indices and dense shape.</p>
     <p>Other feature_column wrappers: <code><a href='column_bucketized.html'>column_bucketized</a></code>,
   <code><a href='column_categorical_with_hash_bucket.html'>column_categorical_with_hash_bucket</a></code>,
   <code><a href='column_categorical_with_identity.html'>column_categorical_with_identity</a></code>,
+  <code><a href='column_categorical_with_vocabulary_file.html'>column_categorical_with_vocabulary_file</a></code>,
   <code><a href='column_categorical_with_vocabulary_list.html'>column_categorical_with_vocabulary_list</a></code>,
   <code><a href='column_crossed.html'>column_crossed</a></code>,
   <code><a href='column_embedding.html'>column_embedding</a></code>,

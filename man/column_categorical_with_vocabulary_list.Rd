@@ -8,11 +8,15 @@ column_categorical_with_vocabulary_list(key, vocabulary_list, dtype = NULL,
   default_value = -1L)
 }
 \arguments{
-\item{key}{A unique string identifying the input feature. It is used as the column name and the dictionary key for feature parsing configs, feature \code{Tensor} objects, and feature columns.}
+\item{key}{A unique string identifying the input feature.
+It is used as the column name and the dictionary key for feature parsing configs, feature \code{Tensor} objects, and feature columns.}
 
-\item{vocabulary_list}{An ordered iterable defining the vocabulary. Each feature is mapped to the index of its value (if present) in \code{vocabulary_list}. Must be castable to \code{dtype}.}
+\item{vocabulary_list}{An ordered iterable defining the vocabulary.
+Each feature is mapped to the index of its value (if present) in \code{vocabulary_list}.
+Must be castable to \code{dtype}.}
 
-\item{dtype}{The type of features. Only string and integer types are supported. If \code{NULL}, it will be inferred from \code{vocabulary_list}.}
+\item{dtype}{The type of features. Only string and integer types are supported.
+If \code{NULL}, it will be inferred from \code{vocabulary_list}.}
 
 \item{default_value}{The value to use for values not in \code{vocabulary_list}.}
 }
@@ -20,45 +24,17 @@ column_categorical_with_vocabulary_list(key, vocabulary_list, dtype = NULL,
 A \code{_CategoricalColumn} with in-memory vocabulary.
 }
 \description{
-Logic for feature f is:
-id = vocabulary_list.index_of(f) if f in vocabulary_list else default_value Use this when your inputs are in string or integer format, and you have an
+Use this when your inputs are in string or integer format, and you have an
 in-memory vocabulary mapping each value to an integer ID. By default,
 out-of-vocabulary values are ignored. Use \code{default_value} to specify how to
-include out-of-vocabulary values. For input dictionary \code{features}, \code{features[key]} is either \code{Tensor} or
+include out-of-vocabulary values. For input dictionary \code{features}, \code{features$key} is either \code{Tensor} or
 \code{SparseTensor}. If \code{Tensor}, missing values can be represented by \code{-1} for int
-and \code{''} for string. Note that these values are independent of the
-\code{default_value} argument. In the following examples, each input in \code{vocabulary_list} is assigned an ID
-0-4 corresponding to its index (e.g., input 'B' produces output 2). All other
-inputs are assigned \code{default_value} 0. Linear model:\preformatted{colors = categorical_column_with_vocabulary_list( key='colors', vocabulary_list=('X', 'R', 'G', 'B', 'Y'), default_value=0)
-columns = [colors, ...]
-features = tf.parse_example(..., features=make_parse_example_spec(columns))
-linear_prediction, _, _ = linear_model(features, columns)
-``` Embedding for a DNN model:
-```python
-columns = [embedding_column(colors, 3),...]
-features = tf.parse_example(..., features=make_parse_example_spec(columns))
-dense_tensor = input_layer(features, columns)
+and \code{''} for string.
 }
+\details{
+Note that these values are independent of the
+\code{default_value} argument.
 }
-\section{Logic for feature f is}{
-
-id = vocabulary_list.index_of(f) if f in vocabulary_list else default_value
-}
-
-\section{Linear model}{
-\preformatted{
-
-[colors, ...]: R:colors,%20...
-}
-}
-
-\section{Embedding for a DNN model}{
-\preformatted{
-
-[embedding_column(colors, 3),...]: R:embedding_column(colors,%203),...
-}
-}
-
 \section{Raises}{
 
 ValueError: if \code{vocabulary_list} is empty, or contains duplicate keys. ValueError: if \code{dtype} is not integer or string.
@@ -68,6 +44,7 @@ ValueError: if \code{vocabulary_list} is empty, or contains duplicate keys. Valu
 Other feature_column wrappers: \code{\link{column_bucketized}},
   \code{\link{column_categorical_with_hash_bucket}},
   \code{\link{column_categorical_with_identity}},
+  \code{\link{column_categorical_with_vocabulary_file}},
   \code{\link{column_crossed}},
   \code{\link{column_embedding}},
   \code{\link{column_numeric}},

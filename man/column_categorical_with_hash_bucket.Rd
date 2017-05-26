@@ -19,22 +19,10 @@ A \code{_HashedCategoricalColumn}.
 \description{
 Use this when your sparse features are in string or integer format, and you
 want to distribute your inputs into a finite number of buckets by hashing.
-output_id = Hash(input_feature_string) % bucket_size For input dictionary \code{features}, \code{features[key]} is either \code{Tensor} or
+output_id = Hash(input_feature_string) % bucket_size For input dictionary \code{features}, \code{features$key$} is either \code{Tensor} or
 \code{SparseTensor}. If \code{Tensor}, missing values can be represented by \code{-1} for int
 and \code{''} for string. Note that these values are independent of the
-\code{default_value} argument. Example: ```python
-keywords = categorical_column_with_hash_bucket("keywords", 10K)
-columns = [keywords, ...]
-features = tf.parse_example(..., features=make_parse_example_spec(columns))
-linear_prediction = linear_model(features, columns) # or
-keywords_embedded = embedding_column(keywords, 16)
-columns = [keywords_embedded, ...]
-features = tf.parse_example(..., features=make_parse_example_spec(columns))
-dense_tensor = input_layer(features, columns)\preformatted{
-[key]: R:key
-[keywords, ...]: R:keywords,%20...
-[keywords_embedded, ...]: R:keywords_embedded,%20...
-}
+\code{default_value} argument.
 }
 \section{Raises}{
 
@@ -44,6 +32,7 @@ ValueError: \code{hash_bucket_size} is not greater than 1. ValueError: \code{dty
 \seealso{
 Other feature_column wrappers: \code{\link{column_bucketized}},
   \code{\link{column_categorical_with_identity}},
+  \code{\link{column_categorical_with_vocabulary_file}},
   \code{\link{column_categorical_with_vocabulary_list}},
   \code{\link{column_crossed}},
   \code{\link{column_embedding}},

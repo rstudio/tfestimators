@@ -133,25 +133,12 @@
     </div>
 
     
-    <p>Logic for feature f is:
-id = vocabulary_list.index_of(f) if f in vocabulary_list else default_value Use this when your inputs are in string or integer format, and you have an
+    <p>Use this when your inputs are in string or integer format, and you have an
 in-memory vocabulary mapping each value to an integer ID. By default,
 out-of-vocabulary values are ignored. Use <code>default_value</code> to specify how to
-include out-of-vocabulary values. For input dictionary <code>features</code>, <code>features[key]</code> is either <code>Tensor</code> or
+include out-of-vocabulary values. For input dictionary <code>features</code>, <code>features$key</code> is either <code>Tensor</code> or
 <code>SparseTensor</code>. If <code>Tensor</code>, missing values can be represented by <code>-1</code> for int
-and <code>''</code> for string. Note that these values are independent of the
-<code>default_value</code> argument. In the following examples, each input in <code>vocabulary_list</code> is assigned an ID
-0-4 corresponding to its index (e.g., input 'B' produces output 2). All other
-inputs are assigned <code>default_value</code> 0. Linear model:</p><pre>colors = categorical_column_with_vocabulary_list( key='colors', vocabulary_list=('X', 'R', 'G', 'B', 'Y'), default_value=0)
-columns = [colors, ...]
-features = tf.parse_example(..., features=make_parse_example_spec(columns))
-linear_prediction, _, _ = linear_model(features, columns)
-``` Embedding for a DNN model:
-```python
-columns = [embedding_column(colors, 3),...]
-features = tf.parse_example(..., features=make_parse_example_spec(columns))
-dense_tensor = input_layer(features, columns)
-</pre>
+and <code>''</code> for string.</p>
     
 
     <pre class="usage"><span class='fu'>column_categorical_with_vocabulary_list</span>(<span class='no'>key</span>, <span class='no'>vocabulary_list</span>, <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -162,15 +149,19 @@ dense_tensor = input_layer(features, columns)
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>key</th>
-      <td><p>A unique string identifying the input feature. It is used as the column name and the dictionary key for feature parsing configs, feature <code>Tensor</code> objects, and feature columns.</p></td>
+      <td><p>A unique string identifying the input feature.
+It is used as the column name and the dictionary key for feature parsing configs, feature <code>Tensor</code> objects, and feature columns.</p></td>
     </tr>
     <tr>
       <th>vocabulary_list</th>
-      <td><p>An ordered iterable defining the vocabulary. Each feature is mapped to the index of its value (if present) in <code>vocabulary_list</code>. Must be castable to <code>dtype</code>.</p></td>
+      <td><p>An ordered iterable defining the vocabulary.
+Each feature is mapped to the index of its value (if present) in <code>vocabulary_list</code>.
+Must be castable to <code>dtype</code>.</p></td>
     </tr>
     <tr>
       <th>dtype</th>
-      <td><p>The type of features. Only string and integer types are supported. If <code>NULL</code>, it will be inferred from <code>vocabulary_list</code>.</p></td>
+      <td><p>The type of features. Only string and integer types are supported.
+If <code>NULL</code>, it will be inferred from <code>vocabulary_list</code>.</p></td>
     </tr>
     <tr>
       <th>default_value</th>
@@ -182,22 +173,10 @@ dense_tensor = input_layer(features, columns)
 
     <p>A <code>_CategoricalColumn</code> with in-memory vocabulary.</p>
     
-    <h2 class="hasAnchor" id="logic-for-feature-f-is"><a class="anchor" href="#logic-for-feature-f-is"></a>Logic for feature f is</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    
-    <p>id = vocabulary_list.index_of(f) if f in vocabulary_list else default_value</p>
-    
-    <h2 class="hasAnchor" id="linear-model"><a class="anchor" href="#linear-model"></a>Linear model</h2>
-
-    <pre>
-    [colors, ...]: R:colors,<!-- %20... -->
-</pre>
-    
-    <h2 class="hasAnchor" id="embedding-for-a-dnn-model"><a class="anchor" href="#embedding-for-a-dnn-model"></a>Embedding for a DNN model</h2>
-
-    <pre>
-    [embedding_column(colors, 3),...]: R:embedding_column(colors,<!-- %203),... -->
-</pre>
+    <p>Note that these values are independent of the
+<code>default_value</code> argument.</p>
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
@@ -209,6 +188,7 @@ dense_tensor = input_layer(features, columns)
     <p>Other feature_column wrappers: <code><a href='column_bucketized.html'>column_bucketized</a></code>,
   <code><a href='column_categorical_with_hash_bucket.html'>column_categorical_with_hash_bucket</a></code>,
   <code><a href='column_categorical_with_identity.html'>column_categorical_with_identity</a></code>,
+  <code><a href='column_categorical_with_vocabulary_file.html'>column_categorical_with_vocabulary_file</a></code>,
   <code><a href='column_crossed.html'>column_crossed</a></code>,
   <code><a href='column_embedding.html'>column_embedding</a></code>,
   <code><a href='column_numeric.html'>column_numeric</a></code>,
@@ -223,11 +203,7 @@ dense_tensor = input_layer(features, columns)
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#logic-for-feature-f-is">Logic for feature f is</a></li>
-
-      <li><a href="#linear-model">Linear model</a></li>
-
-      <li><a href="#embedding-for-a-dnn-model">Embedding for a DNN model</a></li>
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#raises">Raises</a></li>
 

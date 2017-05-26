@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title><code>_DenseColumn</code> that converts from sparse, categorical input. — column_embedding • tfestimators</title>
+<title>A <code>_CategoricalColumn</code> with a vocabulary file. — column_categorical_with_vocabulary_file • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -129,79 +129,76 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1><code>_DenseColumn</code> that converts from sparse, categorical input.</h1>
+    <h1>A <code>_CategoricalColumn</code> with a vocabulary file.</h1>
     </div>
 
     
-    <p>Use this when your inputs are sparse, but you want to convert them to a dense
-representation (e.g., to feed to a DNN). Inputs must be a <code>_CategoricalColumn</code> created by any of the
-<code>categorical_column_*</code> function.</p>
+    <p>Use this when your inputs are in string or integer format, and you have a
+vocabulary file that maps each value to an integer ID. By default,
+out-of-vocabulary values are ignored. Use either (but not both) of
+<code>num_oov_buckets</code> and <code>default_value</code> to specify how to include
+out-of-vocabulary values. For input dictionary <code>features</code>, <code>features[key]</code> is either <code>Tensor</code> or
+<code>SparseTensor</code>. If <code>Tensor</code>, missing values can be represented by <code>-1</code> for int
+and <code>''</code> for string. Note that these values are independent of the
+<code>default_value</code> argument. Example with <code>num_oov_buckets</code>:
+File '/us/states.txt' contains 50 lines, each with a 2-character U.S. state
+abbreviation. All inputs with values in that file are assigned an ID 0-49,
+corresponding to its line number. All other values are hashed and assigned an
+ID 50-54.</p>
     
 
-    <pre class="usage"><span class='fu'>column_embedding</span>(<span class='no'>categorical_column</span>, <span class='no'>dimension</span>, <span class='kw'>combiner</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
-  <span class='kw'>initializer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ckpt_to_load_from</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>tensor_name_in_ckpt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_norm</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>trainable</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>column_categorical_with_vocabulary_file</span>(<span class='no'>key</span>, <span class='no'>vocabulary_file</span>, <span class='no'>vocabulary_size</span>,
+  <span class='kw'>num_oov_buckets</span> <span class='kw'>=</span> <span class='fl'>0L</span>, <span class='kw'>default_value</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>string</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>categorical_column</th>
-      <td><p>A <code>_CategoricalColumn</code> created by a <code>categorical_column_with_*</code> function.
-This column produces the sparse IDs that are inputs to the embedding lookup.</p></td>
+      <th>key</th>
+      <td><p>A unique string identifying the input feature. It is used as the column name and the dictionary key for feature parsing configs, feature <code>Tensor</code> objects, and feature columns.</p></td>
     </tr>
     <tr>
-      <th>dimension</th>
-      <td><p>An integer specifying dimension of the embedding, must be &gt; 0.</p></td>
+      <th>vocabulary_file</th>
+      <td><p>The vocabulary file name.</p></td>
     </tr>
     <tr>
-      <th>combiner</th>
-      <td><p>A string specifying how to reduce if there are multiple entries in a single row.
-Currently 'mean', 'sqrtn' and 'sum' are supported, with 'mean' the default. 'sqrtn' often achieves good accuracy, in particular with bag-of-words columns.
-Each of this can be thought as example level normalizations on the column. For more information, see <code>tf.embedding_lookup_sparse</code>.</p></td>
+      <th>vocabulary_size</th>
+      <td><p>Number of the elements in the vocabulary. This must be no greater than length of <code>vocabulary_file</code>, if less than length, later values are ignored.</p></td>
     </tr>
     <tr>
-      <th>initializer</th>
-      <td><p>A variable initializer function to be used in embedding variable initialization.
-If not specified, defaults to <code>tf.truncated_normal_initializer</code> with mean <code>0.0</code> and standard deviation <code>1/sqrt(dimension)</code>.</p></td>
+      <th>num_oov_buckets</th>
+      <td><p>Non-negative integer, the number of out-of-vocabulary buckets. All out-of-vocabulary inputs will be assigned IDs in the range <code>[vocabulary_size, vocabulary_size+num_oov_buckets)</code> based on a hash of the input value. A positive <code>num_oov_buckets</code> can not be specified with <code>default_value</code>.</p></td>
     </tr>
     <tr>
-      <th>ckpt_to_load_from</th>
-      <td><p>String representing checkpoint name/pattern from which to restore column weights.
-Required if <code>tensor_name_in_ckpt</code> is not <code>NULL</code>.</p></td>
+      <th>default_value</th>
+      <td><p>The integer ID value to return for out-of-vocabulary feature values, defaults to <code>-1</code>. This can not be specified with a positive <code>num_oov_buckets</code>.</p></td>
     </tr>
     <tr>
-      <th>tensor_name_in_ckpt</th>
-      <td><p>Name of the <code>Tensor</code> in <code>ckpt_to_load_from</code> from which to restore the column weights.
-Required if <code>ckpt_to_load_from</code> is not <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>max_norm</th>
-      <td><p>If not <code>NULL</code>, embedding values are l2-normalized to this value.</p></td>
-    </tr>
-    <tr>
-      <th>trainable</th>
-      <td><p>Whether or not the embedding is trainable. Default is TRUE.</p></td>
+      <th>dtype</th>
+      <td><p>The type of features. Only string and integer types are supported.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>_DenseColumn</code> that converts from sparse input.</p>
+    <p>A <code>_CategoricalColumn</code> with a vocabulary file.</p>
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
     
-    <p>ValueError: if <code>dimension</code> not &gt; 0. ValueError: if exactly one of <code>ckpt_to_load_from</code> and <code>tensor_name_in_ckpt</code> is specified. ValueError: if <code>initializer</code> is specified and is not callable.</p>
+    <p>ValueError: <code>vocabulary_file</code> is missing.
+ValueError: <code>vocabulary_size</code> is missing or &lt; 1.
+ValueError: <code>num_oov_buckets</code> is not a non-negative integer.
+ValueError: <code>dtype</code> is neither string nor integer.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p>Other feature_column wrappers: <code><a href='column_bucketized.html'>column_bucketized</a></code>,
   <code><a href='column_categorical_with_hash_bucket.html'>column_categorical_with_hash_bucket</a></code>,
   <code><a href='column_categorical_with_identity.html'>column_categorical_with_identity</a></code>,
-  <code><a href='column_categorical_with_vocabulary_file.html'>column_categorical_with_vocabulary_file</a></code>,
   <code><a href='column_categorical_with_vocabulary_list.html'>column_categorical_with_vocabulary_list</a></code>,
   <code><a href='column_crossed.html'>column_crossed</a></code>,
+  <code><a href='column_embedding.html'>column_embedding</a></code>,
   <code><a href='column_numeric.html'>column_numeric</a></code>,
   <code><a href='column_weighted_categorical.html'>column_weighted_categorical</a></code></p>
     

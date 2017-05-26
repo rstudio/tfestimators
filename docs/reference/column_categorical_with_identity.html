@@ -136,14 +136,7 @@
     <p>Use this when your inputs are integers in the range <code>[0, num_buckets)</code>, and
 you want to use the input value itself as the categorical ID. Values outside
 this range will result in <code>default_value</code> if specified, otherwise it will
-fail. Typically, this is used for contiguous ranges of integer indexes, but
-it doesn't have to be. This might be inefficient, however, if many of IDs
-are unused. Consider <code>categorical_column_with_hash_bucket</code> in that case. For input dictionary <code>features</code>, <code>features$key</code> is either <code>Tensor</code> or
-<code>SparseTensor</code>. If <code>Tensor</code>, missing values can be represented by <code>-1</code> for int
-and <code>''</code> for string. Note that these values are independent of the
-<code>default_value</code> argument. In the following examples, each input in the range <code>[0, 1000000)</code> is assigned
-the same value. All other inputs are assigned <code>default_value</code> 0. Note that a
-literal 0 in inputs will result in the same default ID.</p>
+fail.</p>
     
 
     <pre class="usage"><span class='fu'>column_categorical_with_identity</span>(<span class='no'>key</span>, <span class='no'>num_buckets</span>, <span class='kw'>default_value</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
@@ -153,7 +146,8 @@ literal 0 in inputs will result in the same default ID.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>key</th>
-      <td><p>A unique string identifying the input feature. It is used as the column name and the dictionary key for feature parsing configs, feature <code>Tensor</code> objects, and feature columns.</p></td>
+      <td><p>A unique string identifying the input feature.
+It is used as the column name and the dictionary key for feature parsing configs, feature <code>Tensor</code> objects, and feature columns.</p></td>
     </tr>
     <tr>
       <th>num_buckets</th>
@@ -161,7 +155,8 @@ literal 0 in inputs will result in the same default ID.</p>
     </tr>
     <tr>
       <th>default_value</th>
-      <td><p>If <code>NULL</code>, this column's graph operations will fail for out-of-range inputs. Otherwise, this value must be in the range <code>[0, num_buckets)</code>, and will replace inputs in that range.</p></td>
+      <td><p>If <code>NULL</code>, this column's graph operations will fail for out-of-range inputs.
+Otherwise, this value must be in the range <code>[0, num_buckets)</code>, and will replace inputs in that range.</p></td>
     </tr>
     </table>
     
@@ -169,15 +164,27 @@ literal 0 in inputs will result in the same default ID.</p>
 
     <p>A <code>_CategoricalColumn</code> that returns identity values.</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Typically, this is used for contiguous ranges of integer indexes, but
+it doesn't have to be. This might be inefficient, however, if many of IDs
+are unused. Consider <code>categorical_column_with_hash_bucket</code> in that case.</p>
+<p>For input dictionary <code>features</code>, <code>features$key</code> is either <code>Tensor</code> or
+<code>SparseTensor</code>. If <code>Tensor</code>, missing values can be represented by <code>-1</code> for int
+and <code>''</code> for string. Note that these values are independent of the
+<code>default_value</code> argument.</p>
+    
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
     
-    <p>ValueError: if <code>num_buckets</code> is less than one. ValueError: if <code>default_value</code> is not in range <code>[0, num_buckets)</code>.</p>
+    <p>ValueError: if <code>num_buckets</code> is less than one.
+ValueError: if <code>default_value</code> is not in range <code>[0, num_buckets)</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p>Other feature_column wrappers: <code><a href='column_bucketized.html'>column_bucketized</a></code>,
   <code><a href='column_categorical_with_hash_bucket.html'>column_categorical_with_hash_bucket</a></code>,
+  <code><a href='column_categorical_with_vocabulary_file.html'>column_categorical_with_vocabulary_file</a></code>,
   <code><a href='column_categorical_with_vocabulary_list.html'>column_categorical_with_vocabulary_list</a></code>,
   <code><a href='column_crossed.html'>column_crossed</a></code>,
   <code><a href='column_embedding.html'>column_embedding</a></code>,
@@ -192,6 +199,8 @@ literal 0 in inputs will result in the same default ID.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#raises">Raises</a></li>
 

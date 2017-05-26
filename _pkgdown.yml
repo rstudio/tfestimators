@@ -71,6 +71,7 @@ reference:
     contents: 
       - feature_columns.default
       - column_categorical_with_vocabulary_list
+      - column_categorical_with_vocabulary_file
       - column_categorical_with_identity
       - column_categorical_with_hash_bucket
       - column_indicator

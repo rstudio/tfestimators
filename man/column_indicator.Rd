@@ -14,20 +14,5 @@ An \code{_IndicatorColumn}.
 }
 \description{
 Used to wrap any \code{categorical_column_*} (e.g., to feed to DNN). Use
-\code{embedding_column} if the inputs are sparse. ```python
-name = indicator_column(categorical_column_with_vocabulary_list('name', ['bob', 'george', 'wanda'])
-columns = [name, ...]
-features = tf.parse_example(..., features=make_parse_example_spec(columns))
-dense_tensor = input_layer(features, columns) dense_tensor == [[1, 0, 0]] # If "name" bytes_list is ["bob"]
-dense_tensor == [[1, 0, 1]] # If "name" bytes_list is ["bob", "wanda"]
-dense_tensor == [[2, 0, 0]] # If "name" bytes_list is ["bob", "bob"]\preformatted{
-['bob', 'george', 'wanda']: R:'bob',%20'george',%20'wanda'
-[name, ...]: R:name,%20...
-[[1, 0, 0]: R:[1,%200,%200
-["bob"]: R:%22bob%22
-[[1, 0, 1]: R:[1,%200,%201
-["bob", "wanda"]: R:%22bob%22,%20%22wanda%22
-[[2, 0, 0]: R:[2,%200,%200
-["bob", "bob"]: R:%22bob%22,%20%22bob%22
-}
+\code{embedding_column} if the inputs are sparse.
 }
