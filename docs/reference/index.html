@@ -248,51 +248,57 @@ estimator</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="column_bucketized.html">column_bucketized</a></code> </p>
+            <p><code><a href="column_categorical_with_vocabulary_list.html">column_categorical_with_vocabulary_list</a></code> </p>
           </td>
-          <td><p>Creates a _BucketizedColumn for discretizing dense input.</p></td>
+          <td><p>A <code>_CategoricalColumn</code> with in-memory vocabulary.</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="column_crossed.html">column_crossed</a></code> </p>
+            <p><code><a href="column_categorical_with_identity.html">column_categorical_with_identity</a></code> </p>
           </td>
-          <td><p>Creates a _CrossedColumn for performing feature crosses.</p></td>
+          <td><p>A <code>_CategoricalColumn</code> that returns identity values.</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="column_categorical_with_hash_bucket.html">column_categorical_with_hash_bucket</a></code> </p>
+          </td>
+          <td><p>Represents sparse feature where ids are set by hashing.</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="column_indicator.html">column_indicator</a></code> </p>
+          </td>
+          <td><p>Represents multi-hot representation of given categorical column.</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="column_numeric.html">column_numeric</a></code> </p>
+          </td>
+          <td><p>Represents real valued or numerical features.</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="column_embedding.html">column_embedding</a></code> </p>
           </td>
-          <td><p>Creates an <code>_EmbeddingColumn</code> for feeding sparse data into a DNN.</p></td>
+          <td><p><code>_DenseColumn</code> that converts from sparse, categorical input.</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="column_one_hot.html">column_one_hot</a></code> </p>
+            <p><code><a href="column_crossed.html">column_crossed</a></code> </p>
           </td>
-          <td><p>Creates an <code>_OneHotColumn</code> for a one-hot or multi-hot repr in a DNN.</p></td>
+          <td><p>Returns a column for performing crosses of categorical features.</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="column_real_valued.html">column_real_valued</a></code> </p>
+            <p><code><a href="column_weighted_categorical.html">column_weighted_categorical</a></code> </p>
           </td>
-          <td><p>Creates a <code>_RealValuedColumn</code> for dense numeric data.</p></td>
+          <td><p>Applies weight values to a <code>_CategoricalColumn</code>.</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="column_sparse_weighted.html">column_sparse_weighted</a></code> </p>
+            <p><code><a href="column_bucketized.html">column_bucketized</a></code> </p>
           </td>
-          <td><p>Creates a _SparseColumn by combining sparse_id_column with a weight column.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="column_sparse_with_hash_bucket.html">column_sparse_with_hash_bucket</a></code> </p>
-          </td>
-          <td><p>Creates a _SparseColumn with hashed bucket configuration.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="column_sparse_with_keys.html">column_sparse_with_keys</a></code> </p>
-          </td>
-          <td><p>Creates a _SparseColumn with keys.</p></td>
+          <td><p>Represents discretized dense input.</p></td>
         </tr>
       </tbody><tbody>
         <tr>

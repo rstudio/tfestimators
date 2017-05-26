@@ -31,9 +31,9 @@ custom_feature_columns <- function(x, columns) {
     lapply(columns, function(column_name) {
       column_values <- x[[column_name]]
       if (column_name == "profit") {
-        column_real_valued(column_name)
+        column_numeric(column_name)
       } else if (column_name == "profession") {
-        column_with_keys(column_name)
+        column_with_keys(column_name, num_buckets = length(unique(column_values)))
       } else {
       	...
       }
@@ -42,6 +42,6 @@ custom_feature_columns <- function(x, columns) {
 }
 ```
 
-The feature columns transformation functions are wrappers around Python `tf.contrib.layers.feature_column` module, for example, `column_real_valued()` is essentially `tf.contrib.layers.feature_column.real_valued_column`, we wrap it this way so users can just type `column_` and utilize the autocomplete functionality in RStudio to find available types of feature columns faster as well as reducing the appearances of `$` in the code. A variety of feature column functions are available. For example, `column_one_hot()` specifies a feature column that's one-hot encoded, `column_sparse_weighted()` creates a feature column in combination with a designated weight column.
+The feature columns transformation functions are wrappers around Python `tf.contrib.layers.feature_column` module, for example, `column_numeric()` is essentially `tf.contrib.layers.feature_column.numeric_column`, we wrap it this way so users can just type `column_` and utilize the autocomplete functionality in RStudio to find available types of feature columns faster as well as reducing the appearances of `$` in the code. A variety of feature column functions are available. For example, `column_indicator()` specifies a feature column that's multi-hot encoded, `column_weighted_categorical()` creates a feature column in combination with a designated weight column.
 
 

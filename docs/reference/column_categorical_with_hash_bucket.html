@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Represents discretized dense input. — column_bucketized • tfestimators</title>
+<title>Represents sparse feature where ids are set by hashing. — column_categorical_with_hash_bucket • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -129,65 +129,61 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Represents discretized dense input.</h1>
+    <h1>Represents sparse feature where ids are set by hashing.</h1>
     </div>
 
     
-    <p>Buckets include the left boundary, and exclude the right boundary. Namely,
-<code>boundaries=[0., 1., 2.]</code> generates buckets <code>(-inf, 0.)</code>, <code>[0., 1.)</code>,
-<code>[1., 2.)</code>, and <code>[2., +inf)</code>. For example, if the inputs are <code>boundaries</code> = [0, 10, 100] input tensor = [[-5, 10000] [150, 10] [5, 100]] then the output will be output = [[0, 3] [3, 2] [1, 3]] Example: <code>python price = numeric_column('price') bucketized_price = bucketized_column(price, boundaries=[...]) columns = [bucketized_price, ...] features = tf.parse_example(..., features=make_parse_example_spec(columns)) linear_prediction = linear_model(features, columns) # or columns = [bucketized_price, ...] features = tf.parse_example(..., features=make_parse_example_spec(columns)) dense_tensor = input_layer(features, columns)</code> <code>bucketized_column</code> can also be crossed with another categorical column using
-<code>crossed_column</code>:</p><pre>price = numeric_column('price')
-# bucketized_column converts numerical feature to a categorical one.
-bucketized_price = bucketized_column(price, boundaries=[...])
-# 'keywords' is a string feature.
-price_x_keywords = crossed_column([bucketized_price, 'keywords'], 50K)
-columns = [price_x_keywords, ...]
+    <p>Use this when your sparse features are in string or integer format, and you
+want to distribute your inputs into a finite number of buckets by hashing.
+output_id = Hash(input_feature_string) <!-- % bucket_size For input dictionary \code{features}, \code{features[key]} is either \code{Tensor} or -->
+<code>SparseTensor</code>. If <code>Tensor</code>, missing values can be represented by <code>-1</code> for int
+and <code>''</code> for string. Note that these values are independent of the
+<code>default_value</code> argument. Example: ```python
+keywords = categorical_column_with_hash_bucket("keywords", 10K)
+columns = [keywords, ...]
 features = tf.parse_example(..., features=make_parse_example_spec(columns))
-linear_prediction = linear_model(features, columns)
+linear_prediction = linear_model(features, columns) # or
+keywords_embedded = embedding_column(keywords, 16)
+columns = [keywords_embedded, ...]
+features = tf.parse_example(..., features=make_parse_example_spec(columns))
+dense_tensor = input_layer(features, columns)</p><pre>
+[key]: R:key
+[keywords, ...]: R:keywords,<!-- %20... -->
+[keywords_embedded, ...]: R:keywords_embedded,<!-- %20... -->
 </pre>
-
-    <p>[0., 1.)<code>,</code>[1., 2.)<code>, and</code>[2., +inf)<code>. For example, if the inputs are</code>boundaries` = [0, 10, 100]: R:0.,<!-- %201.)%60,%0A%60[1.,%202.)%60,%20and%20%60[2.,%20+inf)%60.%20For%20example,%20if%20the%20inputs%20are%20%60boundaries%60%20=%20[0,%2010,%20100 -->
-[[-5, 10000]: R:[-5,<!-- %2010000 -->
-[150, 10]: R:150,<!-- %2010 -->
-[5, 100]: R:5,<!-- %20100 -->
-[[0, 3]: R:[0,<!-- %203 -->
-[3, 2]: R:3,<!-- %202 -->
-[1, 3]: R:1,<!-- %203 -->
-[...]: R:...
-[bucketized_price, ...]: R:bucketized_price,<!-- %20... -->
-[bucketized_price, ...]: R:bucketized_price,<!-- %20... -->
-[...]: R:...
-[bucketized_price, 'keywords']: R:bucketized_price,<!-- %20'keywords' -->
-[price_x_keywords, ...]: R:price_x_keywords,<!-- %20... --></p>
     
 
-    <pre class="usage"><span class='fu'>column_bucketized</span>(<span class='no'>source_column</span>, <span class='no'>boundaries</span>)</pre>
+    <pre class="usage"><span class='fu'>column_categorical_with_hash_bucket</span>(<span class='no'>key</span>, <span class='no'>hash_bucket_size</span>, <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>string</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>source_column</th>
-      <td><p>A one-dimensional dense column which is generated with <code>numeric_column</code>.</p></td>
+      <th>key</th>
+      <td><p>A unique string identifying the input feature. It is used as the column name and the dictionary key for feature parsing configs, feature <code>Tensor</code> objects, and feature columns.</p></td>
     </tr>
     <tr>
-      <th>boundaries</th>
-      <td><p>A sorted list or list of floats specifying the boundaries.</p></td>
+      <th>hash_bucket_size</th>
+      <td><p>An int &gt; 1. The number of buckets.</p></td>
+    </tr>
+    <tr>
+      <th>dtype</th>
+      <td><p>The type of features. Only string and integer types are supported.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>_BucketizedColumn</code>.</p>
+    <p>A <code>_HashedCategoricalColumn</code>.</p>
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
     
-    <p>ValueError: If <code>source_column</code> is not a numeric column, or if it is not one-dimensional. ValueError: If <code>boundaries</code> is not a sorted list or list.</p>
+    <p>ValueError: <code>hash_bucket_size</code> is not greater than 1. ValueError: <code>dtype</code> is neither string nor integer.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other feature_column wrappers: <code><a href='column_categorical_with_hash_bucket.html'>column_categorical_with_hash_bucket</a></code>,
+    <p>Other feature_column wrappers: <code><a href='column_bucketized.html'>column_bucketized</a></code>,
   <code><a href='column_categorical_with_identity.html'>column_categorical_with_identity</a></code>,
   <code><a href='column_categorical_with_vocabulary_list.html'>column_categorical_with_vocabulary_list</a></code>,
   <code><a href='column_crossed.html'>column_crossed</a></code>,

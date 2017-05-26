@@ -43,6 +43,7 @@ np <- NULL
 .onLoad <- function(libname, pkgname) {
   # core modules
   estimator_lib <<- import("tensorflow.python.estimator.estimator", delay_load = TRUE)
+  feature_column_lib <<- import("tensorflow.python.feature_column.feature_column", delay_load = TRUE)
   random_ops <<- import("tensorflow.python.ops.random_ops", delay_load = TRUE)
   math_ops <<- import("tensorflow.python.ops.math_ops", delay_load = TRUE)
   array_ops <<- import("tensorflow.python.ops.array_ops", delay_load = TRUE)
@@ -52,8 +53,7 @@ np <- NULL
   contrib_learn <<- import("tensorflow.contrib.learn", delay_load = TRUE)
   contrib_layers <<- import("tensorflow.contrib.layers", delay_load = TRUE)
   contrib_estimators_lib <<- import("tensorflow.contrib.learn.python.learn.estimators", delay_load = TRUE)
-  contrib_feature_column_lib <<- import("tensorflow.contrib.layers.python.layers.feature_column", delay_load = TRUE)
-  
+
   # other modules
   np <<- import("numpy", convert = FALSE, delay_load = TRUE)
 }

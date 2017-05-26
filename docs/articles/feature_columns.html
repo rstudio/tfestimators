@@ -115,7 +115,7 @@
     
 <div class="contents">
 <p>Feature columns are used to specify the feature transformations and combinations for a model, e.g. <code><a href="../reference/column_embedding.html">column_embedding()</a></code> that converts a categorical variable into embedding and <code><a href="../reference/column_crossed.html">column_crossed()</a></code> that combines two variables in a specified way.</p>
-<p>Users can use the default <code>feature_columns()</code> function to convert columns in an automatic fashion without any fancy feature engineering, e.g. numeric variables are converted using <code><a href="../reference/column_real_valued.html">column_real_valued()</a></code>, factor variables are converted using <code>column_with_keys()</code>, and character variables are converted using <code>column_with_hash_bucket()</code>.</p>
+<p>Users can use the default <code>feature_columns()</code> function to convert columns in an automatic fashion without any fancy feature engineering, e.g. numeric variables are converted using <code>column_real_valued()</code>, factor variables are converted using <code>column_with_keys()</code>, and character variables are converted using <code>column_with_hash_bucket()</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fcs &lt;-<span class="st"> </span><span class="kw">feature_columns</span>(mtcars, <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>))</code></pre></div>
 <p>Users can also write their own custom feature columns transformation function like the following that transforms different columns in a <code>lapply</code> loop.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">custom_feature_columns &lt;-<span class="st"> </span>function(x, columns) {
@@ -124,16 +124,16 @@
     <span class="kw">lapply</span>(columns, function(column_name) {
       column_values &lt;-<span class="st"> </span>x[[column_name]]
       if (column_name ==<span class="st"> "profit"</span>) {
-        <span class="kw"><a href="../reference/column_real_valued.html">column_real_valued</a></span>(column_name)
+        <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(column_name)
       } else if (column_name ==<span class="st"> "profession"</span>) {
-        <span class="kw">column_with_keys</span>(column_name)
+        <span class="kw">column_with_keys</span>(column_name, <span class="dt">num_buckets =</span> <span class="kw">length</span>(<span class="kw">unique</span>(column_values)))
       } else {
         ...
       }
     })
   }
 }</code></pre></div>
-<p>The feature columns transformation functions are wrappers around Python <code>tf.contrib.layers.feature_column</code> module, for example, <code><a href="../reference/column_real_valued.html">column_real_valued()</a></code> is essentially <code>tf.contrib.layers.feature_column.real_valued_column</code>, we wrap it this way so users can just type <code>column_</code> and utilize the autocomplete functionality in RStudio to find available types of feature columns faster as well as reducing the appearances of <code>$</code> in the code. A variety of feature column functions are available. For example, <code><a href="../reference/column_one_hot.html">column_one_hot()</a></code> specifies a feature column that’s one-hot encoded, <code><a href="../reference/column_sparse_weighted.html">column_sparse_weighted()</a></code> creates a feature column in combination with a designated weight column.</p>
+<p>The feature columns transformation functions are wrappers around Python <code>tf.contrib.layers.feature_column</code> module, for example, <code><a href="../reference/column_numeric.html">column_numeric()</a></code> is essentially <code>tf.contrib.layers.feature_column.numeric_column</code>, we wrap it this way so users can just type <code>column_</code> and utilize the autocomplete functionality in RStudio to find available types of feature columns faster as well as reducing the appearances of <code>$</code> in the code. A variety of feature column functions are available. For example, <code><a href="../reference/column_indicator.html">column_indicator()</a></code> specifies a feature column that’s multi-hot encoded, <code><a href="../reference/column_weighted_categorical.html">column_weighted_categorical()</a></code> creates a feature column in combination with a designated weight column.</p>
 </div>
   </div>
 

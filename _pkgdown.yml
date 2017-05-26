@@ -70,14 +70,15 @@ reference:
   - title: "Feature Columns"
     contents: 
       - feature_columns.default
-      - column_bucketized
-      - column_crossed
+      - column_categorical_with_vocabulary_list
+      - column_categorical_with_identity
+      - column_categorical_with_hash_bucket
+      - column_indicator
+      - column_numeric
       - column_embedding
-      - column_one_hot
-      - column_real_valued
-      - column_sparse_weighted
-      - column_sparse_with_hash_bucket
-      - column_sparse_with_keys
+      - column_crossed
+      - column_weighted_categorical
+      - column_bucketized
 
   - title: "Custom Estimators"
     contents:

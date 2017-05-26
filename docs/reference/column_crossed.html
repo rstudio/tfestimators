@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Creates a _CrossedColumn for performing feature crosses. — column_crossed • tfestimators</title>
+<title>Returns a column for performing crosses of categorical features. — column_crossed • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -129,71 +129,113 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Creates a _CrossedColumn for performing feature crosses.</h1>
+    <h1>Returns a column for performing crosses of categorical features.</h1>
     </div>
 
     
-    <p>Creates a _CrossedColumn for performing feature crosses.</p>
+    <p>Crossed features will be hashed according to <code>hash_bucket_size</code>. Conceptually,
+the transformation can be thought of as: Hash(cartesian product of features) <!-- % \code{hash_bucket_size} For example, if the input features are: --></p><ul>
+<li><p>SparseTensor referred by first key: shape = 2, 2 0, 0: "a" 1, 0: "b" 1, 1: "c" * SparseTensor referred by second key: shape = 2, 1 0, 0: "d" 1, 0: "e" then crossed feature will look like: shape = 2, 2 0, 0: Hash64("d", Hash64("a")) <!-- % hash_bucket_size \link{1, 0}: Hash64("e", Hash64("b")) % hash_bucket_size \link{1, 1}: Hash64("e", Hash64("c")) % hash_bucket_size Here is an example to create a linear model with crosses of string features: --></p></li>
+</ul><pre>keywords_x_doc_terms = crossed_column(['keywords', 'doc_terms'], 50K)
+columns = [keywords_x_doc_terms, ...]
+features = tf.parse_example(..., features=make_parse_example_spec(columns))
+linear_prediction = linear_model(features, columns)
+``` You could also use vocabulary lookup before crossing:
+```python
+keywords = categorical_column_with_vocabulary_file( 'keywords', '/path/to/vocabulary/file', vocabulary_size=1K)
+keywords_x_doc_terms = crossed_column([keywords, 'doc_terms'], 50K)
+columns = [keywords_x_doc_terms, ...]
+features = tf.parse_example(..., features=make_parse_example_spec(columns))
+linear_prediction = linear_model(features, columns)
+``` If an input feature is of numeric type, you can use
+`categorical_column_with_identity`, or `bucketized_column`, as in the example:
+```python
+# vertical_id is an integer categorical feature.
+vertical_id = categorical_column_with_identity('vertical_id', 10K)
+price = numeric_column('price')
+# bucketized_column converts numerical feature to a categorical one.
+bucketized_price = bucketized_column(price, boundaries=[...])
+vertical_id_x_price = crossed_column([vertical_id, bucketized_price], 50K)
+columns = [vertical_id_x_price, ...]
+features = tf.parse_example(..., features=make_parse_example_spec(columns))
+linear_prediction = linear_model(features, columns)
+``` To use crossed column in DNN model, you need to add it in an embedding column
+as in this example:
+```python
+vertical_id_x_price = crossed_column([vertical_id, bucketized_price], 50K)
+vertical_id_x_price_embedded = embedding_column(vertical_id_x_price, 10)
+dense_tensor = input_layer(features, [vertical_id_x_price_embedded, ...])
+</pre>
     
 
-    <pre class="usage"><span class='fu'>column_crossed</span>(<span class='no'>columns</span>, <span class='no'>hash_bucket_size</span>, <span class='kw'>combiner</span> <span class='kw'>=</span> <span class='st'>"sum"</span>,
-  <span class='kw'>ckpt_to_load_from</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tensor_name_in_ckpt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hash_key</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>column_crossed</span>(<span class='no'>keys</span>, <span class='no'>hash_bucket_size</span>, <span class='kw'>hash_key</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>columns</th>
-      <td><p>An iterable of _FeatureColumn. Items can be an instance of
-_SparseColumn, _CrossedColumn, or _BucketizedColumn.</p></td>
+      <th>keys</th>
+      <td><p>An iterable identifying the features to be crossed. Each element can be either: * string: Will use the corresponding feature which must be of string type. * <code>_CategoricalColumn</code>: Will use the transformed tensor produced by this column. Does not support hashed categorical column.</p></td>
     </tr>
     <tr>
       <th>hash_bucket_size</th>
-      <td><p>An int that is &gt; 1. The number of buckets.</p></td>
-    </tr>
-    <tr>
-      <th>combiner</th>
-      <td><p>A string specifying how to reduce if there are multiple
-entries in a single row. Currently "mean", "sqrtn" and "sum" are supported,
-with "sum" the default. "sqrtn" often achieves good accuracy, in particular
-with bag-of-words columns. Each of this can be thought as example level
-normalizations on the column:</p><ul>
-<li><p>"sum": do not normalize</p></li>
-<li><p>"mean": do l1 normalization</p></li>
-<li><p>"sqrtn": do l2 normalization</p></li>
-</ul>
-
-<p>For more information: <code>tf.embedding_lookup_sparse</code>.</p></td>
-    </tr>
-    <tr>
-      <th>ckpt_to_load_from</th>
-      <td><p>(Optional). String representing checkpoint
-name/pattern to restore the column weights. Required if
-<code>tensor_name_in_ckpt</code> is not None.</p></td>
-    </tr>
-    <tr>
-      <th>tensor_name_in_ckpt</th>
-      <td><p>(Optional). Name of the <code>Tensor</code> in the provided
-checkpoint from which to restore the column weights. Required if
-<code>ckpt_to_load_from</code> is not None.</p></td>
+      <td><p>An int &gt; 1. The number of buckets.</p></td>
     </tr>
     <tr>
       <th>hash_key</th>
-      <td><p>Specify the hash_key that will be used by the
-<code>FingerprintCat64</code> function to combine the crosses fingerprints on
-SparseFeatureCrossOp (optional).</p></td>
+      <td><p>Specify the hash_key that will be used by the <code>FingerprintCat64</code> function to combine the crosses fingerprints on SparseCrossOp (optional).</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A <code>_CrossedColumn</code>.</p>
+    
+    <h2 class="hasAnchor" id="the-transformation-can-be-thought-of-as"><a class="anchor" href="#the-transformation-can-be-thought-of-as"></a>the transformation can be thought of as</h2>
+
+    
+    <p>Hash(cartesian product of features) <!-- % \code{hash_bucket_size} --></p>
+    
+    <h2 class="hasAnchor" id="then-crossed-feature-will-look-like"><a class="anchor" href="#then-crossed-feature-will-look-like"></a>then crossed feature will look like</h2>
+
+    
+    <p>shape = 2, 2 0, 0: Hash64("d", Hash64("a")) <!-- % hash_bucket_size \link{1, 0}: Hash64("e", Hash64("b")) % hash_bucket_size \link{1, 1}: Hash64("e", Hash64("c")) % hash_bucket_size --></p>
+    
+    <h2 class="hasAnchor" id="here-is-an-example-to-create-a-linear-model-with-crosses-of-string-features"><a class="anchor" href="#here-is-an-example-to-create-a-linear-model-with-crosses-of-string-features"></a>Here is an example to create a linear model with crosses of string features</h2>
+
+    <pre>
+    ['keywords', 'doc_terms']: R:'keywords',<!-- %20'doc_terms' -->
+[keywords_x_doc_terms, ...]: R:keywords_x_doc_terms,<!-- %20... -->
+</pre>
+    
+    <h2 class="hasAnchor" id="you-could-also-use-vocabulary-lookup-before-crossing"><a class="anchor" href="#you-could-also-use-vocabulary-lookup-before-crossing"></a>You could also use vocabulary lookup before crossing</h2>
+
+    <pre>
+    [keywords, 'doc_terms']: R:keywords,<!-- %20'doc_terms' -->
+[keywords_x_doc_terms, ...]: R:keywords_x_doc_terms,<!-- %20... -->
+</pre>
+    
+    <h2 class="hasAnchor" id="as-in-this-example"><a class="anchor" href="#as-in-this-example"></a>as in this example</h2>
+
+    <pre>
+    [vertical_id, bucketized_price]: R:vertical_id,<!-- %20bucketized_price -->
+[vertical_id_x_price_embedded, ...]: R:vertical_id_x_price_embedded,<!-- %20... -->
+</pre>
+    
+    <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
+
+    
+    <p>ValueError: If <code>len(keys) &lt; 2</code>. ValueError: If any of the keys is neither a string nor <code>_CategoricalColumn</code>. ValueError: If any of the keys is <code>_HashedCategoricalColumn</code>. ValueError: If <code>hash_bucket_size &lt; 1</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p>Other feature_column wrappers: <code><a href='column_bucketized.html'>column_bucketized</a></code>,
+  <code><a href='column_categorical_with_hash_bucket.html'>column_categorical_with_hash_bucket</a></code>,
+  <code><a href='column_categorical_with_identity.html'>column_categorical_with_identity</a></code>,
+  <code><a href='column_categorical_with_vocabulary_list.html'>column_categorical_with_vocabulary_list</a></code>,
   <code><a href='column_embedding.html'>column_embedding</a></code>,
-  <code><a href='column_one_hot.html'>column_one_hot</a></code>,
-  <code><a href='column_real_valued.html'>column_real_valued</a></code>,
-  <code><a href='column_sparse_weighted.html'>column_sparse_weighted</a></code>,
-  <code><a href='column_sparse_with_hash_bucket.html'>column_sparse_with_hash_bucket</a></code>,
-  <code><a href='column_sparse_with_keys.html'>column_sparse_with_keys</a></code></p>
+  <code><a href='column_numeric.html'>column_numeric</a></code>,
+  <code><a href='column_weighted_categorical.html'>column_weighted_categorical</a></code></p>
     
 
   </div>
@@ -202,6 +244,20 @@ SparseFeatureCrossOp (optional).</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#the-transformation-can-be-thought-of-as">the transformation can be thought of as</a></li>
+
+      <li><a href="#then-crossed-feature-will-look-like">then crossed feature will look like</a></li>
+
+      <li><a href="#here-is-an-example-to-create-a-linear-model-with-crosses-of-string-features">Here is an example to create a linear model with crosses of string features</a></li>
+
+      <li><a href="#you-could-also-use-vocabulary-lookup-before-crossing">You could also use vocabulary lookup before crossing</a></li>
+
+      <li><a href="#as-in-this-example">as in this example</a></li>
+
+      <li><a href="#raises">Raises</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 
