@@ -61,7 +61,7 @@
       <a href="articles/support_vector_machines.html">Support Vector Machines</a>
     </li>
     <li>
-      <a href="articles/recurrent_nueral_networks.html">Recurrent Nueral Networks</a>
+      <a href="articles/recurrent_neural_networks.html">Recurrent Neural Networks</a>
     </li>
     <li class="divider">
     </li>
@@ -136,7 +136,7 @@
 <p>Then, use the <code><a href="reference/reexports.html">install_tensorflow()</a></code> function to install TensorFlow:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tfestimators)
 <span class="kw"><a href="reference/reexports.html">install_tensorflow</a></span>()</code></pre></div>
-<p>This will provide you with a default installation of TensorFlow suitable for use with the tfestimators R package. See the <a href="https://rstudio.github.io/tensorflow/installation.html">article on TensorFlow installation</a> to learn about more advanced options.</p>
+<p>This will provide you with a default installation of TensorFlow suitable for use with the tfestimators R package. See the <a href="https://rstudio.github.io/tensorflow/installation.html">article on TensorFlow installation</a> to learn about more advanced options, including installing a version of TensorFlow that takes advantage of Nvidia GPUs if you have the correct CUDA libraries installed.</p>
 </div>
 <div id="simple-example" class="section level3">
 <h3 class="hasAnchor">
@@ -166,7 +166,7 @@ model %&gt;%<span class="st"> </span><span class="kw">train</span>(<span class="
 <p>We can evaluate the model’s accuracy using the <code>evaluate()</code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
 <pre><code>## $loss
-## [1] 447.1786
+## [1] 211.6452
 ## 
 ## $global_step
 ## [1] 2</code></pre>
@@ -174,7 +174,7 @@ model %&gt;%<span class="st"> </span><span class="kw">train</span>(<span class="
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span>:<span class="dv">3</span>,]
 model %&gt;%<span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
 <pre><code>##   scores   scores   scores 
-## 2.846182 2.989065 3.926641</code></pre>
+## 3.896628 3.554703 3.172745</code></pre>
 </div>
 </div>
 <div id="learning-more" class="section level2">
@@ -191,7 +191,7 @@ model %&gt;%<span class="st"> </span><span class="kw">predict</span>(<span class
 <li><a href="articles/linear_estimators.html">Linear Models</a></li>
 <li><a href="articles/linear_dnn_combined_estimators.html">Linear/DNN Models</a></li>
 <li><a href="articles/support_vector_machines.html">Support Vector Machines</a></li>
-<li><a href="articles/recurrent_nueral_networks.html">Recurrent Nueral Networks</a></li>
+<li><a href="articles/recurrent_neural_networks.html">Recurrent Neural Networks</a></li>
 </ul>
 <p>These articles describe more advanced topics/usage:</p>
 <ul>

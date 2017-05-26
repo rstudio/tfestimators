@@ -25,8 +25,8 @@ navbar:
           href: articles/linear_dnn_combined_estimators.html
         - text: "Support Vector Machines"
           href: articles/support_vector_machines.html
-        - text: "Recurrent Nueral Networks"
-          href: articles/recurrent_nueral_networks.html
+        - text: "Recurrent Neural Networks"
+          href: articles/recurrent_neural_networks.html
         - text: "--------------------------"
         - text: "Advanced"
         - text: "Experiments"

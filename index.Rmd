@@ -107,7 +107,7 @@ These articles provide in depth documentation and example uses of canned estimat
 - [Linear Models](articles/linear_estimators.html)
 - [Linear/DNN Models](articles/linear_dnn_combined_estimators.html)
 - [Support Vector Machines](articles/support_vector_machines.html)
-- [Recurrent Nueral Networks](articles/recurrent_nueral_networks.html)
+- [Recurrent Neural Networks](articles/recurrent_neural_networks.html)
 
 These articles describe more advanced topics/usage:
 
