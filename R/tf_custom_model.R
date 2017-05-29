@@ -291,9 +291,14 @@ export_savedmodel.tf_custom_model <- function(
   ))
 }
 
+#' Get the list coefficients or variables from this model's checkpoint.
+#'
 #' @export
-coef.tf_custom_model <- function(object, ...) {
-  coef.tf_model(object, ...)
+#' @family custom estimator methods
+coef.tf_custom_model <- function(object) {
+  contrib_framework <- import("tensorflow.contrib.framework")
+  list_variables <- contrib_framework$list_variables
+  list_variables(object$estimator$model_dir)
 }
 
 

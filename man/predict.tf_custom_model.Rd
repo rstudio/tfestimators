@@ -40,8 +40,8 @@ if \code{predict_keys} is not \code{NULL} but \code{EstimatorSpec.predictions} i
 }
 
 \seealso{
-Other custom estimator methods: \code{\link{estimator_spec}},
-  \code{\link{estimator}},
+Other custom estimator methods: \code{\link{coef.tf_custom_model}},
+  \code{\link{estimator_spec}}, \code{\link{estimator}},
   \code{\link{evaluate.tf_custom_model}},
   \code{\link{export_savedmodel.tf_custom_model}},
   \code{\link{train.tf_custom_model}}

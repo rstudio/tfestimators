@@ -66,6 +66,7 @@ reference:
       - predict.tf_custom_model
       - evaluate.tf_custom_model
       - export_savedmodel.tf_custom_model
+      - coef.tf_custom_model
 
   - title: "Feature Columns"
     contents: 

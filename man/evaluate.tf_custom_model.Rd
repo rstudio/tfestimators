@@ -46,8 +46,8 @@ been trained, namely \code{model_dir}, or the given \code{checkpoint_path} is em
 }
 
 \seealso{
-Other custom estimator methods: \code{\link{estimator_spec}},
-  \code{\link{estimator}},
+Other custom estimator methods: \code{\link{coef.tf_custom_model}},
+  \code{\link{estimator_spec}}, \code{\link{estimator}},
   \code{\link{export_savedmodel.tf_custom_model}},
   \code{\link{predict.tf_custom_model}},
   \code{\link{train.tf_custom_model}}

@@ -74,4 +74,9 @@ test_that("custom model works on iris data", {
   
   # evaluate
   expect_equal(names(evaluate(classifier, constructed_input_fn, steps = 2L)), c("loss", "global_step"))
+
+  # coefficients
+  coefs <- coef(classifier)
+  # KV pairs for variables
+  expect_equal(rep(2, length(coefs)), lapply(coefs, length))
 })
