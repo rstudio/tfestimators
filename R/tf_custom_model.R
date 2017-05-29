@@ -134,7 +134,7 @@ train.tf_custom_model <- function(object, input_fn, steps = NULL, hooks = NULL, 
     object$estimator$train(
       input_fn = input_fn(get_input_fn_type(object)),
       steps = as_nullable_integer(steps),
-      hooks = hooks,
+      hooks = normalize_session_run_hooks(hooks),
       max_steps = as_nullable_integer(max_steps)) 
   })
   invisible(object)
@@ -176,7 +176,7 @@ predict.tf_custom_model <- function(object,
   predictions <- est$predict(
     input_fn = input_fn(get_input_fn_type(object)),
     checkpoint_path = checkpoint_path,
-    hooks = hooks,
+    hooks = normalize_session_run_hooks(hooks),
     predict_keys = predict_keys)
   if (!as_iterable) {
     if (!any(inherits(predictions, "python.builtin.iterator"),

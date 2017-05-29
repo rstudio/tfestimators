@@ -49,8 +49,7 @@ predict.tf_model <- function(object,
 train.tf_model <- function(object, input_fn, steps = 2L, monitors = NULL, ...)
 {
   validate_input_fn(input_fn)
-  if (!is.null(monitors))
-    monitors <- list(monitors)
+  monitors <- normalize_session_run_hooks(monitors)
   object$estimator$fit(
     input_fn = input_fn(get_input_fn_type(object)),
     steps = as.integer(steps),

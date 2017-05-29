@@ -1,4 +1,4 @@
-from tensorflow.python.training import session_run_hook.SessionRunHook
+from tensorflow.python.training.session_run_hook import SessionRunHook
 
 class RSessionRunHook(SessionRunHook):
   def __init__(self, r_begin, r_after_create_session, r_before_run, r_after_run, r_end):
