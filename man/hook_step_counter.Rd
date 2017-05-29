@@ -20,7 +20,8 @@ hook_step_counter(every_n_steps = 100L, every_n_secs = NULL,
 Steps per second monitor.
 }
 \seealso{
-Other session_run_hook wrappers: \code{\link{hook_checkpoint_saver}},
+Other session_run_hook wrappers: \code{\link{EstimatorSessionRunHook}},
+  \code{\link{hook_checkpoint_saver}},
   \code{\link{hook_global_step_waiter}},
   \code{\link{hook_logging_tensor}},
   \code{\link{hook_nan_tensor}},

@@ -16,7 +16,8 @@ Monitors loss and stops training if loss is NaN. Can either fail with
 exception or just stop training.
 }
 \seealso{
-Other session_run_hook wrappers: \code{\link{hook_checkpoint_saver}},
+Other session_run_hook wrappers: \code{\link{EstimatorSessionRunHook}},
+  \code{\link{hook_checkpoint_saver}},
   \code{\link{hook_global_step_waiter}},
   \code{\link{hook_logging_tensor}},
   \code{\link{hook_step_counter}},
