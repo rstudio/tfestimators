@@ -30,7 +30,7 @@ Depends:
 Imports:
     utils,
     reticulate (>= 0.8),
-    tensorflow (>= 0.7.0.9008),
+    tensorflow (>= 0.8.2),
     magrittr,
     R6
 Roxygen: list(markdown = TRUE)
