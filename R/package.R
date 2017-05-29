@@ -22,6 +22,7 @@
 #' 
 #' @import reticulate
 #' @import tensorflow
+#' @import R6
 #'   
 #' @docType package
 #' @name tfestimators

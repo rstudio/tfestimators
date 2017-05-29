@@ -63,8 +63,7 @@ train.tf_model <- function(object, input_fn, steps = 2L, monitors = NULL, ...)
 evaluate.tf_model <- function(object, input_fn, steps = 2L, hooks = NULL, ...)
 {
   validate_input_fn(input_fn)
-  if (!is.null(hooks))
-    hooks <- list(hooks)
+  hooks <- normalize_session_run_hooks(hooks)
   object$estimator$evaluate(
     input_fn = input_fn(get_input_fn_type(object)),
     steps = as.integer(steps),

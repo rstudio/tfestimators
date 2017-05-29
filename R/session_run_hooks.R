@@ -165,3 +165,57 @@ hook_global_step_waiter <- function(wait_until_step) {
     wait_until_step = as.integer(wait_until_step)
   )
 }
+
+#' @export
+EstimatorSessionRunHook <- R6Class("EstimatorSessionRunHook",
+
+                         public = list(
+
+                           begin = function() {
+
+                           },
+
+                           after_create_session = function(session, coord) {
+
+                           },
+
+                           before_run = function(run_context) {
+
+                           },
+
+                           after_run = function(run_context, run_values) {
+
+                           },
+
+                           end = function(session) {
+
+                           }
+                         )
+)
+
+normalize_session_run_hooks <- function(session_run_hooks) {
+
+  if(is.null(session_run_hooks)) return(NULL)
+
+  if (!is.null(session_run_hooks) && !is.list(session_run_hooks))
+    session_run_hooks <- list(session_run_hooks)
+
+  # import callback utility module
+  python_path <- system.file("python", package = "tfestimators")
+  tools <- import_from_path("estimatortools", path = python_path)
+
+  lapply(session_run_hooks, function(session_run_hook) {
+    if (inherits(session_run_hook, "EstimatorSessionRunHook")) {
+      # create a python SessionRunHook to map to our R SessionRunHook
+      tools$session_run_hooks$RSessionRunHook(
+        r_begin = session_run_hook$begin,
+        r_after_create_session = session_run_hook$after_create_session,
+        r_before_run = session_run_hook$before_run,
+        r_after_run = session_run_hook$after_run,
+        r_end = session_run_hook$end
+      )
+    } else {
+      session_run_hook
+    }
+  })
+}
