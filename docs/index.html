@@ -132,7 +132,7 @@
 <a href="#installation" class="anchor"></a>Installation</h3>
 <p>To use <strong>tfestimators</strong> you need to install both the R package as well as <a href="https://rstudio.github.io/tensorflow/">TensorFlow</a> iteslf.</p>
 <p>First, install the tfestimators R package as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">install_github</span>(<span class="st">"rstudio/tfestimators"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"rstudio/tfestimators"</span>)</code></pre></div>
 <p>Then, use the <code><a href="reference/reexports.html">install_tensorflow()</a></code> function to install TensorFlow:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tfestimators)
 <span class="kw"><a href="reference/reexports.html">install_tensorflow</a></span>()</code></pre></div>
@@ -149,32 +149,32 @@
 features &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>)
 
 <span class="co"># yield an input_fn for a given subset of data</span>
-mtcars_input_fn &lt;-<span class="st"> </span>function(data) {
+mtcars_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(data) {
   <span class="kw"><a href="reference/input_fn.html">input_fn</a></span>(data, <span class="dt">response =</span> <span class="st">"mpg"</span>, <span class="dt">features =</span> features)
 }</code></pre></div>
 <p>We create the estimator using the <code><a href="reference/linear_regressor.html">linear_regressor()</a></code> function. Note that we provide a list of feature columns to the regressor. In this case we’re just passing columns from <code>mtcars</code> straight through, however by using the family of <a href="reference/index.html#section-feature-columns">feature column functions</a> we can define various transformations on the data before using it for modeling.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw"><a href="reference/linear_regressor.html">linear_regressor</a></span>(<span class="kw">feature_columns</span>(mtcars, features))</code></pre></div>
 <p>Next, we train the model using the <code>train()</code> function. Note that we segment <code>mtcars</code> into training and test datasets so we can evaluate the model on a differnet subset of data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># randomly segment mtcars into test and training datasets</span>
-mtcars &lt;-<span class="st"> </span>mtcars[<span class="kw">sample</span>(<span class="dv">1</span>:<span class="kw">nrow</span>(mtcars)),]
-test_obs &lt;-<span class="st"> </span><span class="kw">as.integer</span>(<span class="fl">0.2</span> *<span class="st"> </span><span class="kw">nrow</span>(mtcars))
-train &lt;-<span class="st"> </span>mtcars[-(<span class="dv">1</span>:test_obs),]
-test &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span>:test_obs,]
+mtcars &lt;-<span class="st"> </span>mtcars[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(mtcars)),]
+test_obs &lt;-<span class="st"> </span><span class="kw">as.integer</span>(<span class="fl">0.2</span> <span class="op">*</span><span class="st"> </span><span class="kw">nrow</span>(mtcars))
+train &lt;-<span class="st"> </span>mtcars[<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span>test_obs),]
+test &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span><span class="op">:</span>test_obs,]
 
 <span class="co"># train the model</span>
-model %&gt;%<span class="st"> </span><span class="kw">train</span>(<span class="kw">mtcars_input_fn</span>(train))</code></pre></div>
+model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">train</span>(<span class="kw">mtcars_input_fn</span>(train))</code></pre></div>
 <p>We can evaluate the model’s accuracy using the <code>evaluate()</code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
 <pre><code>## $loss
-## [1] 396.7382
+## [1] 310.2899
 ## 
 ## $global_step
 ## [1] 2</code></pre>
 <p>Finally, we generate predictions using the <code>predict()</code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span>:<span class="dv">3</span>,]
-model %&gt;%<span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,]
+model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
 <pre><code>##   scores   scores   scores 
-## 2.951161 2.899789 3.224074</code></pre>
+## 4.013356 2.852238 3.090244</code></pre>
 </div>
 </div>
 <div id="learning-more" class="section level2">
