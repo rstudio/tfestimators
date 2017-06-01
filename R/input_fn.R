@@ -8,10 +8,6 @@
 #' @name input_fn
 NULL
 
-#' @export
-get_input_fn_type <- function(object) {
-  is.tf_model(object)
-}
 
 #' @export
 input_fn <- function(object, ...) {
@@ -170,9 +166,23 @@ input_fn.matrix <- function(
            shuffle, num_epochs, queue_capacity, num_threads)
 }
 
-validate_input_fn <- function(input_fn) {
-  if (!is.function(input_fn)) stop("input_fn must be a function")
-  if (length(formals(input_fn)) != 1) stop("input_fn must contain exactly one argument")
+# input functions take zero arguments however on the R side we allow input functions
+# with a single boolean argument that determines whether features should be provided
+# as a named list. this function validates the input_fn and normalizes it into a 
+# no-argument function if necessary
+normalize_input_fn <- function(object, input_fn) {
+  
+  if (!is.function(input_fn)) 
+    stop("input_fn must be a function", call. = FALSE)
+  
+  num_args <- length(formals(input_fn))
+  
+  if (num_args == 0)
+    input_fn
+  else if (num_args == 1) 
+    input_fn(is.tf_model(object))
+  else
+    stop("input_fn must take 0 or 1 arguments")
 }
 
 #' @export

@@ -22,9 +22,8 @@ predict.tf_model <- function(object,
                              type = "raw",
                              ...)
 {
-  validate_input_fn(input_fn)
+  input_fn <- normalize_input_fn(object, input_fn)
   est <- object$estimator
-  input_fn <- input_fn(get_input_fn_type(object))
   if (is.classifier(object)) {
     if (type == "raw") {
       predictions <- est$predict(input_fn = input_fn, outputs = c("classes"), ...)
@@ -48,23 +47,22 @@ predict.tf_model <- function(object,
 #' @export
 train.tf_model <- function(object, input_fn, steps = 2L, monitors = NULL, ...)
 {
-  validate_input_fn(input_fn)
   monitors <- normalize_session_run_hooks(monitors)
   object$estimator$fit(
-    input_fn = input_fn(get_input_fn_type(object)),
+    input_fn = normalize_input_fn(object, input_fn),
     steps = as.integer(steps),
     monitors = monitors,
     ...)
   invisible(object)
 }
 
+
 #' @export
 evaluate.tf_model <- function(object, input_fn, steps = 2L, hooks = NULL, ...)
 {
-  validate_input_fn(input_fn)
   hooks <- normalize_session_run_hooks(hooks)
   object$estimator$evaluate(
-    input_fn = input_fn(get_input_fn_type(object)),
+    input_fn = normalize_input_fn(object, input_fn),
     steps = as.integer(steps),
     hooks = hooks,
     ...)

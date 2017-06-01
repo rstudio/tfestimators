@@ -127,12 +127,11 @@ estimator <- function(model_fn,
 #' @export
 #' @family custom estimator methods
 train.tf_custom_model <- function(object, input_fn, steps = NULL, hooks = NULL, max_steps = NULL) {
-  validate_input_fn(input_fn)
   # show training loss metrics 
   # (https://www.tensorflow.org/get_started/monitors#enabling_logging_with_tensorflow)
   with_logging_verbosity(tf$logging$INFO, {
     object$estimator$train(
-      input_fn = input_fn(get_input_fn_type(object)),
+      input_fn = normalize_input_fn(object, input_fn),
       steps = as_nullable_integer(steps),
       hooks = normalize_session_run_hooks(hooks),
       max_steps = as_nullable_integer(max_steps)) 
@@ -171,10 +170,9 @@ predict.tf_custom_model <- function(object,
                                     predict_keys = NULL,
                                     hooks = NULL,
                                     as_iterable = F) {
-  validate_input_fn(input_fn)
   est <- object$estimator
   predictions <- est$predict(
-    input_fn = input_fn(get_input_fn_type(object)),
+    input_fn = normalize_input_fn(object, input_fn),
     checkpoint_path = checkpoint_path,
     hooks = normalize_session_run_hooks(hooks),
     predict_keys = predict_keys)
@@ -225,9 +223,8 @@ evaluate.tf_custom_model <- function(object,
                                      checkpoint_path = NULL,
                                      name = NULL)
 {
-  validate_input_fn(input_fn)
   est <- object$estimator
-  est$evaluate(input_fn = input_fn(get_input_fn_type(object)),
+  est$evaluate(input_fn = normalize_input_fn(object, input_fn),
                steps = as_nullable_integer(steps),
                checkpoint_path = checkpoint_path,
                name = name)
