@@ -10,40 +10,124 @@ vignette: >
 
 
 ```{r setup, include=FALSE}
+# # https://www.tensorflow.org/get_started/input_fn
+library(tfestimators)
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(eval = FALSE)
 ```
 
-Input function is where users provide the input sources to feed into the model, e.g. in-memory dataframe/matrix, streaming data, serialized data formats, etc. 
 
-Users have two ways to specify in-memory data set - using formula interface or passing `features` and `response` arguments. For example, users can use built-in `input_fn()` on `data.frame/matrix` objects like the following:
+## Overview
 
-``` r
-input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
+Inputs to TensorFlow estimators are provided using an input function. Input functions take an artibrary data source (e.g. in-memory dataframe/matrix, streaming data, custom data format, etc.) and convert it into feature and label Tensors to pass on to modeling functions.
+
+The main purpose of input functions is turning raw data sources into Tensors. You can also use input functions to do feature engineering, however it's in general much better to use [feature columns](feature_columns.html) for this purpose whenever possible, as in that case the tranformations are made part of the TensorFlow graph and can be executed without an R runtime (e.g. when the model is deployed onto a device or server).
+
+The **tfestimators** package includes an `input_fn()` method that will create an input function automatically from an existing data frame, matrix, or list. It's also possible to write a fully custom input function. Both methods of creating input functions are covered below.
+
+## Data Frame Input
+
+You can create an input function from an R data frame using the `input_fn()` method. You can specify feature and response variables either explicitly or using the R formula interface.
+
+For example, to create an input function for the **mtcars** dataset with features "drat" and "cyl" and response "mpg" you could use this code:
+
+```{r}
+model %>% train(
+  input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
+)
 ```
 
-or use the formulate interface like below where left-hand and right-hand side of the `~` represent response column and feature columns respectively:
+Or alternatively use the R formula interface like this:
 
-``` r
-input_fn(mpg ~ drat + cyl, data = mtcars)
+```{r}
+model %>% train(
+  input_fn(mpg ~ drat + cyl, data = mtcars)
+)
 ```
+
+### Training vs. Evaluation
+
+It's often the case that you'll want to use the same basic input function for training and evaluation, but need to provide a distinct dataset for each step. In that case you can create a wrapper function that returns the same input function with varying input data.
+
+For example, imagine we have already split the **mtcars** dataset into training and test subsets. We could have an input function generator like this:
+
+```{r}
+mtcars_input_fn <- function(data) {
+  input_fn(data, response = "mpg", features = c("drat", "cyl"))
+}
+```
+
+Then use it for training and evaluation as follows:
+
+```{r}
+# train the model
+model %>% train(mtcars_input_fn(train))
+
+# evaluate the model
+model %>% evaluate(mtcars_input_fn(train))
+```
+
+## Matrix Input
+
+As with data frames, you can also pass an R matrix to `input_fn()` to automatically create an input function for the matrix. Note however that in order to specify the `features` and `response` parameters you will need to ensure that your matrix columns are named. For example:
+
+```{r}
+m <- matrix(c(1:12), nrow = 4, ncol = 3)
+colnames(m) <- c("x1", "x2", "y")
+input_fn(m, features = c("x1", "x2"), response = "y")
+```
+
+## List Input
 
 There's also a built-in `input_fn()` that works on nested lists, for example:
 
-``` r
+```{r}
 input_fn(
   object = list(
-    features = list(
+    inputs = list(
       list(list(1), list(2), list(3)),
       list(list(4), list(5), list(6))),
-    response = list(
+    output = list(
       list(1, 2, 3), list(4, 5, 6))),
-  features = "features",
-  response = "response")
-````
+  features = "inputs",
+  response = "output"
+)
+```
 
-In the above example, the data is a list of two named lists where each named list can be seen as different columns in a dataset. In this case, a column named `features` is being used as features to the model and a column named `response` is being used as the response variable. This nested lists format is particularly useful when constructing sequence input to Recurrent Neural Networks (RNN). Once the data is defined using `input_fn()`, it can be used directly in RNN constructor.
+In the above example, the data is a list of two named lists where each named list can be seen as different columns in a dataset. In this case, a column named `features` is being used as features to the model and a column named `response` is being used as the response variable. 
 
-Users can also write custom input function, e.g. a function `custom_input_fn()`, to convert each feature into a `Tensor` or `SparseTensor` according to the needs. The following skeleton code has a few places commented with "custom code here" that users can use to do customized operation. Other parts should remain unchanged.
+This nested lists format is particularly useful when constructing sequence input to Recurrent Neural Networks (RNN). Once the data is defined using `input_fn()`, it can be used directly in the RNN constructor.
+
+## Custom Input
+
+Users can also write custom input function, e.g. a function `custom_input_fn()`, to convert each feature into a `Tensor` or `SparseTensor` according to the needs. The following code illustrates the basic skeleton for an input function:
+
+```{r}
+my_input_fn <- function() {
+  
+  # Preprocess your data here...
+
+  # ...then return 1) a mapping of feature columns to Tensors with
+  # the corresponding feature data, and 2) a Tensor containing labels
+  list(feature_cols, labels)
+}
+```
+
+The body of the input function contains the specific logic for preprocessing your input data, such as reading the data from disk, scrubbing out bad examples, etc.
+
+Input functions must return a list with the following two values containing the final feature and label data to be fed into your model:
+
+feature_cols
+
+:    A dict containing key/value pairs that map feature column names to Tensors (or SparseTensors) containing the corresponding feature data.
+
+labels
+
+:    A Tensor containing your label (target) values: the values your model aims to predict.
+
+### Example
+
+The following skeleton code has a few places commented with "custom code here" that users can use to do customized operation. Other parts should remain unchanged.
 
 ``` r
 custom_input_fn <-  function(
@@ -111,11 +195,3 @@ get_batched_sin_input_fn <- function(batch_size, sequence_length, increment, see
   }
 }
 ```
-
-Users can then further define `input_fn` for training and evaluation:
-
-``` r
-train_input_fn <- get_batched_sin_input_fn(batch_size, sequence_length, pi / 32, seed = 1234)
-eval_input_fn <- get_batched_sin_input_fn(batch_size, sequence_length, pi / 32, seed = 4321)
-```
-
