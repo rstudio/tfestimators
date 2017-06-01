@@ -125,73 +125,41 @@ labels
 
 :    A Tensor containing your label (target) values: the values your model aims to predict.
 
+
 ### Example
 
-The following skeleton code has a few places commented with "custom code here" that users can use to do customized operation. Other parts should remain unchanged.
+The following example demonstrates the custom input function equivalent of the `mtcars_input_fn()` in the previous section. Note that this example uses lower-level TensorFlow constructs from the [tensorflow](https://tensorflow.rstudio.com) R package to explicitly create constant Tensors from R vectors:
 
-``` r
-custom_input_fn <-  function(
-  x,
-  features,
-  response = NULL)
-{
-  validate_input_fn_args(x, features, response)
-  function(is_canned_estimator) {
-    function() {
-      if (is_canned_estimator) {
-        # Change this block if this input_fn is used in canned estimators
-        input_features <- lapply(features, function(feature) {
-          custom_function(x[[feature]], ...) # custom code here
-        })
-        names(input_features) <- features
-      } else {
-        # Change this block if this input_fn is used in custom estimators
-        input_features <- custom_function(as.matrix(x[, features]), ...) # custom code here
-      }
-      if (!is.null(response)) {
-        input_response <- custom_function(x[[response]], ...) # custom code here
-      } else {
-        input_response <- NULL
-      }
-      list(input_features, input_response)
-    }
+```{r}
+mtcars_input_fn <- function(data) {
+  
+  function() {
+    
+    # named list of feature columns (convert R vectors to TF tensors)
+    feature_cols <- list(
+      drat = tf$constant(data$drat),
+      cyl = tf$constant(data$cyl)
+    )
+    
+    # response (convert R vector to TF tensors)
+    response <- tf$constant(data$mpg)
+    
+    # return features and response
+    list(feature_cols, response)
+    
   }
-}
-
-```
-
-Users are encounraged to follow the above skeleton but it may not be suitable for all types of models. For example, if a user want to construct some complicated input, such as a batched sequence input similar to a sine curve for feeding RNNs, he can define something similar to the following using mostly low-level TensorFlow APIs:
-
-``` r
-get_batched_sin_input_fn <- function(batch_size, sequence_length, increment, seed = NULL) {
-    function(unused_arg) {
-      function() {
-        starts <- random_ops$random_uniform(
-          list(batch_size), minval = 0, maxval = pi * 2.0,
-          dtype = tf$python$framework$dtypes$float32, seed = seed)
-        sin_curves <- functional_ops$map_fn(
-          function(x){
-            math_ops$sin(
-              math_ops$linspace(
-                array_ops$reshape(x[1], list()),
-                (sequence_length - 1) * increment,
-                as.integer(sequence_length + 1)))
-          },
-          tuple(starts),
-          dtype = tf$python$framework$dtypes$float32
-        )
-        inputs <- array_ops$expand_dims(
-          array_ops$slice(
-            sin_curves,
-            np$array(list(0, 0), dtype = np$int64),
-            np$array(list(batch_size, sequence_length), dtype = np$int64)),
-          2L
-        )
-        labels <- array_ops$slice(sin_curves,
-                                  np$array(list(0, 1), dtype = np$int64),
-                                  np$array(list(batch_size, sequence_length), dtype = np$int64))
-        tuple(list(inputs = inputs), labels)
-      }
-  }
+  
 }
 ```
+
+You'll note that this function returns yet another function with no arguments. All input functions ultimately  have this signature (no arguments) and are typically wrapped in factory functions like `mtcars_input_fn` that bind them to specific data, features, etc.
+
+The use of TensorFlow is also pretty trivial here (creating constant tensors from R vectors). It's possible to use any and all lower-level tensor manipulation APIs within custom input functions. 
+
+Once your custom input function is defined you can use it to provide an `input_fn` for training, evaluation, and prediction:
+
+```{r}
+model %>% train(mtcars_input_fn(train))
+```
+
+

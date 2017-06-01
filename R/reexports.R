@@ -20,6 +20,9 @@ reticulate::use_virtualenv
 reticulate::use_condaenv
 
 #' @export
+tensorflow::tf
+
+#' @export
 tensorflow::install_tensorflow
 
 #' @export
