@@ -163,7 +163,10 @@ input_fn.matrix <- function(
   queue_capacity = 1000L,
   num_threads = 1L
 ) {
-  input_fn(as.data.frame(object), features, response, batch_size,
+  if (is.null(colnames(object)))
+    stop("You must provide colnames in order to create an input_fn from a matrix")
+  
+  input_fn.data.frame(object, features, response, batch_size,
            shuffle, num_epochs, queue_capacity, num_threads)
 }
 
