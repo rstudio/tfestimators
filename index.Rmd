@@ -48,25 +48,34 @@ This will provide you with a default installation of TensorFlow suitable for use
 
 Let's create a simple linear regression with the `mtcars` dataset to demonstrate the use of estimators.
 
-First, some standard setup. Input to estimators is provided by an input function (`input_fn`) rather than as a plain matrix or data frame. Here we define a helper function that will yield an `input_fn` for a given subset of our data:
+#### Input Function
+
+First, some standard setup. Input to estimators is provided by an input function that returns a list containing feature and response data. You can write a custom input function or create one automatically from an R data frame or matrix.
+
+Here we define a helper function that will yield an in input function for a given subset of our data:
 
 ```{r}
 library(tfestimators)
 
-# features we will train on
-features <- c("drat", "cyl")
-
 # yield an input_fn for a given subset of data
 mtcars_input_fn <- function(data) {
-  input_fn(data, response = "mpg", features = features)
+  input_fn(data, response = "mpg", features = c("drat", "cyl"))
 }
 ```
 
-We create the estimator using the `linear_regressor()` function. Note that we provide a list of feature columns to the regressor. In this case we're just passing columns from `mtcars` straight through, however by using the family of [feature column functions](reference/index.html#section-feature-columns) we can define various transformations on the data before using it for modeling.
+The `input_fn` method can take an R data frame or matrix along with the names of feature and response variables and automatically create an input function for it.
+
+#### Feature Columns
+
+We create the estimator by calling `linear_regressor()` function and passing it a set of feature columns: 
 
 ```{r}
-model <- linear_regressor(feature_columns(mtcars, features))
+model <- linear_regressor(feature_columns(mtcars, c("drat", "cyl")))
 ```
+
+In this case we're just passing columns from `mtcars` straight through, however by using the family of [feature column functions](reference/index.html#section-feature-columns) we can define various transformations on the data before using it for modeling.
+
+#### Training
 
 Next, we train the model using the `train()` function. Note that we segment `mtcars` into training and test datasets so we can evaluate the model on a differnet subset of data.
 
@@ -81,11 +90,15 @@ test <- mtcars[1:test_obs,]
 model %>% train(mtcars_input_fn(train))
 ```
 
+#### Evaluation
+
 We can evaluate the model's accuracy using the `evaluate()` function (here we use the `test` dataset rather than the `train` dataset):
 
 ```{r}
 model %>% evaluate(mtcars_input_fn(test))
 ```
+
+#### Prediction
 
 Finally, we generate predictions using the `predict()` function:
 
