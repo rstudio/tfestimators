@@ -12,7 +12,22 @@ is.tf_custom_model <- function(object) {
 #' 
 #' `EstimatorSpec` fully defines the model to be run by `Estimator`.
 #' 
-#' 
+#' @param mode A `ModeKeys`. Specifies if this is training, evaluation or prediction.
+#' @param predictions Predictions `Tensor` or dict of `Tensor`.
+#' @param loss Training loss `Tensor`. Must be either scalar, or with shape `c(1)`.
+#' @param train_op Op for the training step.
+#' @param eval_metric_ops Dict of metric results keyed by name. The values of the dict are the results of calling a metric function,
+#' namely a `(metric_tensor, update_op)` list.
+#' @param export_outputs Describes the output signatures to be exported to `SavedModel` and used during serving. 
+#' A dict `{name: output}` where:
+#' * name: An arbitrary name for this output. 
+#' * output: an `ExportOutput` object such as `ClassificationOutput`, `RegressionOutput`, or `PredictOutput`. 
+#' Single-headed models only need to specify one entry in this dictionary. 
+#' Multi-headed models should specify one entry for each head, one of which must be named using
+#' signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY.
+#' @param training_chief_hooks Iterable of `tf.train.SessionRunHook` objects to run on the chief worker during training.
+#' @param training_hooks Iterable of `tf.train.SessionRunHook` objects that to run on all workers during training.
+#' @param scaffold A `tf.train.Scaffold` object that can be used to set initialization, saver, and more to be used in training.
 #' 
 #' @export
 #' @family custom estimator methods

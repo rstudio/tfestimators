@@ -8,6 +8,34 @@ estimator_spec(mode, predictions = NULL, loss = NULL, train_op = NULL,
   eval_metric_ops = NULL, export_outputs = NULL,
   training_chief_hooks = NULL, training_hooks = NULL, scaffold = NULL)
 }
+\arguments{
+\item{mode}{A \code{ModeKeys}. Specifies if this is training, evaluation or prediction.}
+
+\item{predictions}{Predictions \code{Tensor} or dict of \code{Tensor}.}
+
+\item{loss}{Training loss \code{Tensor}. Must be either scalar, or with shape \code{c(1)}.}
+
+\item{train_op}{Op for the training step.}
+
+\item{eval_metric_ops}{Dict of metric results keyed by name. The values of the dict are the results of calling a metric function,
+namely a \code{(metric_tensor, update_op)} list.}
+
+\item{export_outputs}{Describes the output signatures to be exported to \code{SavedModel} and used during serving.
+A dict \code{{name: output}} where:
+\itemize{
+\item name: An arbitrary name for this output.
+\item output: an \code{ExportOutput} object such as \code{ClassificationOutput}, \code{RegressionOutput}, or \code{PredictOutput}.
+Single-headed models only need to specify one entry in this dictionary.
+Multi-headed models should specify one entry for each head, one of which must be named using
+signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY.
+}}
+
+\item{training_chief_hooks}{Iterable of \code{tf.train.SessionRunHook} objects to run on the chief worker during training.}
+
+\item{training_hooks}{Iterable of \code{tf.train.SessionRunHook} objects that to run on all workers during training.}
+
+\item{scaffold}{A \code{tf.train.Scaffold} object that can be used to set initialization, saver, and more to be used in training.}
+}
 \description{
 \code{EstimatorSpec} fully defines the model to be run by \code{Estimator}.
 }
