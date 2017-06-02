@@ -77,6 +77,8 @@ The examples above provide columns as-is from a data frame. There are also a var
 | `column_sparse_with_hash_bucket()`  | Creates a _SparseColumn with hashed bucket configuration.  |
 | `column_sparse_with_keys()`  | Creates a _SparseColumn with keys.   |
 
+See the article on [feature columns](feature_columns.html) for additional details.
+
 
 ## Input Functions
 
@@ -92,6 +94,8 @@ For example:
 ``` r
 input <- input_fn(mtcars, response = "vs", features = c("drat", "cyl"))
 ```
+
+You can also write fully custom input functions that draw data from arbitrary data sources. See the [input functions](input_functions.html) article for additional details.
 
 
 ## Creating an Estimator

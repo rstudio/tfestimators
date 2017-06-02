@@ -211,6 +211,7 @@ linear_feature_columns &lt;-<span class="st"> </span><span class="kw">feature_co
 </tr>
 </tbody>
 </table>
+<p>See the article on <a href="feature_columns.html">feature columns</a> for additional details.</p>
 </div>
 <div id="input-functions" class="section level2">
 <h2 class="hasAnchor">
@@ -224,6 +225,7 @@ linear_feature_columns &lt;-<span class="st"> </span><span class="kw">feature_co
 </ul>
 <p>For example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input &lt;-<span class="st"> </span><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mtcars, <span class="dt">response =</span> <span class="st">"vs"</span>, <span class="dt">features =</span> <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>))</code></pre></div>
+<p>You can also write fully custom input functions that draw data from arbitrary data sources. See the <a href="input_functions.html">input functions</a> article for additional details.</p>
 </div>
 <div id="creating-an-estimator" class="section level2">
 <h2 class="hasAnchor">
