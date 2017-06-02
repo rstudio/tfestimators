@@ -50,21 +50,6 @@
     </li>
     <li class="divider">
     </li>
-<li class="dropdown-header">Canned Estimators</li>
-    <li>
-      <a href="articles/linear_estimators.html">Linear Models</a>
-    </li>
-    <li>
-      <a href="articles/linear_dnn_combined_estimators.html">Linear/DNN Models</a>
-    </li>
-    <li>
-      <a href="articles/support_vector_machines.html">Support Vector Machines</a>
-    </li>
-    <li>
-      <a href="articles/recurrent_neural_networks.html">Recurrent Neural Networks</a>
-    </li>
-    <li class="divider">
-    </li>
 <li class="dropdown-header">Advanced</li>
     <li>
       <a href="articles/experiments.html">Experiments</a>
@@ -73,18 +58,9 @@
       <a href="articles/run_hooks.html">Run Hooks</a>
     </li>
     <li>
-      <a href="articles/run_configuration.html">Run Configuration</a>
-    </li>
-    <li>
       <a href="articles/custom_estimators.html">Custom Estimators</a>
     </li>
   </ul>
-</li>
-<li>
-  <a href="articles/deployment.html">Deployment</a>
-</li>
-<li>
-  <a href="articles/examples/index.html">Examples</a>
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
@@ -181,7 +157,7 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tr
 <p>We can evaluate the model’s accuracy using the <code>evaluate()</code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
 <pre><code>## $loss
-## [1] 219.4877
+## [1] 407.7682
 ## 
 ## $global_step
 ## [1] 2</code></pre>
@@ -193,7 +169,7 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tr
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,]
 model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
 <pre><code>##   scores   scores   scores 
-## 4.082006 3.653361 3.646646</code></pre>
+## 2.953915 4.279064 2.944115</code></pre>
 </div>
 </div>
 </div>
@@ -206,22 +182,28 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pr
 <li><a href="articles/input_functions.html">Input Functions</a></li>
 <li><a href="articles/feature_columns.html">Feature Columns</a></li>
 </ul>
-<p>These articles provide in depth documentation and example uses of canned estimators:</p>
-<ul>
-<li><a href="articles/linear_estimators.html">Linear Models</a></li>
-<li><a href="articles/linear_dnn_combined_estimators.html">Linear/DNN Models</a></li>
-<li><a href="articles/support_vector_machines.html">Support Vector Machines</a></li>
-<li><a href="articles/recurrent_neural_networks.html">Recurrent Neural Networks</a></li>
-</ul>
-<p>These articles describe more advanced topics/usage:</p>
+<!--
+These articles provide in depth documentation and example uses of canned estimators:
+
+- [Linear Models](articles/linear_estimators.html)
+- [Linear/DNN Models](articles/linear_dnn_combined_estimators.html)
+- [Support Vector Machines](articles/support_vector_machines.html)
+- [Recurrent Neural Networks](articles/recurrent_neural_networks.html)
+--><p>These articles describe more advanced topics/usage:</p>
 <ul>
 <li><a href="articles/experiments.html">Experiments</a></li>
-<li><a href="articles/run_hooks.html">Run Hooks</a></li>
-<li><a href="articles/run_configuration.html">Run Configuration</a></li>
+<li>
+<a href="articles/run_hooks.html">Run Hooks</a> <!--
+- [Run Configuration](articles/run_configuration.html)
+-->
+</li>
 <li><a href="articles/custom_estimators.html">Custom Estimators</a></li>
 </ul>
-<p>One of the best ways to learn is from reviewing and experimenting with examples. See the <a href="articles/examples/examples.html">Examples</a> page for a variety of examples to help you get started.</p>
-<p>When you have built your model and are ready to deploy it, see the <a href="articles/deployment.html">Deployment</a> page for an in-depth review of deployment options.</p>
+<!--
+One of the best ways to learn is from reviewing and experimenting with examples. See the [Examples](articles/examples/examples.html) page for a variety of examples to help you get started.
+
+When you have built your model and are ready to deploy it, see the [Deployment](articles/deployment.html) page for an in-depth review of deployment options.
+-->
 </div>
 </div>
 </div>

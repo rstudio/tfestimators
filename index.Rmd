@@ -115,24 +115,29 @@ These articles cover the basics of using TensorFlow Estimators:
 - [Input Functions](articles/input_functions.html)
 - [Feature Columns](articles/feature_columns.html)
 
+<!--
 These articles provide in depth documentation and example uses of canned estimators:
 
 - [Linear Models](articles/linear_estimators.html)
 - [Linear/DNN Models](articles/linear_dnn_combined_estimators.html)
 - [Support Vector Machines](articles/support_vector_machines.html)
 - [Recurrent Neural Networks](articles/recurrent_neural_networks.html)
+-->
 
 These articles describe more advanced topics/usage:
 
 - [Experiments](articles/experiments.html)
 - [Run Hooks](articles/run_hooks.html)
+<!--
 - [Run Configuration](articles/run_configuration.html)
+-->
 - [Custom Estimators](articles/custom_estimators.html)
 
+<!--
 One of the best ways to learn is from reviewing and experimenting with examples. See the [Examples](articles/examples/examples.html) page for a variety of examples to help you get started.
 
 When you have built your model and are ready to deploy it, see the [Deployment](articles/deployment.html) page for an in-depth review of deployment options.
-
+-->
 
 
 
