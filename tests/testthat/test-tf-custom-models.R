@@ -78,5 +78,5 @@ test_that("custom model works on iris data", {
   # coefficients
   coefs <- coef(classifier)
   # KV pairs for variables
-  expect_equal(rep(2, length(coefs)), lapply(coefs, length))
+  expect_equal(rep(2, length(coefs)), unlist(lapply(coefs, length)))
 })
