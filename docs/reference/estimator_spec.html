@@ -136,7 +136,9 @@
     <p><code>EstimatorSpec</code> fully defines the model to be run by <code>Estimator</code>.</p>
     
 
-    <pre class="usage"><span class='fu'>estimator_spec</span>(<span class='no'>predictions</span>, <span class='no'>loss</span>, <span class='no'>train_op</span>, <span class='no'>mode</span>)</pre>
+    <pre class="usage"><span class='fu'>estimator_spec</span>(<span class='no'>mode</span>, <span class='kw'>predictions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>loss</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>train_op</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>eval_metric_ops</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>export_outputs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>training_chief_hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>training_hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>scaffold</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
         
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

@@ -31,7 +31,7 @@ test_that("custom model works on iris data", {
       prob = tf$nn$softmax(logits))
     
     if(mode == "infer"){
-      return(estimator_spec(predictions = predictions, mode = mode, loss = NULL, train_op = NULL))
+      return(estimator_spec(mode = mode, predictions = predictions, loss = NULL, train_op = NULL))
     }
     
     labels <- tf$one_hot(labels, 3L)
@@ -44,7 +44,7 @@ test_that("custom model works on iris data", {
       optimizer = 'Adagrad',
       learning_rate = 0.1)
     
-    return(estimator_spec(predictions, loss, train_op, mode))
+    return(estimator_spec(mode = mode, predictions = predictions, loss = loss, train_op = train_op))
   }
   
   # training

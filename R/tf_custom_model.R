@@ -13,17 +13,28 @@ is.tf_custom_model <- function(object) {
 #' `EstimatorSpec` fully defines the model to be run by `Estimator`.
 #' 
 #' 
+#' 
 #' @export
 #' @family custom estimator methods
-estimator_spec <- function(predictions,
-                           loss,
-                           train_op,
-                           mode) {
+estimator_spec <- function(mode,
+                           predictions = NULL,
+                           loss = NULL,
+                           train_op = NULL,
+                           eval_metric_ops = NULL,
+                           export_outputs = NULL,
+                           training_chief_hooks = NULL,
+                           training_hooks = NULL,
+                           scaffold = NULL) {
   estimator_lib$model_fn_lib$EstimatorSpec(
     mode = mode,
     predictions = predictions,
     loss = loss,
-    train_op = train_op)
+    train_op = train_op,
+    eval_metric_ops = eval_metric_ops,
+    export_outputs = export_outputs,
+    training_chief_hooks = training_chief_hooks,
+    training_hooks = training_hooks,
+    scaffold = scaffold)
 }
 
 #' Custom estimator constructor

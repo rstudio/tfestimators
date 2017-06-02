@@ -4,7 +4,9 @@
 \alias{estimator_spec}
 \title{Ops and objects returned from a \code{model_fn} and passed to \code{Estimator}.}
 \usage{
-estimator_spec(predictions, loss, train_op, mode)
+estimator_spec(mode, predictions = NULL, loss = NULL, train_op = NULL,
+  eval_metric_ops = NULL, export_outputs = NULL,
+  training_chief_hooks = NULL, training_hooks = NULL, scaffold = NULL)
 }
 \description{
 \code{EstimatorSpec} fully defines the model to be run by \code{Estimator}.

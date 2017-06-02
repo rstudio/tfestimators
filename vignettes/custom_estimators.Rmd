@@ -62,7 +62,7 @@ custom_model_fn <- function(features, labels, mode, params, config) {
     # Return estimator_spec early with NULL loss and train_op during inference mode
     if(mode == "infer"){
       return(estimator_spec(
-      predictions = predictions, mode = mode, loss = NULL, train_op = NULL))
+      mode = mode, predictions = predictions, loss = NULL, train_op = NULL))
     }
     
     labels <- tf$one_hot(labels, 3L)
@@ -75,7 +75,7 @@ custom_model_fn <- function(features, labels, mode, params, config) {
       optimizer = 'Adagrad',
       learning_rate = 0.1)
     
-    return(estimator_spec(predictions, loss, train_op, mode))
+    return(estimator_spec(mode = mode, predictions = predictions, loss = loss, train_op = train_op))
 }
 
 # Initialize and fit the model using the the custom model function we defined
