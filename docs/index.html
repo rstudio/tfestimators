@@ -103,16 +103,27 @@
 <div id="quick-start" class="section level2">
 <h2 class="hasAnchor">
 <a href="#quick-start" class="anchor"></a>Quick Start</h2>
+<style type="text/css">
+.alert-warning {
+   color: inherit;
+   background-color: #f5f5f5;
+   border: 1px solid #dddddd;
+   margin-top: 20px;
+}
+</style>
+<div class="alert alert-warning" role="alert">
+<p><strong>IMPORTANT NOTE</strong>: This package is under active development and the APIs are still subject to substantial changes. Help and documentation are also currently incomplete. The package is currently suitable for review and feedback but not for everyday use.</p>
+</div>
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h3>
 <p>To use <strong>tfestimators</strong> you need to install both the R package as well as <a href="https://rstudio.github.io/tensorflow/">TensorFlow</a> iteslf.</p>
 <p>First, install the tfestimators R package as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"rstudio/tfestimators"</span>)</code></pre></div>
-<p>Then, use the <code><a href="reference/reexports.html">install_tensorflow()</a></code> function to install TensorFlow:</p>
+<p>Then, use the <code><a href="reference/reexports.html">install_tensorflow()</a></code> function to install the current nightly build of TensorFlow (see the TensorFlow repository home page for <a href="https://github.com/tensorflow/tensorflow#installation">nightly build URLs</a> for various platforms):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tfestimators)
-<span class="kw"><a href="reference/reexports.html">install_tensorflow</a></span>()</code></pre></div>
-<p>This will provide you with a default installation of TensorFlow suitable for use with the tfestimators R package. See the <a href="https://rstudio.github.io/tensorflow/installation.html">article on TensorFlow installation</a> to learn about more advanced options, including installing a version of TensorFlow that takes advantage of Nvidia GPUs if you have the correct CUDA libraries installed.</p>
+<span class="kw"><a href="reference/reexports.html">install_tensorflow</a></span>(<span class="dt">package_url =</span> <span class="st">"https://ci.tensorflow.org/view/Nightly/&lt;path-to-tf-package&gt;"</span>)</code></pre></div>
+<p>Note that the <strong>tfestimators</strong> package currently requires the nightly build of TensorFlow, it will not work with the release version as it relies on APIs only in the development version.</p>
 </div>
 <div id="simple-example" class="section level3">
 <h3 class="hasAnchor">
@@ -157,7 +168,7 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tr
 <p>We can evaluate the model’s accuracy using the <code>evaluate()</code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
 <pre><code>## $loss
-## [1] 407.7682
+## [1] 424.1876
 ## 
 ## $global_step
 ## [1] 2</code></pre>
@@ -169,7 +180,7 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tr
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,]
 model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
 <pre><code>##   scores   scores   scores 
-## 2.953915 4.279064 2.944115</code></pre>
+## 3.892009 3.943372 3.511978</code></pre>
 </div>
 </div>
 </div>

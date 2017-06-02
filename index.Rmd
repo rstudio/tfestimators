@@ -24,6 +24,20 @@ The **tfestimators** package is an R interface to TensorFlow Estimators, a high-
 
 ## Quick Start
 
+<style type="text/css">
+.alert-warning {
+   color: inherit;
+   background-color: #f5f5f5;
+   border: 1px solid #dddddd;
+   margin-top: 20px;
+}
+</style>
+
+<div class="alert alert-warning" role="alert">
+**IMPORTANT NOTE**: This package is under active development and the APIs are still subject to substantial changes. Help and documentation are also currently incomplete. The package is currently suitable for review and feedback but not for everyday use.
+</div>
+
+
 ### Installation
 
 To use **tfestimators** you need to install both the R package as well as [TensorFlow](https://rstudio.github.io/tensorflow/) iteslf.
@@ -34,15 +48,14 @@ First, install the tfestimators R package as follows:
 devtools::install_github("rstudio/tfestimators")
 ```
 
-Then, use the `install_tensorflow()` function to install TensorFlow:
+Then, use the `install_tensorflow()` function to install the current nightly build of TensorFlow (see the TensorFlow repository home page for [nightly build URLs](https://github.com/tensorflow/tensorflow#installation) for various platforms):
 
 ```{r, eval=FALSE}
 library(tfestimators)
-install_tensorflow()
+install_tensorflow(package_url = "https://ci.tensorflow.org/view/Nightly/<path-to-tf-package>")
 ```
 
-This will provide you with a default installation of TensorFlow suitable for use with the tfestimators R package. See the [article on TensorFlow installation](https://rstudio.github.io/tensorflow/installation.html) to learn about more advanced options, including installing a version of TensorFlow that takes advantage of Nvidia GPUs if you have the correct CUDA libraries installed.
-
+Note that the **tfestimators** package currently requires the nightly build of TensorFlow, it will not work with the release version as it relies on APIs only in the development version.
 
 ### Simple Example
 
