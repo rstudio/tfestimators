@@ -1,7 +1,23 @@
-tf_custom_model <- function(...) {
+simple_class <- function(class_name, ...) {
   object <- list(...)
-  class(object) <- "tf_custom_model"
+  class(object) <- class_name
   object
+}
+
+tf_custom_model <- function(...) {
+  simple_class("tf_custom_model", ...)
+}
+
+tf_custom_model_trained <- function(...) {
+  simple_class("tf_custom_model_trained", ...)
+}
+
+tf_custom_model_prediction <- function(...) {
+  simple_class("tf_custom_model_prediction", ...)
+}
+
+tf_custom_model_evaluation <- function(...) {
+  simple_class("tf_custom_model_evaluation", ...)
 }
 
 is.tf_custom_model <- function(object) {
@@ -162,7 +178,26 @@ train.tf_custom_model <- function(object, input_fn, steps = NULL, hooks = NULL, 
       hooks = normalize_session_run_hooks(hooks),
       max_steps = as_nullable_integer(max_steps)) 
   })
+  object$steps <- steps
+  object$max_steps <- max_steps
   invisible(object)
+}
+
+#' @export
+print.tf_custom_model <- function(object) {
+  con <- textConnection("model", "w")
+  write(sprintf("Custom Model:", file = con))
+  if (!is.null(object$steps) || !is.null(object$max_steps)) {
+    write(sprintf("This is a trained model"), file = con)
+    if(!is.null(object$steps)) {
+      write(sprintf("Model training meta data: steps = %s", object$steps), file = con)
+    } else {
+      write(sprintf("Model training meta data: max_steps = %s", object$max_steps), file = con)
+    }
+  } else {
+    write(sprintf("This model has not been trained yet", file = con))
+  }
+  close(con)
 }
 
 #' Returns predictions for given features.
@@ -250,10 +285,27 @@ evaluate.tf_custom_model <- function(object,
                                      name = NULL)
 {
   est <- object$estimator
-  est$evaluate(input_fn = normalize_input_fn(object, input_fn),
+  result <- est$evaluate(input_fn = normalize_input_fn(object, input_fn),
                steps = as_nullable_integer(steps),
                checkpoint_path = checkpoint_path,
                name = name)
+  tf_custom_model_evaluation(
+    result = result,
+    steps = steps,
+    checkpoint_path = checkpoint_path,
+    name = name)
+}
+
+#' @export
+print.tf_custom_model_evaluation <- function(object) {
+  con <- textConnection("evaluation", "w")
+  write(sprintf("Evaluation name: %s", ifelse(is.null(object$name), "NULL", object$name)), file = con)
+  write(sprintf("From checkpoint located in: %s", ifelse(is.null(object$checkpoint_path), "NULL", object$checkpoint_path)), file = con)
+  write(sprintf("Result: loss = %s, global_step = %s",
+                object$result$loss,
+                object$result$global_step),
+        file = con)
+  close(con)
 }
 
 #' Exports inference graph as a SavedModel into a given directory.
