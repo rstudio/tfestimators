@@ -1,7 +1,5 @@
 tf_model <- function(names, ...) {
-  object <- list(...)
-  class(object) <- c("tf_model", names)
-  object
+  simple_class(c("tf_model", names), ...)
 }
 
 is.tf_model <- function(object) {
