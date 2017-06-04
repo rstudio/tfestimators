@@ -29,6 +29,7 @@
 NULL
 
 estimator_lib <- NULL
+canned_estimator_lib <- NULL
 random_ops <- NULL
 math_ops <- NULL
 array_ops <- NULL
@@ -49,6 +50,7 @@ np <- NULL
   math_ops <<- import("tensorflow.python.ops.math_ops", delay_load = TRUE)
   array_ops <<- import("tensorflow.python.ops.array_ops", delay_load = TRUE)
   functional_ops <<- import("tensorflow.python.ops.functional_ops", delay_load = TRUE)
+  canned_estimator_lib <<- import("tensorflow.python.estimator.canned", delay_load = TRUE)
 
   # contrib modules
   contrib_learn <<- import("tensorflow.contrib.learn", delay_load = TRUE)
