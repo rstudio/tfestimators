@@ -24,6 +24,20 @@ The **tfestimators** package is an R interface to TensorFlow Estimators, a high-
 
 ## Quick Start
 
+<style type="text/css">
+.alert-warning {
+   color: inherit;
+   background-color: #f5f5f5;
+   border: 1px solid #dddddd;
+   margin-top: 20px;
+}
+</style>
+
+<div class="alert alert-warning" role="alert">
+**IMPORTANT NOTE**: This package is under active development and the APIs are still subject to substantial changes. Help and documentation are also currently incomplete. The package is currently suitable for review and feedback but not for everyday use.
+</div>
+
+
 ### Installation
 
 To use **tfestimators** you need to install both the R package as well as [TensorFlow](https://rstudio.github.io/tensorflow/) iteslf.
@@ -34,39 +48,47 @@ First, install the tfestimators R package as follows:
 devtools::install_github("rstudio/tfestimators")
 ```
 
-Then, use the `install_tensorflow()` function to install TensorFlow:
+Then, use the `install_tensorflow()` function to install the current nightly build of TensorFlow (see the TensorFlow repository home page for [nightly build URLs](https://github.com/tensorflow/tensorflow#installation) for various platforms):
 
 ```{r, eval=FALSE}
 library(tfestimators)
-install_tensorflow()
+install_tensorflow(package_url = "https://ci.tensorflow.org/view/Nightly/<path-to-tf-package>")
 ```
 
-This will provide you with a default installation of TensorFlow suitable for use with the tfestimators R package. See the [article on TensorFlow installation](https://rstudio.github.io/tensorflow/installation.html) to learn about more advanced options, including installing a version of TensorFlow that takes advantage of Nvidia GPUs if you have the correct CUDA libraries installed.
-
+Note that the **tfestimators** package currently requires the nightly build of TensorFlow, it will not work with the release version as it relies on APIs only in the development version.
 
 ### Simple Example
 
 Let's create a simple linear regression with the `mtcars` dataset to demonstrate the use of estimators.
 
-First, some standard setup. Input to estimators is provided by an input function (`input_fn`) rather than as a plain matrix or data frame. Here we define a helper function that will yield an `input_fn` for a given subset of our data:
+#### Input Function
+
+First, some standard setup. Input to estimators is provided by an input function that returns a list containing feature and response data. You can write a custom input function or create one automatically from an R data frame or matrix.
+
+Here we define a helper function that will yield an in input function for a given subset of our data:
 
 ```{r}
 library(tfestimators)
 
-# features we will train on
-features <- c("drat", "cyl")
-
 # yield an input_fn for a given subset of data
 mtcars_input_fn <- function(data) {
-  input_fn(data, response = "mpg", features = features)
+  input_fn(data, response = "mpg", features = c("drat", "cyl"))
 }
 ```
 
-We create the estimator using the `linear_regressor()` function. Note that we provide a list of feature columns to the regressor. In this case we're just passing columns from `mtcars` straight through, however by using the family of [feature column functions](reference/index.html#section-feature-columns) we can define various transformations on the data before using it for modeling.
+The `input_fn` method can take an R data frame or matrix along with the names of feature and response variables and automatically create an input function for it.
+
+#### Feature Columns
+
+We create the estimator by calling `linear_regressor()` function and passing it a set of feature columns: 
 
 ```{r}
-model <- linear_regressor(feature_columns(mtcars, features))
+model <- linear_regressor(feature_columns(mtcars, c("drat", "cyl")))
 ```
+
+In this case we're just passing columns from `mtcars` straight through, however by using the family of [feature column functions](reference/index.html#section-feature-columns) we can define various transformations on the data before using it for modeling.
+
+#### Training
 
 Next, we train the model using the `train()` function. Note that we segment `mtcars` into training and test datasets so we can evaluate the model on a differnet subset of data.
 
@@ -81,11 +103,15 @@ test <- mtcars[1:test_obs,]
 model %>% train(mtcars_input_fn(train))
 ```
 
+#### Evaluation
+
 We can evaluate the model's accuracy using the `evaluate()` function (here we use the `test` dataset rather than the `train` dataset):
 
 ```{r}
 model %>% evaluate(mtcars_input_fn(test))
 ```
+
+#### Prediction
 
 Finally, we generate predictions using the `predict()` function:
 
@@ -102,24 +128,29 @@ These articles cover the basics of using TensorFlow Estimators:
 - [Input Functions](articles/input_functions.html)
 - [Feature Columns](articles/feature_columns.html)
 
+<!--
 These articles provide in depth documentation and example uses of canned estimators:
 
 - [Linear Models](articles/linear_estimators.html)
 - [Linear/DNN Models](articles/linear_dnn_combined_estimators.html)
 - [Support Vector Machines](articles/support_vector_machines.html)
 - [Recurrent Neural Networks](articles/recurrent_neural_networks.html)
+-->
 
 These articles describe more advanced topics/usage:
 
 - [Experiments](articles/experiments.html)
 - [Run Hooks](articles/run_hooks.html)
+<!--
 - [Run Configuration](articles/run_configuration.html)
+-->
 - [Custom Estimators](articles/custom_estimators.html)
 
+<!--
 One of the best ways to learn is from reviewing and experimenting with examples. See the [Examples](articles/examples/examples.html) page for a variety of examples to help you get started.
 
 When you have built your model and are ready to deploy it, see the [Deployment](articles/deployment.html) page for an in-depth review of deployment options.
-
+-->
 
 
 

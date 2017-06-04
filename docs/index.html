@@ -50,21 +50,6 @@
     </li>
     <li class="divider">
     </li>
-<li class="dropdown-header">Canned Estimators</li>
-    <li>
-      <a href="articles/linear_estimators.html">Linear Models</a>
-    </li>
-    <li>
-      <a href="articles/linear_dnn_combined_estimators.html">Linear/DNN Models</a>
-    </li>
-    <li>
-      <a href="articles/support_vector_machines.html">Support Vector Machines</a>
-    </li>
-    <li>
-      <a href="articles/recurrent_neural_networks.html">Recurrent Neural Networks</a>
-    </li>
-    <li class="divider">
-    </li>
 <li class="dropdown-header">Advanced</li>
     <li>
       <a href="articles/experiments.html">Experiments</a>
@@ -73,18 +58,9 @@
       <a href="articles/run_hooks.html">Run Hooks</a>
     </li>
     <li>
-      <a href="articles/run_configuration.html">Run Configuration</a>
-    </li>
-    <li>
       <a href="articles/custom_estimators.html">Custom Estimators</a>
     </li>
   </ul>
-</li>
-<li>
-  <a href="articles/deployment.html">Deployment</a>
-</li>
-<li>
-  <a href="articles/examples/index.html">Examples</a>
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
@@ -127,54 +103,85 @@
 <div id="quick-start" class="section level2">
 <h2 class="hasAnchor">
 <a href="#quick-start" class="anchor"></a>Quick Start</h2>
+<style type="text/css">
+.alert-warning {
+   color: inherit;
+   background-color: #f5f5f5;
+   border: 1px solid #dddddd;
+   margin-top: 20px;
+}
+</style>
+<div class="alert alert-warning" role="alert">
+<p><strong>IMPORTANT NOTE</strong>: This package is under active development and the APIs are still subject to substantial changes. Help and documentation are also currently incomplete. The package is currently suitable for review and feedback but not for everyday use.</p>
+</div>
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h3>
 <p>To use <strong>tfestimators</strong> you need to install both the R package as well as <a href="https://rstudio.github.io/tensorflow/">TensorFlow</a> iteslf.</p>
 <p>First, install the tfestimators R package as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">install_github</span>(<span class="st">"rstudio/tfestimators"</span>)</code></pre></div>
-<p>Then, use the <code><a href="reference/reexports.html">install_tensorflow()</a></code> function to install TensorFlow:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"rstudio/tfestimators"</span>)</code></pre></div>
+<p>Then, use the <code><a href="reference/reexports.html">install_tensorflow()</a></code> function to install the current nightly build of TensorFlow (see the TensorFlow repository home page for <a href="https://github.com/tensorflow/tensorflow#installation">nightly build URLs</a> for various platforms):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tfestimators)
-<span class="kw"><a href="reference/reexports.html">install_tensorflow</a></span>()</code></pre></div>
-<p>This will provide you with a default installation of TensorFlow suitable for use with the tfestimators R package. See the <a href="https://rstudio.github.io/tensorflow/installation.html">article on TensorFlow installation</a> to learn about more advanced options, including installing a version of TensorFlow that takes advantage of Nvidia GPUs if you have the correct CUDA libraries installed.</p>
+<span class="kw"><a href="reference/reexports.html">install_tensorflow</a></span>(<span class="dt">package_url =</span> <span class="st">"https://ci.tensorflow.org/view/Nightly/&lt;path-to-tf-package&gt;"</span>)</code></pre></div>
+<p>Note that the <strong>tfestimators</strong> package currently requires the nightly build of TensorFlow, it will not work with the release version as it relies on APIs only in the development version.</p>
 </div>
 <div id="simple-example" class="section level3">
 <h3 class="hasAnchor">
 <a href="#simple-example" class="anchor"></a>Simple Example</h3>
 <p>Let’s create a simple linear regression with the <code>mtcars</code> dataset to demonstrate the use of estimators.</p>
-<p>First, some standard setup. Input to estimators is provided by an input function (<code>input_fn</code>) rather than as a plain matrix or data frame. Here we define a helper function that will yield an <code>input_fn</code> for a given subset of our data:</p>
+<div id="input-function" class="section level4">
+<h4 class="hasAnchor">
+<a href="#input-function" class="anchor"></a>Input Function</h4>
+<p>First, some standard setup. Input to estimators is provided by an input function that returns a list containing feature and response data. You can write a custom input function or create one automatically from an R data frame or matrix.</p>
+<p>Here we define a helper function that will yield an in input function for a given subset of our data:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tfestimators)
 
-<span class="co"># features we will train on</span>
-features &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>)
-
 <span class="co"># yield an input_fn for a given subset of data</span>
-mtcars_input_fn &lt;-<span class="st"> </span>function(data) {
-  <span class="kw"><a href="reference/input_fn.html">input_fn</a></span>(data, <span class="dt">response =</span> <span class="st">"mpg"</span>, <span class="dt">features =</span> features)
+mtcars_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(data) {
+  <span class="kw"><a href="reference/input_fn.html">input_fn</a></span>(data, <span class="dt">response =</span> <span class="st">"mpg"</span>, <span class="dt">features =</span> <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>))
 }</code></pre></div>
-<p>We create the estimator using the <code><a href="reference/linear_regressor.html">linear_regressor()</a></code> function. Note that we provide a list of feature columns to the regressor. In this case we’re just passing columns from <code>mtcars</code> straight through, however by using the family of <a href="reference/index.html#section-feature-columns">feature column functions</a> we can define various transformations on the data before using it for modeling.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw"><a href="reference/linear_regressor.html">linear_regressor</a></span>(<span class="kw">feature_columns</span>(mtcars, features))</code></pre></div>
+<p>The <code>input_fn</code> method can take an R data frame or matrix along with the names of feature and response variables and automatically create an input function for it.</p>
+</div>
+<div id="feature-columns" class="section level4">
+<h4 class="hasAnchor">
+<a href="#feature-columns" class="anchor"></a>Feature Columns</h4>
+<p>We create the estimator by calling <code><a href="reference/linear_regressor.html">linear_regressor()</a></code> function and passing it a set of feature columns:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw"><a href="reference/linear_regressor.html">linear_regressor</a></span>(<span class="kw">feature_columns</span>(mtcars, <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>)))</code></pre></div>
+<p>In this case we’re just passing columns from <code>mtcars</code> straight through, however by using the family of <a href="reference/index.html#section-feature-columns">feature column functions</a> we can define various transformations on the data before using it for modeling.</p>
+</div>
+<div id="training" class="section level4">
+<h4 class="hasAnchor">
+<a href="#training" class="anchor"></a>Training</h4>
 <p>Next, we train the model using the <code>train()</code> function. Note that we segment <code>mtcars</code> into training and test datasets so we can evaluate the model on a differnet subset of data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># randomly segment mtcars into test and training datasets</span>
-mtcars &lt;-<span class="st"> </span>mtcars[<span class="kw">sample</span>(<span class="dv">1</span>:<span class="kw">nrow</span>(mtcars)),]
-test_obs &lt;-<span class="st"> </span><span class="kw">as.integer</span>(<span class="fl">0.2</span> *<span class="st"> </span><span class="kw">nrow</span>(mtcars))
-train &lt;-<span class="st"> </span>mtcars[-(<span class="dv">1</span>:test_obs),]
-test &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span>:test_obs,]
+mtcars &lt;-<span class="st"> </span>mtcars[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(mtcars)),]
+test_obs &lt;-<span class="st"> </span><span class="kw">as.integer</span>(<span class="fl">0.2</span> <span class="op">*</span><span class="st"> </span><span class="kw">nrow</span>(mtcars))
+train &lt;-<span class="st"> </span>mtcars[<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span>test_obs),]
+test &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span><span class="op">:</span>test_obs,]
 
 <span class="co"># train the model</span>
-model %&gt;%<span class="st"> </span><span class="kw">train</span>(<span class="kw">mtcars_input_fn</span>(train))</code></pre></div>
+model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">train</span>(<span class="kw">mtcars_input_fn</span>(train))</code></pre></div>
+</div>
+<div id="evaluation" class="section level4">
+<h4 class="hasAnchor">
+<a href="#evaluation" class="anchor"></a>Evaluation</h4>
 <p>We can evaluate the model’s accuracy using the <code>evaluate()</code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
 <pre><code>## $loss
-## [1] 304.7651
+## [1] 424.1876
 ## 
 ## $global_step
 ## [1] 2</code></pre>
+</div>
+<div id="prediction" class="section level4">
+<h4 class="hasAnchor">
+<a href="#prediction" class="anchor"></a>Prediction</h4>
 <p>Finally, we generate predictions using the <code>predict()</code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span>:<span class="dv">3</span>,]
-model %&gt;%<span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,]
+model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
 <pre><code>##   scores   scores   scores 
-## 3.527138 3.520548 2.843046</code></pre>
+## 3.892009 3.943372 3.511978</code></pre>
+</div>
 </div>
 </div>
 <div id="learning-more" class="section level2">
@@ -186,22 +193,28 @@ model %&gt;%<span class="st"> </span><span class="kw">predict</span>(<span class
 <li><a href="articles/input_functions.html">Input Functions</a></li>
 <li><a href="articles/feature_columns.html">Feature Columns</a></li>
 </ul>
-<p>These articles provide in depth documentation and example uses of canned estimators:</p>
-<ul>
-<li><a href="articles/linear_estimators.html">Linear Models</a></li>
-<li><a href="articles/linear_dnn_combined_estimators.html">Linear/DNN Models</a></li>
-<li><a href="articles/support_vector_machines.html">Support Vector Machines</a></li>
-<li><a href="articles/recurrent_neural_networks.html">Recurrent Neural Networks</a></li>
-</ul>
-<p>These articles describe more advanced topics/usage:</p>
+<!--
+These articles provide in depth documentation and example uses of canned estimators:
+
+- [Linear Models](articles/linear_estimators.html)
+- [Linear/DNN Models](articles/linear_dnn_combined_estimators.html)
+- [Support Vector Machines](articles/support_vector_machines.html)
+- [Recurrent Neural Networks](articles/recurrent_neural_networks.html)
+--><p>These articles describe more advanced topics/usage:</p>
 <ul>
 <li><a href="articles/experiments.html">Experiments</a></li>
-<li><a href="articles/run_hooks.html">Run Hooks</a></li>
-<li><a href="articles/run_configuration.html">Run Configuration</a></li>
+<li>
+<a href="articles/run_hooks.html">Run Hooks</a> <!--
+- [Run Configuration](articles/run_configuration.html)
+-->
+</li>
 <li><a href="articles/custom_estimators.html">Custom Estimators</a></li>
 </ul>
-<p>One of the best ways to learn is from reviewing and experimenting with examples. See the <a href="articles/examples/examples.html">Examples</a> page for a variety of examples to help you get started.</p>
-<p>When you have built your model and are ready to deploy it, see the <a href="articles/deployment.html">Deployment</a> page for an in-depth review of deployment options.</p>
+<!--
+One of the best ways to learn is from reviewing and experimenting with examples. See the [Examples](articles/examples/examples.html) page for a variety of examples to help you get started.
+
+When you have built your model and are ready to deploy it, see the [Deployment](articles/deployment.html) page for an in-depth review of deployment options.
+-->
 </div>
 </div>
 </div>
