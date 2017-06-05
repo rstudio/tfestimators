@@ -10,14 +10,13 @@ run_config()
 This class specifies the configurations for an \code{Estimator} run.
 }
 \examples{
-\dontrun{
 config <- run_config()
+
 # Get the properties of the config
-config$keep_checkpoint_every_n_hours
+names(config)
 
 # Change the mutable properties of the config
-config$replace(tf_random_seed = 11, save_summary_steps = 12)
-}
+config <- config$replace(tf_random_seed = 11L, save_summary_steps = 12L)
 
 }
 \seealso{
