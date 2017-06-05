@@ -19,6 +19,17 @@ run_config <- function() {
   estimator_lib$run_config$RunConfig()
 }
 
+
+#' @export
+print.tensorflow.python.estimator.run_config.RunConfig <- function(config) {
+  config_names <- names(config)
+  config_items <- unlist(lapply(config_names, function(item) {
+    paste(item, config[[item]], collapse = "", sep = " = ")
+  }))
+  print(paste(config_items, collapse = ", "))
+}
+
+
 #' Task Types
 #' 
 #' This constant class gives the constant strings for available task types
