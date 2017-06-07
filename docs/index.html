@@ -92,6 +92,18 @@
 <div id="r-interface-to-tensorflow-estimators" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#r-interface-to-tensorflow-estimators" class="anchor"></a>R Interface to TensorFlow Estimators</h1></div>
+<style type="text/css">
+.alert-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+</style>
+<div class="alert alert-warning" role="alert">
+<p><strong>IMPORTANT NOTE</strong>: This package is under active development and the APIs are still subject to substantial changes. Help and documentation are also currently incomplete. The package is currently suitable for review and feedback but not for everyday use.</p>
+</div>
 <p><img src="images/tensorflow-2-100709406-large.jpg" align="right" width="50%" style="margin-left: 15px;"></p>
 <p>The <strong>tfestimators</strong> package is an R interface to TensorFlow Estimators, a high-level API that provides:</p>
 <ul>
@@ -103,17 +115,6 @@
 <div id="quick-start" class="section level2">
 <h2 class="hasAnchor">
 <a href="#quick-start" class="anchor"></a>Quick Start</h2>
-<style type="text/css">
-.alert-warning {
-   color: inherit;
-   background-color: #f5f5f5;
-   border: 1px solid #dddddd;
-   margin-top: 20px;
-}
-</style>
-<div class="alert alert-warning" role="alert">
-<p><strong>IMPORTANT NOTE</strong>: This package is under active development and the APIs are still subject to substantial changes. Help and documentation are also currently incomplete. The package is currently suitable for review and feedback but not for everyday use.</p>
-</div>
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h3>
@@ -168,7 +169,7 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tr
 <p>We can evaluate the model’s accuracy using the <code>evaluate()</code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
 <pre><code>## $loss
-## [1] 424.1876
+## [1] 179.9301
 ## 
 ## $global_step
 ## [1] 2</code></pre>
@@ -180,7 +181,7 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tr
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,]
 model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
 <pre><code>##   scores   scores   scores 
-## 3.892009 3.943372 3.511978</code></pre>
+## 3.367165 4.155629 4.106098</code></pre>
 </div>
 </div>
 </div>

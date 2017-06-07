@@ -181,6 +181,8 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ev
 <p>The following example demonstrates the custom input function equivalent of the <code>mtcars_input_fn()</code> in the previous section. Note that this example uses lower-level TensorFlow constructs from the <a href="https://tensorflow.rstudio.com">tensorflow</a> R package to explicitly create constant Tensors from R vectors:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(data) {
   
+  <span class="kw">force</span>(data)
+  
   <span class="cf">function</span>() {
     
     <span class="co"># named list of feature columns (convert R vectors to TF tensors)</span>

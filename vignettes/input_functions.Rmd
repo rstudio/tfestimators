@@ -133,6 +133,8 @@ The following example demonstrates the custom input function equivalent of the `
 ```{r}
 mtcars_input_fn <- function(data) {
   
+  force(data)
+  
   function() {
     
     # named list of feature columns (convert R vectors to TF tensors)
