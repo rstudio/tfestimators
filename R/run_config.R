@@ -3,14 +3,13 @@
 #' This class specifies the configurations for an `Estimator` run.
 #' 
 #' @examples
-#' \dontrun{
 #' config <- run_config()
+#' 
 #' # Get the properties of the config
-#' config$keep_checkpoint_every_n_hours
+#' names(config)
 #' 
 #' # Change the mutable properties of the config
-#' config$replace(tf_random_seed = 11, save_summary_steps = 12)
-#' }
+#' config <- config$replace(tf_random_seed = 11L, save_summary_steps = 12L)
 #' 
 #' @family run_config methods
 #'   
@@ -18,6 +17,16 @@
 run_config <- function() {
   estimator_lib$run_config$RunConfig()
 }
+
+#' @export
+print.tensorflow.python.estimator.run_config.RunConfig <- function(config) {
+  config_names <- names(config)
+  config_items <- unlist(lapply(config_names, function(item) {
+    paste(item, config[[item]], collapse = "", sep = " = ")
+  }))
+  print(paste(config_items, collapse = ", "))
+}
+
 
 #' Task Types
 #' 

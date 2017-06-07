@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Run Configuration — run_config • tfestimators</title>
+<title>Enum for metric keys. — metric_keys • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -106,42 +106,31 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Run Configuration</h1>
+    <h1>Enum for metric keys.</h1>
     </div>
 
     
-    <p>This class specifies the configurations for an <code>Estimator</code> run.</p>
+    <p>Used by retrieving available metrics from canned estimators.</p>
     
 
-    <pre class="usage"><span class='fu'>run_config</span>()</pre>
+    <pre class="usage"><span class='fu'>metric_keys</span>()</pre>
         
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <p>Other run_config methods: <code><a href='task_type.html'>task_type</a></code></p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>config</span> <span class='kw'>&lt;-</span> <span class='fu'>run_config</span>()
+    <pre class="examples"><div class='input'><span class='no'>metrics</span> <span class='kw'>&lt;-</span> <span class='fu'>metric_keys</span>()
 
-<span class='co'># Get the properties of the config</span>
-<span class='fu'>names</span>(<span class='no'>config</span>)</div><div class='output co'>#&gt;  [1] "cluster_spec"                  "evaluation_master"            
-#&gt;  [3] "is_chief"                      "keep_checkpoint_every_n_hours"
-#&gt;  [5] "keep_checkpoint_max"           "master"                       
-#&gt;  [7] "model_dir"                     "num_ps_replicas"              
-#&gt;  [9] "num_worker_replicas"           "replace"                      
-#&gt; [11] "save_checkpoints_secs"         "save_checkpoints_steps"       
-#&gt; [13] "save_summary_steps"            "session_config"               
-#&gt; [15] "task_id"                       "task_type"                    
-#&gt; [17] "tf_random_seed"               </div><div class='input'>
-<span class='co'># Change the mutable properties of the config</span>
-<span class='no'>config</span> <span class='kw'>&lt;-</span> <span class='no'>config</span>$<span class='fu'>replace</span>(<span class='kw'>tf_random_seed</span> <span class='kw'>=</span> <span class='fl'>11L</span>, <span class='kw'>save_summary_steps</span> <span class='kw'>=</span> <span class='fl'>12L</span>)</div></pre>
+<span class='co'># Get the available keys</span>
+<span class='fu'>names</span>(<span class='no'>metrics</span>)</div><div class='output co'>#&gt;  [1] "ACCURACY"               "ACCURACY_AT_THRESHOLD"  "ACCURACY_BASELINE"     
+#&gt;  [4] "AUC"                    "AUC_PR"                 "LABEL_MEAN"            
+#&gt;  [7] "LOSS"                   "LOSS_MEAN"              "PRECISION_AT_THRESHOLD"
+#&gt; [10] "PREDICTION_MEAN"        "RECALL_AT_THRESHOLD"   </div><div class='input'>
+<span class='no'>metrics</span>$<span class='no'>ACCURACY</span></div><div class='output co'>#&gt; [1] "accuracy"</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#see-also">See also</a></li>
-      
+            
       <li><a href="#examples">Examples</a></li>
     </ul>
 
