@@ -33,12 +33,12 @@ navbar:
           href: articles/experiments.html
         - text: "Run Hooks"
           href: articles/run_hooks.html
-        - text: "TensorBoard Visualization"
-          href: articles/tensorboard.html
 #        - text: "Run Configuration"
 #          href: articles/run_configuration.html
         - text: "Custom Estimators"
           href: articles/custom_estimators.html
+        - text: "TensorBoard Visualization"
+          href: articles/tensorboard.html
 #    - text: "Deployment"
 #      href: articles/deployment.html
 #    - text: "Examples"

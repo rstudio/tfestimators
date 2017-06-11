@@ -58,10 +58,10 @@
       <a href="articles/run_hooks.html">Run Hooks</a>
     </li>
     <li>
-      <a href="articles/tensorboard.html">TensorBoard Visualization</a>
+      <a href="articles/custom_estimators.html">Custom Estimators</a>
     </li>
     <li>
-      <a href="articles/custom_estimators.html">Custom Estimators</a>
+      <a href="articles/tensorboard.html">TensorBoard Visualization</a>
     </li>
   </ul>
 </li>
@@ -176,7 +176,7 @@ model %&gt;%<span class="st"> </span><span class="kw">train</span>(<span class="
 <p>We can evaluate the model’s accuracy using the <code>evaluate()</code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
 <pre><code>## $loss
-## [1] 347.2671
+## [1] 223.5082
 ## 
 ## $global_step
 ## [1] 2</code></pre>
@@ -188,7 +188,7 @@ model %&gt;%<span class="st"> </span><span class="kw">train</span>(<span class="
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span>:<span class="dv">3</span>,]
 model %&gt;%<span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
 <pre><code>##   scores   scores   scores 
-## 3.743893 3.022545 3.637435</code></pre>
+## 3.661050 2.930876 3.564090</code></pre>
 </div>
 </div>
 </div>
@@ -217,6 +217,7 @@ These articles provide in depth documentation and example uses of canned estimat
 -->
 </li>
 <li><a href="articles/custom_estimators.html">Custom Estimators</a></li>
+<li><a href="articles/tensorboard.html">TensorBoard Visualization</a></li>
 </ul>
 <!--
 One of the best ways to learn is from reviewing and experimenting with examples. See the [Examples](articles/examples/examples.html) page for a variety of examples to help you get started.
