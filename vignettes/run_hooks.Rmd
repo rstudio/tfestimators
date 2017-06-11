@@ -13,6 +13,8 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Overview
+
 `SessionRunHooks` are useful to track training, report progress, request early stopping and more. Users can attach an arbitrary number of hooks to an estimator. `SessionRunHooks` use the observer pattern and notify at the following points:
 
  - when a session starts being used
@@ -21,6 +23,8 @@ knitr::opts_chunk$set(echo = TRUE)
  - when the session closed
 
 A `SessionRunHook` encapsulates a piece of reusable/composable computation that can piggyback a call to `MonitoredSession.run()`. A hook can add any ops-or-tensor/feeds to the run call, and when the run call finishes with success gets the outputs it requested. Hooks are allowed to add ops to the graph in `hook.begin()`. The graph is finalized after the `begin()` method is called.
+
+## Built-in Run Hooks
 
 There are a few pre-defined `SessionRunHooks` available, for example:
 Run hooks are useful for tracking training, reporting progress, requesting early stopping, and more. Users can attach an arbitrary number of hooks to an estimator. Some built-in run hooks include:
@@ -61,3 +65,32 @@ lr %>% train(
   steps = 10L,
   monitors = monitor)
 ```
+
+## Custom Run Hooks
+
+Users can also create custom run hooks by defining the behaviors of the hook in different phases of a session in object-oriented programming style.
+
+For example, the following code defines a custom run hook that prints out some information at the end of each session run by overriding the `end()` function in `EstimatorSessionRunHook` [R6](https://cran.r-project.org/web/packages/R6/vignettes/Introduction.html) class.
+
+``` r
+CustomSessionRunHook <- R6::R6Class(
+  "CustomSessionRunHook",
+  inherit = EstimatorSessionRunHook,
+  public = list(
+    end = function(session) {
+      cat("Running custom session run hook at the end of a session")
+    }
+  )
+)
+  
+custom_hook <- CustomSessionRunHook$new()
+```
+
+The following functions can be overridden from the `EstimatorSessionRunHook` class to implement fully customized run hook:
+
+- `begin()` - Called once before using the session.
+- `after_create_session()` - Called when new TensorFlow session is created.
+- `before_run()` - Called before each call to session `run()`.
+- `after_run()` - Called after each call to session `run()`.
+- `end()` - Called at the end of session.
+
