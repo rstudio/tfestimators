@@ -57,6 +57,9 @@
       <a href="../articles/run_hooks.html">Run Hooks</a>
     </li>
     <li>
+      <a href="../articles/tensorboard.html">TensorBoard Visualization</a>
+    </li>
+    <li>
       <a href="../articles/custom_estimators.html">Custom Estimators</a>
     </li>
   </ul>
@@ -159,7 +162,7 @@
 <h2 class="hasAnchor">
 <a href="#feature-columns" class="anchor"></a>Feature Columns</h2>
 <p>Users firstly specify the feature columns that represent the feature transformations to be used by the Estimator. Here we use the default function <code>feature_columns()</code> to automatically map each features in a dataset into a feature column according to their types, e.g. factor variable, numeric variable, etc.:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars<span class="op">$</span>vs &lt;-<span class="st"> </span><span class="kw">as.factor</span>(mtcars<span class="op">$</span>vs)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars$vs &lt;-<span class="st"> </span><span class="kw">as.factor</span>(mtcars$vs)
 dnn_feature_columns &lt;-<span class="st"> </span><span class="kw">feature_columns</span>(mtcars, <span class="st">"drat"</span>)
 linear_feature_columns &lt;-<span class="st"> </span><span class="kw">feature_columns</span>(mtcars, <span class="st">"cyl"</span>)</code></pre></div>
 <p>The examples above provide columns as-is from a data frame. There are also a variety of functions available for transforming features prior to using them in training:</p>

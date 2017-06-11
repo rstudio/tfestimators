@@ -33,8 +33,12 @@ test_that("train(), predict(), and evaluate() work for classifiers", {
       linear_feature_columns = specs$linear_feature_columns,
       dnn_feature_columns = specs$dnn_feature_columns,
       dnn_hidden_units = c(3L, 3L),
-      dnn_optimizer = "Adagrad"
+      dnn_optimizer = "Adagrad",
+      model_dir = "/tmp/test3"
     ) %>% train(input_fn = specs$input_fn)
+  
+  # check whether tensorboard works with canned estimator
+  tensorboard(log_dir = "/tmp/test3", launch_browser = FALSE)
   
   coefs <- coef(clf)
   expect_gt(length(coefs), 0)

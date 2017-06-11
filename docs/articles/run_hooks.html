@@ -57,6 +57,9 @@
       <a href="../articles/run_hooks.html">Run Hooks</a>
     </li>
     <li>
+      <a href="../articles/tensorboard.html">TensorBoard Visualization</a>
+    </li>
+    <li>
       <a href="../articles/custom_estimators.html">Custom Estimators</a>
     </li>
   </ul>
@@ -155,7 +158,7 @@
   <span class="dt">dnn_optimizer =</span> <span class="st">"Adagrad"</span>
 )
 
-lr <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">train</span>(
+lr %&gt;%<span class="st"> </span><span class="kw">train</span>(
   <span class="dt">input_fn =</span> custom_input_fn,
   <span class="dt">steps =</span> 10L,
   <span class="dt">monitors =</span> monitor)</code></pre></div>

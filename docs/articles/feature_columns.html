@@ -57,6 +57,9 @@
       <a href="../articles/run_hooks.html">Run Hooks</a>
     </li>
     <li>
+      <a href="../articles/tensorboard.html">TensorBoard Visualization</a>
+    </li>
+    <li>
       <a href="../articles/custom_estimators.html">Custom Estimators</a>
     </li>
   </ul>
@@ -95,16 +98,16 @@
 <p>Users can use the default <code>feature_columns()</code> function to convert columns in an automatic fashion without any fancy feature engineering, e.g. numeric variables are converted using <code>column_real_valued()</code>, factor variables are converted using <code>column_with_keys()</code>, and character variables are converted using <code>column_with_hash_bucket()</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fcs &lt;-<span class="st"> </span><span class="kw">feature_columns</span>(mtcars, <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>))</code></pre></div>
 <p>Users can also write their own custom feature columns transformation function like the following that transforms different columns in a <code>lapply</code> loop.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">custom_feature_columns &lt;-<span class="st"> </span><span class="cf">function</span>(x, columns) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">custom_feature_columns &lt;-<span class="st"> </span>function(x, columns) {
   <span class="kw">ensure_valid_column_names</span>(x, columns)
-  <span class="cf">function</span>() {
-    <span class="kw">lapply</span>(columns, <span class="cf">function</span>(column_name) {
+  function() {
+    <span class="kw">lapply</span>(columns, function(column_name) {
       column_values &lt;-<span class="st"> </span>x[[column_name]]
-      <span class="cf">if</span> (column_name <span class="op">==</span><span class="st"> "profit"</span>) {
+      if (column_name ==<span class="st"> "profit"</span>) {
         <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(column_name)
-      } <span class="cf">else</span> <span class="cf">if</span> (column_name <span class="op">==</span><span class="st"> "profession"</span>) {
+      } else if (column_name ==<span class="st"> "profession"</span>) {
         <span class="kw">column_with_keys</span>(column_name, <span class="dt">num_buckets =</span> <span class="kw">length</span>(<span class="kw">unique</span>(column_values)))
-      } <span class="cf">else</span> {
+      } else {
         ...
       }
     })

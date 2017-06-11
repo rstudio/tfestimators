@@ -79,6 +79,9 @@
       <a href="../articles/run_hooks.html">Run Hooks</a>
     </li>
     <li>
+      <a href="../articles/tensorboard.html">TensorBoard Visualization</a>
+    </li>
+    <li>
       <a href="../articles/custom_estimators.html">Custom Estimators</a>
     </li>
   </ul>
@@ -120,8 +123,8 @@
     <pre class="examples"><div class='input'><span class='no'>keys</span> <span class='kw'>&lt;-</span> <span class='fu'>prediction_keys</span>()
 
 <span class='co'># Get the available keys</span>
-<span class='fu'>names</span>(<span class='no'>keys</span>)</div><div class='output co'>#&gt; [1] "CLASS_IDS"     "CLASSES"       "LOGISTIC"      "LOGITS"       
-#&gt; [5] "PREDICTIONS"   "PROBABILITIES"</div><div class='input'>
+<span class='fu'>names</span>(<span class='no'>keys</span>)</div><div class='output co'>#&gt; [1] "CLASSES"       "LOGISTIC"      "LOGITS"        "PREDICTIONS"  
+#&gt; [5] "PROBABILITIES"</div><div class='input'>
 <span class='co'># Key for retrieving probabilities from prediction values</span>
 <span class='no'>keys</span>$<span class='no'>PROBABILITIES</span></div><div class='output co'>#&gt; [1] "probabilities"</div></pre>
   </div>
