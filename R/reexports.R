@@ -27,3 +27,6 @@ tensorflow::install_tensorflow
 
 #' @export
 tensorflow::tf_config
+
+#' @export
+tensorflow::tensorboard
