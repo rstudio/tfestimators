@@ -49,9 +49,12 @@ test_that("custom model works on iris data", {
   
   # training
   classifier <- estimator(
-    model_fn = simple_custom_model_fn) %>%
+    model_fn = simple_custom_model_fn, model_dir = "/tmp/test1") %>%
     train(input_fn = constructed_input_fn, steps = 2L)
   
+  # check whether tensorboard works with custom estimator
+  tensorboard(log_dir = "/tmp/test1", launch_browser = FALSE)
+
   # inference
   predictions <- predict(classifier, input_fn = constructed_input_fn)
   

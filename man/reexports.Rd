@@ -14,6 +14,8 @@
 \alias{install_tensorflow}
 \alias{reexports}
 \alias{tf_config}
+\alias{reexports}
+\alias{tensorboard}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -23,6 +25,6 @@ below to see their documentation.
 \describe{
   \item{reticulate}{\code{\link[reticulate]{use_python}}, \code{\link[reticulate]{use_virtualenv}}, \code{\link[reticulate]{use_condaenv}}}
 
-  \item{tensorflow}{\code{\link[tensorflow]{tf}}, \code{\link[tensorflow]{install_tensorflow}}, \code{\link[tensorflow]{tf_config}}}
+  \item{tensorflow}{\code{\link[tensorflow]{tf}}, \code{\link[tensorflow]{install_tensorflow}}, \code{\link[tensorflow]{tf_config}}, \code{\link[tensorflow]{tensorboard}}}
 }}
 

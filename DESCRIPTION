@@ -1,7 +1,7 @@
 Package: tfestimators
 Type: Package
 Title: High-level Estimator Interface to TensorFlow in R
-Version: 0.1
+Version: 0.1.0
 Authors@R: c(
   person("Yuan", "Tang", role = c("aut", "cre"),
          email = "terrytangyuan@gmail.com"),
@@ -29,8 +29,8 @@ Depends:
     R (>= 3.0.0)
 Imports:
     utils,
-    reticulate (>= 0.8),
-    tensorflow (>= 0.8.2),
+    reticulate (>= 0.8.0.9003),
+    tensorflow (>= 0.8.4),
     magrittr,
     R6
 Roxygen: list(markdown = TRUE)

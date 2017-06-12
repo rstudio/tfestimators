@@ -59,6 +59,9 @@
     <li>
       <a href="../articles/custom_estimators.html">Custom Estimators</a>
     </li>
+    <li>
+      <a href="../articles/tensorboard.html">TensorBoard Visualization</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -136,16 +139,8 @@
 <td>Linear DNN Combined Classification.</td>
 </tr>
 <tr class="odd">
-<td><code><a href="../reference/svm_classifier.html">svm_classifier()</a></code></td>
-<td>TensorFlow – Support Vector Machines.</td>
-</tr>
-<tr class="even">
-<td><code><a href="../reference/linear_dnn_combined_regressor.html">linear_dnn_combined_regressor()</a></code></td>
-<td>Dynamic RNN Estimator.</td>
-</tr>
-<tr class="odd">
 <td><code><a href="../reference/dynamic_rnn.html">dynamic_rnn()</a></code></td>
-<td>Linear DNN Combined Regression.</td>
+<td>Dynamic RNN Estimator..</td>
 </tr>
 <tr class="even">
 <td><code><a href="../reference/state_saving_rnn.html">state_saving_rnn()</a></code></td>
@@ -159,7 +154,7 @@
 <h2 class="hasAnchor">
 <a href="#feature-columns" class="anchor"></a>Feature Columns</h2>
 <p>Users firstly specify the feature columns that represent the feature transformations to be used by the Estimator. Here we use the default function <code>feature_columns()</code> to automatically map each features in a dataset into a feature column according to their types, e.g. factor variable, numeric variable, etc.:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars<span class="op">$</span>vs &lt;-<span class="st"> </span><span class="kw">as.factor</span>(mtcars<span class="op">$</span>vs)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars$vs &lt;-<span class="st"> </span><span class="kw">as.factor</span>(mtcars$vs)
 dnn_feature_columns &lt;-<span class="st"> </span><span class="kw">feature_columns</span>(mtcars, <span class="st">"drat"</span>)
 linear_feature_columns &lt;-<span class="st"> </span><span class="kw">feature_columns</span>(mtcars, <span class="st">"cyl"</span>)</code></pre></div>
 <p>The examples above provide columns as-is from a data frame. There are also a variety of functions available for transforming features prior to using them in training:</p>
@@ -178,36 +173,40 @@ linear_feature_columns &lt;-<span class="st"> </span><span class="kw">feature_co
 <td>Construct column placeholders from vectors in an R object</td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/column_bucketized.html">column_bucketized()</a></code></td>
-<td>Creates a _BucketizedColumn for discretizing dense input.</td>
+<td><code><a href="../reference/column_indicator.html">column_indicator()</a></code></td>
+<td>Represents multi-hot representation of given categorical column.</td>
 </tr>
 <tr class="odd">
-<td><code><a href="../reference/column_crossed.html">column_crossed()</a></code></td>
-<td>Creates a _CrossedColumn for performing feature crosses.</td>
+<td><code><a href="../reference/column_numeric.html">column_numeric()</a></code></td>
+<td>Represents real valued or numerical features.</td>
 </tr>
 <tr class="even">
 <td><code><a href="../reference/column_embedding.html">column_embedding()</a></code></td>
-<td>Creates an _EmbeddingColumn for feeding sparse data into a DNN.</td>
+<td>Creates an _DenseColumn that converts from sparse, categorical input.</td>
 </tr>
 <tr class="odd">
-<td><code>column_one_hot()</code></td>
-<td>Creates an _OneHotColumn for a one-hot or multi-hot repr in a DNN.</td>
+<td><code><a href="../reference/column_bucketized.html">column_bucketized()</a></code></td>
+<td>Represents discretized dense input.</td>
 </tr>
 <tr class="even">
-<td><code>column_real_valued()</code></td>
-<td>Creates a _RealValuedColumn for dense numeric data.</td>
+<td><code><a href="../reference/column_weighted_categorical.html">column_weighted_categorical()</a></code></td>
+<td>Applies weight values to a _CategoricalColumn.</td>
 </tr>
 <tr class="odd">
-<td><code>column_sparse_weighted()</code></td>
-<td>Creates a _SparseColumn by combining sparse_id_column with a weight column.</td>
+<td><code><a href="../reference/column_categorical_with_vocabulary_list.html">column_categorical_with_vocabulary_list()</a></code></td>
+<td>Creates a _CategoricalColumn with in-memory vocabulary.</td>
 </tr>
 <tr class="even">
-<td><code>column_sparse_with_hash_bucket()</code></td>
-<td>Creates a _SparseColumn with hashed bucket configuration.</td>
+<td><code><a href="../reference/column_categorical_with_vocabulary_file.html">column_categorical_with_vocabulary_file()</a></code></td>
+<td>Creates a _CategoricalColumn with a vocabulary file.</td>
 </tr>
 <tr class="odd">
-<td><code>column_sparse_with_keys()</code></td>
-<td>Creates a _SparseColumn with keys.</td>
+<td><code><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity()</a></code></td>
+<td>Creates a _CategoricalColumn that returns identity values.</td>
+</tr>
+<tr class="even">
+<td><code><a href="../reference/column_categorical_with_hash_bucket.html">column_categorical_with_hash_bucket()</a></code></td>
+<td>Represents sparse feature where ids are set by hashing.</td>
 </tr>
 </tbody>
 </table>
