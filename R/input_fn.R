@@ -17,7 +17,7 @@ input_fn <- function(object, ...) {
 #' @export
 #' @rdname input_fn
 input_fn.default <- function(object, ...) {
-  input_fn.data.frame(object, ...)
+  input_fn.data.frame(as.data.frame(object), ...)
 }
 
 #' @export
