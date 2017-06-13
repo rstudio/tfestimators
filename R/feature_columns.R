@@ -79,7 +79,7 @@ column_categorical_with_vocabulary_list <- function(fc, key, vocabulary_list, dt
   columns <- vars_select(names(fc$data), key)
   
   for (column in columns) {
-    fc$features[column] <- feature_column_lib$categorical_column_with_vocabulary_list(
+    fc$features[[length(fc$features) + 1]] <- feature_column_lib$categorical_column_with_vocabulary_list(
       key = column,
       vocabulary_list = vocabulary_list,
       dtype = dtype,
@@ -129,7 +129,7 @@ column_categorical_with_vocabulary_file <- function(fc, key, vocabulary_file, vo
   columns <- vars_select(data$names, key)
   
   for (column in columns) {
-    fc$features[column] <- feature_column_lib$categorical_column_with_vocabulary_file(
+    fc$features[[length(fc$features) + 1]] <- feature_column_lib$categorical_column_with_vocabulary_file(
       key = column,
       vocabulary_file = vocabulary_file,
       vocabulary_size = vocabulary_size,
@@ -186,7 +186,7 @@ column_categorical_with_identity <- function(fc, key, num_buckets = NULL, defaul
     else
       buckets <- unique(fc$data[,column])
     
-    fc$features[column] <- feature_column_lib$categorical_column_with_identity(
+    fc$features[[length(fc$features) + 1]]  <- feature_column_lib$categorical_column_with_identity(
       key = column,
       num_buckets = buckets,
       default_value = default_value
@@ -243,7 +243,7 @@ column_categorical_with_hash_bucket <- function(fc, key, hash_bucket_size, dtype
   columns <- vars_select(names(fc$data), key)
   
   for (column in columns) {
-    fc$features[column] <-  feature_column_lib$categorical_column_with_hash_bucket(
+    fc$features[[length(fc$features) + 1]] <- feature_column_lib$categorical_column_with_hash_bucket(
       key = column,
       hash_bucket_size = hash_bucket_size,
       dtype = dtype
@@ -297,7 +297,7 @@ column_numeric <- function(fc, key, shape = list(1L), default_value = NULL, dtyp
   
   # add them
   for (column in columns) {
-    fc$features[[column]] <- feature_column_lib$numeric_column(
+    fc$features[[length(fc$features) + 1]] <- feature_column_lib$numeric_column(
       key = column,
       shape = shape,
       default_value = default_value,
@@ -445,7 +445,7 @@ column_bucketized <- function(source_column, boundaries) {
 
 # pull the columns out of a tfestimators_feature_columns object
 resolve_feature_columns <- function(feature_columns) {
-  unname(feature_columns$features)
+  feature_columns$features
 }
 
 
