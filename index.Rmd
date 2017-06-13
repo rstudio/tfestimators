@@ -89,7 +89,7 @@ The `input_fn` method can take an R data frame or matrix along with the names of
 We create the estimator by calling `linear_regressor()` function and passing it a set of feature columns: 
 
 ```{r}
-model <- linear_regressor(feature_columns(mtcars, c("drat", "cyl")))
+model <- linear_regressor(feature_columns(mtcars, c(drat, cyl)))
 ```
 
 In this case we're just passing columns from `mtcars` straight through, however by using the family of [feature column functions](reference/index.html#section-feature-columns) we can define various transformations on the data before using it for modeling.

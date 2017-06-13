@@ -10,7 +10,7 @@ svm_classifier <- function(feature_columns,
 {
 
   # extract feature columns
-  feature_columns <- resolve_fn(feature_columns)
+  feature_columns <- resolve_feature_columns(feature_columns)
 
   svm_clf <- contrib_learn$SVM(
     feature_columns = feature_columns,

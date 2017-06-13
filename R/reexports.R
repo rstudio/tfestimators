@@ -30,3 +30,24 @@ tensorflow::tf_config
 
 #' @export
 tensorflow::tensorboard
+
+
+#' @importFrom tidyselect starts_with
+#' @export starts_with
+tidyselect::starts_with
+
+#' @importFrom tidyselect ends_with
+#' @export ends_with
+tidyselect::ends_with
+
+#' @importFrom tidyselect contains
+#' @export contains
+tidyselect::contains
+
+#' @importFrom tidyselect matches
+#' @export matches
+tidyselect::matches
+
+
+
+

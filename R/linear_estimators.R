@@ -50,7 +50,7 @@ linear_regressor <- function(
 {
 
   # extract feature columns
-  feature_columns <- resolve_fn(feature_columns)
+  feature_columns <- resolve_feature_columns(feature_columns)
 
   # construct estimator accepting those columns
   lr <- contrib_learn$LinearRegressor(
@@ -132,7 +132,7 @@ linear_classifier <- function(
 {
 
   # extract feature columns
-  feature_columns <- resolve_fn(feature_columns)
+  feature_columns <- resolve_feature_columns(feature_columns)
 
   # construct estimator accepting those columns
   lc <- contrib_learn$LinearClassifier(

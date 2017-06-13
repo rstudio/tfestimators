@@ -16,6 +16,14 @@
 \alias{tf_config}
 \alias{reexports}
 \alias{tensorboard}
+\alias{reexports}
+\alias{starts_with}
+\alias{reexports}
+\alias{ends_with}
+\alias{reexports}
+\alias{contains}
+\alias{reexports}
+\alias{matches}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -26,5 +34,7 @@ below to see their documentation.
   \item{reticulate}{\code{\link[reticulate]{use_python}}, \code{\link[reticulate]{use_virtualenv}}, \code{\link[reticulate]{use_condaenv}}}
 
   \item{tensorflow}{\code{\link[tensorflow]{tf}}, \code{\link[tensorflow]{install_tensorflow}}, \code{\link[tensorflow]{tf_config}}, \code{\link[tensorflow]{tensorboard}}}
+
+  \item{tidyselect}{\code{\link[tidyselect]{starts_with}}, \code{\link[tidyselect]{ends_with}}, \code{\link[tidyselect]{contains}}, \code{\link[tidyselect]{matches}}}
 }}
 

@@ -7,7 +7,9 @@
 column_categorical_with_hash_bucket(key, hash_bucket_size, dtype = tf$string)
 }
 \arguments{
-\item{key}{A unique string identifying the input feature. It is used as the column name and the dictionary key for feature parsing configs, feature \code{Tensor} objects, and feature columns.}
+\item{key}{Expression identifying input feature(s). Used as the column name
+and the dictionary key for feature parsing configs, feature \code{Tensor}
+objects, and feature columns.}
 
 \item{hash_bucket_size}{An int > 1. The number of buckets.}
 

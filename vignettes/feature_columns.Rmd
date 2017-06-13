@@ -16,32 +16,29 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Feature columns are used to specify the feature transformations and combinations for a model, e.g. `column_embedding()` that converts a categorical variable into embedding and `column_crossed()` that combines two variables in a specified way. 
 
-Users can use the default `feature_columns()` function to convert columns in an automatic fashion without any fancy feature engineering, e.g. numeric variables are converted using `column_real_valued()`, factor variables are converted using `column_with_keys()`, and character variables are converted using `column_with_hash_bucket()`. 
+Users can use the default `feature_columns()` function to convert columns in an automatic fashion without any fancy feature engineering, e.g. numeric variables are converted using `column_numeric()`, factor variables are converted using `column_categorical_with_identity()`, and character variables are converted using `column_with_hash_bucket()`. 
 
 ``` r
-fcs <- feature_columns(mtcars, c("drat", "cyl"))
+fc <- feature_columns(mtcars, c(drat, cyl))
 ```
 
-Users can also write their own custom feature columns transformation function like the following that transforms different columns in a `lapply` loop.
+You can of course also specify custom feature transformations by creating an empty `feature_columns` specification and then piping column definitions into it. For example:
 
 ``` r
-custom_feature_columns <- function(x, columns) {
-  ensure_valid_column_names(x, columns)
-  function() {
-    lapply(columns, function(column_name) {
-      column_values <- x[[column_name]]
-      if (column_name == "profit") {
-        column_numeric(column_name)
-      } else if (column_name == "profession") {
-        column_with_keys(column_name, num_buckets = length(unique(column_values)))
-      } else {
-      	...
-      }
-    })
-  }
-}
+fc <- feature_columns(subsidiaries) %>% 
+  column_numeric(profit) %>% 
+  column_categorical_with_identity(profession, num_buckets = 5)
 ```
 
-The feature columns transformation functions are wrappers around Python `tf.contrib.layers.feature_column` module, for example, `column_numeric()` is essentially `tf.contrib.layers.feature_column.numeric_column`, we wrap it this way so users can just type `column_` and utilize the autocomplete functionality in RStudio to find available types of feature columns faster as well as reducing the appearances of `$` in the code. A variety of feature column functions are available. For example, `column_indicator()` specifies a feature column that's multi-hot encoded, `column_weighted_categorical()` creates a feature column in combination with a designated weight column.
+You can also use pattern matching to handle multiple columns at once, for example:
+
+```r
+fc <- feature_columns(subsidiaries) %>% 
+  column_numeric(profit) %>% 
+  column_categorical_with_identity(profession) %>% 
+  column_numeric(ends_with("_pct"))
+```
+
+Note that when creating `feature_columns()` the data that you pass as the first argument (`mtcars`) need not contain all of your data, but rather should be an exemplar of the data (i.e. column names, data types, and factor levels).
 
 
