@@ -234,13 +234,13 @@ column_indicator <- function(categorical_column) {
 #' @family feature_column wrappers
 #'   
 #' @export
-column_categorical_with_hash_bucket <- function(key, hash_bucket_size, dtype = tf$string) {
+column_categorical_with_hash_bucket <- function(fc, key, hash_bucket_size, dtype = tf$string) {
   hash_bucket_size <- as.integer(hash_bucket_size)
   if (hash_bucket_size <= 1) {
     stop("hash_bucket_size must be larger than 1")
   }
   
-  columns <- vars_select(data$names, key)
+  columns <- vars_select(names(fc$data), key)
   
   for (column in columns) {
     fc$features[column] <-  feature_column_lib$categorical_column_with_hash_bucket(
