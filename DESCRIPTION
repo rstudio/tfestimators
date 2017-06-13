@@ -42,3 +42,5 @@ Suggests:
 VignetteBuilder: knitr
 Remotes:
   rstudio/tensorflow
+  lionel-/tidyselect
+
