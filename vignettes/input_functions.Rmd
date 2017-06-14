@@ -33,7 +33,7 @@ For example, to create an input function for the **mtcars** dataset with feature
 
 ```{r}
 model %>% train(
-  input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
+  input_fn(mtcars, features = c(drat, cyl), response = mpg)
 )
 ```
 
@@ -53,7 +53,7 @@ For example, imagine we have already split the **mtcars** dataset into training 
 
 ```{r}
 mtcars_input_fn <- function(data) {
-  input_fn(data, response = "mpg", features = c("drat", "cyl"))
+  input_fn(data, features = c(drat, cyl), response = mpg)
 }
 ```
 

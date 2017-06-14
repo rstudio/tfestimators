@@ -16,6 +16,7 @@
 #' `column_with_keys()` for other data). You can chain the `column_` family
 #' of functions onto `feature_columns()` to do more customized transformations.
 #'
+#' @importFrom rlang enquo
 #' @importFrom tidyselect vars_select quos
 #'
 #' @export

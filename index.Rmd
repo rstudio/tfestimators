@@ -78,7 +78,7 @@ library(tfestimators)
 
 # yield an input_fn for a given subset of data
 mtcars_input_fn <- function(data) {
-  input_fn(data, response = "mpg", features = c("drat", "cyl"))
+  input_fn(data, features = c(drat, cyl), response = mpg)
 }
 ```
 
