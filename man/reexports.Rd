@@ -24,6 +24,10 @@
 \alias{contains}
 \alias{reexports}
 \alias{matches}
+\alias{reexports}
+\alias{everything}
+\alias{reexports}
+\alias{one_of}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -35,6 +39,6 @@ below to see their documentation.
 
   \item{tensorflow}{\code{\link[tensorflow]{tf}}, \code{\link[tensorflow]{install_tensorflow}}, \code{\link[tensorflow]{tf_config}}, \code{\link[tensorflow]{tensorboard}}}
 
-  \item{tidyselect}{\code{\link[tidyselect]{starts_with}}, \code{\link[tidyselect]{ends_with}}, \code{\link[tidyselect]{contains}}, \code{\link[tidyselect]{matches}}}
+  \item{tidyselect}{\code{\link[tidyselect]{starts_with}}, \code{\link[tidyselect]{ends_with}}, \code{\link[tidyselect]{contains}}, \code{\link[tidyselect]{matches}}, \code{\link[tidyselect]{everything}}, \code{\link[tidyselect]{one_of}}}
 }}
 

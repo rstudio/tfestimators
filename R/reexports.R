@@ -48,6 +48,13 @@ tidyselect::contains
 #' @export matches
 tidyselect::matches
 
+#' @importFrom tidyselect everything
+#' @export everything
+tidyselect::everything
+
+#' @importFrom tidyselect one_of
+#' @export one_of
+tidyselect::one_of
 
 
 
