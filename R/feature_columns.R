@@ -1,50 +1,24 @@
 
 #' Define feature columns
 #'
-#' @param data Exemplar of data to extract feature columns for. This need only
-#'   be a smaller sample of your input data (enough to provide column names and
-#'   types).
-#'
-#' @param ... Columns to include as features.
-#' 
-#' @details 
-#' Columns can be specified as symbols or character vectors, and the `-`
-#' operator can be used to select all but one other column.
-#' 
-#' The specified columns will receive the default feature transformation
-#' behavior for their type (`column_numeric()` for numeric data,
-#' `column_with_keys()` for other data). You can chain the `column_` family
-#' of functions onto `feature_columns()` to do more customized transformations.
-#'
-#' @importFrom rlang enquo
-#' @importFrom tidyselect vars_select quos
+#' @param names Character vector with names of all available features
+#'  (or an R object that you can call `colnames()` or `names()` on 
+#'  to extract names).
 #'
 #' @export
-feature_columns <- function(data, ...) {
+feature_columns <- function(names) {
   
-  # create feature columns
-  fc <- structure(
-    class = "tfestimators_feature_columns", list(
-    data = data,
-    features = list()
-  ))
-  
-  # get the selected columns
-  columns <- vars_select(names(data), !!! quos(...))
-  
-  # provide them with default handling
-  for (column in columns) {
-    if (is.numeric( data[[column]])) {
-      fc <- column_numeric(fc, column)
-    } else {
-      fc <- column_categorical_with_identity(fc, column)
-    }
-  }
+  # capture names
+  if (!is.character(names))
+    names <- object_names(names)
   
   # return feature columns
-  fc
+  structure(
+    class = "tfestimators_feature_columns", list(
+    names = names,
+    features = list()
+  ))
 }
-
 
 
 #' A `_CategoricalColumn` with in-memory vocabulary.
@@ -75,9 +49,10 @@ feature_columns <- function(data, ...) {
 #' 
 #' @export
 #' @family feature_column wrappers
-column_categorical_with_vocabulary_list <- function(fc, key, vocabulary_list, dtype = NULL, default_value = -1L) {
+column_categorical_with_vocabulary_list <- function(fc, ..., vocabulary_list, dtype = NULL, default_value = -1L) {
   
-  columns <- vars_select(names(fc$data), key)
+  # select columns
+  columns <- vars_select(fc$names, !!! quos(...))
   
   for (column in columns) {
     fc$features[[length(fc$features) + 1]] <- feature_column_lib$categorical_column_with_vocabulary_list(
@@ -124,10 +99,14 @@ column_categorical_with_vocabulary_list <- function(fc, key, vocabulary_list, dt
 #' ValueError: `dtype` is neither string nor integer.
 #' @family feature_column wrappers
 #' 
+#' @importFrom rlang enquo
+#' @importFrom tidyselect vars_select quos
+#' 
 #' @export
-column_categorical_with_vocabulary_file <- function(fc, key, vocabulary_file, vocabulary_size, num_oov_buckets = 0L, default_value = NULL, dtype = tf$string) {
+column_categorical_with_vocabulary_file <- function(fc, ..., vocabulary_file, vocabulary_size, num_oov_buckets = 0L, default_value = NULL, dtype = tf$string) {
   
-  columns <- vars_select(data$names, key)
+  # select columns
+  columns <- vars_select(fc$names, !!! quos(...))
   
   for (column in columns) {
     fc$features[[length(fc$features) + 1]] <- feature_column_lib$categorical_column_with_vocabulary_file(
@@ -161,8 +140,6 @@ column_categorical_with_vocabulary_file <- function(fc, key, vocabulary_file, vo
 #' 
 #' @inheritParams column_numeric
 #' 
-#' @param key A unique string identifying the input feature. 
-#' It is used as the column name and the dictionary key for feature parsing configs, feature `Tensor` objects, and feature columns.
 #' @param num_buckets Range of inputs and outputs is `[0, num_buckets)`. If `NULL` then the range
 #' is automatically determined by inspecting the data for unique values.
 #' @param default_value If `NULL`, this column's graph operations will fail for out-of-range inputs. 
@@ -176,9 +153,10 @@ column_categorical_with_vocabulary_file <- function(fc, key, vocabulary_file, vo
 #' 
 #' @family feature_column wrappers
 #' @export
-column_categorical_with_identity <- function(fc, key, num_buckets = NULL, default_value = NULL) {
+column_categorical_with_identity <- function(fc, ..., num_buckets = NULL, default_value = NULL) {
   
-  columns <- vars_select(names(fc$data), key)
+  # select columns
+  columns <- vars_select(fc$names, !!! quos(...))
   
   for (column in columns) {
     
@@ -235,13 +213,15 @@ column_indicator <- function(categorical_column) {
 #' @family feature_column wrappers
 #'   
 #' @export
-column_categorical_with_hash_bucket <- function(fc, key, hash_bucket_size, dtype = tf$string) {
+column_categorical_with_hash_bucket <- function(fc, ..., hash_bucket_size, dtype = tf$string) {
   hash_bucket_size <- as.integer(hash_bucket_size)
   if (hash_bucket_size <= 1) {
     stop("hash_bucket_size must be larger than 1")
   }
   
-  columns <- vars_select(names(fc$data), key)
+  # select columns
+  columns <- vars_select(fc$names, !!! quos(...))
+  
   
   for (column in columns) {
     fc$features[[length(fc$features) + 1]] <- feature_column_lib$categorical_column_with_hash_bucket(
@@ -257,7 +237,7 @@ column_categorical_with_hash_bucket <- function(fc, key, hash_bucket_size, dtype
 #' Represents real valued or numerical features.
 #'
 #' @param fc Feature columns
-#' @param key Expression identifying input feature(s). Used as the column name
+#' @param ... Expression(s) identifying input feature(s). Used as the column name
 #'   and the dictionary key for feature parsing configs, feature `Tensor`
 #'   objects, and feature columns.
 #' @param shape An iterable of integers specifies the shape of the `Tensor`. An
@@ -291,10 +271,10 @@ column_categorical_with_hash_bucket <- function(fc, key, hash_bucket_size, dtype
 #' @family feature_column wrappers
 #'
 #' @export
-column_numeric <- function(fc, key, shape = list(1L), default_value = NULL, dtype = tf$float32, normalizer_fn = NULL) {
+column_numeric <- function(fc, ..., shape = list(1L), default_value = NULL, dtype = tf$float32, normalizer_fn = NULL) {
   
   # select columns
-  columns <- vars_select(names(fc$data), key)
+  columns <- vars_select(fc$names, !!! quos(...))
   
   # add them
   for (column in columns) {
