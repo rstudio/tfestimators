@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Prints the given tensors once every N local steps or once every N seconds. — hook_logging_tensor • tfestimators</title>
+<title>Prints the given tensors every N local steps, every N seconds, or at end. — hook_logging_tensor • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -109,7 +109,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Prints the given tensors once every N local steps or once every N seconds.</h1>
+    <h1>Prints the given tensors every N local steps, every N seconds, or at end.</h1>
     </div>
 
     
@@ -117,7 +117,7 @@
     
 
     <pre class="usage"><span class='fu'>hook_logging_tensor</span>(<span class='no'>tensors</span>, <span class='kw'>every_n_iter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>every_n_secs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>formatter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>formatter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>at_end</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -143,7 +143,17 @@ provided.</p></td>
       <td><p>function, takes dict of <code>tag</code>-&gt;<code>Tensor</code> and returns a
 string. If <code>NULL</code> uses default printing all tensors.</p></td>
     </tr>
+    <tr>
+      <th>at_end</th>
+      <td><p><code>bool</code> specifying whether to print the values of <code>tensors</code> at the
+end of the run.</p></td>
+    </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Note that if <code>at_end</code> is True, <code>tensors</code> should not include any tensor
+whose evaluation produces a side effect such as consuming additional inputs.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -162,6 +172,8 @@ string. If <code>NULL</code> uses default printing all tensors.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 

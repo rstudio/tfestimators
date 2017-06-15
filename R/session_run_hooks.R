@@ -1,6 +1,9 @@
-#' Prints the given tensors once every N local steps or once every N seconds.
+#' Prints the given tensors every N local steps, every N seconds, or at end.
 #' 
 #' The tensors will be printed to the log, with `INFO` severity.
+#' 
+#' Note that if `at_end` is True, `tensors` should not include any tensor 
+#' whose evaluation produces a side effect such as consuming additional inputs.
 #' 
 #' @param tensors `dict` that maps string-valued tags to tensors/tensor names,
 #'   or `iterable` of tensors/tensor names.
@@ -11,16 +14,19 @@
 #'   provided.
 #' @param formatter function, takes dict of `tag`->`Tensor` and returns a
 #'   string. If `NULL` uses default printing all tensors.
+#' @param at_end `bool` specifying whether to print the values of `tensors` at the
+#' end of the run.
 #'   
 #' @family session_run_hook wrappers
 #'   
 #' @export
-hook_logging_tensor <- function(tensors, every_n_iter = NULL, every_n_secs = NULL, formatter = NULL) {
+hook_logging_tensor <- function(tensors, every_n_iter = NULL, every_n_secs = NULL, formatter = NULL, at_end = FALSE) {
   tf$python$training$basic_session_run_hooks$LoggingTensorHook(
     tensors = ensure_dict(tensors, named = F),
     every_n_iter = as_nullable_integer(every_n_iter),
     every_n_secs = as_nullable_integer(every_n_secs),
-    formatter = formatter
+    formatter = formatter,
+    at_end = at_end
   )
 }
 

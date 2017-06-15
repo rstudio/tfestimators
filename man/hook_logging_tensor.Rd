@@ -2,10 +2,10 @@
 % Please edit documentation in R/session_run_hooks.R
 \name{hook_logging_tensor}
 \alias{hook_logging_tensor}
-\title{Prints the given tensors once every N local steps or once every N seconds.}
+\title{Prints the given tensors every N local steps, every N seconds, or at end.}
 \usage{
 hook_logging_tensor(tensors, every_n_iter = NULL, every_n_secs = NULL,
-  formatter = NULL)
+  formatter = NULL, at_end = FALSE)
 }
 \arguments{
 \item{tensors}{\code{dict} that maps string-valued tags to tensors/tensor names,
@@ -20,9 +20,16 @@ provided.}
 
 \item{formatter}{function, takes dict of \code{tag}->\code{Tensor} and returns a
 string. If \code{NULL} uses default printing all tensors.}
+
+\item{at_end}{\code{bool} specifying whether to print the values of \code{tensors} at the
+end of the run.}
 }
 \description{
 The tensors will be printed to the log, with \code{INFO} severity.
+}
+\details{
+Note that if \code{at_end} is True, \code{tensors} should not include any tensor
+whose evaluation produces a side effect such as consuming additional inputs.
 }
 \seealso{
 Other session_run_hook wrappers: \code{\link{EstimatorSessionRunHook}},
