@@ -42,6 +42,9 @@ contrib_estimators_lib <- NULL
 
 np <- NULL
 
+.globals <- new.env(parent = emptyenv())
+.globals$active_feature_data <- NULL
+
 .onLoad <- function(libname, pkgname) {
   # core modules
   estimator_lib <<- import("tensorflow.python.estimator.estimator", delay_load = TRUE)

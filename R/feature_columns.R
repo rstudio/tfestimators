@@ -1,23 +1,35 @@
 
 #' Define feature columns
 #'
-#' @param names Character vector with names of all available features
-#'  (or an R object that you can call `colnames()` or `names()` on 
-#'  to extract names).
+#' @param .data Data frame from which to derive features. Note that this need only be
+#'   an exemplar of your data (names, types, factor levels) rather than all of the
+#'   data that will be used for training.
+#' @param ... One or more feature column definitions
 #'
 #' @export
-feature_columns <- function(names) {
+feature_columns <- function(.data, ...) {
   
-  # capture names
-  if (!is.character(names))
-    names <- object_names(names)
+  # set and restore active feature data
+  set_active_feature_data(.data)
+  on.exit(set_active_feature_data(NULL), add = TRUE)
   
-  # return feature columns
-  structure(
-    class = "tfestimators_feature_columns", list(
-    names = names,
-    features = list()
-  ))
+  # see if the user used simple feature expressions
+  columns <- tryCatch(names(vars_select(names(.data), !!! quos(...))), 
+                      error = function(e) NULL)
+  
+  # resolve feature columns as appropriate
+  if (!is.null(columns)) {
+    lapply(columns, function(column) {
+      if (is.numeric(.data[[column]])) {
+        column_numeric(column)
+      } else {
+        column_categorical_with_identity(column)
+      }
+    })
+  } else {
+    # each tidyselect can return 1:N columns
+    c(..., recursive = TRUE)
+  }
 }
 
 
@@ -49,22 +61,21 @@ feature_columns <- function(names) {
 #' 
 #' @export
 #' @family feature_column wrappers
-column_categorical_with_vocabulary_list <- function(fc, ..., vocabulary_list, dtype = NULL, default_value = -1L) {
+column_categorical_with_vocabulary_list <- function(..., vocabulary_list, dtype = NULL, default_value = -1L) {
   
-  # select columns
-  columns <- vars_select(fc$names, !!! quos(...))
+  if (have_active_feature_data())
+    columns <- names(vars_select(names(active_feature_data()), !!! quos(...)))
+  else
+    columns <- as.character(c(...))
   
-  for (column in columns) {
-    fc$features[[length(fc$features) + 1]] <- feature_column_lib$categorical_column_with_vocabulary_list(
+  columns_apply(columns, function(column) {
+    feature_column_lib$categorical_column_with_vocabulary_list(
       key = column,
       vocabulary_list = vocabulary_list,
       dtype = dtype,
       default_value = default_value
     )
-  }
-  
-  fc
-  
+  })
 }
 
 #' A `_CategoricalColumn` with a vocabulary file.
@@ -103,13 +114,16 @@ column_categorical_with_vocabulary_list <- function(fc, ..., vocabulary_list, dt
 #' @importFrom tidyselect vars_select quos
 #' 
 #' @export
-column_categorical_with_vocabulary_file <- function(fc, ..., vocabulary_file, vocabulary_size, num_oov_buckets = 0L, default_value = NULL, dtype = tf$string) {
+column_categorical_with_vocabulary_file <- function(..., vocabulary_file, vocabulary_size, num_oov_buckets = 0L, 
+                                                    default_value = NULL, dtype = tf$string) {
   
-  # select columns
-  columns <- vars_select(fc$names, !!! quos(...))
+  if (have_active_feature_data())
+    columns <- names(vars_select(names(active_feature_data()), !!! quos(...)))
+  else
+    columns <- as.character(c(...))
   
-  for (column in columns) {
-    fc$features[[length(fc$features) + 1]] <- feature_column_lib$categorical_column_with_vocabulary_file(
+  columns_apply(columns, function(column) {
+    feature_column_lib$categorical_column_with_vocabulary_file(
       key = column,
       vocabulary_file = vocabulary_file,
       vocabulary_size = vocabulary_size,
@@ -117,9 +131,7 @@ column_categorical_with_vocabulary_file <- function(fc, ..., vocabulary_file, vo
       default_value = default_value,
       dtype = dtype
     )
-  }
-  
-  fc
+  })
 }
 
 #' A `_CategoricalColumn` that returns identity values.
@@ -153,26 +165,29 @@ column_categorical_with_vocabulary_file <- function(fc, ..., vocabulary_file, vo
 #' 
 #' @family feature_column wrappers
 #' @export
-column_categorical_with_identity <- function(fc, ..., num_buckets = NULL, default_value = NULL) {
+column_categorical_with_identity <- function(..., num_buckets = NULL, default_value = NULL) {
   
-  # select columns
-  columns <- vars_select(fc$names, !!! quos(...))
-  
-  for (column in columns) {
-    
-    if (!is.null(num_buckets))
-      buckets <- num_buckets
-    else
-      buckets <- unique(fc$data[,column])
-    
-    fc$features[[length(fc$features) + 1]]  <- feature_column_lib$categorical_column_with_identity(
-      key = column,
-      num_buckets = buckets,
-      default_value = default_value
-    )
+  if (have_active_feature_data()) {
+    columns <- names(vars_select(names(active_feature_data()), !!! quos(...)))
+  } else {
+    columns <- as.character(c(...))
   }
   
-  fc
+  columns_apply(columns, function(column) {
+    
+    if (is.null(num_buckets)) {
+      if (!have_active_feature_data())
+        stop("feature_columns context required in order to automatically determine num_buckets for ", column)
+      num_buckets <- unique(active_feature_data()[, column])
+    }
+    
+    feature_column_lib$categorical_column_with_identity(
+      key = column,
+      num_buckets = num_buckets,
+      default_value = default_value
+    )
+    
+  })
 }
 
 #' Represents multi-hot representation of given categorical column.
@@ -213,25 +228,27 @@ column_indicator <- function(categorical_column) {
 #' @family feature_column wrappers
 #'   
 #' @export
-column_categorical_with_hash_bucket <- function(fc, ..., hash_bucket_size, dtype = tf$string) {
+column_categorical_with_hash_bucket <- function(..., hash_bucket_size, dtype = tf$string) {
+  
+  
   hash_bucket_size <- as.integer(hash_bucket_size)
   if (hash_bucket_size <= 1) {
     stop("hash_bucket_size must be larger than 1")
   }
   
-  # select columns
-  columns <- vars_select(fc$names, !!! quos(...))
+  if (have_active_feature_data()) {
+    columns <- names(vars_select(names(active_feature_data()), !!! quos(...)))
+  } else {
+    columns <- as.character(c(...))
+  }
   
-  
-  for (column in columns) {
-    fc$features[[length(fc$features) + 1]] <- feature_column_lib$categorical_column_with_hash_bucket(
+  columns_apply(columns, function(column) {
+    feature_column_lib$categorical_column_with_hash_bucket(
       key = column,
       hash_bucket_size = hash_bucket_size,
       dtype = dtype
     )
-  }
-  
-  fc
+  })
 }
 
 #' Represents real valued or numerical features.
@@ -271,24 +288,25 @@ column_categorical_with_hash_bucket <- function(fc, ..., hash_bucket_size, dtype
 #' @family feature_column wrappers
 #'
 #' @export
-column_numeric <- function(fc, ..., shape = list(1L), default_value = NULL, dtype = tf$float32, normalizer_fn = NULL) {
+column_numeric <- function(..., shape = list(1L), default_value = NULL, dtype = tf$float32, normalizer_fn = NULL) {
   
-  # select columns
-  columns <- vars_select(fc$names, !!! quos(...))
+  # resolve columns with tidyselect if we have active feature data
+  # (otherwise they can be simple character vector data)
+  if (have_active_feature_data())
+    columns <- names(vars_select(names(active_feature_data()), !!! quos(...)))
+  else
+    columns <- as.character(c(...))
   
   # add them
-  for (column in columns) {
-    fc$features[[length(fc$features) + 1]] <- feature_column_lib$numeric_column(
+  columns_apply(columns, function(column) {
+    feature_column_lib$numeric_column(
       key = column,
       shape = shape,
       default_value = default_value,
       dtype = dtype,
       normalizer_fn = normalizer_fn
     )
-  }
-  
-  # return feature columns for further piping
-  fc
+  }) 
 }
 
 #' `_DenseColumn` that converts from sparse, categorical input.
@@ -355,10 +373,12 @@ column_embedding <- function(categorical_column, dimension, combiner = "mean", i
 #'   
 #' @export
 column_crossed <- function(keys, hash_bucket_size, hash_key = NULL) {
+  
   hash_bucket_size <- as.integer(hash_bucket_size)
   if (hash_bucket_size <= 1) {
     stop("hash_bucket_size must be larger than 1")
   }
+  
   feature_column_lib$crossed_column(
     keys = keys,
     hash_bucket_size = hash_bucket_size,
@@ -423,10 +443,25 @@ column_bucketized <- function(source_column, boundaries) {
   )
 }
 
-
-# pull the columns out of a tfestimators_feature_columns object
-resolve_feature_columns <- function(feature_columns) {
-  feature_columns$features
+columns_apply <- function(columns, f) {
+  columns <- lapply(columns, f)
+  if (length(columns) == 1)
+    columns[[1]]
+  else
+    columns
 }
 
+
+
+set_active_feature_data <- function(data) {
+  .globals$active_feature_data <- data
+}
+
+active_feature_data <- function() {
+  .globals$active_feature_data
+}
+
+have_active_feature_data <- function() {
+  !is.null(.globals$active_feature_data)
+}
 

@@ -28,17 +28,19 @@ Some typical mappings of R data type to feature column are:
 For example:
 
 ```{r}
-fc <- feature_columns(subsidiaries) %>% 
-  column_numeric(profit) %>% 
+fc <- feature_columns(subsidiaries,
+  column_numeric(profit),
   column_categorical_with_identity(profession, num_buckets = 5)
+)
 ```
 
 You can also define multiple feature columns at once:
 
 ```{r}
-fc <- feature_columns(subsidiaries) %>% 
-  column_numeric(profit, loss) %>% 
+fc <- feature_columns(subsidiaries,
+  column_numeric(profit, loss),
   column_categorical_with_identity(profession)
+)
 ```
 
 Note that when creating `feature_columns()` the data that you pass as the first argument (`mtcars`) need not contain all of your data. The purpose of the argument is to define the set of columns against which column definitions will be matched so it can be a small sample of your data or even just a character vector with the column names.
@@ -49,10 +51,11 @@ Note that when creating `feature_columns()` the data that you pass as the first 
 You can also do pattern matching similar to what you may be famillar with from `dplyr::select` statements to define multiple columns at once, for example:
 
 ```{r}
-fc <- feature_columns(subsidiaries) %>% 
-  column_numeric(profit) %>% 
-  column_categorical_with_identity(profession) %>% 
+fc <- feature_columns(subsidiaries, 
+  column_numeric(profit),
+  column_categorical_with_identity(profession),
   column_numeric(ends_with("_pct"))
+)
 ```
 
 Available pattern matching operators include:

@@ -8,10 +8,6 @@ svm_classifier <- function(feature_columns,
                            model_dir = NULL,
                            config = NULL)
 {
-
-  # extract feature columns
-  feature_columns <- resolve_feature_columns(feature_columns)
-
   svm_clf <- contrib_learn$SVM(
     feature_columns = feature_columns,
     example_id_column = example_id_column,

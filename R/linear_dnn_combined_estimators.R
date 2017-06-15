@@ -11,11 +11,6 @@ linear_dnn_combined_regressor <- function(
   config = NULL,
   ...)
 {
-
-  # extract feature columns
-  linear_feature_columns <- resolve_feature_columns(linear_feature_columns)
-  dnn_feature_columns <- resolve_feature_columns(dnn_feature_columns)
-
   lm_dnn_r <- contrib_learn$DNNLinearCombinedRegressor(
     linear_feature_columns = linear_feature_columns,
     dnn_feature_columns = dnn_feature_columns,
@@ -43,10 +38,6 @@ linear_dnn_combined_classifier <- function(
   config = NULL,
   ...)
 {
-
-  linear_feature_columns <- resolve_feature_columns(linear_feature_columns)
-  dnn_feature_columns <- resolve_feature_columns(dnn_feature_columns)
-
   lm_dnn_c <- contrib_learn$DNNLinearCombinedClassifier(
     linear_feature_columns = linear_feature_columns,
     dnn_feature_columns = dnn_feature_columns,

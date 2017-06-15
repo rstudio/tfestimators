@@ -172,6 +172,11 @@ input_fn.matrix <- function(
   if (is.null(colnames(object)))
     stop("You must provide colnames in order to create an input_fn from a matrix")
   
+  all_names <- object_names(object)
+  features <- vars_select(all_names, !! enquo(features))
+  if (!missing(response))
+    response <- vars_select(all_names, !! enquo(response))
+  
   input_fn.data.frame(object, features, response, batch_size,
            shuffle, num_epochs, queue_capacity, num_threads)
 }

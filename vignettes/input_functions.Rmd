@@ -74,7 +74,7 @@ As with data frames, you can also pass an R matrix to `input_fn()` to automatica
 ```{r}
 m <- matrix(c(1:12), nrow = 4, ncol = 3)
 colnames(m) <- c("x1", "x2", "y")
-input_fn(m, features = c("x1", "x2"), response = "y")
+input_fn(m, features = c(x1, x2), response = y)
 ```
 
 ## List Input
