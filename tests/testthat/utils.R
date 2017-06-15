@@ -8,11 +8,6 @@ input_fn_custom <-  function(
   features,
   response = NULL)
 {
-  all_names <- object_names(object)
-  features <- vars_select(all_names, !! enquo(features))
-  if (!missing(response))
-    response <- vars_select(all_names, !! enquo(response))
-  
   function(features_as_named_list) {
     function() {
       if (features_as_named_list) {

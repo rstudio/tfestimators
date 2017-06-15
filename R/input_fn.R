@@ -62,7 +62,6 @@ input_fn.list <- function(
   if (!missing(response))
     response <- vars_select(all_names, !! enquo(response))
   
-  validate_input_fn_args(object, features, response)
   function(features_as_named_list = TRUE) {
     if (features_as_named_list) {
       inputs <- tf$constant(
