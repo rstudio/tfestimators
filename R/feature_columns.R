@@ -62,13 +62,7 @@ feature_columns <- function(.data, ...) {
 #' @export
 #' @family feature_column wrappers
 column_categorical_with_vocabulary_list <- function(..., vocabulary_list, dtype = NULL, default_value = -1L) {
-  
-  if (have_active_feature_data())
-    columns <- names(vars_select(names(active_feature_data()), !!! quos(...)))
-  else
-    columns <- as.character(c(...))
-  
-  columns_apply(columns, function(column) {
+  create_columns(..., f = function(column) {
     feature_column_lib$categorical_column_with_vocabulary_list(
       key = column,
       vocabulary_list = vocabulary_list,
@@ -116,13 +110,7 @@ column_categorical_with_vocabulary_list <- function(..., vocabulary_list, dtype 
 #' @export
 column_categorical_with_vocabulary_file <- function(..., vocabulary_file, vocabulary_size, num_oov_buckets = 0L, 
                                                     default_value = NULL, dtype = tf$string) {
-  
-  if (have_active_feature_data())
-    columns <- names(vars_select(names(active_feature_data()), !!! quos(...)))
-  else
-    columns <- as.character(c(...))
-  
-  columns_apply(columns, function(column) {
+  create_columns(..., f = function(column) {
     feature_column_lib$categorical_column_with_vocabulary_file(
       key = column,
       vocabulary_file = vocabulary_file,
@@ -166,14 +154,7 @@ column_categorical_with_vocabulary_file <- function(..., vocabulary_file, vocabu
 #' @family feature_column wrappers
 #' @export
 column_categorical_with_identity <- function(..., num_buckets = NULL, default_value = NULL) {
-  
-  if (have_active_feature_data()) {
-    columns <- names(vars_select(names(active_feature_data()), !!! quos(...)))
-  } else {
-    columns <- as.character(c(...))
-  }
-  
-  columns_apply(columns, function(column) {
+  create_columns(..., function(column) {
     
     if (is.null(num_buckets)) {
       if (!have_active_feature_data())
@@ -236,13 +217,7 @@ column_categorical_with_hash_bucket <- function(..., hash_bucket_size, dtype = t
     stop("hash_bucket_size must be larger than 1")
   }
   
-  if (have_active_feature_data()) {
-    columns <- names(vars_select(names(active_feature_data()), !!! quos(...)))
-  } else {
-    columns <- as.character(c(...))
-  }
-  
-  columns_apply(columns, function(column) {
+  create_columns(..., f = function(column) {
     feature_column_lib$categorical_column_with_hash_bucket(
       key = column,
       hash_bucket_size = hash_bucket_size,
@@ -289,16 +264,7 @@ column_categorical_with_hash_bucket <- function(..., hash_bucket_size, dtype = t
 #'
 #' @export
 column_numeric <- function(..., shape = list(1L), default_value = NULL, dtype = tf$float32, normalizer_fn = NULL) {
-  
-  # resolve columns with tidyselect if we have active feature data
-  # (otherwise they can be simple character vector data)
-  if (have_active_feature_data())
-    columns <- names(vars_select(names(active_feature_data()), !!! quos(...)))
-  else
-    columns <- as.character(c(...))
-  
-  # add them
-  columns_apply(columns, function(column) {
+  create_columns(..., f = function(column) {
     feature_column_lib$numeric_column(
       key = column,
       shape = shape,
@@ -443,14 +409,17 @@ column_bucketized <- function(source_column, boundaries) {
   )
 }
 
-columns_apply <- function(columns, f) {
+create_columns <- function(..., f) {
+  if (have_active_feature_data())
+    columns <- names(vars_select(names(active_feature_data()), !!! quos(...)))
+  else
+    columns <- as.character(c(...))
   columns <- lapply(columns, f)
   if (length(columns) == 1)
     columns[[1]]
   else
     columns
 }
-
 
 
 set_active_feature_data <- function(data) {
