@@ -2,7 +2,7 @@
 #' Define feature columns
 #'
 #' @param .data Data frame from which to derive features. Note that this need only be
-#'   an exemplar of your data (names, types, factor levels) rather than all of the
+#'   an exemplar of your data (names, types, factor levels, etc.) rather than all of the
 #'   data that will be used for training.
 #' @param ... One or more feature column definitions
 #'
@@ -20,11 +20,15 @@ feature_columns <- function(.data, ...) {
   # resolve feature columns as appropriate
   if (!is.null(columns)) {
     lapply(columns, function(column) {
-      if (is.numeric(.data[[column]])) {
+      if (is.numeric(.data[[column]]))
         column_numeric(column)
-      } else {
+      else if (is.factor(.data[[column]]))
         column_categorical_with_identity(column)
-      }
+      else 
+        stop("Cannot automatically create feature column for '", column, "' ",
+             "(column is of type ", class(is.factor(.data[[column]])), ")",
+             call. = FALSE)
+      
     })
   } else {
     # each tidyselect can return 1:N columns
