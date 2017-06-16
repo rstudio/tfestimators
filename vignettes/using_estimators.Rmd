@@ -57,8 +57,8 @@ Users firstly specify the feature columns that represent the feature transformat
 
 ```{r}
 mtcars$vs <- as.factor(mtcars$vs)
-dnn_feature_columns <- feature_columns(mtcars, drat)
-linear_feature_columns <- feature_columns(mtcars, cyl)
+dnn_feature_columns <- feature_columns(mtcars, column_numeric(drat))
+linear_feature_columns <- feature_columns(mtcars, column_numeric(cyl))
 ```
 
 The examples above provide columns as-is from a data frame. There are also a variety of functions available for transforming features prior to using them in training:

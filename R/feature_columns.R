@@ -13,27 +13,8 @@ feature_columns <- function(.data, ...) {
   set_active_feature_data(.data)
   on.exit(set_active_feature_data(NULL), add = TRUE)
   
-  # see if the user used simple feature expressions
-  columns <- tryCatch(names(vars_select(names(.data), !!! quos(...))), 
-                      error = function(e) NULL)
-  
-  # resolve feature columns as appropriate
-  if (!is.null(columns)) {
-    lapply(columns, function(column) {
-      if (is.numeric(.data[[column]]))
-        column_numeric(column)
-      else if (is.factor(.data[[column]]))
-        column_categorical_with_identity(column)
-      else 
-        stop("Cannot automatically create feature column for '", column, "' ",
-             "(column is of type ", class(is.factor(.data[[column]])), ")",
-             call. = FALSE)
-      
-    })
-  } else {
-    # each tidyselect can return 1:N columns
-    c(..., recursive = TRUE)
-  }
+  # each tidyselect can return 1:N columns
+  c(..., recursive = TRUE)
 }
 
 

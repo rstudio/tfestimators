@@ -3,7 +3,7 @@ context("Testing svm estimators")
 test_that("svm_classification() runs successfully on mtcars data", {
   mtcars$vs <- as.factor(mtcars$vs)
   mtcars["id_column"] <- as.character(1:nrow(mtcars))
-  columns <- feature_columns(mtcars, c("drat", "cyl"))
+  columns <- feature_columns(mtcars, column_numeric(drat, cyl))
   constructed_input_fn <- input_fn(
     mtcars,
     response = "vs",
@@ -13,7 +13,7 @@ test_that("svm_classification() runs successfully on mtcars data", {
                    price = c(0.6, 0.8, 0.3),
                    weights = c(3.0, 1.0, 1.0),
                    labels = c(1, 0, 1))
-  columns <- feature_columns(dt, c("weights", "price"))
+  columns <- feature_columns(dt, column_numeric(weights, price))
   constructed_input_fn <- input_fn(
     dt,
     response = "labels",
