@@ -10,7 +10,7 @@ vignette: >
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
 ## Overview
@@ -55,10 +55,10 @@ Before you can use an estimator you need to define a set of feature columns and 
 
 Users firstly specify the feature columns that represent the feature transformations to be used by the Estimator. Here we use the default function `feature_columns()` to automatically map each features in a dataset into a feature column according to their types, e.g. factor variable, numeric variable, etc.:
 
-``` r
+```{r}
 mtcars$vs <- as.factor(mtcars$vs)
-dnn_feature_columns <- feature_columns(mtcars, "drat")
-linear_feature_columns <- feature_columns(mtcars, "cyl")
+dnn_feature_columns <- feature_columns(mtcars, drat)
+linear_feature_columns <- feature_columns(mtcars, cyl)
 ```
 
 The examples above provide columns as-is from a data frame. There are also a variety of functions available for transforming features prior to using them in training:
@@ -91,8 +91,8 @@ Input functions are used to provide data to Estimtor training and prediction met
 
 For example:
 
-``` r
-input <- input_fn(mtcars, response = "vs", features = c("drat", "cyl"))
+```{r}
+input <- input_fn(mtcars, features = c(drat, cyl), response = vs)
 ```
 
 You can also write fully custom input functions that draw data from arbitrary data sources. See the [input functions](input_functions.html) article for additional details.
@@ -102,7 +102,7 @@ You can also write fully custom input functions that draw data from arbitrary da
 
 Here's an example of creating a Linear DNN Combined canned Estimator. In creating the estimator we pass the feature columns and other parameters that specifies the layers and architecture of the model. Note that for this particular canned Estimator, it takes two types of feature columns that are used for constructing linear layer and fully connected deep layers separately:
 
-``` r
+```{r}
 classifier <-
 	linear_dnn_combined_classifier(
 	  linear_feature_columns = linear_feature_columns,

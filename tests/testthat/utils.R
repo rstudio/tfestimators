@@ -8,7 +8,6 @@ input_fn_custom <-  function(
   features,
   response = NULL)
 {
-  validate_input_fn_args(x, features, response)
   function(features_as_named_list) {
     function() {
       if (features_as_named_list) {

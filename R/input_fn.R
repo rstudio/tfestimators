@@ -56,7 +56,12 @@ input_fn.list <- function(
   features,
   response
 ) {
-  validate_input_fn_args(object, features, response)
+  
+  all_names <- object_names(object)
+  features <- vars_select(all_names, !! enquo(features))
+  if (!missing(response))
+    response <- vars_select(all_names, !! enquo(response))
+  
   function(features_as_named_list = TRUE) {
     if (features_as_named_list) {
       inputs <- tf$constant(
@@ -105,7 +110,11 @@ input_fn.data.frame <-  function(
   queue_capacity = 1000L,
   num_threads = 1L)
 {
-  validate_input_fn_args(object, features, response)
+  all_names <- object_names(object)
+  features <- vars_select(all_names, !! enquo(features))
+  if (!missing(response))
+    response <- vars_select(all_names, !! enquo(response))
+  
   num_epochs <- as.integer(num_epochs)
   batch_size <- as.integer(batch_size)
   queue_capacity <- as.integer(queue_capacity)
@@ -162,6 +171,11 @@ input_fn.matrix <- function(
   if (is.null(colnames(object)))
     stop("You must provide colnames in order to create an input_fn from a matrix")
   
+  all_names <- object_names(object)
+  features <- vars_select(all_names, !! enquo(features))
+  if (!missing(response))
+    response <- vars_select(all_names, !! enquo(response))
+  
   input_fn.data.frame(object, features, response, batch_size,
            shuffle, num_epochs, queue_capacity, num_threads)
 }
@@ -185,11 +199,3 @@ normalize_input_fn <- function(object, input_fn) {
     stop("input_fn must take 0 or 1 arguments")
 }
 
-#' @export
-validate_input_fn_args <- function(object, features, response) {
-  ensure_valid_column_names(object, features)
-  if (!is.null(response)) {
-    ensure_valid_column_names(object, response)
-  }
-  force(list(object, features, response))
-}

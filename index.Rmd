@@ -78,7 +78,7 @@ library(tfestimators)
 
 # yield an input_fn for a given subset of data
 mtcars_input_fn <- function(data) {
-  input_fn(data, response = "mpg", features = c("drat", "cyl"))
+  input_fn(data, features = c(disp, cyl), response = mpg)
 }
 ```
 
@@ -86,13 +86,33 @@ The `input_fn` method can take an R data frame or matrix along with the names of
 
 #### Feature Columns
 
+Next we define the feature columns for our model. Feature columns are mappings of raw input data to the data that we'll actually feed into our training, evaluation, and prediction steps. To define feature columns we call the `feature_columns()` function then pipe column definitions into it. For example:
+
+```{r}
+fc <- feature_columns(mtcars,
+  column_numeric(disp),
+  column_numeric(cyl)
+)
+```
+
+You can also define multiple feature columns at once:
+
+```{r}
+fc <- feature_columns(mtcars, 
+  column_numeric(disp, cyl)
+)
+```
+
+By using the family of [feature column functions](reference/index.html#section-feature-columns) we can define various transformations on the data before using it for modeling.
+
+#### Estimator
+
 We create the estimator by calling `linear_regressor()` function and passing it a set of feature columns: 
 
 ```{r}
-model <- linear_regressor(feature_columns(mtcars, c("drat", "cyl")))
+model <- linear_regressor(fc)
 ```
 
-In this case we're just passing columns from `mtcars` straight through, however by using the family of [feature column functions](reference/index.html#section-feature-columns) we can define various transformations on the data before using it for modeling.
 
 #### Training
 

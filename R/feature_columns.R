@@ -1,23 +1,41 @@
-#' @export
-feature_columns <- function(x, ...) {
-  UseMethod("feature_columns")
-}
 
-#' Construct column placeholders from vectors in an R object
+#' Define feature columns
+#'
+#' @param .data Data frame from which to derive features. Note that this need only be
+#'   an exemplar of your data (names, types, factor levels, etc.) rather than all of the
+#'   data that will be used for training.
+#' @param ... One or more feature column definitions
+#'
 #' @export
-feature_columns.default <- function(x, columns) {
-  ensure_valid_column_names(x, columns)
-  function() {
-    lapply(columns, function(column_name) {
-      column_values <- x[[column_name]]
-      if (is.numeric(column_values)) {
-        column_numeric(column_name)
-      } else {
-        column_with_keys(column_name, num_buckets = length(unique(column_values)))
-      }
+feature_columns <- function(.data, ...) {
+  
+  # set and restore active feature data
+  set_active_feature_data(.data)
+  on.exit(set_active_feature_data(NULL), add = TRUE)
+  
+  # see if the user used simple feature expressions
+  columns <- tryCatch(names(vars_select(names(.data), !!! quos(...))), 
+                      error = function(e) NULL)
+  
+  # resolve feature columns as appropriate
+  if (!is.null(columns)) {
+    lapply(columns, function(column) {
+      if (is.numeric(.data[[column]]))
+        column_numeric(column)
+      else if (is.factor(.data[[column]]))
+        column_categorical_with_identity(column)
+      else 
+        stop("Cannot automatically create feature column for '", column, "' ",
+             "(column is of type ", class(is.factor(.data[[column]])), ")",
+             call. = FALSE)
+      
     })
+  } else {
+    # each tidyselect can return 1:N columns
+    c(..., recursive = TRUE)
   }
 }
+
 
 #' A `_CategoricalColumn` with in-memory vocabulary.
 #' 
@@ -31,8 +49,8 @@ feature_columns.default <- function(x, columns) {
 #' Note that these values are independent of the
 #' `default_value` argument. 
 #' 
-#' @param key A unique string identifying the input feature. 
-#' It is used as the column name and the dictionary key for feature parsing configs, feature `Tensor` objects, and feature columns.
+#' @inheritParams column_numeric
+#'
 #' @param vocabulary_list An ordered iterable defining the vocabulary. 
 #' Each feature is mapped to the index of its value (if present) in `vocabulary_list`. 
 #' Must be castable to `dtype`.
@@ -47,13 +65,15 @@ feature_columns.default <- function(x, columns) {
 #' 
 #' @export
 #' @family feature_column wrappers
-column_categorical_with_vocabulary_list <- function(key, vocabulary_list, dtype = NULL, default_value = -1L) {
-  feature_column_lib$categorical_column_with_vocabulary_list(
-    key = key,
-    vocabulary_list = vocabulary_list,
-    dtype = dtype,
-    default_value = default_value
-  )
+column_categorical_with_vocabulary_list <- function(..., vocabulary_list, dtype = NULL, default_value = -1L) {
+  create_columns(..., f = function(column) {
+    feature_column_lib$categorical_column_with_vocabulary_list(
+      key = column,
+      vocabulary_list = vocabulary_list,
+      dtype = dtype,
+      default_value = default_value
+    )
+  })
 }
 
 #' A `_CategoricalColumn` with a vocabulary file.
@@ -71,7 +91,8 @@ column_categorical_with_vocabulary_list <- function(key, vocabulary_list, dtype 
 #' corresponding to its line number. All other values are hashed and assigned an
 #' ID 50-54.
 #' 
-#' @param key A unique string identifying the input feature. It is used as the column name and the dictionary key for feature parsing configs, feature `Tensor` objects, and feature columns.
+#' @inheritParams column_numeric
+#' 
 #' @param vocabulary_file The vocabulary file name.
 #' @param vocabulary_size Number of the elements in the vocabulary. This must be no greater than length of `vocabulary_file`, if less than length, later values are ignored.
 #' @param num_oov_buckets Non-negative integer, the number of out-of-vocabulary buckets. All out-of-vocabulary inputs will be assigned IDs in the range `[vocabulary_size, vocabulary_size+num_oov_buckets)` based on a hash of the input value. A positive `num_oov_buckets` can not be specified with `default_value`.
@@ -87,16 +108,22 @@ column_categorical_with_vocabulary_list <- function(key, vocabulary_list, dtype 
 #' ValueError: `dtype` is neither string nor integer.
 #' @family feature_column wrappers
 #' 
+#' @importFrom rlang enquo
+#' @importFrom tidyselect vars_select quos
+#' 
 #' @export
-column_categorical_with_vocabulary_file <- function(key, vocabulary_file, vocabulary_size, num_oov_buckets = 0L, default_value = NULL, dtype = tf$string) {
-  feature_column_lib$categorical_column_with_vocabulary_file(
-    key = key,
-    vocabulary_file = vocabulary_file,
-    vocabulary_size = vocabulary_size,
-    num_oov_buckets = num_oov_buckets,
-    default_value = default_value,
-    dtype = dtype
-  )
+column_categorical_with_vocabulary_file <- function(..., vocabulary_file, vocabulary_size, num_oov_buckets = 0L, 
+                                                    default_value = NULL, dtype = tf$string) {
+  create_columns(..., f = function(column) {
+    feature_column_lib$categorical_column_with_vocabulary_file(
+      key = column,
+      vocabulary_file = vocabulary_file,
+      vocabulary_size = vocabulary_size,
+      num_oov_buckets = num_oov_buckets,
+      default_value = default_value,
+      dtype = dtype
+    )
+  })
 }
 
 #' A `_CategoricalColumn` that returns identity values.
@@ -115,9 +142,10 @@ column_categorical_with_vocabulary_file <- function(key, vocabulary_file, vocabu
 #' and `''` for string. Note that these values are independent of the
 #' `default_value` argument.
 #' 
-#' @param key A unique string identifying the input feature. 
-#' It is used as the column name and the dictionary key for feature parsing configs, feature `Tensor` objects, and feature columns.
-#' @param num_buckets Range of inputs and outputs is `[0, num_buckets)`.
+#' @inheritParams column_numeric
+#' 
+#' @param num_buckets Range of inputs and outputs is `[0, num_buckets)`. If `NULL` then the range
+#' is automatically determined by inspecting the data for unique values.
 #' @param default_value If `NULL`, this column's graph operations will fail for out-of-range inputs. 
 #' Otherwise, this value must be in the range `[0, num_buckets)`, and will replace inputs in that range.
 #' 
@@ -129,12 +157,22 @@ column_categorical_with_vocabulary_file <- function(key, vocabulary_file, vocabu
 #' 
 #' @family feature_column wrappers
 #' @export
-column_categorical_with_identity <- function(key, num_buckets, default_value = NULL) {
-  feature_column_lib$categorical_column_with_identity(
-    key = key,
-    num_buckets = num_buckets,
-    default_value = default_value
-  )
+column_categorical_with_identity <- function(..., num_buckets = NULL, default_value = NULL) {
+  create_columns(..., function(column) {
+    
+    if (is.null(num_buckets)) {
+      if (!have_active_feature_data())
+        stop("feature_columns context required in order to automatically determine num_buckets for ", column)
+      num_buckets <- unique(active_feature_data()[, column])
+    }
+    
+    feature_column_lib$categorical_column_with_identity(
+      key = column,
+      num_buckets = num_buckets,
+      default_value = default_value
+    )
+    
+  })
 }
 
 #' Represents multi-hot representation of given categorical column.
@@ -162,7 +200,8 @@ column_indicator <- function(categorical_column) {
 #' and `''` for string. Note that these values are independent of the
 #' `default_value` argument. 
 #' 
-#' @param key A unique string identifying the input feature. It is used as the column name and the dictionary key for feature parsing configs, feature `Tensor` objects, and feature columns.
+#' @inheritParams column_numeric
+#' 
 #' @param hash_bucket_size An int > 1. The number of buckets.
 #' @param dtype The type of features. Only string and integer types are supported.
 #' 
@@ -174,49 +213,70 @@ column_indicator <- function(categorical_column) {
 #' @family feature_column wrappers
 #'   
 #' @export
-column_categorical_with_hash_bucket <- function(key, hash_bucket_size, dtype = tf$string) {
+column_categorical_with_hash_bucket <- function(..., hash_bucket_size, dtype = tf$string) {
+  
+  
   hash_bucket_size <- as.integer(hash_bucket_size)
   if (hash_bucket_size <= 1) {
     stop("hash_bucket_size must be larger than 1")
   }
-  feature_column_lib$categorical_column_with_hash_bucket(
-    key = key,
-    hash_bucket_size = hash_bucket_size,
-    dtype = dtype
-  )
+  
+  create_columns(..., f = function(column) {
+    feature_column_lib$categorical_column_with_hash_bucket(
+      key = column,
+      hash_bucket_size = hash_bucket_size,
+      dtype = dtype
+    )
+  })
 }
 
 #' Represents real valued or numerical features.
-#' 
-#' @param key A unique string identifying the input feature. 
-#' It is used as the column name and the dictionary key for feature parsing configs, feature `Tensor` objects, and feature columns.
-#' @param shape An iterable of integers specifies the shape of the `Tensor`. 
-#' An integer can be given which means a single dimension `Tensor` with given width. 
-#' The `Tensor` representing the column will have the shape of [batch_size] + `shape`.
-#' @param default_value A single value compatible with `dtype` or an iterable of values compatible with `dtype` which the column takes on during
-#' `tf.Example` parsing if data is missing. A default value of `NULL` will cause `tf.parse_example` to fail if an example does
-#' not contain this column. If a single value is provided, the same value will be applied as the default value for every item. If an iterable of values is provided, the shape of the `default_value` should be equal to the given `shape`.
-#' @param dtype defines the type of values. Default value is `tf.float32`. Must be a non-quantized, real integer or floating point type.
-#' @param normalizer_fn If not `NULL`, a function that can be used to normalize the value of the tensor after `default_value` is applied for parsing. Normalizer function takes the input `Tensor` as its argument, and returns the output `Tensor`. (e.g. lambda x: (x - 3.0) / 4.2). Please note that even though the most common use case of this function is normalization, it can be used for any kind of Tensorflow transformations.
-#' 
+#'
+#' @param fc Feature columns
+#' @param ... Expression(s) identifying input feature(s). Used as the column name
+#'   and the dictionary key for feature parsing configs, feature `Tensor`
+#'   objects, and feature columns.
+#' @param shape An iterable of integers specifies the shape of the `Tensor`. An
+#'   integer can be given which means a single dimension `Tensor` with given
+#'   width. The `Tensor` representing the column will have the shape of
+#'   [batch_size] + `shape`.
+#' @param default_value A single value compatible with `dtype` or an iterable of
+#'   values compatible with `dtype` which the column takes on during
+#'   `tf.Example` parsing if data is missing. A default value of `NULL` will
+#'   cause `tf.parse_example` to fail if an example does not contain this
+#'   column. If a single value is provided, the same value will be applied as
+#'   the default value for every item. If an iterable of values is provided, the
+#'   shape of the `default_value` should be equal to the given `shape`.
+#' @param dtype defines the type of values. Default value is `tf.float32`. Must
+#'   be a non-quantized, real integer or floating point type.
+#' @param normalizer_fn If not `NULL`, a function that can be used to normalize
+#'   the value of the tensor after `default_value` is applied for parsing.
+#'   Normalizer function takes the input `Tensor` as its argument, and returns
+#'   the output `Tensor`. (e.g. lambda x: (x - 3.0) / 4.2). Please note that
+#'   even though the most common use case of this function is normalization, it
+#'   can be used for any kind of Tensorflow transformations.
+#'
 #' @return A `_NumericColumn`.
-#' 
-#' @section Raises:
-#' TypeError: if any dimension in shape is not an int ValueError: if any dimension in shape is not a positive integer
-#' TypeError: if `default_value` is an iterable but not compatible with `shape` TypeError: if `default_value` is not compatible with `dtype`.
-#' ValueError: if `dtype` is not convertible to `tf.float32`.
-#' 
+#'
+#' @section Raises: TypeError: if any dimension in shape is not an int
+#'   ValueError: if any dimension in shape is not a positive integer TypeError:
+#'   if `default_value` is an iterable but not compatible with `shape`
+#'   TypeError: if `default_value` is not compatible with `dtype`. ValueError:
+#'   if `dtype` is not convertible to `tf.float32`.
+#'
 #' @family feature_column wrappers
-#'   
+#'
 #' @export
-column_numeric <- function(key, shape = list(1L), default_value = NULL, dtype = tf$float32, normalizer_fn = NULL) {
-  feature_column_lib$numeric_column(
-    key = key,
-    shape = shape,
-    default_value = default_value,
-    dtype = dtype,
-    normalizer_fn = normalizer_fn
-  )
+column_numeric <- function(..., shape = list(1L), default_value = NULL, dtype = tf$float32, normalizer_fn = NULL) {
+  create_columns(..., f = function(column) {
+    feature_column_lib$numeric_column(
+      key = column,
+      shape = shape,
+      default_value = default_value,
+      dtype = dtype,
+      normalizer_fn = normalizer_fn
+    )
+  }) 
 }
 
 #' `_DenseColumn` that converts from sparse, categorical input.
@@ -283,10 +343,12 @@ column_embedding <- function(categorical_column, dimension, combiner = "mean", i
 #'   
 #' @export
 column_crossed <- function(keys, hash_bucket_size, hash_key = NULL) {
+  
   hash_bucket_size <- as.integer(hash_bucket_size)
   if (hash_bucket_size <= 1) {
     stop("hash_bucket_size must be larger than 1")
   }
+  
   feature_column_lib$crossed_column(
     keys = keys,
     hash_bucket_size = hash_bucket_size,
@@ -349,5 +411,30 @@ column_bucketized <- function(source_column, boundaries) {
     source_column = source_column,
     boundaries = boundaries
   )
+}
+
+create_columns <- function(..., f) {
+  if (have_active_feature_data())
+    columns <- names(vars_select(names(active_feature_data()), !!! quos(...)))
+  else
+    columns <- as.character(c(...))
+  columns <- lapply(columns, f)
+  if (length(columns) == 1)
+    columns[[1]]
+  else
+    columns
+}
+
+
+set_active_feature_data <- function(data) {
+  .globals$active_feature_data <- data
+}
+
+active_feature_data <- function() {
+  .globals$active_feature_data
+}
+
+have_active_feature_data <- function() {
+  !is.null(.globals$active_feature_data)
 }
 

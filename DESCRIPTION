@@ -31,6 +31,8 @@ Imports:
     utils,
     reticulate (>= 0.8.0.9003),
     tensorflow (>= 0.8.4),
+    rlang,
+    tidyselect,
     magrittr,
     R6
 Roxygen: list(markdown = TRUE)
@@ -41,3 +43,5 @@ Suggests:
 VignetteBuilder: knitr
 Remotes:
   rstudio/tensorflow
+  lionel-/tidyselect
+

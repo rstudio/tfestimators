@@ -29,6 +29,7 @@
 NULL
 
 estimator_lib <- NULL
+feature_column_lib <- NULL
 canned_estimator_lib <- NULL
 random_ops <- NULL
 math_ops <- NULL
@@ -37,10 +38,12 @@ functional_ops <- NULL
 
 contrib_learn <- NULL
 contrib_layers <- NULL
-contrib_feature_column_lib <- NULL
 contrib_estimators_lib <- NULL
 
 np <- NULL
+
+.globals <- new.env(parent = emptyenv())
+.globals$active_feature_data <- NULL
 
 .onLoad <- function(libname, pkgname) {
   # core modules
