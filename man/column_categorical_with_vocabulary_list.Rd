@@ -4,13 +4,11 @@
 \alias{column_categorical_with_vocabulary_list}
 \title{A \code{_CategoricalColumn} with in-memory vocabulary.}
 \usage{
-column_categorical_with_vocabulary_list(fc, key, vocabulary_list,
-  dtype = NULL, default_value = -1L)
+column_categorical_with_vocabulary_list(..., vocabulary_list, dtype = NULL,
+  default_value = -1L)
 }
 \arguments{
-\item{fc}{Feature columns}
-
-\item{key}{Expression identifying input feature(s). Used as the column name
+\item{...}{Expression(s) identifying input feature(s). Used as the column name
 and the dictionary key for feature parsing configs, feature \code{Tensor}
 objects, and feature columns.}
 

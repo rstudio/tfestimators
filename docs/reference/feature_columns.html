@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Prints the given tensors every N local steps, every N seconds, or at end. — hook_logging_tensor • tfestimators</title>
+<title>Define feature columns — feature_columns • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -110,61 +110,29 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Prints the given tensors every N local steps, every N seconds, or at end.</h1>
+    <h1>Define feature columns</h1>
     </div>
 
     
-    <p>The tensors will be printed to the log, with <code>INFO</code> severity.</p>
+    <p>Define feature columns</p>
     
 
-    <pre class="usage"><span class='fu'>hook_logging_tensor</span>(<span class='no'>tensors</span>, <span class='kw'>every_n_iter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>every_n_secs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>formatter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>at_end</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>feature_columns</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>tensors</th>
-      <td><p><code>dict</code> that maps string-valued tags to tensors/tensor names,
-or <code>iterable</code> of tensors/tensor names.</p></td>
+      <th>.data</th>
+      <td><p>Data frame from which to derive features. Note that this need only be
+an exemplar of your data (names, types, factor levels, etc.) rather than all of the
+data that will be used for training.</p></td>
     </tr>
     <tr>
-      <th>every_n_iter</th>
-      <td><p><code>int</code>, print the values of <code>tensors</code> once every N local
-steps taken on the current worker.</p></td>
-    </tr>
-    <tr>
-      <th>every_n_secs</th>
-      <td><p><code>int</code> or <code>float</code>, print the values of <code>tensors</code> once
-every N seconds. Exactly one of <code>every_n_iter</code> and <code>every_n_secs</code> should be
-provided.</p></td>
-    </tr>
-    <tr>
-      <th>formatter</th>
-      <td><p>function, takes dict of <code>tag</code>-&gt;<code>Tensor</code> and returns a
-string. If <code>NULL</code> uses default printing all tensors.</p></td>
-    </tr>
-    <tr>
-      <th>at_end</th>
-      <td><p><code>bool</code> specifying whether to print the values of <code>tensors</code> at the
-end of the run.</p></td>
+      <th>...</th>
+      <td><p>One or more feature column definitions</p></td>
     </tr>
     </table>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Note that if <code>at_end</code> is True, <code>tensors</code> should not include any tensor
-whose evaluation produces a side effect such as consuming additional inputs.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <p>Other session_run_hook wrappers: <code><a href='EstimatorSessionRunHook.html'>EstimatorSessionRunHook</a></code>,
-  <code><a href='hook_checkpoint_saver.html'>hook_checkpoint_saver</a></code>,
-  <code><a href='hook_global_step_waiter.html'>hook_global_step_waiter</a></code>,
-  <code><a href='hook_nan_tensor.html'>hook_nan_tensor</a></code>,
-  <code><a href='hook_step_counter.html'>hook_step_counter</a></code>,
-  <code><a href='hook_stop_at_step.html'>hook_stop_at_step</a></code>,
-  <code><a href='hook_summary_saver.html'>hook_summary_saver</a></code></p>
     
 
   </div>
@@ -172,11 +140,7 @@ whose evaluation produces a side effect such as consuming additional inputs.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-          </ul>
+                </ul>
 
   </div>
 </div>

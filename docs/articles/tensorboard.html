@@ -107,7 +107,7 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/estimator.html">estimator</a></span>(
     <span class="dt">model_fn =</span> model_fn,
     <span class="dt">model_dir =</span> <span class="st">"/tmp/test"</span>
-) %&gt;%<span class="st"> </span><span class="kw">train</span>(<span class="dt">input_fn =</span> input, <span class="dt">steps =</span> 100L)</code></pre></div>
+) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">train</span>(<span class="dt">input_fn =</span> input, <span class="dt">steps =</span> 100L)</code></pre></div>
 <p>and then you can call</p>
 <pre><code><a href="../reference/reexports.html">tensorboard(log_dir = "/tmp/test", launch_browser = TRUE)</a></code></pre>
 <p>with <code>log_dir</code> being the directory you used to save the model checkpoints, to launch the TensorBoard in browser.</p>
@@ -129,7 +129,8 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
-      <h2>Contents</h2>
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#overview">Overview</a></li>
       <li><a href="#examples">Examples</a></li>

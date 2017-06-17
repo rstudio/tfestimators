@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -116,36 +117,52 @@
     <p>Represents real valued or numerical features.</p>
     
 
-    <pre class="usage"><span class='fu'>column_numeric</span>(<span class='no'>key</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='fl'>1L</span>), <span class='kw'>default_value</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>column_numeric</span>(<span class='no'>...</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='fl'>1L</span>), <span class='kw'>default_value</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>float32</span>, <span class='kw'>normalizer_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>key</th>
-      <td><p>A unique string identifying the input feature.
-It is used as the column name and the dictionary key for feature parsing configs, feature <code>Tensor</code> objects, and feature columns.</p></td>
+      <th>...</th>
+      <td><p>Expression(s) identifying input feature(s). Used as the column name
+and the dictionary key for feature parsing configs, feature <code>Tensor</code>
+objects, and feature columns.</p></td>
     </tr>
     <tr>
       <th>shape</th>
-      <td><p>An iterable of integers specifies the shape of the <code>Tensor</code>.
-An integer can be given which means a single dimension <code>Tensor</code> with given width.
-The <code>Tensor</code> representing the column will have the shape of batch_size + <code>shape</code>.</p></td>
+      <td><p>An iterable of integers specifies the shape of the <code>Tensor</code>. An
+integer can be given which means a single dimension <code>Tensor</code> with given
+width. The <code>Tensor</code> representing the column will have the shape of
+batch_size + <code>shape</code>.</p></td>
     </tr>
     <tr>
       <th>default_value</th>
-      <td><p>A single value compatible with <code>dtype</code> or an iterable of values compatible with <code>dtype</code> which the column takes on during
-<code>tf.Example</code> parsing if data is missing. A default value of <code>NULL</code> will cause <code>tf.parse_example</code> to fail if an example does
-not contain this column. If a single value is provided, the same value will be applied as the default value for every item. If an iterable of values is provided, the shape of the <code>default_value</code> should be equal to the given <code>shape</code>.</p></td>
+      <td><p>A single value compatible with <code>dtype</code> or an iterable of
+values compatible with <code>dtype</code> which the column takes on during
+<code>tf.Example</code> parsing if data is missing. A default value of <code>NULL</code> will
+cause <code>tf.parse_example</code> to fail if an example does not contain this
+column. If a single value is provided, the same value will be applied as
+the default value for every item. If an iterable of values is provided, the
+shape of the <code>default_value</code> should be equal to the given <code>shape</code>.</p></td>
     </tr>
     <tr>
       <th>dtype</th>
-      <td><p>defines the type of values. Default value is <code>tf.float32</code>. Must be a non-quantized, real integer or floating point type.</p></td>
+      <td><p>defines the type of values. Default value is <code>tf.float32</code>. Must
+be a non-quantized, real integer or floating point type.</p></td>
     </tr>
     <tr>
       <th>normalizer_fn</th>
-      <td><p>If not <code>NULL</code>, a function that can be used to normalize the value of the tensor after <code>default_value</code> is applied for parsing. Normalizer function takes the input <code>Tensor</code> as its argument, and returns the output <code>Tensor</code>. (e.g. lambda x: (x - 3.0) / 4.2). Please note that even though the most common use case of this function is normalization, it can be used for any kind of Tensorflow transformations.</p></td>
+      <td><p>If not <code>NULL</code>, a function that can be used to normalize
+the value of the tensor after <code>default_value</code> is applied for parsing.
+Normalizer function takes the input <code>Tensor</code> as its argument, and returns
+the output <code>Tensor</code>. (e.g. lambda x: (x - 3.0) / 4.2). Please note that
+even though the most common use case of this function is normalization, it
+can be used for any kind of Tensorflow transformations.</p></td>
+    </tr>
+    <tr>
+      <th>fc</th>
+      <td><p>Feature columns</p></td>
     </tr>
     </table>
     
@@ -155,10 +172,11 @@ not contain this column. If a single value is provided, the same value will be a
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
-    
-    <p>TypeError: if any dimension in shape is not an int ValueError: if any dimension in shape is not a positive integer
-TypeError: if <code>default_value</code> is an iterable but not compatible with <code>shape</code> TypeError: if <code>default_value</code> is not compatible with <code>dtype</code>.
-ValueError: if <code>dtype</code> is not convertible to <code>tf.float32</code>.</p>
+    <p>TypeError: if any dimension in shape is not an int
+ValueError: if any dimension in shape is not a positive integer TypeError:
+if <code>default_value</code> is an iterable but not compatible with <code>shape</code>
+TypeError: if <code>default_value</code> is not compatible with <code>dtype</code>. ValueError:
+if <code>dtype</code> is not convertible to <code>tf.float32</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

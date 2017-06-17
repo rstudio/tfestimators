@@ -117,33 +117,33 @@
 )</code></pre></div>
 <p>Next, we define the custom model function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
-custom_model_fn &lt;-<span class="st"> </span>function(features, labels, mode, params, config) {
+custom_model_fn &lt;-<span class="st"> </span><span class="cf">function</span>(features, labels, mode, params, config) {
       <span class="co"># Create three fully connected layers respectively of size 10, 20, and 10 with</span>
     <span class="co"># each layer having a dropout probability of 0.1.</span>
-    logits &lt;-<span class="st"> </span>features %&gt;%
-<span class="st">      </span>tf$contrib$layers$<span class="kw">stack</span>(
-        tf$contrib$layers$fully_connected, <span class="kw">c</span>(10L, 20L, 10L),
-        <span class="dt">normalizer_fn =</span> tf$contrib$layers$dropout,
-        <span class="dt">normalizer_params =</span> <span class="kw">list</span>(<span class="dt">keep_prob =</span> <span class="fl">0.9</span>)) %&gt;%
-<span class="st">      </span>tf$contrib$layers$<span class="kw">fully_connected</span>(3L, <span class="dt">activation_fn =</span> <span class="ot">NULL</span>) <span class="co"># Compute logits (1 per class) and compute loss.</span>
+    logits &lt;-<span class="st"> </span>features <span class="op">%&gt;%</span>
+<span class="st">      </span>tf<span class="op">$</span>contrib<span class="op">$</span>layers<span class="op">$</span><span class="kw">stack</span>(
+        tf<span class="op">$</span>contrib<span class="op">$</span>layers<span class="op">$</span>fully_connected, <span class="kw">c</span>(10L, 20L, 10L),
+        <span class="dt">normalizer_fn =</span> tf<span class="op">$</span>contrib<span class="op">$</span>layers<span class="op">$</span>dropout,
+        <span class="dt">normalizer_params =</span> <span class="kw">list</span>(<span class="dt">keep_prob =</span> <span class="fl">0.9</span>)) <span class="op">%&gt;%</span>
+<span class="st">      </span>tf<span class="op">$</span>contrib<span class="op">$</span>layers<span class="op">$</span><span class="kw">fully_connected</span>(3L, <span class="dt">activation_fn =</span> <span class="ot">NULL</span>) <span class="co"># Compute logits (1 per class) and compute loss.</span>
     
     predictions &lt;-<span class="st"> </span><span class="kw">list</span>(
-      <span class="dt">class =</span> tf$<span class="kw">argmax</span>(logits, 1L),
-      <span class="dt">prob =</span> tf$nn$<span class="kw">softmax</span>(logits))
+      <span class="dt">class =</span> tf<span class="op">$</span><span class="kw">argmax</span>(logits, 1L),
+      <span class="dt">prob =</span> tf<span class="op">$</span>nn<span class="op">$</span><span class="kw">softmax</span>(logits))
     
     <span class="co"># Return estimator_spec early with NULL loss and train_op during inference mode</span>
-    if(mode ==<span class="st"> "infer"</span>){
+    <span class="cf">if</span>(mode <span class="op">==</span><span class="st"> "infer"</span>){
       <span class="kw">return</span>(<span class="kw"><a href="../reference/estimator_spec.html">estimator_spec</a></span>(
       <span class="dt">mode =</span> mode, <span class="dt">predictions =</span> predictions, <span class="dt">loss =</span> <span class="ot">NULL</span>, <span class="dt">train_op =</span> <span class="ot">NULL</span>))
     }
     
-    labels &lt;-<span class="st"> </span>tf$<span class="kw">one_hot</span>(labels, 3L)
-    loss &lt;-<span class="st"> </span>tf$losses$<span class="kw">softmax_cross_entropy</span>(labels, logits)
+    labels &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">one_hot</span>(labels, 3L)
+    loss &lt;-<span class="st"> </span>tf<span class="op">$</span>losses<span class="op">$</span><span class="kw">softmax_cross_entropy</span>(labels, logits)
     
     <span class="co"># Create a tensor for training op.</span>
-    train_op &lt;-<span class="st"> </span>tf$contrib$layers$<span class="kw">optimize_loss</span>(
+    train_op &lt;-<span class="st"> </span>tf<span class="op">$</span>contrib<span class="op">$</span>layers<span class="op">$</span><span class="kw">optimize_loss</span>(
       loss,
-      tf$contrib$framework$<span class="kw">get_global_step</span>(),
+      tf<span class="op">$</span>contrib<span class="op">$</span>framework<span class="op">$</span><span class="kw">get_global_step</span>(),
       <span class="dt">optimizer =</span> <span class="st">'Adagrad'</span>,
       <span class="dt">learning_rate =</span> <span class="fl">0.1</span>)
     
@@ -159,14 +159,14 @@ classifier &lt;-<span class="st"> </span><span class="kw">train</span>(classifie
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> constructed_input_fn)</code></pre></div>
 <p>Since our predictions is defined as a list of two named items in the custom model function like follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">list</span>(
-  <span class="dt">class =</span> tf$<span class="kw">argmax</span>(logits, 1L),
-  <span class="dt">prob =</span> tf$nn$<span class="kw">softmax</span>(logits))</code></pre></div>
+  <span class="dt">class =</span> tf<span class="op">$</span><span class="kw">argmax</span>(logits, 1L),
+  <span class="dt">prob =</span> tf<span class="op">$</span>nn<span class="op">$</span><span class="kw">softmax</span>(logits))</code></pre></div>
 <p>we can then loop through each prediction and collect the predicted classes and probabilities like the following:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># extract predicted classes</span>
-predicted_classes &lt;-<span class="st"> </span><span class="kw">lapply</span>(predictions, function(prediction) prediction$class)
+predicted_classes &lt;-<span class="st"> </span><span class="kw">lapply</span>(predictions, <span class="cf">function</span>(prediction) prediction<span class="op">$</span>class)
 
 <span class="co"># extract the raw probabilities for each new row of data and for each class</span>
-predicted_raw_probs &lt;-<span class="st"> </span><span class="kw">lapply</span>(predictions, function(prediction) prediction$prob)</code></pre></div>
+predicted_raw_probs &lt;-<span class="st"> </span><span class="kw">lapply</span>(predictions, <span class="cf">function</span>(prediction) prediction<span class="op">$</span>prob)</code></pre></div>
 <p>Users can also pass <code>model_dir</code> which is the directory to save model parameters, graph and etc. This can also be used to load checkpoints from the directory into a estimator to continue training a previously saved model. Users can also pass a <code>config</code> to canned Estimator or custom Estimator that specify the model run-time configuration, such as cluster information, GPU fractions, etc.</p>
 </div>
   </div>

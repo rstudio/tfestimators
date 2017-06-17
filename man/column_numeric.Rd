@@ -4,13 +4,11 @@
 \alias{column_numeric}
 \title{Represents real valued or numerical features.}
 \usage{
-column_numeric(fc, key, shape = list(1L), default_value = NULL,
+column_numeric(..., shape = list(1L), default_value = NULL,
   dtype = tf$float32, normalizer_fn = NULL)
 }
 \arguments{
-\item{fc}{Feature columns}
-
-\item{key}{Expression identifying input feature(s). Used as the column name
+\item{...}{Expression(s) identifying input feature(s). Used as the column name
 and the dictionary key for feature parsing configs, feature \code{Tensor}
 objects, and feature columns.}
 
@@ -36,6 +34,8 @@ Normalizer function takes the input \code{Tensor} as its argument, and returns
 the output \code{Tensor}. (e.g. lambda x: (x - 3.0) / 4.2). Please note that
 even though the most common use case of this function is normalization, it
 can be used for any kind of Tensorflow transformations.}
+
+\item{fc}{Feature columns}
 }
 \value{
 A \code{_NumericColumn}.

@@ -4,24 +4,15 @@
 \alias{feature_columns}
 \title{Define feature columns}
 \usage{
-feature_columns(data, ...)
+feature_columns(.data, ...)
 }
 \arguments{
-\item{data}{Exemplar of data to extract feature columns for. This need only
-be a smaller sample of your input data (enough to provide column names and
-types).}
+\item{.data}{Data frame from which to derive features. Note that this need only be
+an exemplar of your data (names, types, factor levels, etc.) rather than all of the
+data that will be used for training.}
 
-\item{...}{Columns to include as features.}
+\item{...}{One or more feature column definitions}
 }
 \description{
 Define feature columns
-}
-\details{
-Columns can be specified as symbols or character vectors, and the \code{-}
-operator can be used to select all but one other column.
-
-The specified columns will receive the default feature transformation
-behavior for their type (\code{column_numeric()} for numeric data,
-\code{column_with_keys()} for other data). You can chain the \code{column_} family
-of functions onto \code{feature_columns()} to do more customized transformations.
 }

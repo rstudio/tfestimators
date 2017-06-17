@@ -4,14 +4,11 @@
 \alias{column_categorical_with_vocabulary_file}
 \title{A \code{_CategoricalColumn} with a vocabulary file.}
 \usage{
-column_categorical_with_vocabulary_file(fc, key, vocabulary_file,
-  vocabulary_size, num_oov_buckets = 0L, default_value = NULL,
-  dtype = tf$string)
+column_categorical_with_vocabulary_file(..., vocabulary_file, vocabulary_size,
+  num_oov_buckets = 0L, default_value = NULL, dtype = tf$string)
 }
 \arguments{
-\item{fc}{Feature columns}
-
-\item{key}{Expression identifying input feature(s). Used as the column name
+\item{...}{Expression(s) identifying input feature(s). Used as the column name
 and the dictionary key for feature parsing configs, feature \code{Tensor}
 objects, and feature columns.}
 

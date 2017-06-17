@@ -72,7 +72,7 @@ reference:
 
   - title: "Feature Columns"
     contents: 
-      - feature_columns.default
+      - feature_columns
       - column_categorical_with_vocabulary_list
       - column_categorical_with_vocabulary_file
       - column_categorical_with_identity

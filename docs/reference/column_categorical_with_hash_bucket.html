@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -121,14 +122,16 @@ and <code>''</code> for string. Note that these values are independent of the
 <code>default_value</code> argument.</p>
     
 
-    <pre class="usage"><span class='fu'>column_categorical_with_hash_bucket</span>(<span class='no'>key</span>, <span class='no'>hash_bucket_size</span>, <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>string</span>)</pre>
+    <pre class="usage"><span class='fu'>column_categorical_with_hash_bucket</span>(<span class='no'>...</span>, <span class='no'>hash_bucket_size</span>, <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>string</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>key</th>
-      <td><p>A unique string identifying the input feature. It is used as the column name and the dictionary key for feature parsing configs, feature <code>Tensor</code> objects, and feature columns.</p></td>
+      <th>...</th>
+      <td><p>Expression(s) identifying input feature(s). Used as the column name
+and the dictionary key for feature parsing configs, feature <code>Tensor</code>
+objects, and feature columns.</p></td>
     </tr>
     <tr>
       <th>hash_bucket_size</th>
