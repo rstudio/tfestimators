@@ -40,12 +40,15 @@ input_fn.formula <- function(object, data, ...) {
 #' # Construct the input function from a list object
 #' input_fn1 <- input_fn(
 #'    object = list(
-#'      feature_names = list(
+#'      feature1 = list(
 #'        list(list(1), list(2), list(3)),
 #'        list(list(4), list(5), list(6))),
+#'      feature2 = list(
+#'        list(list(7), list(8), list(9)),
+#'        list(list(10), list(11), list(12))),
 #'      response = list(
 #'        list(1, 2, 3), list(4, 5, 6))),
-#'    features = c("feature_names"),
+#'    features = c("feature1", "feature2"),
 #'    response = "response",
 #'    batch_size = 10L)
 #' 
@@ -62,7 +65,6 @@ input_fn.list <- function(
   queue_capacity = 1000L,
   num_threads = 1L
 ) {
-  
   all_names <- object_names(object)
   features <- vars_select(all_names, !! enquo(features))
   if (!missing(response))
@@ -73,7 +75,7 @@ input_fn.list <- function(
       features_dict <- dict()
       lapply(features, function(feature){
         features_dict[[feature]] <- np$array(
-          object$feature,
+          object[[feature]],
           dtype = np$int64
         )
       })
@@ -92,11 +94,39 @@ input_fn.list <- function(
         num_epochs = num_epochs,
         queue_capacity = queue_capacity,
         num_threads = num_threads)
+      fun <- fn()
+      list(list(inputs = fun[[1]]$features), fun[[2]])
     } else {
-      stop("input_fn.list() does not support custom estimator yet")
+      features_dict <- dict()
+      lapply(features, function(feature){
+        features_dict[[feature]] <- np$array(
+          object$feature,
+          dtype = np$int64
+        )
+      })
+      features_list <- lapply(features, function(feature) object[[feature]])
+      features_dict <- dict()
+      features_dict$features <- np$array(
+        features_list,
+        dtype = np$int64
+      )
+      if(is.null(response)) {
+        input_response <- NULL
+      } else {
+        input_response <- object$response
+        names(input_response) <- NULL
+        input_response <- np$array(input_response)
+      }
+      fn <- tf$estimator$inputs$numpy_input_fn(
+        features_dict,
+        input_response,
+        batch_size = batch_size,
+        shuffle = shuffle,
+        num_epochs = num_epochs,
+        queue_capacity = queue_capacity,
+        num_threads = num_threads)
+      fn()
     }
-    fun <- fn()
-    list(list(inputs = fun[[1]]$features), fun[[2]])
   }
 }
 
