@@ -70,6 +70,6 @@ input_fn1 <- input_fn(
    response = "response")
 
 # Construct the input function from a data.frame object
-input_fn1 <- input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
+input_fn1 <- input_fn(mtcars, response = mpg, features = c(drat, cyl))
 
 }
