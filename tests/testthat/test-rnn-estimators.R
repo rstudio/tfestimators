@@ -15,7 +15,7 @@ test_that("state_saving_rnn_estimator works on sine sequence data", {
   dropout_keep_probabilities <- rep(0.9, num_rnn_layers + 1)
 
   seq_columns <- list(
-    tf$contrib$layers$feature_column$real_valued_column('inputs', dimension = 1L)
+    tf$contrib$layers$feature_column$real_valued_column('features', dimension = 1L)
   )
 
   rnn_sequence_estimator <- state_saving_rnn(
@@ -51,7 +51,7 @@ test_that("dynamic_rnn_estimator works on sine sequence data", {
   dropout_keep_probabilities <- rep(0.9, num_rnn_layers + 1)
 
   seq_columns <- list(
-    tf$contrib$layers$feature_column$real_valued_column('inputs', dimension = num_units[1])
+    tf$contrib$layers$feature_column$real_valued_column('features', dimension = num_units[1])
   )
 
   rnn_sequence_estimator <- dynamic_rnn(
@@ -81,7 +81,7 @@ test_that("dynamic_rnn_estimator works on fake sequence data", {
   dropout_keep_probabilities <- rep(0.9, num_rnn_layers + 1)
 
   seq_columns <- list(
-    tf$contrib$layers$feature_column$real_valued_column('inputs', dimension = num_units[1])
+    tf$contrib$layers$feature_column$real_valued_column('features', dimension = num_units[1])
   )
 
   rnn_sequence_estimator <- dynamic_rnn(

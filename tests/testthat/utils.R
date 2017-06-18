@@ -104,7 +104,7 @@ get_non_batched_sin_input_fn <- function(sequence_length, increment, seed = NULL
         labels <- array_ops$slice(sin_curves,
                                   np$array(list(1), dtype = np$int64),
                                   np$array(list(sequence_length), dtype = np$int64))
-        tuple(list(inputs = inputs), labels)
+        tuple(list(features = inputs), labels)
       }
     }
 }
@@ -136,7 +136,7 @@ get_batched_sin_input_fn <- function(batch_size, sequence_length, increment, see
         labels <- array_ops$slice(sin_curves,
                                   np$array(list(0, 1), dtype = np$int64),
                                   np$array(list(batch_size, sequence_length), dtype = np$int64))
-        tuple(list(inputs = inputs), labels)
+        tuple(list(features = inputs), labels)
       }
   }
 }

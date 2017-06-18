@@ -113,9 +113,7 @@ input_fn.list <- function(
         num_epochs = num_epochs,
         queue_capacity = queue_capacity,
         num_threads = num_threads)
-      fun <- fn()
-      # TODO: Look into why there's hard-coded "inputs" somewhere
-      list(list(inputs = lapply(features, function(feature) fun[[1]][[feature]])), fun[[2]])
+      fn
     } else {
       features_list <- lapply(features, function(feature) object[[feature]])
       names(features_list) <- NULL
@@ -181,6 +179,7 @@ input_fn.data.frame <-  function(
         num_epochs = num_epochs,
         queue_capacity = queue_capacity,
         num_threads = num_threads)
+      fn
     } else {
       values <- list(features = data.matrix(object)[,features, drop = FALSE])
       fn <- function(){

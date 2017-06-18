@@ -54,7 +54,7 @@ test_that("input_fn can be constructed correctly from list objects", {
         response = list(
           list(1, 2, 3), list(4, 5, 6))),
       features = c(features),
-      response = response)(TRUE)
+      response = response)(TRUE)()
   expect_equal(length(fake_sequence_input_fn), 2)
   expect_true(is.tensor(fake_sequence_input_fn[[1]][[1]]))
   expect_true(is.tensor(fake_sequence_input_fn[[2]]))
@@ -91,7 +91,7 @@ test_that("input_fn can be constructed correctly from list objects", {
         list(1, 2, 3), list(4, 5, 6))),
     features = c("feature1", "feature2"),
     response = "response",
-    batch_size = 10L)(TRUE)
+    batch_size = 10L)(TRUE)()
   expect_equal(length(fake_sequence_input_fn), 2) # features + response
   expect_equal(length(fake_sequence_input_fn[[1]][[1]]), 2) # two separate features
   expect_true(is.tensor(fake_sequence_input_fn[[1]][[1]][[1]])) # first feature
