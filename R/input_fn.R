@@ -46,7 +46,8 @@ input_fn.formula <- function(object, data, ...) {
 #'      response = list(
 #'        list(1, 2, 3), list(4, 5, 6))),
 #'    features = c("feature_names"),
-#'    response = "response")
+#'    response = "response",
+#'    batch_size = 10L)
 #' 
 #' @export
 #' @family input function constructors
@@ -54,7 +55,12 @@ input_fn.formula <- function(object, data, ...) {
 input_fn.list <- function(
   object,
   features,
-  response
+  response = NULL,
+  batch_size = 10L,
+  shuffle = TRUE,
+  num_epochs = 1L,
+  queue_capacity = 1000L,
+  num_threads = 1L
 ) {
   
   all_names <- object_names(object)
@@ -64,21 +70,32 @@ input_fn.list <- function(
   
   function(features_as_named_list = TRUE) {
     if (features_as_named_list) {
-      inputs <- tf$constant(
-        np$array(
-          object$features,
+      features_dict <- dict()
+      lapply(features, function(feature){
+        features_dict[[feature]] <- np$array(
+          object$feature,
           dtype = np$int64
         )
-      )
-      labels <- tf$constant(
-        np$array(
-          object$response
-        )
-      )
+      })
+      if(is.null(response)) {
+        input_response <- NULL
+      } else {
+        input_response <- object$response
+        names(input_response) <- NULL
+        input_response <- np$array(input_response)
+      }
+      fn <- tf$estimator$inputs$numpy_input_fn(
+        features_dict,
+        input_response,
+        batch_size = batch_size,
+        shuffle = shuffle,
+        num_epochs = num_epochs,
+        queue_capacity = queue_capacity,
+        num_threads = num_threads)
     } else {
       stop("input_fn.list() does not support custom estimator yet")
     }
-    list(list(inputs = inputs), labels)
+    list(list(inputs = fn()[[1]]$features), fn()[[2]])
   }
 }
 
