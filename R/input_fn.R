@@ -4,6 +4,15 @@
 #' @param object The object that represents the input source
 #' @param features The names of features to be used
 #' @param response The response variable name to be used
+#' @param batch_size The size of batches
+#' @param shuffle Whether to shuffles the queue. Avoid shuffle at prediction 
+#'   time
+#' @param num_epochs The number of epochs to iterate over data. If `NULL` will 
+#'   run forever.
+#' @param queue_capacity The size of queue to accumulate.
+#' @param num_threads The number of threads used for reading and enqueueing. In 
+#'   order to have predicted and repeatable order of reading and enqueueing, 
+#'   such as in prediction and evaluation mode, `num_threads` should be 1.
 #'   
 #' @name input_fn
 NULL
@@ -69,23 +78,31 @@ input_fn.list <- function(
   features <- vars_select(all_names, !! enquo(features))
   if (!missing(response))
     response <- vars_select(all_names, !! enquo(response))
+
+  num_epochs <- as.integer(num_epochs)
+  batch_size <- as.integer(batch_size)
+  queue_capacity <- as.integer(queue_capacity)
+  num_threads <- as.integer(num_threads)
   
-  function(features_as_named_list = TRUE) {
+  # Support for unsupervised models as well as ingesting data for inference
+  if(is.null(response)) {
+    input_response <- NULL
+  } else {
+    input_response <- object$response
+    names(input_response) <- NULL
+    input_response <- np$array(input_response)
+  }
+
+  function(features_as_named_list) {
     if (features_as_named_list) {
       features_dict <- dict()
+      print(features)
       lapply(features, function(feature){
         features_dict[[feature]] <- np$array(
           object[[feature]],
           dtype = np$int64
         )
       })
-      if(is.null(response)) {
-        input_response <- NULL
-      } else {
-        input_response <- object$response
-        names(input_response) <- NULL
-        input_response <- np$array(input_response)
-      }
       fn <- tf$estimator$inputs$numpy_input_fn(
         features_dict,
         input_response,
@@ -95,28 +112,17 @@ input_fn.list <- function(
         queue_capacity = queue_capacity,
         num_threads = num_threads)
       fun <- fn()
+      # TODO: Look into why there's hard-coded "inputs" somewhere
+      # This will be incorrect if we have multi-dimensional features
       list(list(inputs = fun[[1]]$features), fun[[2]])
     } else {
-      features_dict <- dict()
-      lapply(features, function(feature){
-        features_dict[[feature]] <- np$array(
-          object$feature,
-          dtype = np$int64
-        )
-      })
       features_list <- lapply(features, function(feature) object[[feature]])
+      names(features_list) <- NULL
       features_dict <- dict()
       features_dict$features <- np$array(
         features_list,
         dtype = np$int64
       )
-      if(is.null(response)) {
-        input_response <- NULL
-      } else {
-        input_response <- object$response
-        names(input_response) <- NULL
-        input_response <- np$array(input_response)
-      }
       fn <- tf$estimator$inputs$numpy_input_fn(
         features_dict,
         input_response,
@@ -131,15 +137,6 @@ input_fn.list <- function(
 }
 
 
-#' @param batch_size The size of batches
-#' @param shuffle Whether to shuffles the queue. Avoid shuffle at prediction 
-#'   time
-#' @param num_epochs The number of epochs to iterate over data. If `NULL` will 
-#'   run forever.
-#' @param queue_capacity The size of queue to accumulate.
-#' @param num_threads The number of threads used for reading and enqueueing. In 
-#'   order to have predicted and repeatable order of reading and enqueueing, 
-#'   such as in prediction and evaluation mode, `num_threads` should be 1.
 #'   
 #' @examples
 #' # Construct the input function from a data.frame object
@@ -167,7 +164,7 @@ input_fn.data.frame <-  function(
   batch_size <- as.integer(batch_size)
   queue_capacity <- as.integer(queue_capacity)
   num_threads <- as.integer(num_threads)
-  # supporting for unsupervised models as well as ingesting data for inference
+  # Support for unsupervised models as well as ingesting data for inference
   input_response <- if(is.null(response)) NULL else as.array(object[,response])
   fn <- function(features_as_named_list) {
     if(features_as_named_list){
