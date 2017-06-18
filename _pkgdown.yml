@@ -41,8 +41,8 @@ navbar:
           href: articles/tensorboard.html
 #    - text: "Deployment"
 #      href: articles/deployment.html
-#    - text: "Examples"
-#      href: articles/examples/index.html
+    - text: "Examples"
+      href: articles/examples/index.html
     - text: "Reference"
       href: reference/index.html
   right:

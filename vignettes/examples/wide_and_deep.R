@@ -1,15 +1,15 @@
+
+#' Wide & Deep Learning Tutorial
+
 library(tfestimators)
 
-maybe_download_census <- function(train_data_path, test_data_path) {
+maybe_download_census <- function(train_data_path, test_data_path, column_names_to_assign) {
   if (!file.exists(train_data_path) || !file.exists(test_data_path)) {
     cat("Downloading census data ...")
     train_data <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data", header = FALSE, skip = 1)
     test_data <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test", header = FALSE, skip = 1)
-    COLNAMES <- c("age", "workclass", "fnlwgt", "education", "education_num", "marital_status", "occupation",
-                  "relationship", "race", "sex", "capital_gain", "capital_loss", "hours_per_week", "native_country",
-                  "income_bracket")
-    colnames(train_data) <- COLNAMES
-    colnames(test_data) <- COLNAMES
+    colnames(train_data) <- column_names_to_assign
+    colnames(test_data) <- column_names_to_assign
     write.csv(train_data, train_data_path, row.names = FALSE)
     write.csv(test_data, test_data_path, row.names = FALSE)
   } else {
@@ -19,10 +19,14 @@ maybe_download_census <- function(train_data_path, test_data_path) {
   return(list(train_data = train_data, test_data = test_data))
 }
 
+COLNAMES <- c("age", "workclass", "fnlwgt", "education", "education_num", "marital_status", "occupation",
+              "relationship", "race", "sex", "capital_gain", "capital_loss", "hours_per_week", "native_country",
+              "income_bracket")
 
 downloaded_data <- maybe_download_census(
   file.path(getwd(), "train_census.csv"),
-  file.path(getwd(), "test_census.csv")
+  file.path(getwd(), "test_census.csv"),
+  COLNAMES
 )
 train_data <- downloaded_data$train_data
 test_data <- downloaded_data$test_data

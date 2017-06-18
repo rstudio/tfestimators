@@ -1,5 +1,5 @@
 
-#' Example 1
+#' Wide & Deep Learning Tutorial
 
 library(tfestimators)
 
@@ -25,7 +25,8 @@ COLNAMES <- c("age", "workclass", "fnlwgt", "education", "education_num", "marit
 
 downloaded_data <- maybe_download_census(
   file.path(getwd(), "train_census.csv"),
-  file.path(getwd(), "test_census.csv")
+  file.path(getwd(), "test_census.csv"),
+  COLNAMES
 )
 train_data <- downloaded_data$train_data
 test_data <- downloaded_data$test_data
