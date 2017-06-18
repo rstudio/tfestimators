@@ -1,0 +1,76 @@
+library(tfestimators)
+
+maybe_download_census <- function(train_data_path, test_data_path) {
+  if (!file.exists(train_data_path) || !file.exists(test_data_path)) {
+    cat("Downloading census data ...")
+    train_data <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data", header = FALSE, skip = 1)
+    test_data <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test", header = FALSE, skip = 1)
+    COLNAMES <- c("age", "workclass", "fnlwgt", "education", "education_num", "marital_status", "occupation",
+                  "relationship", "race", "sex", "capital_gain", "capital_loss", "hours_per_week", "native_country",
+                  "income_bracket")
+    colnames(train_data) <- COLNAMES
+    colnames(test_data) <- COLNAMES
+    write.csv(train_data, train_data_path, row.names = FALSE)
+    write.csv(test_data, test_data_path, row.names = FALSE)
+  } else {
+    train_data <- read.csv(train_data_path, header = TRUE)
+    test_data <- read.csv(test_data_path, header = TRUE)
+  }
+  return(list(train_data = train_data, test_data = test_data))
+}
+
+
+downloaded_data <- maybe_download_census(
+  file.path(getwd(), "train_census.csv"),
+  file.path(getwd(), "test_census.csv")
+)
+train_data <- downloaded_data$train_data
+test_data <- downloaded_data$test_data
+
+# Categorical base columns
+education <- column_categorical_with_hash_bucket("education", hash_bucket_size = 1000L, dtype = tf$int32)
+relationship <- column_categorical_with_hash_bucket("relationship", hash_bucket_size = 100L, dtype = tf$int32)
+workclass <- column_categorical_with_hash_bucket("workclass", hash_bucket_size = 100L, dtype = tf$int32)
+occupation <- column_categorical_with_hash_bucket("occupation", hash_bucket_size = 100L, dtype = tf$int32)
+native_country <- column_categorical_with_hash_bucket("native_country", hash_bucket_size = 1000L, dtype = tf$int32)
+
+# Continuous base columns.
+age <- column_numeric("age")
+age_buckets <- column_bucketized(age, boundaries = list(18, 25, 30, 35, 40, 45, 50, 55, 60, 65))
+education_num <- column_numeric("education_num")
+capital_gain <- column_numeric("capital_gain")
+capital_loss <- column_numeric("capital_loss")
+hours_per_week <- column_numeric("hours_per_week")
+
+wide_columns <- list(native_country, education, occupation, workclass, relationship, age_buckets)
+
+deep_columns <- list(
+  column_embedding(workclass, dimension = 8L),
+  column_embedding(education, dimension = 8L),
+  column_embedding(relationship, dimension = 8L),
+  column_embedding(native_country, dimension = 8L),
+  column_embedding(occupation, dimension = 8L),
+  age, education_num, capital_gain, capital_loss, hours_per_week)
+
+model <- linear_dnn_combined_classifier(
+  linear_feature_columns = wide_columns,
+  dnn_feature_columns = deep_columns,
+  dnn_hidden_units = c(100L, 50L)
+)
+
+# Build labels according to income bracket
+train_data$income_bracket <- as.character(train_data$income_bracket)
+test_data$income_bracket <- as.character(test_data$income_bracket)
+train_data$label <- ifelse(train_data$income_bracket == " >50K", 1, 0)
+test_data$label <- ifelse(test_data$income_bracket == " >50K", 1, 0)
+
+constructed_input_fn <- function(dataset) {
+  input_fn(dataset, features = COLNAMES[-length(COLNAMES)], response = "label")
+}
+train_input_fn <- constructed_input_fn(train_data)
+eval_input_fn <- constructed_input_fn(test_data)
+
+train(model, input_fn = train_input_fn, steps = 2L)
+
+evaluate(model, input_fn = eval_input_fn, steps = 2L)
+
