@@ -122,15 +122,21 @@ input_fn.list <- function(
         features_list,
         dtype = np$int64
       )
-      fn <- tf$estimator$inputs$numpy_input_fn(
-        features_dict,
-        input_response,
-        batch_size = batch_size,
-        shuffle = shuffle,
-        num_epochs = num_epochs,
-        queue_capacity = queue_capacity,
-        num_threads = num_threads)
-      fn()
+      fn <- function(){
+        fun <- tf$estimator$inputs$numpy_input_fn(
+          features_dict,
+          input_response,
+          batch_size = batch_size,
+          shuffle = shuffle,
+          num_epochs = num_epochs,
+          queue_capacity = queue_capacity,
+          num_threads = num_threads)
+        fun <- fun()
+        list(
+          fun[[1]]$features,
+          fun[[2]]
+        )
+      }
     }
   }
 }
