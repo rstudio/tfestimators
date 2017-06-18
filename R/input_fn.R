@@ -95,7 +95,8 @@ input_fn.list <- function(
     } else {
       stop("input_fn.list() does not support custom estimator yet")
     }
-    list(list(inputs = fn()[[1]]$features), fn()[[2]])
+    fun <- fn()
+    list(list(inputs = fun[[1]]$features), fun[[2]])
   }
 }
 

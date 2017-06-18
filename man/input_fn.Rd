@@ -14,7 +14,9 @@ estimator}
 
 \method{input_fn}{formula}(object, data, ...)
 
-\method{input_fn}{list}(object, features, response)
+\method{input_fn}{list}(object, features, response = NULL, batch_size = 10L,
+  shuffle = TRUE, num_epochs = 1L, queue_capacity = 1000L,
+  num_threads = 1L)
 
 \method{input_fn}{data.frame}(object, features, response = NULL,
   batch_size = 10L, shuffle = TRUE, num_epochs = 1L,
@@ -67,7 +69,8 @@ input_fn1 <- input_fn(
      response = list(
        list(1, 2, 3), list(4, 5, 6))),
    features = c("feature_names"),
-   response = "response")
+   response = "response",
+   batch_size = 10L)
 
 # Construct the input function from a data.frame object
 input_fn1 <- input_fn(mtcars, response = mpg, features = c(drat, cyl))
