@@ -99,7 +99,6 @@ input_fn.list <- function(
   function(features_as_named_list) {
     if (features_as_named_list) {
       features_dict <- dict()
-      print(features)
       lapply(features, function(feature){
         features_dict[[feature]] <- np$array(
           object[[feature]],
@@ -116,8 +115,7 @@ input_fn.list <- function(
         num_threads = num_threads)
       fun <- fn()
       # TODO: Look into why there's hard-coded "inputs" somewhere
-      # This will be incorrect if we have multi-dimensional features
-      list(list(inputs = fun[[1]]$features), fun[[2]])
+      list(list(inputs = lapply(features, function(feature) fun[[1]][[feature]])), fun[[2]])
     } else {
       features_list <- lapply(features, function(feature) object[[feature]])
       names(features_list) <- NULL
