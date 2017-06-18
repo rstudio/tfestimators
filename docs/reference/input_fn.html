@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Input function constructor from various types of input used to feed the
-estimator — input_fn • tfestimators</title>
+<title>Input function constructor — input_fn • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -24,8 +23,7 @@ estimator — input_fn • tfestimators</title>
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -111,17 +109,12 @@ estimator — input_fn • tfestimators</title>
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Input function constructor from various types of input used to feed the
-estimator</h1>
+    <h1>Input function constructor</h1>
     </div>
 
     
-    <p>Input function constructor from various types of input used to feed the
-estimator</p>
-<p>For list objects, this method is particularly useful when constructing
-dynamic length of inputs for models like recurrent neural networks. Note that
-some arguments are not available yet for input_fn applied to list objects.
-See S3 method signatures below for more details.</p>
+    <p>This function constructs input function from various types of input used to feed the
+estimator.</p>
     
 
     <pre class="usage"><span class='co'># S3 method for default</span>
@@ -131,7 +124,9 @@ See S3 method signatures below for more details.</p>
 <span class='fu'>input_fn</span>(<span class='no'>object</span>, <span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>input_fn</span>(<span class='no'>object</span>, <span class='no'>features</span>, <span class='no'>response</span>)
+<span class='fu'>input_fn</span>(<span class='no'>object</span>, <span class='no'>features</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>batch_size</span> <span class='kw'>=</span> <span class='fl'>10L</span>,
+  <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>num_epochs</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>queue_capacity</span> <span class='kw'>=</span> <span class='fl'>1000L</span>,
+  <span class='kw'>num_threads</span> <span class='kw'>=</span> <span class='fl'>1L</span>)
 
 <span class='co'># S3 method for data.frame</span>
 <span class='fu'>input_fn</span>(<span class='no'>object</span>, <span class='no'>features</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -184,6 +179,13 @@ such as in prediction and evaluation mode, <code>num_threads</code> should be 1.
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>For list objects, this method is particularly useful when constructing
+dynamic length of inputs for models like recurrent neural networks. Note that
+some arguments are not available yet for input_fn applied to list objects.
+See S3 method signatures below for more details.</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Construct the input function through formula interface</span>
@@ -192,22 +194,28 @@ such as in prediction and evaluation mode, <code>num_threads</code> should be 1.
 <span class='co'># Construct the input function from a list object</span>
 <span class='no'>input_fn1</span> <span class='kw'>&lt;-</span> <span class='fu'>input_fn</span>(
    <span class='kw'>object</span> <span class='kw'>=</span> <span class='fu'>list</span>(
-     <span class='kw'>feature_names</span> <span class='kw'>=</span> <span class='fu'>list</span>(
+     <span class='kw'>feature1</span> <span class='kw'>=</span> <span class='fu'>list</span>(
        <span class='fu'>list</span>(<span class='fu'>list</span>(<span class='fl'>1</span>), <span class='fu'>list</span>(<span class='fl'>2</span>), <span class='fu'>list</span>(<span class='fl'>3</span>)),
        <span class='fu'>list</span>(<span class='fu'>list</span>(<span class='fl'>4</span>), <span class='fu'>list</span>(<span class='fl'>5</span>), <span class='fu'>list</span>(<span class='fl'>6</span>))),
+     <span class='kw'>feature2</span> <span class='kw'>=</span> <span class='fu'>list</span>(
+       <span class='fu'>list</span>(<span class='fu'>list</span>(<span class='fl'>7</span>), <span class='fu'>list</span>(<span class='fl'>8</span>), <span class='fu'>list</span>(<span class='fl'>9</span>)),
+       <span class='fu'>list</span>(<span class='fu'>list</span>(<span class='fl'>10</span>), <span class='fu'>list</span>(<span class='fl'>11</span>), <span class='fu'>list</span>(<span class='fl'>12</span>))),
      <span class='kw'>response</span> <span class='kw'>=</span> <span class='fu'>list</span>(
        <span class='fu'>list</span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>), <span class='fu'>list</span>(<span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>6</span>))),
-   <span class='kw'>features</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"feature_names"</span>),
-   <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>"response"</span>)
+   <span class='kw'>features</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"feature1"</span>, <span class='st'>"feature2"</span>),
+   <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>"response"</span>,
+   <span class='kw'>batch_size</span> <span class='kw'>=</span> <span class='fl'>10L</span>)
 
 <span class='co'># Construct the input function from a data.frame object</span>
-<span class='no'>input_fn1</span> <span class='kw'>&lt;-</span> <span class='fu'>input_fn</span>(<span class='no'>mtcars</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>"mpg"</span>, <span class='kw'>features</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"drat"</span>, <span class='st'>"cyl"</span>))</div></pre>
+<span class='no'>input_fn1</span> <span class='kw'>&lt;-</span> <span class='fu'>input_fn</span>(<span class='no'>mtcars</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='no'>mpg</span>, <span class='kw'>features</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='no'>drat</span>, <span class='no'>cyl</span>))</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
+      
+      <li><a href="#details">Details</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

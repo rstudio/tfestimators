@@ -1,5 +1,12 @@
-#' Input function constructor from various types of input used to feed the
-#' estimator
+#' Input function constructor
+#' 
+#' This function constructs input function from various types of input used to feed the
+#' estimator.
+#' 
+#' For list objects, this method is particularly useful when constructing
+#' dynamic length of inputs for models like recurrent neural networks. Note that
+#' some arguments are not available yet for input_fn applied to list objects. 
+#' See S3 method signatures below for more details.
 #' 
 #' @param object The object that represents the input source
 #' @param features The names of features to be used
@@ -13,7 +20,7 @@
 #' @param num_threads The number of threads used for reading and enqueueing. In 
 #'   order to have predicted and repeatable order of reading and enqueueing, 
 #'   such as in prediction and evaluation mode, `num_threads` should be 1.
-#'   
+#'
 #' @name input_fn
 NULL
 
@@ -40,10 +47,6 @@ input_fn.formula <- function(object, data, ...) {
   input_fn(data, parsed$features, parsed$response, ...)
 }
 
-#' For list objects, this method is particularly useful when constructing
-#' dynamic length of inputs for models like recurrent neural networks. Note that
-#' some arguments are not available yet for input_fn applied to list objects. 
-#' See S3 method signatures below for more details.
 #' 
 #' @examples
 #' # Construct the input function from a list object

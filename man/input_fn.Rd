@@ -7,8 +7,7 @@
 \alias{input_fn.list}
 \alias{input_fn.data.frame}
 \alias{input_fn.matrix}
-\title{Input function constructor from various types of input used to feed the
-estimator}
+\title{Input function constructor}
 \usage{
 \method{input_fn}{default}(object, ...)
 
@@ -48,9 +47,10 @@ order to have predicted and repeatable order of reading and enqueueing,
 such as in prediction and evaluation mode, \code{num_threads} should be 1.}
 }
 \description{
-Input function constructor from various types of input used to feed the
-estimator
-
+This function constructs input function from various types of input used to feed the
+estimator.
+}
+\details{
 For list objects, this method is particularly useful when constructing
 dynamic length of inputs for models like recurrent neural networks. Note that
 some arguments are not available yet for input_fn applied to list objects.
@@ -63,12 +63,15 @@ input_fn1 <- input_fn(mpg ~ drat + cyl, mtcars)
 # Construct the input function from a list object
 input_fn1 <- input_fn(
    object = list(
-     feature_names = list(
+     feature1 = list(
        list(list(1), list(2), list(3)),
        list(list(4), list(5), list(6))),
+     feature2 = list(
+       list(list(7), list(8), list(9)),
+       list(list(10), list(11), list(12))),
      response = list(
        list(1, 2, 3), list(4, 5, 6))),
-   features = c("feature_names"),
+   features = c("feature1", "feature2"),
    response = "response",
    batch_size = 10L)
 
