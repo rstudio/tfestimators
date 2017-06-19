@@ -131,7 +131,7 @@
 <p>You can also define multiple feature columns at once:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(subsidiaries,
   <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(profit, loss),
-  <span class="kw"><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity</a></span>(profession)
+  <span class="kw"><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity</a></span>(profession, <span class="dt">num_buckets =</span> <span class="dv">5</span>)
 )</code></pre></div>
 <p>Note that when creating <code><a href="../reference/feature_columns.html">feature_columns()</a></code> the data that you pass as the first argument (<code>mtcars</code>) need not contain all of your data. The purpose of the argument is to define the set of columns against which column definitions will be matched so it can be a small sample of your data or even just a character vector with the column names.</p>
 </div>
@@ -141,7 +141,7 @@
 <p>You can also do pattern matching similar to what you may be famillar with from <code>dplyr::select</code> statements to define multiple columns at once, for example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(subsidiaries, 
   <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(profit),
-  <span class="kw"><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity</a></span>(profession),
+  <span class="kw"><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity</a></span>(profession, <span class="dt">num_buckets =</span> <span class="dv">5</span>),
   <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="kw"><a href="../reference/reexports.html">ends_with</a></span>(<span class="st">"_pct"</span>))
 )</code></pre></div>
 <p>Available pattern matching operators include:</p>

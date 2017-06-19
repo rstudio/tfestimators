@@ -39,7 +39,7 @@ You can also define multiple feature columns at once:
 ```{r}
 fc <- feature_columns(subsidiaries,
   column_numeric(profit, loss),
-  column_categorical_with_identity(profession)
+  column_categorical_with_identity(profession, num_buckets = 5)
 )
 ```
 
@@ -53,7 +53,7 @@ You can also do pattern matching similar to what you may be famillar with from `
 ```{r}
 fc <- feature_columns(subsidiaries, 
   column_numeric(profit),
-  column_categorical_with_identity(profession),
+  column_categorical_with_identity(profession, num_buckets = 5),
   column_numeric(ends_with("_pct"))
 )
 ```

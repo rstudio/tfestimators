@@ -193,7 +193,7 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tr
 <p>We can evaluate the model’s accuracy using the <code>evaluate()</code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
 <pre><code>## $loss
-## [1] 300.0118
+## [1] 61.79936
 ## 
 ## $global_step
 ## [1] 2</code></pre>
@@ -205,7 +205,7 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tr
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,]
 model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
 <pre><code>##   scores   scores   scores 
-## 2.259881 6.867555 5.028478</code></pre>
+## 12.12181 12.15534 16.21347</code></pre>
 </div>
 </div>
 </div>

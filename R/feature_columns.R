@@ -1,17 +1,20 @@
 
 #' Define feature columns
 #'
-#' @param .data Data frame from which to derive features. Note that this need only be
-#'   an exemplar of your data (names, types, factor levels, etc.) rather than all of the
-#'   data that will be used for training.
+#' @param names Available feature names as a character vector (or R object that
+#'   implements `names()` or `colnames()`)
 #' @param ... One or more feature column definitions
 #'
 #' @export
-feature_columns <- function(.data, ...) {
+feature_columns <- function(names, ...) {
   
-  # set and restore active feature data
-  set_active_feature_data(.data)
-  on.exit(set_active_feature_data(NULL), add = TRUE)
+  # if this isn't a character vector then discover the names
+  if (!is.character(names))
+    names <- if(is.null(colnames(names))) names(names) else colnames(names)
+  
+  # set and restore active feature names
+  set_active_feature_names(names)
+  on.exit(set_active_feature_names(NULL), add = TRUE)
   
   # each tidyselect can return 1:N columns
   c(..., recursive = TRUE)
@@ -125,8 +128,7 @@ column_categorical_with_vocabulary_file <- function(..., vocabulary_file, vocabu
 #' 
 #' @inheritParams column_numeric
 #' 
-#' @param num_buckets Range of inputs and outputs is `[0, num_buckets)`. If `NULL` then the range
-#' is automatically determined by inspecting the data for unique values.
+#' @param num_buckets Number of unique values.
 #' @param default_value If `NULL`, this column's graph operations will fail for out-of-range inputs. 
 #' Otherwise, this value must be in the range `[0, num_buckets)`, and will replace inputs in that range.
 #' 
@@ -138,15 +140,8 @@ column_categorical_with_vocabulary_file <- function(..., vocabulary_file, vocabu
 #' 
 #' @family feature_column wrappers
 #' @export
-column_categorical_with_identity <- function(..., num_buckets = NULL, default_value = NULL) {
+column_categorical_with_identity <- function(..., num_buckets, default_value = NULL) {
   create_columns(..., function(column) {
-    
-    if (is.null(num_buckets)) {
-      if (!have_active_feature_data())
-        stop("feature_columns context required in order to automatically determine num_buckets for ", column)
-      num_buckets <- unique(active_feature_data()[, column])
-    }
-    
     feature_column_lib$categorical_column_with_identity(
       key = column,
       num_buckets = num_buckets,
@@ -395,8 +390,8 @@ column_bucketized <- function(source_column, boundaries) {
 }
 
 create_columns <- function(..., f) {
-  if (have_active_feature_data())
-    columns <- names(vars_select(names(active_feature_data()), !!! quos(...)))
+  if (have_active_feature_names())
+    columns <- names(vars_select(active_feature_names(), !!! quos(...)))
   else
     columns <- as.character(c(...))
   columns <- lapply(columns, f)
@@ -407,15 +402,15 @@ create_columns <- function(..., f) {
 }
 
 
-set_active_feature_data <- function(data) {
-  .globals$active_feature_data <- data
+set_active_feature_names <- function(names) {
+  .globals$active_feature_names <- names
 }
 
-active_feature_data <- function() {
-  .globals$active_feature_data
+active_feature_names <- function() {
+  .globals$active_feature_names
 }
 
-have_active_feature_data <- function() {
-  !is.null(.globals$active_feature_data)
+have_active_feature_names <- function() {
+  !is.null(.globals$active_feature_names)
 }
 
