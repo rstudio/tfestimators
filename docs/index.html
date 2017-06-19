@@ -135,7 +135,9 @@
 <p>Then, use the <code><a href="reference/reexports.html">install_tensorflow()</a></code> function to install the current nightly build of TensorFlow (see the TensorFlow repository home page for <a href="https://github.com/tensorflow/tensorflow#installation">nightly build URLs</a> for various platforms):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tfestimators)
 <span class="kw"><a href="reference/reexports.html">install_tensorflow</a></span>(<span class="dt">package_url =</span> <span class="st">"https://ci.tensorflow.org/view/Nightly/&lt;path-to-tf-package&gt;"</span>)</code></pre></div>
-<p>Note that the <strong>tfestimators</strong> package currently requires the nightly build of TensorFlow, it will not work with the release version as it relies on APIs only in the development version.</p>
+<div class="alert alert-warning" role="alert">
+<p><strong>IMPORTANT NOTE</strong>: The <strong>tfestimators</strong> package currently requires the nightly build of TensorFlow, it will not work with the release version as it relies on APIs only in the development version.</p>
+</div>
 </div>
 <div id="simple-example" class="section level3">
 <h3 class="hasAnchor">
@@ -193,7 +195,7 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tr
 <p>We can evaluate the model’s accuracy using the <code>evaluate()</code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
 <pre><code>## $loss
-## [1] 61.79936
+## [1] 198.8271
 ## 
 ## $global_step
 ## [1] 2</code></pre>
@@ -204,8 +206,8 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tr
 <p>Finally, we generate predictions using the <code>predict()</code> function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,]
 model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
-<pre><code>##   scores   scores   scores 
-## 12.12181 12.15534 16.21347</code></pre>
+<pre><code>##    scores    scores    scores 
+##  4.037589 12.742064  8.678469</code></pre>
 </div>
 </div>
 </div>

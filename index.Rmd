@@ -61,7 +61,12 @@ library(tfestimators)
 install_tensorflow(package_url = "https://ci.tensorflow.org/view/Nightly/<path-to-tf-package>")
 ```
 
-Note that the **tfestimators** package currently requires the nightly build of TensorFlow, it will not work with the release version as it relies on APIs only in the development version.
+<div class="alert alert-warning" role="alert">
+**IMPORTANT NOTE**: The **tfestimators** package currently requires the nightly build of TensorFlow, it will not work with the release version as it relies on APIs only in the development version.
+</div>
+
+
+
 
 ### Simple Example
 
