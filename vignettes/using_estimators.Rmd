@@ -49,36 +49,7 @@ The **tfestimators** package includes a wide variety of canned estimators for co
 | `dynamic_rnn()`  |  Dynamic RNN Estimator.. |
 | `state_saving_rnn()`  |  State Saving RNN Estimator. |
 
-Before you can use an estimator you need to define a set of feature columns and provide an input function. The following two sections cover how to do this.
-
-## Feature Columns
-
-Users firstly specify the feature columns that represent the feature transformations to be used by the Estimator. Here we use the default function `feature_columns()` to automatically map each features in a dataset into a feature column according to their types, e.g. factor variable, numeric variable, etc.:
-
-```{r}
-mtcars$vs <- as.factor(mtcars$vs)
-dnn_feature_columns <- feature_columns(mtcars, column_numeric(drat))
-linear_feature_columns <- feature_columns(mtcars, column_numeric(cyl))
-```
-
-The examples above provide columns as-is from a data frame. There are also a variety of functions available for transforming features prior to using them in training:
-
-| Method  | Description |
-|---------------------------------------|----------------------------------------------------------------|
-| `feature_columns()`  | Construct column placeholders from vectors in an R object   |
-| `column_indicator()`  | Represents multi-hot representation of given categorical column.   |
-| `column_numeric()`  |  Represents real valued or numerical features.  |
-| `column_embedding()`  | Creates an _DenseColumn that converts from sparse, categorical input.   |
-| `column_bucketized()`  | Represents discretized dense input.   |
-| `column_weighted_categorical()`  | Applies weight values to a _CategoricalColumn.   |
-| `column_categorical_with_vocabulary_list()`  | 	Creates a _CategoricalColumn with in-memory vocabulary. |
-| `column_categorical_with_vocabulary_file()`  | Creates a _CategoricalColumn with a vocabulary file.   |
-| `column_categorical_with_identity()`  | Creates a _CategoricalColumn that returns identity values.   |
-| `column_categorical_with_hash_bucket()`  | Represents sparse feature where ids are set by hashing.   |
-
-
-See the article on [feature columns](feature_columns.html) for additional details.
-
+Before you can use an estimator you need to provide an input function and define a set of feature columns. The following two sections cover how to do this.
 
 ## Input Functions
 
@@ -97,6 +68,34 @@ input <- input_fn(mtcars, features = c(drat, cyl), response = vs)
 
 You can also write fully custom input functions that draw data from arbitrary data sources. See the [input functions](input_functions.html) article for additional details.
 
+## Feature Columns
+
+Feature columns speicfy the feature transformations to apply before using data within training or prediction. This code specifies that the `profit` column is a standard numeric variable and that the `profession` column is categorical with 5 buckets:
+
+```{r}
+fc <- feature_columns(subsidiaries,
+  column_numeric(profit),
+  column_categorical_with_identity(profession, num_buckets = 5)
+)
+```
+
+There are a wide variety of feature column functions available:
+
+| Method  | Description |
+|---------------------------------------|----------------------------------------------------------------|
+| `feature_columns()`  | Construct column placeholders from vectors in an R object   |
+| `column_indicator()`  | Represents multi-hot representation of given categorical column.   |
+| `column_numeric()`  |  Represents real valued or numerical features.  |
+| `column_embedding()`  | Creates an _DenseColumn that converts from sparse, categorical input.   |
+| `column_bucketized()`  | Represents discretized dense input.   |
+| `column_weighted_categorical()`  | Applies weight values to a _CategoricalColumn.   |
+| `column_categorical_with_vocabulary_list()`  | 	Creates a _CategoricalColumn with in-memory vocabulary. |
+| `column_categorical_with_vocabulary_file()`  | Creates a _CategoricalColumn with a vocabulary file.   |
+| `column_categorical_with_identity()`  | Creates a _CategoricalColumn that returns identity values.   |
+| `column_categorical_with_hash_bucket()`  | Represents sparse feature where ids are set by hashing.   |
+
+
+See the article on [feature columns](feature_columns.html) for additional details.
 
 ## Creating an Estimator
 

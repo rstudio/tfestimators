@@ -144,11 +144,11 @@
 <div id="input-function" class="section level4">
 <h4 class="hasAnchor">
 <a href="#input-function" class="anchor"></a>Input Function</h4>
-<p>First, some standard setup. Input to estimators is provided by an input function that returns a list containing feature and response data. You can write a custom input function or create one automatically from an R data frame or matrix.</p>
-<p>Here we define a helper function that will yield an in input function for a given subset of our data:</p>
+<p>First, some standard setup. Input to estimators is provided by an input function that returns a list containing feature and response data. You can write a custom input function or create one automatically from an R data frame, matrix, or list.</p>
+<p>Here we define a helper function that will return an input function for a given subset of our data:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tfestimators)
 
-<span class="co"># yield an input_fn for a given subset of data</span>
+<span class="co"># return an input_fn for a given subset of data</span>
 mtcars_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(data) {
   <span class="kw"><a href="reference/input_fn.html">input_fn</a></span>(data, <span class="dt">features =</span> <span class="kw">c</span>(disp, cyl), <span class="dt">response =</span> mpg)
 }</code></pre></div>
@@ -157,7 +157,7 @@ mtcars_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(d
 <div id="feature-columns" class="section level4">
 <h4 class="hasAnchor">
 <a href="#feature-columns" class="anchor"></a>Feature Columns</h4>
-<p>Next we define the feature columns for our model. Feature columns are mappings of raw input data to the data that we’ll actually feed into our training, evaluation, and prediction steps. To define feature columns we call the <code><a href="reference/feature_columns.html">feature_columns()</a></code> function then pipe column definitions into it. For example:</p>
+<p>Next we define the feature columns for our model. Feature columns are mappings of raw input data to the data that we’ll actually feed into our training, evaluation, and prediction steps. Here we create a list of feature columns containing the <code>disp</code> and <code>cyl</code> variables:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fc &lt;-<span class="st"> </span><span class="kw"><a href="reference/feature_columns.html">feature_columns</a></span>(mtcars,
   <span class="kw"><a href="reference/column_numeric.html">column_numeric</a></span>(disp),
   <span class="kw"><a href="reference/column_numeric.html">column_numeric</a></span>(cyl)
@@ -193,7 +193,7 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tr
 <p>We can evaluate the model’s accuracy using the <code>evaluate()</code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
 <pre><code>## $loss
-## [1] 540.132
+## [1] 300.0118
 ## 
 ## $global_step
 ## [1] 2</code></pre>
@@ -204,8 +204,8 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tr
 <p>Finally, we generate predictions using the <code>predict()</code> function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,]
 model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
-<pre><code>##    scores    scores    scores 
-## 35.971081  8.047429 45.019356</code></pre>
+<pre><code>##   scores   scores   scores 
+## 2.259881 6.867555 5.028478</code></pre>
 </div>
 </div>
 </div>
@@ -236,9 +236,8 @@ These articles provide in depth documentation and example uses of canned estimat
 <li><a href="articles/custom_estimators.html">Custom Estimators</a></li>
 <li><a href="articles/tensorboard.html">TensorBoard Visualization</a></li>
 </ul>
+<p>One of the best ways to learn is from reviewing and experimenting with examples. See the <a href="articles/examples/examples.html">Examples</a> page for a variety of examples to help you get started.</p>
 <!--
-One of the best ways to learn is from reviewing and experimenting with examples. See the [Examples](articles/examples/examples.html) page for a variety of examples to help you get started.
-
 When you have built your model and are ready to deploy it, see the [Deployment](articles/deployment.html) page for an in-depth review of deployment options.
 -->
 </div>

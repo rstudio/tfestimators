@@ -69,14 +69,14 @@ Let's create a simple linear regression with the `mtcars` dataset to demonstrate
 
 #### Input Function
 
-First, some standard setup. Input to estimators is provided by an input function that returns a list containing feature and response data. You can write a custom input function or create one automatically from an R data frame or matrix.
+First, some standard setup. Input to estimators is provided by an input function that returns a list containing feature and response data. You can write a custom input function or create one automatically from an R data frame, matrix, or list.
 
-Here we define a helper function that will yield an in input function for a given subset of our data:
+Here we define a helper function that will return an input function for a given subset of our data:
 
 ```{r}
 library(tfestimators)
 
-# yield an input_fn for a given subset of data
+# return an input_fn for a given subset of data
 mtcars_input_fn <- function(data) {
   input_fn(data, features = c(disp, cyl), response = mpg)
 }
@@ -86,7 +86,7 @@ The `input_fn` method can take an R data frame or matrix along with the names of
 
 #### Feature Columns
 
-Next we define the feature columns for our model. Feature columns are mappings of raw input data to the data that we'll actually feed into our training, evaluation, and prediction steps. To define feature columns we call the `feature_columns()` function then pipe column definitions into it. For example:
+Next we define the feature columns for our model. Feature columns are mappings of raw input data to the data that we'll actually feed into our training, evaluation, and prediction steps. Here we create a list of feature columns containing the `disp` and `cyl` variables:
 
 ```{r}
 fc <- feature_columns(mtcars,
@@ -173,9 +173,9 @@ These articles describe more advanced topics/usage:
 - [Custom Estimators](articles/custom_estimators.html)
 - [TensorBoard Visualization](articles/tensorboard.html)
 
-<!--
 One of the best ways to learn is from reviewing and experimenting with examples. See the [Examples](articles/examples/examples.html) page for a variety of examples to help you get started.
 
+<!--
 When you have built your model and are ready to deploy it, see the [Deployment](articles/deployment.html) page for an in-depth review of deployment options.
 -->
 

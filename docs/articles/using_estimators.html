@@ -152,16 +152,31 @@
 </tr>
 </tbody>
 </table>
-<p>Before you can use an estimator you need to define a set of feature columns and provide an input function. The following two sections cover how to do this.</p>
+<p>Before you can use an estimator you need to provide an input function and define a set of feature columns. The following two sections cover how to do this.</p>
+</div>
+<div id="input-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#input-functions" class="anchor"></a>Input Functions</h2>
+<p>Input functions are used to provide data to Estimtor training and prediction methods. The R interface provides several high-level input function implementations for various common R data sources, including:</p>
+<ul>
+<li>Formulas</li>
+<li>Matrices</li>
+<li>Data Frames</li>
+<li>Lists of vectors</li>
+</ul>
+<p>For example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input &lt;-<span class="st"> </span><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mtcars, <span class="dt">features =</span> <span class="kw">c</span>(drat, cyl), <span class="dt">response =</span> vs)</code></pre></div>
+<p>You can also write fully custom input functions that draw data from arbitrary data sources. See the <a href="input_functions.html">input functions</a> article for additional details.</p>
 </div>
 <div id="feature-columns" class="section level2">
 <h2 class="hasAnchor">
 <a href="#feature-columns" class="anchor"></a>Feature Columns</h2>
-<p>Users firstly specify the feature columns that represent the feature transformations to be used by the Estimator. Here we use the default function <code><a href="../reference/feature_columns.html">feature_columns()</a></code> to automatically map each features in a dataset into a feature column according to their types, e.g. factor variable, numeric variable, etc.:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars<span class="op">$</span>vs &lt;-<span class="st"> </span><span class="kw">as.factor</span>(mtcars<span class="op">$</span>vs)
-dnn_feature_columns &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(mtcars, <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(drat))
-linear_feature_columns &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(mtcars, <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(cyl))</code></pre></div>
-<p>The examples above provide columns as-is from a data frame. There are also a variety of functions available for transforming features prior to using them in training:</p>
+<p>Feature columns speicfy the feature transformations to apply before using data within training or prediction. This code specifies that the <code>profit</code> column is a standard numeric variable and that the <code>profession</code> column is categorical with 5 buckets:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(subsidiaries,
+  <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(profit),
+  <span class="kw"><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity</a></span>(profession, <span class="dt">num_buckets =</span> <span class="dv">5</span>)
+)</code></pre></div>
+<p>There are a wide variety of feature column functions available:</p>
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="38%">
@@ -215,20 +230,6 @@ linear_feature_columns &lt;-<span class="st"> </span><span class="kw"><a href=".
 </tbody>
 </table>
 <p>See the article on <a href="feature_columns.html">feature columns</a> for additional details.</p>
-</div>
-<div id="input-functions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#input-functions" class="anchor"></a>Input Functions</h2>
-<p>Input functions are used to provide data to Estimtor training and prediction methods. The R interface provides several high-level input function implementations for various common R data sources, including:</p>
-<ul>
-<li>Formulas</li>
-<li>Matrices</li>
-<li>Data Frames</li>
-<li>Lists of vectors</li>
-</ul>
-<p>For example:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input &lt;-<span class="st"> </span><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mtcars, <span class="dt">features =</span> <span class="kw">c</span>(drat, cyl), <span class="dt">response =</span> vs)</code></pre></div>
-<p>You can also write fully custom input functions that draw data from arbitrary data sources. See the <a href="input_functions.html">input functions</a> article for additional details.</p>
 </div>
 <div id="creating-an-estimator" class="section level2">
 <h2 class="hasAnchor">
@@ -298,8 +299,8 @@ predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classi
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#overview">Overview</a></li>
       <li><a href="#canned-estimators">Canned Estimators</a></li>
-      <li><a href="#feature-columns">Feature Columns</a></li>
       <li><a href="#input-functions">Input Functions</a></li>
+      <li><a href="#feature-columns">Feature Columns</a></li>
       <li><a href="#creating-an-estimator">Creating an Estimator</a></li>
       <li><a href="#training-and-prediction">Training and Prediction</a></li>
       </ul>

@@ -158,61 +158,6 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ev
 <p>In the above example, the data is a list of two named lists where each named list can be seen as different columns in a dataset. In this case, a column named <code>features</code> is being used as features to the model and a column named <code>response</code> is being used as the response variable.</p>
 <p>This nested lists format is particularly useful when constructing sequence input to Recurrent Neural Networks (RNN). Once the data is defined using <code><a href="../reference/input_fn.html">input_fn()</a></code>, it can be used directly in the RNN constructor.</p>
 </div>
-<div id="custom-input" class="section level2">
-<h2 class="hasAnchor">
-<a href="#custom-input" class="anchor"></a>Custom Input</h2>
-<p>Users can also write custom input function, e.g. a function <code>custom_input_fn()</code>, to convert each feature into a <code>Tensor</code> or <code>SparseTensor</code> according to the needs. The following code illustrates the basic skeleton for an input function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>() {
-  
-  <span class="co"># Preprocess your data here...</span>
-
-  <span class="co"># ...then return 1) a mapping of feature columns to Tensors with</span>
-  <span class="co"># the corresponding feature data, and 2) a Tensor containing labels</span>
-  <span class="kw">list</span>(feature_cols, labels)
-}</code></pre></div>
-<p>The body of the input function contains the specific logic for preprocessing your input data, such as reading the data from disk, scrubbing out bad examples, etc.</p>
-<p>Input functions must return a list with the following two values containing the final feature and label data to be fed into your model:</p>
-<dl>
-<dt>feature_cols</dt>
-<dd>
-<p>A dict containing key/value pairs that map feature column names to Tensors (or SparseTensors) containing the corresponding feature data.</p>
-</dd>
-<dt>labels</dt>
-<dd>
-<p>A Tensor containing your label (target) values: the values your model aims to predict.</p>
-</dd>
-</dl>
-<div id="example" class="section level3">
-<h3 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h3>
-<p>The following example demonstrates the custom input function equivalent of the <code>mtcars_input_fn()</code> in the previous section. Note that this example uses lower-level TensorFlow constructs from the <a href="https://tensorflow.rstudio.com">tensorflow</a> R package to explicitly create constant Tensors from R vectors:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(data) {
-  
-  <span class="kw">force</span>(data)
-  
-  <span class="cf">function</span>() {
-    
-    <span class="co"># named list of feature columns (convert R vectors to TF tensors)</span>
-    feature_cols &lt;-<span class="st"> </span><span class="kw">list</span>(
-      <span class="dt">drat =</span> tf<span class="op">$</span><span class="kw">constant</span>(data<span class="op">$</span>drat),
-      <span class="dt">cyl =</span> tf<span class="op">$</span><span class="kw">constant</span>(data<span class="op">$</span>cyl)
-    )
-    
-    <span class="co"># response (convert R vector to TF tensors)</span>
-    response &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">constant</span>(data<span class="op">$</span>mpg)
-    
-    <span class="co"># return features and response</span>
-    <span class="kw">list</span>(feature_cols, response)
-    
-  }
-  
-}</code></pre></div>
-<p>You’ll note that this function returns yet another function with no arguments. All input functions ultimately have this signature (no arguments) and are typically wrapped in factory functions like <code>mtcars_input_fn</code> that bind them to specific data, features, etc.</p>
-<p>The use of TensorFlow is also pretty trivial here (creating constant tensors from R vectors). It’s possible to use any and all lower-level tensor manipulation APIs within custom input functions.</p>
-<p>Once your custom input function is defined you can use it to provide an <code>input_fn</code> for training, evaluation, and prediction:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">train</span>(<span class="kw">mtcars_input_fn</span>(train))</code></pre></div>
-</div>
-</div>
 </div>
   </div>
 
@@ -225,7 +170,6 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ev
       <li><a href="#data-frame-input">Data Frame Input</a></li>
       <li><a href="#matrix-input">Matrix Input</a></li>
       <li><a href="#list-input">List Input</a></li>
-      <li><a href="#custom-input">Custom Input</a></li>
       </ul>
 </div>
       </div>
