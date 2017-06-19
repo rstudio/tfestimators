@@ -8,5 +8,4 @@
 /\.!
 ^docs/
 ^images/
-
-^_pkgdown\.yml$
+^pkgdown$
