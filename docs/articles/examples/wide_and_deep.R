@@ -1,5 +1,18 @@
 
-#' Wide & Deep Learning Tutorial
+
+#' In this example, we'll introduce how to use the TensorFlow Estimators API to
+#' jointly train a wide linear model and a deep feed-forward neural network.
+#' This approach combines the strengths of memorization and generalization. It's
+#' useful for generic large-scale regression and classification problems with
+#' sparse input features (e.g., categorical features with a large number of
+#' possible feature values). If you're interested in learning more about how
+#' Wide & Deep Learning works, please check out the [white
+#' paper](http://arxiv.org/abs/1606.07792).
+#' 
+#'
+#' ### Download Data
+#' 
+#' First of all, let's download the census data:
 
 library(tfestimators)
 
@@ -31,6 +44,13 @@ downloaded_data <- maybe_download_census(
 train_data <- downloaded_data$train_data
 test_data <- downloaded_data$test_data
 
+#' ### Define Base Feature Columns
+#' 
+#' Next, let's define the base categorical and continuous feature columns that
+#' we'll use. These base columns will be the building blocks used by both the
+#' wide part and the deep part of the model.
+#'
+
 # Categorical base columns
 education <- column_categorical_with_hash_bucket("education", hash_bucket_size = 1000L, dtype = tf$int32)
 relationship <- column_categorical_with_hash_bucket("relationship", hash_bucket_size = 100L, dtype = tf$int32)
@@ -46,6 +66,8 @@ capital_gain <- column_numeric("capital_gain")
 capital_loss <- column_numeric("capital_loss")
 hours_per_week <- column_numeric("hours_per_week")
 
+#' ### Define Wide and Deep Columns
+
 wide_columns <- list(native_country, education, occupation, workclass, relationship, age_buckets)
 
 deep_columns <- list(
@@ -56,11 +78,15 @@ deep_columns <- list(
   column_embedding(occupation, dimension = 8L),
   age, education_num, capital_gain, capital_loss, hours_per_week)
 
+#' ### Combining Wide and Deep Models into One
+
 model <- linear_dnn_combined_classifier(
   linear_feature_columns = wide_columns,
   dnn_feature_columns = deep_columns,
   dnn_hidden_units = c(100L, 50L)
 )
+
+#' ### Training and Evaluating The Model
 
 # Build labels according to income bracket
 train_data$income_bracket <- as.character(train_data$income_bracket)

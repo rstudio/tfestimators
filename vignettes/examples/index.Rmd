@@ -4,5 +4,5 @@ title: "TF Estimator Examples"
 
 | Example  | Description   |
 |----------------------|------------------------------------|
-| [wide_and_deep.R](wide_and_deep.html) | Wide & Deep Learning Tutorial |
+| [wide_and_deep.R](wide_and_deep.html) | Wide & Deep Learning Example |
 

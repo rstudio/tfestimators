@@ -157,7 +157,7 @@
 <h2 class="hasAnchor">
 <a href="#feature-columns" class="anchor"></a>Feature Columns</h2>
 <p>Users firstly specify the feature columns that represent the feature transformations to be used by the Estimator. Here we use the default function <code><a href="../reference/feature_columns.html">feature_columns()</a></code> to automatically map each features in a dataset into a feature column according to their types, e.g. factor variable, numeric variable, etc.:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars$vs &lt;-<span class="st"> </span><span class="kw">as.factor</span>(mtcars$vs)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars<span class="op">$</span>vs &lt;-<span class="st"> </span><span class="kw">as.factor</span>(mtcars<span class="op">$</span>vs)
 dnn_feature_columns &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(mtcars, <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(drat))
 linear_feature_columns &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(mtcars, <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(cyl))</code></pre></div>
 <p>The examples above provide columns as-is from a data frame. There are also a variety of functions available for transforming features prior to using them in training:</p>
@@ -292,7 +292,8 @@ predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classi
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
-      <h2>Contents</h2>
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#overview">Overview</a></li>
       <li><a href="#canned-estimators">Canned Estimators</a></li>
