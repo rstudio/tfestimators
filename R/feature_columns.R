@@ -1,24 +1,57 @@
 
-#' Define feature columns
+#' Create list of feature columns
 #'
-#' @param names Available feature names as a character vector (or R object that
-#'   implements `names()` or `colnames()`)
 #' @param ... One or more feature column definitions
+#' @param names Available feature names (for selection / pattern matching) as a
+#'   character vector (or R object that implements `names()` or `colnames()`)
 #'
 #' @export
-feature_columns <- function(names, ...) {
+feature_columns <- function(..., names = NULL) {
   
-  # if this isn't a character vector then discover the names
-  if (!is.character(names))
-    names <- if(is.null(colnames(names))) names(names) else colnames(names)
-  
-  # set and restore active feature names
-  set_active_feature_names(names)
-  on.exit(set_active_feature_names(NULL), add = TRUE)
+  # set and restore active column names
+  if (!is.null(names)) {
+    old <- set_column_names(names)
+    on.exit(set_column_names(old), add = TRUE)
+  }
   
   # each tidyselect can return 1:N columns
   c(..., recursive = TRUE)
 }
+
+
+#' Set available feature column names
+#' 
+#' Provide a list of names (or an R object with `names()` or `colnames()`) which
+#' are valid for selection within `column_` feature column functions.
+#' 
+#' @param names Source of names (character vector, data frame, etc.)
+#' @param expr Expression to evaluate with column names set.
+#' 
+#' @return Previously set column names (invisibly)
+#' 
+#' @export
+set_column_names <- function(names) {
+  
+  # determine the names
+  if (!is.character(names))
+    names <- if(is.null(colnames(names))) names(names) else colnames(names)
+  
+  # get the old names
+  old <- active_column_names()
+  set_active_column_names(names)
+  
+  # return the old names invisibly
+  invisible(old)
+}
+
+#' @rdname set_column_names
+#' @export
+with_column_names <- function(names, expr) {
+  old <- set_column_names(names)
+  on.exit(set_column_names(old), add = TRUE)
+  force(expr)
+}
+
 
 
 #' A `_CategoricalColumn` with in-memory vocabulary.
@@ -141,7 +174,7 @@ column_categorical_with_vocabulary_file <- function(..., vocabulary_file, vocabu
 #' @family feature_column wrappers
 #' @export
 column_categorical_with_identity <- function(..., num_buckets, default_value = NULL) {
-  create_columns(..., function(column) {
+  create_columns(..., f = function(column) {
     feature_column_lib$categorical_column_with_identity(
       key = column,
       num_buckets = num_buckets,
@@ -390,8 +423,8 @@ column_bucketized <- function(source_column, boundaries) {
 }
 
 create_columns <- function(..., f) {
-  if (have_active_feature_names())
-    columns <- names(vars_select(active_feature_names(), !!! quos(...)))
+  if (have_active_column_names())
+    columns <- names(vars_select(active_column_names(), !!! quos(...)))
   else
     columns <- as.character(c(...))
   columns <- lapply(columns, f)
@@ -402,15 +435,15 @@ create_columns <- function(..., f) {
 }
 
 
-set_active_feature_names <- function(names) {
-  .globals$active_feature_names <- names
+set_active_column_names <- function(names) {
+  .globals$active_column_names <- names
 }
 
-active_feature_names <- function() {
-  .globals$active_feature_names
+active_column_names <- function() {
+  .globals$active_column_names
 }
 
-have_active_feature_names <- function() {
-  !is.null(.globals$active_feature_names)
+have_active_column_names <- function() {
+  !is.null(.globals$active_column_names)
 }
 

@@ -83,6 +83,7 @@ reference:
       - column_crossed
       - column_weighted_categorical
       - column_bucketized
+      - set_column_names
 
   - title: "Custom Estimators"
     contents:

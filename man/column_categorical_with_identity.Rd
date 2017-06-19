@@ -4,16 +4,14 @@
 \alias{column_categorical_with_identity}
 \title{A \code{_CategoricalColumn} that returns identity values.}
 \usage{
-column_categorical_with_identity(..., num_buckets = NULL,
-  default_value = NULL)
+column_categorical_with_identity(..., num_buckets, default_value = NULL)
 }
 \arguments{
 \item{...}{Expression(s) identifying input feature(s). Used as the column name
 and the dictionary key for feature parsing configs, feature \code{Tensor}
 objects, and feature columns.}
 
-\item{num_buckets}{Range of inputs and outputs is \code{[0, num_buckets)}. If \code{NULL} then the range
-is automatically determined by inspecting the data for unique values.}
+\item{num_buckets}{Number of unique values.}
 
 \item{default_value}{If \code{NULL}, this column's graph operations will fail for out-of-range inputs.
 Otherwise, this value must be in the range \code{[0, num_buckets)}, and will replace inputs in that range.}

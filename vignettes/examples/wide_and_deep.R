@@ -68,15 +68,20 @@ hours_per_week <- column_numeric("hours_per_week")
 
 #' ### Define Wide and Deep Columns
 
-wide_columns <- list(native_country, education, occupation, workclass, relationship, age_buckets)
+wide_columns <- feature_columns(native_country, education, occupation, workclass, relationship, age_buckets)
 
-deep_columns <- list(
+deep_columns <- feature_columns(
   column_embedding(workclass, dimension = 8L),
   column_embedding(education, dimension = 8L),
   column_embedding(relationship, dimension = 8L),
   column_embedding(native_country, dimension = 8L),
   column_embedding(occupation, dimension = 8L),
-  age, education_num, capital_gain, capital_loss, hours_per_week)
+  age, 
+  education_num, 
+  capital_gain, 
+  capital_loss,
+  hours_per_week
+)
 
 #' ### Combining Wide and Deep Models into One
 

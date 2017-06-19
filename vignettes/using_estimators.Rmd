@@ -73,9 +73,9 @@ You can also write fully custom input functions that draw data from arbitrary da
 Feature columns speicfy the feature transformations to apply before using data within training or prediction. This code specifies that the `profit` column is a standard numeric variable and that the `profession` column is categorical with 5 buckets:
 
 ```{r}
-fc <- feature_columns(subsidiaries,
-  column_numeric(profit),
-  column_categorical_with_identity(profession, num_buckets = 5)
+fc <- feature_columns(
+  column_numeric("profit"),
+  column_categorical_with_identity("profession", num_buckets = 5)
 )
 ```
 
@@ -83,7 +83,6 @@ There are a wide variety of feature column functions available:
 
 | Method  | Description |
 |---------------------------------------|----------------------------------------------------------------|
-| `feature_columns()`  | Construct column placeholders from vectors in an R object   |
 | `column_indicator()`  | Represents multi-hot representation of given categorical column.   |
 | `column_numeric()`  |  Represents real valued or numerical features.  |
 | `column_embedding()`  | Creates an _DenseColumn that converts from sparse, categorical input.   |

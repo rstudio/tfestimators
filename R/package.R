@@ -43,7 +43,7 @@ contrib_estimators_lib <- NULL
 np <- NULL
 
 .globals <- new.env(parent = emptyenv())
-.globals$active_feature_names <- NULL
+.globals$active_column_names <- NULL
 
 .onLoad <- function(libname, pkgname) {
   # core modules

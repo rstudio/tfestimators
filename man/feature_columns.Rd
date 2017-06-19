@@ -2,17 +2,16 @@
 % Please edit documentation in R/feature_columns.R
 \name{feature_columns}
 \alias{feature_columns}
-\title{Define feature columns}
+\title{Create list of feature columns}
 \usage{
-feature_columns(.data, ...)
+feature_columns(..., names = NULL)
 }
 \arguments{
-\item{.data}{Data frame from which to derive features. Note that this need only be
-an exemplar of your data (names, types, factor levels, etc.) rather than all of the
-data that will be used for training.}
-
 \item{...}{One or more feature column definitions}
+
+\item{names}{Available feature names (for selection / pattern matching) as a
+character vector (or R object that implements \code{names()} or \code{colnames()})}
 }
 \description{
-Define feature columns
+Create list of feature columns
 }
