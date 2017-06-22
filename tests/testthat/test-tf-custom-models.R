@@ -47,13 +47,15 @@ test_that("custom model works on iris data", {
     return(estimator_spec(mode = mode, predictions = predictions, loss = loss, train_op = train_op))
   }
   
+  tmp_dir <- tempdir()
+  dir.create(tmp_dir)
   # training
   classifier <- estimator(
-    model_fn = simple_custom_model_fn, model_dir = "/tmp/test1") %>%
+    model_fn = simple_custom_model_fn, model_dir = tmp_dir) %>%
     train(input_fn = constructed_input_fn, steps = 2L)
   
   # check whether tensorboard works with custom estimator
-  tensorboard(log_dir = "/tmp/test1", launch_browser = FALSE)
+  tensorboard(log_dir = tmp_dir, launch_browser = FALSE)
 
   # inference
   predictions <- predict(classifier, input_fn = constructed_input_fn)
@@ -82,4 +84,6 @@ test_that("custom model works on iris data", {
   coefs <- coef(classifier)
   # KV pairs for variables
   expect_equal(rep(2, length(coefs)), unlist(lapply(coefs, length)))
+  
+  unlink(tmp_dir, recursive = TRUE)
 })
