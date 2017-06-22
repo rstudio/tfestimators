@@ -52,15 +52,15 @@ test_data <- downloaded_data$test_data
 #'
 
 # Categorical base columns
-education <- column_categorical_with_hash_bucket("education", hash_bucket_size = 1000L, dtype = tf$int32)
-relationship <- column_categorical_with_hash_bucket("relationship", hash_bucket_size = 100L, dtype = tf$int32)
-workclass <- column_categorical_with_hash_bucket("workclass", hash_bucket_size = 100L, dtype = tf$int32)
-occupation <- column_categorical_with_hash_bucket("occupation", hash_bucket_size = 100L, dtype = tf$int32)
-native_country <- column_categorical_with_hash_bucket("native_country", hash_bucket_size = 1000L, dtype = tf$int32)
+education <- column_categorical_with_hash_bucket("education", hash_bucket_size = 1000, dtype = tf$int32)
+relationship <- column_categorical_with_hash_bucket("relationship", hash_bucket_size = 100, dtype = tf$int32)
+workclass <- column_categorical_with_hash_bucket("workclass", hash_bucket_size = 100, dtype = tf$int32)
+occupation <- column_categorical_with_hash_bucket("occupation", hash_bucket_size = 100, dtype = tf$int32)
+native_country <- column_categorical_with_hash_bucket("native_country", hash_bucket_size = 1000, dtype = tf$int32)
 
 # Continuous base columns.
 age <- column_numeric("age")
-age_buckets <- column_bucketized(age, boundaries = list(18, 25, 30, 35, 40, 45, 50, 55, 60, 65))
+age_buckets <- column_bucketized(age, boundaries = c(18, 25, 30, 35, 40, 45, 50, 55, 60, 65))
 education_num <- column_numeric("education_num")
 capital_gain <- column_numeric("capital_gain")
 capital_loss <- column_numeric("capital_loss")
@@ -71,11 +71,11 @@ hours_per_week <- column_numeric("hours_per_week")
 wide_columns <- feature_columns(native_country, education, occupation, workclass, relationship, age_buckets)
 
 deep_columns <- feature_columns(
-  column_embedding(workclass, dimension = 8L),
-  column_embedding(education, dimension = 8L),
-  column_embedding(relationship, dimension = 8L),
-  column_embedding(native_country, dimension = 8L),
-  column_embedding(occupation, dimension = 8L),
+  column_embedding(workclass, dimension = 8),
+  column_embedding(education, dimension = 8),
+  column_embedding(relationship, dimension = 8),
+  column_embedding(native_country, dimension = 8),
+  column_embedding(occupation, dimension = 8),
   age, 
   education_num, 
   capital_gain, 
@@ -100,12 +100,12 @@ train_data$label <- ifelse(train_data$income_bracket == " >50K", 1, 0)
 test_data$label <- ifelse(test_data$income_bracket == " >50K", 1, 0)
 
 constructed_input_fn <- function(dataset) {
-  input_fn(dataset, features = COLNAMES[-length(COLNAMES)], response = "label")
+  input_fn(dataset, features = -label, response = label)
 }
 train_input_fn <- constructed_input_fn(train_data)
 eval_input_fn <- constructed_input_fn(test_data)
 
-train(model, input_fn = train_input_fn, steps = 2L)
+train(model, input_fn = train_input_fn, steps = 2)
 
-evaluate(model, input_fn = eval_input_fn, steps = 2L)
+evaluate(model, input_fn = eval_input_fn, steps = 2)
 

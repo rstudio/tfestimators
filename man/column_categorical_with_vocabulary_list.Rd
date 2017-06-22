@@ -38,7 +38,8 @@ Note that these values are independent of the
 }
 \section{Raises}{
 
-ValueError: if \code{vocabulary_list} is empty, or contains duplicate keys. ValueError: if \code{dtype} is not integer or string.
+ValueError: if \code{vocabulary_list} is empty, or contains duplicate keys.
+ValueError: if \code{dtype} is not integer or string.
 }
 
 \seealso{

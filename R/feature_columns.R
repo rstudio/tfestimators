@@ -78,7 +78,8 @@ with_column_names <- function(names, expr) {
 #' @return A `_CategoricalColumn` with in-memory vocabulary.
 #' 
 #' @section Raises:
-#' ValueError: if `vocabulary_list` is empty, or contains duplicate keys. ValueError: if `dtype` is not integer or string.
+#' ValueError: if `vocabulary_list` is empty, or contains duplicate keys.
+#' ValueError: if `dtype` is not integer or string.
 #' 
 #' @export
 #' @family feature_column wrappers
@@ -136,8 +137,8 @@ column_categorical_with_vocabulary_file <- function(..., vocabulary_file, vocabu
       key = column,
       vocabulary_file = vocabulary_file,
       vocabulary_size = vocabulary_size,
-      num_oov_buckets = num_oov_buckets,
-      default_value = default_value,
+      num_oov_buckets = as.integer(num_oov_buckets),
+      default_value = as.integer(default_value),
       dtype = dtype
     )
   })
@@ -177,8 +178,8 @@ column_categorical_with_identity <- function(..., num_buckets, default_value = N
   create_columns(..., f = function(column) {
     feature_column_lib$categorical_column_with_identity(
       key = column,
-      num_buckets = num_buckets,
-      default_value = default_value
+      num_buckets = as.integer(num_buckets),
+      default_value = as.integer(default_value)
     )
     
   })
@@ -280,7 +281,7 @@ column_numeric <- function(..., shape = list(1L), default_value = NULL, dtype = 
   create_columns(..., f = function(column) {
     feature_column_lib$numeric_column(
       key = column,
-      shape = shape,
+      shape = as.integer(shape),
       default_value = default_value,
       dtype = dtype,
       normalizer_fn = normalizer_fn
