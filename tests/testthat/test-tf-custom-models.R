@@ -48,7 +48,7 @@ test_that("custom model works on iris data", {
   }
   
   tmp_dir <- tempdir()
-  dir.create(tmp_dir)
+  dir.create(tmp_dir, showWarnings = FALSE)
   # training
   classifier <- estimator(
     model_fn = simple_custom_model_fn, model_dir = tmp_dir) %>%

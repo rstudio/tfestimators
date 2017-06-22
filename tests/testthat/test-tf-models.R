@@ -21,7 +21,7 @@ test_that("train(), predict(), and evaluate() work for regressors", {
   expect_equal(length(predictions), 32)
   
   loss <- evaluate(reg, input_fn = specs$input_fn)$loss
-  expect_lte(loss, 400)
+  expect_lte(loss, 700)
 })
 
 test_that("train(), predict(), and evaluate() work for classifiers", {
@@ -29,7 +29,7 @@ test_that("train(), predict(), and evaluate() work for classifiers", {
   specs <- mtcars_classification_specs()
 
   tmp_dir <- tempdir()
-  dir.create(tmp_dir)
+  dir.create(tmp_dir, showWarnings = FALSE)
   clf <-
     linear_dnn_combined_classifier(
       linear_feature_columns = specs$linear_feature_columns,
