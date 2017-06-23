@@ -112,7 +112,7 @@ deep_columns <- feature_columns(
 
 #' The higher the dimension of the embedding is, the more degrees of freedom the model
 #' will have to learn the representations of the features. For simplicity, we set the dimension to 8 for all feature columns here. 
-#' Empirically, a more informed decision for the number of dimensions is to start with a value on the order of log2(n),
+#' Empirically, a more informed decision for the number of dimensions is to start with a value on the order of $\log2(n)$,
 #' where n is the number of unique features in a feature column and k is a small constant (usually smaller than 10).
 #' 
 #' Through dense embeddings, deep models can generalize better and make predictions on feature pairs that were previously unseen 
