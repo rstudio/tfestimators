@@ -138,7 +138,7 @@
 <div id="pattern-matching" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pattern-matching" class="anchor"></a>Pattern Matching</h2>
-<p>You can also do pattern matching similar to what you may be famillar with from <code><a href="http://www.rdocumentation.org/packages/dplyr/topics/select">dplyr::select</a></code> statements to define multiple columns at once. To do this, establish the set of column names to match against using the <code>names</code> argument:</p>
+<p>You can also do pattern matching similar to what you may be famillar with from <code><a href="http://dplyr.tidyverse.org/reference/select.html">dplyr::select</a></code> statements to define multiple columns at once. To do this, establish the set of column names to match against using the <code>names</code> argument:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(<span class="dt">names =</span> subsidiaries, 
   <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"profit"</span>),
   <span class="kw"><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity</a></span>(<span class="st">"profession"</span>, <span class="dt">num_buckets =</span> <span class="dv">5</span>),
@@ -153,7 +153,7 @@
     <span class="kw"><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity</a></span>(<span class="st">"profession"</span>, <span class="dt">num_buckets =</span> <span class="dv">5</span>)
   )                     
      
-  if (include_pct)
+  <span class="cf">if</span> (include_pct)
     cols &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(cols, <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">ends_with</a></span>(<span class="st">"_pct"</span>)))
   
   cols
