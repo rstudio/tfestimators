@@ -172,9 +172,9 @@
 <h2 class="hasAnchor">
 <a href="#feature-columns" class="anchor"></a>Feature Columns</h2>
 <p>Feature columns speicfy the feature transformations to apply before using data within training or prediction. This code specifies that the <code>profit</code> column is a standard numeric variable and that the <code>profession</code> column is categorical with 5 buckets:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(subsidiaries,
-  <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(profit),
-  <span class="kw"><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity</a></span>(profession, <span class="dt">num_buckets =</span> <span class="dv">5</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(
+  <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"profit"</span>),
+  <span class="kw"><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity</a></span>(<span class="st">"profession"</span>, <span class="dt">num_buckets =</span> <span class="dv">5</span>)
 )</code></pre></div>
 <p>There are a wide variety of feature column functions available:</p>
 <table style="width:100%;" class="table">
@@ -188,42 +188,38 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td><code><a href="../reference/feature_columns.html">feature_columns()</a></code></td>
-<td>Construct column placeholders from vectors in an R object</td>
-</tr>
-<tr class="even">
 <td><code><a href="../reference/column_indicator.html">column_indicator()</a></code></td>
 <td>Represents multi-hot representation of given categorical column.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code><a href="../reference/column_numeric.html">column_numeric()</a></code></td>
 <td>Represents real valued or numerical features.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code><a href="../reference/column_embedding.html">column_embedding()</a></code></td>
 <td>Creates an _DenseColumn that converts from sparse, categorical input.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code><a href="../reference/column_bucketized.html">column_bucketized()</a></code></td>
 <td>Represents discretized dense input.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code><a href="../reference/column_weighted_categorical.html">column_weighted_categorical()</a></code></td>
 <td>Applies weight values to a _CategoricalColumn.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code><a href="../reference/column_categorical_with_vocabulary_list.html">column_categorical_with_vocabulary_list()</a></code></td>
 <td>Creates a _CategoricalColumn with in-memory vocabulary.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code><a href="../reference/column_categorical_with_vocabulary_file.html">column_categorical_with_vocabulary_file()</a></code></td>
 <td>Creates a _CategoricalColumn with a vocabulary file.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity()</a></code></td>
 <td>Creates a _CategoricalColumn that returns identity values.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code><a href="../reference/column_categorical_with_hash_bucket.html">column_categorical_with_hash_bucket()</a></code></td>
 <td>Represents sparse feature where ids are set by hashing.</td>
 </tr>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Authors • tfestimators</title>
+<title>Set available feature column names — set_column_names • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -20,11 +20,11 @@
 
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="jquery.sticky-kit.min.js"></script>
-<script src="pkgdown.js"></script>
-  <link href="extra.css" rel="stylesheet">
-  <script src="extra.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../jquery.sticky-kit.min.js"></script>
+<script src="../pkgdown.js"></script>
+  <link href="../extra.css" rel="stylesheet">
+  <script src="../extra.js"></script>
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -37,7 +37,7 @@
   </head>
 
   <body>
-    <div class="container template-authors">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
@@ -47,12 +47,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">tfestimators</a>
+      <a class="navbar-brand" href="../index.html">tfestimators</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Home</a>
+  <a href="../index.html">Home</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -63,35 +63,35 @@
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Getting Started</li>
     <li>
-      <a href="articles/using_estimators.html">Using Estimators</a>
+      <a href="../articles/using_estimators.html">Using Estimators</a>
     </li>
     <li>
-      <a href="articles/input_functions.html">Input Functions</a>
+      <a href="../articles/input_functions.html">Input Functions</a>
     </li>
     <li>
-      <a href="articles/feature_columns.html">Feature Columns</a>
+      <a href="../articles/feature_columns.html">Feature Columns</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Advanced</li>
     <li>
-      <a href="articles/experiments.html">Experiments</a>
+      <a href="../articles/experiments.html">Experiments</a>
     </li>
     <li>
-      <a href="articles/run_hooks.html">Run Hooks</a>
+      <a href="../articles/run_hooks.html">Run Hooks</a>
     </li>
     <li>
-      <a href="articles/custom_estimators.html">Custom Estimators</a>
+      <a href="../articles/custom_estimators.html">Custom Estimators</a>
     </li>
     <li>
-      <a href="articles/tensorboard.html">TensorBoard Visualization</a>
+      <a href="../articles/tensorboard.html">TensorBoard Visualization</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="articles/examples/index.html">Examples</a>
+  <a href="../articles/examples/index.html">Examples</a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
       
@@ -111,42 +111,49 @@
       </header>
 
       <div class="row">
-  <div class="contents col-md-12">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Authors</h1>
+    <h1>Set available feature column names</h1>
     </div>
 
-    <ul class="list-unstyled">
-      <li>
-        <p><strong>Yuan Tang</strong>. Author, maintainer.
-        </p>
-      </li>
-      <li>
-        <p><strong>JJ Allaire</strong>. Author.
-        </p>
-      </li>
-      <li>
-        <p><strong><a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a></strong>. Copyright&nbsp;holder, funder.
-        </p>
-      </li>
-      <li>
-        <p><strong>Kevin Ushey</strong>. Author.
-        </p>
-      </li>
-      <li>
-        <p><strong>Daniel Falbel</strong>. Contributor, copyright&nbsp;holder.
-        </p>
-      </li>
-      <li>
-        <p><strong> Google Inc.</strong>. Copyright&nbsp;holder.
-        <br /><small>Documentation</small></p>
-      </li>
-    </ul>
+    
+    <p>Provide a list of names (or an R object with <code>names()</code> or <code>colnames()</code>) which
+are valid for selection within <code>column_</code> feature column functions.</p>
+    
+
+    <pre class="usage"><span class='fu'>set_column_names</span>(<span class='no'>names</span>)
+
+<span class='fu'>with_column_names</span>(<span class='no'>names</span>, <span class='no'>expr</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>names</th>
+      <td><p>Source of names (character vector, data frame, etc.)</p></td>
+    </tr>
+    <tr>
+      <th>expr</th>
+      <td><p>Expression to evaluate with column names set.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Previously set column names (invisibly)</p>
+    
 
   </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+          </ul>
 
+  </div>
 </div>
-
 
       <footer>
       <div class="copyright">

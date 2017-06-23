@@ -179,7 +179,7 @@ lr <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">train
 <a href="#custom-run-hooks" class="anchor"></a>Custom Run Hooks</h2>
 <p>Users can also create custom run hooks by defining the behaviors of the hook in different phases of a session in object-oriented programming style.</p>
 <p>For example, the following code defines a custom run hook that prints out some information at the end of each session run by overriding the <code>end()</code> function in <code>EstimatorSessionRunHook</code> <a href="https://cran.r-project.org/web/packages/R6/vignettes/Introduction.html">R6</a> class.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">CustomSessionRunHook &lt;-<span class="st"> </span>R6<span class="op">::</span><span class="kw">R6Class</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">CustomSessionRunHook &lt;-<span class="st"> </span>R6<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/R6/topics/R6Class">R6Class</a></span>(
   <span class="st">"CustomSessionRunHook"</span>,
   <span class="dt">inherit =</span> EstimatorSessionRunHook,
   <span class="dt">public =</span> <span class="kw">list</span>(

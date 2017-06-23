@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Define feature columns — feature_columns • tfestimators</title>
+<title>Create list of feature columns — feature_columns • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -113,27 +113,26 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Define feature columns</h1>
+    <h1>Create list of feature columns</h1>
     </div>
 
     
-    <p>Define feature columns</p>
+    <p>Create list of feature columns</p>
     
 
-    <pre class="usage"><span class='fu'>feature_columns</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>feature_columns</span>(<span class='no'>...</span>, <span class='kw'>names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>.data</th>
-      <td><p>Data frame from which to derive features. Note that this need only be
-an exemplar of your data (names, types, factor levels, etc.) rather than all of the
-data that will be used for training.</p></td>
-    </tr>
-    <tr>
       <th>...</th>
       <td><p>One or more feature column definitions</p></td>
+    </tr>
+    <tr>
+      <th>names</th>
+      <td><p>Available feature names (for selection / pattern matching) as a
+character vector (or R object that implements <code>names()</code> or <code>colnames()</code>)</p></td>
     </tr>
     </table>
     

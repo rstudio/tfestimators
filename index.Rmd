@@ -94,17 +94,17 @@ The `input_fn` method can take an R data frame or matrix along with the names of
 Next we define the feature columns for our model. Feature columns are mappings of raw input data to the data that we'll actually feed into our training, evaluation, and prediction steps. Here we create a list of feature columns containing the `disp` and `cyl` variables:
 
 ```{r}
-fc <- feature_columns(mtcars,
-  column_numeric(disp),
-  column_numeric(cyl)
+fc <- feature_columns(
+  column_numeric("disp"),
+  column_numeric("cyl")
 )
 ```
 
 You can also define multiple feature columns at once:
 
 ```{r}
-fc <- feature_columns(mtcars, 
-  column_numeric(disp, cyl)
+fc <- feature_columns( 
+  column_numeric("disp", "cyl")
 )
 ```
 
