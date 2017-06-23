@@ -9,6 +9,17 @@
 #' Wide & Deep Learning works, please check out the [white
 #' paper](http://arxiv.org/abs/1606.07792).
 #' 
+#' ![Wide & Deep](https://www.tensorflow.org/images/wide_n_deep.svg)
+#' 
+#' The figure above shows a comparison of a wide model (logistic regression with sparse features and transformations), a deep model (feed-forward neural network with an embedding layer and several hidden layers), 
+#' and a Wide & Deep model (joint training of both). At a high level, there are only 3 steps to configure a wide, deep, or Wide & Deep model using the TF Estimators API:
+#' 
+#' - Select features for the wide part: Choose the sparse base columns and crossed columns you want to use.
+#' - Select features for the deep part: Choose the continuous columns, the embedding dimension for each categorical column, and the hidden layer sizes.
+#' - Put them all together in a Wide & Deep model (linear_dnn_combined_classifier).
+#' 
+#' And that's it! Let's go through a simple example.
+#' 
 #'
 #' ### Download Data
 #' 

@@ -153,7 +153,7 @@
     <span class="kw"><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity</a></span>(<span class="st">"profession"</span>, <span class="dt">num_buckets =</span> <span class="dv">5</span>)
   )                     
      
-  <span class="cf">if</span> (include_pct)
+  if (include_pct)
     cols &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(cols, <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">ends_with</a></span>(<span class="st">"_pct"</span>)))
   
   cols
