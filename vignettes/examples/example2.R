@@ -35,27 +35,34 @@ train_data <- downloaded_data$train_data
 test_data <- downloaded_data$test_data
 predict_data <- downloaded_data$predict_data
 
-custom_model_fn <- function(features, labels, mode, params) {
-  
-  print(features)
-  
+constructed_input_fn <- function(dataset) {
+  input_fn(dataset, features = -num_rings, response = num_rings, num_epochs = NULL, shuffle = TRUE)
+}
+train_input_fn <- constructed_input_fn(train_data)
+test_input_fn <- constructed_input_fn(test_data)
+predict_input_fn <- constructed_input_fn(predict_data)
+
+# TODO: Prevent the issue if config is missing in signature - https://github.com/rstudio/tfestimators/issues/44
+custom_model_fn <- function(features, labels, mode, params, config) {
   # Connect the first hidden layer to input layer
   first_hidden_layer <- tf$layers$dense(features, 10L, activation = tf$nn$relu)
-  
+
   # Connect the second hidden layer to first hidden layer with relu
   second_hidden_layer <- tf$layers$dense(first_hidden_layer, 10L, activation = tf$nn$relu)
-  
+
   # Connect the output layer to second hidden layer (no activation fn)
   output_layer <- tf$layers$dense(second_hidden_layer, 1L)
   
   # Reshape output layer to 1-dim Tensor to return predictions
-  predictions <- tf$reshape(output_layer, c(-1L))
+  # TODO: This failed if it's c(-1L)
+  predictions <- tf$reshape(output_layer, list(-1L))
   predictions_list <- list(ages = predictions)
   
   # Calculate loss using mean squared error
   loss <- tf$losses$mean_squared_error(labels, predictions)
   
-  eval_metric_ops <- list(
+  # TODO: need to use dict() instead of list() - fix on Python end
+  eval_metric_ops <- reticulate::dict(
     rmse = tf$metrics$root_mean_squared_error(
       tf$cast(labels, tf$float64), predictions
   ))
@@ -72,18 +79,22 @@ custom_model_fn <- function(features, labels, mode, params) {
   ))
 }
 
-
-constructed_input_fn <- function(dataset) {
-  input_fn(dataset, features = -num_rings, response = num_rings)
-}
-train_input_fn <- constructed_input_fn(train_data)
-test_input_fn <- constructed_input_fn(test_data)
-predict_input_fn <- constructed_input_fn(predict_data)
-
-
 model_params <- list(learning_rate = 0.001)
 model <- estimator(custom_model_fn, params = model_params)
 
 train(model, input_fn = train_input_fn, steps = 2)
 
+evaluate(model, input_fn = test_input_fn, steps = 2)
 
+# This is not working yet (Python end is broken)
+# predict(model, input_fn = predict_input_fn)
+
+# Simple linear_dnn_combined_classifier
+diameter <- column_numeric("diameter")
+height <- column_numeric("height")
+
+model <- linear_dnn_combined_classifier(
+  linear_feature_columns = feature_columns(diameter),
+  dnn_feature_columns = feature_columns(height),
+  dnn_hidden_units = c(100L, 50L)
+)
