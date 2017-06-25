@@ -1,7 +1,29 @@
 
-#' Example 2
-
-library(tfestimators)
+#' # Creating Estimators in tfestimators
+#' 
+#' The tfestimators framework makes it easy to construct and train machine
+#' learning models via its high-level Estimator API. `Estimator`
+#' offers classes you can instantiate to quickly configure common model types such
+#' as regressors and classifiers.
+#' 
+#' But what if none of `tf$estimator`'s predefined model types meets your needs?
+#' Perhaps you need more granular control over model configuration, such as
+#' the ability to customize the loss function used for optimization, or specify
+#' different activation functions for each neural network layer. Or maybe you're
+#' implementing a ranking or recommendation system, and neither a classifier nor a
+#' regressor is appropriate for generating predictions.
+#' 
+#' This tutorial covers how to create your own `Estimator` using the building
+#' blocks provided in `tf$estimator`, which will predict the ages of
+#' [abalones](https://en.wikipedia.org/wiki/Abalone) based on their physical
+#' measurements. You'll learn how to do the following:
+#' 
+#' *   Instantiate an `Estimator`
+#' *   Construct a custom model function
+#' *   Configure a neural network using `tf$feature_column` and `tf$layers`
+#' *   Choose an appropriate loss function from `tf$losses`
+#' *   Define a training op for your model
+#' *   Generate and return predictions
 
 #' ## An Abalone Age Predictor
 
@@ -11,21 +33,18 @@ library(tfestimators)
 #' measurements that can predict age.
 
 #' The [Abalone Data Set](https://archive.ics.uci.edu/ml/datasets/Abalone) contains the following [feature data](https://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.names) for abalone:
-
-#' | Feature        | Description                                               |
+#'
+#'   | Feature        | Description                                               |
 #'   | -------------- | --------------------------------------------------------- |
 #'   | Length         | Length of abalone (in longest direction; in mm)           |
-#'   | Diameter       | Diameter of abalone (measurement perpendicular to length; in mm)  |                                                  :
+#'   | Diameter       | Diameter of abalone (measurement perpendicular to length; in mm) |
 #'   | Height         | Height of abalone (with its meat inside shell; in mm)     |
 #'   | Whole Weight   | Weight of entire abalone (in grams)                       |
 #'   | Shucked Weight | Weight of abalone meat only (in grams)                    |
 #'   | Viscera Weight | Gut weight of abalone (in grams), after bleeding          |
 #'   | Shell Weight   | Weight of dried abalone shell (in grams)                  |
 #' 
-#'   The label to predict is number of rings, as a proxy for abalone age.
-#'   
-#'   
-#'   ## Setup
+#' ## Setup
 #' 
 #' This tutorial uses three data sets.
 #' [`abalone_train.csv`](http://download.tensorflow.org/data/abalone_train.csv)
@@ -72,57 +91,14 @@ train_data <- downloaded_data$train_data
 test_data <- downloaded_data$test_data
 predict_data <- downloaded_data$predict_data
 
+
+library(tfestimators)
 constructed_input_fn <- function(dataset) {
   input_fn(dataset, features = -num_rings, response = num_rings, num_epochs = NULL, shuffle = TRUE)
 }
 train_input_fn <- constructed_input_fn(train_data)
 test_input_fn <- constructed_input_fn(test_data)
 predict_input_fn <- constructed_input_fn(predict_data)
-
-# TODO: Prevent the issue if config is missing in signature - https://github.com/rstudio/tfestimators/issues/44
-model_fn <- function(features, labels, mode, params, config) {
-  # Connect the first hidden layer to input layer
-  first_hidden_layer <- tf$layers$dense(features, 10L, activation = tf$nn$relu)
-
-  # Connect the second hidden layer to first hidden layer with relu
-  second_hidden_layer <- tf$layers$dense(first_hidden_layer, 10L, activation = tf$nn$relu)
-
-  # Connect the output layer to second hidden layer (no activation fn)
-  output_layer <- tf$layers$dense(second_hidden_layer, 1L)
-  
-  # Reshape output layer to 1-dim Tensor to return predictions
-  # TODO: This failed if it's c(-1L) - check in reticulate for single element vector conversion
-  predictions <- tf$reshape(output_layer, list(-1L))
-  predictions_list <- list(ages = predictions)
-  
-  # Calculate loss using mean squared error
-  loss <- tf$losses$mean_squared_error(labels, predictions)
-  
-  eval_metric_ops <- list(rmse = tf$metrics$root_mean_squared_error(
-      tf$cast(labels, tf$float64), predictions
-  ))
-  
-  optimizer <- tf$train$GradientDescentOptimizer(learning_rate = params$learning_rate)
-  train_op <- optimizer$minimize(loss = loss, global_step = tf$train$get_global_step())
-  
-  return(estimator_spec(
-    mode = mode,
-    predictions = predictions_list,
-    loss = loss,
-    train_op = train_op,
-    eval_metric_ops = eval_metric_ops
-  ))
-}
-
-model_params <- list(learning_rate = 0.001)
-model <- estimator(model_fn, params = model_params)
-
-train(model, input_fn = train_input_fn, steps = 2)
-
-evaluate(model, input_fn = test_input_fn, steps = 2)
-
-# This is not working yet (Python end is broken)
-# predict(model, input_fn = predict_input_fn)
 
 #' ## Instantiating an Estimator
 
@@ -245,16 +221,16 @@ model <- linear_dnn_combined_classifier(
 #' returned by `predict()`, so you can construct it in the format in which
 #' you'd like to consume it.
 #' 
-#' 
+#'
 #' *   `loss` (required in `EVAL` and `TRAIN` mode). A `Tensor` containing a scalar
 #' loss value: the output of the model's loss function (discussed in more depth
 #' later in [Defining loss for the model](#defining-loss)) calculated over all
 #' the input examples. This is used in `TRAIN` mode for error handling and
 #' logging, and is automatically included as a metric in `EVAL` mode.
-#' 
+#'
 #' *   `train_op` (required only in `TRAIN` mode). An Op that runs one step of
 #' training.
-#' 
+#'
 #' *   `eval_metric_ops` (optional). A dict of name/value pairs specifying the
 #' metrics that will be calculated when the model runs in `EVAL` mode. The name
 #' is a label of your choice for the metric, and the value is the result of
@@ -262,10 +238,210 @@ model <- linear_dnn_combined_classifier(
 #' module provides predefined functions for a variety of common metrics. The
 #' following `eval_metric_ops` contains an `"accuracy"` metric calculated using
 #' `tf$metrics$accuracy`:
-#' 
+#'
 #' ```r
 #' eval_metric_ops <- list(accuracy = tf$metrics$accuracy(labels, predictions))
 #' ```
-#' 
+#'
 #' If you do not specify `eval_metric_ops`, only `loss` will be calculated
 #' during evaluation.
+#' 
+#' 
+#' 
+
+#' ### Configuring a neural network with `tf$feature_column` and `tf$layers`
+#'
+#' Constructing a [neural
+#' network](https://en.wikipedia.org/wiki/Artificial_neural_network) entails
+#' creating and connecting the input layer, the hidden layers, and the output
+#' layer.
+#'
+#' The input layer is a series of nodes (one for each feature in the model) that
+#' will accept the feature data that is passed to the `model_fn` in the
+#' `features` argument. If `features` contains an n-dimensional `Tensor` with
+#' all your feature data, then it can serve as the input layer. If `features`
+#' contains a dict of feature columns passed to the model via an input function,
+#' you can convert it to an input-layer `Tensor` with the `tf$feature_column$input_layer` function:
+#'
+#' ```r
+#' input_layer <- tf$feature_column$input_layer(
+#'     features = features, feature_columns = c(age, height, weight))
+#' ```
+#'
+#' As shown above, `input_layer()` takes two required arguments:
+#'
+#' *   `features`. A mapping from string keys to the `Tensors` containing the
+#' corresponding feature data. This is exactly what is passed to the `model_fn`
+#' in the `features` argument.
+#' *   `feature_columns`. A list of all the `FeatureColumns` in the model—`age`,
+#' `height`, and `weight` in the above example.
+#'
+#' The input layer of the neural network then must be connected to one or more
+#' hidden layers via an [activation
+#' function](https://en.wikipedia.org/wiki/Activation_function) that performs a
+#' nonlinear transformation on the data from the previous layer. The last hidden
+#' layer is then connected to the output layer, the final layer in the model.
+#' `tf$layers` provides the `tf$layers$dense` function for constructing fully
+#' connected layers. The activation is controlled by the `activation` argument.
+#' Some options to pass to the `activation` argument are:
+#'
+#' *   `tf$nn$relu`. The following code creates a layer of `units` nodes fully
+#' connected to the previous layer `input_layer` with a [ReLU activation
+#' function](https://en.wikipedia.org/wiki/Rectifier_\(neural_networks\)):
+#'
+#' ```r
+#' hidden_layer <- tf$layers$dense(inputs = input_layer, units = 10L, activation = tf$nn$relu)
+#' ```
+#'
+#' *   `tf$nn$relu6`. The following code creates a layer of `units` nodes fully
+#' connected to the previous layer `hidden_layer` with a ReLU 6 activation
+#' function:
+#'
+#' ```r
+#' second_hidden_layer <- tf$layers$dense(
+#' inputs = hidden_layer, units = 20L, activation = tf$nn$relu)
+#' ```
+#'
+#' *   `NULL`. The following code creates a layer of `units` nodes fully
+#' connected to the previous layer `second_hidden_layer` with *no* activation
+#' function, just a linear transformation:
+#'
+#' ```r
+#' output_layer <- tf$layers$dense(inputs = second_hidden_layer,
+#' units = 3L, activation = NULL)
+#' ```
+#'
+#' Other activation functions are possible, e.g.:
+#'
+#' ```r
+#' output_layer <- tf$layers$dense(inputs = second_hidden_layer,
+#' units = 10L, activation_fn = tf$sigmoid)
+#' ```
+#'
+#' The above code creates the neural network layer `output_layer`, which is
+#' fully connected to `second_hidden_layer` with a sigmoid activation function
+#' `tf$sigmoid`.
+#'
+#'
+#' The network contains two hidden layers, each with 10 nodes and a ReLU
+#' activation function. The output layer contains no activation function, and is
+#' `tf$reshape` to a one-dimensional tensor to capture the model's predictions,
+#' which are stored in `predictions_dict`.
+
+#' ### Defining loss for the model {#defining-loss}
+#' 
+#' The `estimator_spec` returned by the `model_fn` must contain `loss`: a `Tensor`
+#' representing the loss value, which quantifies how well the model's predictions
+#' reflect the label values during training and evaluation runs. The `tf$losses`
+#' module provides convenience functions for calculating loss using a variety of
+#' metrics, including:
+#' 
+#' *   `absolute_difference(labels, predictions)`. Calculates loss using the
+#' [absolute-difference
+#' formula](https://en.wikipedia.org/wiki/Deviation_\(statistics\)#Unsigned_or_absolute_deviation)
+#' (also known as L<sub>1</sub> loss).
+#' 
+#' *   `log_loss(labels, predictions)`. Calculates loss using the [logistic loss
+#' forumula](https://en.wikipedia.org/wiki/Loss_functions_for_classification#Logistic_loss)
+#' (typically used in logistic regression).
+#' 
+#' *   `mean_squared_error(labels, predictions)`. Calculates loss using the [mean
+#' squared error](https://en.wikipedia.org/wiki/Mean_squared_error) (MSE; also
+#' known as L<sub>2</sub> loss).
+#' 
+#' The following example adds a definition for `loss` to the abalone `model_fn`
+#' using `mean_squared_error()`:
+#' 
+#' ```r
+#' loss <- tf$losses$mean_squared_error(labels, predictions)
+#' ```
+#' 
+#' Supplementary metrics for evaluation can be added to an `eval_metric_ops` dict.
+#' The following code defines an `rmse` metric, which calculates the root mean
+#' squared error for the model predictions. Note that the `labels` tensor is cast
+#' to a `float64` type to match the data type of the `predictions` tensor, which
+#' will contain real values:
+#'   
+#' ```r
+#' eval_metric_ops <- list(rmse = tf$metrics$root_mean_squared_error(
+#' tf$cast(labels, tf$float64), predictions
+#' ))
+#' ```
+#' 
+#' ### Defining the training op for the model
+#' 
+#' The training op defines the optimization algorithm TensorFlow will use when 
+#' fitting the model to the training data. Typically when training, the goal is
+#' to minimize loss. A simple way to create the training op is to instantiate a 
+#' `tf$train$Optimizer` subclass and call the `minimize` method.
+#' 
+#' The following code defines a training op for the abalone `model_fn` using the
+#' loss value calculated in [Defining Loss for the Model](#defining-loss), the 
+#' learning rate passed to the function in `params`, and the gradient descent 
+#' optimizer. For `global_step`, the convenience function 
+#' `tf$train$get_global_step` takes care of generating an integer variable:
+#' 
+#' ```r
+#' optimizer <- tf$train$GradientDescentOptimizer(learning_rate = params$learning_rate)
+#' train_op <- optimizer$minimize(loss = loss, global_step = tf$train$get_global_step())
+#' ```
+#' 
+#' 
+#' ### The complete abalone `model_fn`
+#' 
+#' Here's the final, complete `model_fn` for the abalone age predictor. The
+#' following code configures the neural network; defines loss and the training op;
+#' and returns a `EstimatorSpec` object containing `mode`, `predictions_dict`, `loss`,
+#' and `train_op`:
+
+model_fn <- function(features, labels, mode, params, config) {
+  # Connect the first hidden layer to input layer
+  first_hidden_layer <- tf$layers$dense(features, 10L, activation = tf$nn$relu)
+  
+  # Connect the second hidden layer to first hidden layer with relu
+  second_hidden_layer <- tf$layers$dense(first_hidden_layer, 10L, activation = tf$nn$relu)
+  
+  # Connect the output layer to second hidden layer (no activation fn)
+  output_layer <- tf$layers$dense(second_hidden_layer, 1L)
+  
+  # Reshape output layer to 1-dim Tensor to return predictions
+  # TODO: This failed if it's c(-1L) - check in reticulate for single element vector conversion
+  predictions <- tf$reshape(output_layer, list(-1L))
+  predictions_list <- list(ages = predictions)
+  
+  # Calculate loss using mean squared error
+  loss <- tf$losses$mean_squared_error(labels, predictions)
+  
+  eval_metric_ops <- list(rmse = tf$metrics$root_mean_squared_error(
+    tf$cast(labels, tf$float64), predictions
+  ))
+  
+  optimizer <- tf$train$GradientDescentOptimizer(learning_rate = params$learning_rate)
+  train_op <- optimizer$minimize(loss = loss, global_step = tf$train$get_global_step())
+  
+  return(estimator_spec(
+    mode = mode,
+    predictions = predictions_list,
+    loss = loss,
+    train_op = train_op,
+    eval_metric_ops = eval_metric_ops
+  ))
+}
+
+model_params <- list(learning_rate = 0.001)
+model <- estimator(model_fn, params = model_params)
+
+#' 
+#' ## Running the Abalone Model
+#' 
+#' You've instantiated an `Estimator` for the abalone predictor and defined its
+#' behavior in `model_fn`; all that's left to do is train, evaluate, and make
+#' predictions.
+#' 
+#' The following code fits the neural network to the
+#' training data and evaluates accuracy:
+
+train(model, input_fn = train_input_fn, steps = 2)
+
+evaluate(model, input_fn = test_input_fn, steps = 2)
+
