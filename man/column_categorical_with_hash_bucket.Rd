@@ -13,7 +13,8 @@ objects, and feature columns.}
 
 \item{hash_bucket_size}{An int > 1. The number of buckets.}
 
-\item{dtype}{The type of features. Only string and integer types are supported.}
+\item{dtype}{The type of features. Only string and integer types are
+supported.}
 }
 \value{
 A \code{_HashedCategoricalColumn}.
@@ -21,14 +22,15 @@ A \code{_HashedCategoricalColumn}.
 \description{
 Use this when your sparse features are in string or integer format, and you
 want to distribute your inputs into a finite number of buckets by hashing.
-output_id = Hash(input_feature_string) % bucket_size For input dictionary \code{features}, \code{features$key$} is either \code{Tensor} or
-\code{SparseTensor}. If \code{Tensor}, missing values can be represented by \code{-1} for int
-and \code{''} for string. Note that these values are independent of the
-\code{default_value} argument.
+output_id = Hash(input_feature_string) % bucket_size For input dictionary
+\code{features}, \code{features$key$} is either \code{Tensor} or \code{SparseTensor}. If
+\code{Tensor}, missing values can be represented by \code{-1} for int and \code{''} for
+string. Note that these values are independent of the \code{default_value}
+argument.
 }
 \section{Raises}{
-
-ValueError: \code{hash_bucket_size} is not greater than 1. ValueError: \code{dtype} is neither string nor integer.
+ ValueError: \code{hash_bucket_size} is not greater than 1.
+ValueError: \code{dtype} is neither string nor integer.
 }
 
 \seealso{
@@ -39,5 +41,6 @@ Other feature_column wrappers: \code{\link{column_bucketized}},
   \code{\link{column_crossed}},
   \code{\link{column_embedding}},
   \code{\link{column_numeric}},
-  \code{\link{column_weighted_categorical}}
+  \code{\link{column_weighted_categorical}},
+  \code{\link{input_layer}}
 }

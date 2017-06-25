@@ -7,7 +7,8 @@
 column_indicator(categorical_column)
 }
 \arguments{
-\item{categorical_column}{A \code{_CategoricalColumn} which is created by \code{categorical_column_with_*} or \code{crossed_column} functions.}
+\item{categorical_column}{A \code{_CategoricalColumn} which is created by
+\code{categorical_column_with_*} or \code{crossed_column} functions.}
 }
 \value{
 An \code{_IndicatorColumn}.

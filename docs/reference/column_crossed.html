@@ -120,12 +120,14 @@
     </div>
 
     
-    <p>Crossed features will be hashed according to <code>hash_bucket_size</code>. Conceptually,
-the transformation can be thought of as: Hash(cartesian product of features) <!-- % \code{hash_bucket_size} For example, if the input features are: --></p><ul>
-<li><p>SparseTensor referred by first key: shape = 2, 2 0, 0: "a" 1, 0: "b" 1, 1: "c"</p></li>
-<li><p>SparseTensor referred by second key:
-shape = 2, 1 0, 0: "d" 1, 0: "e" then crossed feature will look like: shape = 2, 2 0, 0: Hash64("d", Hash64("a")) <!-- % hash_bucket_size \link{1, 0}: Hash64("e", Hash64("b")) % hash_bucket_size \link{1, 1}: Hash64("e", Hash64("c")) % hash_bucket_size --></p></li>
-</ul>
+    <p>Crossed features will be hashed according to <code>hash_bucket_size</code>.
+Conceptually, the transformation can be thought of as: Hash(cartesian product
+of features) <!-- % \code{hash_bucket_size} For example, if the input features are: * -->
+SparseTensor referred by first key: shape = 2, 2 0, 0: "a" 1, 0: "b"
+1, 1: "c" * SparseTensor referred by second key: shape = 2, 1 0, 0: "d"
+1, 0: "e" then crossed feature will look like: shape = 2, 2 0, 0:
+Hash64("d", Hash64("a")) <!-- % hash_bucket_size \link{1, 0}: Hash64("e", Hash64("b")) -->
+<!-- % hash_bucket_size \link{1, 1}: Hash64("e", Hash64("c")) % hash_bucket_size --></p>
     
 
     <pre class="usage"><span class='fu'>column_crossed</span>(<span class='no'>keys</span>, <span class='no'>hash_bucket_size</span>, <span class='kw'>hash_key</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
@@ -135,10 +137,10 @@ shape = 2, 1 0, 0: "d" 1, 0: "e" then crossed feature will look like: shape = 2,
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>keys</th>
-      <td><p>An iterable identifying the features to be crossed. Each element can be either:</p><ul>
-<li><p>string: Will use the corresponding feature which must be of string type.</p></li>
-<li><p><code>_CategoricalColumn</code>: Will use the transformed tensor produced by this column. Does not support hashed categorical column.</p></li>
-</ul></td>
+      <td><p>An iterable identifying the features to be crossed. Each element
+can be either: * string: Will use the corresponding feature which must be
+of string type. * <code>_CategoricalColumn</code>: Will use the transformed tensor
+produced by this column. Does not support hashed categorical column.</p></td>
     </tr>
     <tr>
       <th>hash_bucket_size</th>
@@ -146,7 +148,9 @@ shape = 2, 1 0, 0: "d" 1, 0: "e" then crossed feature will look like: shape = 2,
     </tr>
     <tr>
       <th>hash_key</th>
-      <td><p>Specify the hash_key that will be used by the <code>FingerprintCat64</code> function to combine the crosses fingerprints on SparseCrossOp (optional).</p></td>
+      <td><p>Specify the hash_key that will be used by the
+<code>FingerprintCat64</code> function to combine the crosses fingerprints on
+SparseCrossOp (optional).</p></td>
     </tr>
     </table>
     
@@ -156,8 +160,9 @@ shape = 2, 1 0, 0: "d" 1, 0: "e" then crossed feature will look like: shape = 2,
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
-    
-    <p>ValueError: If <code>len(keys) &lt; 2</code>. ValueError: If any of the keys is neither a string nor <code>_CategoricalColumn</code>. ValueError: If any of the keys is <code>_HashedCategoricalColumn</code>. ValueError: If <code>hash_bucket_size &lt; 1</code>.</p>
+    <p>ValueError: If <code>len(keys) &lt; 2</code>. ValueError: If any of the
+keys is neither a string nor <code>_CategoricalColumn</code>. ValueError: If any of
+the keys is <code>_HashedCategoricalColumn</code>. ValueError: If <code>hash_bucket_size &lt; 1</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -168,7 +173,8 @@ shape = 2, 1 0, 0: "d" 1, 0: "e" then crossed feature will look like: shape = 2,
   <code><a href='column_categorical_with_vocabulary_list.html'>column_categorical_with_vocabulary_list</a></code>,
   <code><a href='column_embedding.html'>column_embedding</a></code>,
   <code><a href='column_numeric.html'>column_numeric</a></code>,
-  <code><a href='column_weighted_categorical.html'>column_weighted_categorical</a></code></p>
+  <code><a href='column_weighted_categorical.html'>column_weighted_categorical</a></code>,
+  <code><a href='input_layer.html'>input_layer</a></code></p>
     
 
   </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A <code>_CategoricalColumn</code> with a vocabulary file. — column_categorical_with_vocabulary_file • tfestimators</title>
+<title>Returns a dense <code>Tensor</code> as input layer based on given <code>feature_columns</code>. — input_layer • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -116,81 +116,81 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A <code>_CategoricalColumn</code> with a vocabulary file.</h1>
+    <h1>Returns a dense <code>Tensor</code> as input layer based on given <code>feature_columns</code>.</h1>
     </div>
 
     
-    <p>Use this when your inputs are in string or integer format, and you have a
-vocabulary file that maps each value to an integer ID. By default,
-out-of-vocabulary values are ignored. Use either (but not both) of
-<code>num_oov_buckets</code> and <code>default_value</code> to specify how to include
-out-of-vocabulary values. For input dictionary <code>features</code>, <code>features[key]</code> is either <code>Tensor</code> or
-<code>SparseTensor</code>. If <code>Tensor</code>, missing values can be represented by <code>-1</code> for int
-and <code>''</code> for string. Note that these values are independent of the
-<code>default_value</code> argument. Example with <code>num_oov_buckets</code>:
-File '/us/states.txt' contains 50 lines, each with a 2-character U.S. state
-abbreviation. All inputs with values in that file are assigned an ID 0-49,
-corresponding to its line number. All other values are hashed and assigned an
-ID 50-54.</p>
+    <p>Generally a single example in training data is described with FeatureColumns.
+At the first layer of the model, this column oriented data should be converted
+to a single <code>Tensor</code>. Example:</p>
     
 
-    <pre class="usage"><span class='fu'>column_categorical_with_vocabulary_file</span>(<span class='no'>...</span>, <span class='no'>vocabulary_file</span>, <span class='no'>vocabulary_size</span>,
-  <span class='kw'>num_oov_buckets</span> <span class='kw'>=</span> <span class='fl'>0L</span>, <span class='kw'>default_value</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>string</span>)</pre>
+    <pre class="usage"><span class='fu'>input_layer</span>(<span class='no'>features</span>, <span class='no'>feature_columns</span>, <span class='kw'>weight_collections</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>trainable</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>Expression(s) identifying input feature(s). Used as the column name
-and the dictionary key for feature parsing configs, feature <code>Tensor</code>
-objects, and feature columns.</p></td>
+      <th>features</th>
+      <td><p>A mapping from key to tensors. <code>_FeatureColumn</code>s look up via
+these keys. For example <code>numeric_column('price')</code> will look at 'price' key
+in this dict. Values can be a <code>SparseTensor</code> or a <code>Tensor</code> depends on
+corresponding <code>_FeatureColumn</code>.</p></td>
     </tr>
     <tr>
-      <th>vocabulary_file</th>
-      <td><p>The vocabulary file name.</p></td>
+      <th>feature_columns</th>
+      <td><p>An iterable containing the FeatureColumns to use as
+inputs to your model. All items should be instances of classes derived from
+<code>_DenseColumn</code> such as <code>numeric_column</code>, <code>embedding_column</code>,
+<code>bucketized_column</code>, <code>indicator_column</code>. If you have categorical features,
+you can wrap them with an <code>embedding_column</code> or <code>indicator_column</code>.</p></td>
     </tr>
     <tr>
-      <th>vocabulary_size</th>
-      <td><p>Number of the elements in the vocabulary. This must be no greater than length of <code>vocabulary_file</code>, if less than length, later values are ignored.</p></td>
+      <th>weight_collections</th>
+      <td><p>A list of collection names to which the Variable
+will be added. Note that, variables will also be added to collections
+<code>tf.GraphKeys.GLOBAL_VARIABLES</code> and <code>ops.GraphKeys.MODEL_VARIABLES</code>.</p></td>
     </tr>
     <tr>
-      <th>num_oov_buckets</th>
-      <td><p>Non-negative integer, the number of out-of-vocabulary buckets. All out-of-vocabulary inputs will be assigned IDs in the range <code>[vocabulary_size, vocabulary_size+num_oov_buckets)</code> based on a hash of the input value. A positive <code>num_oov_buckets</code> can not be specified with <code>default_value</code>.</p></td>
-    </tr>
-    <tr>
-      <th>default_value</th>
-      <td><p>The integer ID value to return for out-of-vocabulary feature values, defaults to <code>-1</code>. This can not be specified with a positive <code>num_oov_buckets</code>.</p></td>
-    </tr>
-    <tr>
-      <th>dtype</th>
-      <td><p>The type of features. Only string and integer types are supported.</p></td>
+      <th>trainable</th>
+      <td><p>If <code>TRUE</code> also add the variable to the graph collection
+<code>GraphKeys.TRAINABLE_VARIABLES</code> (see <code>tf.Variable</code>).</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>_CategoricalColumn</code> with a vocabulary file.</p>
+    <p>A <code>Tensor</code> which represents input layer of a model. Its shape is
+(batch_size, first_layer_dimension) and its dtype is <code>float32</code>.
+first_layer_dimension is determined based on given <code>feature_columns</code>.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <pre>price &lt;- column_numeric('price')
+keywords_embedded &lt;- column_embedding(categorical_column_with_hash_bucket("keywords", 1000), dimensions = 16)
+columns &lt;- c(price, keywords_embedded, ...)
+features &lt;- tf$parse_example(..., features = make_parse_example_spec(columns))
+dense_tensor &lt;- input_layer(features, columns)
+prediction &lt;- tf$layers$dense(dense_tensor, 1)
+</pre>
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
-    
-    <p>ValueError: <code>vocabulary_file</code> is missing.
-ValueError: <code>vocabulary_size</code> is missing or &lt; 1.
-ValueError: <code>num_oov_buckets</code> is not a non-negative integer.
-ValueError: <code>dtype</code> is neither string nor integer.</p>
+    <p>ValueError: if an item in <code>feature_columns</code> is not a
+<code>_DenseColumn</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p>Other feature_column wrappers: <code><a href='column_bucketized.html'>column_bucketized</a></code>,
   <code><a href='column_categorical_with_hash_bucket.html'>column_categorical_with_hash_bucket</a></code>,
   <code><a href='column_categorical_with_identity.html'>column_categorical_with_identity</a></code>,
+  <code><a href='column_categorical_with_vocabulary_file.html'>column_categorical_with_vocabulary_file</a></code>,
   <code><a href='column_categorical_with_vocabulary_list.html'>column_categorical_with_vocabulary_list</a></code>,
   <code><a href='column_crossed.html'>column_crossed</a></code>,
   <code><a href='column_embedding.html'>column_embedding</a></code>,
   <code><a href='column_numeric.html'>column_numeric</a></code>,
-  <code><a href='column_weighted_categorical.html'>column_weighted_categorical</a></code>,
-  <code><a href='input_layer.html'>input_layer</a></code></p>
+  <code><a href='column_weighted_categorical.html'>column_weighted_categorical</a></code></p>
     
 
   </div>
@@ -200,6 +200,8 @@ ValueError: <code>dtype</code> is neither string nor integer.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#raises">Raises</a></li>
 

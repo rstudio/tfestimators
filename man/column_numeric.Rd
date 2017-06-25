@@ -59,5 +59,6 @@ Other feature_column wrappers: \code{\link{column_bucketized}},
   \code{\link{column_categorical_with_vocabulary_list}},
   \code{\link{column_crossed}},
   \code{\link{column_embedding}},
-  \code{\link{column_weighted_categorical}}
+  \code{\link{column_weighted_categorical}},
+  \code{\link{input_layer}}
 }

@@ -290,10 +290,10 @@ model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/estim
 <h2 class="hasAnchor">
 <a href="#configuring-a-neural-network-with-feature_column-and-layers" class="anchor"></a>Configuring a neural network with feature_column and layers</h2>
 <p>Constructing a <a href="https://en.wikipedia.org/wiki/Artificial_neural_network">neural network</a> entails creating and connecting the input layer, the hidden layers, and the output layer.</p>
-<p>The input layer is a series of nodes (one for each feature in the model) that will accept the feature data that is passed to the <code>model_fn</code> in the <code>features</code> argument. If <code>features</code> contains an n-dimensional <code>Tensor</code> with all your feature data, then it can serve as the input layer. If <code>features</code> contains a dict of feature columns passed to the model via an input function, you can convert it to an input-layer <code>Tensor</code> with the <code>tf$feature_column$input_layer</code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input_layer &lt;-<span class="st"> </span>tf$feature_column$<span class="kw">input_layer</span>(
+<p>The input layer is a series of nodes (one for each feature in the model) that will accept the feature data that is passed to the <code>model_fn</code> in the <code>features</code> argument. If <code>features</code> contains an n-dimensional <code>Tensor</code> with all your feature data, then it can serve as the input layer. If <code>features</code> contains a dict of feature columns passed to the model via an input function, you can convert it to an input-layer <code>Tensor</code> with the <code>input_layer</code> function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input_layer &lt;-<span class="st"> </span><span class="kw"><a href="../reference/input_layer.html">input_layer</a></span>(
     <span class="dt">features =</span> features, <span class="dt">feature_columns =</span> <span class="kw">c</span>(age, height, weight))</code></pre></div>
-<p>As shown above, <code>input_layer()</code> takes two required arguments:</p>
+<p>As shown above, <code><a href="../reference/input_layer.html">input_layer()</a></code> takes two required arguments:</p>
 <ul>
 <li>
 <code>features</code>. A mapping from string keys to the <code>Tensors</code> containing the corresponding feature data. This is exactly what is passed to the <code>model_fn</code> in the <code>features</code> argument.</li>

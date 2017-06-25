@@ -7,31 +7,34 @@
 column_crossed(keys, hash_bucket_size, hash_key = NULL)
 }
 \arguments{
-\item{keys}{An iterable identifying the features to be crossed. Each element can be either:
-\itemize{
-\item string: Will use the corresponding feature which must be of string type.
-\item \code{_CategoricalColumn}: Will use the transformed tensor produced by this column. Does not support hashed categorical column.
-}}
+\item{keys}{An iterable identifying the features to be crossed. Each element
+can be either: * string: Will use the corresponding feature which must be
+of string type. * \code{_CategoricalColumn}: Will use the transformed tensor
+produced by this column. Does not support hashed categorical column.}
 
 \item{hash_bucket_size}{An int > 1. The number of buckets.}
 
-\item{hash_key}{Specify the hash_key that will be used by the \code{FingerprintCat64} function to combine the crosses fingerprints on SparseCrossOp (optional).}
+\item{hash_key}{Specify the hash_key that will be used by the
+\code{FingerprintCat64} function to combine the crosses fingerprints on
+SparseCrossOp (optional).}
 }
 \value{
 A \code{_CrossedColumn}.
 }
 \description{
-Crossed features will be hashed according to \code{hash_bucket_size}. Conceptually,
-the transformation can be thought of as: Hash(cartesian product of features) % \code{hash_bucket_size} For example, if the input features are:
-\itemize{
-\item SparseTensor referred by first key: shape = \link{2, 2} \link{0, 0}: "a" \link{1, 0}: "b" \link{1, 1}: "c"
-\item SparseTensor referred by second key:
-shape = \link{2, 1} \link{0, 0}: "d" \link{1, 0}: "e" then crossed feature will look like: shape = \link{2, 2} \link{0, 0}: Hash64("d", Hash64("a")) % hash_bucket_size \link{1, 0}: Hash64("e", Hash64("b")) % hash_bucket_size \link{1, 1}: Hash64("e", Hash64("c")) % hash_bucket_size
-}
+Crossed features will be hashed according to \code{hash_bucket_size}.
+Conceptually, the transformation can be thought of as: Hash(cartesian product
+of features) % \code{hash_bucket_size} For example, if the input features are: *
+SparseTensor referred by first key: shape = \link{2, 2} \link{0, 0}: "a" \link{1, 0}: "b"
+\link{1, 1}: "c" * SparseTensor referred by second key: shape = \link{2, 1} \link{0, 0}: "d"
+\link{1, 0}: "e" then crossed feature will look like: shape = \link{2, 2} \link{0, 0}:
+Hash64("d", Hash64("a")) % hash_bucket_size \link{1, 0}: Hash64("e", Hash64("b"))
+% hash_bucket_size \link{1, 1}: Hash64("e", Hash64("c")) % hash_bucket_size
 }
 \section{Raises}{
-
-ValueError: If \code{len(keys) < 2}. ValueError: If any of the keys is neither a string nor \code{_CategoricalColumn}. ValueError: If any of the keys is \code{_HashedCategoricalColumn}. ValueError: If \code{hash_bucket_size < 1}.
+ ValueError: If \code{len(keys) < 2}. ValueError: If any of the
+keys is neither a string nor \code{_CategoricalColumn}. ValueError: If any of
+the keys is \code{_HashedCategoricalColumn}. ValueError: If \code{hash_bucket_size < 1}.
 }
 
 \seealso{
@@ -42,5 +45,6 @@ Other feature_column wrappers: \code{\link{column_bucketized}},
   \code{\link{column_categorical_with_vocabulary_list}},
   \code{\link{column_embedding}},
   \code{\link{column_numeric}},
-  \code{\link{column_weighted_categorical}}
+  \code{\link{column_weighted_categorical}},
+  \code{\link{input_layer}}
 }

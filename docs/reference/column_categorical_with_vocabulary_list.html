@@ -123,9 +123,9 @@
     <p>Use this when your inputs are in string or integer format, and you have an
 in-memory vocabulary mapping each value to an integer ID. By default,
 out-of-vocabulary values are ignored. Use <code>default_value</code> to specify how to
-include out-of-vocabulary values. For input dictionary <code>features</code>, <code>features$key</code> is either <code>Tensor</code> or
-<code>SparseTensor</code>. If <code>Tensor</code>, missing values can be represented by <code>-1</code> for int
-and <code>''</code> for string.</p>
+include out-of-vocabulary values. For input dictionary <code>features</code>,
+<code>features$key</code> is either <code>Tensor</code> or <code>SparseTensor</code>. If <code>Tensor</code>, missing
+values can be represented by <code>-1</code> for int and <code>''</code> for string.</p>
     
 
     <pre class="usage"><span class='fu'>column_categorical_with_vocabulary_list</span>(<span class='no'>...</span>, <span class='no'>vocabulary_list</span>, <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -142,14 +142,14 @@ objects, and feature columns.</p></td>
     </tr>
     <tr>
       <th>vocabulary_list</th>
-      <td><p>An ordered iterable defining the vocabulary.
-Each feature is mapped to the index of its value (if present) in <code>vocabulary_list</code>.
-Must be castable to <code>dtype</code>.</p></td>
+      <td><p>An ordered iterable defining the vocabulary. Each
+feature is mapped to the index of its value (if present) in
+<code>vocabulary_list</code>. Must be castable to <code>dtype</code>.</p></td>
     </tr>
     <tr>
       <th>dtype</th>
-      <td><p>The type of features. Only string and integer types are supported.
-If <code>NULL</code>, it will be inferred from <code>vocabulary_list</code>.</p></td>
+      <td><p>The type of features. Only string and integer types are
+supported. If <code>NULL</code>, it will be inferred from <code>vocabulary_list</code>.</p></td>
     </tr>
     <tr>
       <th>default_value</th>
@@ -163,14 +163,12 @@ If <code>NULL</code>, it will be inferred from <code>vocabulary_list</code>.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Note that these values are independent of the
-<code>default_value</code> argument.</p>
+    <p>Note that these values are independent of the <code>default_value</code> argument.</p>
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
-    
-    <p>ValueError: if <code>vocabulary_list</code> is empty, or contains duplicate keys.
-ValueError: if <code>dtype</code> is not integer or string.</p>
+    <p>ValueError: if <code>vocabulary_list</code> is empty, or contains
+duplicate keys. ValueError: if <code>dtype</code> is not integer or string.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -181,7 +179,8 @@ ValueError: if <code>dtype</code> is not integer or string.</p>
   <code><a href='column_crossed.html'>column_crossed</a></code>,
   <code><a href='column_embedding.html'>column_embedding</a></code>,
   <code><a href='column_numeric.html'>column_numeric</a></code>,
-  <code><a href='column_weighted_categorical.html'>column_weighted_categorical</a></code></p>
+  <code><a href='column_weighted_categorical.html'>column_weighted_categorical</a></code>,
+  <code><a href='input_layer.html'>input_layer</a></code></p>
     
 
   </div>

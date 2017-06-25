@@ -121,8 +121,8 @@
 
     
     <p>Use this when your inputs are sparse, but you want to convert them to a dense
-representation (e.g., to feed to a DNN). Inputs must be a <code>_CategoricalColumn</code> created by any of the
-<code>categorical_column_*</code> function.</p>
+representation (e.g., to feed to a DNN). Inputs must be a
+<code>_CategoricalColumn</code> created by any of the <code>categorical_column_*</code> function.</p>
     
 
     <pre class="usage"><span class='fu'>column_embedding</span>(<span class='no'>categorical_column</span>, <span class='no'>dimension</span>, <span class='kw'>combiner</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
@@ -134,37 +134,47 @@ representation (e.g., to feed to a DNN). Inputs must be a <code>_CategoricalColu
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>categorical_column</th>
-      <td><p>A <code>_CategoricalColumn</code> created by a <code>categorical_column_with_*</code> function.
-This column produces the sparse IDs that are inputs to the embedding lookup.</p></td>
+      <td><p>A <code>_CategoricalColumn</code> created by a
+<code>categorical_column_with_*</code> function. This column produces the sparse IDs
+that are inputs to the embedding lookup.</p></td>
     </tr>
     <tr>
       <th>dimension</th>
-      <td><p>An integer specifying dimension of the embedding, must be &gt; 0.</p></td>
+      <td><p>An integer specifying dimension of the embedding, must be &gt;
+0.</p></td>
     </tr>
     <tr>
       <th>combiner</th>
-      <td><p>A string specifying how to reduce if there are multiple entries in a single row.
-Currently 'mean', 'sqrtn' and 'sum' are supported, with 'mean' the default. 'sqrtn' often achieves good accuracy, in particular with bag-of-words columns.
-Each of this can be thought as example level normalizations on the column. For more information, see <code>tf.embedding_lookup_sparse</code>.</p></td>
+      <td><p>A string specifying how to reduce if there are multiple
+entries in a single row. Currently 'mean', 'sqrtn' and 'sum' are supported,
+with 'mean' the default. 'sqrtn' often achieves good accuracy, in
+particular with bag-of-words columns. Each of this can be thought as
+example level normalizations on the column. For more information, see
+<code>tf.embedding_lookup_sparse</code>.</p></td>
     </tr>
     <tr>
       <th>initializer</th>
-      <td><p>A variable initializer function to be used in embedding variable initialization.
-If not specified, defaults to <code>tf.truncated_normal_initializer</code> with mean <code>0.0</code> and standard deviation <code>1/sqrt(dimension)</code>.</p></td>
+      <td><p>A variable initializer function to be used in embedding
+variable initialization. If not specified, defaults to
+<code>tf.truncated_normal_initializer</code> with mean <code>0.0</code> and standard deviation
+<code>1/sqrt(dimension)</code>.</p></td>
     </tr>
     <tr>
       <th>ckpt_to_load_from</th>
-      <td><p>String representing checkpoint name/pattern from which to restore column weights.
-Required if <code>tensor_name_in_ckpt</code> is not <code>NULL</code>.</p></td>
+      <td><p>String representing checkpoint name/pattern from
+which to restore column weights. Required if <code>tensor_name_in_ckpt</code> is not
+<code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>tensor_name_in_ckpt</th>
-      <td><p>Name of the <code>Tensor</code> in <code>ckpt_to_load_from</code> from which to restore the column weights.
-Required if <code>ckpt_to_load_from</code> is not <code>NULL</code>.</p></td>
+      <td><p>Name of the <code>Tensor</code> in <code>ckpt_to_load_from</code> from
+which to restore the column weights. Required if <code>ckpt_to_load_from</code> is not
+<code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>max_norm</th>
-      <td><p>If not <code>NULL</code>, embedding values are l2-normalized to this value.</p></td>
+      <td><p>If not <code>NULL</code>, embedding values are l2-normalized to this
+value.</p></td>
     </tr>
     <tr>
       <th>trainable</th>
@@ -178,8 +188,9 @@ Required if <code>ckpt_to_load_from</code> is not <code>NULL</code>.</p></td>
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
-    
-    <p>ValueError: if <code>dimension</code> not &gt; 0. ValueError: if exactly one of <code>ckpt_to_load_from</code> and <code>tensor_name_in_ckpt</code> is specified. ValueError: if <code>initializer</code> is specified and is not callable.</p>
+    <p>ValueError: if <code>dimension</code> not &gt; 0. ValueError: if exactly
+one of <code>ckpt_to_load_from</code> and <code>tensor_name_in_ckpt</code> is specified.
+ValueError: if <code>initializer</code> is specified and is not callable.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -190,7 +201,8 @@ Required if <code>ckpt_to_load_from</code> is not <code>NULL</code>.</p></td>
   <code><a href='column_categorical_with_vocabulary_list.html'>column_categorical_with_vocabulary_list</a></code>,
   <code><a href='column_crossed.html'>column_crossed</a></code>,
   <code><a href='column_numeric.html'>column_numeric</a></code>,
-  <code><a href='column_weighted_categorical.html'>column_weighted_categorical</a></code></p>
+  <code><a href='column_weighted_categorical.html'>column_weighted_categorical</a></code>,
+  <code><a href='input_layer.html'>input_layer</a></code></p>
     
 
   </div>

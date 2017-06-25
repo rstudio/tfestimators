@@ -8,14 +8,18 @@ column_weighted_categorical(categorical_column, weight_feature_key,
   dtype = tf$float32)
 }
 \arguments{
-\item{categorical_column}{A \code{_CategoricalColumn} created by \code{categorical_column_with_*} functions.}
+\item{categorical_column}{A \code{_CategoricalColumn} created by
+\code{categorical_column_with_*} functions.}
 
 \item{weight_feature_key}{String key for weight values.}
 
-\item{dtype}{Type of weights, such as \code{tf.float32}. Only float and integer weights are supported.}
+\item{dtype}{Type of weights, such as \code{tf.float32}. Only float and integer
+weights are supported.}
 }
 \value{
-A \code{_CategoricalColumn} composed of two sparse features: one represents id, the other represents weight (value) of the id feature in that example.
+A \code{_CategoricalColumn} composed of two sparse features: one
+represents id, the other represents weight (value) of the id feature in
+that example.
 }
 \description{
 Use this when each of your sparse inputs has both an ID and a value. For
@@ -24,8 +28,7 @@ frequencies, you can provide 2 parallel sparse input features ('terms' and
 'frequencies' below).
 }
 \section{Raises}{
-
-ValueError: if \code{dtype} is not convertible to float.
+ ValueError: if \code{dtype} is not convertible to float.
 }
 
 \seealso{
@@ -36,5 +39,5 @@ Other feature_column wrappers: \code{\link{column_bucketized}},
   \code{\link{column_categorical_with_vocabulary_list}},
   \code{\link{column_crossed}},
   \code{\link{column_embedding}},
-  \code{\link{column_numeric}}
+  \code{\link{column_numeric}}, \code{\link{input_layer}}
 }

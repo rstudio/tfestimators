@@ -272,8 +272,6 @@ If you do not specify `eval_metric_ops`, only `loss` will be calculated
 during evaluation.
 
 
-
-
 ## Configuring a neural network with feature_column and layers
 
 Constructing a [neural
@@ -286,10 +284,10 @@ will accept the feature data that is passed to the `model_fn` in the
 `features` argument. If `features` contains an n-dimensional `Tensor` with
 all your feature data, then it can serve as the input layer. If `features`
 contains a dict of feature columns passed to the model via an input function,
-you can convert it to an input-layer `Tensor` with the `tf$feature_column$input_layer` function:
+you can convert it to an input-layer `Tensor` with the `input_layer` function:
 
 ```r
-input_layer <- tf$feature_column$input_layer(
+input_layer <- input_layer(
     features = features, feature_columns = c(age, height, weight))
 ```
 

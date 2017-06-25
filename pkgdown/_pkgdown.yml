@@ -75,6 +75,7 @@ reference:
   - title: "Feature Columns"
     contents: 
       - feature_columns
+      - input_layer
       - column_categorical_with_vocabulary_list
       - column_categorical_with_vocabulary_file
       - column_categorical_with_identity

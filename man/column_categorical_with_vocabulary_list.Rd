@@ -12,12 +12,12 @@ column_categorical_with_vocabulary_list(..., vocabulary_list, dtype = NULL,
 and the dictionary key for feature parsing configs, feature \code{Tensor}
 objects, and feature columns.}
 
-\item{vocabulary_list}{An ordered iterable defining the vocabulary.
-Each feature is mapped to the index of its value (if present) in \code{vocabulary_list}.
-Must be castable to \code{dtype}.}
+\item{vocabulary_list}{An ordered iterable defining the vocabulary. Each
+feature is mapped to the index of its value (if present) in
+\code{vocabulary_list}. Must be castable to \code{dtype}.}
 
-\item{dtype}{The type of features. Only string and integer types are supported.
-If \code{NULL}, it will be inferred from \code{vocabulary_list}.}
+\item{dtype}{The type of features. Only string and integer types are
+supported. If \code{NULL}, it will be inferred from \code{vocabulary_list}.}
 
 \item{default_value}{The value to use for values not in \code{vocabulary_list}.}
 }
@@ -28,18 +28,16 @@ A \code{_CategoricalColumn} with in-memory vocabulary.
 Use this when your inputs are in string or integer format, and you have an
 in-memory vocabulary mapping each value to an integer ID. By default,
 out-of-vocabulary values are ignored. Use \code{default_value} to specify how to
-include out-of-vocabulary values. For input dictionary \code{features}, \code{features$key} is either \code{Tensor} or
-\code{SparseTensor}. If \code{Tensor}, missing values can be represented by \code{-1} for int
-and \code{''} for string.
+include out-of-vocabulary values. For input dictionary \code{features},
+\code{features$key} is either \code{Tensor} or \code{SparseTensor}. If \code{Tensor}, missing
+values can be represented by \code{-1} for int and \code{''} for string.
 }
 \details{
-Note that these values are independent of the
-\code{default_value} argument.
+Note that these values are independent of the \code{default_value} argument.
 }
 \section{Raises}{
-
-ValueError: if \code{vocabulary_list} is empty, or contains duplicate keys.
-ValueError: if \code{dtype} is not integer or string.
+ ValueError: if \code{vocabulary_list} is empty, or contains
+duplicate keys. ValueError: if \code{dtype} is not integer or string.
 }
 
 \seealso{
@@ -50,5 +48,6 @@ Other feature_column wrappers: \code{\link{column_bucketized}},
   \code{\link{column_crossed}},
   \code{\link{column_embedding}},
   \code{\link{column_numeric}},
-  \code{\link{column_weighted_categorical}}
+  \code{\link{column_weighted_categorical}},
+  \code{\link{input_layer}}
 }

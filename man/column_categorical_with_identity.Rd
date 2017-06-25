@@ -13,8 +13,8 @@ objects, and feature columns.}
 
 \item{num_buckets}{Number of unique values.}
 
-\item{default_value}{If \code{NULL}, this column's graph operations will fail for out-of-range inputs.
-Otherwise, this value must be in the range \code{[0, num_buckets)}, and will replace inputs in that range.}
+\item{default_value}{If \code{NULL}, this column's graph operations will fail for
+out-of-range inputs. Otherwise, this value must be in the range \code{[0, num_buckets)}, and will replace inputs in that range.}
 }
 \value{
 A \code{_CategoricalColumn} that returns identity values.
@@ -26,19 +26,18 @@ this range will result in \code{default_value} if specified, otherwise it will
 fail.
 }
 \details{
-Typically, this is used for contiguous ranges of integer indexes, but
-it doesn't have to be. This might be inefficient, however, if many of IDs
-are unused. Consider \code{categorical_column_with_hash_bucket} in that case.
+Typically, this is used for contiguous ranges of integer indexes, but it
+doesn't have to be. This might be inefficient, however, if many of IDs are
+unused. Consider \code{categorical_column_with_hash_bucket} in that case.
 
 For input dictionary \code{features}, \code{features$key} is either \code{Tensor} or
-\code{SparseTensor}. If \code{Tensor}, missing values can be represented by \code{-1} for int
-and \code{''} for string. Note that these values are independent of the
+\code{SparseTensor}. If \code{Tensor}, missing values can be represented by \code{-1} for
+int and \code{''} for string. Note that these values are independent of the
 \code{default_value} argument.
 }
 \section{Raises}{
-
-ValueError: if \code{num_buckets} is less than one.
-ValueError: if \code{default_value} is not in range \code{[0, num_buckets)}.
+ ValueError: if \code{num_buckets} is less than one. ValueError:
+if \code{default_value} is not in range \code{[0, num_buckets)}.
 }
 
 \seealso{
@@ -49,5 +48,6 @@ Other feature_column wrappers: \code{\link{column_bucketized}},
   \code{\link{column_crossed}},
   \code{\link{column_embedding}},
   \code{\link{column_numeric}},
-  \code{\link{column_weighted_categorical}}
+  \code{\link{column_weighted_categorical}},
+  \code{\link{input_layer}}
 }
