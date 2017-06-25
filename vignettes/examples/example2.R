@@ -3,6 +3,43 @@
 
 library(tfestimators)
 
+#' ## An Abalone Age Predictor
+
+#' It's possible to estimate the age of an [abalone](https://en.wikipedia.org/wiki/Abalone) (sea snail) by the number of
+#' rings on its shell. However, because this task requires cutting, staining, and
+#' viewing the shell under a microscope, it's desirable to find other
+#' measurements that can predict age.
+
+#' The [Abalone Data Set](https://archive.ics.uci.edu/ml/datasets/Abalone) contains the following [feature data](https://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.names) for abalone:
+
+#' | Feature        | Description                                               |
+#'   | -------------- | --------------------------------------------------------- |
+#'   | Length         | Length of abalone (in longest direction; in mm)           |
+#'   | Diameter       | Diameter of abalone (measurement perpendicular to length; in mm)  |                                                  :
+#'   | Height         | Height of abalone (with its meat inside shell; in mm)     |
+#'   | Whole Weight   | Weight of entire abalone (in grams)                       |
+#'   | Shucked Weight | Weight of abalone meat only (in grams)                    |
+#'   | Viscera Weight | Gut weight of abalone (in grams), after bleeding          |
+#'   | Shell Weight   | Weight of dried abalone shell (in grams)                  |
+#' 
+#'   The label to predict is number of rings, as a proxy for abalone age.
+#'   
+#'   
+#'   ## Setup
+#' 
+#' This tutorial uses three data sets.
+#' [`abalone_train.csv`](http://download.tensorflow.org/data/abalone_train.csv)
+#' contains labeled training data comprising 3,320 examples.
+#' [`abalone_test.csv`](http://download.tensorflow.org/data/abalone_test.csv)
+#' contains labeled test data for 850 examples.
+#' [`abalone_predict`](http://download.tensorflow.org/data/abalone_predict.csv)
+#' contains 7 examples on which to make predictions.
+#' 
+#' The following sections walk through writing the `Estimator` code step by step;
+#' the [full, final code is available
+#'      here](https://www.tensorflow.org/code/tensorflow/examples/tutorials/estimators/abalone.py).
+#'      
+
 maybe_download_abalone <- function(train_data_path, test_data_path, predict_data_path, column_names_to_assign) {
   if (!file.exists(train_data_path) || !file.exists(test_data_path) || !file.exists(predict_data_path)) {
     cat("Downloading abalone data ...")
@@ -43,7 +80,7 @@ test_input_fn <- constructed_input_fn(test_data)
 predict_input_fn <- constructed_input_fn(predict_data)
 
 # TODO: Prevent the issue if config is missing in signature - https://github.com/rstudio/tfestimators/issues/44
-custom_model_fn <- function(features, labels, mode, params, config) {
+model_fn <- function(features, labels, mode, params, config) {
   # Connect the first hidden layer to input layer
   first_hidden_layer <- tf$layers$dense(features, 10L, activation = tf$nn$relu)
 
@@ -78,7 +115,7 @@ custom_model_fn <- function(features, labels, mode, params, config) {
 }
 
 model_params <- list(learning_rate = 0.001)
-model <- estimator(custom_model_fn, params = model_params)
+model <- estimator(model_fn, params = model_params)
 
 train(model, input_fn = train_input_fn, steps = 2)
 
@@ -87,7 +124,12 @@ evaluate(model, input_fn = test_input_fn, steps = 2)
 # This is not working yet (Python end is broken)
 # predict(model, input_fn = predict_input_fn)
 
-# Simple linear_dnn_combined_classifier
+#' ## Instantiating an Estimator
+
+#' When defining a model using one of tf.estimator's provided classes, such as
+#' `linear_dnn_combined_classifier`, you supply all the configuration parameters right in the
+#' constructor, e.g.:
+
 diameter <- column_numeric("diameter")
 height <- column_numeric("height")
 
@@ -96,3 +138,134 @@ model <- linear_dnn_combined_classifier(
   dnn_feature_columns = feature_columns(height),
   dnn_hidden_units = c(100L, 50L)
 )
+
+#' You don't need to write any further code to instruct TensorFlow how to train the
+#' model, calculate loss, or return predictions; that logic is already baked into
+#' the `linear_dnn_combined_classifier`.
+
+#' By contrast, when you're creating your own estimator from scratch, the
+#' constructor accepts just two high-level parameters for model configuration,
+#' `model_fn` and `params`:
+#' 
+#' 
+#' ``` r 
+#' model <- estimator(model_fn, params = model_params)
+#' ```
+#' 
+#' *   `model_fn`: A function object that contains all the aforementioned logic
+#' to support training, evaluation, and prediction. You are responsible for 
+#' implementing that functionality. The next section, [Constructing the 
+#' `model_fn`](#constructing-modelfn) covers creating a model function in detail.
+#' 
+#' *   `params`: An optional dict of hyperparameters (e.g., learning rate,
+#' dropout) that will be passed into the `model_fn`.
+#' 
+#' Note: Just like `tf.estimator`'s predefined regressors and classifiers, the 
+#' `estimator` initializer also accepts the general configuration arguments 
+#' `model_dir` and `config`.
+#'
+#' For the abalone age predictor, the model will accept one hyperparameter: 
+#' learning rate. Define `LEARNING_RATE` as a constant at the beginning of your 
+#' code (highlighted in bold below), right after the logging configuration:
+
+
+#' Note: Here, `LEARNING_RATE` is set to `0.001`, but you can tune this value as
+#' needed to achieve the best results during model training.
+#'
+#' Then, add the following code to `main()`, which creates the dict `model_params`
+#' containing the learning rate and instantiates the `Estimator`:
+#' 
+#' ``` r  
+#' # Set model params
+#' model_params <- list(learning_rate = 0.001)
+#' 
+#' # Instantiate Estimator
+#' model <- estimator(model_fn, params = model_params)
+#' ````
+
+#' ## Constructing the `model_fn` {#constructing-modelfn}
+
+#' The basic skeleton for an `Estimator` API model function looks like this:
+#' 
+#' ```r
+#' model_fn <- function(features, labels, mode, params, config) {
+#'   # Logic to do the following:
+#'   # 1. Configure the model via TensorFlow operations
+#'   # 2. Define the loss function for training/evaluation
+#'   # 3. Define the training operation/optimizer
+#'   # 4. Generate predictions
+#'   # 5. Return predictions/loss/train_op/eval_metric_ops in estimator_spec object
+#' }
+#' ```
+#' 
+
+#' The `model_fn` must accept three arguments:
+#'   
+#'   *   `features`: A dict containing the features passed to the model via
+#' `input_fn`.
+#' *   `labels`: A `Tensor` containing the labels passed to the model via
+#' `input_fn`. Will be empty for `predict()` calls, as these are the values the
+#' model will infer.
+#' *   `mode`: One of the following `tf$estimator$ModeKeys()` string values
+#' indicating the context in which the model_fn was invoked:
+#'   *   `tf$estimator$ModeKeys()$TRAIN` The `model_fn` was invoked in training
+#' mode, namely via a `train()` call.
+#' *   `tf$estimator$ModeKeys()$EVAL`. The `model_fn` was invoked in
+#' evaluation mode, namely via an `evaluate()` call.
+#' *   `tf$estimator$ModeKeys()$PREDICT`. The `model_fn` was invoked in
+#' predict mode, namely via a `predict()` call.
+#' 
+#' `model_fn` may also accept a `params` argument containing a dict of
+#' hyperparameters used for training (as shown in the skeleton above).
+#' 
+#' The body of the function performs the following tasks (described in detail in the
+#'                                                        sections that follow):
+#'   
+#'   *   Configuring the model—here, for the abalone predictor, this will be a neural
+#' network.
+#' *   Defining the loss function used to calculate how closely the model's
+#' predictions match the target values.
+#' *   Defining the training operation that specifies the `optimizer` algorithm to
+#' minimize the loss values calculated by the loss function.
+#' 
+#' The `model_fn` must return a `tf$estimator$EstimatorSpec`
+#' object, which contains the following values:
+#' 
+#' *   `mode` (required). The mode in which the model was run. Typically, you will
+#' return the `mode` argument of the `model_fn` here.
+#' 
+#' *   `predictions` (required in `PREDICT` mode). A dict that maps key names of
+#' your choice to `Tensor`s containing the predictions from the model, e.g.:
+#' 
+#' ```r
+#' predictions <- list(results = tensor_of_predictions)
+#' ```
+#' 
+#' In `PREDICT` mode, the dict that you return in `estimator_spec` will then be
+#' returned by `predict()`, so you can construct it in the format in which
+#' you'd like to consume it.
+#' 
+#' 
+#' *   `loss` (required in `EVAL` and `TRAIN` mode). A `Tensor` containing a scalar
+#' loss value: the output of the model's loss function (discussed in more depth
+#' later in [Defining loss for the model](#defining-loss)) calculated over all
+#' the input examples. This is used in `TRAIN` mode for error handling and
+#' logging, and is automatically included as a metric in `EVAL` mode.
+#' 
+#' *   `train_op` (required only in `TRAIN` mode). An Op that runs one step of
+#' training.
+#' 
+#' *   `eval_metric_ops` (optional). A dict of name/value pairs specifying the
+#' metrics that will be calculated when the model runs in `EVAL` mode. The name
+#' is a label of your choice for the metric, and the value is the result of
+#' your metric calculation. The `tf$metrics`
+#' module provides predefined functions for a variety of common metrics. The
+#' following `eval_metric_ops` contains an `"accuracy"` metric calculated using
+#' `tf$metrics$accuracy`:
+#' 
+#' ```r
+#' eval_metric_ops <- list(accuracy = tf$metrics$accuracy(labels, predictions))
+#' ```
+#' 
+#' If you do not specify `eval_metric_ops`, only `loss` will be calculated
+#' during evaluation.
