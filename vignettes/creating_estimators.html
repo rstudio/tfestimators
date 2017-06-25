@@ -12,7 +12,7 @@
 
 
 
-<title>Creating Estimators</title>
+<title>Creating Estimators - Abalone Age Predictor</title>
 
 
 
@@ -66,13 +66,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<h1 class="title toc-ignore">Creating Estimators</h1>
+<h1 class="title toc-ignore">Creating Estimators - Abalone Age Predictor</h1>
 
 
 
 <p>The tfestimators framework makes it easy to construct and train machine learning models via its high-level Estimator API. <code>Estimator</code> offers classes you can instantiate to quickly configure common model types such as regressors and classifiers.</p>
-<p>But what if none of <code>tf$estimator</code>’s predefined model types meets your needs? Perhaps you need more granular control over model configuration, such as the ability to customize the loss function used for optimization, or specify different activation functions for each neural network layer. Or maybe you’re implementing a ranking or recommendation system, and neither a classifier nor a regressor is appropriate for generating predictions.</p>
-<p>This tutorial covers how to create your own <code>Estimator</code> using the building blocks provided in <code>tf$estimator</code>, which will predict the ages of <a href="https://en.wikipedia.org/wiki/Abalone">abalones</a> based on their physical measurements. You’ll learn how to do the following:</p>
+<p>But what if none of the predefined model types meets your needs? Perhaps you need more granular control over model configuration, such as the ability to customize the loss function used for optimization, or specify different activation functions for each neural network layer. Or maybe you’re implementing a ranking or recommendation system, and neither a classifier nor a regressor is appropriate for generating predictions.</p>
+<p>This tutorial covers how to create your own <code>Estimator</code> using the building blocks provided in <code>tfestimators</code> package, which will predict the ages of <a href="https://en.wikipedia.org/wiki/Abalone">abalones</a> based on their physical measurements. You’ll learn how to do the following:</p>
 <ul>
 <li>Instantiate an <code>Estimator</code></li>
 <li>Construct a custom model function</li>
@@ -217,10 +217,10 @@ model &lt;-<span class="st"> </span><span class="kw">estimator</span>(model_fn, 
 <ul>
 <li><code>features</code>: A dict containing the features passed to the model via <code>input_fn</code>.</li>
 <li><code>labels</code>: A <code>Tensor</code> containing the labels passed to the model via <code>input_fn</code>. Will be empty for <code>predict()</code> calls, as these are the values the model will infer.</li>
-<li><code>mode</code>: One of the following <code>tf$estimator$ModeKeys()</code> string values indicating the context in which the model_fn was invoked:</li>
-<li><code>tf$estimator$ModeKeys()$TRAIN</code> The <code>model_fn</code> was invoked in training mode, namely via a <code>train()</code> call.</li>
-<li><code>tf$estimator$ModeKeys()$EVAL</code>. The <code>model_fn</code> was invoked in evaluation mode, namely via an <code>evaluate()</code> call.</li>
-<li><code>tf$estimator$ModeKeys()$PREDICT</code>. The <code>model_fn</code> was invoked in predict mode, namely via a <code>predict()</code> call.</li>
+<li><code>mode</code>: One of the following <code>mode_keys()</code> string values indicating the context in which the model_fn was invoked:</li>
+<li><code>mode_keys()$TRAIN</code> The <code>model_fn</code> was invoked in training mode, namely via a <code>train()</code> call.</li>
+<li><code>mode_keys()$EVAL</code>. The <code>model_fn</code> was invoked in evaluation mode, namely via an <code>evaluate()</code> call.</li>
+<li><code>mode_keys()$PREDICT</code>. The <code>model_fn</code> was invoked in predict mode, namely via a <code>predict()</code> call.</li>
 </ul>
 <p><code>model_fn</code> may also accept a <code>params</code> argument containing a dict of hyperparameters used for training (as shown in the skeleton above).</p>
 <p>The body of the function performs the following tasks (described in detail in the sections that follow):</p>
@@ -229,7 +229,7 @@ model &lt;-<span class="st"> </span><span class="kw">estimator</span>(model_fn, 
 <li>Defining the loss function used to calculate how closely the model’s predictions match the target values.</li>
 <li>Defining the training operation that specifies the <code>optimizer</code> algorithm to minimize the loss values calculated by the loss function.</li>
 </ul>
-<p>The <code>model_fn</code> must return a <code>tf$estimator$EstimatorSpec</code> object, which contains the following values:</p>
+<p>The <code>model_fn</code> must return an <code>estimator_spec</code> object, which contains the following values:</p>
 <ul>
 <li><p><code>mode</code> (required). The mode in which the model was run. Typically, you will return the <code>mode</code> argument of the <code>model_fn</code> here.</p></li>
 <li><p><code>predictions</code> (required in <code>PREDICT</code> mode). A dict that maps key names of your choice to <code>Tensor</code>s containing the predictions from the model, e.g.:</p></li>
@@ -243,8 +243,8 @@ model &lt;-<span class="st"> </span><span class="kw">estimator</span>(model_fn, 
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval_metric_ops &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">accuracy =</span> tf$metrics$<span class="kw">accuracy</span>(labels, predictions))</code></pre></div>
 <p>If you do not specify <code>eval_metric_ops</code>, only <code>loss</code> will be calculated during evaluation.</p>
-<div id="configuring-a-neural-network-with-tffeature_column-and-tflayers" class="section level2">
-<h2>Configuring a neural network with tf<span class="math inline">\(feature_column and tf\)</span>layers</h2>
+<div id="configuring-a-neural-network-with-feature_column-and-layers" class="section level2">
+<h2>Configuring a neural network with feature_column and layers</h2>
 <p>Constructing a <a href="https://en.wikipedia.org/wiki/Artificial_neural_network">neural network</a> entails creating and connecting the input layer, the hidden layers, and the output layer.</p>
 <p>The input layer is a series of nodes (one for each feature in the model) that will accept the feature data that is passed to the <code>model_fn</code> in the <code>features</code> argument. If <code>features</code> contains an n-dimensional <code>Tensor</code> with all your feature data, then it can serve as the input layer. If <code>features</code> contains a dict of feature columns passed to the model via an input function, you can convert it to an input-layer <code>Tensor</code> with the <code>tf$feature_column$input_layer</code> function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input_layer &lt;-<span class="st"> </span>tf$feature_column$<span class="kw">input_layer</span>(
@@ -299,7 +299,7 @@ train_op &lt;-<span class="st"> </span>optimizer$<span class="kw">minimize</span
 </div>
 <div id="the-complete-abalone-model_fn" class="section level2">
 <h2>The complete abalone model_fn</h2>
-<p>Here’s the final, complete <code>model_fn</code> for the abalone age predictor. The following code configures the neural network; defines loss and the training op; and returns a <code>EstimatorSpec</code> object containing <code>mode</code>, <code>predictions_dict</code>, <code>loss</code>, and <code>train_op</code>:</p>
+<p>Here’s the final, complete <code>model_fn</code> for the abalone age predictor. The following code configures the neural network; defines loss and the training op; and returns a <code>estimator_spec</code> object containing <code>mode</code>, <code>predictions_dict</code>, <code>loss</code>, and <code>train_op</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_fn &lt;-<span class="st"> </span>function(features, labels, mode, params, config) {
   <span class="co"># Connect the first hidden layer to input layer</span>
   first_hidden_layer &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(features, 10L, <span class="dt">activation =</span> tf$nn$relu)

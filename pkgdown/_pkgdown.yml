@@ -117,5 +117,6 @@ reference:
 
   - title: "Estimator Keys"
     contents:
+      - mode_keys
       - metric_keys
       - prediction_keys

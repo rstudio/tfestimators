@@ -33,3 +33,18 @@ metric_keys <- function() {
   canned_estimator_lib$metric_keys$MetricKeys()
 }
 
+#' Standard names for model modes.
+#' 
+#' The following standard keys are defined: 
+#' 
+#' * `TRAIN`: training mode.
+#' * `EVAL`: evaluation mode.
+#' * `PREDICT`: inference mode.
+#' 
+#' @examples 
+#' names(mode_keys())
+#' 
+#' @export
+mode_keys <- function() {
+  tf$estimator$ModeKeys()
+}

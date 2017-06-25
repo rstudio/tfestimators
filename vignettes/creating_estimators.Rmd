@@ -10,7 +10,7 @@ vignette: >
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE)
 ```
 
 
@@ -19,7 +19,7 @@ learning models via its high-level Estimator API. `Estimator`
 offers classes you can instantiate to quickly configure common model types such
 as regressors and classifiers.
 
-But what if none of `tfestimators`' predefined model types meets your needs?
+But what if none of the predefined model types meets your needs?
 Perhaps you need more granular control over model configuration, such as
 the ability to customize the loss function used for optimization, or specify
 different activation functions for each neural network layer. Or maybe you're
@@ -208,13 +208,13 @@ The `model_fn` must accept three arguments:
 *   `labels`: A `Tensor` containing the labels passed to the model via
 `input_fn`. Will be empty for `predict()` calls, as these are the values the
 model will infer.
-*   `mode`: One of the following `tf$estimator$ModeKeys()` string values
+*   `mode`: One of the following `mode_keys()` string values
 indicating the context in which the model_fn was invoked:
-  *   `tf$estimator$ModeKeys()$TRAIN` The `model_fn` was invoked in training
+  *   `mode_keys()$TRAIN` The `model_fn` was invoked in training
 mode, namely via a `train()` call.
-*   `tf$estimator$ModeKeys()$EVAL`. The `model_fn` was invoked in
+*   `mode_keys()$EVAL`. The `model_fn` was invoked in
 evaluation mode, namely via an `evaluate()` call.
-*   `tf$estimator$ModeKeys()$PREDICT`. The `model_fn` was invoked in
+*   `mode_keys()$PREDICT`. The `model_fn` was invoked in
 predict mode, namely via a `predict()` call.
 
 `model_fn` may also accept a `params` argument containing a dict of
@@ -230,8 +230,7 @@ predictions match the target values.
 *   Defining the training operation that specifies the `optimizer` algorithm to
 minimize the loss values calculated by the loss function.
 
-The `model_fn` must return a `tf$estimator$EstimatorSpec`
-object, which contains the following values:
+The `model_fn` must return an `estimator_spec` object, which contains the following values:
 
 *   `mode` (required). The mode in which the model was run. Typically, you will
 return the `mode` argument of the `model_fn` here.
@@ -417,7 +416,7 @@ train_op <- optimizer$minimize(loss = loss, global_step = tf$train$get_global_st
 
 Here's the final, complete `model_fn` for the abalone age predictor. The
 following code configures the neural network; defines loss and the training op;
-and returns a `EstimatorSpec` object containing `mode`, `predictions_dict`, `loss`,
+and returns a `estimator_spec` object containing `mode`, `predictions_dict`, `loss`,
 and `train_op`:
 
 ```r
