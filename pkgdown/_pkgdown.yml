@@ -37,6 +37,8 @@ navbar:
 #          href: articles/run_configuration.html
         - text: "Custom Estimators"
           href: articles/custom_estimators.html
+        - text: "Creating Estimators - Abalone Age Predictor"
+          href: articles/creating_estimators.html
         - text: "TensorBoard Visualization"
           href: articles/tensorboard.html
 #    - text: "Deployment"
