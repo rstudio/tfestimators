@@ -54,16 +54,14 @@ custom_model_fn <- function(features, labels, mode, params, config) {
   output_layer <- tf$layers$dense(second_hidden_layer, 1L)
   
   # Reshape output layer to 1-dim Tensor to return predictions
-  # TODO: This failed if it's c(-1L)
+  # TODO: This failed if it's c(-1L) - check in reticulate for single element vector conversion
   predictions <- tf$reshape(output_layer, list(-1L))
   predictions_list <- list(ages = predictions)
   
   # Calculate loss using mean squared error
   loss <- tf$losses$mean_squared_error(labels, predictions)
   
-  # TODO: need to use dict() instead of list() - fix on Python end
-  eval_metric_ops <- reticulate::dict(
-    rmse = tf$metrics$root_mean_squared_error(
+  eval_metric_ops <- list(rmse = tf$metrics$root_mean_squared_error(
       tf$cast(labels, tf$float64), predictions
   ))
   
