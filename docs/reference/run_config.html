@@ -141,7 +141,11 @@
 #&gt; [15] "task_id"                       "task_type"                    
 #&gt; [17] "tf_random_seed"               </div><div class='input'>
 <span class='co'># Change the mutable properties of the config</span>
-<span class='no'>config</span> <span class='kw'>&lt;-</span> <span class='no'>config</span>$<span class='fu'>replace</span>(<span class='kw'>tf_random_seed</span> <span class='kw'>=</span> <span class='fl'>11L</span>, <span class='kw'>save_summary_steps</span> <span class='kw'>=</span> <span class='fl'>12L</span>)</div></pre>
+<span class='no'>config</span> <span class='kw'>&lt;-</span> <span class='no'>config</span>$<span class='fu'>replace</span>(<span class='kw'>tf_random_seed</span> <span class='kw'>=</span> <span class='fl'>11L</span>, <span class='kw'>save_summary_steps</span> <span class='kw'>=</span> <span class='fl'>12L</span>)
+
+<span class='co'># Print config as key value pairs</span>
+<span class='fu'>print</span>(<span class='no'>config</span>)</div><div class='output co'>#&gt; cluster_spec = NULL, evaluation_master = "", is_chief = TRUE, keep_checkpoint_every_n_hours = 10000, keep_checkpoint_max = 5, master = "", model_dir = NULL, num_ps_replicas = 0, num_worker_replicas = 1, replace = RunConfig, save_checkpoints_secs = 600, save_checkpoints_steps = NULL, save_summary_steps = 12, session_config = NULL, task_id = 0, task_type = worker, tf_random_seed = 11</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
