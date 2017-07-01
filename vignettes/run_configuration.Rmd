@@ -13,3 +13,4 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+Users can also pass a `config` to canned Estimator or custom Estimator that specify the model run-time configuration, such as cluster information, GPU fractions, etc.

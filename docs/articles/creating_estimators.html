@@ -58,10 +58,7 @@
       <a href="../articles/run_hooks.html">Run Hooks</a>
     </li>
     <li>
-      <a href="../articles/custom_estimators.html">Custom Estimators</a>
-    </li>
-    <li>
-      <a href="../articles/creating_estimators.html">Creating Estimators - Abalone Age Predictor</a>
+      <a href="../articles/creating_estimators.html">Creating Estimators - Abalone Age Predictor Example</a>
     </li>
     <li>
       <a href="../articles/tensorboard.html">TensorBoard Visualization</a>
@@ -257,7 +254,8 @@ model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/estim
 <li>
 <code>labels</code>: A <code>Tensor</code> containing the labels passed to the model via <code>input_fn</code>. Will be empty for <code>predict()</code> calls, as these are the values the model will infer.</li>
 <li>
-<code>mode</code>: One of the following <code><a href="../reference/mode_keys.html">mode_keys()</a></code> string values indicating the context in which the model_fn was invoked:</li>
+<code>mode</code>: One of the following <code><a href="../reference/mode_keys.html">mode_keys()</a></code> string values indicating the context in which the model_fn was invoked:
+<ul>
 <li>
 <code>mode_keys()$TRAIN</code> The <code>model_fn</code> was invoked in training mode, namely via a <code>train()</code> call.</li>
 <li>
@@ -265,7 +263,9 @@ model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/estim
 <li>
 <code>mode_keys()$PREDICT</code>. The <code>model_fn</code> was invoked in predict mode, namely via a <code>predict()</code> call.</li>
 </ul>
-<p><code>model_fn</code> may also accept a <code>params</code> argument containing a dict of hyperparameters used for training (as shown in the skeleton above).</p>
+</li>
+</ul>
+<p><code>model_fn</code> may also accept a <code>params</code> argument containing a dict of hyperparameters used for training (as shown in the skeleton above) and a <code>config</code> that represents the configurations used in a model, including GPU percentage, cluster information, etc.</p>
 <p>The body of the function performs the following tasks (described in detail in the sections that follow):</p>
 <ul>
 <li>Configuring the model—here, for the abalone predictor, this will be a neural network.</li>

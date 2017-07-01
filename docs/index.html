@@ -59,10 +59,7 @@
       <a href="articles/run_hooks.html">Run Hooks</a>
     </li>
     <li>
-      <a href="articles/custom_estimators.html">Custom Estimators</a>
-    </li>
-    <li>
-      <a href="articles/creating_estimators.html">Creating Estimators - Abalone Age Predictor</a>
+      <a href="articles/creating_estimators.html">Creating Estimators - Abalone Age Predictor Example</a>
     </li>
     <li>
       <a href="articles/tensorboard.html">TensorBoard Visualization</a>
@@ -198,7 +195,7 @@ model %&gt;%<span class="st"> </span><span class="kw">train</span>(<span class="
 <p>We can evaluate the model’s accuracy using the <code>evaluate()</code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
 <pre><code>## $loss
-## [1] 260.2008
+## [1] 500.9231
 ## 
 ## $global_step
 ## [1] 2</code></pre>
@@ -210,7 +207,7 @@ model %&gt;%<span class="st"> </span><span class="kw">train</span>(<span class="
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span>:<span class="dv">3</span>,]
 model %&gt;%<span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
 <pre><code>##   scores   scores   scores 
-## 8.877875 7.656992 3.136814</code></pre>
+## 1.338538 1.467407 7.690764</code></pre>
 </div>
 </div>
 </div>

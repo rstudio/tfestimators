@@ -203,22 +203,20 @@ model_fn <- function(features, labels, mode, params, config) {
 
 The `model_fn` must accept three arguments:
 
-  *   `features`: A dict containing the features passed to the model via
+*   `features`: A dict containing the features passed to the model via
 `input_fn`.
 *   `labels`: A `Tensor` containing the labels passed to the model via
 `input_fn`. Will be empty for `predict()` calls, as these are the values the
 model will infer.
 *   `mode`: One of the following `mode_keys()` string values
 indicating the context in which the model_fn was invoked:
-  *   `mode_keys()$TRAIN` The `model_fn` was invoked in training
-mode, namely via a `train()` call.
-*   `mode_keys()$EVAL`. The `model_fn` was invoked in
-evaluation mode, namely via an `evaluate()` call.
-*   `mode_keys()$PREDICT`. The `model_fn` was invoked in
-predict mode, namely via a `predict()` call.
+    *   `mode_keys()$TRAIN` The `model_fn` was invoked in training mode, namely via a `train()` call.
+    *   `mode_keys()$EVAL`. The `model_fn` was invoked in evaluation mode, namely via an `evaluate()` call.
+    *   `mode_keys()$PREDICT`. The `model_fn` was invoked in predict mode, namely via a `predict()` call.
+
 
 `model_fn` may also accept a `params` argument containing a dict of
-hyperparameters used for training (as shown in the skeleton above).
+hyperparameters used for training (as shown in the skeleton above) and a `config` that represents the configurations used in a model, including GPU percentage, cluster information, etc.
 
 The body of the function performs the following tasks (described in detail in the
                                                        sections that follow):
