@@ -11,6 +11,9 @@
 #' # Change the mutable properties of the config
 #' config <- config$replace(tf_random_seed = 11L, save_summary_steps = 12L)
 #' 
+#' # Print config as key value pairs
+#' print(config)
+#' 
 #' @family run_config methods
 #'   
 #' @export
@@ -22,9 +25,18 @@ run_config <- function() {
 print.tensorflow.python.estimator.run_config.RunConfig <- function(config) {
   config_names <- names(config)
   config_items <- unlist(lapply(config_names, function(item) {
-    paste(item, config[[item]], collapse = "", sep = " = ")
+    if (is.null(config[[item]])) {
+      item_value <- "NULL"
+    } else if (config[[item]] == "") {
+      item_value <- '""'
+    } else {
+      item_value <- config[[item]]
+    }
+    paste(item,
+          item_value,
+          collapse = "", sep = " = ")
   }))
-  print(paste(config_items, collapse = ", "))
+  cat(paste(config_items, collapse = ", "))
 }
 
 

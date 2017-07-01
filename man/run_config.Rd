@@ -18,6 +18,9 @@ names(config)
 # Change the mutable properties of the config
 config <- config$replace(tf_random_seed = 11L, save_summary_steps = 12L)
 
+# Print config as key value pairs
+print(config)
+
 }
 \seealso{
 Other run_config methods: \code{\link{task_type}}
