@@ -3,7 +3,7 @@ title: "Custom Estimators"
 output: 
   rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Using Estimators}
+  %\VignetteIndexEntry{Custom Estimators}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

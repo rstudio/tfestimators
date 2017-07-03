@@ -41,7 +41,7 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Getting Started</li>
     <li>
-      <a href="articles/using_estimators.html">Using Estimators</a>
+      <a href="articles/estimator_basics.html">Estimator Basics</a>
     </li>
     <li>
       <a href="articles/input_functions.html">Input Functions</a>
@@ -195,7 +195,7 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tr
 <p>We can evaluate the model’s accuracy using the <code>evaluate()</code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
 <pre><code>## $loss
-## [1] 183.9537
+## [1] 273.4541
 ## 
 ## $global_step
 ## [1] 2</code></pre>
@@ -207,7 +207,7 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tr
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,]
 model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
 <pre><code>##   scores   scores   scores 
-## 4.938676 4.938676 1.560489</code></pre>
+## 3.577967 3.675264 4.064453</code></pre>
 </div>
 </div>
 </div>
@@ -216,7 +216,7 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pr
 <a href="#learning-more" class="anchor"></a>Learning More</h2>
 <p>These articles cover the basics of using TensorFlow Estimators:</p>
 <ul>
-<li><a href="articles/using_estimators.html">Using Estimators</a></li>
+<li><a href="articles/estimator_basics.html">Estimator Basics</a></li>
 <li><a href="articles/input_functions.html">Input Functions</a></li>
 <li><a href="articles/feature_columns.html">Feature Columns</a></li>
 </ul>

@@ -11,8 +11,8 @@ navbar:
     - text: "Using"
       menu:
         - text: "Getting Started"
-        - text: "Using Estimators"
-          href: articles/using_estimators.html
+        - text: "Estimator Basics"
+          href: articles/estimator_basics.html
         - text: "Input Functions"
           href: articles/input_functions.html
         - text: "Feature Columns"
