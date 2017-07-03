@@ -5,6 +5,13 @@ vignette: >
   %\VignetteIndexEntry{TensorBoard Visualization}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+type: docs
+menu:
+  main:
+    name: "TensorBoard"
+    identifier: "tfestimators-tensorboard-visualizations"
+    parent: "tfestimators-using-tfestimators"
+    weight: 50
 ---
 
 ```{r setup, include = FALSE}

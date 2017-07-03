@@ -6,6 +6,13 @@ vignette: >
   %\VignetteIndexEntry{Input Functions}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+type: docs
+menu:
+  main:
+    name: "Input Functions"
+    identifier: "tfestimators-input-functions"
+    parent: "tfestimators-using-tfestimators"
+    weight: 30
 ---
 
 

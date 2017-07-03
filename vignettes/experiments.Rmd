@@ -6,6 +6,13 @@ vignette: >
   %\VignetteIndexEntry{Experiments}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+type: docs
+menu:
+  main:
+    name: "Experiments"
+    identifier: "tfestimators-experiments"
+    parent: "tfestimators-advanced"
+    weight: 10
 ---
 
 

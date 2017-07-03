@@ -6,6 +6,13 @@ vignette: >
   %\VignetteIndexEntry{Custom Estimators}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+type: docs
+menu:
+  main:
+    name: "Custom Estimators"
+    identifier: "tfestimators-custom"
+    parent: "tfestimators-advanced"
+    weight: 30
 ---
 
 

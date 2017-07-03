@@ -1,11 +1,18 @@
 ---
-title: "Estimators Basics"
+title: "Estimator Basics"
 output: 
   rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Estimators Basics}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+type: docs
+menu:
+  main:
+    name: "Estimator Basics"
+    identifier: "tfestimators-basics"
+    parent: "tfestimators-using-tfestimators"
+    weight: 20
 ---
 
 

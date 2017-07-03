@@ -6,6 +6,13 @@ vignette: >
   %\VignetteIndexEntry{Run Hooks}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+type: docs
+menu:
+  main:
+    name: "Run Hooks"
+    identifier: "tfestimators-run-hooks"
+    parent: "tfestimators-advanced"
+    weight: 20
 ---
 
 
