@@ -1,5 +1,5 @@
 ---
-title: "Creating Estimators - Abalone Age Predictor"
+title: "Custom Estimators"
 output: 
   rmarkdown::html_vignette
 vignette: >
