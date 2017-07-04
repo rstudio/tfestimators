@@ -1,11 +1,18 @@
 ---
-title: "Using Estimators"
+title: "Estimator Basics"
 output: 
   rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Using Estimators}
+  %\VignetteIndexEntry{Estimators Basics}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+type: docs
+menu:
+  main:
+    name: "Estimator Basics"
+    identifier: "tfestimators-basics"
+    parent: "tfestimators-using-tfestimators"
+    weight: 20
 ---
 
 
@@ -15,7 +22,7 @@ knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 
 ## Overview
 
-The core components of the TensorFlow Estimator API include:
+The basic components of the TensorFlow Estimator API include:
 
 - Canned estimators (pre-built implementations of various models).
 

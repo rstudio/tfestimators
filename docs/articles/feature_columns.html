@@ -41,7 +41,7 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Getting Started</li>
     <li>
-      <a href="../articles/using_estimators.html">Using Estimators</a>
+      <a href="../articles/estimator_basics.html">Estimator Basics</a>
     </li>
     <li>
       <a href="../articles/input_functions.html">Input Functions</a>
@@ -58,7 +58,7 @@
       <a href="../articles/run_hooks.html">Run Hooks</a>
     </li>
     <li>
-      <a href="../articles/creating_estimators.html">Creating Estimators - Abalone Age Predictor Example</a>
+      <a href="../articles/creating_estimators.html">Custom Estimators</a>
     </li>
     <li>
       <a href="../articles/tensorboard.html">TensorBoard Visualization</a>
@@ -138,11 +138,11 @@
 <div id="pattern-matching" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pattern-matching" class="anchor"></a>Pattern Matching</h2>
-<p>You can also do pattern matching similar to what you may be famillar with from <code>dplyr::select</code> statements to define multiple columns at once. To do this, establish the set of column names to match against using the <code>names</code> argument:</p>
+<p>You can also do pattern matching similar to what you may be famillar with from <code><a href="http://dplyr.tidyverse.org/reference/select.html">dplyr::select</a></code> statements to define multiple columns at once. To do this, establish the set of column names to match against using the <code>names</code> argument:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(<span class="dt">names =</span> subsidiaries, 
   <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"profit"</span>),
   <span class="kw"><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity</a></span>(<span class="st">"profession"</span>, <span class="dt">num_buckets =</span> <span class="dv">5</span>),
-  <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="kw"><a href="../reference/reexports.html">ends_with</a></span>(<span class="st">"_pct"</span>))
+  <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">ends_with</a></span>(<span class="st">"_pct"</span>))
 )</code></pre></div>
 <p>The <code>names</code> parameter can either be a character vector with the names or any R object which implements the <code>names()</code> or <code>colnames()</code> method.</p>
 <p>If the code you are using to compose columns is more complicated or if you need save references to columns for use in column embeddings you can also establish a scope for given set of column names using the <code><a href="../reference/set_column_names.html">with_column_names()</a></code> function:</p>
@@ -153,8 +153,8 @@
     <span class="kw"><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity</a></span>(<span class="st">"profession"</span>, <span class="dt">num_buckets =</span> <span class="dv">5</span>)
   )                     
      
-  if (include_pct)
-    cols &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(cols, <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="kw"><a href="../reference/reexports.html">ends_with</a></span>(<span class="st">"_pct"</span>)))
+  <span class="cf">if</span> (include_pct)
+    cols &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(cols, <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">ends_with</a></span>(<span class="st">"_pct"</span>)))
   
   cols
 })</code></pre></div>
@@ -166,27 +166,27 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td><code><a href="../reference/reexports.html">starts_with()</a></code></td>
+<td><code><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">starts_with()</a></code></td>
 <td>Starts with a prefix</td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/reexports.html">ends_with()</a></code></td>
+<td><code><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">ends_with()</a></code></td>
 <td>Ends with a suffix</td>
 </tr>
 <tr class="odd">
-<td><code><a href="../reference/reexports.html">contains()</a></code></td>
+<td><code><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">contains()</a></code></td>
 <td>Contains a literal string</td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/reexports.html">matches()</a></code></td>
+<td><code><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">matches()</a></code></td>
 <td>Matches a regular expression</td>
 </tr>
 <tr class="odd">
-<td><code><a href="../reference/reexports.html">one_of()</a></code></td>
+<td><code><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">one_of()</a></code></td>
 <td>Included in character vector</td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/reexports.html">everything()</a></code></td>
+<td><code><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">everything()</a></code></td>
 <td>All columns</td>
 </tr>
 </tbody>

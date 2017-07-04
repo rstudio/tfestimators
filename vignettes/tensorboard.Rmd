@@ -5,6 +5,13 @@ vignette: >
   %\VignetteIndexEntry{TensorBoard Visualization}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+type: docs
+menu:
+  main:
+    name: "TensorBoard"
+    identifier: "tfestimators-tensorboard-visualizations"
+    parent: "tfestimators-using-tfestimators"
+    weight: 50
 ---
 
 ```{r setup, include = FALSE}
@@ -39,16 +46,16 @@ with `log_dir` being the directory you used to save the model checkpoints, to la
 
 For example, here's a TensorBoard display for a model's training loss:
 
-![](tensorboard-loss.png){width=750 height=545 .screenshot}
+![](images/tensorboard-loss.png){width=750 height=545 .screenshot}
 
 
 
 Here's another TensorBoard display for this model's TensorFlow graph that demonstrates the architecture of the model:
 
-![](tensorboard-graph.png){width=750 height=545 .screenshot}
+![](images/tensorboard-graph.png){width=750 height=545 .screenshot}
 
 
-You can also click to see each subgraph's details
+You can also click to see each subgraph's details:
 
 
-![](tensorboard-graph-details.png){width=750 height=545 .screenshot}
+![](images/tensorboard-graph-details.png){width=750 height=545 .screenshot}

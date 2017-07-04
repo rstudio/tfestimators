@@ -6,6 +6,13 @@ vignette: >
   %\VignetteIndexEntry{Feature Columns}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+type: docs
+menu:
+  main:
+    name: "Feature Columns"
+    identifier: "tfestimators-feature-columns"
+    parent: "tfestimators-using-tfestimators"
+    weight: 40
 ---
 
 

@@ -11,8 +11,8 @@ navbar:
     - text: "Using"
       menu:
         - text: "Getting Started"
-        - text: "Using Estimators"
-          href: articles/using_estimators.html
+        - text: "Estimator Basics"
+          href: articles/estimator_basics.html
         - text: "Input Functions"
           href: articles/input_functions.html
         - text: "Feature Columns"
@@ -35,7 +35,7 @@ navbar:
           href: articles/run_hooks.html
 #        - text: "Run Configuration"
 #          href: articles/run_configuration.html
-        - text: "Creating Estimators - Abalone Age Predictor Example"
+        - text: "Custom Estimators"
           href: articles/creating_estimators.html
         - text: "TensorBoard Visualization"
           href: articles/tensorboard.html

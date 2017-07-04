@@ -41,7 +41,7 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Getting Started</li>
     <li>
-      <a href="../articles/using_estimators.html">Using Estimators</a>
+      <a href="../articles/estimator_basics.html">Estimator Basics</a>
     </li>
     <li>
       <a href="../articles/input_functions.html">Input Functions</a>
@@ -58,7 +58,7 @@
       <a href="../articles/run_hooks.html">Run Hooks</a>
     </li>
     <li>
-      <a href="../articles/creating_estimators.html">Creating Estimators - Abalone Age Predictor Example</a>
+      <a href="../articles/creating_estimators.html">Custom Estimators</a>
     </li>
     <li>
       <a href="../articles/tensorboard.html">TensorBoard Visualization</a>
@@ -111,21 +111,21 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/estimator.html">estimator</a></span>(
     <span class="dt">model_fn =</span> model_fn,
     <span class="dt">model_dir =</span> <span class="st">"/tmp/test"</span>
-) %&gt;%<span class="st"> </span><span class="kw">train</span>(<span class="dt">input_fn =</span> input, <span class="dt">steps =</span> 100L)</code></pre></div>
+) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">train</span>(<span class="dt">input_fn =</span> input, <span class="dt">steps =</span> 100L)</code></pre></div>
 <p>and then you can call</p>
-<pre><code><a href="../reference/reexports.html">tensorboard(log_dir = "/tmp/test", launch_browser = TRUE)</a></code></pre>
+<pre><code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/tensorboard">tensorboard(log_dir = "/tmp/test", launch_browser = TRUE)</a></code></pre>
 <p>with <code>log_dir</code> being the directory you used to save the model checkpoints, to launch the TensorBoard in browser.</p>
 <p>For example, here’s a TensorBoard display for a model’s training loss:</p>
 <div class="figure">
-<img src="tensorboard-loss.png" class="screenshot" width="750" height="545">
+<img src="images/tensorboard-loss.png" class="screenshot" width="750" height="545">
 </div>
 <p>Here’s another TensorBoard display for this model’s TensorFlow graph that demonstrates the architecture of the model:</p>
 <div class="figure">
-<img src="tensorboard-graph.png" class="screenshot" width="750" height="545">
+<img src="images/tensorboard-graph.png" class="screenshot" width="750" height="545">
 </div>
-<p>You can also click to see each subgraph’s details</p>
+<p>You can also click to see each subgraph’s details:</p>
 <div class="figure">
-<img src="tensorboard-graph-details.png" class="screenshot" width="750" height="545">
+<img src="images/tensorboard-graph-details.png" class="screenshot" width="750" height="545">
 </div>
 </div>
 </div>

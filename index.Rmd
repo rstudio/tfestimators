@@ -1,6 +1,13 @@
 ---
 title: "R Interface to TensorFlow Estimators"
 output: html_document
+type: docs
+menu:
+  main:
+    name: "Overview"
+    identifier: "tfestimators-overview"
+    parent: "tfestimators-using-tfestimators"
+    weight: 10
 ---
 
 ```{r setup, include=FALSE}
@@ -155,7 +162,7 @@ model %>% predict(mtcars_input_fn(obs))
 
 These articles cover the basics of using TensorFlow Estimators:
 
-- [Using Estimators](articles/using_estimators.html)
+- [Estimator Basics](articles/estimator_basics.html)
 - [Input Functions](articles/input_functions.html)
 - [Feature Columns](articles/feature_columns.html)
 
