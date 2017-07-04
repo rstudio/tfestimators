@@ -62,6 +62,9 @@
       <a href="articles/creating_estimators.html">Custom Estimators</a>
     </li>
     <li>
+      <a href="articles/layers.html">TensorFlow Layers</a>
+    </li>
+    <li>
       <a href="articles/tensorboard.html">TensorBoard Visualization</a>
     </li>
   </ul>
@@ -131,10 +134,10 @@
 <a href="#installation" class="anchor"></a>Installation</h3>
 <p>To use <strong>tfestimators</strong> you need to install both the R package as well as <a href="https://rstudio.github.io/tensorflow/">TensorFlow</a> iteslf.</p>
 <p>First, install the tfestimators R package as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"rstudio/tfestimators"</span>)</code></pre></div>
-<p>Then, use the <code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/install_tensorflow">install_tensorflow()</a></code> function to install the current nightly build of TensorFlow (see the TensorFlow repository home page for <a href="https://github.com/tensorflow/tensorflow#installation">nightly build URLs</a> for various platforms):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">install_github</span>(<span class="st">"rstudio/tfestimators"</span>)</code></pre></div>
+<p>Then, use the <code><a href="reference/reexports.html">install_tensorflow()</a></code> function to install the current nightly build of TensorFlow (see the TensorFlow repository home page for <a href="https://github.com/tensorflow/tensorflow#installation">nightly build URLs</a> for various platforms):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tfestimators)
-<span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/install_tensorflow">install_tensorflow</a></span>(<span class="dt">package_url =</span> <span class="st">"https://ci.tensorflow.org/view/Nightly/&lt;path-to-tf-package&gt;"</span>)</code></pre></div>
+<span class="kw"><a href="reference/reexports.html">install_tensorflow</a></span>(<span class="dt">package_url =</span> <span class="st">"https://ci.tensorflow.org/view/Nightly/&lt;path-to-tf-package&gt;"</span>)</code></pre></div>
 <div class="alert alert-warning" role="alert">
 <p><strong>IMPORTANT NOTE</strong>: The <strong>tfestimators</strong> package currently requires the nightly build of TensorFlow, it will not work with the release version as it relies on APIs only in the development version.</p>
 </div>
@@ -151,7 +154,7 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tfestimators)
 
 <span class="co"># return an input_fn for a given subset of data</span>
-mtcars_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(data) {
+mtcars_input_fn &lt;-<span class="st"> </span>function(data) {
   <span class="kw"><a href="reference/input_fn.html">input_fn</a></span>(data, <span class="dt">features =</span> <span class="kw">c</span>(disp, cyl), <span class="dt">response =</span> mpg)
 }</code></pre></div>
 <p>The <code>input_fn</code> method can take an R data frame or matrix along with the names of feature and response variables and automatically create an input function for it.</p>
@@ -181,21 +184,21 @@ mtcars_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(d
 <a href="#training" class="anchor"></a>Training</h4>
 <p>Next, we train the model using the <code>train()</code> function. Note that we segment <code>mtcars</code> into training and test datasets so we can evaluate the model on a differnet subset of data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># randomly segment mtcars into test and training datasets</span>
-mtcars &lt;-<span class="st"> </span>mtcars[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(mtcars)),]
-test_obs &lt;-<span class="st"> </span><span class="kw">as.integer</span>(<span class="fl">0.2</span> <span class="op">*</span><span class="st"> </span><span class="kw">nrow</span>(mtcars))
-train &lt;-<span class="st"> </span>mtcars[<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span>test_obs),]
-test &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span><span class="op">:</span>test_obs,]
+mtcars &lt;-<span class="st"> </span>mtcars[<span class="kw">sample</span>(<span class="dv">1</span>:<span class="kw">nrow</span>(mtcars)),]
+test_obs &lt;-<span class="st"> </span><span class="kw">as.integer</span>(<span class="fl">0.2</span> *<span class="st"> </span><span class="kw">nrow</span>(mtcars))
+train &lt;-<span class="st"> </span>mtcars[-(<span class="dv">1</span>:test_obs),]
+test &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span>:test_obs,]
 
 <span class="co"># train the model</span>
-model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">train</span>(<span class="kw">mtcars_input_fn</span>(train))</code></pre></div>
+model %&gt;%<span class="st"> </span><span class="kw">train</span>(<span class="kw">mtcars_input_fn</span>(train))</code></pre></div>
 </div>
 <div id="evaluation" class="section level4">
 <h4 class="hasAnchor">
 <a href="#evaluation" class="anchor"></a>Evaluation</h4>
 <p>We can evaluate the model’s accuracy using the <code>evaluate()</code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
 <pre><code>## $loss
-## [1] 273.4541
+## [1] 174.7522
 ## 
 ## $global_step
 ## [1] 2</code></pre>
@@ -204,10 +207,10 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tr
 <h4 class="hasAnchor">
 <a href="#prediction" class="anchor"></a>Prediction</h4>
 <p>Finally, we generate predictions using the <code>predict()</code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,]
-model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span>:<span class="dv">3</span>,]
+model %&gt;%<span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
 <pre><code>##   scores   scores   scores 
-## 3.577967 3.675264 4.064453</code></pre>
+## 8.176989 6.315289 2.534959</code></pre>
 </div>
 </div>
 </div>
