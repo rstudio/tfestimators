@@ -110,9 +110,9 @@ mnist_classifier <- estimator(
 
 # Set up logging for predictions
 # Log the values in the "Softmax" tensor with label "probabilities"
-# tensors_to_log <- list(probabilities = "softmax_tensor")
-# logging_hook <- hook_logging_tensor(
-#   tensors = tensors_to_log, every_n_iter=50)
+tensors_to_log <- list(probabilities = "conv2d_1/kernel")
+logging_hook <- hook_logging_tensor(
+  tensors = tensors_to_log, every_n_iter = 50)
 
 train_input_fn <- function(features_as_named_list) {
   tf$estimator$inputs$numpy_input_fn(
@@ -135,7 +135,8 @@ eval_input_fn <- function(features_as_named_list) {
 train(
   mnist_classifier,
   input_fn = train_input_fn,
-  steps = 2)
+  steps = 2,
+  hooks = logging_hook)
 
 evaluate(
   mnist_classifier,

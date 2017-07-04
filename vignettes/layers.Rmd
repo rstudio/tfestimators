@@ -123,74 +123,106 @@ MNIST feature data, labels, and
 configures the CNN; and returns predictions, loss, and a training operation:
 
 ``` r
-def cnn_model_fn(features, labels, mode):
-  """Model function for CNN."""
+cnn_model_fn <- function(features, labels, mode, params, config) {
+  
   # Input Layer
-  input_layer = tf.reshape(features["x"], [-1, 28, 28, 1])
-
+  # Reshape X to 4-D tensor: [batch_size, width, height, channels]
+  # MNIST images are 28x28 pixels, and have one color channel
+  input_layer <- tf$reshape(features$x, c(-1L, 28L, 28L, 1L))
+  
   # Convolutional Layer #1
-  conv1 = tf.layers.conv2d(
-      inputs=input_layer,
-      filters=32,
-      kernel_size=[5, 5],
-      padding="same",
-      activation=tf.nn.relu)
-
+  # Computes 32 features using a 5x5 filter with ReLU activation.
+  # Padding is added to preserve width and height.
+  # Input Tensor Shape: [batch_size, 28, 28, 1]
+  # Output Tensor Shape: [batch_size, 28, 28, 32]
+  conv1 <- tf$layers$conv2d(
+    inputs = input_layer,
+    filters = 32L,
+    kernel_size = c(5L, 5L),
+    padding = "same",
+    activation = tf$nn$relu)
+  
   # Pooling Layer #1
-  pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2], strides=2)
-
-  # Convolutional Layer #2 and Pooling Layer #2
-  conv2 = tf.layers.conv2d(
-      inputs=pool1,
-      filters=64,
-      kernel_size=[5, 5],
-      padding="same",
-      activation=tf.nn.relu)
-  pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2, 2], strides=2)
-
+  # First max pooling layer with a 2x2 filter and stride of 2
+  # Input Tensor Shape: [batch_size, 28, 28, 32]
+  # Output Tensor Shape: [batch_size, 14, 14, 32]
+  pool1 <- tf$layers$max_pooling2d(inputs = conv1, pool_size = c(2L, 2L), strides = 2L)
+  
+  # Convolutional Layer #2
+  # Computes 64 features using a 5x5 filter.
+  # Padding is added to preserve width and height.
+  # Input Tensor Shape: [batch_size, 14, 14, 32]
+  # Output Tensor Shape: [batch_size, 14, 14, 64]
+  conv2 <- tf$layers$conv2d(
+    inputs = pool1,
+    filters = 64L,
+    kernel_size = c(5L, 5L),
+    padding = "same",
+    activation = tf$nn$relu)
+  
+  # Pooling Layer #2
+  # Second max pooling layer with a 2x2 filter and stride of 2
+  # Input Tensor Shape: [batch_size, 14, 14, 64]
+  # Output Tensor Shape: [batch_size, 7, 7, 64]
+  pool2 <- tf$layers$max_pooling2d(inputs = conv2, pool_size = c(2L, 2L), strides = 2L)
+  
+  # Flatten tensor into a batch of vectors
+  # Input Tensor Shape: [batch_size, 7, 7, 64]
+  # Output Tensor Shape: [batch_size, 7 * 7 * 64]
+  pool2_flat <- tf$reshape(pool2, c(-1L, 7L * 7L * 64L))
+  
   # Dense Layer
-  pool2_flat = tf.reshape(pool2, [-1, 7 * 7 * 64])
-  dense = tf.layers.dense(inputs=pool2_flat, units=1024, activation=tf.nn.relu)
-  dropout = tf.layers.dropout(
-      inputs=dense, rate=0.4, training=mode == tf.estimator.ModeKeys.TRAIN)
-
-  # Logits Layer
-  logits = tf.layers.dense(inputs=dropout, units=10)
-
+  # Densely connected layer with 1024 neurons
+  # Input Tensor Shape: [batch_size, 7 * 7 * 64]
+  # Output Tensor Shape: [batch_size, 1024]
+  dense <- tf$layers$dense(inputs = pool2_flat, units = 1024L, activation = tf$nn$relu)
+  
+  # Add dropout operation; 0.6 probability that element will be kept
+  dropout <- tf$layers$dropout(
+    inputs = dense, rate = 0.4, training = (mode == mode_keys()$TRAIN))
+  
+  # Logits layer
+  # Input Tensor Shape: [batch_size, 1024]
+  # Output Tensor Shape: [batch_size, 10]
+  logits <- tf$layers$dense(inputs = dropout, units = 10L)
+  
   # Generate Predictions (for PREDICT mode)
-  predicted_classes = tf.argmax(input=logits, axis=1)
-  if mode == tf.estimator.ModeKeys.PREDICT:
-    predictions = {
-        "classes": predicted_classes,
-        "probabilities": tf.nn.softmax(logits, name="softmax_tensor")
-    }
-    return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions)
-
+  predicted_classes <- tf$argmax(input = logits, axis = 1L)
+  if (mode == mode_keys()$PREDICT) {
+    predictions <- list(
+      classes = predicted_classes,
+      probabilities = tf$nn$softmax(logits, name = "softmax_tensor")
+    )
+    return(estimator_spec(mode = mode, predictions = predictions))
+  }
+  
   # Calculate Loss (for both TRAIN and EVAL modes)
-  onehot_labels = tf.one_hot(indices=tf.cast(labels, tf.int32), depth=10)
-  loss = tf.losses.softmax_cross_entropy(
-      onehot_labels=onehot_labels, logits=logits)
-
+  onehot_labels <- tf$one_hot(indices = tf$cast(labels, tf$int32), depth = 10L)
+  loss <- tf$losses$softmax_cross_entropy(
+    onehot_labels = onehot_labels, logits = logits)
+  
   # Configure the Training Op (for TRAIN mode)
-  if mode == tf.estimator.ModeKeys.TRAIN:
-    optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001)
-    train_op = optimizer.minimize(
-        loss=loss,
-        global_step=tf.train.get_global_step())
-    return tf.estimator.EstimatorSpec(mode=mode, loss=loss, train_op=train_op)
-
+  if (mode == mode_keys()$TRAIN) {
+    optimizer <- tf$train$GradientDescentOptimizer(learning_rate = 0.001)
+    train_op <- optimizer$minimize(
+      loss = loss,
+      global_step = tf$train$get_global_step())
+    return(estimator_spec(mode = mode, loss = loss, train_op = train_op))
+  }
+    
   # Add evaluation metrics (for EVAL mode)
-  eval_metric_ops = {
-      "accuracy": tf.metrics.accuracy(
-          labels=labels, predictions=predicted_classes)}
-  return tf.estimator.EstimatorSpec(
-      mode=mode, loss=loss, eval_metric_ops=eval_metric_ops)
+  eval_metric_ops <- list(accuracy = tf$metrics$accuracy(
+    labels = labels, predictions = predicted_classes))
+
+  return(estimator_spec(
+    mode = mode, loss = loss, eval_metric_ops = eval_metric_ops))
+}
 ```
 
 The following sections (with headings corresponding to each code block above)
-dive deeper into the `tf.layers` code used to create each layer, as well as how
+dive deeper into the `tf$layers` code used to create each layer, as well as how
 to calculate loss, configure the training op, and generate predictions. If
-you're already experienced with CNNs and @{$estimators$TensorFlow `Estimator`s},
+you're already experienced with CNNs and creatings estimators in tfestimators,
 and find the above code intuitive, you may want to skim these sections or just
 skip ahead to ["Training and Evaluating the CNN MNIST
 Classifier"](#training-and-evaluating-the-cnn-mnist-classifier).
@@ -217,18 +249,18 @@ desired shape for our input layer is <code>[<em>batch_size</em>, 28, 28,
 To convert our input feature map (`features`) to this shape, we can perform the
 following `reshape` operation:
 
-```python
-input_layer = tf.reshape(features["x"], [-1, 28, 28, 1])
+```r
+input_layer <- tf$reshape(features$x, c(-1L, 28L, 28L, 1L))
 ```
 
 Note that we've indicated `-1` for batch size, which specifies that this
 dimension should be dynamically computed based on the number of input values in
-`features["x"]`, holding the size of all other dimensions constant. This allows
+`features$x`, holding the size of all other dimensions constant. This allows
 us to treat `batch_size` as a hyperparameter that we can tune. For example, if
-we feed examples into our model in batches of 5, `features["x"]` will contain
+we feed examples into our model in batches of 5, `features$x` will contain
 3,920 values (one value for each pixel in each image), and `input_layer` will
 have a shape of `[5, 28, 28, 1]`. Similarly, if we feed examples in batches of
-100, `features["x"]` will contain 78,400 values, and `input_layer` will have a
+100, `features$x` will contain 78,400 values, and `input_layer` will have a
 shape of `[100, 28, 28, 1]`.
 
 ### Convolutional Layer #1
@@ -237,13 +269,13 @@ In our first convolutional layer, we want to apply 32 5x5 filters to the input
 layer, with a ReLU activation function. We can use the `conv2d()` method in the
 `layers` module to create this layer as follows:
 
-```python
-conv1 = tf.layers.conv2d(
-    inputs=input_layer,
-    filters=32,
-    kernel_size=[5, 5],
-    padding="same",
-    activation=tf.nn.relu)
+```r
+conv1 <- tf$layers$conv2d(
+    inputs = input_layer,
+    filters = 32L,
+    kernel_size = c(5L, 5L),
+    padding = "same",
+    activation = tf$nn$relu)
 ```
 
 The `inputs` argument specifies our input tensor, which must have the shape
@@ -287,8 +319,8 @@ Next, we connect our first pooling layer to the convolutional layer we just
 created. We can use the `max_pooling2d()` method in `layers` to construct a
 layer that performs max pooling with a 2x2 filter and stride of 2:
 
-```python
-pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2], strides=2)
+```r
+pool1 <- tf$layers$max_pooling2d(inputs = conv1, pool_size = c(2L, 2L), strides = 2L)
 ```
 
 Again, `inputs` specifies the input tensor, with a shape of
@@ -305,14 +337,14 @@ the first convolutional layer, which has a shape of <code>[<em>batch_size</em>,
 The `pool_size` argument specifies the size of the max pooling filter as
 <code>[<em>width</em>, <em>height</em>]</code> (here, `[2, 2]`). If both
 dimensions have the same value, you can instead specify a single integer (e.g.,
-`pool_size=2`).
+`pool_size = 2`).
 
 The `strides` argument specifies the size of the stride. Here, we set a stride
 of 2, which indicates that the subregions extracted by the filter should be
 separated by 2 pixels in both the width and height dimensions (for a 2x2 filter,
 this means that none of the regions extracted will overlap). If you want to set
 different stride values for width and height, you can instead specify a tuple or
-list (e.g., `stride=[3, 6]`).
+list (e.g., `stride = c(3, 6)`).
 
 Our output tensor produced by `max_pooling2d()` (`pool1`) has a shape of
 <code>[<em>batch_size</em>, 14, 14, 32]</code>: the 2x2 filter reduces width and
@@ -325,15 +357,15 @@ We can connect a second convolutional and pooling layer to our CNN using
 configure 64 5x5 filters with ReLU activation, and for pooling layer #2, we use
 the same specs as pooling layer #1 (a 2x2 max pooling filter with stride of 2):
 
-```python
-conv2 = tf.layers.conv2d(
-    inputs=pool1,
-    filters=64,
-    kernel_size=[5, 5],
-    padding="same",
-    activation=tf.nn.relu)
+```r
+conv2 <- tf$layers$conv2d(
+    inputs = pool1,
+    filters = 64L,
+    kernel_size = c(5L, 5L),
+    padding = "same",
+    activation = tf$nn$relu)
 
-pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2, 2], strides=2)
+pool2 <- tf$layers$max_pooling2d(inputs = conv2, pool_size = c(2L, 2L), strides = 2L)
 ```
 
 Note that convolutional layer #2 takes the output tensor of our first pooling
@@ -354,8 +386,8 @@ convolution/pooling layers. Before we connect the layer, however, we'll flatten
 our feature map (`pool2`) to shape <code>[<em>batch_size</em>,
 <em>features</em>]</code>, so that our tensor has only two dimensions:
 
-```python
-pool2_flat = tf.reshape(pool2, [-1, 7 * 7 * 64])
+```r
+pool2_flat <- tf$reshape(pool2, c(-1L, 7L * 7L * 64L))
 ```
 
 In the `reshape()` operation above, the `-1` signifies that the *`batch_size`*
@@ -368,8 +400,8 @@ of 7 * 7 * 64 (3136 in total). The output tensor, `pool2_flat`, has shape
 Now, we can use the `dense()` method in `layers` to connect our dense layer as
 follows:
 
-```python
-dense = tf.layers.dense(inputs=pool2_flat, units=1024, activation=tf.nn.relu)
+```r
+dense <- tf$layers$dense(inputs = pool2_flat, units = 1024L, activation = tf$nn$relu)
 ```
 
 The `inputs` argument specifies the input tensor: our flattened feature map,
@@ -380,9 +412,9 @@ we'll use `tf.nn.relu` to add ReLU activation.
 To help improve the results of our model, we also apply dropout regularization
 to our dense layer, using the `dropout` method in `layers`:
 
-```python
-dropout = tf.layers.dropout(
-    inputs=dense, rate=0.4, training=mode == tf.estimator.ModeKeys.TRAIN)
+```r
+dropout <- tf$layers$dropout(
+    inputs = dense, rate = 0.4, training = (mode == mode_keys()$TRAIN))
 ```
 
 Again, `inputs` specifies the input tensor, which is the output tensor from our
@@ -404,8 +436,8 @@ The final layer in our neural network is the logits layer, which will return the
 raw values for our predictions. We create a dense layer with 10 neurons (one for
 each target class 0–9), with linear activation (the default):
 
-```python
-logits = tf.layers.dense(inputs=dropout, units=10)
+```r
+logits <- tf$layers$dense(inputs = dropout, units = 10L)
 ```
 
 Our final output tensor of the CNN, `logits`, has shape
@@ -426,8 +458,8 @@ of the logits tensor with the highest raw value. We can find the index of this
 element using the @{tf.argmax}
 function:
 
-```python
-tf.argmax(input=logits, axis=1)
+```r
+tf$argmax(input = logits, axis = 1L)
 ```
 
 The `input` argument specifies the tensor from which to extract maximum
@@ -440,24 +472,24 @@ value along the dimension with index of 1, which corresponds to our predictions
 We can derive probabilities from our logits layer by applying softmax activation
 using @{tf.nn.softmax}:
 
-```python
-tf.nn.softmax(logits, name="softmax_tensor")
+```r
+tf$nn$softmax(logits, name = "softmax_tensor")
 ```
 
 > Note: We use the `name` argument to explicitly name this operation
-> `softmax_tensor`, so we can reference it later. (We'll set up logging for the
-> softmax values in ["Set Up a Logging Hook"](#set-up-a-logging-hook).
+> `softmax_tensor`, so we can reference it later.
 
-We compile our predictions in a dict, and return an `EstimatorSpec` object:
+We compile our predictions in a dict, and return an `estimator_spec` object:
 
-```python
-predicted_classes = tf.argmax(input=logits, axis=1)
-if mode == tf.estimator.ModeKeys.PREDICT:
-  predictions = {
-      "classes": predicted_classes,
-      "probabilities": tf.nn.softmax(logits, name="softmax_tensor")
-  }
-  return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions)
+```r
+predicted_classes <- tf$argmax(input = logits, axis = 1L)
+if (mode == mode_keys()$PREDICT) {
+  predictions <- list(
+    classes = predicted_classes,
+    probabilities = tf$nn$softmax(logits, name = "softmax_tensor")
+  )
+  return(estimator_spec(mode = mode, predictions = predictions))
+}
 ```
 
 ### Calculate Loss {#calculating-loss}
@@ -470,10 +502,10 @@ multiclass classification problems like MNIST,
 as the loss metric. The following code calculates cross entropy when the model
 runs in either `TRAIN` or `EVAL` mode:
 
-```python
-onehot_labels = tf.one_hot(indices=tf.cast(labels, tf.int32), depth=10)
-loss = tf.losses.softmax_cross_entropy(
-    onehot_labels=onehot_labels, logits=logits)
+```r
+onehot_labels <- tf$one_hot(indices = tf$cast(labels, tf$int32), depth = 10L)
+loss <- tf$losses$softmax_cross_entropy(
+  onehot_labels = onehot_labels, logits = logits)
 ```
 
 Let's take a closer look at what's happening above.
@@ -489,8 +521,8 @@ to the corresponding
  ...]
 ```
 
-We use the @{tf.one_hot} function
-to perform this conversion. `tf.one_hot()` has two required arguments:
+We use the `tf$one_hot` function
+to perform this conversion. `tf$one_hot` has two required arguments:
 
 *   `indices`. The locations in the one-hot tensor that will have "on
     values"—i.e., the locations of `1` values in the tensor shown above.
@@ -499,8 +531,8 @@ to perform this conversion. `tf.one_hot()` has two required arguments:
 
 The following code creates the one-hot tensor for our labels, `onehot_labels`:
 
-```python
-onehot_labels = tf.one_hot(indices=tf.cast(labels, tf.int32), depth=10)
+```r
+onehot_labels <- tf$one_hot(indices = tf$cast(labels, tf$int32), depth = 10L)
 ```
 
 Because `labels` contains a series of values from 0–9, `indices` is just our
@@ -508,13 +540,13 @@ Because `labels` contains a series of values from 0–9, `indices` is just our
 have 10 possible target classes, one for each digit.
 
 Next, we compute cross-entropy of `onehot_labels` and the softmax of the
-predictions from our logits layer. `tf.losses.softmax_cross_entropy()` takes
+predictions from our logits layer. `tf$losses$softmax_cross_entropy()` takes
 `onehot_labels` and `logits` as arguments, performs softmax activation on
 `logits`, calculates cross-entropy, and returns our `loss` as a scalar `Tensor`:
 
-```python
-loss = tf.losses.softmax_cross_entropy(
-    onehot_labels=onehot_labels, logits=logits)
+```r
+loss <- tf$losses$softmax_cross_entropy(
+    onehot_labels = onehot_labels, logits = logits)
 ```
 
 ### Configure the Training Op
@@ -525,13 +557,14 @@ optimize this loss value during training. We'll use a learning rate of 0.001 and
 [stochastic gradient descent](https://en.wikipedia.org/wiki/Stochastic_gradient_descent)
 as the optimization algorithm:
 
-```python
-if mode == tf.estimator.ModeKeys.TRAIN:
-  optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001)
-  train_op = optimizer.minimize(
-      loss=loss,
-      global_step=tf.train.get_global_step())
-  return tf.estimator.EstimatorSpec(mode=mode, loss=loss, train_op=train_op)
+```r
+if (mode == mode_keys()$TRAIN) {
+  optimizer <- tf$train$GradientDescentOptimizer(learning_rate = 0.001)
+  train_op <- optimizer$minimize(
+    loss = loss,
+    global_step = tf$train$get_global_step())
+  return(estimator_spec(mode = mode, loss = loss, train_op = train_op))
+}
 ```
 
 > Note: For a more in-depth look at configuring training ops for Estimator model
@@ -544,12 +577,12 @@ if mode == tf.estimator.ModeKeys.TRAIN:
 To add accuracy metric in our model, we define `eval_metric_ops` dict in EVAL
 mode as follows:
 
-```python
-eval_metric_ops = {
-    "accuracy": tf.metrics.accuracy(
-        labels=labels, predictions=predicted_classes)}
-return tf.estimator.EstimatorSpec(
-    mode=mode, loss=loss, eval_metric_ops=eval_metric_ops)
+```r
+eval_metric_ops <- list(accuracy = tf$metrics$accuracy(
+  labels = labels, predictions = predicted_classes))
+
+return(estimator_spec(
+  mode = mode, loss = loss, eval_metric_ops = eval_metric_ops))
 ```
 
 ## Training and Evaluating the CNN MNIST Classifier {#training_and_evaluating_the_cnn_mnist_classifier}
@@ -562,14 +595,14 @@ it.
 First, let's load our training and test data. Add a `main()` function to
 `cnn_mnist.py` with the following code:
 
-```python
-def main(unused_argv):
-  # Load training and eval data
-  mnist = tf.contrib.learn.datasets.load_dataset("mnist")
-  train_data = mnist.train.images # Returns np.array
-  train_labels = np.asarray(mnist.train.labels, dtype=np.int32)
-  eval_data = mnist.test.images # Returns np.array
-  eval_labels = np.asarray(mnist.test.labels, dtype=np.int32)
+```r
+np <- import("numpy", convert = FALSE)
+# Load training and eval data
+mnist <- tf$contrib$learn$datasets$load_dataset("mnist")
+train_data <- np$asmatrix(mnist$train$images, dtype = np$float32)
+train_labels <- np$asarray(mnist$train$labels, dtype = np$int32)
+eval_data <- np$asmatrix(mnist$test$images, dtype = np$float32)
+eval_labels <- np$asarray(mnist$test$labels, dtype = np$int32)
 ```
 
 We store the training feature data (the raw pixel values for 55,000 images of
@@ -582,14 +615,13 @@ and `eval_labels`, respectively.
 
 ### Create the Estimator {#create-the-estimator}
 
-Next, let's create an `Estimator` (a TensorFlow class for performing high-level
-model training, evaluation, and inference) for our model. Add the following code
-to `main()`:
+Next, let's create an `estimator` (a TensorFlow class for performing high-level
+model training, evaluation, and inference) for our model. 
 
-```python
+```r
 # Create the Estimator
-mnist_classifier = tf.estimator.Estimator(
-    model_fn=cnn_model_fn, model_dir="/tmp/mnist_convnet_model")
+mnist_classifier <- estimator(
+  model_fn = cnn_model_fn, model_dir = "/tmp/mnist_convnet_model")
 ```
 
 The `model_fn` argument specifies the model function to use for training,
@@ -605,16 +637,14 @@ feel free to change to another directory of your choice).
 ### Set Up a Logging Hook {#set_up_a_logging_hook}
 
 Since CNNs can take a while to train, let's set up some logging so we can track
-progress during training. We can use TensorFlow's @{tf.train.SessionRunHook} to create a
-@{tf.train.LoggingTensorHook}
-that will log the probability values from the softmax layer of our CNN. Add the
-following to `main()`:
+progress during training. We can use TensorFlow's `SessionRunHook` to create a
+`hook_logging_tensor` that will log the probability values from the softmax layer of our CNN.
 
-```python
+```r
 # Set up logging for predictions
-  tensors_to_log = {"probabilities": "softmax_tensor"}
-  logging_hook = tf.train.LoggingTensorHook(
-      tensors=tensors_to_log, every_n_iter=50)
+tensors_to_log <- list(probabilities = "conv2d_1/kernel")
+logging_hook <- hook_logging_tensor(
+  tensors = tensors_to_log, every_n_iter = 50)
 ```
 
 We store a dict of the tensors we want to log in `tensors_to_log`. Each key is a
@@ -629,8 +659,8 @@ operation earlier when we generated the probabilities in `cnn_model_fn`.
 > @{$graph_viz$TensorBoard}) or to enable the @{$debugger$TensorFlow Debugger
 > (tfdbg)}.
 
-Next, we create the `LoggingTensorHook`, passing `tensors_to_log` to the
-`tensors` argument. We set `every_n_iter=50`, which specifies that probabilities
+Next, we create the `hook_logging_tensor`, passing `tensors_to_log` to the
+`tensors` argument. We set `every_n_iter = 50`, which specifies that probabilities
 should be logged after every 50 steps of training.
 
 ### Train the Model
@@ -638,26 +668,29 @@ should be logged after every 50 steps of training.
 Now we're ready to train our model, which we can do by creating `train_input_fn`
 ans calling `train()` on `mnist_classifier`. Add the following to `main()`:
 
-```python
+```r
 # Train the model
-train_input_fn = tf.estimator.inputs.numpy_input_fn(
-    x={"x": train_data},
-    y=train_labels,
-    batch_size=100,
-    num_epochs=None,
-    shuffle=True)
-mnist_classifier.train(
-    input_fn=train_input_fn,
-    steps=20000,
-    hooks=[logging_hook])
+train_input_fn <- function(features_as_named_list) {
+  tf$estimator$inputs$numpy_input_fn(
+    x = list(x = train_data),
+    y = train_labels,
+    batch_size = 100L,
+    num_epochs = NULL,
+    shuffle = TRUE)
+}
+train(
+  mnist_classifier,
+  input_fn = train_input_fn,
+  steps = 2,
+  hooks = logging_hook)
 ```
 
 In the `numpy_input_fn` call, we pass the training feature data and labels to
 `x` (as a dict) and `y`, respectively. We set a `batch_size` of `100` (which
 means that the model will train on minibatches of 100 examples at each step).
-`num_epochs=None` means that the model will train until the specified number of
+`num_epochs=NULL` means that the model will train until the specified number of
 steps is reached. We also set `shuffle=True` to shuffle the training data.
-In the `train` call, we set `steps=20000`
+In the `train` call, we set `steps=2`
 (which means the model will train for 20,000 steps total). We pass our
 `logging_hook` to the `hooks` argument, so that it will be triggered during
 training.
@@ -669,15 +702,20 @@ accuracy on the MNIST test set. We call the `evaluate` method, which evaluates
 the metrics we specified in `eval_metric_ops` argument in the `model_fn`.
 Add the following to `main()`:
 
-```python
+```r
 # Evaluate the model and print results
-eval_input_fn = tf.estimator.inputs.numpy_input_fn(
-    x={"x": eval_data},
-    y=eval_labels,
-    num_epochs=1,
-    shuffle=False)
-eval_results = mnist_classifier.evaluate(input_fn=eval_input_fn)
-print(eval_results)
+eval_input_fn <- function(features_as_named_list) {
+  tf$estimator$inputs$numpy_input_fn(
+    x = list(x = eval_data),
+    y = eval_labels,
+    batch_size = 100L,
+    num_epochs = NULL,
+    shuffle = TRUE)
+}
+evaluate(
+  mnist_classifier,
+  input_fn = eval_input_fn,
+  steps = 2)
 ```
 
 To create `eval_input_fn`, we set `num_epochs=1`, so that the model evaluates
@@ -696,20 +734,13 @@ logic; now let's see the results. Run `cnn_mnist.py`.
 
 As the model trains, you'll see log output like the following:
 
-```python
-INFO:tensorflow:loss = 2.36026, step = 1
-INFO:tensorflow:probabilities = [[ 0.07722801  0.08618255  0.09256398, ...]]
-...
-INFO:tensorflow:loss = 2.13119, step = 101
-INFO:tensorflow:global_step/sec: 5.44132
-...
-INFO:tensorflow:Loss for final step: 0.553216.
-
-INFO:tensorflow:Restored model from /tmp/mnist_convnet_model
-INFO:tensorflow:Eval steps [0,inf) for training step 20000.
-INFO:tensorflow:Input iterator is exhausted.
-INFO:tensorflow:Saving evaluation summary for step 20000: accuracy = 0.9733, loss = 0.0902271
-{'loss': 0.090227105, 'global_step': 20000, 'accuracy': 0.97329998}
+```r
+INFO:tensorflow:Create CheckpointSaverHook.
+INFO:tensorflow:Restoring parameters from /tmp/mnist_convnet_model/model.ckpt-5
+INFO:tensorflow:Saving checkpoints for 6 into /tmp/mnist_convnet_model/model.ckpt.
+INFO:tensorflow:loss = 2.29727, step = 6
+INFO:tensorflow:Saving checkpoints for 7 into /tmp/mnist_convnet_model/model.ckpt.
+INFO:tensorflow:Loss for final step: 2.30916.
 ```
 
 Here, we've achieved an accuracy of 97.3% on our test data set.
