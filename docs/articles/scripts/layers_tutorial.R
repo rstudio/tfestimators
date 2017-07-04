@@ -110,8 +110,8 @@ mnist_classifier <- estimator(
   model_fn = cnn_model_fn, model_dir = "/tmp/mnist_convnet_model")
 
 # Set up logging for predictions
-# Log the values in the "Softmax" tensor with label "probabilities"
-tensors_to_log <- list(probabilities = "predicted_classes")
+# Log the values in the "Argmax" tensor with label "predicted_classes"
+tensors_to_log <- list(predicted_classes = "predicted_classes")
 logging_hook <- hook_logging_tensor(
   tensors = tensors_to_log, every_n_iter = 2)
 

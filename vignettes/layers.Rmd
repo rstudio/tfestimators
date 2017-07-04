@@ -630,11 +630,11 @@ feel free to change to another directory of your choice).
 
 Since CNNs can take a while to train, let's set up some logging so we can track
 progress during training. We can use TensorFlow's `SessionRunHook` to create a
-`hook_logging_tensor` that will log the probability values from the softmax layer of our CNN.
+`hook_logging_tensor` that will log the predicted classes from the `argmax` operation.
 
 ```r
-# Set up logging for predictions
-tensors_to_log <- list(probabilities = "predicted_classes")
+# Set up logging for predicted classes
+tensors_to_log <- list(predicted_classes = "predicted_classes")
 logging_hook <- hook_logging_tensor(
   tensors = tensors_to_log, every_n_iter = 50)
 ```
@@ -725,5 +725,21 @@ INFO:tensorflow:Saving checkpoints for 7 into /tmp/mnist_convnet_model/model.ckp
 INFO:tensorflow:Loss for final step: 2.30916.
 ```
 
-Here, we've achieved an accuracy of 97.3% on our test data set.
+You'll see log output like the following during model evaluation with the `predicted_classes` that we included in the `logging_hook`:
+
+```r
+INFO:tensorflow:Starting evaluation at 2017-07-04-17:05:28
+INFO:tensorflow:Restoring parameters from /tmp/mnist_convnet_model/model.ckpt-19
+INFO:tensorflow:predicted_classes = [6 9 1 9 9 1 9 1 9 6 1 9 9 9 9 1 9 9 9 3 1 1 1 9 6 1 9 9 9 9 9 9 1 1 9 9 9
+ 9 9 9 9 1 9 9 1 4 4 1 9 1 9 9 1 9 9 9 9 9 9 1 6 9 9 1 9 6 9 9 9 9 9 9 1 9
+ 9 3 9 9 9 9 1 9 9 9 3 9 1 9 9 9 9 9 9 9 9 9 1 9 9 9]
+INFO:tensorflow:Evaluation [1/10]
+INFO:tensorflow:Evaluation [2/10]
+INFO:tensorflow:predicted_classes = [9 9 1 9 1 9 9 9 9 9 9 9 9 9 9 9 9 9 1 4 1 9 9 9 1 9 9 9 9 9 1 9 4 9 1 1 9
+ 9 1 1 9 9 1 9 9 9 9 1 9 9 9 9 4 9 9 9 9 4 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9
+ 9 1 9 9 9 9 9 9 9 9 1 1 9 9 9 9 1 9 9 9 9 9 9 9 9 9] (0.204 sec)
+INFO:tensorflow:Evaluation [3/10]
+INFO:tensorflow:Evaluation [4/10]
+...
+```
 
