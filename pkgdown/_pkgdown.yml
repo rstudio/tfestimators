@@ -37,6 +37,8 @@ navbar:
 #          href: articles/run_configuration.html
         - text: "Custom Estimators"
           href: articles/creating_estimators.html
+        - text: "TensorFlow Layers"
+          href: articles/layers.html
         - text: "TensorBoard Visualization"
           href: articles/tensorboard.html
 #    - text: "Deployment"

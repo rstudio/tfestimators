@@ -5,7 +5,7 @@
 \title{Evaluates the model given evaluation data input_fn.}
 \usage{
 \method{evaluate}{tf_custom_model}(object, input_fn, steps = NULL,
-  checkpoint_path = NULL, name = NULL)
+  checkpoint_path = NULL, name = NULL, hooks = NULL)
 }
 \arguments{
 \item{input_fn}{Input function returning a list of: features - Dictionary of
