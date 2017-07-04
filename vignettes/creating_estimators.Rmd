@@ -45,6 +45,8 @@ measurements. You'll learn how to do the following:
 *   Define a training op for your model
 *   Generate and return predictions
 
+The complete code for this tutorial can be found [here](scripts/creating_estimators_tutorial.R).
+
 # An Abalone Age Predictor
 
 It's possible to estimate the age of an [abalone](https://en.wikipedia.org/wiki/Abalone) (sea snail) by the number of

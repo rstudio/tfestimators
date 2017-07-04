@@ -18,7 +18,8 @@ it easy to construct a neural network. It provides methods that facilitate the
 creation of dense (fully connected) layers and convolutional layers, adding
 activation functions, and applying dropout regularization. In this tutorial,
 you'll learn how to use `layers` to build a convolutional neural network model
-to recognize the handwritten digits in the MNIST data set.
+to recognize the handwritten digits in the MNIST data set. The complete code
+for this tutorial can be found [here](scripts/layers_tutorial.R).
 
 ![handwritten digits 0–9 from the MNIST data set](https://www.tensorflow.org/images/mnist_0-9.png)
 
@@ -115,9 +116,7 @@ Each of these methods accepts a tensor as input and returns a transformed tensor
 as output. This makes it easy to connect one layer to another: just take the
 output from one layer-creation method and supply it as input to another.
 
-Open `cnn_mnist.py` and add the following `cnn_model_fn` function, which
-conforms to the interface expected by TensorFlow's Estimator API (more on this
-later in [Create the Estimator](#create-the-estimator)). This example takes
+The following `cnn_model_fn` function conforms to the interface expected by TensorFlow's Estimator API (more on this later in [Create the Estimator](#create-the-estimator)). This example takes
 MNIST feature data, labels, and `mode_keys()` (e.g. `TRAIN`, `EVAL`, `PREDICT`) as arguments;
 configures the CNN; and returns predictions, loss, and a training operation:
 

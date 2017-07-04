@@ -101,7 +101,7 @@
     
     
 <div class="contents">
-<p>The TensorFlow <code>tf$layers</code> module provides a high-level API that makes it easy to construct a neural network. It provides methods that facilitate the creation of dense (fully connected) layers and convolutional layers, adding activation functions, and applying dropout regularization. In this tutorial, you’ll learn how to use <code>layers</code> to build a convolutional neural network model to recognize the handwritten digits in the MNIST data set.</p>
+<p>The TensorFlow <code>tf$layers</code> module provides a high-level API that makes it easy to construct a neural network. It provides methods that facilitate the creation of dense (fully connected) layers and convolutional layers, adding activation functions, and applying dropout regularization. In this tutorial, you’ll learn how to use <code>layers</code> to build a convolutional neural network model to recognize the handwritten digits in the MNIST data set. The complete code for this tutorial can be found <a href="scripts/layers_tutorial.R">here</a>.</p>
 <div class="figure">
 <img src="https://www.tensorflow.org/images/mnist_0-9.png" alt="handwritten digits 0–9 from the MNIST data set"><p class="caption">handwritten digits 0–9 from the MNIST data set</p>
 </div>
@@ -158,7 +158,7 @@ Note: For a more comprehensive walkthrough of CNN architecture, see Stanford Uni
 <code>dense()</code>. Constructs a dense layer. Takes number of neurons and activation function as arguments.</li>
 </ul>
 <p>Each of these methods accepts a tensor as input and returns a transformed tensor as output. This makes it easy to connect one layer to another: just take the output from one layer-creation method and supply it as input to another.</p>
-<p>Open <code>cnn_mnist.py</code> and add the following <code>cnn_model_fn</code> function, which conforms to the interface expected by TensorFlow’s Estimator API (more on this later in <a href="#create-the-estimator">Create the Estimator</a>). This example takes MNIST feature data, labels, and <code><a href="../reference/mode_keys.html">mode_keys()</a></code> (e.g. <code>TRAIN</code>, <code>EVAL</code>, <code>PREDICT</code>) as arguments; configures the CNN; and returns predictions, loss, and a training operation:</p>
+<p>The following <code>cnn_model_fn</code> function conforms to the interface expected by TensorFlow’s Estimator API (more on this later in <a href="#create-the-estimator">Create the Estimator</a>). This example takes MNIST feature data, labels, and <code><a href="../reference/mode_keys.html">mode_keys()</a></code> (e.g. <code>TRAIN</code>, <code>EVAL</code>, <code>PREDICT</code>) as arguments; configures the CNN; and returns predictions, loss, and a training operation:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cnn_model_fn &lt;-<span class="st"> </span>function(features, labels, mode, params, config) {
   
   <span class="co"># Input Layer</span>

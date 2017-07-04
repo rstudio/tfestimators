@@ -1,5 +1,6 @@
 library(tensorflow)
 library(tfestimators)
+tf$logging$set_verbosity(tf$logging$INFO)
 
 cnn_model_fn <- function(features, labels, mode, params, config) {
   
