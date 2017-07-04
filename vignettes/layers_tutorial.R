@@ -137,5 +137,8 @@ train(
   input_fn = train_input_fn,
   steps = 2)
 
-eval_results <- evaluate(mnist_classifier, input_fn = eval_input_fn)
+evaluate(
+  mnist_classifier,
+  input_fn = eval_input_fn,
+  steps = 2)
 
