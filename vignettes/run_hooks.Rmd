@@ -7,6 +7,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 type: docs
+repo: https://github.com/rstudio/tfestimators
 menu:
   main:
     name: "Run Hooks"
