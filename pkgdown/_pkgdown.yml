@@ -57,9 +57,10 @@ reference:
     contents:
       - linear_regressor
       - linear_classifier
-      - linear_dnn_combined_regressor
-      - linear_dnn_combined_classifier
-      - svm_classifier
+      - dnn_regressor
+      - dnn_classifier
+      - dnn_linear_combined_regressor
+      - dnn_linear_combined_classifier
       - dynamic_rnn
       - state_saving_rnn
 

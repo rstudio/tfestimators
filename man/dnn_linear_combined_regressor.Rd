@@ -7,8 +7,8 @@
 dnn_linear_combined_regressor(model_dir = NULL,
   linear_feature_columns = NULL, linear_optimizer = "Ftrl",
   dnn_feature_columns = NULL, dnn_optimizer = "Adagrad",
-  dnn_hidden_units = NULL, dnn_activation_fn = relu, dnn_dropout = NULL,
-  label_dimension = 1L, weight_column = NULL,
+  dnn_hidden_units = NULL, dnn_activation_fn = tf$nn$relu,
+  dnn_dropout = NULL, label_dimension = 1L, weight_column = NULL,
   input_layer_partitioner = NULL, config = NULL)
 }
 \arguments{

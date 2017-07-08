@@ -7,9 +7,9 @@
 dnn_linear_combined_classifier(model_dir = NULL,
   linear_feature_columns = NULL, linear_optimizer = "Ftrl",
   dnn_feature_columns = NULL, dnn_optimizer = "Adagrad",
-  dnn_hidden_units = NULL, dnn_activation_fn = relu, dnn_dropout = NULL,
-  n_classes = 2L, weight_column = NULL, label_vocabulary = NULL,
-  input_layer_partitioner = NULL, config = NULL)
+  dnn_hidden_units = NULL, dnn_activation_fn = tf$nn$relu,
+  dnn_dropout = NULL, n_classes = 2L, weight_column = NULL,
+  label_vocabulary = NULL, input_layer_partitioner = NULL, config = NULL)
 }
 \arguments{
 \item{model_dir}{Directory to save model parameters, graph and etc. This can also be used to load checkpoints from the directory into a estimator to continue training a previously saved model.}

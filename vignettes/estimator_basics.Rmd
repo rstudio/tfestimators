@@ -52,8 +52,10 @@ The **tfestimators** package includes a wide variety of canned estimators for co
 |---------------------------------------|----------------------------------------------------------------|
 | `linear_regressor()`  | Linear regressor model.  |
 | `linear_classifier()`  |  Linear classifier model. |
-| `linear_dnn_combined_regressor()`  |  Linear DNN Combined Regression. |
-| `linear_dnn_combined_classifier()`  |  Linear DNN Combined Classification. |
+| `dnn_regressor()`  | DNN Regression. |
+| `dnn_classifier()`  |  DNN Classification. |
+| `dnn_linear_combined_regressor()`  |  DNN Linear Combined Regression. |
+| `dnn_linear_combined_classifier()`  | DNN Linear Combined Classification. |
 | `dynamic_rnn()`  |  Dynamic RNN Estimator.. |
 | `state_saving_rnn()`  |  State Saving RNN Estimator. |
 
@@ -110,7 +112,7 @@ Here's an example of creating a Linear DNN Combined canned Estimator. In creatin
 
 ```{r}
 classifier <-
-	linear_dnn_combined_classifier(
+	dnn_linear_combined_classifier(
 	  linear_feature_columns = linear_feature_columns,
 	  dnn_feature_columns = dnn_feature_columns,
 	  dnn_hidden_units = c(3L, 3L),
@@ -123,15 +125,13 @@ classifier <-
 Users can then call `train()` to train the initialized Estimator for a number of steps:
 
 ``` r
-classifier <- train(classifier, input_fn = custom_input_fn, steps = 2L)
+classifier <- train(classifier, input_fn = custom_input_fn, steps = 2)
 ```
 
-Once a model is trained, users can use `predict()` that makes predictions on a given input function that represents the inference data source. an argument named `type` can be `"raw"` so `predict()` will return the raw predictions outcomes, as well as `"prob"` and `"logistic"` that returns prediction probabilities and logistics if a model is of classification type.
+Once a model is trained, users can use `predict()` that makes predictions on a given input function that represents the inference data source. 
 
 ``` r
 predictions <- predict(classifier, input_fn = custom_input_fn)
-predictions <- predict(classifier, input_fn = custom_input_fn, type = "prob")
-predictions <- predict(classifier, input_fn = custom_input_fn, type = "logistic")
 ```
 
 There's also a function called `coef()` that can be used extract the trained coefficients of a model.
