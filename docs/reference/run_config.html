@@ -136,18 +136,18 @@
 <span class='co'># Get the properties of the config</span>
 <span class='fu'>names</span>(<span class='no'>config</span>)</div><div class='output co'>#&gt;  [1] "cluster_spec"                  "evaluation_master"            
 #&gt;  [3] "is_chief"                      "keep_checkpoint_every_n_hours"
-#&gt;  [5] "keep_checkpoint_max"           "master"                       
-#&gt;  [7] "model_dir"                     "num_ps_replicas"              
-#&gt;  [9] "num_worker_replicas"           "replace"                      
-#&gt; [11] "save_checkpoints_secs"         "save_checkpoints_steps"       
-#&gt; [13] "save_summary_steps"            "session_config"               
-#&gt; [15] "task_id"                       "task_type"                    
-#&gt; [17] "tf_random_seed"               </div><div class='input'>
+#&gt;  [5] "keep_checkpoint_max"           "log_step_count_steps"         
+#&gt;  [7] "master"                        "model_dir"                    
+#&gt;  [9] "num_ps_replicas"               "num_worker_replicas"          
+#&gt; [11] "replace"                       "save_checkpoints_secs"        
+#&gt; [13] "save_checkpoints_steps"        "save_summary_steps"           
+#&gt; [15] "session_config"                "task_id"                      
+#&gt; [17] "task_type"                     "tf_random_seed"               </div><div class='input'>
 <span class='co'># Change the mutable properties of the config</span>
 <span class='no'>config</span> <span class='kw'>&lt;-</span> <span class='no'>config</span>$<span class='fu'>replace</span>(<span class='kw'>tf_random_seed</span> <span class='kw'>=</span> <span class='fl'>11L</span>, <span class='kw'>save_summary_steps</span> <span class='kw'>=</span> <span class='fl'>12L</span>)
 
 <span class='co'># Print config as key value pairs</span>
-<span class='fu'>print</span>(<span class='no'>config</span>)</div><div class='output co'>#&gt; cluster_spec = NULL, evaluation_master = "", is_chief = TRUE, keep_checkpoint_every_n_hours = 10000, keep_checkpoint_max = 5, master = "", model_dir = NULL, num_ps_replicas = 0, num_worker_replicas = 1, replace = RunConfig, save_checkpoints_secs = 600, save_checkpoints_steps = NULL, save_summary_steps = 12, session_config = NULL, task_id = 0, task_type = worker, tf_random_seed = 11</div><div class='input'>
+<span class='fu'>print</span>(<span class='no'>config</span>)</div><div class='output co'>#&gt; cluster_spec = NULL, evaluation_master = "", is_chief = TRUE, keep_checkpoint_every_n_hours = 10000, keep_checkpoint_max = 5, log_step_count_steps = 100, master = "", model_dir = NULL, num_ps_replicas = 0, num_worker_replicas = 1, replace = RunConfig, save_checkpoints_secs = 600, save_checkpoints_steps = NULL, save_summary_steps = 12, session_config = NULL, task_id = 0, task_type = worker, tf_random_seed = 11</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

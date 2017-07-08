@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Linear classifier model. — linear_classifier • tfestimators</title>
+<title>An estimator for TensorFlow Linear and DNN joined models for regression. — dnn_linear_combined_regressor • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -116,52 +116,70 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Linear classifier model.</h1>
+    <h1>An estimator for TensorFlow Linear and DNN joined models for regression.</h1>
     </div>
 
     
-    <p>Train a linear model to classify instances into one of multiple possible
-classes. When number of possible classes is 2, this is binary classification.</p>
+    <p>Note: This estimator is also known as wide-n-deep.</p>
     
 
-    <pre class="usage"><span class='fu'>linear_classifier</span>(<span class='no'>feature_columns</span>, <span class='kw'>model_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>n_classes</span> <span class='kw'>=</span> <span class='fl'>2L</span>,
-  <span class='kw'>weight_column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>label_vocabulary</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>optimizer</span> <span class='kw'>=</span> <span class='st'>"Ftrl"</span>,
-  <span class='kw'>config</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>partitioner</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>dnn_linear_combined_regressor</span>(<span class='kw'>model_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>linear_feature_columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>linear_optimizer</span> <span class='kw'>=</span> <span class='st'>"Ftrl"</span>,
+  <span class='kw'>dnn_feature_columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dnn_optimizer</span> <span class='kw'>=</span> <span class='st'>"Adagrad"</span>,
+  <span class='kw'>dnn_hidden_units</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dnn_activation_fn</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>nn</span>$<span class='no'>relu</span>,
+  <span class='kw'>dnn_dropout</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>label_dimension</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>weight_column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>input_layer_partitioner</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>config</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>feature_columns</th>
-      <td><p>An iterable containing all the feature columns used by the model. All items in the set should be instances of classes derived from <code>FeatureColumn</code>.</p></td>
-    </tr>
-    <tr>
       <th>model_dir</th>
       <td><p>Directory to save model parameters, graph and etc. This can also be used to load checkpoints from the directory into a estimator to continue training a previously saved model.</p></td>
     </tr>
     <tr>
-      <th>n_classes</th>
-      <td><p>number of label classes. Default is binary classification. Note that class labels are integers representing the class index (i.e. values from 0 to n_classes-1). For arbitrary label values (e.g. string labels), convert to class indices first.</p></td>
+      <th>linear_feature_columns</th>
+      <td><p>An iterable containing all the feature columns used by linear part of the model. All items in the set must be instances of classes derived from <code>FeatureColumn</code>.</p></td>
+    </tr>
+    <tr>
+      <th>linear_optimizer</th>
+      <td><p>An instance of <code>tf.Optimizer</code> used to apply gradients to the linear part of the model. Defaults to FTRL optimizer.</p></td>
+    </tr>
+    <tr>
+      <th>dnn_feature_columns</th>
+      <td><p>An iterable containing all the feature columns used by deep part of the model. All items in the set must be instances of classes derived from <code>FeatureColumn</code>.</p></td>
+    </tr>
+    <tr>
+      <th>dnn_optimizer</th>
+      <td><p>An instance of <code>tf.Optimizer</code> used to apply gradients to the deep part of the model. Defaults to Adagrad optimizer.</p></td>
+    </tr>
+    <tr>
+      <th>dnn_hidden_units</th>
+      <td><p>List of hidden units per layer. All layers are fully connected.</p></td>
+    </tr>
+    <tr>
+      <th>dnn_activation_fn</th>
+      <td><p>Activation function applied to each layer. If NULL, will use <code>tf.nn.relu</code>.</p></td>
+    </tr>
+    <tr>
+      <th>dnn_dropout</th>
+      <td><p>When not NULL, the probability we will drop out a given coordinate.</p></td>
+    </tr>
+    <tr>
+      <th>label_dimension</th>
+      <td><p>Number of regression targets per example. This is the size of the last dimension of the labels and logits <code>Tensor</code> objects (typically, these have shape <code>[batch_size, label_dimension]</code>).</p></td>
     </tr>
     <tr>
       <th>weight_column</th>
       <td><p>A string or a <code>_NumericColumn</code> created by <code>tf.feature_column.numeric_column</code> defining feature column representing weights. It is used to down weight or boost examples during training. It will be multiplied by the loss of the example. If it is a string, it is used as a key to fetch weight tensor from the <code>features</code>. If it is a <code>_NumericColumn</code>, raw tensor is fetched by key <code>weight_column.key</code>, then weight_column.normalizer_fn is applied on it to get weight tensor.</p></td>
     </tr>
     <tr>
-      <th>label_vocabulary</th>
-      <td><p>A list of strings represents possible label values. If given, labels must be string type and have any value in <code>label_vocabulary</code>. If it is not given, that means labels are already encoded as integer or float within 0, 1 for <code>n_classes=2</code> and encoded as integer values in 0, 1,..., n_classes-1 for <code>n_classes</code>&gt;2 . Also there will be errors if vocabulary is not provided and labels are string.</p></td>
-    </tr>
-    <tr>
-      <th>optimizer</th>
-      <td><p>An instance of <code>tf.Optimizer</code> used to train the model. Defaults to FTRL optimizer.</p></td>
+      <th>input_layer_partitioner</th>
+      <td><p>Partitioner for input layer. Defaults to <code>min_max_variable_partitioner</code> with <code>min_slice_size</code> 64 &lt;&lt; 20.</p></td>
     </tr>
     <tr>
       <th>config</th>
-      <td><p><code>RunConfig</code> object to configure the runtime settings.</p></td>
-    </tr>
-    <tr>
-      <th>partitioner</th>
-      <td><p>Optional. Partitioner for input layer.</p></td>
+      <td><p>RunConfig object to configure the runtime settings.</p></td>
     </tr>
     </table>
     
@@ -169,8 +187,8 @@ classes. When number of possible classes is 2, this is binary classification.</p
 
     <p>Other canned estimators: <code><a href='dnn_classifier.html'>dnn_classifier</a></code>,
   <code><a href='dnn_linear_combined_classifier.html'>dnn_linear_combined_classifier</a></code>,
-  <code><a href='dnn_linear_combined_regressor.html'>dnn_linear_combined_regressor</a></code>,
   <code><a href='dnn_regressor.html'>dnn_regressor</a></code>, <code><a href='dynamic_rnn.html'>dynamic_rnn</a></code>,
+  <code><a href='linear_classifier.html'>linear_classifier</a></code>,
   <code><a href='linear_regressor.html'>linear_regressor</a></code>,
   <code><a href='state_saving_rnn.html'>state_saving_rnn</a></code></p>
     

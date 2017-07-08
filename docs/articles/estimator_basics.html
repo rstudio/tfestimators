@@ -138,12 +138,20 @@
 <td>Linear classifier model.</td>
 </tr>
 <tr class="odd">
-<td><code><a href="../reference/linear_dnn_combined_regressor.html">linear_dnn_combined_regressor()</a></code></td>
-<td>Linear DNN Combined Regression.</td>
+<td><code><a href="../reference/dnn_regressor.html">dnn_regressor()</a></code></td>
+<td>DNN Regression.</td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/linear_dnn_combined_classifier.html">linear_dnn_combined_classifier()</a></code></td>
-<td>Linear DNN Combined Classification.</td>
+<td><code><a href="../reference/dnn_classifier.html">dnn_classifier()</a></code></td>
+<td>DNN Classification.</td>
+</tr>
+<tr class="odd">
+<td><code><a href="../reference/dnn_linear_combined_regressor.html">dnn_linear_combined_regressor()</a></code></td>
+<td>DNN Linear Combined Regression.</td>
+</tr>
+<tr class="even">
+<td><code><a href="../reference/dnn_linear_combined_classifier.html">dnn_linear_combined_classifier()</a></code></td>
+<td>DNN Linear Combined Classification.</td>
 </tr>
 <tr class="odd">
 <td><code><a href="../reference/dynamic_rnn.html">dynamic_rnn()</a></code></td>
@@ -235,7 +243,7 @@
 <a href="#creating-an-estimator" class="anchor"></a>Creating an Estimator</h2>
 <p>Here’s an example of creating a Linear DNN Combined canned Estimator. In creating the estimator we pass the feature columns and other parameters that specifies the layers and architecture of the model. Note that for this particular canned Estimator, it takes two types of feature columns that are used for constructing linear layer and fully connected deep layers separately:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">classifier &lt;-
-<span class="st">    </span><span class="kw"><a href="../reference/linear_dnn_combined_classifier.html">linear_dnn_combined_classifier</a></span>(
+<span class="st">    </span><span class="kw"><a href="../reference/dnn_linear_combined_classifier.html">dnn_linear_combined_classifier</a></span>(
       <span class="dt">linear_feature_columns =</span> linear_feature_columns,
       <span class="dt">dnn_feature_columns =</span> dnn_feature_columns,
       <span class="dt">dnn_hidden_units =</span> <span class="kw">c</span>(3L, 3L),
@@ -246,11 +254,9 @@
 <h2 class="hasAnchor">
 <a href="#training-and-prediction" class="anchor"></a>Training and Prediction</h2>
 <p>Users can then call <code>train()</code> to train the initialized Estimator for a number of steps:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">classifier &lt;-<span class="st"> </span><span class="kw">train</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn, <span class="dt">steps =</span> 2L)</code></pre></div>
-<p>Once a model is trained, users can use <code>predict()</code> that makes predictions on a given input function that represents the inference data source. an argument named <code>type</code> can be <code>"raw"</code> so <code>predict()</code> will return the raw predictions outcomes, as well as <code>"prob"</code> and <code>"logistic"</code> that returns prediction probabilities and logistics if a model is of classification type.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn)
-predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn, <span class="dt">type =</span> <span class="st">"prob"</span>)
-predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn, <span class="dt">type =</span> <span class="st">"logistic"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">classifier &lt;-<span class="st"> </span><span class="kw">train</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn, <span class="dt">steps =</span> <span class="dv">2</span>)</code></pre></div>
+<p>Once a model is trained, users can use <code>predict()</code> that makes predictions on a given input function that represents the inference data source.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn)</code></pre></div>
 <p>There’s also a function called <code>coef()</code> that can be used extract the trained coefficients of a model.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">coefs &lt;-<span class="st"> </span><span class="kw">coef</span>(classifier)</code></pre></div>
 <p>There are a number of estimator methods which can be used generically with any canned or custom estimator:</p>

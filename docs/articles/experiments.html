@@ -104,7 +104,7 @@
 <p>Experiments are designed for easier experiments, e.g. define your model, specify training and evaluation data and steps, frequencies, where to run, metrics to use to monitor the process, etc. They contain all neccessary information required, such as <code>input_fn</code> for both training and evaluation, to run experiments and can be easily packed up to run in cloud, local, or cluster environment.</p>
 <p>For example, we firstly construct a classifier</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clf &lt;-
-<span class="st">  </span><span class="kw"><a href="../reference/linear_dnn_combined_classifier.html">linear_dnn_combined_classifier</a></span>(
+<span class="st">  </span><span class="kw">linear_dnn_combined_classifier</span>(
     <span class="dt">linear_feature_columns =</span> linear_feature_columns,
     <span class="dt">dnn_feature_columns =</span> dnn_feature_columns,
     <span class="dt">dnn_hidden_units =</span> <span class="kw">c</span>(3L, 3L),

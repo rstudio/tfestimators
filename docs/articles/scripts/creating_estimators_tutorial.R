@@ -43,7 +43,7 @@ predict_input_fn <- constructed_input_fn(predict_data)
 diameter <- column_numeric("diameter")
 height <- column_numeric("height")
 
-model <- linear_dnn_combined_classifier(
+model <- dnn_linear_combined_classifier(
   linear_feature_columns = feature_columns(diameter),
   dnn_feature_columns = feature_columns(height),
   dnn_hidden_units = c(100L, 50L)

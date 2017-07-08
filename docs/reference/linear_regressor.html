@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Linear regressor model. — linear_regressor • tfestimators</title>
+<title>An estimator for TensorFlow Linear regression problems. — linear_regressor • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -116,7 +116,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Linear regressor model.</h1>
+    <h1>An estimator for TensorFlow Linear regression problems.</h1>
     </div>
 
     
@@ -124,83 +124,50 @@
 feature values.</p>
     
 
-    <pre class="usage"><span class='fu'>linear_regressor</span>(<span class='no'>feature_columns</span>, <span class='kw'>model_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>weight_column_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>optimizer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gradient_clip_norm</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>enable_centered_bias</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>label_dimension</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>config</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>feature_engineering_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>linear_regressor</span>(<span class='no'>feature_columns</span>, <span class='kw'>model_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>label_dimension</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
+  <span class='kw'>weight_column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>optimizer</span> <span class='kw'>=</span> <span class='st'>"Ftrl"</span>, <span class='kw'>config</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>partitioner</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>feature_columns</th>
-      <td><p>An iterable containing all the feature columns used by
-the model. All items in the set should be instances of classes derived from
-<code>FeatureColumn</code>.</p></td>
+      <td><p>An iterable containing all the feature columns used by the model. All items in the set should be instances of classes derived from <code>FeatureColumn</code>.</p></td>
     </tr>
     <tr>
       <th>model_dir</th>
-      <td><p>Directory to save model parameters, graph, etc. This can
-also be used to load checkpoints from the directory into a estimator to
-continue training a previously saved model.</p></td>
-    </tr>
-    <tr>
-      <th>weight_column_name</th>
-      <td><p>A string defining feature column name representing
-weights. It is used to down weight or boost examples during training. It
-will be multiplied by the loss of the example.</p></td>
-    </tr>
-    <tr>
-      <th>optimizer</th>
-      <td><p>An instance of <code>tf.Optimizer</code> used to train the model. If
-<code>NULL</code>, will use an Ftrl optimizer.</p></td>
-    </tr>
-    <tr>
-      <th>gradient_clip_norm</th>
-      <td><p>A <code>float</code> &gt; 0. If provided, gradients are clipped
-to their global norm with this clipping ratio. See <code>tf.clip_by_global_norm</code>
-for more details.</p></td>
-    </tr>
-    <tr>
-      <th>enable_centered_bias</th>
-      <td><p>A bool. If TRUE, estimator will learn a centered
-bias variable for each class. Rest of the model structure learns the
-residual after centered bias.</p></td>
+      <td><p>Directory to save model parameters, graph and etc. This can also be used to load checkpoints from the directory into a estimator to continue training a previously saved model.</p></td>
     </tr>
     <tr>
       <th>label_dimension</th>
-      <td><p>Number of regression targets per example. This is the
-size of the last dimension of the labels and logits <code>Tensor</code> objects
-(typically, these have shape <code>[batch_size, label_dimension]</code>).</p></td>
+      <td><p>Number of regression targets per example. This is the size of the last dimension of the labels and logits <code>Tensor</code> objects (typically, these have shape <code>[batch_size, label_dimension]</code>).</p></td>
+    </tr>
+    <tr>
+      <th>weight_column</th>
+      <td><p>A string or a <code>_NumericColumn</code> created by <code>tf.feature_column.numeric_column</code> defining feature column representing weights. It is used to down weight or boost examples during training. It will be multiplied by the loss of the example. If it is a string, it is used as a key to fetch weight tensor from the <code>features</code>. If it is a <code>_NumericColumn</code>, raw tensor is fetched by key <code>weight_column.key</code>, then weight_column.normalizer_fn is applied on it to get weight tensor.</p></td>
+    </tr>
+    <tr>
+      <th>optimizer</th>
+      <td><p>An instance of <code>tf.Optimizer</code> used to train the model. Defaults to FTRL optimizer.</p></td>
     </tr>
     <tr>
       <th>config</th>
       <td><p><code>RunConfig</code> object to configure the runtime settings.</p></td>
     </tr>
     <tr>
-      <th>feature_engineering_fn</th>
-      <td><p>Feature engineering function. Takes features
-and labels which are the output of <code>input_fn</code> and returns features and
-labels which will be fed into the model.</p></td>
+      <th>partitioner</th>
+      <td><p>Optional. Partitioner for input layer.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Input of <code>fit</code> and <code>evaluate</code> should have following features, otherwise there
-will be a KeyError:</p><ul>
-<li><p>if isinstance(column, <code>SparseColumn</code>): key=column.name, value=a <code>SparseTensor</code></p></li>
-<li><p>if isinstance(column, <code>WeightedSparseColumn</code>): key=id column name, value=a <code>SparseTensor</code>,
-key=weight column name, value=a <code>SparseTensor</code></p></li>
-<li><p>if isinstance(column, <code>RealValuedColumn</code>): key=column.name, value=a <code>Tensor</code></p></li>
-</ul>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other canned estimators: <code><a href='dynamic_rnn.html'>dynamic_rnn</a></code>,
+    <p>Other canned estimators: <code><a href='dnn_classifier.html'>dnn_classifier</a></code>,
+  <code><a href='dnn_linear_combined_classifier.html'>dnn_linear_combined_classifier</a></code>,
+  <code><a href='dnn_linear_combined_regressor.html'>dnn_linear_combined_regressor</a></code>,
+  <code><a href='dnn_regressor.html'>dnn_regressor</a></code>, <code><a href='dynamic_rnn.html'>dynamic_rnn</a></code>,
   <code><a href='linear_classifier.html'>linear_classifier</a></code>,
-  <code><a href='linear_dnn_combined_classifier.html'>linear_dnn_combined_classifier</a></code>,
-  <code><a href='linear_dnn_combined_regressor.html'>linear_dnn_combined_regressor</a></code>,
   <code><a href='state_saving_rnn.html'>state_saving_rnn</a></code></p>
     
 
@@ -210,8 +177,6 @@ key=weight column name, value=a <code>SparseTensor</code></p></li>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
           </ul>
 
