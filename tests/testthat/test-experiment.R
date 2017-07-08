@@ -9,7 +9,7 @@ test_that("Experiment works", {
   clf <-
     linear_regressor(
       feature_columns = specs$linear_feature_columns
-    ) %>% train(input_fn = specs$input_fn)
+    ) %>% train(input_fn = specs$input_fn, steps = 2)
 
   experiment <- experiment(
     clf,
@@ -19,18 +19,7 @@ test_that("Experiment works", {
     eval_steps = 3L,
     continuous_eval_throttle_secs = 60L
   )
-  
-  # exp_fn <- function(output_dir) {experiment$experiment}
-  # learn_runner <- contrib_learn$python$learn$learn_runner
-  # tmp_dir <- tempfile()
-  # dir.create(tmp_dir)
-  # result <- learn_runner$run(
-  #   experiment_fn = exp_fn,
-  #   output_dir = tmp_dir,
-  #   schedule = "local_run"
-  # )
-  # expect_gt(length(result[[1]]), 1)
-  # 
-  # experiment_result <- train_and_evaluate(experiment)
-  # expect_gt(length(experiment_result[[1]]), 1)
+
+  experiment_result <- evaluate(experiment)
+  expect_gt(length(experiment_result[[1]]), 1)
 })
