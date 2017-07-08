@@ -133,39 +133,57 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>hidden_units</th>
-      <td><p>Iterable of number hidden units per layer. All layers are fully connected. Ex. <code>[64, 32]</code> means first layer has 64 nodes and second one has 32.</p></td>
+      <td><p>Iterable of number hidden units per layer. All layers are
+fully connected. Ex. <code>[64, 32]</code> means first layer has 64 nodes and second
+one has 32.</p></td>
     </tr>
     <tr>
       <th>feature_columns</th>
-      <td><p>An iterable containing all the feature columns used by the model. All items in the set should be instances of classes derived from <code>_FeatureColumn</code>.</p></td>
+      <td><p>An iterable containing all the feature columns used by
+the model. All items in the set should be instances of classes derived from
+<code>_FeatureColumn</code>.</p></td>
     </tr>
     <tr>
       <th>model_dir</th>
-      <td><p>Directory to save model parameters, graph and etc. This can also be used to load checkpoints from the directory into a estimator to continue training a previously saved model.</p></td>
+      <td><p>Directory to save model parameters, graph and etc. This can
+also be used to load checkpoints from the directory into a estimator to
+continue training a previously saved model.</p></td>
     </tr>
     <tr>
       <th>label_dimension</th>
-      <td><p>Number of regression targets per example. This is the size of the last dimension of the labels and logits <code>Tensor</code> objects (typically, these have shape <code>[batch_size, label_dimension]</code>).</p></td>
+      <td><p>Number of regression targets per example. This is the
+size of the last dimension of the labels and logits <code>Tensor</code> objects
+(typically, these have shape <code>[batch_size, label_dimension]</code>).</p></td>
     </tr>
     <tr>
       <th>weight_column</th>
-      <td><p>A string or a <code>_NumericColumn</code> created by <code>tf.feature_column.numeric_column</code> defining feature column representing weights. It is used to down weight or boost examples during training. It will be multiplied by the loss of the example. If it is a string, it is used as a key to fetch weight tensor from the <code>features</code>. If it is a <code>_NumericColumn</code>, raw tensor is fetched by key <code>weight_column.key</code>, then weight_column.normalizer_fn is applied on it to get weight tensor.</p></td>
+      <td><p>A string or a <code>_NumericColumn</code> created by
+<code>tf.feature_column.numeric_column</code> defining feature column representing
+weights. It is used to down weight or boost examples during training. It
+will be multiplied by the loss of the example. If it is a string, it is
+used as a key to fetch weight tensor from the <code>features</code>. If it is a
+<code>_NumericColumn</code>, raw tensor is fetched by key <code>weight_column.key</code>, then
+weight_column.normalizer_fn is applied on it to get weight tensor.</p></td>
     </tr>
     <tr>
       <th>optimizer</th>
-      <td><p>An instance of <code>tf.Optimizer</code> used to train the model. Defaults to Adagrad optimizer.</p></td>
+      <td><p>An instance of <code>tf.Optimizer</code> used to train the model.
+Defaults to Adagrad optimizer.</p></td>
     </tr>
     <tr>
       <th>activation_fn</th>
-      <td><p>Activation function applied to each layer. If <code>NULL</code>, will use <code>tf.nn.relu</code>.</p></td>
+      <td><p>Activation function applied to each layer. If <code>NULL</code>,
+will use <code>tf.nn.relu</code>.</p></td>
     </tr>
     <tr>
       <th>dropout</th>
-      <td><p>When not <code>NULL</code>, the probability we will drop out a given coordinate.</p></td>
+      <td><p>When not <code>NULL</code>, the probability we will drop out a given
+coordinate.</p></td>
     </tr>
     <tr>
       <th>input_layer_partitioner</th>
-      <td><p>Optional. Partitioner for input layer. Defaults to <code>min_max_variable_partitioner</code> with <code>min_slice_size</code> 64 &lt;&lt; 20.</p></td>
+      <td><p>Optional. Partitioner for input layer.
+Defaults to <code>min_max_variable_partitioner</code> with <code>min_slice_size</code> 64 &lt;&lt; 20.</p></td>
     </tr>
     <tr>
       <th>config</th>

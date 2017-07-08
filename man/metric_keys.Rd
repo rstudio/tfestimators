@@ -13,8 +13,12 @@ Used by retrieving available metrics from canned estimators.
 metrics <- metric_keys()
 
 # Get the available keys
-names(metrics)
+metrics
 
 metrics$ACCURACY
 
+}
+\seealso{
+Other estimator keys: \code{\link{mode_keys}},
+  \code{\link{prediction_keys}}
 }

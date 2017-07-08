@@ -134,6 +134,26 @@ Once a model is trained, users can use `predict()` that makes predictions on a g
 predictions <- predict(classifier, input_fn = custom_input_fn)
 ```
 
+Users can also pass a key to `predict_keys` argument in `predict()` that generates different types of predictions, such as probabilities using `prediction_keys()$PROBABILITIES`:
+
+``` r
+predictions <- predict(
+  classifier,
+  input_fn = custom_input_fn,
+  predict_keys = prediction_keys()$PROBABILITIES)
+```
+
+or logistic using `prediction_keys()$LOGISTIC`:
+
+``` r
+predictions <- predict(
+  classifier,
+  input_fn = custom_input_fn,
+  predict_keys = prediction_keys()$LOGISTIC)
+```
+
+You can find all the available keys by printing `prediction_keys()`. However, not all keys can be used by different types of estimators. For example, regressors cannot use `PROBABILITIES` as one of the keys.
+
 There's also a function called `coef()` that can be used extract the trained coefficients of a model.
 
 ``` r

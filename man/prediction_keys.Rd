@@ -13,8 +13,12 @@ Used by models that predict values, such as regressor models.
 keys <- prediction_keys()
 
 # Get the available keys
-names(keys)
+keys
 
 # Key for retrieving probabilities from prediction values
 keys$PROBABILITIES
+}
+\seealso{
+Other estimator keys: \code{\link{metric_keys}},
+  \code{\link{mode_keys}}
 }

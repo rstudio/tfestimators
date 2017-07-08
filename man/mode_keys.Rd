@@ -17,6 +17,11 @@ The following standard keys are defined:
 }
 }
 \examples{
-names(mode_keys())
+modes <- mode_keys()
+modes$TRAIN
 
+}
+\seealso{
+Other estimator keys: \code{\link{metric_keys}},
+  \code{\link{prediction_keys}}
 }
