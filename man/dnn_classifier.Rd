@@ -26,12 +26,12 @@ continue training a previously saved model.}
 classification. Must be > 1.}
 
 \item{weight_column}{A string or a \code{_NumericColumn} created by
-\code{tf.feature_column.numeric_column} defining feature column representing
-weights. It is used to down weight or boost examples during training. It
-will be multiplied by the loss of the example. If it is a string, it is
-used as a key to fetch weight tensor from the \code{features}. If it is a
-\code{_NumericColumn}, raw tensor is fetched by key \code{weight_column.key}, then
-weight_column.normalizer_fn is applied on it to get weight tensor.}
+\code{numeric_column} defining feature column representing weights. It is used
+to down weight or boost examples during training. It will be multiplied by
+the loss of the example. If it is a string, it is used as a key to fetch
+weight tensor from the \code{features}. If it is a \code{_NumericColumn}, raw tensor
+is fetched by key \code{weight_column.key}, then weight_column.normalizer_fn is
+applied on it to get weight tensor.}
 
 \item{label_vocabulary}{A list of strings represents possible label values.
 If given, labels must be string type and have any value in
@@ -44,7 +44,7 @@ will be errors if vocabulary is not provided and labels are string.}
 Defaults to Adagrad optimizer.}
 
 \item{activation_fn}{Activation function applied to each layer. If \code{NULL},
-will use \code{tf.nn.relu}.}
+will use \code{tf$nn$relu}.}
 
 \item{dropout}{When not \code{NULL}, the probability we will drop out a given
 coordinate.}

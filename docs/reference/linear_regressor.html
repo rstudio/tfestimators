@@ -133,23 +133,36 @@ feature values.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>feature_columns</th>
-      <td><p>An iterable containing all the feature columns used by the model. All items in the set should be instances of classes derived from <code>FeatureColumn</code>.</p></td>
+      <td><p>An iterable containing all the feature columns used by
+the model. All items in the set should be instances of classes derived from
+<code>FeatureColumn</code>.</p></td>
     </tr>
     <tr>
       <th>model_dir</th>
-      <td><p>Directory to save model parameters, graph and etc. This can also be used to load checkpoints from the directory into a estimator to continue training a previously saved model.</p></td>
+      <td><p>Directory to save model parameters, graph and etc. This can
+also be used to load checkpoints from the directory into a estimator to
+continue training a previously saved model.</p></td>
     </tr>
     <tr>
       <th>label_dimension</th>
-      <td><p>Number of regression targets per example. This is the size of the last dimension of the labels and logits <code>Tensor</code> objects (typically, these have shape <code>[batch_size, label_dimension]</code>).</p></td>
+      <td><p>Number of regression targets per example. This is the
+size of the last dimension of the labels and logits <code>Tensor</code> objects
+(typically, these have shape <code>[batch_size, label_dimension]</code>).</p></td>
     </tr>
     <tr>
       <th>weight_column</th>
-      <td><p>A string or a <code>_NumericColumn</code> created by <code>tf.feature_column.numeric_column</code> defining feature column representing weights. It is used to down weight or boost examples during training. It will be multiplied by the loss of the example. If it is a string, it is used as a key to fetch weight tensor from the <code>features</code>. If it is a <code>_NumericColumn</code>, raw tensor is fetched by key <code>weight_column.key</code>, then weight_column.normalizer_fn is applied on it to get weight tensor.</p></td>
+      <td><p>A string or a <code>_NumericColumn</code> created by
+<code>numeric_column</code> defining feature column representing weights. It is used
+to down weight or boost examples during training. It will be multiplied by
+the loss of the example. If it is a string, it is used as a key to fetch
+weight tensor from the <code>features</code>. If it is a <code>_NumericColumn</code>, raw tensor
+is fetched by key <code>weight_column.key</code>, then weight_column.normalizer_fn is
+applied on it to get weight tensor.</p></td>
     </tr>
     <tr>
       <th>optimizer</th>
-      <td><p>An instance of <code>tf.Optimizer</code> used to train the model. Defaults to FTRL optimizer.</p></td>
+      <td><p>An instance of <code>tf.Optimizer</code> used to train the model.
+Defaults to FTRL optimizer.</p></td>
     </tr>
     <tr>
       <th>config</th>

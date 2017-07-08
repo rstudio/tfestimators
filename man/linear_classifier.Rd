@@ -23,12 +23,12 @@ values from 0 to n_classes-1). For arbitrary label values (e.g. string
 labels), convert to class indices first.}
 
 \item{weight_column}{A string or a \code{_NumericColumn} created by
-\code{tf.feature_column.numeric_column} defining feature column representing
-weights. It is used to down weight or boost examples during training. It
-will be multiplied by the loss of the example. If it is a string, it is
-used as a key to fetch weight tensor from the \code{features}. If it is a
-\code{_NumericColumn}, raw tensor is fetched by key \code{weight_column.key}, then
-weight_column.normalizer_fn is applied on it to get weight tensor.}
+\code{numeric_column} defining feature column representing weights. It is used
+to down weight or boost examples during training. It will be multiplied by
+the loss of the example. If it is a string, it is used as a key to fetch
+weight tensor from the \code{features}. If it is a \code{_NumericColumn}, raw tensor
+is fetched by key \code{weight_column.key}, then weight_column.normalizer_fn is
+applied on it to get weight tensor.}
 
 \item{label_vocabulary}{A list of strings represents possible label values.
 If given, labels must be string type and have any value in

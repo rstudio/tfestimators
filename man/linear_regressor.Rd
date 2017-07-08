@@ -9,15 +9,28 @@ linear_regressor(feature_columns, model_dir = NULL, label_dimension = 1L,
   partitioner = NULL)
 }
 \arguments{
-\item{feature_columns}{An iterable containing all the feature columns used by the model. All items in the set should be instances of classes derived from \code{FeatureColumn}.}
+\item{feature_columns}{An iterable containing all the feature columns used by
+the model. All items in the set should be instances of classes derived from
+\code{FeatureColumn}.}
 
-\item{model_dir}{Directory to save model parameters, graph and etc. This can also be used to load checkpoints from the directory into a estimator to continue training a previously saved model.}
+\item{model_dir}{Directory to save model parameters, graph and etc. This can
+also be used to load checkpoints from the directory into a estimator to
+continue training a previously saved model.}
 
-\item{label_dimension}{Number of regression targets per example. This is the size of the last dimension of the labels and logits \code{Tensor} objects (typically, these have shape \code{[batch_size, label_dimension]}).}
+\item{label_dimension}{Number of regression targets per example. This is the
+size of the last dimension of the labels and logits \code{Tensor} objects
+(typically, these have shape \code{[batch_size, label_dimension]}).}
 
-\item{weight_column}{A string or a \code{_NumericColumn} created by \code{tf.feature_column.numeric_column} defining feature column representing weights. It is used to down weight or boost examples during training. It will be multiplied by the loss of the example. If it is a string, it is used as a key to fetch weight tensor from the \code{features}. If it is a \code{_NumericColumn}, raw tensor is fetched by key \code{weight_column.key}, then weight_column.normalizer_fn is applied on it to get weight tensor.}
+\item{weight_column}{A string or a \code{_NumericColumn} created by
+\code{numeric_column} defining feature column representing weights. It is used
+to down weight or boost examples during training. It will be multiplied by
+the loss of the example. If it is a string, it is used as a key to fetch
+weight tensor from the \code{features}. If it is a \code{_NumericColumn}, raw tensor
+is fetched by key \code{weight_column.key}, then weight_column.normalizer_fn is
+applied on it to get weight tensor.}
 
-\item{optimizer}{An instance of \code{tf.Optimizer} used to train the model. Defaults to FTRL optimizer.}
+\item{optimizer}{An instance of \code{tf.Optimizer} used to train the model.
+Defaults to FTRL optimizer.}
 
 \item{config}{\code{RunConfig} object to configure the runtime settings.}
 

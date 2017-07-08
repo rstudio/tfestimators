@@ -169,7 +169,7 @@ connected.</p></td>
     <tr>
       <th>dnn_activation_fn</th>
       <td><p>Activation function applied to each layer. If NULL,
-will use <code>tf.nn.relu</code>.</p></td>
+will use <code>tf$nn$relu</code>.</p></td>
     </tr>
     <tr>
       <th>dnn_dropout</th>
@@ -185,12 +185,12 @@ size of the last dimension of the labels and logits <code>Tensor</code> objects
     <tr>
       <th>weight_column</th>
       <td><p>A string or a <code>_NumericColumn</code> created by
-<code>tf.feature_column.numeric_column</code> defining feature column representing
-weights. It is used to down weight or boost examples during training. It
-will be multiplied by the loss of the example. If it is a string, it is
-used as a key to fetch weight tensor from the <code>features</code>. If it is a
-<code>_NumericColumn</code>, raw tensor is fetched by key <code>weight_column.key</code>, then
-weight_column.normalizer_fn is applied on it to get weight tensor.</p></td>
+<code>numeric_column</code> defining feature column representing weights. It is used
+to down weight or boost examples during training. It will be multiplied by
+the loss of the example. If it is a string, it is used as a key to fetch
+weight tensor from the <code>features</code>. If it is a <code>_NumericColumn</code>, raw tensor
+is fetched by key <code>weight_column.key</code>, then weight_column.normalizer_fn is
+applied on it to get weight tensor.</p></td>
     </tr>
     <tr>
       <th>input_layer_partitioner</th>
