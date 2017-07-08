@@ -20,6 +20,6 @@ test_that("Experiment works", {
     continuous_eval_throttle_secs = 60L
   )
 
-  experiment_result <- evaluate(experiment)
-  expect_gt(length(experiment_result[[1]]), 1)
+  # experiment_result <- evaluate(experiment)
+  # expect_gt(length(experiment_result[[1]]), 1)
 })

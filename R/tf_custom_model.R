@@ -162,7 +162,7 @@ train.tf_custom_model <- function(object, input_fn, steps = NULL, hooks = NULL, 
       input_fn = normalize_input_fn(object, input_fn),
       steps = as_nullable_integer(steps),
       hooks = normalize_session_run_hooks(hooks),
-      max_steps = as_nullable_integer(max_steps)) 
+      max_steps = as_nullable_integer(max_steps))
   })
   invisible(object)
 }

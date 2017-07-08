@@ -36,7 +36,12 @@ predict.tf_model <- function(object,
 #' @export
 train.tf_model <- function(object, input_fn, steps = NULL, max_steps = NULL, hooks = NULL)
 {
-  train.tf_custom_model(object, input_fn, steps, max_steps, hooks)
+  train.tf_custom_model(
+    object,
+    input_fn = input_fn,
+    steps = steps,
+    max_steps = max_steps,
+    hooks = hooks)
 }
 
 
@@ -48,7 +53,13 @@ evaluate.tf_model <- function(object,
                               name = NULL,
                               hooks = NULL)
 {
-  evaluate.tf_custom_model(object, input_fn, steps, checkpoint_path, name, hooks)
+  evaluate.tf_custom_model(
+    object,
+    input_fn = input_fn,
+    steps = steps,
+    checkpoint_path = checkpoint_path,
+    name = name,
+    hooks = hooks)
 }
 
 #' @importFrom stats coef 
