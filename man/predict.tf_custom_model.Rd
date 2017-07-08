@@ -5,7 +5,7 @@
 \title{Returns predictions for given features.}
 \usage{
 \method{predict}{tf_custom_model}(object, input_fn, checkpoint_path = NULL,
-  predict_keys = NULL, hooks = NULL, as_iterable = F)
+  predict_keys = NULL, hooks = NULL, as_iterable = FALSE)
 }
 \arguments{
 \item{input_fn}{Input function returning features which is a dictionary of

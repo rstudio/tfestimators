@@ -197,7 +197,7 @@ predict.tf_custom_model <- function(object,
                                     checkpoint_path = NULL,
                                     predict_keys = NULL,
                                     hooks = NULL,
-                                    as_iterable = F) {
+                                    as_iterable = FALSE) {
   est <- object$estimator
   predictions <- est$predict(
     input_fn = normalize_input_fn(object, input_fn),

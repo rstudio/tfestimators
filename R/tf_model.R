@@ -19,53 +19,36 @@ is.regressor <- function(object) {
 #' @export
 predict.tf_model <- function(object,
                              input_fn,
-                             type = "raw",
-                             ...)
+                             checkpoint_path = NULL,
+                             predict_keys = NULL,
+                             hooks = NULL,
+                             as_iterable = FALSE)
 {
-  input_fn <- normalize_input_fn(object, input_fn)
-  est <- object$estimator
-  if (is.classifier(object)) {
-    if (type == "raw") {
-      predictions <- est$predict(input_fn = input_fn, outputs = c("classes"), ...)
-    } else if (type == "prob") {
-      predictions <- est$predict(input_fn = input_fn, outputs = c("probabilities"), ...)
-    } else {
-      predictions <- est$predict(input_fn = input_fn, outputs = c(type), ...)
-    }
-  } else if (is.regressor(object)) {
-    if (type == "raw") {
-      predictions <- est$predict(input_fn = input_fn, outputs = c("scores"), ...)
-    } else {
-      predictions <- est$predict(input_fn = input_fn, outputs = c(type), ...)
-    }
-  } else {
-    stop("Right now only classifier and regressor are supported")
-  }
-  return(unlist(iterate(predictions)))
-}
-
-#' @export
-train.tf_model <- function(object, input_fn, steps = 2L, monitors = NULL, ...)
-{
-  monitors <- normalize_session_run_hooks(monitors)
-  object$estimator$fit(
-    input_fn = normalize_input_fn(object, input_fn),
-    steps = as.integer(steps),
-    monitors = monitors,
-    ...)
-  invisible(object)
+  predict.tf_custom_model(object,
+                          input_fn,
+                          checkpoint_path = checkpoint_path,
+                          predict_keys = predict_keys,
+                          hooks = hooks,
+                          as_iterable = as_iterable)
 }
 
 
 #' @export
-evaluate.tf_model <- function(object, input_fn, steps = 2L, hooks = NULL, ...)
+train.tf_model <- function(object, input_fn, steps = NULL, max_steps = NULL, hooks = NULL)
 {
-  hooks <- normalize_session_run_hooks(hooks)
-  object$estimator$evaluate(
-    input_fn = normalize_input_fn(object, input_fn),
-    steps = as.integer(steps),
-    hooks = hooks,
-    ...)
+  train.tf_custom_model(object, input_fn, steps, max_steps, hooks)
+}
+
+
+#' @export
+evaluate.tf_model <- function(object,
+                              input_fn,
+                              steps = NULL,
+                              checkpoint_path = NULL,
+                              name = NULL,
+                              hooks = NULL)
+{
+  evaluate.tf_custom_model(object, input_fn, steps, checkpoint_path, name, hooks)
 }
 
 #' @importFrom stats coef 

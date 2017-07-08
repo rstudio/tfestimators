@@ -5,72 +5,35 @@
 \title{Linear classifier model.}
 \usage{
 linear_classifier(feature_columns, model_dir = NULL, n_classes = 2L,
-  weight_column_name = NULL, optimizer = NULL, gradient_clip_norm = NULL,
-  enable_centered_bias = FALSE, config = NULL,
-  feature_engineering_fn = NULL)
+  weight_column = NULL, label_vocabulary = NULL, optimizer = "Ftrl",
+  config = NULL, partitioner = NULL)
 }
 \arguments{
-\item{feature_columns}{An iterable containing all the feature columns used by
-the model. All items in the set should be instances of classes derived from
-\code{FeatureColumn}.}
+\item{feature_columns}{An iterable containing all the feature columns used by the model. All items in the set should be instances of classes derived from \code{FeatureColumn}.}
 
-\item{model_dir}{Directory to save model parameters, graph and etc. This can
-also be used to load checkpoints from the directory into a estimator to
-continue training a previously saved model.}
+\item{model_dir}{Directory to save model parameters, graph and etc. This can also be used to load checkpoints from the directory into a estimator to continue training a previously saved model.}
 
-\item{n_classes}{number of label classes. Default is binary classification.
-Note that class labels are integers representing the class index (i.e.
-values from 0 to n_classes-1). For arbitrary label values (e.g. string
-labels), convert to class indices first.}
+\item{n_classes}{number of label classes. Default is binary classification. Note that class labels are integers representing the class index (i.e. values from 0 to n_classes-1). For arbitrary label values (e.g. string labels), convert to class indices first.}
 
-\item{weight_column_name}{A string defining feature column name representing
-weights. It is used to down weight or boost examples during training. It
-will be multiplied by the loss of the example.}
+\item{weight_column}{A string or a \code{_NumericColumn} created by \code{tf.feature_column.numeric_column} defining feature column representing weights. It is used to down weight or boost examples during training. It will be multiplied by the loss of the example. If it is a string, it is used as a key to fetch weight tensor from the \code{features}. If it is a \code{_NumericColumn}, raw tensor is fetched by key \code{weight_column.key}, then weight_column.normalizer_fn is applied on it to get weight tensor.}
 
-\item{optimizer}{The optimizer used to train the model. If specified, it
-should be either an instance of \code{tf.Optimizer} or the SDCAOptimizer. If
-\code{NULL}, the Ftrl optimizer will be used.}
+\item{label_vocabulary}{A list of strings represents possible label values. If given, labels must be string type and have any value in \code{label_vocabulary}. If it is not given, that means labels are already encoded as integer or float within \link{0, 1} for \code{n_classes=2} and encoded as integer values in {0, 1,..., n_classes-1} for \code{n_classes}>2 . Also there will be errors if vocabulary is not provided and labels are string.}
 
-\item{gradient_clip_norm}{A \code{float} > 0. If provided, gradients are clipped
-to their global norm with this clipping ratio. See \code{tf.clip_by_global_norm}
-for more details.}
-
-\item{enable_centered_bias}{A bool. If TRUE, estimator will learn a centered
-bias variable for each class. Rest of the model structure learns the
-residual after centered bias.}
+\item{optimizer}{An instance of \code{tf.Optimizer} used to train the model. Defaults to FTRL optimizer.}
 
 \item{config}{\code{RunConfig} object to configure the runtime settings.}
 
-\item{feature_engineering_fn}{Feature engineering function. Takes features
-and labels which are the output of \code{input_fn} and returns features and
-labels which will be fed into the model.}
+\item{partitioner}{Optional. Partitioner for input layer.}
 }
 \description{
 Train a linear model to classify instances into one of multiple possible
 classes. When number of possible classes is 2, this is binary classification.
 }
-\details{
-Input of \code{fit} and \code{evaluate} should have following features, otherwise there
-will be a \code{KeyError}:
-\itemize{
-\item if \code{weight_column_name} is not \code{NULL}, a feature with \code{key=weight_column_name}
-whose value is a \code{Tensor}.
-\item for each \code{column} in \code{feature_columns}:
-\itemize{
-\item if \code{column} is a \code{SparseColumn}, a feature with \code{key=column.name} whose
-\code{value} is a \code{SparseTensor}.
-\item if \code{column} is a \code{WeightedSparseColumn}, two features: the first with
-\code{key} the id column name, the second with \code{key} the weight column name.
-Both features' \code{value} must be a \code{SparseTensor}.
-\item if \code{column} is a \code{RealValuedColumn}, a feature with \code{key=column.name}
-whose \code{value} is a \code{Tensor}.
-}
-}
-}
 \seealso{
-Other canned estimators: \code{\link{dynamic_rnn}},
-  \code{\link{linear_dnn_combined_classifier}},
-  \code{\link{linear_dnn_combined_regressor}},
+Other canned estimators: \code{\link{dnn_classifier}},
+  \code{\link{dnn_linear_combined_classifier}},
+  \code{\link{dnn_linear_combined_regressor}},
+  \code{\link{dnn_regressor}}, \code{\link{dynamic_rnn}},
   \code{\link{linear_regressor}},
   \code{\link{state_saving_rnn}}
 }

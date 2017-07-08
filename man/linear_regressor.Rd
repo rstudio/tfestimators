@@ -2,65 +2,36 @@
 % Please edit documentation in R/linear_estimators.R
 \name{linear_regressor}
 \alias{linear_regressor}
-\title{Linear regressor model.}
+\title{An estimator for TensorFlow Linear regression problems.}
 \usage{
-linear_regressor(feature_columns, model_dir = NULL,
-  weight_column_name = NULL, optimizer = NULL, gradient_clip_norm = NULL,
-  enable_centered_bias = FALSE, label_dimension = 1L, config = NULL,
-  feature_engineering_fn = NULL)
+linear_regressor(feature_columns, model_dir = NULL, label_dimension = 1L,
+  weight_column = NULL, optimizer = "Ftrl", config = NULL,
+  partitioner = NULL)
 }
 \arguments{
-\item{feature_columns}{An iterable containing all the feature columns used by
-the model. All items in the set should be instances of classes derived from
-\code{FeatureColumn}.}
+\item{feature_columns}{An iterable containing all the feature columns used by the model. All items in the set should be instances of classes derived from \code{FeatureColumn}.}
 
-\item{model_dir}{Directory to save model parameters, graph, etc. This can
-also be used to load checkpoints from the directory into a estimator to
-continue training a previously saved model.}
+\item{model_dir}{Directory to save model parameters, graph and etc. This can also be used to load checkpoints from the directory into a estimator to continue training a previously saved model.}
 
-\item{weight_column_name}{A string defining feature column name representing
-weights. It is used to down weight or boost examples during training. It
-will be multiplied by the loss of the example.}
+\item{label_dimension}{Number of regression targets per example. This is the size of the last dimension of the labels and logits \code{Tensor} objects (typically, these have shape \code{[batch_size, label_dimension]}).}
 
-\item{optimizer}{An instance of \code{tf.Optimizer} used to train the model. If
-\code{NULL}, will use an Ftrl optimizer.}
+\item{weight_column}{A string or a \code{_NumericColumn} created by \code{tf.feature_column.numeric_column} defining feature column representing weights. It is used to down weight or boost examples during training. It will be multiplied by the loss of the example. If it is a string, it is used as a key to fetch weight tensor from the \code{features}. If it is a \code{_NumericColumn}, raw tensor is fetched by key \code{weight_column.key}, then weight_column.normalizer_fn is applied on it to get weight tensor.}
 
-\item{gradient_clip_norm}{A \code{float} > 0. If provided, gradients are clipped
-to their global norm with this clipping ratio. See \code{tf.clip_by_global_norm}
-for more details.}
-
-\item{enable_centered_bias}{A bool. If TRUE, estimator will learn a centered
-bias variable for each class. Rest of the model structure learns the
-residual after centered bias.}
-
-\item{label_dimension}{Number of regression targets per example. This is the
-size of the last dimension of the labels and logits \code{Tensor} objects
-(typically, these have shape \code{[batch_size, label_dimension]}).}
+\item{optimizer}{An instance of \code{tf.Optimizer} used to train the model. Defaults to FTRL optimizer.}
 
 \item{config}{\code{RunConfig} object to configure the runtime settings.}
 
-\item{feature_engineering_fn}{Feature engineering function. Takes features
-and labels which are the output of \code{input_fn} and returns features and
-labels which will be fed into the model.}
+\item{partitioner}{Optional. Partitioner for input layer.}
 }
 \description{
 Train a linear regression model to predict label value given observation of
 feature values.
 }
-\details{
-Input of \code{fit} and \code{evaluate} should have following features, otherwise there
-will be a KeyError:
-\itemize{
-\item if isinstance(column, \code{SparseColumn}): key=column.name, value=a \code{SparseTensor}
-\item if isinstance(column, \code{WeightedSparseColumn}): {key=id column name, value=a \code{SparseTensor},
-key=weight column name, value=a \code{SparseTensor}}
-\item if isinstance(column, \code{RealValuedColumn}): key=column.name, value=a \code{Tensor}
-}
-}
 \seealso{
-Other canned estimators: \code{\link{dynamic_rnn}},
+Other canned estimators: \code{\link{dnn_classifier}},
+  \code{\link{dnn_linear_combined_classifier}},
+  \code{\link{dnn_linear_combined_regressor}},
+  \code{\link{dnn_regressor}}, \code{\link{dynamic_rnn}},
   \code{\link{linear_classifier}},
-  \code{\link{linear_dnn_combined_classifier}},
-  \code{\link{linear_dnn_combined_regressor}},
   \code{\link{state_saving_rnn}}
 }

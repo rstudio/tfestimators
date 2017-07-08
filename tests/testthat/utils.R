@@ -39,7 +39,7 @@ input_fn_custom <-  function(
 mtcars_regression_specs <- function() {
   dnn_feature_columns <- feature_columns(column_numeric("drat"))
   linear_feature_columns <- feature_columns(column_numeric("drat"))
-  constructed_input_fn <- input_fn_custom(mtcars, response = "mpg", features = c("drat", "cyl"))
+  constructed_input_fn <- input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
   list(dnn_feature_columns = dnn_feature_columns,
        linear_feature_columns = linear_feature_columns,
        input_fn = constructed_input_fn)
@@ -49,27 +49,16 @@ mtcars_classification_specs <- function() {
   mtcars$vs <- as.factor(mtcars$vs)
   dnn_feature_columns <- feature_columns(column_numeric("drat"))
   linear_feature_columns <- feature_columns(column_numeric("drat"))
-  constructed_input_fn <- input_fn_custom(mtcars, response = "vs", features = c("drat", "cyl"))
-  list(dnn_feature_columns = dnn_feature_columns,
-       linear_feature_columns = linear_feature_columns,
-       input_fn = constructed_input_fn)
-}
-
-# using built-in input_fn
-mtcars_regression_specs_numpy_input_fn <- function() {
-  dnn_feature_columns <- feature_columns(column_numeric("drat"))
-  linear_feature_columns <- feature_columns(column_numeric("drat"))
-  constructed_input_fn <- input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
-  list(dnn_feature_columns = dnn_feature_columns,
-       linear_feature_columns = linear_feature_columns,
-       input_fn = constructed_input_fn)
-}
-
-mtcars_classification_specs_numpy_input_fn <- function() {
-  mtcars$vs <- as.factor(mtcars$vs)
-  dnn_feature_columns <- feature_columns(column_numeric("drat"))
-  linear_feature_columns <- feature_columns(column_numeric("drat"))
   constructed_input_fn <- input_fn(mtcars, response = "vs", features = c("drat", "cyl"))
+  list(dnn_feature_columns = dnn_feature_columns,
+       linear_feature_columns = linear_feature_columns,
+       input_fn = constructed_input_fn)
+}
+
+iris_classification_specs <- function() {
+  dnn_feature_columns <- feature_columns(column_numeric("Sepal.Length"))
+  linear_feature_columns <- feature_columns(column_numeric("Sepal.Length"))
+  constructed_input_fn <- input_fn(iris, response = "Species", features = c("Sepal.Length", "Sepal.Width"))
   list(dnn_feature_columns = dnn_feature_columns,
        linear_feature_columns = linear_feature_columns,
        input_fn = constructed_input_fn)
