@@ -1,4 +1,4 @@
-context("examples")
+context("Testing examples")
 
 skip_if_no_tensorflow <- function() {
   if (is.null(tensorflow::tf))
@@ -7,11 +7,11 @@ skip_if_no_tensorflow <- function() {
 
 
 # some helpers
-run_example <- function(example) {
+run_example <- function(example_path) {
   env <- new.env()
   capture.output({
-    example_path <- system.file("examples", example, package = "tensorflow")
-    old_wd <- setwd(dirname(example_path))
+    old_wd <- getwd()
+    setwd(dirname(example_path))
     on.exit(setwd(old_wd), add = TRUE)
     source(basename(example_path), local = env)
   }, type = "output")
@@ -20,7 +20,11 @@ run_example <- function(example) {
 }
 
 examples <- if (nzchar(Sys.getenv("TENSORFLOW_TEST_EXAMPLES"))) {
-  c()
+  vignettes_scripts_dir <- "../../vignettes/scripts"
+  c(
+    file.path(vignettes_scripts_dir, "creating_estimators_tutorial.R"),
+    file.path(vignettes_scripts_dir, "layers_tutorial.R")
+    )
 }
 
 if (!is.null(examples)) {
