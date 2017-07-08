@@ -10,25 +10,47 @@ dnn_classifier(hidden_units, feature_columns, model_dir = NULL,
   input_layer_partitioner = NULL, config = NULL)
 }
 \arguments{
-\item{hidden_units}{Iterable of number hidden units per layer. All layers are fully connected. Ex. \code{[64, 32]} means first layer has 64 nodes and second one has 32.}
+\item{hidden_units}{Iterable of number hidden units per layer. All layers are
+fully connected. Ex. \code{[64, 32]} means first layer has 64 nodes and second
+one has 32.}
 
-\item{feature_columns}{An iterable containing all the feature columns used by the model. All items in the set should be instances of classes derived from \code{_FeatureColumn}.}
+\item{feature_columns}{An iterable containing all the feature columns used by
+the model. All items in the set should be instances of classes derived from
+\code{_FeatureColumn}.}
 
-\item{model_dir}{Directory to save model parameters, graph and etc. This can also be used to load checkpoints from the directory into a estimator to continue training a previously saved model.}
+\item{model_dir}{Directory to save model parameters, graph and etc. This can
+also be used to load checkpoints from the directory into a estimator to
+continue training a previously saved model.}
 
-\item{n_classes}{Number of label classes. Defaults to 2, namely binary classification. Must be > 1.}
+\item{n_classes}{Number of label classes. Defaults to 2, namely binary
+classification. Must be > 1.}
 
-\item{weight_column}{A string or a \code{_NumericColumn} created by \code{tf.feature_column.numeric_column} defining feature column representing weights. It is used to down weight or boost examples during training. It will be multiplied by the loss of the example. If it is a string, it is used as a key to fetch weight tensor from the \code{features}. If it is a \code{_NumericColumn}, raw tensor is fetched by key \code{weight_column.key}, then weight_column.normalizer_fn is applied on it to get weight tensor.}
+\item{weight_column}{A string or a \code{_NumericColumn} created by
+\code{tf.feature_column.numeric_column} defining feature column representing
+weights. It is used to down weight or boost examples during training. It
+will be multiplied by the loss of the example. If it is a string, it is
+used as a key to fetch weight tensor from the \code{features}. If it is a
+\code{_NumericColumn}, raw tensor is fetched by key \code{weight_column.key}, then
+weight_column.normalizer_fn is applied on it to get weight tensor.}
 
-\item{label_vocabulary}{A list of strings represents possible label values. If given, labels must be string type and have any value in \code{label_vocabulary}. If it is not given, that means labels are already encoded as integer or float within \link{0, 1} for \code{n_classes=2} and encoded as integer values in {0, 1,..., n_classes-1} for \code{n_classes}>2 . Also there will be errors if vocabulary is not provided and labels are string.}
+\item{label_vocabulary}{A list of strings represents possible label values.
+If given, labels must be string type and have any value in
+\code{label_vocabulary}. If it is not given, that means labels are already
+encoded as integer or float within \link{0, 1} for \code{n_classes=2} and encoded as
+integer values in {0, 1,..., n_classes-1} for \code{n_classes}>2 . Also there
+will be errors if vocabulary is not provided and labels are string.}
 
-\item{optimizer}{An instance of \code{tf.Optimizer} used to train the model. Defaults to Adagrad optimizer.}
+\item{optimizer}{An instance of \code{tf.Optimizer} used to train the model.
+Defaults to Adagrad optimizer.}
 
-\item{activation_fn}{Activation function applied to each layer. If \code{NULL}, will use \code{tf.nn.relu}.}
+\item{activation_fn}{Activation function applied to each layer. If \code{NULL},
+will use \code{tf.nn.relu}.}
 
-\item{dropout}{When not \code{NULL}, the probability we will drop out a given coordinate.}
+\item{dropout}{When not \code{NULL}, the probability we will drop out a given
+coordinate.}
 
-\item{input_layer_partitioner}{Optional. Partitioner for input layer. Defaults to \code{min_max_variable_partitioner} with \code{min_slice_size} 64 << 20.}
+\item{input_layer_partitioner}{Optional. Partitioner for input layer.
+Defaults to \code{min_max_variable_partitioner} with \code{min_slice_size} 64 << 20.}
 
 \item{config}{\code{RunConfig} object to configure the runtime settings.}
 }

@@ -46,7 +46,6 @@ mtcars_regression_specs <- function() {
 }
 
 mtcars_classification_specs <- function() {
-  mtcars$vs <- as.factor(mtcars$vs)
   dnn_feature_columns <- feature_columns(column_numeric("drat"))
   linear_feature_columns <- feature_columns(column_numeric("drat"))
   constructed_input_fn <- input_fn(mtcars, response = "vs", features = c("drat", "cyl"))

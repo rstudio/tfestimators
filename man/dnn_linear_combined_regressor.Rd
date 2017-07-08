@@ -12,27 +12,47 @@ dnn_linear_combined_regressor(model_dir = NULL,
   input_layer_partitioner = NULL, config = NULL)
 }
 \arguments{
-\item{model_dir}{Directory to save model parameters, graph and etc. This can also be used to load checkpoints from the directory into a estimator to continue training a previously saved model.}
+\item{model_dir}{Directory to save model parameters, graph and etc. This can
+also be used to load checkpoints from the directory into a estimator to
+continue training a previously saved model.}
 
-\item{linear_feature_columns}{An iterable containing all the feature columns used by linear part of the model. All items in the set must be instances of classes derived from \code{FeatureColumn}.}
+\item{linear_feature_columns}{An iterable containing all the feature columns
+used by linear part of the model. All items in the set must be instances of
+classes derived from \code{FeatureColumn}.}
 
-\item{linear_optimizer}{An instance of \code{tf.Optimizer} used to apply gradients to the linear part of the model. Defaults to FTRL optimizer.}
+\item{linear_optimizer}{An instance of \code{tf.Optimizer} used to apply gradients
+to the linear part of the model. Defaults to FTRL optimizer.}
 
-\item{dnn_feature_columns}{An iterable containing all the feature columns used by deep part of the model. All items in the set must be instances of classes derived from \code{FeatureColumn}.}
+\item{dnn_feature_columns}{An iterable containing all the feature columns
+used by deep part of the model. All items in the set must be instances of
+classes derived from \code{FeatureColumn}.}
 
-\item{dnn_optimizer}{An instance of \code{tf.Optimizer} used to apply gradients to the deep part of the model. Defaults to Adagrad optimizer.}
+\item{dnn_optimizer}{An instance of \code{tf.Optimizer} used to apply gradients to
+the deep part of the model. Defaults to Adagrad optimizer.}
 
-\item{dnn_hidden_units}{List of hidden units per layer. All layers are fully connected.}
+\item{dnn_hidden_units}{List of hidden units per layer. All layers are fully
+connected.}
 
-\item{dnn_activation_fn}{Activation function applied to each layer. If NULL, will use \code{tf.nn.relu}.}
+\item{dnn_activation_fn}{Activation function applied to each layer. If NULL,
+will use \code{tf.nn.relu}.}
 
-\item{dnn_dropout}{When not NULL, the probability we will drop out a given coordinate.}
+\item{dnn_dropout}{When not NULL, the probability we will drop out a given
+coordinate.}
 
-\item{label_dimension}{Number of regression targets per example. This is the size of the last dimension of the labels and logits \code{Tensor} objects (typically, these have shape \code{[batch_size, label_dimension]}).}
+\item{label_dimension}{Number of regression targets per example. This is the
+size of the last dimension of the labels and logits \code{Tensor} objects
+(typically, these have shape \code{[batch_size, label_dimension]}).}
 
-\item{weight_column}{A string or a \code{_NumericColumn} created by \code{tf.feature_column.numeric_column} defining feature column representing weights. It is used to down weight or boost examples during training. It will be multiplied by the loss of the example. If it is a string, it is used as a key to fetch weight tensor from the \code{features}. If it is a \code{_NumericColumn}, raw tensor is fetched by key \code{weight_column.key}, then weight_column.normalizer_fn is applied on it to get weight tensor.}
+\item{weight_column}{A string or a \code{_NumericColumn} created by
+\code{tf.feature_column.numeric_column} defining feature column representing
+weights. It is used to down weight or boost examples during training. It
+will be multiplied by the loss of the example. If it is a string, it is
+used as a key to fetch weight tensor from the \code{features}. If it is a
+\code{_NumericColumn}, raw tensor is fetched by key \code{weight_column.key}, then
+weight_column.normalizer_fn is applied on it to get weight tensor.}
 
-\item{input_layer_partitioner}{Partitioner for input layer. Defaults to \code{min_max_variable_partitioner} with \code{min_slice_size} 64 << 20.}
+\item{input_layer_partitioner}{Partitioner for input layer. Defaults to
+\code{min_max_variable_partitioner} with \code{min_slice_size} 64 << 20.}
 
 \item{config}{RunConfig object to configure the runtime settings.}
 }
