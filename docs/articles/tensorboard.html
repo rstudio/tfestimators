@@ -114,9 +114,9 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/estimator.html">estimator</a></span>(
     <span class="dt">model_fn =</span> model_fn,
     <span class="dt">model_dir =</span> <span class="st">"/tmp/test"</span>
-) %&gt;%<span class="st"> </span><span class="kw">train</span>(<span class="dt">input_fn =</span> input, <span class="dt">steps =</span> 100L)</code></pre></div>
+) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">train</span>(<span class="dt">input_fn =</span> input, <span class="dt">steps =</span> 100L)</code></pre></div>
 <p>and then you can call</p>
-<pre><code><a href="../reference/reexports.html">tensorboard(log_dir = "/tmp/test", launch_browser = TRUE)</a></code></pre>
+<pre><code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/tensorboard">tensorboard(log_dir = "/tmp/test", launch_browser = TRUE)</a></code></pre>
 <p>with <code>log_dir</code> being the directory you used to save the model checkpoints, to launch the TensorBoard in browser.</p>
 <p>For example, here’s a TensorBoard display for a model’s training loss:</p>
 <div class="figure">

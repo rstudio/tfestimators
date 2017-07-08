@@ -16,20 +16,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # R Interface to TensorFlow Estimators
 
-<style type="text/css">
-.alert-warning {
-    color: #8a6d3b;
-    background-color: #fcf8e3;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    background-image: linear-gradient(to bottom,#fcf8e3 0,#f8efc0 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffcf8e3', endColorstr='#fff8efc0', GradientType=0);
-    background-repeat: repeat-x;
-    border: 1px solid #f5e79e;
-    border-radius: 4px;
-}
-</style>
-
 <div class="alert alert-warning" role="alert">
 **IMPORTANT NOTE**: This package is under active development and the APIs are still subject to substantial changes. Help and documentation are also currently incomplete. The package is currently suitable for review and feedback but not for everyday use.
 </div>
@@ -185,7 +171,7 @@ These articles describe more advanced topics/usage:
 - [Custom Estimators](articles/custom_estimators.html)
 - [TensorBoard Visualization](articles/tensorboard.html)
 
-One of the best ways to learn is from reviewing and experimenting with examples. See the [Examples](articles/examples/examples.html) page for a variety of examples to help you get started.
+One of the best ways to learn is from reviewing and experimenting with examples. See the [Examples](articles/examples/) page for a variety of examples to help you get started.
 
 <!--
 When you have built your model and are ready to deploy it, see the [Deployment](articles/deployment.html) page for an in-depth review of deployment options.
