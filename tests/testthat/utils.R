@@ -2,39 +2,6 @@
 
 library(tensorflow)
 
-
-input_fn_custom <-  function(
-  x,
-  features,
-  response = NULL)
-{
-  function(features_as_named_list) {
-    function() {
-      if (features_as_named_list) {
-        # For canned estimators
-        input_features <- lapply(features, function(feature) {
-          if(is.factor(x[[feature]])) {
-            # factor vars are incorrectly converted as Tensor of type int
-            tf$constant(as.character(x[[feature]]))
-          } else {
-            tf$constant(x[[feature]])
-          }
-        })
-        names(input_features) <- features
-      } else {
-        # For custom estimators
-        input_features <- tf$constant(as.matrix(x[, features]))
-      }
-      if (!is.null(response)) {
-        input_response <- tf$constant(x[[response]])
-      } else {
-        input_response <- NULL
-      }
-      list(input_features, input_response)
-    }
-  }
-}
-
 # using custom input_fn
 mtcars_regression_specs <- function() {
   dnn_feature_columns <- feature_columns(column_numeric("drat"))
