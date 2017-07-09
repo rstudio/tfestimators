@@ -79,3 +79,6 @@ input_fn1 <- input_fn(
 input_fn1 <- input_fn(mtcars, response = mpg, features = c(drat, cyl))
 
 }
+\seealso{
+Other input functions: \code{\link{numpy_input_fn}}
+}

@@ -468,7 +468,7 @@ logging_hook &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 <p>Now we’re ready to train our model, which we can do by creating <code>train_input_fn</code> ans calling <code>train()</code> on <code>mnist_classifier</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Train the model</span>
 train_input_fn &lt;-<span class="st"> </span>function(features_as_named_list) {
-  tf$estimator$inputs$<span class="kw">numpy_input_fn</span>(
+  tf$estimator$inputs$<span class="kw"><a href="../reference/numpy_input_fn.html">numpy_input_fn</a></span>(
     <span class="dt">x =</span> <span class="kw">list</span>(<span class="dt">x =</span> train_data),
     <span class="dt">y =</span> train_labels,
     <span class="dt">batch_size =</span> 100L,
@@ -488,7 +488,7 @@ train_input_fn &lt;-<span class="st"> </span>function(features_as_named_list) {
 <p>Once training is complete, we want to evaluate our model to determine its accuracy on the MNIST test set. We call the <code>evaluate</code> method, which evaluates the metrics we specified in <code>eval_metric_ops</code> argument in the <code>model_fn</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Evaluate the model and print results</span>
 eval_input_fn &lt;-<span class="st"> </span>function(features_as_named_list) {
-  tf$estimator$inputs$<span class="kw">numpy_input_fn</span>(
+  tf$estimator$inputs$<span class="kw"><a href="../reference/numpy_input_fn.html">numpy_input_fn</a></span>(
     <span class="dt">x =</span> <span class="kw">list</span>(<span class="dt">x =</span> eval_data),
     <span class="dt">y =</span> eval_labels,
     <span class="dt">batch_size =</span> 100L,

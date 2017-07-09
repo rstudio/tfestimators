@@ -115,23 +115,19 @@ tensors_to_log <- list(predicted_classes = "predicted_classes")
 logging_hook <- hook_logging_tensor(
   tensors = tensors_to_log, every_n_iter = 2)
 
-train_input_fn <- function(features_as_named_list) {
-  tf$estimator$inputs$numpy_input_fn(
-    x = list(x = train_data),
-    y = train_labels,
-    batch_size = 100L,
-    num_epochs = NULL,
-    shuffle = TRUE)
-}
+train_input_fn <- numpy_input_fn(
+  x = list(x = train_data),
+  y = train_labels,
+  batch_size = 100,
+  num_epochs = NULL,
+  shuffle = TRUE)
 
-eval_input_fn <- function(features_as_named_list) {
-  tf$estimator$inputs$numpy_input_fn(
-    x = list(x = eval_data),
-    y = eval_labels,
-    batch_size = 100L,
-    num_epochs = NULL,
-    shuffle = TRUE)
-}
+eval_input_fn <- numpy_input_fn(
+  x = list(x = eval_data),
+  y = eval_labels,
+  batch_size = 100,
+  num_epochs = NULL,
+  shuffle = TRUE)
 
 train(
   mnist_classifier,

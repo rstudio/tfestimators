@@ -22,6 +22,7 @@
 #'   such as in prediction and evaluation mode, `num_threads` should be 1.
 #'
 #' @name input_fn
+#' @family input functions
 NULL
 
 
@@ -229,6 +230,43 @@ input_fn.matrix <- function(
   
   input_fn.data.frame(object, features, response, batch_size,
            shuffle, num_epochs, queue_capacity, num_threads)
+}
+
+#' Construct input function that would feed dict of numpy arrays into the model.
+#' 
+#' This returns a function outputting `features` and `target` based on the dict 
+#' of numpy arrays. The dict `features` has the same keys as the `x`.
+#' 
+#' @param x dict of numpy array object.
+#' @param y numpy array object. `NULL` if absent.
+#' @param batch_size Integer, size of batches to return.
+#' @param num_epochs Integer, number of epochs to iterate over data. If `NULL`
+#'   will run forever.
+#' @param shuffle Boolean, if TRUE shuffles the queue. Avoid shuffle at
+#'   prediction time.
+#' @param queue_capacity Integer, size of queue to accumulate.
+#' @param num_threads Integer, number of threads used for reading and
+#'   enqueueing. In order to have predicted and repeatable order of reading and
+#'   enqueueing, such as in prediction and evaluation mode, `num_threads` should
+#'   be 1. #'
+#' @section Raises: ValueError: if the shape of `y` mismatches the shape of
+#'   values in `x` (i.e., values in `x` have same shape). TypeError: `x` is not
+#'   a dict or `shuffle` is not bool.
+#'   
+#' @export
+#' @family input functions
+numpy_input_fn <- function(x, y = NULL, batch_size = 128L, num_epochs = 1L, shuffle = NULL, queue_capacity = 1000L, num_threads = 1L) {
+  function(features_as_named_list) {
+    tf$estimator$inputs$numpy_input_fn(
+      x = x,
+      y = y,
+      batch_size = as.integer(batch_size),
+      num_epochs = as.integer(num_epochs),
+      shuffle = shuffle,
+      queue_capacity = as.integer(queue_capacity),
+      num_threads = as.integer(num_threads)
+    )
+  }
 }
 
 # input functions take zero arguments however on the R side we allow input functions
