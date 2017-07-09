@@ -156,7 +156,7 @@ deep_columns <- feature_columns(
 #' handled for you under the hood, so you simply need to create a
 #' linear_dnn_combined_classifier:
 
-model <- linear_dnn_combined_classifier(
+model <- dnn_linear_combined_classifier(
   linear_feature_columns = wide_columns,
   dnn_feature_columns = deep_columns,
   dnn_hidden_units = c(100L, 50L)

@@ -20,10 +20,11 @@ run_example <- function(example_path) {
 }
 
 examples <- if (nzchar(Sys.getenv("TENSORFLOW_TEST_EXAMPLES"))) {
-  vignettes_scripts_dir <- "../../vignettes/scripts"
+  vignettes_examples_dir <- "../../vignettes/examples"
   c(
-    file.path(vignettes_scripts_dir, "creating_estimators_tutorial.R"),
-    file.path(vignettes_scripts_dir, "layers_tutorial.R")
+    file.path(vignettes_examples_dir, "wide_and_deep.R"),
+    file.path(vignettes_examples_dir, "creating_estimators_tutorial.R"),
+    file.path(vignettes_examples_dir, "layers_tutorial.R")
     )
 }
 
