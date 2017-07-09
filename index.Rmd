@@ -27,13 +27,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The **tfestimators** package is an R interface to TensorFlow Estimators, a high-level API that provides:
 
-- Implementations of many model types including linear models, support vector machines, deep neural networks, state saving recurrent neural networks, and dynamic recurrent neural networks.
+- Implementations of many different model types including linear models and deep neural networks. More models are coming soon such as state saving recurrent neural networks, dynamic recurrent neural networks, support vector machines, randome forest, KMeans clustering, etc. 
 
 - A flexible framework for defining arbitrary new model types (Estimators)
 
 - Standalone deployment of models (no R runtime required) in a wide variety of environments.
 
 - An Experiment API that provides distributed training and hyperparameter tuning for both canned and custom estimators.
+
+For more details and the design of the original Python API, please check out the paper: [TensorFlow Estimators: Managing Simplicity vs. Flexibility in High-Level Machine Learning Frameworks](http://terrytangyuan.github.io/data/papers/tf-estimators-kdd-paper.pdf).
 
 ## Quick Start
 
@@ -168,7 +170,7 @@ These articles describe more advanced topics/usage:
 <!--
 - [Run Configuration](articles/run_configuration.html)
 -->
-- [Custom Estimators](articles/custom_estimators.html)
+- [Custom Estimators](articles/creating_estimators.html)
 - [TensorBoard Visualization](articles/tensorboard.html)
 
 One of the best ways to learn is from reviewing and experimenting with examples. See the [Examples](articles/examples/) page for a variety of examples to help you get started.

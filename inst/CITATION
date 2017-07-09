@@ -1,0 +1,24 @@
+citHeader("To cite tfestimators in publications, please use:")
+
+bibentry(bibtype = "InProceedings",
+  author = "Heng-Tze Cheng, Lichan Hong, Mustafa Ispir, Clemens Mewald, Zakaria Haque, Illia Polosukhin, Georgios Roumpos, D Sculley, Jamie Smith, David Soergel, Yuan Tang, Philipp Tucker, Martin Wicke, Cassandra Xia, and Jianwei Xie",
+  title = "TensorFlow Estimators: Managing Simplicity vs. Flexibility in High-Level Machine Learning Frameworks",
+  booktitle = "Proceedings of the 23rd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining",
+  year = "2017",
+  institution = "ACM",
+  textVersion = 'Heng-Tze Cheng, Lichan Hong, Mustafa Ispir, Clemens Mewald, Zakaria Haque, Illia Polosukhin, Georgios Roumpos, D Sculley, Jamie Smith, David Soergel, Yuan Tang, Philipp Tucker, Martin Wicke, Cassandra Xia, and Jianwei Xie. TensorFlow Estimators: Managing Simplicity vs. Flexibility in High-Level Machine Learning Frameworks. Proceedings of the 23rd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining, Halifax, NS, Canada, August 13 - August 17 (2017). '
+)
+
+bibentry(bibtype = "Manual",
+  author = c(
+  person("Yuan", "Tang", role = c("aut", "cre")),
+  person("JJ", "Allaire", role = c("aut")),
+  person("RStudio", role = c("cph", "fnd")),  
+  person("Kevin", "Ushey", role = c("aut")),
+  person("Daniel", "Falbel", role = c("ctb", "cph")),
+  person(family = "Google Inc.", role = c("cph"))),
+  title = "tfestimators: High-level Estimator Interface to TensorFlow in R",
+  year = "2017",
+  url = "https://github.com/rstudio/tfestimators",
+  textVersion = "Yuan Tang, JJ Allaire, Kevin Ushey, and Daniel Falbel. tfestimators: High-level Estimator Interface to TensorFlow in R. https://github.com/rstudio/tfestimators"
+)

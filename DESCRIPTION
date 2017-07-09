@@ -11,8 +11,7 @@ Authors@R: c(
   person("Kevin", "Ushey", role = c("aut"),
          email = "kevin@rstudio.com"),
   person("Daniel", "Falbel", role = c("ctb", "cph")),
-  person(family = "Google Inc.", role = c("cph"),
-         comment = "Documentation")
+  person(family = "Google Inc.", role = c("cph"))
   )
 Description: This package provides access to TensorFlow's high-level
     Estimator API for easier machine learning. TensorFlow is an open

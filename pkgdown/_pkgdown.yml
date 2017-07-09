@@ -61,8 +61,6 @@ reference:
       - dnn_classifier
       - dnn_linear_combined_regressor
       - dnn_linear_combined_classifier
-      - dynamic_rnn
-      - state_saving_rnn
 
   - title: "Estimator Methods"
     contents:
