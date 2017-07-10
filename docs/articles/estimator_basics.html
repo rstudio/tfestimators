@@ -104,7 +104,7 @@
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p>The basic components of the TensorFlow Estimator API include:</p>
+<p>The basic components of the TensorFlow Estimators API include:</p>
 <ul>
 <li><p>Canned estimators (pre-built implementations of various models).</p></li>
 <li><p>Custom estimators (custom model implementations).</p></li>
@@ -117,12 +117,13 @@
 <li><p>Experiments (wrappers around estimators that handle concerns like distributed training, hyperparameter tuning, etc.)</p></li>
 <li><p>Run hooks (callbacks for recording context and interacting with training as it proceeds)</p></li>
 </ul>
+<p>Please read our <a href="http://terrytangyuan.github.io/data/papers/tf-estimators-kdd-paper.pdf">white paper</a> if you are interested in the detailed design of the above components.</p>
 <p>Below we enumerate some of the core functions in each of these componets to provide a high level overview of what’s available. See the linked articles for more details on using all of the components together.</p>
 </div>
 <div id="canned-estimators" class="section level2">
 <h2 class="hasAnchor">
 <a href="#canned-estimators" class="anchor"></a>Canned Estimators</h2>
-<p>The <strong>tfestimators</strong> package includes a wide variety of canned estimators for common machine learning tasks. Available estimators include:</p>
+<p>The <strong>tfestimators</strong> package includes a wide variety of canned estimators for common machine learning tasks. Currently, the following canned estimators are available:</p>
 <table class="table">
 <thead><tr class="header">
 <th>Estimator</th>
@@ -152,14 +153,6 @@
 <tr class="even">
 <td><code><a href="../reference/dnn_linear_combined_classifier.html">dnn_linear_combined_classifier()</a></code></td>
 <td>DNN Linear Combined Classification.</td>
-</tr>
-<tr class="odd">
-<td><code><a href="../reference/dynamic_rnn.html">dynamic_rnn()</a></code></td>
-<td>Dynamic RNN Estimator..</td>
-</tr>
-<tr class="even">
-<td><code><a href="../reference/state_saving_rnn.html">state_saving_rnn()</a></code></td>
-<td>State Saving RNN Estimator.</td>
 </tr>
 </tbody>
 </table>

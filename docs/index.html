@@ -186,13 +186,13 @@ model %&gt;%<span class="st"> </span><span class="kw">train</span>(<span class="
 <p>We can evaluate the model’s accuracy using the <code>evaluate()</code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
 <pre><code>## $average_loss
-## [1] 259.4733
+## [1] 149.0057
 ## 
 ## $global_step
 ## [1] 3
 ## 
 ## $loss
-## [1] 1556.84</code></pre>
+## [1] 894.0339</code></pre>
 </div>
 <div id="prediction" class="section level4">
 <h4 class="hasAnchor">
@@ -202,17 +202,17 @@ model %&gt;%<span class="st"> </span><span class="kw">train</span>(<span class="
 model %&gt;%<span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
 <pre><code>## [[1]]
 ## [[1]]$predictions
-## [1] 20.27135
+## [1] 3.948033
 ## 
 ## 
 ## [[2]]
 ## [[2]]$predictions
-## [1] 8.042886
+## [1] 16.59008
 ## 
 ## 
 ## [[3]]
 ## [[3]]$predictions
-## [1] 8.364346</code></pre>
+## [1] 7.030788</code></pre>
 </div>
 </div>
 </div>
