@@ -102,9 +102,14 @@
     
 <div class="contents">
 <p>Experiments are designed for easier experiments, e.g. define your model, specify training and evaluation data and steps, frequencies, where to run, metrics to use to monitor the process, etc. They contain all neccessary information required, such as <code>input_fn</code> for both training and evaluation, to run experiments and can be easily packed up to run in cloud, local, or cluster environment.</p>
+<p>The <code>Experiment</code> is the core to the distributed execution. In each TensorFlow cluster, there are several parameter servers and several worker tasks. Most workers are handing the training process, which basically calls the Estimator <code>train()</code> with the training <code>input_fn</code>. One of the workers is designated leader and is responsible for managing checkpoints and other maintenance work. Currently, the primary mode of replica training in TensorFlow Estimators is between-graph replication and asynchronous training. However, it could be easily extended to support other replicated training settings. With this architecture, gradient descent training can be executed in parallel. Please read our <a href="http://terrytangyuan.github.io/data/papers/tf-estimators-kdd-paper.pdf">white paper</a> if you are interested in the details of the design.</p>
+<p>The architecture of <code>Experiment</code> is summarized in the figure below:</p>
+<div class="figure">
+<img src="images/experiment.png" class="screenshot" width="770" height="270">
+</div>
 <p>For example, we firstly construct a classifier</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clf &lt;-
-<span class="st">  </span><span class="kw">linear_dnn_combined_classifier</span>(
+<span class="st">  </span><span class="kw"><a href="../reference/dnn_linear_combined_classifier.html">dnn_linear_combined_classifier</a></span>(
     <span class="dt">linear_feature_columns =</span> linear_feature_columns,
     <span class="dt">dnn_feature_columns =</span> dnn_feature_columns,
     <span class="dt">dnn_hidden_units =</span> <span class="kw">c</span>(3L, 3L),
