@@ -113,34 +113,34 @@
 <a href="#data-frame-input" class="anchor"></a>Data Frame Input</h2>
 <p>You can create an input function from an R data frame using the <code><a href="../reference/input_fn.html">input_fn()</a></code> method. You can specify feature and response variables either explicitly or using the R formula interface.</p>
 <p>For example, to create an input function for the <strong>mtcars</strong> dataset with features “drat” and “cyl” and response “mpg” you could use this code:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span><span class="kw">train</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">train</span>(
   <span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mtcars, <span class="dt">features =</span> <span class="kw">c</span>(drat, cyl), <span class="dt">response =</span> mpg)
 )</code></pre></div>
 <p>Or alternatively use the R formula interface like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span><span class="kw">train</span>(
-  <span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mpg ~<span class="st"> </span>drat +<span class="st"> </span>cyl, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">train</span>(
+  <span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mpg <span class="op">~</span><span class="st"> </span>drat <span class="op">+</span><span class="st"> </span>cyl, <span class="dt">data =</span> mtcars)
 )</code></pre></div>
 <div id="training-vs-evaluation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#training-vs-evaluation" class="anchor"></a>Training vs. Evaluation</h3>
 <p>It’s often the case that you’ll want to use the same basic input function for training and evaluation, but need to provide a distinct dataset for each step. In that case you can create a wrapper function that returns the same input function with varying input data.</p>
 <p>For example, imagine we have already split the <strong>mtcars</strong> dataset into training and test subsets. We could have an input function generator like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars_input_fn &lt;-<span class="st"> </span>function(data) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(data) {
   <span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(data, <span class="dt">features =</span> <span class="kw">c</span>(drat, cyl), <span class="dt">response =</span> mpg)
 }</code></pre></div>
 <p>Then use it for training and evaluation as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># train the model</span>
-model %&gt;%<span class="st"> </span><span class="kw">train</span>(<span class="kw">mtcars_input_fn</span>(train))
+model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">train</span>(<span class="kw">mtcars_input_fn</span>(train))
 
 <span class="co"># evaluate the model</span>
-model %&gt;%<span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(train))</code></pre></div>
+model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(train))</code></pre></div>
 </div>
 </div>
 <div id="matrix-input" class="section level2">
 <h2 class="hasAnchor">
 <a href="#matrix-input" class="anchor"></a>Matrix Input</h2>
 <p>As with data frames, you can also pass an R matrix to <code><a href="../reference/input_fn.html">input_fn()</a></code> to automatically create an input function for the matrix. Note however that in order to specify the <code>features</code> and <code>response</code> parameters you will need to ensure that your matrix columns are named. For example:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">12</span>), <span class="dt">nrow =</span> <span class="dv">4</span>, <span class="dt">ncol =</span> <span class="dv">3</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">12</span>), <span class="dt">nrow =</span> <span class="dv">4</span>, <span class="dt">ncol =</span> <span class="dv">3</span>)
 <span class="kw">colnames</span>(m) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"x1"</span>, <span class="st">"x2"</span>, <span class="st">"y"</span>)
 <span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(m, <span class="dt">features =</span> <span class="kw">c</span>(x1, x2), <span class="dt">response =</span> y)</code></pre></div>
 </div>

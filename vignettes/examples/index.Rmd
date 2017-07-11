@@ -1,9 +1,11 @@
 ---
-title: "TensorFlow Estimators API Examples"
+title: "TensorFlow Estimator API Examples"
 ---
 
 | Example  | Description   |
 |----------------------|-------------------------------------------------------------------|
-| [Wide and Deep Learning](wide_and_deep.html) | Building Wide & Deep Learning Model |
-| [TensorFlow Layers](../layers.html) | Building Estimator Using TensorFlow Layers |
-| [Abalone Age Predictor](../creating_estimators.html) | Creating Custom Estimator for Abalone Age Prediction |
+| [Wide and Deep Learning](wide_and_deep.html) | Building a wide & deep learning model |
+| [Custom Estimator](custom_estimator.html) | Creating a custom estimator for abalone age prediction |
+| [TensorFlow Layers](tensorflow_layers.html) | Building an estimator using TensorFlow layers |
+
+
