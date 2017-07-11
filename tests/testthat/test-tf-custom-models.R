@@ -30,7 +30,7 @@ test_that("custom model works on iris data", {
       class = tf$argmax(logits, 1L),
       prob = tf$nn$softmax(logits))
     
-    if(mode == "infer"){
+    if (mode == "infer") {
       return(estimator_spec(mode = mode, predictions = predictions, loss = NULL, train_op = NULL))
     }
     

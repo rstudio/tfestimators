@@ -33,7 +33,13 @@ test_data <- downloaded_data$test_data
 predict_data <- downloaded_data$predict_data
 
 constructed_input_fn <- function(dataset) {
-  input_fn(dataset, features = -num_rings, response = num_rings, num_epochs = NULL, shuffle = TRUE)
+  input_fn(
+    dataset,
+    features = -num_rings,
+    response = num_rings,
+    num_epochs = NULL,
+    shuffle = TRUE
+  )
 }
 
 train_input_fn <- constructed_input_fn(train_data)

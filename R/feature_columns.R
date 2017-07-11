@@ -34,7 +34,7 @@ set_column_names <- function(names) {
   
   # determine the names
   if (!is.character(names))
-    names <- if(is.null(colnames(names))) names(names) else colnames(names)
+    names <- object_names(names)
   
   # get the old names
   old <- active_column_names()

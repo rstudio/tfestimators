@@ -89,7 +89,7 @@ input_fn.list <- function(
   num_threads <- as.integer(num_threads)
   
   # Support for unsupervised models as well as ingesting data for inference
-  if(is.null(response)) {
+  if (is.null(response)) {
     input_response <- NULL
   } else {
     input_response <- object$response
@@ -171,9 +171,9 @@ input_fn.data.frame <-  function(
   queue_capacity <- as.integer(queue_capacity)
   num_threads <- as.integer(num_threads)
   # Support for unsupervised models as well as ingesting data for inference
-  input_response <- if(is.null(response)) NULL else as.array(object[,response])
+  input_response <- if (is.null(response)) NULL else as.array(object[, response])
   fn <- function(features_as_named_list) {
-    if(features_as_named_list){
+    if (features_as_named_list) {
       values <- lapply(features, function(feature) {
         as.array(object[, feature])
       })

@@ -1,7 +1,7 @@
 #' @export
 ensure_valid_column_names <- function(x, columns) {
   existed_cols <- object_names(x)
-  invalid_columns <- ! columns %in% existed_cols
+  invalid_columns <- !(columns %in% existed_cols)
   if (any(invalid_columns)) {
     stop(paste0("The following columns are not in the dataset: ",
                 paste(columns[invalid_columns], collapse = ",")))
@@ -9,7 +9,10 @@ ensure_valid_column_names <- function(x, columns) {
 }
 
 object_names <- function(x) {
-  if(is.null(colnames(x))) names(x) else colnames(x)
+  if (is.null(colnames(x)))
+    names(x)
+  else
+    colnames(x)
 }
 
 ensure_not_na <- function(object) {
