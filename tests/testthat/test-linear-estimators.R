@@ -1,7 +1,5 @@
 context("Testing linear estimators")
 
-source("utils.R")
-
 test_that("linear_regressor() runs successfully", {
   specs <- mtcars_regression_specs()
 

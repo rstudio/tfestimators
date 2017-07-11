@@ -1,7 +1,5 @@
 context("Testing tf models")
 
-source("utils.R")
-
 test_that("train(), predict(), and evaluate() work for regressors", {
   
   specs <- mtcars_regression_specs()

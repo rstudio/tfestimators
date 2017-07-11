@@ -1,7 +1,5 @@
 context("Testing tf_custom_models methods")
 
-source("utils.R")
-
 test_that("custom model works on iris data", {
   
   constructed_input_fn <- input_fn(

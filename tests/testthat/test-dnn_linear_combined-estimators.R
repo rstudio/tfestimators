@@ -1,7 +1,5 @@
 context("Testing linear dnn combined estimators")
 
-source("utils.R")
-
 test_that("linear_dnn_combined_regressor() runs successfully", {
   
   specs <- mtcars_regression_specs()

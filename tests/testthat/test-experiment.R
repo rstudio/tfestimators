@@ -1,7 +1,5 @@
 context("Testing experiment")
 
-source("utils.R")
-
 test_that("Experiment works", {
   
   specs <- mtcars_regression_specs()

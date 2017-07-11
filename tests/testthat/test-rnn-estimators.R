@@ -1,7 +1,5 @@
 # context("Testing rnn estimators")
 # 
-# source("utils.R")
-# 
 # test_that("state_saving_rnn_estimator works on sine sequence data", {
 #   batch_size <- 8L
 #   num_unroll <- 5L

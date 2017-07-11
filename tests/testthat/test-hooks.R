@@ -1,7 +1,5 @@
 context("Testing hooks")
 
-source("utils.R")
-
 test_that("Hooks works with linear dnn combined estimators", {
   specs <- mtcars_regression_specs()
 
