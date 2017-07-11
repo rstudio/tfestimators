@@ -27,7 +27,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The **tfestimators** package is an R interface to TensorFlow Estimators, a high-level API that provides:
 
-- Implementations of many different model types including linear models and deep neural networks. More models are coming soon such as state saving recurrent neural networks, dynamic recurrent neural networks, support vector machines, randome forest, KMeans clustering, etc. 
+- Implementations of many different model types including linear models and deep neural networks. More models are coming soon such as state saving recurrent neural networks, dynamic recurrent neural networks, support vector machines, random forest, KMeans clustering, etc. 
 
 - A flexible framework for defining arbitrary new model types as custom estimators.
 
@@ -41,7 +41,7 @@ The above figure is a simplified overview of the TensorFlow Estimators interface
 
 ### Installation
 
-To use **tfestimators** you need to install both the R package as well as [TensorFlow](https://rstudio.github.io/tensorflow/) iteslf.
+To use **tfestimators** you need to install both the R package as well as [TensorFlow](https://rstudio.github.io/tensorflow/) itself.
 
 First, install the tfestimators R package as follows:
 
@@ -116,7 +116,7 @@ model <- linear_regressor(fc)
 
 #### Training
 
-Next, we train the model using the `train()` function. Note that we segment `mtcars` into training and test datasets so we can evaluate the model on a differnet subset of data.
+Next, we train the model using the `train()` function. Note that we segment `mtcars` into training and test datasets so we can evaluate the model on a different subset of data.
 
 ```{r}
 # randomly segment mtcars into test and training datasets
