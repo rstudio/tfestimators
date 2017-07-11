@@ -34,7 +34,11 @@ predict.tf_model <- function(object,
 
 
 #' @export
-train.tf_model <- function(object, input_fn, steps = NULL, max_steps = NULL, hooks = NULL)
+train.tf_model <- function(object,
+                           input_fn,
+                           steps = NULL,
+                           max_steps = NULL,
+                           hooks = NULL)
 {
   train.tf_custom_model(
     object,

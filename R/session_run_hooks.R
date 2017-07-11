@@ -20,7 +20,12 @@
 #' @family session_run_hook wrappers
 #'   
 #' @export
-hook_logging_tensor <- function(tensors, every_n_iter = NULL, every_n_secs = NULL, formatter = NULL, at_end = FALSE) {
+hook_logging_tensor <- function(tensors,
+                                every_n_iter = NULL,
+                                every_n_secs = NULL,
+                                formatter = NULL,
+                                at_end = FALSE)
+{
   tf$python$training$basic_session_run_hooks$LoggingTensorHook(
     tensors = ensure_dict(tensors, named = F),
     every_n_iter = as_nullable_integer(every_n_iter),
@@ -65,10 +70,18 @@ hook_stop_at_step <- function(num_steps = NULL, last_step = NULL) {
 #' @family session_run_hook wrappers
 #'   
 #' @export
-hook_checkpoint_saver <- function(checkpoint_dir, save_secs = NULL, save_steps = NULL, saver = NULL, checkpoint_basename = "model.ckpt", scaffold = NULL, listeners = NULL) {
+hook_checkpoint_saver <- function(checkpoint_dir,
+                                  save_secs = NULL,
+                                  save_steps = NULL,
+                                  saver = NULL,
+                                  checkpoint_basename = "model.ckpt",
+                                  scaffold = NULL,
+                                  listeners = NULL)
+{
   if (!is.null(save_secs) && !is.null(save_steps)) {
     stop(" Only one of save_secs or save_steps can be specified")
   }
+  
   tf$python$training$basic_session_run_hooks$CheckpointSaverHook(
     checkpoint_dir = checkpoint_dir,
     save_secs = as_nullable_integer(save_secs),

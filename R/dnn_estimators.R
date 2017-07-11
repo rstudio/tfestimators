@@ -31,7 +31,16 @@
 #'   
 #' @export
 #' @family canned estimators
-dnn_regressor <- function(hidden_units, feature_columns, model_dir = NULL, label_dimension = 1L, weight_column = NULL, optimizer = "Adagrad", activation_fn = relu, dropout = NULL, input_layer_partitioner = NULL, config = NULL)
+dnn_regressor <- function(hidden_units,
+                          feature_columns,
+                          model_dir = NULL,
+                          label_dimension = 1L,
+                          weight_column = NULL,
+                          optimizer = "Adagrad",
+                          activation_fn = relu,
+                          dropout = NULL,
+                          input_layer_partitioner = NULL,
+                          config = NULL)
 {
   # construct estimator accepting those columns
   dnn_model <- tf$estimator$DNNRegressor(
@@ -92,7 +101,17 @@ dnn_regressor <- function(hidden_units, feature_columns, model_dir = NULL, label
 #'   
 #' @export
 #' @family canned estimators
-dnn_classifier <- function(hidden_units, feature_columns, model_dir = NULL, n_classes = 2L, weight_column = NULL, label_vocabulary = NULL, optimizer = "Adagrad", activation_fn = relu, dropout = NULL, input_layer_partitioner = NULL, config = NULL)
+dnn_classifier <- function(hidden_units,
+                           feature_columns,
+                           model_dir = NULL,
+                           n_classes = 2L,
+                           weight_column = NULL,
+                           label_vocabulary = NULL,
+                           optimizer = "Adagrad",
+                           activation_fn = relu,
+                           dropout = NULL,
+                           input_layer_partitioner = NULL,
+                           config = NULL)
 {
   # construct estimator accepting those columns
   dnn_model <- tf$estimator$DNNClassifier(

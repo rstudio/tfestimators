@@ -26,7 +26,13 @@
 #'   
 #' @export
 #' @family canned estimators
-linear_regressor <- function(feature_columns, model_dir = NULL, label_dimension = 1L, weight_column = NULL, optimizer = "Ftrl", config = NULL, partitioner = NULL)
+linear_regressor <- function(feature_columns,
+                             model_dir = NULL,
+                             label_dimension = 1L,
+                             weight_column = NULL,
+                             optimizer = "Ftrl",
+                             config = NULL,
+                             partitioner = NULL)
 {
   # construct estimator accepting those columns
   lr <- tf$estimator$LinearRegressor(
@@ -81,7 +87,14 @@ linear_regressor <- function(feature_columns, model_dir = NULL, label_dimension 
 #'   
 #' @export
 #' @family canned estimators
-linear_classifier <- function(feature_columns, model_dir = NULL, n_classes = 2L, weight_column = NULL, label_vocabulary = NULL, optimizer = "Ftrl", config = NULL, partitioner = NULL)
+linear_classifier <- function(feature_columns,
+                              model_dir = NULL,
+                              n_classes = 2L,
+                              weight_column = NULL,
+                              label_vocabulary = NULL,
+                              optimizer = "Ftrl",
+                              config = NULL,
+                              partitioner = NULL)
 {
   # construct estimator accepting those columns
   lc <- tf$estimator$LinearClassifier(

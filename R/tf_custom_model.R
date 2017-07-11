@@ -39,7 +39,8 @@ estimator_spec <- function(mode,
                            export_outputs = NULL,
                            training_chief_hooks = NULL,
                            training_hooks = NULL,
-                           scaffold = NULL) {
+                           scaffold = NULL)
+{
   estimator_lib$model_fn_lib$EstimatorSpec(
     mode = mode,
     predictions = predictions,
@@ -154,7 +155,12 @@ estimator <- function(model_fn,
 #'   
 #' @export
 #' @family custom estimator methods
-train.tf_custom_model <- function(object, input_fn, steps = NULL, hooks = NULL, max_steps = NULL) {
+train.tf_custom_model <- function(object,
+                                  input_fn,
+                                  steps = NULL,
+                                  hooks = NULL,
+                                  max_steps = NULL)
+{
   # show training loss metrics 
   # (https://www.tensorflow.org/get_started/monitors#enabling_logging_with_tensorflow)
   with_logging_verbosity(tf$logging$INFO, {
@@ -197,7 +203,8 @@ predict.tf_custom_model <- function(object,
                                     checkpoint_path = NULL,
                                     predict_keys = NULL,
                                     hooks = NULL,
-                                    as_iterable = FALSE) {
+                                    as_iterable = FALSE)
+{
   est <- object$estimator
   predictions <- est$predict(
     input_fn = normalize_input_fn(object, input_fn),

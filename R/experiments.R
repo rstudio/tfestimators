@@ -129,7 +129,8 @@ experiment.tf_model <- function(object,
                                 min_eval_frequency = NULL,
                                 delay_workers_by_global_step = NULL,
                                 export_strategies = NULL,
-                                train_steps_per_iteration = NULL) {
+                                train_steps_per_iteration = NULL)
+{
   exp <- contrib_learn$Experiment(
     estimator = object$estimator,
     train_input_fn = normalize_input_fn(object, train_input_fn),
