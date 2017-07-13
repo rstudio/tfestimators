@@ -6,8 +6,8 @@
 \usage{
 dnn_regressor(hidden_units, feature_columns, model_dir = NULL,
   label_dimension = 1L, weight_column = NULL, optimizer = "Adagrad",
-  activation_fn = relu, dropout = NULL, input_layer_partitioner = NULL,
-  config = NULL)
+  activation_fn = tf$nn$relu, dropout = NULL,
+  input_layer_partitioner = NULL, config = NULL)
 }
 \arguments{
 \item{hidden_units}{Iterable of number hidden units per layer. All layers are

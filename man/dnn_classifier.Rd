@@ -6,7 +6,7 @@
 \usage{
 dnn_classifier(hidden_units, feature_columns, model_dir = NULL,
   n_classes = 2L, weight_column = NULL, label_vocabulary = NULL,
-  optimizer = "Adagrad", activation_fn = relu, dropout = NULL,
+  optimizer = "Adagrad", activation_fn = tf$nn$relu, dropout = NULL,
   input_layer_partitioner = NULL, config = NULL)
 }
 \arguments{
