@@ -2,7 +2,7 @@
 % Please edit documentation in R/dnn_estimators.R
 \name{dnn_regressor}
 \alias{dnn_regressor}
-\title{A regressor for TensorFlow DNN models.}
+\title{A Regressor for TensorFlow DNN Models}
 \usage{
 dnn_regressor(hidden_units, feature_columns, model_dir = NULL,
   label_dimension = 1L, weight_column = NULL, optimizer = "Adagrad",
@@ -10,13 +10,13 @@ dnn_regressor(hidden_units, feature_columns, model_dir = NULL,
   input_layer_partitioner = NULL, config = NULL)
 }
 \arguments{
-\item{hidden_units}{Iterable of number hidden units per layer. All layers are
-fully connected. Ex. \code{[64, 32]} means first layer has 64 nodes and second
-one has 32.}
+\item{hidden_units}{An integer vector, indicating the number of hidden
+units in each layer. All layers are fully connected. For example,
+\code{c(64, 32)} means the first layer has 64 nodes, and the second layer
+has 32 nodes.}
 
-\item{feature_columns}{An iterable containing all the feature columns used by
-the model. All items in the set should be instances of classes derived from
-\code{_FeatureColumn}.}
+\item{feature_columns}{An \R list containing all of the feature columns used
+by the model.}
 
 \item{model_dir}{Directory to save model parameters, graph and etc. This can
 also be used to load checkpoints from the directory into a estimator to
@@ -27,18 +27,18 @@ size of the last dimension of the labels and logits \code{Tensor} objects
 (typically, these have shape \code{[batch_size, label_dimension]}).}
 
 \item{weight_column}{A string or a \code{_NumericColumn} created by
-\code{numeric_column} defining feature column representing weights. It is used
+\code{\link[=column_numeric]{column_numeric()}} defining feature column representing weights. It is used
 to down weight or boost examples during training. It will be multiplied by
 the loss of the example. If it is a string, it is used as a key to fetch
 weight tensor from the \code{features}. If it is a \code{_NumericColumn}, raw tensor
-is fetched by key \code{weight_column.key}, then weight_column.normalizer_fn is
+is fetched by key \code{weight_column.key}, then \code{weight_column.normalizer_fn} is
 applied on it to get weight tensor.}
 
-\item{optimizer}{An instance of \code{tf.Optimizer} used to train the model.
-Defaults to Adagrad optimizer.}
+\item{optimizer}{Either the name of the optimizer to be used when training the model,
+or a \code{tf.Optimizer} instance. Defaults to the Adagrad optimizer.}
 
-\item{activation_fn}{Activation function applied to each layer. If \code{NULL},
-will use \code{tf$nn$relu}.}
+\item{activation_fn}{The activation function to apply to each layer. Defaults
+to the \strong{re}ctified \strong{l}inear \strong{u}nit activation function (\code{tf$nn$relu}).}
 
 \item{dropout}{When not \code{NULL}, the probability we will drop out a given
 coordinate.}
@@ -49,7 +49,7 @@ Defaults to \code{min_max_variable_partitioner} with \code{min_slice_size} 64 <<
 \item{config}{\code{RunConfig} object to configure the runtime settings.}
 }
 \description{
-A regressor for TensorFlow DNN models.
+Initializes a TensorFlow deep neural network regressor.
 }
 \seealso{
 Other canned estimators: \code{\link{dnn_classifier}},

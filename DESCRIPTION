@@ -35,7 +35,7 @@ Imports:
     magrittr,
     R6
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.0.1
+RoxygenNote: 6.0.1.9000
 Suggests:
     testthat,
     knitr
@@ -43,4 +43,3 @@ VignetteBuilder: knitr
 Remotes:
   rstudio/tensorflow,
   tidyverse/tidyselect
-

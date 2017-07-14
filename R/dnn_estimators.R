@@ -1,11 +1,13 @@
-#' A regressor for TensorFlow DNN models.
+#' A Regressor for TensorFlow DNN Models
 #' 
-#' @param hidden_units Iterable of number hidden units per layer. All layers are
-#'   fully connected. Ex. `[64, 32]` means first layer has 64 nodes and second 
-#'   one has 32.
-#' @param feature_columns An iterable containing all the feature columns used by
-#'   the model. All items in the set should be instances of classes derived from
-#'   `_FeatureColumn`.
+#' Initializes a TensorFlow deep neural network regressor.
+#' 
+#' @param hidden_units An integer vector, indicating the number of hidden
+#'   units in each layer. All layers are fully connected. For example,
+#'   `c(64, 32)` means the first layer has 64 nodes, and the second layer
+#'   has 32 nodes.
+#' @param feature_columns An \R list containing all of the feature columns used
+#'   by the model.
 #' @param model_dir Directory to save model parameters, graph and etc. This can 
 #'   also be used to load checkpoints from the directory into a estimator to 
 #'   continue training a previously saved model.
@@ -13,16 +15,16 @@
 #'   size of the last dimension of the labels and logits `Tensor` objects 
 #'   (typically, these have shape `[batch_size, label_dimension]`).
 #' @param weight_column A string or a `_NumericColumn` created by 
-#'   `numeric_column` defining feature column representing weights. It is used
+#'   [column_numeric()] defining feature column representing weights. It is used
 #'   to down weight or boost examples during training. It will be multiplied by
 #'   the loss of the example. If it is a string, it is used as a key to fetch
 #'   weight tensor from the `features`. If it is a `_NumericColumn`, raw tensor
-#'   is fetched by key `weight_column.key`, then weight_column.normalizer_fn is
+#'   is fetched by key `weight_column.key`, then `weight_column.normalizer_fn` is
 #'   applied on it to get weight tensor.
-#' @param optimizer An instance of `tf.Optimizer` used to train the model. 
-#'   Defaults to Adagrad optimizer.
-#' @param activation_fn Activation function applied to each layer. If `NULL`, 
-#'   will use `tf$nn$relu`.
+#' @param optimizer Either the name of the optimizer to be used when training the model,
+#'   or a `tf.Optimizer` instance. Defaults to the Adagrad optimizer.
+#' @param activation_fn The activation function to apply to each layer. Defaults
+#'   to the **re**ctified **l**inear **u**nit activation function (`tf$nn$relu`).
 #' @param dropout When not `NULL`, the probability we will drop out a given 
 #'   coordinate.
 #' @param input_layer_partitioner Optional. Partitioner for input layer. 
