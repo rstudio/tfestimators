@@ -17,7 +17,7 @@ prediction_keys <- function() {
 }
 
 print.tensorflow.python.estimator.canned.prediction_keys.PredictionKeys <- function(object) {
-  cat(paste0("Available predictions keys: ", paste(names(mode_keys()), collapse = ", ")))
+  cat(paste0("Available predictions keys: ", paste(names(prediction_keys()), collapse = ", ")))
 }
 
 #' Enum for metric keys. 
@@ -39,7 +39,7 @@ metric_keys <- function() {
 }
 
 print.tensorflow.python.estimator.canned.metric_keys.MetricKeys <- function(object) {
-  cat(paste0("Available metric keys: ", paste(names(mode_keys()), collapse = ", ")))
+  cat(paste0("Available metric keys: ", paste(names(metric_keys()), collapse = ", ")))
 }
 
 #' Standard names for model modes.
