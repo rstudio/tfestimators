@@ -17,6 +17,7 @@ is.regressor <- function(object) {
 }
 
 #' @export
+#' @inherit predict.tf_custom_model
 predict.tf_model <- function(object,
                              input_fn,
                              checkpoint_path = NULL,
@@ -34,6 +35,7 @@ predict.tf_model <- function(object,
 
 
 #' @export
+#' @inherit train.tf_custom_model
 train.tf_model <- function(object,
                            input_fn,
                            steps = NULL,
@@ -50,6 +52,7 @@ train.tf_model <- function(object,
 
 
 #' @export
+#' @inherit evaluate.tf_custom_model
 evaluate.tf_model <- function(object,
                               input_fn,
                               steps = NULL,
@@ -68,6 +71,7 @@ evaluate.tf_model <- function(object,
 
 #' @importFrom stats coef 
 #' @export
+#' @inherit coef.tf_custom_model
 coef.tf_model <- function(object) {
   coef.tf_custom_model(object)
 }

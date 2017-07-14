@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Base R6 class for creating custom SessionRunHook — EstimatorSessionRunHook • tfestimators</title>
+<title>Get the list coefficients or variables from this model's checkpoint. — coef.tf_model • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -116,72 +116,33 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Base R6 class for creating custom SessionRunHook</h1>
+    <h1>Get the list coefficients or variables from this model's checkpoint.</h1>
     </div>
 
     
-    <p>Base R6 class for creating custom SessionRunHook</p>
+    <p>Get the list coefficients or variables from this model's checkpoint.</p>
     
 
-    <pre class="usage"><span class='no'>EstimatorSessionRunHook</span></pre>
+    <pre class="usage"><span class='co'># S3 method for tf_model</span>
+<span class='fu'>coef</span>(<span class='no'>object</span>)</pre>
         
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>An R6Class generator object</p>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>KerasCallback.</p>
-    
-    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
-
-    
-    <dl class='dl-horizontal'>
-<dt><code>begin()</code></dt><dd><p>Called once before using the session.</p></dd>
-<dt><code>after_create_session(session, coord)</code></dt><dd><p>Called when new TensorFlow session is created.</p></dd>
-<dt><code>before_run(run_context)</code></dt><dd><p>Called before each call to run().</p></dd>
-<dt><code>after_run(run_context, run_values)</code></dt><dd><p>Called after each call to run().</p></dd>
-<dt><code>end(session)</code></dt><dd><p>Called at the end of session.</p></dd>
-</dl>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other session_run_hook wrappers: <code><a href='hook_checkpoint_saver.html'>hook_checkpoint_saver</a></code>,
-  <code><a href='hook_global_step_waiter.html'>hook_global_step_waiter</a></code>,
-  <code><a href='hook_logging_tensor.html'>hook_logging_tensor</a></code>,
-  <code><a href='hook_nan_tensor.html'>hook_nan_tensor</a></code>,
-  <code><a href='hook_step_counter.html'>hook_step_counter</a></code>,
-  <code><a href='hook_stop_at_step.html'>hook_stop_at_step</a></code>,
-  <code><a href='hook_summary_saver.html'>hook_summary_saver</a></code></p>
+    <p>Other custom estimator methods: <code><a href='estimator_spec.html'>estimator_spec</a></code>,
+  <code><a href='estimator.html'>estimator</a></code>,
+  <code><a href='evaluate.tf_custom_model.html'>evaluate.tf_custom_model</a></code>,
+  <code><a href='export_savedmodel.tf_custom_model.html'>export_savedmodel.tf_custom_model</a></code>,
+  <code><a href='predict.tf_custom_model.html'>predict.tf_custom_model</a></code>,
+  <code><a href='train.tf_custom_model.html'>train.tf_custom_model</a></code></p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>tfestimators</span>)
-
-<span class='no'>CustomSessionRunHook</span> <span class='kw'>&lt;-</span> <span class='kw'>R6</span><span class='kw'>::</span><span class='fu'>R6Class</span>(
-  <span class='st'>"CustomSessionRunHook"</span>,
-  <span class='kw'>inherit</span> <span class='kw'>=</span> <span class='no'>EstimatorSessionRunHook</span>,
-  <span class='kw'>public</span> <span class='kw'>=</span> <span class='fu'>list</span>(
-    <span class='kw'>end</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>session</span>) {
-      <span class='fu'>cat</span>(<span class='st'>"Running custom session run hook at the end of a session"</span>)
-    })
- )
-<span class='no'>custom_hook</span> <span class='kw'>&lt;-</span> <span class='no'>CustomSessionRunHook</span>$<span class='fu'>new</span>()</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
-      <li><a href="#format">Format</a></li>
-
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#methods">Methods</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>

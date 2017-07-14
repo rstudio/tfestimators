@@ -129,7 +129,7 @@ values can be represented by <code>-1</code> for int and <code>''</code> for str
     
 
     <pre class="usage"><span class='fu'>column_categorical_with_vocabulary_list</span>(<span class='no'>...</span>, <span class='no'>vocabulary_list</span>, <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>default_value</span> <span class='kw'>=</span> -<span class='fl'>1L</span>)</pre>
+  <span class='kw'>default_value</span> <span class='kw'>=</span> -<span class='fl'>1L</span>, <span class='kw'>num_oov_buckets</span> <span class='kw'>=</span> <span class='fl'>0L</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -154,6 +154,14 @@ supported. If <code>NULL</code>, it will be inferred from <code>vocabulary_list<
     <tr>
       <th>default_value</th>
       <td><p>The value to use for values not in <code>vocabulary_list</code>.</p></td>
+    </tr>
+    <tr>
+      <th>num_oov_buckets</th>
+      <td><p>Non-negative integer, the number of out-of-vocabulary
+buckets. All out-of-vocabulary inputs will be assigned IDs in the range
+<code>[vocabulary_size, vocabulary_size+num_oov_buckets)</code> based on a hash of the
+input value. A positive <code>num_oov_buckets</code> can not be specified with
+<code>default_value</code>.</p></td>
     </tr>
     </table>
     

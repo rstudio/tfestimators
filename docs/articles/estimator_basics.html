@@ -254,12 +254,12 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(
   classifier,
   <span class="dt">input_fn =</span> custom_input_fn,
-  <span class="dt">predict_keys =</span> <span class="kw"><a href="../reference/prediction_keys.html">prediction_keys</a></span>()<span class="op">$</span>PROBABILITIES)</code></pre></div>
+  <span class="dt">predict_keys =</span> <span class="kw"><a href="../reference/prediction_keys.html">prediction_keys</a></span>()$PROBABILITIES)</code></pre></div>
 <p>or logistic using <code>prediction_keys()$LOGISTIC</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(
   classifier,
   <span class="dt">input_fn =</span> custom_input_fn,
-  <span class="dt">predict_keys =</span> <span class="kw"><a href="../reference/prediction_keys.html">prediction_keys</a></span>()<span class="op">$</span>LOGISTIC)</code></pre></div>
+  <span class="dt">predict_keys =</span> <span class="kw"><a href="../reference/prediction_keys.html">prediction_keys</a></span>()$LOGISTIC)</code></pre></div>
 <p>You can find all the available keys by printing <code><a href="../reference/prediction_keys.html">prediction_keys()</a></code>. However, not all keys can be used by different types of estimators. For example, regressors cannot use <code>PROBABILITIES</code> as one of the keys.</p>
 <p>There’s also a function called <code>coef()</code> that can be used extract the trained coefficients of a model.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">coefs &lt;-<span class="st"> </span><span class="kw">coef</span>(classifier)</code></pre></div>
