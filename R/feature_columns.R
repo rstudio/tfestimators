@@ -73,7 +73,11 @@ with_column_names <- function(names, expr) {
 #' @param dtype The type of features. Only string and integer types are
 #'   supported. If `NULL`, it will be inferred from `vocabulary_list`.
 #' @param default_value The value to use for values not in `vocabulary_list`.
-#'   
+#' @param num_oov_buckets Non-negative integer, the number of out-of-vocabulary
+#'   buckets. All out-of-vocabulary inputs will be assigned IDs in the range
+#'   `[vocabulary_size, vocabulary_size+num_oov_buckets)` based on a hash of the
+#'   input value. A positive `num_oov_buckets` can not be specified with
+#'   `default_value`.
 #' @return A `_CategoricalColumn` with in-memory vocabulary.
 #'   
 #' @section Raises: ValueError: if `vocabulary_list` is empty, or contains
@@ -82,14 +86,15 @@ with_column_names <- function(names, expr) {
 #' @export
 #' @family feature_column wrappers
 column_categorical_with_vocabulary_list <- function(
-  ..., vocabulary_list, dtype = NULL, default_value = -1L)
+  ..., vocabulary_list, dtype = NULL, default_value = -1L, num_oov_buckets = 0L)
 {
   create_columns(..., f = function(column) {
     feature_column_lib$categorical_column_with_vocabulary_list(
       key = column,
       vocabulary_list = vocabulary_list,
       dtype = dtype,
-      default_value = default_value
+      default_value = default_value,
+      num_oov_buckets = as.integer(num_oov_buckets)
     )
   })
 }
@@ -113,7 +118,11 @@ column_categorical_with_vocabulary_list <- function(
 #' 
 #' @param vocabulary_file The vocabulary file name.
 #' @param vocabulary_size Number of the elements in the vocabulary. This must be no greater than length of `vocabulary_file`, if less than length, later values are ignored.
-#' @param num_oov_buckets Non-negative integer, the number of out-of-vocabulary buckets. All out-of-vocabulary inputs will be assigned IDs in the range `[vocabulary_size, vocabulary_size+num_oov_buckets)` based on a hash of the input value. A positive `num_oov_buckets` can not be specified with `default_value`.
+#' @param num_oov_buckets Non-negative integer, the number of out-of-vocabulary
+#'   buckets. All out-of-vocabulary inputs will be assigned IDs in the range
+#'   `[vocabulary_size, vocabulary_size+num_oov_buckets)` based on a hash of the
+#'   input value. A positive `num_oov_buckets` can not be specified with
+#'   `default_value`.
 #' @param default_value The integer ID value to return for out-of-vocabulary feature values, defaults to `-1`. This can not be specified with a positive `num_oov_buckets`.
 #' @param dtype The type of features. Only string and integer types are supported.
 #' 

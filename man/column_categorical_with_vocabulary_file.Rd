@@ -16,7 +16,11 @@ objects, and feature columns.}
 
 \item{vocabulary_size}{Number of the elements in the vocabulary. This must be no greater than length of \code{vocabulary_file}, if less than length, later values are ignored.}
 
-\item{num_oov_buckets}{Non-negative integer, the number of out-of-vocabulary buckets. All out-of-vocabulary inputs will be assigned IDs in the range \code{[vocabulary_size, vocabulary_size+num_oov_buckets)} based on a hash of the input value. A positive \code{num_oov_buckets} can not be specified with \code{default_value}.}
+\item{num_oov_buckets}{Non-negative integer, the number of out-of-vocabulary
+buckets. All out-of-vocabulary inputs will be assigned IDs in the range
+\code{[vocabulary_size, vocabulary_size+num_oov_buckets)} based on a hash of the
+input value. A positive \code{num_oov_buckets} can not be specified with
+\code{default_value}.}
 
 \item{default_value}{The integer ID value to return for out-of-vocabulary feature values, defaults to \code{-1}. This can not be specified with a positive \code{num_oov_buckets}.}
 

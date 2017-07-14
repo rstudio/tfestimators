@@ -5,7 +5,7 @@
 \title{A \code{_CategoricalColumn} with in-memory vocabulary.}
 \usage{
 column_categorical_with_vocabulary_list(..., vocabulary_list, dtype = NULL,
-  default_value = -1L)
+  default_value = -1L, num_oov_buckets = 0L)
 }
 \arguments{
 \item{...}{Expression(s) identifying input feature(s). Used as the column name
@@ -20,6 +20,12 @@ feature is mapped to the index of its value (if present) in
 supported. If \code{NULL}, it will be inferred from \code{vocabulary_list}.}
 
 \item{default_value}{The value to use for values not in \code{vocabulary_list}.}
+
+\item{num_oov_buckets}{Non-negative integer, the number of out-of-vocabulary
+buckets. All out-of-vocabulary inputs will be assigned IDs in the range
+\code{[vocabulary_size, vocabulary_size+num_oov_buckets)} based on a hash of the
+input value. A positive \code{num_oov_buckets} can not be specified with
+\code{default_value}.}
 }
 \value{
 A \code{_CategoricalColumn} with in-memory vocabulary.
