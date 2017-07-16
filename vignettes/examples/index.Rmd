@@ -4,8 +4,9 @@ title: "TensorFlow Estimator API Examples"
 
 | Example  | Description   |
 |----------------------|-------------------------------------------------------------------|
-| [Wide and Deep Learning](wide_and_deep.html) | Building a wide & deep learning model |
-| [Custom Estimator](custom_estimator.html) | Creating a custom estimator for abalone age prediction |
-| [TensorFlow Layers](tensorflow_layers.html) | Building an estimator using TensorFlow layers |
+| [wide_and_deep](wide_and_deep.html) | Build a wide & deep learning model |
+| [custom_estimator](custom_estimator.html) | Create a custom estimator for abalone age prediction |
+| [iris_custom_decay_dnn](iris_custom_decay_dnn.html) | Create a deep neural network with learning rate decay for iris dataset |
+| [tensorflow_layers](tensorflow_layers.html) | Build an estimator using TensorFlow layers |
 
 

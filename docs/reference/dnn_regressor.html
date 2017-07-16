@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A regressor for TensorFlow DNN models. — dnn_regressor • tfestimators</title>
+<title>A Regressor for TensorFlow DNN Models — dnn_regressor • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -116,11 +116,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A regressor for TensorFlow DNN models.</h1>
+    <h1>A Regressor for TensorFlow DNN Models</h1>
     </div>
 
     
-    <p>A regressor for TensorFlow DNN models.</p>
+    <p>Initializes a TensorFlow deep neural network regressor.</p>
     
 
     <pre class="usage"><span class='fu'>dnn_regressor</span>(<span class='no'>hidden_units</span>, <span class='no'>feature_columns</span>, <span class='kw'>model_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -133,15 +133,15 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>hidden_units</th>
-      <td><p>Iterable of number hidden units per layer. All layers are
-fully connected. Ex. <code>[64, 32]</code> means first layer has 64 nodes and second
-one has 32.</p></td>
+      <td><p>An integer vector, indicating the number of hidden
+units in each layer. All layers are fully connected. For example,
+<code>c(64, 32)</code> means the first layer has 64 nodes, and the second layer
+has 32 nodes.</p></td>
     </tr>
     <tr>
       <th>feature_columns</th>
-      <td><p>An iterable containing all the feature columns used by
-the model. All items in the set should be instances of classes derived from
-<code>_FeatureColumn</code>.</p></td>
+      <td><p>An <span style="R">R</span> list containing all of the feature columns used
+by the model.</p></td>
     </tr>
     <tr>
       <th>model_dir</th>
@@ -158,22 +158,22 @@ size of the last dimension of the labels and logits <code>Tensor</code> objects
     <tr>
       <th>weight_column</th>
       <td><p>A string or a <code>_NumericColumn</code> created by
-<code>numeric_column</code> defining feature column representing weights. It is used
+<code><a href='column_numeric.html'>column_numeric()</a></code> defining feature column representing weights. It is used
 to down weight or boost examples during training. It will be multiplied by
 the loss of the example. If it is a string, it is used as a key to fetch
 weight tensor from the <code>features</code>. If it is a <code>_NumericColumn</code>, raw tensor
-is fetched by key <code>weight_column.key</code>, then weight_column.normalizer_fn is
+is fetched by key <code>weight_column.key</code>, then <code>weight_column.normalizer_fn</code> is
 applied on it to get weight tensor.</p></td>
     </tr>
     <tr>
       <th>optimizer</th>
-      <td><p>An instance of <code>tf.Optimizer</code> used to train the model.
-Defaults to Adagrad optimizer.</p></td>
+      <td><p>Either the name of the optimizer to be used when training the model,
+or a <code>tf.Optimizer</code> instance. Defaults to the Adagrad optimizer.</p></td>
     </tr>
     <tr>
       <th>activation_fn</th>
-      <td><p>Activation function applied to each layer. If <code>NULL</code>,
-will use <code>tf$nn$relu</code>.</p></td>
+      <td><p>The activation function to apply to each layer. Defaults
+to the <strong>re</strong>ctified <strong>l</strong>inear <strong>u</strong>nit activation function (<code>tf$nn$relu</code>).</p></td>
     </tr>
     <tr>
       <th>dropout</th>
