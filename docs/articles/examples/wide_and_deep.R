@@ -62,7 +62,7 @@ test_data <- downloaded_data$test_data
 
 #' ### Define Base Feature Columns
 #' 
-#' First, let's define the base categorical and continuous feature columns that
+#' Next, let's define the base categorical and continuous feature columns that
 #' we'll use. These base columns will be the building blocks used by both the
 #' wide part and the deep part of the model.
 #'

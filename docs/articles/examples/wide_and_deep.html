@@ -150,7 +150,7 @@ test_data &lt;-<span class="st"> </span>downloaded_data$test_data</code></pre></
 <div id="define-base-feature-columns" class="section level3">
 <h3 class="hasAnchor">
 <a href="#define-base-feature-columns" class="anchor"></a>Define Base Feature Columns</h3>
-<p>First, let’s define the base categorical and continuous feature columns that we’ll use. These base columns will be the building blocks used by both the wide part and the deep part of the model.</p>
+<p>Next, let’s define the base categorical and continuous feature columns that we’ll use. These base columns will be the building blocks used by both the wide part and the deep part of the model.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gender &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_categorical_with_vocabulary_list.html">column_categorical_with_vocabulary_list</a></span>(
   <span class="st">"gender"</span>, <span class="dt">vocabulary_list =</span> <span class="kw">c</span>(<span class="st">"Female"</span>, <span class="st">"Male"</span>))
 education &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_categorical_with_vocabulary_list.html">column_categorical_with_vocabulary_list</a></span>(
