@@ -34,6 +34,9 @@ tensorflow::tensorboard
 #' @export
 tensorflow::unique_dir
 
+#' @export
+tensorflow::run_dir
+
 
 #' @importFrom tidyselect starts_with
 #' @export starts_with

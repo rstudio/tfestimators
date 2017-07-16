@@ -35,7 +35,8 @@ linear_regressor <- function(feature_columns,
                              partitioner = NULL)
 {
   # construct estimator accepting those columns
-  lr <- tf$estimator$LinearRegressor(
+  lr <- py_suppress_warnings(
+    tf$estimator$LinearRegressor(
     feature_columns = feature_columns,
     model_dir = model_dir,
     weight_column = weight_column,
@@ -43,7 +44,7 @@ linear_regressor <- function(feature_columns,
     config = config,
     partitioner = partitioner,
     label_dimension = as.integer(label_dimension)
-  )
+  ))
 
   tf_model(
     c("linear", "regressor"),
@@ -97,7 +98,7 @@ linear_classifier <- function(feature_columns,
                               partitioner = NULL)
 {
   # construct estimator accepting those columns
-  lc <- tf$estimator$LinearClassifier(
+  lc <- py_suppress_warnings(tf$estimator$LinearClassifier(
     feature_columns = feature_columns,
     model_dir = model_dir,
     n_classes = as.integer(n_classes),
@@ -106,7 +107,7 @@ linear_classifier <- function(feature_columns,
     optimizer = optimizer,
     config = config,
     partitioner = partitioner
-  )
+  ))
 
   tf_model(
     c("linear", "classifier"),
