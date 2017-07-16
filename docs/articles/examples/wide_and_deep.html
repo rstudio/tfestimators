@@ -150,31 +150,60 @@ test_data &lt;-<span class="st"> </span>downloaded_data$test_data</code></pre></
 <div id="define-base-feature-columns" class="section level3">
 <h3 class="hasAnchor">
 <a href="#define-base-feature-columns" class="anchor"></a>Define Base Feature Columns</h3>
-<p>Next, let’s define the base categorical and continuous feature columns that we’ll use. These base columns will be the building blocks used by both the wide part and the deep part of the model.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Categorical base columns</span>
-education &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_categorical_with_hash_bucket.html">column_categorical_with_hash_bucket</a></span>(<span class="st">"education"</span>, <span class="dt">hash_bucket_size =</span> <span class="dv">1000</span>, <span class="dt">dtype =</span> tf$int32)
-relationship &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_categorical_with_hash_bucket.html">column_categorical_with_hash_bucket</a></span>(<span class="st">"relationship"</span>, <span class="dt">hash_bucket_size =</span> <span class="dv">100</span>, <span class="dt">dtype =</span> tf$int32)
-workclass &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_categorical_with_hash_bucket.html">column_categorical_with_hash_bucket</a></span>(<span class="st">"workclass"</span>, <span class="dt">hash_bucket_size =</span> <span class="dv">100</span>, <span class="dt">dtype =</span> tf$int32)
-occupation &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_categorical_with_hash_bucket.html">column_categorical_with_hash_bucket</a></span>(<span class="st">"occupation"</span>, <span class="dt">hash_bucket_size =</span> <span class="dv">100</span>, <span class="dt">dtype =</span> tf$int32)
-native_country &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_categorical_with_hash_bucket.html">column_categorical_with_hash_bucket</a></span>(<span class="st">"native_country"</span>, <span class="dt">hash_bucket_size =</span> <span class="dv">1000</span>, <span class="dt">dtype =</span> tf$int32)
+<p>First, let’s define the base categorical and continuous feature columns that we’ll use. These base columns will be the building blocks used by both the wide part and the deep part of the model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gender &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_categorical_with_vocabulary_list.html">column_categorical_with_vocabulary_list</a></span>(
+  <span class="st">"gender"</span>, <span class="dt">vocabulary_list =</span> <span class="kw">c</span>(<span class="st">"Female"</span>, <span class="st">"Male"</span>))
+education &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_categorical_with_vocabulary_list.html">column_categorical_with_vocabulary_list</a></span>(
+  <span class="st">"education"</span>,
+  <span class="dt">vocabulary_list =</span> <span class="kw">c</span>(
+    <span class="st">"Bachelors"</span>, <span class="st">"HS-grad"</span>, <span class="st">"11th"</span>, <span class="st">"Masters"</span>, <span class="st">"9th"</span>,
+    <span class="st">"Some-college"</span>, <span class="st">"Assoc-acdm"</span>, <span class="st">"Assoc-voc"</span>, <span class="st">"7th-8th"</span>,
+    <span class="st">"Doctorate"</span>, <span class="st">"Prof-school"</span>, <span class="st">"5th-6th"</span>, <span class="st">"10th"</span>, <span class="st">"1st-4th"</span>,
+    <span class="st">"Preschool"</span>, <span class="st">"12th"</span>))
+marital_status &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_categorical_with_vocabulary_list.html">column_categorical_with_vocabulary_list</a></span>(
+  <span class="st">"marital_status"</span>,
+  <span class="dt">vocabulary_list =</span> <span class="kw">c</span>(
+    <span class="st">"Married-civ-spouse"</span>, <span class="st">"Divorced"</span>, <span class="st">"Married-spouse-absent"</span>,
+    <span class="st">"Never-married"</span>, <span class="st">"Separated"</span>, <span class="st">"Married-AF-spouse"</span>, <span class="st">"Widowed"</span>))
+relationship &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_categorical_with_vocabulary_list.html">column_categorical_with_vocabulary_list</a></span>(
+  <span class="st">"relationship"</span>,
+  <span class="dt">vocabulary_list =</span> <span class="kw">c</span>(
+    <span class="st">"Husband"</span>, <span class="st">"Not-in-family"</span>, <span class="st">"Wife"</span>, <span class="st">"Own-child"</span>, <span class="st">"Unmarried"</span>,
+    <span class="st">"Other-relative"</span>))
+workclass &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_categorical_with_vocabulary_list.html">column_categorical_with_vocabulary_list</a></span>(
+  <span class="st">"workclass"</span>,
+  <span class="dt">vocabulary_list =</span> <span class="kw">c</span>(
+    <span class="st">"Self-emp-not-inc"</span>, <span class="st">"Private"</span>, <span class="st">"State-gov"</span>, <span class="st">"Federal-gov"</span>,
+    <span class="st">"Local-gov"</span>, <span class="st">"?"</span>, <span class="st">"Self-emp-inc"</span>, <span class="st">"Without-pay"</span>, <span class="st">"Never-worked"</span>))
+
+<span class="co"># To show an example of hashing:</span>
+occupation &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_categorical_with_hash_bucket.html">column_categorical_with_hash_bucket</a></span>(
+  <span class="st">"occupation"</span>, <span class="dt">hash_bucket_size =</span> <span class="dv">1000</span>, <span class="dt">dtype =</span> tf$int32)
+native_country &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_categorical_with_hash_bucket.html">column_categorical_with_hash_bucket</a></span>(
+  <span class="st">"native_country"</span>, <span class="dt">hash_bucket_size =</span> <span class="dv">1000</span>, <span class="dt">dtype =</span> tf$int32)
 
 <span class="co"># Continuous base columns.</span>
 age &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"age"</span>)
-age_buckets &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_bucketized.html">column_bucketized</a></span>(age, <span class="dt">boundaries =</span> <span class="kw">c</span>(<span class="dv">18</span>, <span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>, <span class="dv">45</span>, <span class="dv">50</span>, <span class="dv">55</span>, <span class="dv">60</span>, <span class="dv">65</span>))
 education_num &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"education_num"</span>)
 capital_gain &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"capital_gain"</span>)
 capital_loss &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"capital_loss"</span>)
-hours_per_week &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"hours_per_week"</span>)</code></pre></div>
+hours_per_week &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"hours_per_week"</span>)
+
+<span class="co"># Transformations.</span>
+age_buckets &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_bucketized.html">column_bucketized</a></span>(
+  age, <span class="dt">boundaries =</span> <span class="kw">c</span>(<span class="dv">18</span>, <span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>, <span class="dv">45</span>, <span class="dv">50</span>, <span class="dv">55</span>, <span class="dv">60</span>, <span class="dv">65</span>))
+
+base_columns &lt;-<span class="st"> </span><span class="kw">c</span>(gender, native_country, education, occupation, workclass, relationship, age_buckets)</code></pre></div>
 </div>
 <div id="the-wide-model-linear-model-with-crossed-feature-columns" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-wide-model-linear-model-with-crossed-feature-columns" class="anchor"></a>The Wide Model: Linear Model with Crossed Feature Columns</h3>
 <p>The wide model is a linear model with a wide set of sparse and crossed feature columns:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wide_columns &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/feature_columns.html">feature_columns</a></span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">crossed_columns &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/feature_columns.html">feature_columns</a></span>(
   native_country, education, occupation, workclass, relationship, age_buckets,
   <span class="kw"><a href="../../reference/column_crossed.html">column_crossed</a></span>(<span class="kw">c</span>(<span class="st">"education"</span>, <span class="st">"occupation"</span>), <span class="dt">hash_bucket_size =</span> <span class="dv">10000</span>),
   <span class="kw"><a href="../../reference/column_crossed.html">column_crossed</a></span>(<span class="kw">c</span>(<span class="st">"native_country"</span>, <span class="st">"occupation"</span>), <span class="dt">hash_bucket_size =</span> <span class="dv">10000</span>),
-  <span class="kw"><a href="../../reference/column_crossed.html">column_crossed</a></span>(<span class="kw">c</span>(<span class="st">"age"</span>, <span class="st">"education"</span>, <span class="st">"occupation"</span>), <span class="dt">hash_bucket_size =</span> <span class="dv">10000</span>)
+  <span class="kw"><a href="../../reference/column_crossed.html">column_crossed</a></span>(<span class="kw">c</span>(age_buckets, <span class="st">"education"</span>, <span class="st">"occupation"</span>), <span class="dt">hash_bucket_size =</span> <span class="dv">10000</span>)
 )</code></pre></div>
 <p>Wide models with crossed feature columns can memorize sparse interactions between features effectively. That being said, one limitation of crossed feature columns is that they do not generalize to feature combinations that have not appeared in the training data. Let’s add a deep model with embeddings to fix that. ### The Deep Model: Neural Network with Embeddings The deep model is a feed-forward neural network, as shown in the previous figure. Each of the sparse, high-dimensional categorical features are first converted into a low-dimensional and dense real-valued vector, often referred to as an embedding vector. These low-dimensional dense embedding vectors are concatenated with the continuous features, and then fed into the hidden layers of a neural network in the forward pass. The embedding values are initialized randomly, and are trained along with all other model parameters to minimize the training loss. If you’re interested in learning more about embeddings, check out the TensorFlow tutorial on Vector Representations of Words, or Word Embedding on Wikipedia.</p>
 <p>We’ll configure the embeddings for the categorical columns using embedding_column, and concatenate them with the continuous columns:</p>
@@ -192,11 +221,12 @@ hours_per_week &lt;-<span class="st"> </span><span class="kw"><a href="../../ref
 )</code></pre></div>
 <p>The higher the dimension of the embedding is, the more degrees of freedom the model will have to learn the representations of the features. For simplicity, we set the dimension to 8 for all feature columns here. Empirically, a more informed decision for the number of dimensions is to start with a value on the order of <span class="math inline">\(\log_2{n}\)</span> or <span class="math inline">\(k\sqrt[4]{n}\)</span>, where n is the number of unique features in a feature column and k is a small constant (usually smaller than 10).</p>
 <p>Through dense embeddings, deep models can generalize better and make predictions on feature pairs that were previously unseen in the training data. However, it is difficult to learn effective low-dimensional representations for feature columns when the underlying interaction matrix between two feature columns is sparse and high-rank. In such cases, the interaction between most feature pairs should be zero except a few, but dense embeddings will lead to nonzero predictions for all feature pairs, and thus can over-generalize. On the other hand, linear models with crossed features can memorize these “exception rules” effectively with fewer model parameters. Now, let’s see how to jointly train wide and deep models and allow them to complement each other’s strengths and weaknesses. ### Combining Wide and Deep Models into One</p>
-<p>The wide models and deep models are combined by summing up their final output log odds as the prediction, then feeding the prediction to a logistic loss function. All the graph definition and variable allocations have already been handled for you under the hood, so you simply need to create a linear_dnn_combined_classifier:</p>
+<p>The wide models and deep models are combined by summing up their final output log odds as the prediction, then feeding the prediction to a logistic loss function. All the graph definition and variable allocations have already been handled for you under the hood, so you simply need to create a dnn_linear_combined_classifier:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/dnn_linear_combined_classifier.html">dnn_linear_combined_classifier</a></span>(
-  <span class="dt">linear_feature_columns =</span> wide_columns,
+  <span class="dt">linear_feature_columns =</span> crossed_columns,
   <span class="dt">dnn_feature_columns =</span> deep_columns,
-  <span class="dt">dnn_hidden_units =</span> <span class="kw">c</span>(100L, 50L)
+  <span class="dt">dnn_hidden_units =</span> <span class="kw">c</span>(<span class="dv">100</span>, <span class="dv">50</span>),
+  <span class="dt">model_dir =</span> <span class="kw"><a href="../../reference/reexports.html">run_dir</a></span>()
 )</code></pre></div>
 </div>
 <div id="training-and-evaluating-the-model" class="section level3">

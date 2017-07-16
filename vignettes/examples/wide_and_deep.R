@@ -62,35 +62,63 @@ test_data <- downloaded_data$test_data
 
 #' ### Define Base Feature Columns
 #' 
-#' Next, let's define the base categorical and continuous feature columns that
+#' First, let's define the base categorical and continuous feature columns that
 #' we'll use. These base columns will be the building blocks used by both the
 #' wide part and the deep part of the model.
 #'
+gender <- column_categorical_with_vocabulary_list(
+  "gender", vocabulary_list = c("Female", "Male"))
+education <- column_categorical_with_vocabulary_list(
+  "education",
+  vocabulary_list = c(
+    "Bachelors", "HS-grad", "11th", "Masters", "9th",
+    "Some-college", "Assoc-acdm", "Assoc-voc", "7th-8th",
+    "Doctorate", "Prof-school", "5th-6th", "10th", "1st-4th",
+    "Preschool", "12th"))
+marital_status <- column_categorical_with_vocabulary_list(
+  "marital_status",
+  vocabulary_list = c(
+    "Married-civ-spouse", "Divorced", "Married-spouse-absent",
+    "Never-married", "Separated", "Married-AF-spouse", "Widowed"))
+relationship <- column_categorical_with_vocabulary_list(
+  "relationship",
+  vocabulary_list = c(
+    "Husband", "Not-in-family", "Wife", "Own-child", "Unmarried",
+    "Other-relative"))
+workclass <- column_categorical_with_vocabulary_list(
+  "workclass",
+  vocabulary_list = c(
+    "Self-emp-not-inc", "Private", "State-gov", "Federal-gov",
+    "Local-gov", "?", "Self-emp-inc", "Without-pay", "Never-worked"))
 
-# Categorical base columns
-education <- column_categorical_with_hash_bucket("education", hash_bucket_size = 1000, dtype = tf$int32)
-relationship <- column_categorical_with_hash_bucket("relationship", hash_bucket_size = 100, dtype = tf$int32)
-workclass <- column_categorical_with_hash_bucket("workclass", hash_bucket_size = 100, dtype = tf$int32)
-occupation <- column_categorical_with_hash_bucket("occupation", hash_bucket_size = 100, dtype = tf$int32)
-native_country <- column_categorical_with_hash_bucket("native_country", hash_bucket_size = 1000, dtype = tf$int32)
+# To show an example of hashing:
+occupation <- column_categorical_with_hash_bucket(
+  "occupation", hash_bucket_size = 1000, dtype = tf$int32)
+native_country <- column_categorical_with_hash_bucket(
+  "native_country", hash_bucket_size = 1000, dtype = tf$int32)
 
 # Continuous base columns.
 age <- column_numeric("age")
-age_buckets <- column_bucketized(age, boundaries = c(18, 25, 30, 35, 40, 45, 50, 55, 60, 65))
 education_num <- column_numeric("education_num")
 capital_gain <- column_numeric("capital_gain")
 capital_loss <- column_numeric("capital_loss")
 hours_per_week <- column_numeric("hours_per_week")
 
+# Transformations.
+age_buckets <- column_bucketized(
+  age, boundaries = c(18, 25, 30, 35, 40, 45, 50, 55, 60, 65))
+
+base_columns <- c(gender, native_country, education, occupation, workclass, relationship, age_buckets)
+
 #' ### The Wide Model: Linear Model with Crossed Feature Columns
 
 #' The wide model is a linear model with a wide set of sparse and crossed feature columns:
 
-wide_columns <- feature_columns(
+crossed_columns <- feature_columns(
   native_country, education, occupation, workclass, relationship, age_buckets,
   column_crossed(c("education", "occupation"), hash_bucket_size = 10000),
   column_crossed(c("native_country", "occupation"), hash_bucket_size = 10000),
-  column_crossed(c("age", "education", "occupation"), hash_bucket_size = 10000)
+  column_crossed(c(age_buckets, "education", "occupation"), hash_bucket_size = 10000)
 )
 
 #' Wide models with crossed feature columns can memorize sparse interactions
@@ -154,12 +182,13 @@ deep_columns <- feature_columns(
 #' log odds as the prediction, then feeding the prediction to a logistic loss
 #' function. All the graph definition and variable allocations have already been
 #' handled for you under the hood, so you simply need to create a
-#' linear_dnn_combined_classifier:
+#' dnn_linear_combined_classifier:
 
 model <- dnn_linear_combined_classifier(
-  linear_feature_columns = wide_columns,
+  linear_feature_columns = crossed_columns,
   dnn_feature_columns = deep_columns,
-  dnn_hidden_units = c(100L, 50L)
+  dnn_hidden_units = c(100, 50),
+  model_dir = run_dir()
 )
 
 #' ### Training and Evaluating The Model
