@@ -45,7 +45,7 @@ dnn_regressor <- function(hidden_units,
                           config = NULL)
 {
   # construct estimator accepting those columns
-  dnn_model <- tf$estimator$DNNRegressor(
+  dnn_model <- py_suppress_warnings(tf$estimator$DNNRegressor(
     hidden_units = as.integer(hidden_units),
     feature_columns = feature_columns,
     model_dir = model_dir,
@@ -56,7 +56,7 @@ dnn_regressor <- function(hidden_units,
     dropout = dropout,
     input_layer_partitioner = input_layer_partitioner,
     config = config
-  )
+  ))
 
   tf_model(
     c("dnn", "regressor"),

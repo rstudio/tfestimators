@@ -24,7 +24,7 @@ state_saving_rnn <- function(
   model_dir = NULL,
   config = NULL)
 {
-  rnn_estimator <- contrib_estimators_lib$state_saving_rnn_estimator$StateSavingRnnEstimator(
+  rnn_estimator <- py_suppress_warnings(contrib_estimators_lib$state_saving_rnn_estimator$StateSavingRnnEstimator(
     problem_type = problem_type,
     num_unroll = as.integer(num_unroll),
     batch_size = as.integer(batch_size),
@@ -45,7 +45,7 @@ state_saving_rnn <- function(
     seed = as_nullable_integer(seed),
     model_dir = model_dir,
     config = config
-  )
+  ))
   
   tf_model(
     c("state_saving_rnn", "estimator"),

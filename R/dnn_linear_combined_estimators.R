@@ -50,7 +50,7 @@ dnn_linear_combined_regressor <- function(model_dir = NULL,
                                           input_layer_partitioner = NULL,
                                           config = NULL)
 {
-  dnn_linear_model <- tf$estimator$DNNLinearCombinedRegressor(
+  dnn_linear_model <- py_suppress_warnings(tf$estimator$DNNLinearCombinedRegressor(
     model_dir = model_dir,
     linear_feature_columns = linear_feature_columns,
     linear_optimizer = linear_optimizer,
@@ -63,7 +63,7 @@ dnn_linear_combined_regressor <- function(model_dir = NULL,
     weight_column = weight_column,
     input_layer_partitioner = input_layer_partitioner,
     config = config
-  )
+  ))
 
   tf_model(
     c("dnn_linear_combined", "regressor"),
@@ -129,7 +129,7 @@ dnn_linear_combined_classifier <- function(model_dir = NULL,
                                            input_layer_partitioner = NULL,
                                            config = NULL)
 {
-  dnn_linear_model <- tf$estimator$DNNLinearCombinedClassifier(
+  dnn_linear_model <- py_suppress_warnings(tf$estimator$DNNLinearCombinedClassifier(
     model_dir = model_dir,
     linear_feature_columns = linear_feature_columns,
     linear_optimizer = linear_optimizer,
@@ -143,7 +143,7 @@ dnn_linear_combined_classifier <- function(model_dir = NULL,
     label_vocabulary = label_vocabulary,
     input_layer_partitioner = input_layer_partitioner,
     config = config
-  )
+  ))
 
   tf_model(
     c("dnn_linear_combined", "classifier"),
