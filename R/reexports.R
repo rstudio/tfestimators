@@ -32,9 +32,6 @@ tensorflow::tf_config
 tensorflow::tensorboard
 
 #' @export
-tensorflow::unique_dir
-
-#' @export
 tensorflow::run_dir
 
 
