@@ -170,41 +170,68 @@ input_fn.data.frame <-  function(
   batch_size <- as.integer(batch_size)
   queue_capacity <- as.integer(queue_capacity)
   num_threads <- as.integer(num_threads)
-  # Support for unsupervised models as well as ingesting data for inference
-  input_response <- if (is.null(response)) NULL else as.array(object[, response])
-  fn <- function(features_as_named_list) {
-    if (features_as_named_list) {
-      values <- lapply(features, function(feature) {
-        as.array(object[, feature])
-      })
-      names(values) <- features
+  
+  input_response <- if (is.null(response))
+    NULL
+  else
+    as.array(object[, response])
+  
+  # input function to be used with canned estimators
+  canned_input_fn_generator <- function() {
+    
+    # convert to named R list
+    values <- lapply(features, function(feature) {
+      as.array(object[, feature])
+    })
+    names(values) <- features
+    
+    # generate numpy-style input function
+    tf$estimator$inputs$numpy_input_fn(
+      dict(values),
+      input_response,
+      batch_size = batch_size,
+      shuffle = shuffle,
+      num_epochs = num_epochs,
+      queue_capacity = queue_capacity,
+      num_threads = num_threads
+    )
+  }
+  
+  # input function to be used with custom estimators
+  custom_input_fn_generator <- function() {
+    
+    values <- list(
+      features = data.matrix(object)[, features, drop = FALSE]
+    )
+    
+    # return R function that provides list of features + input function
+    function() {
+      
       fn <- tf$estimator$inputs$numpy_input_fn(
-        dict(values),
+        values,
         input_response,
         batch_size = batch_size,
         shuffle = shuffle,
         num_epochs = num_epochs,
         queue_capacity = queue_capacity,
-        num_threads = num_threads)
-      fn
-    } else {
-      values <- list(features = data.matrix(object)[,features, drop = FALSE])
-      fn <- function(){
-        fun <- tf$estimator$inputs$numpy_input_fn(
-          values,
-          input_response,
-          batch_size = batch_size,
-          shuffle = shuffle,
-          num_epochs = num_epochs,
-          queue_capacity = queue_capacity,
-          num_threads = num_threads)
-        fun <- fun()
-        list(
-          fun[[1]]$features,
-          fun[[2]]
-        )
-      }
+        num_threads = num_threads
+      )
+      
+      input <- fn()
+      list(
+        input[[1]]$features,
+        input[[2]]
+      )
     }
+  }
+  
+  # return function which provides canned vs custom input function
+  # as requested
+  function(estimator) {
+    if (inherits(estimator, "tf_custom_estimator"))
+      return(custom_input_fn_generator())
+    else
+      return(canned_input_fn_generator())
   }
 }
 
@@ -295,10 +322,8 @@ normalize_input_fn <- function(object, input_fn) {
   
   # if the input function accepts a single argument, assume that
   # it should be used to generate and provide an input function
-  if (nargs == 1) {
-    custom <- inherits(object, "tf_custom_estimator")
-    return(input_fn(!custom))
-  }
+  if (nargs == 1)
+    return(input_fn(object))
   
   # other function signatures are errors
   stop("'input_fn' should accept 0 or 1 arguments")
