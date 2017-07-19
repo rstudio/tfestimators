@@ -283,7 +283,7 @@ normalize_input_fn <- function(object, input_fn) {
   if (num_args == 0)
     input_fn
   else if (num_args == 1) 
-    input_fn(is.tf_model(object))
+    input_fn(inherits(object, "tf_estimator"))
   else
     stop("input_fn must take 0 or 1 arguments")
 }

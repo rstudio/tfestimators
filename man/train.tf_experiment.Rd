@@ -18,6 +18,6 @@ Train the estimator for \code{self._train_steps} steps, after waiting for
 }
 \seealso{
 Other experiment methods: \code{\link{evaluate.tf_experiment}},
-  \code{\link{experiment.tf_model}},
+  \code{\link{experiment.tf_estimator}},
   \code{\link{train_and_evaluate.tf_experiment}}
 }

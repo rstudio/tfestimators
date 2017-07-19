@@ -50,7 +50,7 @@ dnn_linear_combined_regressor <- function(model_dir = NULL,
                                           input_layer_partitioner = NULL,
                                           config = NULL)
 {
-  dnn_linear_model <- py_suppress_warnings(tf$estimator$DNNLinearCombinedRegressor(
+  estimator <- py_suppress_warnings(tf$estimator$DNNLinearCombinedRegressor(
     model_dir = model_dir,
     linear_feature_columns = linear_feature_columns,
     linear_optimizer = linear_optimizer,
@@ -65,10 +65,7 @@ dnn_linear_combined_regressor <- function(model_dir = NULL,
     config = config
   ))
 
-  tf_model(
-    c("dnn_linear_combined", "regressor"),
-    estimator = dnn_linear_model
-  )
+  tf_regressor(estimator, "dnn_linear_combined_regressor")
 }
 
 #' An estimator for TensorFlow Linear and DNN joined classification models.
@@ -129,7 +126,7 @@ dnn_linear_combined_classifier <- function(model_dir = NULL,
                                            input_layer_partitioner = NULL,
                                            config = NULL)
 {
-  dnn_linear_model <- py_suppress_warnings(tf$estimator$DNNLinearCombinedClassifier(
+  estimator <- py_suppress_warnings(tf$estimator$DNNLinearCombinedClassifier(
     model_dir = model_dir,
     linear_feature_columns = linear_feature_columns,
     linear_optimizer = linear_optimizer,
@@ -145,8 +142,5 @@ dnn_linear_combined_classifier <- function(model_dir = NULL,
     config = config
   ))
 
-  tf_model(
-    c("dnn_linear_combined", "classifier"),
-    estimator = dnn_linear_model
-  )
+  tf_classifier(estimator, "dnn_linear_combined_classifier")
 }
