@@ -272,19 +272,35 @@ numpy_input_fn <- function(x, y = NULL, batch_size = 128L, num_epochs = 1L, shuf
 # input functions take zero arguments however on the R side we allow input functions
 # with a single boolean argument that determines whether features should be provided
 # as a named list. this function validates the input_fn and normalizes it into a 
-# no-argument function if necessary
+# no-argument function if necessary.
+#
+# this functionality is provided as the expected input type differs based on
+# whether a TensorFlow 'canned estimator' is used, or a user-defined 'custom estimator'
+# is used.
+#
+# note that the 'input_fn' accepted as input may either be itself an input function,
+# or a function that returns an 'input_fn', that function accepting a single argument
+# to determine whether it should return data as a dictionary or a plain tensor.
 normalize_input_fn <- function(object, input_fn) {
   
   if (!is.function(input_fn)) 
     stop("input_fn must be a function", call. = FALSE)
   
-  num_args <- length(formals(input_fn))
+  nargs <- length(formals(input_fn))
   
-  if (num_args == 0)
-    input_fn
-  else if (num_args == 1) 
-    input_fn(inherits(object, "tf_estimator"))
-  else
-    stop("input_fn must take 0 or 1 arguments")
+  # if the input function doesn't accept any arguments, assume
+  # that it's already an 'input_fn' as expected by TensorFlow
+  if (nargs == 0)
+    return(input_fn)
+  
+  # if the input function accepts a single argument, assume that
+  # it should be used to generate and provide an input function
+  if (nargs == 1) {
+    custom <- inherits(object, "tf_custom_estimator")
+    return(input_fn(!custom))
+  }
+  
+  # other function signatures are errors
+  stop("'input_fn' should accept 0 or 1 arguments")
 }
 
