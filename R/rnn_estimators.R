@@ -49,7 +49,8 @@ state_saving_rnn <- function(
     )
   )
   
-  tf_estimator(estimator, "state_saving_rnn_estimator")
+  classes <- c("regressor", "classifier", "state_saving_rnn_estimator")
+  tf_estimator(estimator, classes)
 }
 
 
