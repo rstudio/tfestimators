@@ -64,11 +64,11 @@ reference:
 
   - title: "Estimator Methods"
     contents:
-      - train.tf_custom_model
-      - predict.tf_custom_model
-      - evaluate.tf_custom_model
-      - export_savedmodel.tf_custom_model
-      - coef.tf_custom_model
+      - train.tf_estimator
+      - predict.tf_estimator
+      - evaluate.tf_estimator
+      - export_savedmodel.tf_estimator
+      - coef.tf_estimator
   
   - title: "Input Function"
     contents:
@@ -98,7 +98,7 @@ reference:
   
   - title: "Experiment API"
     contents:
-      - experiment.tf_model
+      - experiment.tf_estimator
       - train.tf_experiment
       - evaluate.tf_experiment
       - train_and_evaluate.tf_experiment
