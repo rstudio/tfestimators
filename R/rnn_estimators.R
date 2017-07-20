@@ -44,7 +44,7 @@ state_saving_rnn <- function(
       num_threads = as.integer(num_threads),
       queue_capacity = as.integer(queue_capacity),
       seed = as_nullable_integer(seed),
-      model_dir = model_dir,
+      model_dir = resolve_model_dir(model_dir),
       config = config
     )
   )
@@ -91,7 +91,7 @@ dynamic_rnn <- function(
     gradient_clipping_norm = gradient_clipping_norm,
     dropout_keep_probabilities = dropout_keep_probabilities,
     feature_engineering_fn = feature_engineering_fn,
-    model_dir = model_dir,
+    model_dir = resolve_model_dir(model_dir),
     config = config
   )
   

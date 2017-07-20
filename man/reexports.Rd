@@ -17,8 +17,6 @@
 \alias{reexports}
 \alias{tensorboard}
 \alias{reexports}
-\alias{run_dir}
-\alias{reexports}
 \alias{starts_with}
 \alias{reexports}
 \alias{ends_with}
@@ -39,7 +37,7 @@ below to see their documentation.
 \describe{
   \item{reticulate}{\code{\link[reticulate]{use_python}}, \code{\link[reticulate]{use_virtualenv}}, \code{\link[reticulate]{use_condaenv}}}
 
-  \item{tensorflow}{\code{\link[tensorflow]{tf}}, \code{\link[tensorflow]{install_tensorflow}}, \code{\link[tensorflow]{tf_config}}, \code{\link[tensorflow]{tensorboard}}, \code{\link[tensorflow]{run_dir}}}
+  \item{tensorflow}{\code{\link[tensorflow]{tf}}, \code{\link[tensorflow]{install_tensorflow}}, \code{\link[tensorflow]{tf_config}}, \code{\link[tensorflow]{tensorboard}}}
 
   \item{tidyselect}{\code{\link[tidyselect]{starts_with}}, \code{\link[tidyselect]{ends_with}}, \code{\link[tidyselect]{contains}}, \code{\link[tidyselect]{matches}}, \code{\link[tidyselect]{everything}}, \code{\link[tidyselect]{one_of}}}
 }}
