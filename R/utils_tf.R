@@ -33,10 +33,6 @@ model_dir <- function(object, ...) {
   UseMethod("model_dir")
 }
 
-model_dir.default <- function(object, ...) {
-  stop("No model_dir method for object of class ", 
-       paste(class(object), collapse = " "))
-}
 
 #' @export
 model_dir.tf_estimator <- function(object, ...) {
