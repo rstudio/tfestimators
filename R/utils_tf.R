@@ -19,3 +19,32 @@ check_dtype <- function(dtype) {
 is.tensor <- function(object) {
   inherits(object, "tensorflow.python.framework.ops.Tensor")
 }
+
+
+#' Model directory
+#' 
+#' Get the directory where a model's artifacts are stored.
+#' 
+#' @param object Model object
+#' @param ... Unused
+#'
+#' @export
+model_dir <- function(object, ...) {
+  UseMethod("model_dir")
+}
+
+
+#' @export
+model_dir.tf_estimator <- function(object, ...) {
+  object$estimator$model_dir
+}
+
+
+# if the model_dir is unspecified and there is a run_dir() available then 
+# use the run_dir()
+resolve_model_dir <- function(model_dir) {
+  if (is.null(model_dir) && !is.null(run_dir()))
+    run_dir()
+  else
+    model_dir
+}

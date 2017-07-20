@@ -59,11 +59,9 @@ custom_model_fn <- function(features, labels, mode, params, config) {
   return(estimator_spec(mode = mode, loss = loss, eval_metric_ops = eval_metric_ops))
 }
 
-run_path <- run_dir()
-
 # Intialize classifer and training
 classifier <- estimator(
-  model_fn = custom_model_fn, model_dir = run_path) %>%
+  model_fn = custom_model_fn) %>%
   train(input_fn = inputs, steps = 2)
 
 # Genearate predictions

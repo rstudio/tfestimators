@@ -120,12 +120,12 @@ estimator <- function(model_fn,
                       class = NULL)
 {
   model_fn <- as_model_fn(model_fn)
-  estimator <- estimator_lib$Estimator(
+  estimator <- py_suppress_warnings(estimator_lib$Estimator(
     model_fn = model_fn,
-    model_dir = model_dir,
+    model_dir = resolve_model_dir(model_dir),
     config = config,
     params = params
-  )
+  ))
   tf_custom_estimator(estimator, model_fn, class)
 }
 

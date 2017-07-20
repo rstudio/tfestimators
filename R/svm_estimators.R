@@ -13,7 +13,7 @@ svm_classifier <- function(feature_columns,
       feature_columns = feature_columns,
       example_id_column = example_id_column,
       weight_column_name = weight_column_name,
-      model_dir = model_dir,
+      model_dir = resolve_model_dir(model_dir),
       config = config
     )
   )

@@ -30,16 +30,18 @@ Imports:
     utils,
     reticulate (>= 0.8.0.9003),
     tensorflow (>= 0.9.0.9003),
+    tfruns,
     rlang,
     tidyselect,
     magrittr,
     R6
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.0.1
 Suggests:
     testthat,
     knitr
 VignetteBuilder: knitr
 Remotes:
   rstudio/tensorflow,
+  rstudio/tfruns,
   tidyverse/tidyselect

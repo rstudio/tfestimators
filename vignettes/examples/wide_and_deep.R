@@ -187,8 +187,7 @@ deep_columns <- feature_columns(
 model <- dnn_linear_combined_classifier(
   linear_feature_columns = crossed_columns,
   dnn_feature_columns = deep_columns,
-  dnn_hidden_units = c(100, 50),
-  model_dir = run_dir()
+  dnn_hidden_units = c(100, 50)
 )
 
 #' ### Training and Evaluating The Model

@@ -31,9 +31,6 @@ tensorflow::tf_config
 #' @export
 tensorflow::tensorboard
 
-#' @export
-tensorflow::run_dir
-
 
 #' @importFrom tidyselect starts_with
 #' @export starts_with

@@ -51,7 +51,7 @@ dnn_linear_combined_regressor <- function(model_dir = NULL,
                                           config = NULL)
 {
   estimator <- py_suppress_warnings(tf$estimator$DNNLinearCombinedRegressor(
-    model_dir = model_dir,
+    model_dir = resolve_model_dir(model_dir),
     linear_feature_columns = linear_feature_columns,
     linear_optimizer = linear_optimizer,
     dnn_feature_columns = dnn_feature_columns,
@@ -127,7 +127,7 @@ dnn_linear_combined_classifier <- function(model_dir = NULL,
                                            config = NULL)
 {
   estimator <- py_suppress_warnings(tf$estimator$DNNLinearCombinedClassifier(
-    model_dir = model_dir,
+    model_dir = resolve_model_dir(model_dir),
     linear_feature_columns = linear_feature_columns,
     linear_optimizer = linear_optimizer,
     dnn_feature_columns = dnn_feature_columns,
