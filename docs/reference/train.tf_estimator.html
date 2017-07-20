@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the list coefficients or variables from this model's checkpoint. — coef.tf_model • tfestimators</title>
+<title>Trains a model given training data input_fn. — train.tf_estimator • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -116,31 +116,79 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the list coefficients or variables from this model's checkpoint.</h1>
+    <h1>Trains a model given training data input_fn.</h1>
     </div>
 
     
-    <p>Get the list coefficients or variables from this model's checkpoint.</p>
+    <p>Trains a model given training data input_fn.</p>
     
 
-    <pre class="usage"><span class='co'># S3 method for tf_model</span>
-<span class='fu'>coef</span>(<span class='no'>object</span>)</pre>
-        
+    <pre class="usage"><span class='co'># S3 method for tf_estimator</span>
+<span class='fu'>train</span>(<span class='no'>object</span>, <span class='no'>input_fn</span>, <span class='kw'>steps</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>max_steps</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>input_fn</th>
+      <td><p>Input function returning a list of: features - <code>Tensor</code> or
+dictionary of string feature name to <code>Tensor</code>. labels - <code>Tensor</code> or
+dictionary of <code>Tensor</code> with labels.</p></td>
+    </tr>
+    <tr>
+      <th>steps</th>
+      <td><p>Number of steps for which to train model. If <code>NULL</code>, train
+forever or train until input_fn generates the <code>OutOfRange</code> or
+<code>StopIteration</code> error. 'steps' works incrementally. If you call two times
+train(steps=10) then training occurs in total 20 steps. If <code>OutOfRange</code> or
+<code>StopIteration</code> error occurs in the middle, training stops before 20 steps.
+If you don't want to have incremental behaviour please set <code>max_steps</code>
+instead. If set, <code>max_steps</code> must be <code>NULL</code>.</p></td>
+    </tr>
+    <tr>
+      <th>hooks</th>
+      <td><p>List of <code>SessionRunHook</code> subclass instances. Used for callbacks
+inside the training loop.</p></td>
+    </tr>
+    <tr>
+      <th>max_steps</th>
+      <td><p>Number of total steps for which to train model. If <code>NULL</code>,
+train forever or train until input_fn generates the <code>OutOfRange</code> or
+<code>StopIteration</code> error. If set, <code>steps</code> must be <code>NULL</code>. If <code>OutOfRange</code> or
+<code>StopIteration</code> error occurs in the middle, training stops before
+<code>max_steps</code> steps.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><code>self</code>, for chaining.</p>
+    
+    <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
+
+    <p>ValueError: If both <code>steps</code> and <code>max_steps</code> are not <code>NULL</code>.
+ValueError: If either <code>steps</code> or <code>max_steps</code> is &lt;= 0.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other custom estimator methods: <code><a href='estimator_spec.html'>estimator_spec</a></code>,
-  <code><a href='estimator.html'>estimator</a></code>,
-  <code><a href='evaluate.tf_custom_model.html'>evaluate.tf_custom_model</a></code>,
-  <code><a href='export_savedmodel.tf_custom_model.html'>export_savedmodel.tf_custom_model</a></code>,
-  <code><a href='predict.tf_custom_model.html'>predict.tf_custom_model</a></code>,
-  <code><a href='train.tf_custom_model.html'>train.tf_custom_model</a></code></p>
+    <p>Other custom estimator methods: <code><a href='coef.tf_estimator.html'>coef.tf_estimator</a></code>,
+  <code><a href='estimator_spec.html'>estimator_spec</a></code>, <code><a href='estimator.html'>estimator</a></code>,
+  <code><a href='evaluate.tf_estimator.html'>evaluate.tf_estimator</a></code>,
+  <code><a href='export_savedmodel.tf_estimator.html'>export_savedmodel.tf_estimator</a></code>,
+  <code><a href='predict.tf_estimator.html'>predict.tf_estimator</a></code></p>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#raises">Raises</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 

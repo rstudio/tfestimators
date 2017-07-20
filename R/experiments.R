@@ -1,13 +1,9 @@
 #' @export
-tf_experiment <- function(name, ...) {
-  object <- list(...)
-  class(object) <- "tf_experiment"
-  object
-}
-
-#' @export
-experiment.tf_custom_model <- function(object, ...) {
-  experiment.tf_model(object, ...)
+tf_experiment <- function(experiment) {
+  structure(
+    list(experiment = experiment),
+    class = "tf_experiment"
+  )
 }
 
 #' Interleaves training and evaluation.
@@ -115,23 +111,24 @@ train.tf_experiment <- function(object, delay_secs = NULL) {
 #'   a default value (which is smaller than `train_steps` if provided).
 #' @export
 #' @family experiment methods
-experiment.tf_model <- function(object,
-                                train_input_fn,
-                                eval_input_fn,
-                                train_steps = 2L,
-                                eval_steps = 2L,
-                                eval_metrics = NULL,
-                                train_monitors = NULL,
-                                eval_hooks = NULL,
-                                local_eval_frequency = NULL,
-                                eval_delay_secs = 120L,
-                                continuous_eval_throttle_secs = 60L,
-                                min_eval_frequency = NULL,
-                                delay_workers_by_global_step = NULL,
-                                export_strategies = NULL,
-                                train_steps_per_iteration = NULL)
+experiment.tf_estimator <- function(
+  object,
+  train_input_fn,
+  eval_input_fn,
+  train_steps = 2L,
+  eval_steps = 2L,
+  eval_metrics = NULL,
+  train_monitors = NULL,
+  eval_hooks = NULL,
+  local_eval_frequency = NULL,
+  eval_delay_secs = 120L,
+  continuous_eval_throttle_secs = 60L,
+  min_eval_frequency = NULL,
+  delay_workers_by_global_step = NULL,
+  export_strategies = NULL,
+  train_steps_per_iteration = NULL)
 {
-  exp <- contrib_learn$Experiment(
+  experiment <- contrib_learn$Experiment(
     estimator = object$estimator,
     train_input_fn = normalize_input_fn(object, train_input_fn),
     eval_input_fn = normalize_input_fn(object, eval_input_fn),
@@ -146,6 +143,8 @@ experiment.tf_model <- function(object,
     min_eval_frequency = as_nullable_integer(min_eval_frequency),
     delay_workers_by_global_step = as_nullable_integer(delay_workers_by_global_step),
     export_strategies = export_strategies,
-    train_steps_per_iteration = as_nullable_integer(train_steps_per_iteration))
-  tf_experiment(experiment = exp)
+    train_steps_per_iteration = as_nullable_integer(train_steps_per_iteration)
+  )
+  
+  tf_experiment(experiment)
 }

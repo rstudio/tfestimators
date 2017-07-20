@@ -28,6 +28,6 @@ results using the specified \code{ExportStrategy}.
 }
 \seealso{
 Other experiment methods: \code{\link{evaluate.tf_experiment}},
-  \code{\link{experiment.tf_model}},
+  \code{\link{experiment.tf_estimator}},
   \code{\link{train.tf_experiment}}
 }

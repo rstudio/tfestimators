@@ -34,23 +34,19 @@ linear_regressor <- function(feature_columns,
                              config = NULL,
                              partitioner = NULL)
 {
-  # construct estimator accepting those columns
-  lr <- py_suppress_warnings(
+  estimator <- py_suppress_warnings(
     tf$estimator$LinearRegressor(
-    feature_columns = feature_columns,
-    model_dir = model_dir,
-    weight_column = weight_column,
-    optimizer = optimizer,
-    config = config,
-    partitioner = partitioner,
-    label_dimension = as.integer(label_dimension)
-  ))
-
-  tf_model(
-    c("linear", "regressor"),
-    estimator = lr
+      feature_columns = feature_columns,
+      model_dir = model_dir,
+      weight_column = weight_column,
+      optimizer = optimizer,
+      config = config,
+      partitioner = partitioner,
+      label_dimension = as.integer(label_dimension)
+    )
   )
 
+  tf_regressor(estimator, "linear_regressor")
 }
 
 #' Linear classifier model.
@@ -97,21 +93,18 @@ linear_classifier <- function(feature_columns,
                               config = NULL,
                               partitioner = NULL)
 {
-  # construct estimator accepting those columns
-  lc <- py_suppress_warnings(tf$estimator$LinearClassifier(
-    feature_columns = feature_columns,
-    model_dir = model_dir,
-    n_classes = as.integer(n_classes),
-    weight_column = weight_column,
-    label_vocabulary = label_vocabulary,
-    optimizer = optimizer,
-    config = config,
-    partitioner = partitioner
-  ))
-
-  tf_model(
-    c("linear", "classifier"),
-    estimator = lc
+  estimator <- py_suppress_warnings(
+    tf$estimator$LinearClassifier(
+      feature_columns = feature_columns,
+      model_dir = model_dir,
+      n_classes = as.integer(n_classes),
+      weight_column = weight_column,
+      label_vocabulary = label_vocabulary,
+      optimizer = optimizer,
+      config = config,
+      partitioner = partitioner
+    )
   )
-}
 
+  tf_classifier(estimator, "linear_classifier")
+}

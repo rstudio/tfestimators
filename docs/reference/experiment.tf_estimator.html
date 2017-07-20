@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Experiment constructor — experiment.tf_model • tfestimators</title>
+<title>Experiment constructor — experiment.tf_estimator • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -126,7 +126,7 @@ evaluation), an Experiment instance knows how to invoke training and eval
 loops in a sensible fashion for distributed training.</p>
     
 
-    <pre class="usage"><span class='co'># S3 method for tf_model</span>
+    <pre class="usage"><span class='co'># S3 method for tf_estimator</span>
 <span class='fu'>experiment</span>(<span class='no'>object</span>, <span class='no'>train_input_fn</span>, <span class='no'>eval_input_fn</span>,
   <span class='kw'>train_steps</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>eval_steps</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>eval_metrics</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>train_monitors</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>eval_hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>local_eval_frequency</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,

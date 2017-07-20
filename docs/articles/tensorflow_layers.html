@@ -112,7 +112,7 @@
 <p>Let’s set up the skeleton for our TensorFlow program by adding the following code to import the necessary libraries and change the logging verbosity:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tensorflow)
 <span class="kw">library</span>(tfestimators)
-tf$logging$<span class="kw">set_verbosity</span>(tf$logging$INFO)</code></pre></div>
+tf<span class="op">$</span>logging<span class="op">$</span><span class="kw">set_verbosity</span>(tf<span class="op">$</span>logging<span class="op">$</span>INFO)</code></pre></div>
 <p>As you work through the tutorial, you’ll add code to construct, train, and evaluate the convolutional neural network.</p>
 </div>
 <div id="intro-to-convolutional-neural-networks" class="section level2">
@@ -159,95 +159,95 @@ Note: For a more comprehensive walkthrough of CNN architecture, see Stanford Uni
 </ul>
 <p>Each of these methods accepts a tensor as input and returns a transformed tensor as output. This makes it easy to connect one layer to another: just take the output from one layer-creation method and supply it as input to another.</p>
 <p>The following <code>cnn_model_fn</code> function conforms to the interface expected by TensorFlow’s Estimator API (more on this later in <a href="#create-the-estimator">Create the Estimator</a>). This example takes MNIST feature data, labels, and <code><a href="../reference/mode_keys.html">mode_keys()</a></code> (e.g. <code>TRAIN</code>, <code>EVAL</code>, <code>PREDICT</code>) as arguments; configures the CNN; and returns predictions, loss, and a training operation:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cnn_model_fn &lt;-<span class="st"> </span>function(features, labels, mode, params, config) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cnn_model_fn &lt;-<span class="st"> </span><span class="cf">function</span>(features, labels, mode, params, config) {
   
   <span class="co"># Input Layer</span>
   <span class="co"># Reshape X to 4-D tensor: [batch_size, width, height, channels]</span>
   <span class="co"># MNIST images are 28x28 pixels, and have one color channel</span>
-  input_layer &lt;-<span class="st"> </span>tf$<span class="kw">reshape</span>(features$x, <span class="kw">c</span>(-1L, 28L, 28L, 1L))
+  input_layer &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">reshape</span>(features<span class="op">$</span>x, <span class="kw">c</span>(<span class="op">-</span>1L, 28L, 28L, 1L))
   
   <span class="co"># Convolutional Layer #1</span>
   <span class="co"># Computes 32 features using a 5x5 filter with ReLU activation.</span>
   <span class="co"># Padding is added to preserve width and height.</span>
   <span class="co"># Input Tensor Shape: [batch_size, 28, 28, 1]</span>
   <span class="co"># Output Tensor Shape: [batch_size, 28, 28, 32]</span>
-  conv1 &lt;-<span class="st"> </span>tf$layers$<span class="kw">conv2d</span>(
+  conv1 &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">conv2d</span>(
     <span class="dt">inputs =</span> input_layer,
     <span class="dt">filters =</span> 32L,
     <span class="dt">kernel_size =</span> <span class="kw">c</span>(5L, 5L),
     <span class="dt">padding =</span> <span class="st">"same"</span>,
-    <span class="dt">activation =</span> tf$nn$relu)
+    <span class="dt">activation =</span> tf<span class="op">$</span>nn<span class="op">$</span>relu)
   
   <span class="co"># Pooling Layer #1</span>
   <span class="co"># First max pooling layer with a 2x2 filter and stride of 2</span>
   <span class="co"># Input Tensor Shape: [batch_size, 28, 28, 32]</span>
   <span class="co"># Output Tensor Shape: [batch_size, 14, 14, 32]</span>
-  pool1 &lt;-<span class="st"> </span>tf$layers$<span class="kw">max_pooling2d</span>(<span class="dt">inputs =</span> conv1, <span class="dt">pool_size =</span> <span class="kw">c</span>(2L, 2L), <span class="dt">strides =</span> 2L)
+  pool1 &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">max_pooling2d</span>(<span class="dt">inputs =</span> conv1, <span class="dt">pool_size =</span> <span class="kw">c</span>(2L, 2L), <span class="dt">strides =</span> 2L)
   
   <span class="co"># Convolutional Layer #2</span>
   <span class="co"># Computes 64 features using a 5x5 filter.</span>
   <span class="co"># Padding is added to preserve width and height.</span>
   <span class="co"># Input Tensor Shape: [batch_size, 14, 14, 32]</span>
   <span class="co"># Output Tensor Shape: [batch_size, 14, 14, 64]</span>
-  conv2 &lt;-<span class="st"> </span>tf$layers$<span class="kw">conv2d</span>(
+  conv2 &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">conv2d</span>(
     <span class="dt">inputs =</span> pool1,
     <span class="dt">filters =</span> 64L,
     <span class="dt">kernel_size =</span> <span class="kw">c</span>(5L, 5L),
     <span class="dt">padding =</span> <span class="st">"same"</span>,
-    <span class="dt">activation =</span> tf$nn$relu)
+    <span class="dt">activation =</span> tf<span class="op">$</span>nn<span class="op">$</span>relu)
   
   <span class="co"># Pooling Layer #2</span>
   <span class="co"># Second max pooling layer with a 2x2 filter and stride of 2</span>
   <span class="co"># Input Tensor Shape: [batch_size, 14, 14, 64]</span>
   <span class="co"># Output Tensor Shape: [batch_size, 7, 7, 64]</span>
-  pool2 &lt;-<span class="st"> </span>tf$layers$<span class="kw">max_pooling2d</span>(<span class="dt">inputs =</span> conv2, <span class="dt">pool_size =</span> <span class="kw">c</span>(2L, 2L), <span class="dt">strides =</span> 2L)
+  pool2 &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">max_pooling2d</span>(<span class="dt">inputs =</span> conv2, <span class="dt">pool_size =</span> <span class="kw">c</span>(2L, 2L), <span class="dt">strides =</span> 2L)
   
   <span class="co"># Flatten tensor into a batch of vectors</span>
   <span class="co"># Input Tensor Shape: [batch_size, 7, 7, 64]</span>
   <span class="co"># Output Tensor Shape: [batch_size, 7 * 7 * 64]</span>
-  pool2_flat &lt;-<span class="st"> </span>tf$<span class="kw">reshape</span>(pool2, <span class="kw">c</span>(-1L, 7L *<span class="st"> </span>7L *<span class="st"> </span>64L))
+  pool2_flat &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">reshape</span>(pool2, <span class="kw">c</span>(<span class="op">-</span>1L, 7L <span class="op">*</span><span class="st"> </span>7L <span class="op">*</span><span class="st"> </span>64L))
   
   <span class="co"># Dense Layer</span>
   <span class="co"># Densely connected layer with 1024 neurons</span>
   <span class="co"># Input Tensor Shape: [batch_size, 7 * 7 * 64]</span>
   <span class="co"># Output Tensor Shape: [batch_size, 1024]</span>
-  dense &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(<span class="dt">inputs =</span> pool2_flat, <span class="dt">units =</span> 1024L, <span class="dt">activation =</span> tf$nn$relu)
+  dense &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(<span class="dt">inputs =</span> pool2_flat, <span class="dt">units =</span> 1024L, <span class="dt">activation =</span> tf<span class="op">$</span>nn<span class="op">$</span>relu)
   
   <span class="co"># Add dropout operation; 0.6 probability that element will be kept</span>
-  dropout &lt;-<span class="st"> </span>tf$layers$<span class="kw">dropout</span>(
-    <span class="dt">inputs =</span> dense, <span class="dt">rate =</span> <span class="fl">0.4</span>, <span class="dt">training =</span> (mode ==<span class="st"> </span><span class="kw"><a href="../reference/mode_keys.html">mode_keys</a></span>()$TRAIN))
+  dropout &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dropout</span>(
+    <span class="dt">inputs =</span> dense, <span class="dt">rate =</span> <span class="fl">0.4</span>, <span class="dt">training =</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>TRAIN))
   
   <span class="co"># Logits layer</span>
   <span class="co"># Input Tensor Shape: [batch_size, 1024]</span>
   <span class="co"># Output Tensor Shape: [batch_size, 10]</span>
-  logits &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(<span class="dt">inputs =</span> dropout, <span class="dt">units =</span> 10L)
+  logits &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(<span class="dt">inputs =</span> dropout, <span class="dt">units =</span> 10L)
   
   <span class="co"># Generate Predictions (for PREDICT mode)</span>
-  predicted_classes &lt;-<span class="st"> </span>tf$<span class="kw">argmax</span>(<span class="dt">input =</span> logits, <span class="dt">axis =</span> 1L, <span class="dt">name =</span> <span class="st">"predicted_classes"</span>)
-  if (mode ==<span class="st"> </span><span class="kw"><a href="../reference/mode_keys.html">mode_keys</a></span>()$PREDICT) {
+  predicted_classes &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">argmax</span>(<span class="dt">input =</span> logits, <span class="dt">axis =</span> 1L, <span class="dt">name =</span> <span class="st">"predicted_classes"</span>)
+  <span class="cf">if</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>PREDICT) {
     predictions &lt;-<span class="st"> </span><span class="kw">list</span>(
       <span class="dt">classes =</span> predicted_classes,
-      <span class="dt">probabilities =</span> tf$nn$<span class="kw">softmax</span>(logits, <span class="dt">name =</span> <span class="st">"softmax_tensor"</span>)
+      <span class="dt">probabilities =</span> tf<span class="op">$</span>nn<span class="op">$</span><span class="kw">softmax</span>(logits, <span class="dt">name =</span> <span class="st">"softmax_tensor"</span>)
     )
     <span class="kw">return</span>(<span class="kw"><a href="../reference/estimator_spec.html">estimator_spec</a></span>(<span class="dt">mode =</span> mode, <span class="dt">predictions =</span> predictions))
   }
   
   <span class="co"># Calculate Loss (for both TRAIN and EVAL modes)</span>
-  onehot_labels &lt;-<span class="st"> </span>tf$<span class="kw">one_hot</span>(<span class="dt">indices =</span> tf$<span class="kw">cast</span>(labels, tf$int32), <span class="dt">depth =</span> 10L)
-  loss &lt;-<span class="st"> </span>tf$losses$<span class="kw">softmax_cross_entropy</span>(
+  onehot_labels &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">one_hot</span>(<span class="dt">indices =</span> tf<span class="op">$</span><span class="kw">cast</span>(labels, tf<span class="op">$</span>int32), <span class="dt">depth =</span> 10L)
+  loss &lt;-<span class="st"> </span>tf<span class="op">$</span>losses<span class="op">$</span><span class="kw">softmax_cross_entropy</span>(
     <span class="dt">onehot_labels =</span> onehot_labels, <span class="dt">logits =</span> logits)
   
   <span class="co"># Configure the Training Op (for TRAIN mode)</span>
-  if (mode ==<span class="st"> </span><span class="kw"><a href="../reference/mode_keys.html">mode_keys</a></span>()$TRAIN) {
-    optimizer &lt;-<span class="st"> </span>tf$train$<span class="kw">GradientDescentOptimizer</span>(<span class="dt">learning_rate =</span> <span class="fl">0.001</span>)
-    train_op &lt;-<span class="st"> </span>optimizer$<span class="kw">minimize</span>(
+  <span class="cf">if</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>TRAIN) {
+    optimizer &lt;-<span class="st"> </span>tf<span class="op">$</span>train<span class="op">$</span><span class="kw">GradientDescentOptimizer</span>(<span class="dt">learning_rate =</span> <span class="fl">0.001</span>)
+    train_op &lt;-<span class="st"> </span>optimizer<span class="op">$</span><span class="kw">minimize</span>(
       <span class="dt">loss =</span> loss,
-      <span class="dt">global_step =</span> tf$train$<span class="kw">get_global_step</span>())
+      <span class="dt">global_step =</span> tf<span class="op">$</span>train<span class="op">$</span><span class="kw">get_global_step</span>())
     <span class="kw">return</span>(<span class="kw"><a href="../reference/estimator_spec.html">estimator_spec</a></span>(<span class="dt">mode =</span> mode, <span class="dt">loss =</span> loss, <span class="dt">train_op =</span> train_op))
   }
     
   <span class="co"># Add evaluation metrics (for EVAL mode)</span>
-  eval_metric_ops &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">accuracy =</span> tf$metrics$<span class="kw">accuracy</span>(
+  eval_metric_ops &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">accuracy =</span> tf<span class="op">$</span>metrics<span class="op">$</span><span class="kw">accuracy</span>(
     <span class="dt">labels =</span> labels, <span class="dt">predictions =</span> predicted_classes))
 
   <span class="kw">return</span>(<span class="kw"><a href="../reference/estimator_spec.html">estimator_spec</a></span>(
@@ -270,19 +270,19 @@ Note: For a more comprehensive walkthrough of CNN architecture, see Stanford Uni
 </ul>
 <p>Here, our MNIST dataset is composed of monochrome 28x28 pixel images, so the desired shape for our input layer is <code>[<em>batch_size</em>, 28, 28, 1]</code>.</p>
 <p>To convert our input feature map (<code>features</code>) to this shape, we can perform the following <code>reshape</code> operation:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input_layer &lt;-<span class="st"> </span>tf$<span class="kw">reshape</span>(features$x, <span class="kw">c</span>(-1L, 28L, 28L, 1L))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input_layer &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">reshape</span>(features<span class="op">$</span>x, <span class="kw">c</span>(<span class="op">-</span>1L, 28L, 28L, 1L))</code></pre></div>
 <p>Note that we’ve indicated <code>-1</code> for batch size, which specifies that this dimension should be dynamically computed based on the number of input values in <code>features$x</code>, holding the size of all other dimensions constant. This allows us to treat <code>batch_size</code> as a hyperparameter that we can tune. For example, if we feed examples into our model in batches of 5, <code>features$x</code> will contain 3,920 values (one value for each pixel in each image), and <code>input_layer</code> will have a shape of <code>[5, 28, 28, 1]</code>. Similarly, if we feed examples in batches of 100, <code>features$x</code> will contain 78,400 values, and <code>input_layer</code> will have a shape of <code>[100, 28, 28, 1]</code>.</p>
 </div>
 <div id="convolutional-layer-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#convolutional-layer-1" class="anchor"></a>Convolutional Layer #1</h3>
 <p>In our first convolutional layer, we want to apply 32 5x5 filters to the input layer, with a ReLU activation function. We can use the <code>conv2d()</code> method in the <code>layers</code> module to create this layer as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">conv1 &lt;-<span class="st"> </span>tf$layers$<span class="kw">conv2d</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">conv1 &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">conv2d</span>(
     <span class="dt">inputs =</span> input_layer,
     <span class="dt">filters =</span> 32L,
     <span class="dt">kernel_size =</span> <span class="kw">c</span>(5L, 5L),
     <span class="dt">padding =</span> <span class="st">"same"</span>,
-    <span class="dt">activation =</span> tf$nn$relu)</code></pre></div>
+    <span class="dt">activation =</span> tf<span class="op">$</span>nn<span class="op">$</span>relu)</code></pre></div>
 <p>The <code>inputs</code> argument specifies our input tensor, which must have the shape <code>[<em>batch_size</em>, <em>image_width</em>, <em>image_height</em>, <em>channels</em>]</code>. Here, we’re connecting our first convolutional layer to <code>input_layer</code>, which has the shape <code>[<em>batch_size</em>, 28, 28, 1]</code>.</p>
 <blockquote>
 <p>Note: <code>conv2d()</code> will instead accept a shape of <code>[<em>channels</em>, <em>batch_size</em>, <em>image_width</em>, <em>image_height</em>]</code> when passed the argument <code>data_format=channels_first</code>.</p>
@@ -299,7 +299,7 @@ Note: For a more comprehensive walkthrough of CNN architecture, see Stanford Uni
 <h3 class="hasAnchor">
 <a href="#pooling-layer-1" class="anchor"></a>Pooling Layer #1</h3>
 <p>Next, we connect our first pooling layer to the convolutional layer we just created. We can use the <code>max_pooling2d()</code> method in <code>layers</code> to construct a layer that performs max pooling with a 2x2 filter and stride of 2:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pool1 &lt;-<span class="st"> </span>tf$layers$<span class="kw">max_pooling2d</span>(<span class="dt">inputs =</span> conv1, <span class="dt">pool_size =</span> <span class="kw">c</span>(2L, 2L), <span class="dt">strides =</span> 2L)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pool1 &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">max_pooling2d</span>(<span class="dt">inputs =</span> conv1, <span class="dt">pool_size =</span> <span class="kw">c</span>(2L, 2L), <span class="dt">strides =</span> 2L)</code></pre></div>
 <p>Again, <code>inputs</code> specifies the input tensor, with a shape of <code>[<em>batch_size</em>, <em>image_width</em>, <em>image_height</em>, <em>channels</em>]</code>. Here, our input tensor is <code>conv1</code>, the output from the first convolutional layer, which has a shape of <code>[<em>batch_size</em>, 28, 28, 32]</code>.</p>
 <blockquote>
 <p>Note: As with <code>conv2d()</code>, <code>max_pooling2d()</code> will instead accept a shape of <code>[<em>channels</em>, <em>batch_size</em>, <em>image_width</em>, <em>image_height</em>]</code> when passed the argument <code>data_format=channels_first</code>.</p>
@@ -312,14 +312,14 @@ Note: For a more comprehensive walkthrough of CNN architecture, see Stanford Uni
 <h3 class="hasAnchor">
 <a href="#convolutional-layer-2-and-pooling-layer-2" class="anchor"></a>Convolutional Layer #2 and Pooling Layer #2</h3>
 <p>We can connect a second convolutional and pooling layer to our CNN using <code>conv2d()</code> and <code>max_pooling2d()</code> as before. For convolutional layer #2, we configure 64 5x5 filters with ReLU activation, and for pooling layer #2, we use the same specs as pooling layer #1 (a 2x2 max pooling filter with stride of 2):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">conv2 &lt;-<span class="st"> </span>tf$layers$<span class="kw">conv2d</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">conv2 &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">conv2d</span>(
     <span class="dt">inputs =</span> pool1,
     <span class="dt">filters =</span> 64L,
     <span class="dt">kernel_size =</span> <span class="kw">c</span>(5L, 5L),
     <span class="dt">padding =</span> <span class="st">"same"</span>,
-    <span class="dt">activation =</span> tf$nn$relu)
+    <span class="dt">activation =</span> tf<span class="op">$</span>nn<span class="op">$</span>relu)
 
-pool2 &lt;-<span class="st"> </span>tf$layers$<span class="kw">max_pooling2d</span>(<span class="dt">inputs =</span> conv2, <span class="dt">pool_size =</span> <span class="kw">c</span>(2L, 2L), <span class="dt">strides =</span> 2L)</code></pre></div>
+pool2 &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">max_pooling2d</span>(<span class="dt">inputs =</span> conv2, <span class="dt">pool_size =</span> <span class="kw">c</span>(2L, 2L), <span class="dt">strides =</span> 2L)</code></pre></div>
 <p>Note that convolutional layer #2 takes the output tensor of our first pooling layer (<code>pool1</code>) as input, and produces the tensor <code>conv2</code> as output. <code>conv2</code> has a shape of <code>[<em>batch_size</em>, 14, 14, 64]</code>, the same width and height as <code>pool1</code> (due to <code>padding="same"</code>), and 64 channels for the 64 filters applied.</p>
 <p>Pooling layer #2 takes <code>conv2</code> as input, producing <code>pool2</code> as output. <code>pool2</code> has shape <code>[<em>batch_size</em>, 7, 7, 64]</code> (50% reduction of width and height from <code>conv2</code>).</p>
 </div>
@@ -327,14 +327,14 @@ pool2 &lt;-<span class="st"> </span>tf$layers$<span class="kw">max_pooling2d</sp
 <h3 class="hasAnchor">
 <a href="#dense-layer" class="anchor"></a>Dense Layer</h3>
 <p>Next, we want to add a dense layer (with 1,024 neurons and ReLU activation) to our CNN to perform classification on the features extracted by the convolution/pooling layers. Before we connect the layer, however, we’ll flatten our feature map (<code>pool2</code>) to shape <code>[<em>batch_size</em>, <em>features</em>]</code>, so that our tensor has only two dimensions:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pool2_flat &lt;-<span class="st"> </span>tf$<span class="kw">reshape</span>(pool2, <span class="kw">c</span>(-1L, 7L *<span class="st"> </span>7L *<span class="st"> </span>64L))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pool2_flat &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">reshape</span>(pool2, <span class="kw">c</span>(<span class="op">-</span>1L, 7L <span class="op">*</span><span class="st"> </span>7L <span class="op">*</span><span class="st"> </span>64L))</code></pre></div>
 <p>In the <code>reshape()</code> operation above, the <code>-1</code> signifies that the <em><code>batch_size</code></em> dimension will be dynamically calculated based on the number of examples in our input data. Each example has 7 (<code>pool2</code> width) * 7 (<code>pool2</code> height) * 64 (<code>pool2</code> channels) features, so we want the <code>features</code> dimension to have a value of 7 * 7 * 64 (3136 in total). The output tensor, <code>pool2_flat</code>, has shape <code>[<em>batch_size</em>, 3136]</code>.</p>
 <p>Now, we can use the <code>dense()</code> method in <code>layers</code> to connect our dense layer as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dense &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(<span class="dt">inputs =</span> pool2_flat, <span class="dt">units =</span> 1024L, <span class="dt">activation =</span> tf$nn$relu)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dense &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(<span class="dt">inputs =</span> pool2_flat, <span class="dt">units =</span> 1024L, <span class="dt">activation =</span> tf<span class="op">$</span>nn<span class="op">$</span>relu)</code></pre></div>
 <p>The <code>inputs</code> argument specifies the input tensor: our flattened feature map, <code>pool2_flat</code>. The <code>units</code> argument specifies the number of neurons in the dense layer (1,024). The <code>activation</code> argument takes the activation function; again, we’ll use <code>tf.nn.relu</code> to add ReLU activation.</p>
 <p>To help improve the results of our model, we also apply dropout regularization to our dense layer, using the <code>dropout</code> method in <code>layers</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dropout &lt;-<span class="st"> </span>tf$layers$<span class="kw">dropout</span>(
-    <span class="dt">inputs =</span> dense, <span class="dt">rate =</span> <span class="fl">0.4</span>, <span class="dt">training =</span> (mode ==<span class="st"> </span><span class="kw"><a href="../reference/mode_keys.html">mode_keys</a></span>()$TRAIN))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dropout &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dropout</span>(
+    <span class="dt">inputs =</span> dense, <span class="dt">rate =</span> <span class="fl">0.4</span>, <span class="dt">training =</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>TRAIN))</code></pre></div>
 <p>Again, <code>inputs</code> specifies the input tensor, which is the output tensor from our dense layer (<code>dense</code>).</p>
 <p>The <code>rate</code> argument specifies the dropout rate; here, we use <code>0.4</code>, which means 40% of the elements will be randomly dropped out during training.</p>
 <p>The <code>training</code> argument takes a boolean specifying whether or not the model is currently being run in training mode; dropout will only be performed if <code>training</code> is <code>True</code>. Here, we check if the <code>mode</code> passed to our model function <code>cnn_model_fn</code> is <code>TRAIN</code> mode.</p>
@@ -344,7 +344,7 @@ pool2 &lt;-<span class="st"> </span>tf$layers$<span class="kw">max_pooling2d</sp
 <h3 class="hasAnchor">
 <a href="#logits-layer" class="anchor"></a>Logits Layer</h3>
 <p>The final layer in our neural network is the logits layer, which will return the raw values for our predictions. We create a dense layer with 10 neurons (one for each target class 0–9), with linear activation (the default):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">logits &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(<span class="dt">inputs =</span> dropout, <span class="dt">units =</span> 10L)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">logits &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(<span class="dt">inputs =</span> dropout, <span class="dt">units =</span> 10L)</code></pre></div>
 <p>Our final output tensor of the CNN, <code>logits</code>, has shape <code>[<em>batch_size</em>, 10]</code>.</p>
 </div>
 <div id="generate_predictions" class="section level3">
@@ -356,19 +356,19 @@ pool2 &lt;-<span class="st"> </span>tf$layers$<span class="kw">max_pooling2d</sp
 <li>The <strong>probabilities</strong> for each possible target class for each example: the probability that the example is a 0, is a 1, is a 2, etc.</li>
 </ul>
 <p>For a given example, our predicted class is the element in the corresponding row of the logits tensor with the highest raw value. We can find the index of this element using the @{tf.argmax} function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tf$<span class="kw">argmax</span>(<span class="dt">input =</span> logits, <span class="dt">axis =</span> 1L)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tf<span class="op">$</span><span class="kw">argmax</span>(<span class="dt">input =</span> logits, <span class="dt">axis =</span> 1L)</code></pre></div>
 <p>The <code>input</code> argument specifies the tensor from which to extract maximum values—here <code>logits</code>. The <code>axis</code> argument specifies the axis of the <code>input</code> tensor along which to find the greatest value. Here, we want to find the largest value along the dimension with index of 1, which corresponds to our predictions (recall that our logits tensor has shape <code>[<em>batch_size</em>, 10]</code>).</p>
 <p>We can derive probabilities from our logits layer by applying softmax activation using @{tf.nn.softmax}:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tf$nn$<span class="kw">softmax</span>(logits, <span class="dt">name =</span> <span class="st">"softmax_tensor"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tf<span class="op">$</span>nn<span class="op">$</span><span class="kw">softmax</span>(logits, <span class="dt">name =</span> <span class="st">"softmax_tensor"</span>)</code></pre></div>
 <blockquote>
 <p>Note: We use the <code>name</code> argument to explicitly name this operation <code>softmax_tensor</code>, so we can reference it later.</p>
 </blockquote>
 <p>We compile our predictions in a dict, and return an <code>estimator_spec</code> object:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predicted_classes &lt;-<span class="st"> </span>tf$<span class="kw">argmax</span>(<span class="dt">input =</span> logits, <span class="dt">axis =</span> 1L)
-if (mode ==<span class="st"> </span><span class="kw"><a href="../reference/mode_keys.html">mode_keys</a></span>()$PREDICT) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predicted_classes &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">argmax</span>(<span class="dt">input =</span> logits, <span class="dt">axis =</span> 1L)
+<span class="cf">if</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>PREDICT) {
   predictions &lt;-<span class="st"> </span><span class="kw">list</span>(
     <span class="dt">classes =</span> predicted_classes,
-    <span class="dt">probabilities =</span> tf$nn$<span class="kw">softmax</span>(logits, <span class="dt">name =</span> <span class="st">"softmax_tensor"</span>)
+    <span class="dt">probabilities =</span> tf<span class="op">$</span>nn<span class="op">$</span><span class="kw">softmax</span>(logits, <span class="dt">name =</span> <span class="st">"softmax_tensor"</span>)
   )
   <span class="kw">return</span>(<span class="kw"><a href="../reference/estimator_spec.html">estimator_spec</a></span>(<span class="dt">mode =</span> mode, <span class="dt">predictions =</span> predictions))
 }</code></pre></div>
@@ -377,8 +377,8 @@ if (mode ==<span class="st"> </span><span class="kw"><a href="../reference/mode_
 <h3 class="hasAnchor">
 <a href="#calculating-loss" class="anchor"></a>Calculate Loss</h3>
 <p>For both training and evaluation, we need to define a <a href="https://en.wikipedia.org/wiki/Loss_function">loss function</a> that measures how closely the model’s predictions match the target classes. For multiclass classification problems like MNIST, <a href="https://en.wikipedia.org/wiki/Cross_entropy">cross entropy</a> is typically used as the loss metric. The following code calculates cross entropy when the model runs in either <code>TRAIN</code> or <code>EVAL</code> mode:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">onehot_labels &lt;-<span class="st"> </span>tf$<span class="kw">one_hot</span>(<span class="dt">indices =</span> tf$<span class="kw">cast</span>(labels, tf$int32), <span class="dt">depth =</span> 10L)
-loss &lt;-<span class="st"> </span>tf$losses$<span class="kw">softmax_cross_entropy</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">onehot_labels &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">one_hot</span>(<span class="dt">indices =</span> tf<span class="op">$</span><span class="kw">cast</span>(labels, tf<span class="op">$</span>int32), <span class="dt">depth =</span> 10L)
+loss &lt;-<span class="st"> </span>tf<span class="op">$</span>losses<span class="op">$</span><span class="kw">softmax_cross_entropy</span>(
   <span class="dt">onehot_labels =</span> onehot_labels, <span class="dt">logits =</span> logits)</code></pre></div>
 <p>Let’s take a closer look at what’s happening above.</p>
 <p>Our <code>labels</code> tensor contains a list of predictions for our examples, e.g. <code>[1, 9, ...]</code>. In order to calculate cross-entropy, first we need to convert <code>labels</code> to the corresponding <a href="https://www.quora.com/What-is-one-hot-encoding-and-when-is-it-used-in-data-science">one-hot encoding</a>:</p>
@@ -393,21 +393,21 @@ loss &lt;-<span class="st"> </span>tf$losses$<span class="kw">softmax_cross_entr
 <code>depth</code>. The depth of the one-hot tensor—i.e., the number of target classes. Here, the depth is <code>10</code>.</li>
 </ul>
 <p>The following code creates the one-hot tensor for our labels, <code>onehot_labels</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">onehot_labels &lt;-<span class="st"> </span>tf$<span class="kw">one_hot</span>(<span class="dt">indices =</span> tf$<span class="kw">cast</span>(labels, tf$int32), <span class="dt">depth =</span> 10L)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">onehot_labels &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">one_hot</span>(<span class="dt">indices =</span> tf<span class="op">$</span><span class="kw">cast</span>(labels, tf<span class="op">$</span>int32), <span class="dt">depth =</span> 10L)</code></pre></div>
 <p>Because <code>labels</code> contains a series of values from 0–9, <code>indices</code> is just our <code>labels</code> tensor, with values cast to integers. The <code>depth</code> is <code>10</code> because we have 10 possible target classes, one for each digit.</p>
 <p>Next, we compute cross-entropy of <code>onehot_labels</code> and the softmax of the predictions from our logits layer. <code>tf$losses$softmax_cross_entropy()</code> takes <code>onehot_labels</code> and <code>logits</code> as arguments, performs softmax activation on <code>logits</code>, calculates cross-entropy, and returns our <code>loss</code> as a scalar <code>Tensor</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">loss &lt;-<span class="st"> </span>tf$losses$<span class="kw">softmax_cross_entropy</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">loss &lt;-<span class="st"> </span>tf<span class="op">$</span>losses<span class="op">$</span><span class="kw">softmax_cross_entropy</span>(
     <span class="dt">onehot_labels =</span> onehot_labels, <span class="dt">logits =</span> logits)</code></pre></div>
 </div>
 <div id="configure-the-training-op" class="section level3">
 <h3 class="hasAnchor">
 <a href="#configure-the-training-op" class="anchor"></a>Configure the Training Op</h3>
 <p>In the previous section, we defined loss for our CNN as the softmax cross-entropy of the logits layer and our labels. Let’s configure our model to optimize this loss value during training. We’ll use a learning rate of 0.001 and <a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent">stochastic gradient descent</a> as the optimization algorithm:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">if (mode ==<span class="st"> </span><span class="kw"><a href="../reference/mode_keys.html">mode_keys</a></span>()$TRAIN) {
-  optimizer &lt;-<span class="st"> </span>tf$train$<span class="kw">GradientDescentOptimizer</span>(<span class="dt">learning_rate =</span> <span class="fl">0.001</span>)
-  train_op &lt;-<span class="st"> </span>optimizer$<span class="kw">minimize</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>TRAIN) {
+  optimizer &lt;-<span class="st"> </span>tf<span class="op">$</span>train<span class="op">$</span><span class="kw">GradientDescentOptimizer</span>(<span class="dt">learning_rate =</span> <span class="fl">0.001</span>)
+  train_op &lt;-<span class="st"> </span>optimizer<span class="op">$</span><span class="kw">minimize</span>(
     <span class="dt">loss =</span> loss,
-    <span class="dt">global_step =</span> tf$train$<span class="kw">get_global_step</span>())
+    <span class="dt">global_step =</span> tf<span class="op">$</span>train<span class="op">$</span><span class="kw">get_global_step</span>())
   <span class="kw">return</span>(<span class="kw"><a href="../reference/estimator_spec.html">estimator_spec</a></span>(<span class="dt">mode =</span> mode, <span class="dt">loss =</span> loss, <span class="dt">train_op =</span> train_op))
 }</code></pre></div>
 </div>
@@ -415,7 +415,7 @@ loss &lt;-<span class="st"> </span>tf$losses$<span class="kw">softmax_cross_entr
 <h3 class="hasAnchor">
 <a href="#add-evaluation-metrics" class="anchor"></a>Add evaluation metrics</h3>
 <p>To add accuracy metric in our model, we define <code>eval_metric_ops</code> dict in EVAL mode as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval_metric_ops &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">accuracy =</span> tf$metrics$<span class="kw">accuracy</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval_metric_ops &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">accuracy =</span> tf<span class="op">$</span>metrics<span class="op">$</span><span class="kw">accuracy</span>(
   <span class="dt">labels =</span> labels, <span class="dt">predictions =</span> predicted_classes))
 
 <span class="kw">return</span>(<span class="kw"><a href="../reference/estimator_spec.html">estimator_spec</a></span>(
@@ -432,11 +432,11 @@ loss &lt;-<span class="st"> </span>tf$losses$<span class="kw">softmax_cross_entr
 <p>First, let’s load our training and test data:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">np &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">"numpy"</span>, <span class="dt">convert =</span> <span class="ot">FALSE</span>)
 <span class="co"># Load training and eval data</span>
-mnist &lt;-<span class="st"> </span>tf$contrib$learn$datasets$<span class="kw">load_dataset</span>(<span class="st">"mnist"</span>)
-train_data &lt;-<span class="st"> </span>np$<span class="kw">asmatrix</span>(mnist$train$images, <span class="dt">dtype =</span> np$float32)
-train_labels &lt;-<span class="st"> </span>np$<span class="kw">asarray</span>(mnist$train$labels, <span class="dt">dtype =</span> np$int32)
-eval_data &lt;-<span class="st"> </span>np$<span class="kw">asmatrix</span>(mnist$test$images, <span class="dt">dtype =</span> np$float32)
-eval_labels &lt;-<span class="st"> </span>np$<span class="kw">asarray</span>(mnist$test$labels, <span class="dt">dtype =</span> np$int32)</code></pre></div>
+mnist &lt;-<span class="st"> </span>tf<span class="op">$</span>contrib<span class="op">$</span>learn<span class="op">$</span>datasets<span class="op">$</span><span class="kw">load_dataset</span>(<span class="st">"mnist"</span>)
+train_data &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">asmatrix</span>(mnist<span class="op">$</span>train<span class="op">$</span>images, <span class="dt">dtype =</span> np<span class="op">$</span>float32)
+train_labels &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">asarray</span>(mnist<span class="op">$</span>train<span class="op">$</span>labels, <span class="dt">dtype =</span> np<span class="op">$</span>int32)
+eval_data &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">asmatrix</span>(mnist<span class="op">$</span>test<span class="op">$</span>images, <span class="dt">dtype =</span> np<span class="op">$</span>float32)
+eval_labels &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">asarray</span>(mnist<span class="op">$</span>test<span class="op">$</span>labels, <span class="dt">dtype =</span> np<span class="op">$</span>int32)</code></pre></div>
 <p>We store the training feature data (the raw pixel values for 55,000 images of hand-drawn digits) and training labels (the corresponding value from 0–9 for each image) as <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html">numpy arrays</a> in <code>train_data</code> and <code>train_labels</code>, respectively. Similarly, we store the evaluation feature data (10,000 images) and evaluation labels in <code>eval_data</code> and <code>eval_labels</code>, respectively.</p>
 </div>
 <div id="create-the-estimator" class="section level3">
@@ -467,8 +467,8 @@ logging_hook &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 <a href="#train-the-model" class="anchor"></a>Train the Model</h3>
 <p>Now we’re ready to train our model, which we can do by creating <code>train_input_fn</code> ans calling <code>train()</code> on <code>mnist_classifier</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Train the model</span>
-train_input_fn &lt;-<span class="st"> </span>function(features_as_named_list) {
-  tf$estimator$inputs$<span class="kw"><a href="../reference/numpy_input_fn.html">numpy_input_fn</a></span>(
+train_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(features_as_named_list) {
+  tf<span class="op">$</span>estimator<span class="op">$</span>inputs<span class="op">$</span><span class="kw"><a href="../reference/numpy_input_fn.html">numpy_input_fn</a></span>(
     <span class="dt">x =</span> <span class="kw">list</span>(<span class="dt">x =</span> train_data),
     <span class="dt">y =</span> train_labels,
     <span class="dt">batch_size =</span> 100L,
@@ -487,8 +487,8 @@ train_input_fn &lt;-<span class="st"> </span>function(features_as_named_list) {
 <a href="#evaluate-the-model" class="anchor"></a>Evaluate the Model</h3>
 <p>Once training is complete, we want to evaluate our model to determine its accuracy on the MNIST test set. We call the <code>evaluate</code> method, which evaluates the metrics we specified in <code>eval_metric_ops</code> argument in the <code>model_fn</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Evaluate the model and print results</span>
-eval_input_fn &lt;-<span class="st"> </span>function(features_as_named_list) {
-  tf$estimator$inputs$<span class="kw"><a href="../reference/numpy_input_fn.html">numpy_input_fn</a></span>(
+eval_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(features_as_named_list) {
+  tf<span class="op">$</span>estimator<span class="op">$</span>inputs<span class="op">$</span><span class="kw"><a href="../reference/numpy_input_fn.html">numpy_input_fn</a></span>(
     <span class="dt">x =</span> <span class="kw">list</span>(<span class="dt">x =</span> eval_data),
     <span class="dt">y =</span> eval_labels,
     <span class="dt">batch_size =</span> 100L,
@@ -508,25 +508,25 @@ eval_input_fn &lt;-<span class="st"> </span>function(features_as_named_list) {
 <a href="#run-the-model" class="anchor"></a>Run the Model</h3>
 <p>We’ve coded the CNN model function, <code>Estimator</code>, and the training/evaluation logic; now let’s see the results.</p>
 <p>As the model trains, you’ll see log output like the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">INFO:tensorflow:Create CheckpointSaverHook.
-INFO:tensorflow:Restoring parameters from /tmp/mnist_convnet_model/model.ckpt<span class="dv">-5</span>
-INFO:tensorflow:Saving checkpoints for <span class="dv">6</span> into /tmp/mnist_convnet_model/model.ckpt.
-INFO:tensorflow:loss =<span class="st"> </span><span class="fl">2.29727</span>, step =<span class="st"> </span><span class="dv">6</span>
-INFO:tensorflow:Saving checkpoints for <span class="dv">7</span> into /tmp/mnist_convnet_model/model.ckpt.
-INFO:tensorflow:Loss for final step:<span class="st"> </span><span class="fl">2.30916</span>.</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">INFO<span class="op">:</span>tensorflow<span class="op">:</span>Create CheckpointSaverHook.
+INFO<span class="op">:</span>tensorflow<span class="op">:</span>Restoring parameters from <span class="op">/</span>tmp<span class="op">/</span>mnist_convnet_model<span class="op">/</span>model.ckpt<span class="op">-</span><span class="dv">5</span>
+INFO<span class="op">:</span>tensorflow<span class="op">:</span>Saving checkpoints <span class="cf">for</span> <span class="dv">6</span> into <span class="op">/</span>tmp<span class="op">/</span>mnist_convnet_model<span class="op">/</span>model.ckpt.
+INFO<span class="op">:</span>tensorflow<span class="op">:</span>loss =<span class="st"> </span><span class="fl">2.29727</span>, step =<span class="st"> </span><span class="dv">6</span>
+INFO<span class="op">:</span>tensorflow<span class="op">:</span>Saving checkpoints <span class="cf">for</span> <span class="dv">7</span> into <span class="op">/</span>tmp<span class="op">/</span>mnist_convnet_model<span class="op">/</span>model.ckpt.
+INFO<span class="op">:</span>tensorflow<span class="op">:</span>Loss <span class="cf">for</span> final step<span class="op">:</span><span class="st"> </span><span class="fl">2.30916</span>.</code></pre></div>
 <p>You’ll see log output like the following during model evaluation with the <code>predicted_classes</code> that we included in the <code>logging_hook</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">INFO:tensorflow:Starting evaluation at <span class="dv">2017-07-04-17</span>:<span class="dv">05</span>:<span class="dv">28</span>
-INFO:tensorflow:Restoring parameters from /tmp/mnist_convnet_model/model.ckpt<span class="dv">-19</span>
-INFO:tensorflow:predicted_classes =<span class="st"> </span>[<span class="dv">6</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">6</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">3</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">6</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">INFO<span class="op">:</span>tensorflow<span class="op">:</span>Starting evaluation at <span class="dv">2017</span><span class="op">-</span><span class="dv">07</span><span class="op">-</span><span class="dv">04</span><span class="op">-</span><span class="dv">17</span><span class="op">:</span><span class="dv">05</span><span class="op">:</span><span class="dv">28</span>
+INFO<span class="op">:</span>tensorflow<span class="op">:</span>Restoring parameters from <span class="op">/</span>tmp<span class="op">/</span>mnist_convnet_model<span class="op">/</span>model.ckpt<span class="op">-</span><span class="dv">19</span>
+INFO<span class="op">:</span>tensorflow<span class="op">:</span>predicted_classes =<span class="st"> </span>[<span class="dv">6</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">6</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">3</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">6</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span>
  <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">4</span> <span class="dv">4</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">6</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">6</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span>
  <span class="dv">9</span> <span class="dv">3</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">3</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span>]
-INFO:tensorflow:Evaluation [<span class="dv">1</span>/<span class="dv">10</span>]
-INFO:tensorflow:Evaluation [<span class="dv">2</span>/<span class="dv">10</span>]
-INFO:tensorflow:predicted_classes =<span class="st"> </span>[<span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">4</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">4</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">9</span>
+INFO<span class="op">:</span>tensorflow<span class="op">:</span>Evaluation [<span class="dv">1</span><span class="op">/</span><span class="dv">10</span>]
+INFO<span class="op">:</span>tensorflow<span class="op">:</span>Evaluation [<span class="dv">2</span><span class="op">/</span><span class="dv">10</span>]
+INFO<span class="op">:</span>tensorflow<span class="op">:</span>predicted_classes =<span class="st"> </span>[<span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">4</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">4</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">9</span>
  <span class="dv">9</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">4</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">4</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span>
  <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">1</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span> <span class="dv">9</span>] (<span class="fl">0.204</span> sec)
-INFO:tensorflow:Evaluation [<span class="dv">3</span>/<span class="dv">10</span>]
-INFO:tensorflow:Evaluation [<span class="dv">4</span>/<span class="dv">10</span>]
+INFO<span class="op">:</span>tensorflow<span class="op">:</span>Evaluation [<span class="dv">3</span><span class="op">/</span><span class="dv">10</span>]
+INFO<span class="op">:</span>tensorflow<span class="op">:</span>Evaluation [<span class="dv">4</span><span class="op">/</span><span class="dv">10</span>]
 ...</code></pre></div>
 </div>
 </div>

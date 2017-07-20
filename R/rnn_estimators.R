@@ -24,33 +24,33 @@ state_saving_rnn <- function(
   model_dir = NULL,
   config = NULL)
 {
-  rnn_estimator <- py_suppress_warnings(contrib_estimators_lib$state_saving_rnn_estimator$StateSavingRnnEstimator(
-    problem_type = problem_type,
-    num_unroll = as.integer(num_unroll),
-    batch_size = as.integer(batch_size),
-    sequence_feature_columns = sequence_feature_columns,
-    context_feature_columns = context_feature_columns,
-    num_classes = as_nullable_integer(num_classes),
-    num_units = as_nullable_integer(num_units),
-    cell_type = cell_type,
-    optimizer_type = optimizer_type,
-    learning_rate = learning_rate,
-    predict_probabilities = predict_probabilities,
-    momentum = momentum,
-    gradient_clipping_norm = gradient_clipping_norm,
-    dropout_keep_probabilities = dropout_keep_probabilities,
-    feature_engineering_fn = feature_engineering_fn,
-    num_threads = as.integer(num_threads),
-    queue_capacity = as.integer(queue_capacity),
-    seed = as_nullable_integer(seed),
-    model_dir = model_dir,
-    config = config
-  ))
-  
-  tf_model(
-    c("state_saving_rnn", "estimator"),
-    estimator = rnn_estimator
+  estimator <- py_suppress_warnings(
+    contrib_estimators_lib$state_saving_rnn_estimator$StateSavingRnnEstimator(
+      problem_type = problem_type,
+      num_unroll = as.integer(num_unroll),
+      batch_size = as.integer(batch_size),
+      sequence_feature_columns = sequence_feature_columns,
+      context_feature_columns = context_feature_columns,
+      num_classes = as_nullable_integer(num_classes),
+      num_units = as_nullable_integer(num_units),
+      cell_type = cell_type,
+      optimizer_type = optimizer_type,
+      learning_rate = learning_rate,
+      predict_probabilities = predict_probabilities,
+      momentum = momentum,
+      gradient_clipping_norm = gradient_clipping_norm,
+      dropout_keep_probabilities = dropout_keep_probabilities,
+      feature_engineering_fn = feature_engineering_fn,
+      num_threads = as.integer(num_threads),
+      queue_capacity = as.integer(queue_capacity),
+      seed = as_nullable_integer(seed),
+      model_dir = model_dir,
+      config = config
+    )
   )
+  
+  classes <- c("regressor", "classifier", "state_saving_rnn_estimator")
+  tf_estimator(estimator, classes)
 }
 
 
@@ -76,7 +76,7 @@ dynamic_rnn <- function(
   model_dir = NULL,
   config = NULL)
 {
-  rnn_estimator <- contrib_estimators_lib$dynamic_rnn_estimator$DynamicRnnEstimator(
+  estimator <- contrib_estimators_lib$dynamic_rnn_estimator$DynamicRnnEstimator(
     problem_type = problem_type,
     prediction_type = prediction_type,
     sequence_feature_columns = sequence_feature_columns,
@@ -95,9 +95,6 @@ dynamic_rnn <- function(
     config = config
   )
   
-  tf_model(
-    c("dynamic_rnn", "estimator"),
-    estimator = rnn_estimator
-  )
+  tf_estimator(estimator, "dynamic_rnn_estimator")
 }
 

@@ -34,7 +34,7 @@ input_fn <- function(object, ...) {
 #' @export
 #' @rdname input_fn
 input_fn.default <- function(object, ...) {
-  input_fn.data.frame(as.data.frame(object), ...)
+  input_fn(as.data.frame(object, stringsAsFactors = FALSE), ...)
 }
 
 #' @export
@@ -48,7 +48,148 @@ input_fn.formula <- function(object, data, ...) {
   input_fn(data, parsed$features, parsed$response, ...)
 }
 
+#' @examples
+#' # Construct the input function from a data.frame object
+#' input_fn1 <- input_fn(mtcars, response = mpg, features = c(drat, cyl))
 #' 
+#' @export
+#' @family input function constructors
+#' @rdname input_fn
+input_fn.data.frame <- function(object,
+                                features,
+                                response = NULL,
+                                batch_size = 10L,
+                                shuffle = TRUE,
+                                num_epochs = 1L,
+                                queue_capacity = 1000L,
+                                num_threads = 1L)
+{
+  all_names <- object_names(object)
+  features <- vars_select(all_names, !! enquo(features))
+  if (!missing(response))
+    response <- vars_select(all_names, !! enquo(response))
+  
+  num_epochs <- as.integer(num_epochs)
+  batch_size <- as.integer(batch_size)
+  queue_capacity <- as.integer(queue_capacity)
+  num_threads <- as.integer(num_threads)
+  
+  # determine response variable
+  input_response <- (function() {
+    
+    if (is.null(response))
+      return(NULL)
+    
+    # for data.frames, extract response as R array
+    if (is.data.frame(object))
+      return(as.array(object[[response]]))
+    
+    # for plain R lists, construct numpy array
+    if (is.list(object)) {
+      result <- unname(object[[response]])
+      return(np$array(result))
+    }
+    
+    # otherwise, produce R array by default
+    as.array(object[[response]])
+    
+  })()
+  
+  # input function to be used with canned estimators
+  canned_input_fn_generator <- function() {
+    
+    # convert to named R list
+    values <- (function() {
+      
+      # construct list of arrays for data.frames
+      if (is.data.frame(object)) {
+        result <- lapply(features, function(feature) {
+          as.array(object[[feature]])
+        })
+        names(result) <- features
+        return(dict(result))
+      }
+      
+      # construct dictionary of features for lists
+      if (is.list(object)) {
+        result <- dict()
+        lapply(features, function(feature) {
+          result[[feature]] <- np$array(
+            object[[feature]],
+            dtype = np$int64
+          )
+        })
+        return(result)
+      }
+      
+    })()
+    
+    
+    # generate numpy-style input function
+    tf$estimator$inputs$numpy_input_fn(
+      values,
+      input_response,
+      batch_size = batch_size,
+      shuffle = shuffle,
+      num_epochs = num_epochs,
+      queue_capacity = queue_capacity,
+      num_threads = num_threads
+    )
+  }
+  
+  # input function to be used with custom estimators
+  custom_input_fn_generator <- function() {
+    
+    values <- (function() {
+      
+      if (is.data.frame(object)) {
+        
+        # TODO: since we're creating an R matrix, this implies that
+        # all features must have the same data type?
+        return(list(features = data.matrix(object[features])))
+      }
+      
+      if (is.list(object)) {
+        result <- dict()
+        result$features <- np$array(
+          unname(object[features]),
+          dtype = np$int64
+        )
+        return(result)
+      }
+      
+    })()
+    
+    # return R function that provides list of features + input function
+    function() {
+      
+      input <- tf$estimator$inputs$numpy_input_fn(
+        values,
+        input_response,
+        batch_size = batch_size,
+        shuffle = shuffle,
+        num_epochs = num_epochs,
+        queue_capacity = queue_capacity,
+        num_threads = num_threads
+      )()
+      
+      list(
+        input[[1]]$features,
+        input[[2]]
+      )
+    }
+  }
+  
+  # return function which provides canned vs custom input function
+  # as requested
+  function(estimator) {
+    if (inherits(estimator, "tf_custom_estimator"))
+      return(custom_input_fn_generator())
+    else
+      return(canned_input_fn_generator())
+  }
+}
+
 #' @examples
 #' # Construct the input function from a list object
 #' input_fn1 <- input_fn(
@@ -68,168 +209,37 @@ input_fn.formula <- function(object, data, ...) {
 #' @export
 #' @family input function constructors
 #' @rdname input_fn
-input_fn.list <- function(
-  object,
-  features,
-  response = NULL,
-  batch_size = 10L,
-  shuffle = TRUE,
-  num_epochs = 1L,
-  queue_capacity = 1000L,
-  num_threads = 1L
-) {
-  all_names <- object_names(object)
-  features <- vars_select(all_names, !! enquo(features))
-  if (!missing(response))
-    response <- vars_select(all_names, !! enquo(response))
+input_fn.list <- input_fn.data.frame
 
-  num_epochs <- as.integer(num_epochs)
-  batch_size <- as.integer(batch_size)
-  queue_capacity <- as.integer(queue_capacity)
-  num_threads <- as.integer(num_threads)
-  
-  # Support for unsupervised models as well as ingesting data for inference
-  if (is.null(response)) {
-    input_response <- NULL
-  } else {
-    input_response <- object$response
-    names(input_response) <- NULL
-    input_response <- np$array(input_response)
-  }
-
-  function(features_as_named_list) {
-    if (features_as_named_list) {
-      features_dict <- dict()
-      lapply(features, function(feature){
-        features_dict[[feature]] <- np$array(
-          object[[feature]],
-          dtype = np$int64
-        )
-      })
-      fn <- tf$estimator$inputs$numpy_input_fn(
-        features_dict,
-        input_response,
-        batch_size = batch_size,
-        shuffle = shuffle,
-        num_epochs = num_epochs,
-        queue_capacity = queue_capacity,
-        num_threads = num_threads)
-      fn
-    } else {
-      features_list <- lapply(features, function(feature) object[[feature]])
-      names(features_list) <- NULL
-      features_dict <- dict()
-      features_dict$features <- np$array(
-        features_list,
-        dtype = np$int64
-      )
-      fn <- function(){
-        fun <- tf$estimator$inputs$numpy_input_fn(
-          features_dict,
-          input_response,
-          batch_size = batch_size,
-          shuffle = shuffle,
-          num_epochs = num_epochs,
-          queue_capacity = queue_capacity,
-          num_threads = num_threads)
-        fun <- fun()
-        list(
-          fun[[1]]$features,
-          fun[[2]]
-        )
-      }
-    }
-  }
-}
-
-
-#'   
-#' @examples
-#' # Construct the input function from a data.frame object
-#' input_fn1 <- input_fn(mtcars, response = mpg, features = c(drat, cyl))
-#' 
 #' @export
-#' @family input function constructors
 #' @rdname input_fn
-input_fn.data.frame <-  function(
-  object,
-  features,
-  response = NULL,
-  batch_size = 10L,
-  shuffle = TRUE,
-  num_epochs = 1L,
-  queue_capacity = 1000L,
-  num_threads = 1L)
+input_fn.matrix <- function(object,
+                            features,
+                            response = NULL,
+                            batch_size = 10L,
+                            shuffle = TRUE,
+                            num_epochs = 1L,
+                            queue_capacity = 1000L,
+                            num_threads = 1L)
 {
-  all_names <- object_names(object)
-  features <- vars_select(all_names, !! enquo(features))
-  if (!missing(response))
-    response <- vars_select(all_names, !! enquo(response))
-  
-  num_epochs <- as.integer(num_epochs)
-  batch_size <- as.integer(batch_size)
-  queue_capacity <- as.integer(queue_capacity)
-  num_threads <- as.integer(num_threads)
-  # Support for unsupervised models as well as ingesting data for inference
-  input_response <- if (is.null(response)) NULL else as.array(object[, response])
-  fn <- function(features_as_named_list) {
-    if (features_as_named_list) {
-      values <- lapply(features, function(feature) {
-        as.array(object[, feature])
-      })
-      names(values) <- features
-      fn <- tf$estimator$inputs$numpy_input_fn(
-        dict(values),
-        input_response,
-        batch_size = batch_size,
-        shuffle = shuffle,
-        num_epochs = num_epochs,
-        queue_capacity = queue_capacity,
-        num_threads = num_threads)
-      fn
-    } else {
-      values <- list(features = data.matrix(object)[,features, drop = FALSE])
-      fn <- function(){
-        fun <- tf$estimator$inputs$numpy_input_fn(
-          values,
-          input_response,
-          batch_size = batch_size,
-          shuffle = shuffle,
-          num_epochs = num_epochs,
-          queue_capacity = queue_capacity,
-          num_threads = num_threads)
-        fun <- fun()
-        list(
-          fun[[1]]$features,
-          fun[[2]]
-        )
-      }
-    }
-  }
-}
-
-#' @export
-#' @rdname input_fn
-input_fn.matrix <- function(
-  object,
-  features,
-  response = NULL,
-  batch_size = 10L,
-  shuffle = TRUE,
-  num_epochs = 1L,
-  queue_capacity = 1000L,
-  num_threads = 1L
-) {
   if (is.null(colnames(object)))
-    stop("You must provide colnames in order to create an input_fn from a matrix")
+    stop("cannot create input function from matrix without column names")
   
   all_names <- object_names(object)
   features <- vars_select(all_names, !! enquo(features))
   if (!missing(response))
     response <- vars_select(all_names, !! enquo(response))
   
-  input_fn.data.frame(object, features, response, batch_size,
-           shuffle, num_epochs, queue_capacity, num_threads)
+  input_fn(
+    as.data.frame(object, stringsAsFactors = FALSE),
+    features,
+    response,
+    batch_size,
+    shuffle,
+    num_epochs,
+    queue_capacity,
+    num_threads
+  )
 }
 
 #' Construct input function that would feed dict of numpy arrays into the model.
@@ -255,36 +265,55 @@ input_fn.matrix <- function(
 #'   
 #' @export
 #' @family input functions
-numpy_input_fn <- function(x, y = NULL, batch_size = 128L, num_epochs = 1L, shuffle = NULL, queue_capacity = 1000L, num_threads = 1L) {
-  function(features_as_named_list) {
-    tf$estimator$inputs$numpy_input_fn(
-      x = x,
-      y = y,
-      batch_size = as.integer(batch_size),
-      num_epochs = as.integer(num_epochs),
-      shuffle = shuffle,
-      queue_capacity = as.integer(queue_capacity),
-      num_threads = as.integer(num_threads)
-    )
-  }
+numpy_input_fn <- function(x,
+                           y = NULL,
+                           batch_size = 128L,
+                           num_epochs = 1L,
+                           shuffle = NULL,
+                           queue_capacity = 1000L,
+                           num_threads = 1L)
+{
+  tf$estimator$inputs$numpy_input_fn(
+    x = x,
+    y = y,
+    batch_size = as.integer(batch_size),
+    num_epochs = as.integer(num_epochs),
+    shuffle = shuffle,
+    queue_capacity = as.integer(queue_capacity),
+    num_threads = as.integer(num_threads)
+  )
 }
 
 # input functions take zero arguments however on the R side we allow input functions
 # with a single boolean argument that determines whether features should be provided
 # as a named list. this function validates the input_fn and normalizes it into a 
-# no-argument function if necessary
+# no-argument function if necessary.
+#
+# this functionality is provided as the expected input type differs based on
+# whether a TensorFlow 'canned estimator' is used, or a user-defined 'custom estimator'
+# is used.
+#
+# note that the 'input_fn' accepted as input may either be itself an input function,
+# or a function that returns an 'input_fn', that function accepting a single argument
+# to determine whether it should return data as a dictionary or a plain tensor.
 normalize_input_fn <- function(object, input_fn) {
   
   if (!is.function(input_fn)) 
     stop("input_fn must be a function", call. = FALSE)
   
-  num_args <- length(formals(input_fn))
+  nargs <- length(formals(input_fn))
   
-  if (num_args == 0)
-    input_fn
-  else if (num_args == 1) 
-    input_fn(is.tf_model(object))
-  else
-    stop("input_fn must take 0 or 1 arguments")
+  # if the input function doesn't accept any arguments, assume
+  # that it's already an 'input_fn' as expected by TensorFlow
+  if (nargs == 0)
+    return(input_fn)
+  
+  # if the input function accepts a single argument, assume that
+  # it should be used to generate and provide an input function
+  if (nargs == 1)
+    return(input_fn(object))
+  
+  # other function signatures are errors
+  stop("'input_fn' should accept 0 or 1 arguments")
 }
 

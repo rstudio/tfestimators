@@ -44,8 +44,7 @@ dnn_regressor <- function(hidden_units,
                           input_layer_partitioner = NULL,
                           config = NULL)
 {
-  # construct estimator accepting those columns
-  dnn_model <- py_suppress_warnings(tf$estimator$DNNRegressor(
+  estimator <- py_suppress_warnings(tf$estimator$DNNRegressor(
     hidden_units = as.integer(hidden_units),
     feature_columns = feature_columns,
     model_dir = model_dir,
@@ -58,11 +57,7 @@ dnn_regressor <- function(hidden_units,
     config = config
   ))
 
-  tf_model(
-    c("dnn", "regressor"),
-    estimator = dnn_model
-  )
-
+  tf_regressor(estimator, "dnn_regressor")
 }
 
 #' A classifier for TensorFlow DNN models.
@@ -115,8 +110,7 @@ dnn_classifier <- function(hidden_units,
                            input_layer_partitioner = NULL,
                            config = NULL)
 {
-  # construct estimator accepting those columns
-  dnn_model <- tf$estimator$DNNClassifier(
+  estimator <- tf$estimator$DNNClassifier(
     hidden_units = as.integer(hidden_units),
     feature_columns = feature_columns,
     model_dir = model_dir,
@@ -130,9 +124,6 @@ dnn_classifier <- function(hidden_units,
     config = config
   )
 
-  tf_model(
-    c("dnn", "classifier"),
-    estimator = dnn_model
-  )
+  tf_classifier(estimator, "dnn_classifier")
 }
 

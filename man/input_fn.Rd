@@ -4,8 +4,8 @@
 \alias{input_fn}
 \alias{input_fn.default}
 \alias{input_fn.formula}
-\alias{input_fn.list}
 \alias{input_fn.data.frame}
+\alias{input_fn.list}
 \alias{input_fn.matrix}
 \title{Input function constructor}
 \usage{
@@ -13,13 +13,13 @@
 
 \method{input_fn}{formula}(object, data, ...)
 
-\method{input_fn}{list}(object, features, response = NULL, batch_size = 10L,
-  shuffle = TRUE, num_epochs = 1L, queue_capacity = 1000L,
-  num_threads = 1L)
-
 \method{input_fn}{data.frame}(object, features, response = NULL,
   batch_size = 10L, shuffle = TRUE, num_epochs = 1L,
   queue_capacity = 1000L, num_threads = 1L)
+
+\method{input_fn}{list}(object, features, response = NULL, batch_size = 10L,
+  shuffle = TRUE, num_epochs = 1L, queue_capacity = 1000L,
+  num_threads = 1L)
 
 \method{input_fn}{matrix}(object, features, response = NULL,
   batch_size = 10L, shuffle = TRUE, num_epochs = 1L,
@@ -60,6 +60,9 @@ See S3 method signatures below for more details.
 # Construct the input function through formula interface
 input_fn1 <- input_fn(mpg ~ drat + cyl, mtcars)
 
+# Construct the input function from a data.frame object
+input_fn1 <- input_fn(mtcars, response = mpg, features = c(drat, cyl))
+
 # Construct the input function from a list object
 input_fn1 <- input_fn(
    object = list(
@@ -74,9 +77,6 @@ input_fn1 <- input_fn(
    features = c("feature1", "feature2"),
    response = "response",
    batch_size = 10L)
-
-# Construct the input function from a data.frame object
-input_fn1 <- input_fn(mtcars, response = mpg, features = c(drat, cyl))
 
 }
 \seealso{
