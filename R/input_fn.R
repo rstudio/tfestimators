@@ -246,6 +246,9 @@ input_fn.matrix <- function(object,
 #' 
 #' This returns a function outputting `features` and `target` based on the dict 
 #' of numpy arrays. The dict `features` has the same keys as the `x`.
+#'
+#' Note that this function is still experimental and should only be used if
+#' necessary, e.g. feed in data that's dictionary of numpy arrays.
 #' 
 #' @param x dict of numpy array object.
 #' @param y numpy array object. `NULL` if absent.
@@ -273,15 +276,17 @@ numpy_input_fn <- function(x,
                            queue_capacity = 1000L,
                            num_threads = 1L)
 {
-  tf$estimator$inputs$numpy_input_fn(
-    x = x,
-    y = y,
-    batch_size = as.integer(batch_size),
-    num_epochs = as.integer(num_epochs),
-    shuffle = shuffle,
-    queue_capacity = as.integer(queue_capacity),
-    num_threads = as.integer(num_threads)
-  )
+  function(estimator) {
+    tf$estimator$inputs$numpy_input_fn(
+      x = x,
+      y = y,
+      batch_size = as.integer(batch_size),
+      num_epochs = as.integer(num_epochs),
+      shuffle = shuffle,
+      queue_capacity = as.integer(queue_capacity),
+      num_threads = as.integer(num_threads)
+    )
+  }
 }
 
 # input functions take zero arguments however on the R side we allow input functions

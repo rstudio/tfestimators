@@ -31,6 +31,10 @@ be 1. #'}
 This returns a function outputting \code{features} and \code{target} based on the dict
 of numpy arrays. The dict \code{features} has the same keys as the \code{x}.
 }
+\details{
+Note that this function is still experimental and should only be used if
+necessary, e.g. feed in data that's dictionary of numpy arrays.
+}
 \section{Raises}{
  ValueError: if the shape of \code{y} mismatches the shape of
 values in \code{x} (i.e., values in \code{x} have same shape). TypeError: \code{x} is not
