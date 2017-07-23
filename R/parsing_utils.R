@@ -44,7 +44,7 @@
 #' @family parsing utilities
 regressor_parse_example_spec <- function(feature_columns, label_key, label_dtype = tf$float32, label_default = NULL, label_dimension = 1L, weight_column = NULL) {
   tf$estimator$regressor_parse_example_spec(
-    feature_columns = feature_columns,
+    feature_columns = ensure_nullable_list(feature_columns),
     label_key = label_key,
     label_dtype = label_dtype,
     label_default = label_default,
@@ -101,9 +101,10 @@ regressor_parse_example_spec <- function(feature_columns, label_key, label_dtype
 #'   
 #' @export
 #' @family parsing utilities
+#' 
 classifier_parse_example_spec <- function(feature_columns, label_key, label_dtype = tf$int64, label_default = NULL, weight_column = NULL) {
   tf$estimator$classifier_parse_example_spec(
-    feature_columns = feature_columns,
+    feature_columns = ensure_nullable_list(feature_columns),
     label_key = label_key,
     label_dtype = label_dtype,
     label_default = label_default,

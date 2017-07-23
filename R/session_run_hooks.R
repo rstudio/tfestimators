@@ -248,8 +248,7 @@ normalize_session_run_hooks <- function(session_run_hooks) {
   if (is.null(session_run_hooks))
     return(NULL)
 
-  if (!is.null(session_run_hooks) && !is.list(session_run_hooks))
-    session_run_hooks <- list(session_run_hooks)
+  session_run_hooks <- ensure_nullable_list(session_run_hooks)
 
   # import callback utility module
   python_path <- system.file("python", package = "tfestimators")

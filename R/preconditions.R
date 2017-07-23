@@ -55,6 +55,13 @@ ensure_dict <- function(x, named = F) {
   }
 }
 
+ensure_nullable_list <- function(x) {
+  if (!is.null(x) && !is.list(x))
+    list(x)
+  else
+    x
+}
+
 as_nullable_integer <- function(x) {
   if (is.null(x))
     x
