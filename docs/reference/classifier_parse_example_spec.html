@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generates parsing spec for tf.parse_example to be used with classifiers. — classifier_parse_example_spec • tfestimators</title>
+<title>Generates parsing spec for <code>tf$parse_example</code> to be used with classifiers. — classifier_parse_example_spec • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -116,13 +116,21 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generates parsing spec for tf.parse_example to be used with classifiers.</h1>
+    <h1>Generates parsing spec for <code>tf$parse_example</code> to be used with classifiers.</h1>
     </div>
 
     
-    <p>If users keep data in tf.Example format, they need to call tf.parse_example
+    <p>If users keep data in <code>tf$Example</code> format, they need to call <code>tf$parse_example</code>
 with a proper feature spec. There are two main things that this utility
-helps:</p>
+helps:</p><ul>
+<li><p>Users need to combine parsing spec of features with labels and
+weights (if any) since they are all parsed from same <code>tf$Example</code> instance.
+This utility combines these specs.</p></li>
+<li><p>It is difficult to map expected label by
+a classifier such as <code>dnn_classifier</code> to corresponding <code>tf$parse_example</code> spec.
+This utility encodes it by getting related information from users (key,
+dtype).</p></li>
+</ul>
     
 
     <pre class="usage"><span class='fu'>classifier_parse_example_spec</span>(<span class='no'>feature_columns</span>, <span class='no'>label_key</span>,
@@ -138,21 +146,21 @@ should be instances of classes derived from <code>_FeatureColumn</code>.</p></td
     </tr>
     <tr>
       <th>label_key</th>
-      <td><p>A string identifying the label. It means tf.Example stores
+      <td><p>A string identifying the label. It means <code>tf$Example</code> stores
 labels with this key.</p></td>
     </tr>
     <tr>
       <th>label_dtype</th>
-      <td><p>A <code>tf.dtype</code> identifies the type of labels. By default it
-is <code>tf.int64</code>. If user defines a <code>label_vocabulary</code>, this should be set as
-<code>tf.string</code>. <code>tf.float32</code> labels are only supported for binary
+      <td><p>A <code>tf$dtype</code> identifies the type of labels. By default it
+is <code>tf$int64</code>. If user defines a <code>label_vocabulary</code>, this should be set as
+<code>tf$string</code>. <code>tf$float32</code> labels are only supported for binary
 classification.</p></td>
     </tr>
     <tr>
       <th>label_default</th>
       <td><p>used as label if label_key does not exist in given
-tf.Example. An example usage: let's say <code>label_key</code> is 'clicked' and
-tf.Example contains clicked data only for positive examples in following
+<code>tf$Example</code>. An example usage: let's say <code>label_key</code> is 'clicked' and
+<code>tf$Example</code> contains clicked data only for positive examples in following
 format <code>key:clicked, value:1</code>. This means that if there is no data with key
 'clicked' it should count as negative example by setting
 <code>label_deafault=0</code>. Type of this value should be compatible with
@@ -161,12 +169,12 @@ format <code>key:clicked, value:1</code>. This means that if there is no data wi
     <tr>
       <th>weight_column</th>
       <td><p>A string or a <code>_NumericColumn</code> created by
-<code>tf.feature_column.numeric_column</code> defining feature column representing
+<code>column_numeric</code> defining feature column representing
 weights. It is used to down weight or boost examples during training. It
 will be multiplied by the loss of the example. If it is a string, it is
 used as a key to fetch weight tensor from the <code>features</code>. If it is a
-<code>_NumericColumn</code>, raw tensor is fetched by key <code>weight_column.key</code>, then
-weight_column.normalizer_fn is applied on it to get weight tensor.</p></td>
+<code>_NumericColumn</code>, raw tensor is fetched by key <code>weight_column$key</code>, then
+<code>weight_column$normalizer_fn</code> is applied on it to get weight tensor.</p></td>
     </tr>
     </table>
     
@@ -174,18 +182,6 @@ weight_column.normalizer_fn is applied on it to get weight tensor.</p></td>
 
     <p>A dict mapping each feature key to a <code>FixedLenFeature</code> or
 <code>VarLenFeature</code> value.</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <ul>
-<li><p>Users need to combine parsing spec of features with labels and
-weights (if any) since they are all parsed from same tf.Example instance.
-This utility combines these specs.</p></li>
-<li><p>It is difficult to map expected label by
-a classifier such as <code>DNNClassifier</code> to corresponding tf.parse_example spec.
-This utility encodes it by getting related information from users (key,
-dtype).</p></li>
-</ul>
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
@@ -195,12 +191,12 @@ dtype).</p></li>
 <li><p>ValueError: If weight_column is used in <code>feature_columns</code>.</p></li>
 <li><p>ValueError: If any of the given <code>feature_columns</code> is not a <code>_FeatureColumn</code> instance.</p></li>
 <li><p>ValueError: If <code>weight_column</code> is not a <code>_NumericColumn</code> instance.</p></li>
-<li><p>ValueError: if label_key is NULL.</p></li>
+<li><p>ValueError: if label_key is <code>NULL</code>.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other parsing utils: <code><a href='regressor_parse_example_spec.html'>regressor_parse_example_spec</a></code></p>
+    <p>Other parsing utilities: <code><a href='regressor_parse_example_spec.html'>regressor_parse_example_spec</a></code></p>
     
 
   </div>
@@ -210,8 +206,6 @@ dtype).</p></li>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
 
       <li><a href="#raises">Raises</a></li>
 

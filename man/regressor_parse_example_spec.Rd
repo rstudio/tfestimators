@@ -2,7 +2,7 @@
 % Please edit documentation in R/parsing_utils.R
 \name{regressor_parse_example_spec}
 \alias{regressor_parse_example_spec}
-\title{Generates parsing spec for tf.parse_example to be used with regressors.}
+\title{Generates parsing spec for \code{tf$parse_example} to be used with regressors.}
 \usage{
 regressor_parse_example_spec(feature_columns, label_key,
   label_dtype = tf$float32, label_default = NULL, label_dimension = 1L,
@@ -12,46 +12,43 @@ regressor_parse_example_spec(feature_columns, label_key,
 \item{feature_columns}{An iterable containing all feature columns. All items
 should be instances of classes derived from \code{_FeatureColumn}.}
 
-\item{label_key}{A string identifying the label. It means tf.Example stores
+\item{label_key}{A string identifying the label. It means \code{tf$Example} stores
 labels with this key.}
 
-\item{label_dtype}{A \code{tf.dtype} identifies the type of labels. By default it
-is \code{tf.float32}.}
+\item{label_dtype}{A \code{tf$dtype} identifies the type of labels. By default it
+is \code{tf$float32}.}
 
 \item{label_default}{used as label if label_key does not exist in given
-tf.Example. By default default_value is none, which means
-\code{tf.parse_example} will error out if there is any missing label.}
+\code{tf$Example}. By default default_value is none, which means
+\code{tf$parse_example} will error out if there is any missing label.}
 
 \item{label_dimension}{Number of regression targets per example. This is the
 size of the last dimension of the labels and logits \code{Tensor} objects
 (typically, these have shape \code{[batch_size, label_dimension]}).}
 
 \item{weight_column}{A string or a \code{_NumericColumn} created by
-\code{tf.feature_column.numeric_column} defining feature column representing
+\code{column_numeric} defining feature column representing
 weights. It is used to down weight or boost examples during training. It
 will be multiplied by the loss of the example. If it is a string, it is
 used as a key to fetch weight tensor from the \code{features}. If it is a
-\code{_NumericColumn}, raw tensor is fetched by key \code{weight_column.key}, then
-weight_column.normalizer_fn is applied on it to get weight tensor.}
+\code{_NumericColumn}, raw tensor is fetched by key \code{weight_column$key}, then
+\code{weight_column$normalizer_fn} is applied on it to get weight tensor.}
 }
 \value{
 A dict mapping each feature key to a \code{FixedLenFeature} or
 \code{VarLenFeature} value.
 }
 \description{
-If users keep data in tf.Example format, they need to call tf.parse_example
+If users keep data in \code{tf$Example} format, they need to call \code{tf$parse_example}
 with a proper feature spec. There are two main things that this utility
 helps:
-}
-\details{
 \itemize{
-\item Users need to combine parsing spec of features with labels and
-weights (if any) since they are all parsed from same tf.Example instance.
-This utility combines these specs.
-\item It is difficult to map expected label by
-a regressor such as \code{DNNRegressor} to corresponding tf.parse_example spec.
-This utility encodes it by getting related information from users (key,
-dtype).
+\item Users need to combine parsing spec of features with labels and weights (if
+any) since they are all parsed from same \code{tf$Example} instance. This utility
+combines these specs.
+\item It is difficult to map expected label by a regressor such as \code{dnn_regressor}
+to corresponding \code{tf$parse_example} spec. This utility encodes it by getting
+related information from users (key, dtype).
 }
 }
 \section{Raises}{
@@ -61,10 +58,10 @@ dtype).
 \item ValueError: If weight_column is used in \code{feature_columns}.
 \item ValueError: If any of the given \code{feature_columns} is not a \code{_FeatureColumn} instance.
 \item ValueError: If \code{weight_column} is not a \code{_NumericColumn} instance.
-\item ValueError: if label_key is NULL.
+\item ValueError: if label_key is \code{NULL}.
 }
 }
 
 \seealso{
-Other parsing utils: \code{\link{classifier_parse_example_spec}}
+Other parsing utilities: \code{\link{classifier_parse_example_spec}}
 }
