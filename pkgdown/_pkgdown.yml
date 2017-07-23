@@ -41,6 +41,8 @@ navbar:
           href: articles/layers.html
         - text: "TensorBoard Visualization"
           href: articles/tensorboard.html
+        - text: "Parsing Utilities"
+          href: articles/parsing_spec.html
 #    - text: "Deployment"
 #      href: articles/deployment.html
     - text: "Examples"

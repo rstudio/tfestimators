@@ -173,6 +173,7 @@ These articles describe more advanced topics/usage:
 - [Custom Estimators](articles/creating_estimators.html)
 - [TensorFlow Layers](articles/layers.html)
 - [TensorBoard Visualization](articles/tensorboard.html)
+- [Parsing Utilities](articles/parsing_spec.html)
 
 One of the best ways to learn is from reviewing and experimenting with examples. See the [Examples](articles/examples/) page for a variety of examples to help you get started.
 
