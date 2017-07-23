@@ -39,8 +39,7 @@ related information from users (key, dtype).
 ## Example output of parsing spec
 
 
-```{r eval=TRUE}
-library(reticulate)
+```{r}
 parsing_spec <- classifier_parse_example_spec(
   feature_columns = column_numeric('a'),
   label_key = 'b',
@@ -48,16 +47,16 @@ parsing_spec <- classifier_parse_example_spec(
 )
 ```
 
-For the above example, classifier_parse_example_spec would return the following:
+For the above example, `classifier_parse_example_spec` would return the following:
 
-```{r eval=TRUE}
-parsing_ops <- tf$python$ops$parsing_ops
+```{r}
 expected_spec <- list(
-  a = parsing_ops$FixedLenFeature(tuple(1L), dtype = tf$float32),
-  c = parsing_ops$FixedLenFeature(tuple(1L), dtype = tf$float32),
-  b = parsing_ops$FixedLenFeature(tuple(1L), dtype = tf$int64)
+  a = tf$python$ops$parsing_ops$FixedLenFeature(reticulate::tuple(1L), dtype = tf$float32),
+  c = tf$python$ops$parsing_ops$FixedLenFeature(reticulate::tuple(1L), dtype = tf$float32),
+  b = tf$python$ops$parsing_ops$FixedLenFeature(reticulate::tuple(1L), dtype = tf$int64)
 )
 
+# This should be the same as the one we constructed using `classifier_parse_example_spec`
 testthat::expect_equal(parsing_spec, expected_spec)
 ```
 
