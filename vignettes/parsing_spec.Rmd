@@ -1,0 +1,116 @@
+---
+title: "Parsing Utilities"
+output: 
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Parsing Utilities}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+type: docs
+repo: https://github.com/rstudio/tfestimators
+menu:
+  main:
+    name: "Parsing Utilities"
+    identifier: "tfestimators-parsing-utilities"
+    parent: "tfestimators-advanced"
+    weight: 30
+---
+
+
+```{r setup, include=FALSE}
+library(tfestimators)
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+
+## Overview
+
+Parsing utilities are a set of functions that helps generate parsing spec for `tf$parse_example` to be used with estimators. If users keep data in `tf$Example` format, they need to call
+`tf$parse_example` with a proper feature spec. There are two main things that
+these utility functions help:
+
+  * Users need to combine parsing spec of features with labels and weights (if any) since they are all parsed from same `tf$Example` instance. The utility functions combine these specs.
+
+  * It is difficult to map expected label by a estimator such as `dnn_classifier` 
+to corresponding `tf$parse_example` spec. The utility functions encode it by getting
+related information from users (key, dtype).
+
+## Example output of parsing spec
+
+
+```{r eval=TRUE}
+library(reticulate)
+parsing_spec <- classifier_parse_example_spec(
+  feature_columns = column_numeric('a'),
+  label_key = 'b',
+  weight_column = 'c'
+)
+```
+
+For the above example, classifier_parse_example_spec would return the following:
+
+```{r eval=TRUE}
+parsing_ops <- tf$python$ops$parsing_ops
+expected_spec <- list(
+  a = parsing_ops$FixedLenFeature(tuple(1L), dtype = tf$float32),
+  c = parsing_ops$FixedLenFeature(tuple(1L), dtype = tf$float32),
+  b = parsing_ops$FixedLenFeature(tuple(1L), dtype = tf$int64)
+)
+
+testthat::expect_equal(parsing_spec, expected_spec)
+```
+
+## Example usage with a classifier
+
+Firstly, define features transformations and initiailize your classifier similar to the following:
+
+```{r}
+fcs <- feature_columns(...)
+
+model <- dnn_classifier(
+  n_classes = 1000,
+  feature_columns = fcs,
+  weight_column = 'example-weight',
+  label_vocabulary= c('photos', 'keep', ...),
+  hidden_units = c(256, 64, 16)
+)
+```
+
+Next, create the parsing configuration for `tf$parse_example` using `classifier_parse_example_spec` and the feature columns `fcs` we have just defined:
+
+```{r}
+parsing_spec <- classifier_parse_example_spec(
+  feature_columns = fcs,
+  label_key = 'my-label',
+  label_dtype = tf$string,
+  weight_column = 'example-weight'
+)
+
+```
+
+This label configuration tells the classifier the following:
+
+  * weights are retrieved with key 'example-weight'
+  * label is string and can be one of the following `c('photos', 'keep', ...)`
+  * integer id for label 'photos' is 0, 'keep' is 1, etc
+
+Then define your input function with the help of `read_batch_features` that reads the batches of features from files in `tf$Example` format with the parsing configuration `parsing_spec` we just defined:
+
+```{r}
+input_fn_train <- function() {
+  features <- tf$contrib$learn$read_batch_features(
+    file_pattern = train_files,
+    batch_size = batch_size,
+    features = parsing_spec,
+    reader = tf$RecordIOReader)
+  labels <- features[["my-label"]]
+  return(list(features, labels))
+}
+```
+
+Finally we can train the model using the training input function parsed by `classifier_parse_example_spec`:
+
+```{r}
+train(model, input_fn = input_fn_train)
+```
