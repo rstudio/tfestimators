@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Construct input function that would feed dict of numpy arrays into the model. — numpy_input_fn • tfestimators</title>
+<title>Generates parsing spec for tf.parse_example to be used with classifiers. — classifier_parse_example_spec • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -116,69 +116,91 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Construct input function that would feed dict of numpy arrays into the model.</h1>
+    <h1>Generates parsing spec for tf.parse_example to be used with classifiers.</h1>
     </div>
 
     
-    <p>This returns a function outputting <code>features</code> and <code>target</code> based on the dict
-of numpy arrays. The dict <code>features</code> has the same keys as the <code>x</code>.</p>
+    <p>If users keep data in tf.Example format, they need to call tf.parse_example
+with a proper feature spec. There are two main things that this utility
+helps:</p>
     
 
-    <pre class="usage"><span class='fu'>numpy_input_fn</span>(<span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>batch_size</span> <span class='kw'>=</span> <span class='fl'>128L</span>, <span class='kw'>num_epochs</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
-  <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>queue_capacity</span> <span class='kw'>=</span> <span class='fl'>1000L</span>, <span class='kw'>num_threads</span> <span class='kw'>=</span> <span class='fl'>1L</span>)</pre>
+    <pre class="usage"><span class='fu'>classifier_parse_example_spec</span>(<span class='no'>feature_columns</span>, <span class='no'>label_key</span>,
+  <span class='kw'>label_dtype</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>int64</span>, <span class='kw'>label_default</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>weight_column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>dict of numpy array object.</p></td>
+      <th>feature_columns</th>
+      <td><p>An iterable containing all feature columns. All items
+should be instances of classes derived from <code>_FeatureColumn</code>.</p></td>
     </tr>
     <tr>
-      <th>y</th>
-      <td><p>numpy array object. <code>NULL</code> if absent.</p></td>
+      <th>label_key</th>
+      <td><p>A string identifying the label. It means tf.Example stores
+labels with this key.</p></td>
     </tr>
     <tr>
-      <th>batch_size</th>
-      <td><p>Integer, size of batches to return.</p></td>
+      <th>label_dtype</th>
+      <td><p>A <code>tf.dtype</code> identifies the type of labels. By default it
+is <code>tf.int64</code>. If user defines a <code>label_vocabulary</code>, this should be set as
+<code>tf.string</code>. <code>tf.float32</code> labels are only supported for binary
+classification.</p></td>
     </tr>
     <tr>
-      <th>num_epochs</th>
-      <td><p>Integer, number of epochs to iterate over data. If <code>NULL</code>
-will run forever.</p></td>
+      <th>label_default</th>
+      <td><p>used as label if label_key does not exist in given
+tf.Example. An example usage: let's say <code>label_key</code> is 'clicked' and
+tf.Example contains clicked data only for positive examples in following
+format <code>key:clicked, value:1</code>. This means that if there is no data with key
+'clicked' it should count as negative example by setting
+<code>label_deafault=0</code>. Type of this value should be compatible with
+<code>label_dtype</code>.</p></td>
     </tr>
     <tr>
-      <th>shuffle</th>
-      <td><p>Boolean, if TRUE shuffles the queue. Avoid shuffle at
-prediction time.</p></td>
-    </tr>
-    <tr>
-      <th>queue_capacity</th>
-      <td><p>Integer, size of queue to accumulate.</p></td>
-    </tr>
-    <tr>
-      <th>num_threads</th>
-      <td><p>Integer, number of threads used for reading and
-enqueueing. In order to have predicted and repeatable order of reading and
-enqueueing, such as in prediction and evaluation mode, <code>num_threads</code> should
-be 1. #'</p></td>
+      <th>weight_column</th>
+      <td><p>A string or a <code>_NumericColumn</code> created by
+<code>tf.feature_column.numeric_column</code> defining feature column representing
+weights. It is used to down weight or boost examples during training. It
+will be multiplied by the loss of the example. If it is a string, it is
+used as a key to fetch weight tensor from the <code>features</code>. If it is a
+<code>_NumericColumn</code>, raw tensor is fetched by key <code>weight_column.key</code>, then
+weight_column.normalizer_fn is applied on it to get weight tensor.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A dict mapping each feature key to a <code>FixedLenFeature</code> or
+<code>VarLenFeature</code> value.</p>
+    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Note that this function is still experimental and should only be used if
-necessary, e.g. feed in data that's dictionary of numpy arrays.</p>
+    <ul>
+<li><p>Users need to combine parsing spec of features with labels and
+weights (if any) since they are all parsed from same tf.Example instance.
+This utility combines these specs.</p></li>
+<li><p>It is difficult to map expected label by
+a classifier such as <code>DNNClassifier</code> to corresponding tf.parse_example spec.
+This utility encodes it by getting related information from users (key,
+dtype).</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
-    <p>ValueError: if the shape of <code>y</code> mismatches the shape of
-values in <code>x</code> (i.e., values in <code>x</code> have same shape). TypeError: <code>x</code> is not
-a dict or <code>shuffle</code> is not bool.</p>
+    
+    <ul>
+<li><p>ValueError: If label is used in <code>feature_columns</code>.</p></li>
+<li><p>ValueError: If weight_column is used in <code>feature_columns</code>.</p></li>
+<li><p>ValueError: If any of the given <code>feature_columns</code> is not a <code>_FeatureColumn</code> instance.</p></li>
+<li><p>ValueError: If <code>weight_column</code> is not a <code>_NumericColumn</code> instance.</p></li>
+<li><p>ValueError: if label_key is NULL.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other input functions: <code><a href='input_fn.html'>input_fn</a></code></p>
+    <p>Other parsing utils: <code><a href='regressor_parse_example_spec.html'>regressor_parse_example_spec</a></code></p>
     
 
   </div>
@@ -187,6 +209,8 @@ a dict or <code>shuffle</code> is not bool.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#value">Value</a></li>
+
       <li><a href="#details">Details</a></li>
 
       <li><a href="#raises">Raises</a></li>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Construct input function that would feed dict of numpy arrays into the model. — numpy_input_fn • tfestimators</title>
+<title>Model directory — model_dir • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -116,69 +116,27 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Construct input function that would feed dict of numpy arrays into the model.</h1>
+    <h1>Model directory</h1>
     </div>
 
     
-    <p>This returns a function outputting <code>features</code> and <code>target</code> based on the dict
-of numpy arrays. The dict <code>features</code> has the same keys as the <code>x</code>.</p>
+    <p>Get the directory where a model's artifacts are stored.</p>
     
 
-    <pre class="usage"><span class='fu'>numpy_input_fn</span>(<span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>batch_size</span> <span class='kw'>=</span> <span class='fl'>128L</span>, <span class='kw'>num_epochs</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
-  <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>queue_capacity</span> <span class='kw'>=</span> <span class='fl'>1000L</span>, <span class='kw'>num_threads</span> <span class='kw'>=</span> <span class='fl'>1L</span>)</pre>
+    <pre class="usage"><span class='fu'>model_dir</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>dict of numpy array object.</p></td>
+      <th>object</th>
+      <td><p>Model object</p></td>
     </tr>
     <tr>
-      <th>y</th>
-      <td><p>numpy array object. <code>NULL</code> if absent.</p></td>
-    </tr>
-    <tr>
-      <th>batch_size</th>
-      <td><p>Integer, size of batches to return.</p></td>
-    </tr>
-    <tr>
-      <th>num_epochs</th>
-      <td><p>Integer, number of epochs to iterate over data. If <code>NULL</code>
-will run forever.</p></td>
-    </tr>
-    <tr>
-      <th>shuffle</th>
-      <td><p>Boolean, if TRUE shuffles the queue. Avoid shuffle at
-prediction time.</p></td>
-    </tr>
-    <tr>
-      <th>queue_capacity</th>
-      <td><p>Integer, size of queue to accumulate.</p></td>
-    </tr>
-    <tr>
-      <th>num_threads</th>
-      <td><p>Integer, number of threads used for reading and
-enqueueing. In order to have predicted and repeatable order of reading and
-enqueueing, such as in prediction and evaluation mode, <code>num_threads</code> should
-be 1. #'</p></td>
+      <th>...</th>
+      <td><p>Unused</p></td>
     </tr>
     </table>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Note that this function is still experimental and should only be used if
-necessary, e.g. feed in data that's dictionary of numpy arrays.</p>
-    
-    <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
-
-    <p>ValueError: if the shape of <code>y</code> mismatches the shape of
-values in <code>x</code> (i.e., values in <code>x</code> have same shape). TypeError: <code>x</code> is not
-a dict or <code>shuffle</code> is not bool.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <p>Other input functions: <code><a href='input_fn.html'>input_fn</a></code></p>
     
 
   </div>
@@ -186,13 +144,7 @@ a dict or <code>shuffle</code> is not bool.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#raises">Raises</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-          </ul>
+                </ul>
 
   </div>
 </div>

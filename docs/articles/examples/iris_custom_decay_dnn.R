@@ -68,6 +68,6 @@ classifier <- estimator(
 predictions <- predict(classifier, input_fn = inputs)
 
 # Open TensorBoard
-tensorboard(model_dir(classifier))
+tensorboard(log_dir = run_path, launch_browser = FALSE)
 
 

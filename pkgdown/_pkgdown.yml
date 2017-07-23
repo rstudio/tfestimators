@@ -124,3 +124,8 @@ reference:
       - mode_keys
       - metric_keys
       - prediction_keys
+
+  - title: "Parsing Utilities"
+    contents:
+      - regressor_parse_example_spec
+      - classifier_parse_example_spec
