@@ -36,7 +36,7 @@ linear_regressor <- function(feature_columns,
 {
   estimator <- py_suppress_warnings(
     tf$estimator$LinearRegressor(
-      feature_columns = feature_columns,
+      feature_columns = ensure_nullable_list(feature_columns),
       model_dir = resolve_model_dir(model_dir),
       weight_column = weight_column,
       optimizer = optimizer,
@@ -95,7 +95,7 @@ linear_classifier <- function(feature_columns,
 {
   estimator <- py_suppress_warnings(
     tf$estimator$LinearClassifier(
-      feature_columns = feature_columns,
+      feature_columns = ensure_nullable_list(feature_columns),
       model_dir = resolve_model_dir(model_dir),
       n_classes = as.integer(n_classes),
       weight_column = weight_column,

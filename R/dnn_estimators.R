@@ -46,7 +46,7 @@ dnn_regressor <- function(hidden_units,
 {
   estimator <- py_suppress_warnings(tf$estimator$DNNRegressor(
     hidden_units = as.integer(hidden_units),
-    feature_columns = feature_columns,
+    feature_columns = ensure_nullable_list(feature_columns),
     model_dir = resolve_model_dir(model_dir),
     label_dimension = as.integer(label_dimension),
     weight_column = weight_column,
@@ -112,7 +112,7 @@ dnn_classifier <- function(hidden_units,
 {
   estimator <- tf$estimator$DNNClassifier(
     hidden_units = as.integer(hidden_units),
-    feature_columns = feature_columns,
+    feature_columns = ensure_nullable_list(feature_columns),
     model_dir = resolve_model_dir(model_dir),
     n_classes = as.integer(n_classes),
     weight_column = weight_column,

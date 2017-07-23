@@ -52,9 +52,9 @@ dnn_linear_combined_regressor <- function(model_dir = NULL,
 {
   estimator <- py_suppress_warnings(tf$estimator$DNNLinearCombinedRegressor(
     model_dir = resolve_model_dir(model_dir),
-    linear_feature_columns = linear_feature_columns,
+    linear_feature_columns = ensure_nullable_list(linear_feature_columns),
     linear_optimizer = linear_optimizer,
-    dnn_feature_columns = dnn_feature_columns,
+    dnn_feature_columns = ensure_nullable_list(dnn_feature_columns),
     dnn_optimizer = dnn_optimizer,
     dnn_hidden_units = as.integer(dnn_hidden_units),
     dnn_activation_fn = dnn_activation_fn,
@@ -128,9 +128,9 @@ dnn_linear_combined_classifier <- function(model_dir = NULL,
 {
   estimator <- py_suppress_warnings(tf$estimator$DNNLinearCombinedClassifier(
     model_dir = resolve_model_dir(model_dir),
-    linear_feature_columns = linear_feature_columns,
+    linear_feature_columns = ensure_nullable_list(linear_feature_columns),
     linear_optimizer = linear_optimizer,
-    dnn_feature_columns = dnn_feature_columns,
+    dnn_feature_columns = ensure_nullable_list(dnn_feature_columns),
     dnn_optimizer = dnn_optimizer,
     dnn_hidden_units = as.integer(dnn_hidden_units),
     dnn_activation_fn = dnn_activation_fn,
