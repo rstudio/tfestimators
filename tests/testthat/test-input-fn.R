@@ -3,7 +3,7 @@ context("Testing input_fn")
 test_that("input_fn can be constructed through formula interface", {
 
   features <- c("drat", "cyl")
-  input_fn1 <- input_fn(mtcars, response = mpg, features = features)(TRUE)
+  input_fn1 <- input_fn(mtcars, response = mpg, features = one_of(features))(TRUE)
   expect_equal(length(input_fn1()), 2)
   expect_equal(length(input_fn1()[[1]]), length(features))
   
@@ -18,7 +18,7 @@ test_that("input_fn can be constructed through formula interface", {
 test_that("input_fn can be constructed correctly from data.frame objects", {
   
   features <- c("drat", "cyl")
-  input_fn1 <- input_fn(mtcars, response = mpg, features = features)(TRUE)
+  input_fn1 <- input_fn(mtcars, response = mpg, features = one_of(features))(TRUE)
   expect_equal(length(input_fn1()), 2)
   expect_equal(names(input_fn1()[[1]]), features)
   expect_true(is.tensor(input_fn1()[[1]][[1]]))
@@ -30,14 +30,22 @@ test_that("input_fn can be constructed correctly from matrix objects", {
   features <- c("drat", "cyl")
   
   # features_as_named_list == TRUE
-  input_fn1 <- input_fn(as.matrix(mtcars), response = mpg, features = features)(TRUE)()
+  input_fn1 <- input_fn(
+    as.matrix(mtcars),
+    response = mpg,
+    features = one_of(features)
+  )(TRUE)()
   expect_equal(length(input_fn1), 2)
   expect_equal(names(input_fn1[[1]]), features)
   expect_true(is.tensor(input_fn1[[1]][[1]]))
   expect_true(is.tensor(input_fn1[[2]]))
   
   # features_as_named_list == FALSE
-  input_fn1 <- input_fn(as.matrix(mtcars), response = mpg, features = features)(FALSE)()
+  input_fn1 <- input_fn(
+    as.matrix(mtcars),
+    response = mpg,
+    features = one_of(features)
+  )(FALSE)()
   expect_equal(length(input_fn1), 2)
   expect_equal(names(input_fn1), NULL)
   expect_true(is.tensor(input_fn1[[1]][[1]]))

@@ -21,9 +21,7 @@
   shuffle = TRUE, num_epochs = 1L, queue_capacity = 1000L,
   num_threads = 1L)
 
-\method{input_fn}{matrix}(object, features, response = NULL,
-  batch_size = 10L, shuffle = TRUE, num_epochs = 1L,
-  queue_capacity = 1000L, num_threads = 1L)
+\method{input_fn}{matrix}(object, ...)
 }
 \arguments{
 \item{object}{The object that represents the input source}

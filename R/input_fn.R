@@ -223,32 +223,14 @@ input_fn.list <- input_fn.data.frame
 
 #' @export
 #' @rdname input_fn
-input_fn.matrix <- function(object,
-                            features,
-                            response = NULL,
-                            batch_size = 10L,
-                            shuffle = TRUE,
-                            num_epochs = 1L,
-                            queue_capacity = 1000L,
-                            num_threads = 1L)
+input_fn.matrix <- function(object, ...)
 {
   if (is.null(colnames(object)))
     stop("cannot create input function from matrix without column names")
   
-  all_names <- object_names(object)
-  features <- vars_select(all_names, !! enquo(features))
-  if (!missing(response))
-    response <- vars_select(all_names, !! enquo(response))
-  
   input_fn(
     as.data.frame(object, stringsAsFactors = FALSE),
-    features,
-    response,
-    batch_size,
-    shuffle,
-    num_epochs,
-    queue_capacity,
-    num_threads
+    ...
   )
 }
 
