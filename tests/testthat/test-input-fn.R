@@ -97,3 +97,24 @@ test_that("input_fn can be constructed correctly from list objects", {
   expect_true(is.tensor(fake_sequence_input_fn[[1]][[2]])) # second feature
   expect_true(is.tensor(fake_sequence_input_fn[[2]]))
 })
+
+test_that("R factors are coerced appropriately", {
+  
+  RESPONSE <- "Species"
+  FEATURES <- setdiff(names(iris), RESPONSE)
+  
+  classifier <- dnn_classifier(
+    feature_columns = lapply(FEATURES, column_numeric),
+    hidden_units = list(10, 20, 10),
+    n_classes = 3
+  )
+  
+  train(
+    classifier,
+    input_fn = input_fn(
+      iris,
+      features = one_of(FEATURES),
+      response = one_of(RESPONSE)
+    )
+  )
+})

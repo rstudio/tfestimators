@@ -74,6 +74,16 @@ input_fn.data.frame <- function(object,
   queue_capacity <- as.integer(queue_capacity)
   num_threads <- as.integer(num_threads)
   
+  # coerce vectors to a TensorFlow-friendly format when appropriate
+  coerce <- function(variable) {
+    
+    # convert factors to [0, n] range
+    if (is.factor(variable))
+      variable <- as.integer(variable) - 1L
+    
+    as.array(variable)
+  }
+  
   # determine response variable
   input_response <- (function() {
     
@@ -82,7 +92,7 @@ input_fn.data.frame <- function(object,
     
     # for data.frames, extract response as R array
     if (is.data.frame(object))
-      return(as.array(object[[response]]))
+      return(coerce(object[[response]]))
     
     # for plain R lists, construct numpy array
     if (is.list(object)) {
@@ -91,7 +101,7 @@ input_fn.data.frame <- function(object,
     }
     
     # otherwise, produce R array by default
-    as.array(object[[response]])
+    coerce(object[[response]])
     
   })()
   
@@ -104,7 +114,7 @@ input_fn.data.frame <- function(object,
       # construct list of arrays for data.frames
       if (is.data.frame(object)) {
         result <- lapply(features, function(feature) {
-          as.array(object[[feature]])
+          coerce(object[[feature]])
         })
         names(result) <- features
         return(dict(result))
