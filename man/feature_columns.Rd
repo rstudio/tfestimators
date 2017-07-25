@@ -7,7 +7,7 @@
 feature_columns(..., names = NULL)
 }
 \arguments{
-\item{...}{One or more feature column definitions}
+\item{...}{One or more feature column definitions.}
 
 \item{names}{Available feature names (for selection / pattern matching) as a
 character vector (or R object that implements \code{names()} or \code{colnames()})}

@@ -1,7 +1,7 @@
 
 #' Create list of feature columns
 #'
-#' @param ... One or more feature column definitions
+#' @param ... One or more feature column definitions.
 #' @param names Available feature names (for selection / pattern matching) as a
 #'   character vector (or R object that implements `names()` or `colnames()`)
 #'
