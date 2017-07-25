@@ -2,11 +2,34 @@
 title: "TensorFlow Estimator API Examples"
 ---
 
-| Example  | Description   |
-|----------------------|-------------------------------------------------------------------|
-| [wide_and_deep](wide_and_deep.html) | Build a wide & deep learning model |
-| [custom_estimator](custom_estimator.html) | Create a custom estimator for abalone age prediction |
-| [iris_custom_decay_dnn](iris_custom_decay_dnn.html) | Create a deep neural network with learning rate decay for iris dataset |
-| [tensorflow_layers](tensorflow_layers.html) | Build an estimator using TensorFlow layers |
+```{r index, echo=FALSE}
+# list all the .Rmd files we have
+files <- setdiff(list.files(pattern = "[.]Rmd$"), "index.Rmd")
 
+# extract DESCRIPTIONs from their front-matter
+descriptions <- sapply(files, function(file) {
+  yaml <- rmarkdown::yaml_front_matter(file)
+  if (is.null(yaml$description))
+    yaml$title
+  yaml$description
+})
+
+# construct markdown links
+examples <- sprintf(
+  "[%s](%s)",
+  tools::file_path_sans_ext(files),
+  sprintf("%s.html", tools::file_path_sans_ext(files))
+)
+
+# construct dataset associating HTML link with description
+data <- data.frame(
+  Example = examples,
+  Description = descriptions,
+  stringsAsFactors = FALSE,
+  row.names = NULL
+)
+
+# output as markdown table
+knitr::kable(data, format = "markdown", row.names = FALSE)
+```
 

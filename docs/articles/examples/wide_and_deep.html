@@ -122,8 +122,8 @@
 <p>First of all, let’s download the census data:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tfestimators)
 
-maybe_download_census &lt;-<span class="st"> </span>function(train_data_path, test_data_path, column_names_to_assign) {
-  if (!<span class="kw">file.exists</span>(train_data_path) ||<span class="st"> </span>!<span class="kw">file.exists</span>(test_data_path)) {
+maybe_download_census &lt;-<span class="st"> </span><span class="cf">function</span>(train_data_path, test_data_path, column_names_to_assign) {
+  <span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(train_data_path) <span class="op">||</span><span class="st"> </span><span class="op">!</span><span class="kw">file.exists</span>(test_data_path)) {
     <span class="kw">cat</span>(<span class="st">"Downloading census data ..."</span>)
     train_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data"</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>, <span class="dt">skip =</span> <span class="dv">1</span>)
     test_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test"</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>, <span class="dt">skip =</span> <span class="dv">1</span>)
@@ -131,7 +131,7 @@ maybe_download_census &lt;-<span class="st"> </span>function(train_data_path, te
     <span class="kw">colnames</span>(test_data) &lt;-<span class="st"> </span>column_names_to_assign
     <span class="kw">write.csv</span>(train_data, train_data_path, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)
     <span class="kw">write.csv</span>(test_data, test_data_path, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)
-  } else {
+  } <span class="cf">else</span> {
     train_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(train_data_path, <span class="dt">header =</span> <span class="ot">TRUE</span>)
     test_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(test_data_path, <span class="dt">header =</span> <span class="ot">TRUE</span>)
   }
@@ -147,8 +147,8 @@ downloaded_data &lt;-<span class="st"> </span><span class="kw">maybe_download_ce
   <span class="kw">file.path</span>(<span class="kw">getwd</span>(), <span class="st">"test_census.csv"</span>),
   COLNAMES
 )
-train_data &lt;-<span class="st"> </span>downloaded_data$train_data
-test_data &lt;-<span class="st"> </span>downloaded_data$test_data</code></pre></div>
+train_data &lt;-<span class="st"> </span>downloaded_data<span class="op">$</span>train_data
+test_data &lt;-<span class="st"> </span>downloaded_data<span class="op">$</span>test_data</code></pre></div>
 </div>
 <div id="define-base-feature-columns" class="section level3">
 <h3 class="hasAnchor">
@@ -181,9 +181,9 @@ workclass &lt;-<span class="st"> </span><span class="kw"><a href="../../referenc
 
 <span class="co"># To show an example of hashing:</span>
 occupation &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_categorical_with_hash_bucket.html">column_categorical_with_hash_bucket</a></span>(
-  <span class="st">"occupation"</span>, <span class="dt">hash_bucket_size =</span> <span class="dv">1000</span>, <span class="dt">dtype =</span> tf$int32)
+  <span class="st">"occupation"</span>, <span class="dt">hash_bucket_size =</span> <span class="dv">1000</span>, <span class="dt">dtype =</span> tf<span class="op">$</span>int32)
 native_country &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_categorical_with_hash_bucket.html">column_categorical_with_hash_bucket</a></span>(
-  <span class="st">"native_country"</span>, <span class="dt">hash_bucket_size =</span> <span class="dv">1000</span>, <span class="dt">dtype =</span> tf$int32)
+  <span class="st">"native_country"</span>, <span class="dt">hash_bucket_size =</span> <span class="dv">1000</span>, <span class="dt">dtype =</span> tf<span class="op">$</span>int32)
 
 <span class="co"># Continuous base columns.</span>
 age &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"age"</span>)
@@ -235,13 +235,13 @@ base_columns &lt;-<span class="st"> </span><span class="kw">c</span>(gender, nat
 <h3 class="hasAnchor">
 <a href="#training-and-evaluating-the-model" class="anchor"></a>Training and Evaluating The Model</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Build labels according to income bracket</span>
-train_data$income_bracket &lt;-<span class="st"> </span><span class="kw">as.character</span>(train_data$income_bracket)
-test_data$income_bracket &lt;-<span class="st"> </span><span class="kw">as.character</span>(test_data$income_bracket)
-train_data$label &lt;-<span class="st"> </span><span class="kw">ifelse</span>(train_data$income_bracket ==<span class="st"> " &gt;50K"</span>, <span class="dv">1</span>, <span class="dv">0</span>)
-test_data$label &lt;-<span class="st"> </span><span class="kw">ifelse</span>(test_data$income_bracket ==<span class="st"> " &gt;50K"</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+train_data<span class="op">$</span>income_bracket &lt;-<span class="st"> </span><span class="kw">as.character</span>(train_data<span class="op">$</span>income_bracket)
+test_data<span class="op">$</span>income_bracket &lt;-<span class="st"> </span><span class="kw">as.character</span>(test_data<span class="op">$</span>income_bracket)
+train_data<span class="op">$</span>label &lt;-<span class="st"> </span><span class="kw">ifelse</span>(train_data<span class="op">$</span>income_bracket <span class="op">==</span><span class="st"> " &gt;50K"</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+test_data<span class="op">$</span>label &lt;-<span class="st"> </span><span class="kw">ifelse</span>(test_data<span class="op">$</span>income_bracket <span class="op">==</span><span class="st"> " &gt;50K"</span>, <span class="dv">1</span>, <span class="dv">0</span>)
 
-constructed_input_fn &lt;-<span class="st"> </span>function(dataset) {
-  <span class="kw"><a href="../../reference/input_fn.html">input_fn</a></span>(dataset, <span class="dt">features =</span> -label, <span class="dt">response =</span> label)
+constructed_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(dataset) {
+  <span class="kw"><a href="../../reference/input_fn.html">input_fn</a></span>(dataset, <span class="dt">features =</span> <span class="op">-</span>label, <span class="dt">response =</span> label)
 }
 train_input_fn &lt;-<span class="st"> </span><span class="kw">constructed_input_fn</span>(train_data)
 eval_input_fn &lt;-<span class="st"> </span><span class="kw">constructed_input_fn</span>(test_data)

@@ -2,6 +2,7 @@
 title: iris_custom_decay_dnn
 type: docs
 repo: https://github.com/rstudio/tfestimators
+description: Create a deep neural network with learning rate decay for iris dataset.
 menu:
   main:
     parent: tfestimators-examples

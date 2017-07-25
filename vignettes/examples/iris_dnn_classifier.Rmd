@@ -1,8 +1,8 @@
 ---
-title: tensorflow_layers
+title: iris_dnn_classifier
 type: docs
 repo: https://github.com/rstudio/tfestimators
-description: Build an estimator using TensorFlow layers.
+description: Construct a DNN classifier using the iris data set.
 menu:
   main:
     parent: tfestimators-examples

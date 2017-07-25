@@ -2,6 +2,7 @@
 title: custom_estimator
 type: docs
 repo: https://github.com/rstudio/tfestimators
+description: Create a custom estimator for abalone age prediction.
 menu:
   main:
     parent: tfestimators-examples

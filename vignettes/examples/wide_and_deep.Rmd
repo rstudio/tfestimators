@@ -2,6 +2,7 @@
 title: wide_and_deep
 type: docs
 repo: https://github.com/rstudio/tfestimators
+description: Build a wide & deep learning model.
 menu:
   main:
     parent: tfestimators-examples
