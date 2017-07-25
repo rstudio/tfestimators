@@ -2,14 +2,14 @@
 
 library(tfestimators)
 
-RESPONSE <- "Species"
-FEATURES <- setdiff(names(iris), RESPONSE)
+response <- function() "Species"
+features <- function() setdiff(names(iris), response())
 
 # split into train, test datasets
 set.seed(123)
-n <- nrow(iris)
 
-rows_train <- sort(sample(n, size = 0.75 * n))
+n <- nrow(iris)
+rows_train <- sort(sample(n, size = 0.85 * n))
 rows_test <- setdiff(1:n, rows_train)
 
 iris_train <- iris[rows_train, ]
@@ -18,7 +18,7 @@ iris_test  <- iris[rows_test, ]
 # construct classifier
 classifier <- dnn_classifier(
   feature_columns = feature_columns(
-    column_numeric(FEATURES)
+    column_numeric(features())
   ),
   hidden_units = c(10, 20, 10),
   n_classes = 3
@@ -28,8 +28,8 @@ classifier <- dnn_classifier(
 .input_fn <- function(data) {
   input_fn(
     data,
-    features = one_of(FEATURES),
-    response = one_of(RESPONSE)
+    features = features(),
+    response = response()
   )
 }
 
@@ -39,6 +39,6 @@ train(
   input_fn = .input_fn(iris_train)
 )
 
-# evaluate with test dataset
+# valuate with test dataset
 predictions <- predict(classifier, input_fn = .input_fn(iris_test))
 evaluation <- evaluate(classifier, input_fn = .input_fn(iris_test))
