@@ -58,18 +58,18 @@ input_fn.formula <- function(object, data, ...) {
 input_fn.data.frame <- function(object,
                                 features,
                                 response = NULL,
-                                batch_size = 10L,
+                                batch_size = 128,
                                 shuffle = TRUE,
-                                num_epochs = 1L,
-                                queue_capacity = 1000L,
-                                num_threads = 1L)
+                                num_epochs = 1,
+                                queue_capacity = 1000,
+                                num_threads = 1)
 {
   all_names <- object_names(object)
   features <- vars_select(all_names, !! enquo(features))
   if (!missing(response))
     response <- vars_select(all_names, !! enquo(response))
   
-  num_epochs <- as.integer(num_epochs)
+  num_epochs <- as_nullable_integer(num_epochs)
   batch_size <- as.integer(batch_size)
   queue_capacity <- as.integer(queue_capacity)
   num_threads <- as.integer(num_threads)

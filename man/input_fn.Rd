@@ -14,12 +14,12 @@
 \method{input_fn}{formula}(object, data, ...)
 
 \method{input_fn}{data.frame}(object, features, response = NULL,
-  batch_size = 10L, shuffle = TRUE, num_epochs = 1L,
-  queue_capacity = 1000L, num_threads = 1L)
+  batch_size = 128, shuffle = TRUE, num_epochs = 1,
+  queue_capacity = 1000, num_threads = 1)
 
-\method{input_fn}{list}(object, features, response = NULL, batch_size = 10L,
-  shuffle = TRUE, num_epochs = 1L, queue_capacity = 1000L,
-  num_threads = 1L)
+\method{input_fn}{list}(object, features, response = NULL, batch_size = 128,
+  shuffle = TRUE, num_epochs = 1, queue_capacity = 1000,
+  num_threads = 1)
 
 \method{input_fn}{matrix}(object, features, response = NULL,
   batch_size = 10L, shuffle = TRUE, num_epochs = 1L,
