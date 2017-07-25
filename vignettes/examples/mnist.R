@@ -46,13 +46,12 @@ read_idx <- function(file) {
   # convert to an integer vecto
   converted <- as.integer(data)
   
-  # read as matrix (or drop dimension if needed)
-  result <- t(matrix(converted, ncol = dims[[1]], nrow = prod(dims[-1])))
+  # return plain vector for 1-dim array
+  if (length(dims) == 1)
+    return(converted)
   
-  if (ncol(result) == 1)
-    return(result[, 1])
-  
-  result
+  # wrap 3D data into matrix
+  matrix(converted, nrow = dims[1], ncol = prod(dims[-1]), byrow = TRUE)
 }
 
 mnist <- rapply(sources, classes = "character", how = "list", function(url) {
@@ -107,7 +106,7 @@ classifier <- linear_classifier(
     data,
     response = "y",
     features = "x",
-    batch_size = 1024L
+    batch_size = 1024
   )
 }
 
