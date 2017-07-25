@@ -70,14 +70,15 @@ mnist <- rapply(sources, classes = "character", how = "list", function(url) {
 mnist$train$x <- mnist$train$x / 255
 mnist$test$x <- mnist$test$x / 255
 
-# try plotting the pixel intensities for the first 16 numbers
-data <- array(mnist$train$x[1:16, ], dim = c(16, 28, 28))
+# try plotting the pixel intensities for a random sample of 32 images
+n <- 36
+indices <- sample(nrow(mnist$train$x), size = n)
+data <- array(mnist$train$x[indices, ], dim = c(n, 28, 28))
 melted <- melt(data, varnames = c("image", "x", "y"), value.name = "intensity")
 ggplot(melted, aes(x = x, y = y, fill = intensity)) +
   geom_tile() +
   scale_y_reverse() +
-  facet_wrap(~ image) +
-  scale_fill_continuous(low = "white", high = "black") +
+  facet_wrap(~ image, nrow = sqrt(n), ncol = sqrt(n)) +
   theme(
     strip.background = element_blank(),
     strip.text.x = element_blank(),
@@ -87,7 +88,7 @@ ggplot(melted, aes(x = x, y = y, fill = intensity)) +
   ) +
   labs(
     title = "MNIST Image Data",
-    subtitle = "Visualization of first 16 images contained in MNIST data set.",
+    subtitle = "Visualization of a sample of images contained in MNIST data set.",
     x = NULL,
     y = NULL
   )
