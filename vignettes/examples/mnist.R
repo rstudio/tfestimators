@@ -1,9 +1,15 @@
-root <- rprojroot::find_package_root_file()
-
 library(ggplot2)
 library(reshape2)
 library(tensorflow)
 library(tfestimators)
+
+# initialize runs directory
+root <- rprojroot::find_package_root_file()
+rundir <- file.path(root, "vignettes/examples/mnist")
+datadir <- file.path(rundir, "data")
+dir.create(rundir, recursive = TRUE, showWarnings = FALSE)
+dir.create(datadir, recursive = TRUE, showWarnings = FALSE)
+tfruns::use_run_dir(rundir)
 
 # download the MNIST data sets, and read them into R
 sources <- list(
@@ -49,12 +55,10 @@ read_idx <- function(file) {
   result
 }
 
-dir <- file.path(root, "vignettes/examples/data")
-dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 mnist <- rapply(sources, classes = "character", how = "list", function(url) {
   
   # download + extract the file at the URL
-  target <- file.path(dir, basename(url))
+  target <- file.path(datadir, basename(url))
   if (!file.exists(target))
     download.file(url, target)
   
@@ -94,17 +98,21 @@ classifier <- linear_classifier(
   feature_columns = feature_columns(
     column_numeric("x", shape = shape(784L))
   ),
-  model_dir = tempfile("tensorflow-mnist-linear-classifier-"),
   n_classes = 10L  # 10 digits
 )
 
 # construct an input function generator
 .input_fn <- function(data) {
-  input_fn(data, response = "y", features = "x")
+  input_fn(
+    data,
+    response = "y",
+    features = "x",
+    batch_size = 1024L
+  )
 }
 
 # train the classifier
-train(classifier, input_fn = .input_fn(mnist$train), steps = 20)
+train(classifier, input_fn = .input_fn(mnist$train))
 
 # evaluate the classifier on the test dataset
 evaluate(classifier, input_fn = .input_fn(mnist$test))
