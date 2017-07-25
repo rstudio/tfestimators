@@ -7,13 +7,9 @@ features <- function() setdiff(names(iris), response())
 
 # split into train, test datasets
 set.seed(123)
-
-n <- nrow(iris)
-rows_train <- sort(sample(n, size = 0.85 * n))
-rows_test <- setdiff(1:n, rows_train)
-
-iris_train <- iris[rows_train, ]
-iris_test  <- iris[rows_test, ]
+partitions <- modelr::resample_partition(iris, c(test = 0.2, train = 0.8))
+iris_train <- as.data.frame(partitions$train)
+iris_test  <- as.data.frame(partitions$test)
 
 # construct classifier
 classifier <- dnn_classifier(

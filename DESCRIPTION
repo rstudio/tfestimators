@@ -33,6 +33,7 @@ Imports:
     tfruns,
     rlang,
     tidyselect,
+    modelr (>= 0.1.1),
     magrittr,
     R6
 Roxygen: list(markdown = TRUE)
