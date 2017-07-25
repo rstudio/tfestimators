@@ -1,0 +1,20 @@
+---
+title: mnist
+type: docs
+repo: https://github.com/rstudio/tfestimators
+description: Train a deep learning model with the MNIST dataset.
+menu:
+  main:
+    parent: tfestimators-examples
+---
+
+<div class="source-ref">
+<span class="caption">Source: </span>`r sprintf("https://github.com/rstudio/tfestimators/blob/master/vignettes/examples/%s.R", rmarkdown::metadata$title)`
+</div>
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+knitr::spin_child(paste0(rmarkdown::metadata$title, ".R"))
+```
+
+
