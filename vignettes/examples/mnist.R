@@ -5,8 +5,8 @@ library(tfestimators)
 
 # initialize runs directory
 root <- rprojroot::find_package_root_file()
-rundir <- file.path(root, "vignettes/examples/mnist")
-datadir <- file.path(rundir, "data")
+rundir  <- file.path(root, "vignettes/examples/mnist")
+datadir <- file.path(root, "vignettes/examples/data")
 dir.create(rundir, recursive = TRUE, showWarnings = FALSE)
 dir.create(datadir, recursive = TRUE, showWarnings = FALSE)
 tfruns::use_run_dir(rundir)
