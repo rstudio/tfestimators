@@ -15,13 +15,13 @@ tfruns::use_run_dir(rundir)
 sources <- list(
   
   train = list(
-    x = "http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz",
-    y = "http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz"
+    x = "https://storage.googleapis.com/cvdf-datasets/mnist/train-images-idx3-ubyte.gz",
+    y = "https://storage.googleapis.com/cvdf-datasets/mnist/train-labels-idx1-ubyte.gz"
   ),
   
   test = list(
-    x = "http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz",
-    y = "http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz"
+    x = "https://storage.googleapis.com/cvdf-datasets/mnist/t10k-images-idx3-ubyte.gz",
+    y = "https://storage.googleapis.com/cvdf-datasets/mnist/t10k-labels-idx1-ubyte.gz"
   )
   
 )
