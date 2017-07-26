@@ -108,7 +108,12 @@
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
 <p>Inputs to TensorFlow estimators are provided using an input function. Input functions take an artibrary data source (e.g. in-memory dataframe/matrix, streaming data, custom data format, etc.) and convert it into feature and label Tensors to pass on to modeling functions.</p>
-<p>The main purpose of input functions is turning raw data sources into Tensors. You can also use input functions to do feature engineering, however it’s in general much better to use <a href="feature_columns.html">feature columns</a> for this purpose whenever possible, as in that case the tranformations are made part of the TensorFlow graph and can be executed without an R runtime (e.g. when the model is deployed onto a device or server).</p>
+<p>The main purposes of input functions is:</p>
+<ol style="list-style-type: decimal">
+<li>Turning raw data sources into Tensors.</li>
+<li>Configuring how data is drawn during training (shuffling, batch size, epochs, etc.)</li>
+</ol>
+<p>You can also use input functions to do feature engineering, however it’s in general much better to use <a href="feature_columns.html">feature columns</a> for this purpose whenever possible, as in that case the tranformations are made part of the TensorFlow graph and can be executed without an R runtime (e.g. when the model is deployed onto a device or server).</p>
 <p>The <strong>tfestimators</strong> package includes an <code><a href="../reference/input_fn.html">input_fn()</a></code> method that will create an input function automatically from an existing data frame, matrix, or list. It’s also possible to write a fully custom input function. Both methods of creating input functions are covered below.</p>
 </div>
 <div id="data-frame-input" class="section level2">
@@ -117,26 +122,35 @@
 <p>You can create an input function from an R data frame using the <code><a href="../reference/input_fn.html">input_fn()</a></code> method. You can specify feature and response variables either explicitly or using the R formula interface.</p>
 <p>For example, to create an input function for the <strong>mtcars</strong> dataset with features “drat” and “cyl” and response “mpg” you could use this code:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">train</span>(
-  <span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mtcars, <span class="dt">features =</span> <span class="kw">c</span>(drat, cyl), <span class="dt">response =</span> mpg)
+  <span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mtcars, 
+           <span class="dt">features =</span> <span class="kw">c</span>(drat, cyl), 
+           <span class="dt">response =</span> mpg,
+           <span class="dt">batch_size =</span> <span class="dv">128</span>,
+           <span class="dt">epochs =</span> <span class="dv">3</span>)
 )</code></pre></div>
 <p>Or alternatively use the R formula interface like this:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">train</span>(
-  <span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mpg <span class="op">~</span><span class="st"> </span>drat <span class="op">+</span><span class="st"> </span>cyl, <span class="dt">data =</span> mtcars)
+  <span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mpg <span class="op">~</span><span class="st"> </span>drat <span class="op">+</span><span class="st"> </span>cyl, 
+           <span class="dt">data =</span> mtcars,
+           <span class="dt">batch_size =</span> <span class="dv">128</span>,
+           <span class="dt">epochs =</span> <span class="dv">3</span>)
 )</code></pre></div>
+<p>Note that <code>input_fn</code> functions provide several parameters for controlling how data is drawn from the input source. These include <code>batch_size</code> (defaults to 128), <code>shuffle</code> (default to <code>TRUE</code>), and <code>epochs</code> (defaults to 1). Note that when providing an input function for prediction you should always set <code>shuffle = FALSE</code>.</p>
 <div id="training-vs-evaluation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#training-vs-evaluation" class="anchor"></a>Training vs. Evaluation</h3>
 <p>It’s often the case that you’ll want to use the same basic input function for training and evaluation, but need to provide a distinct dataset for each step. In that case you can create a wrapper function that returns the same input function with varying input data.</p>
 <p>For example, imagine we have already split the <strong>mtcars</strong> dataset into training and test subsets. We could have an input function generator like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(data) {
-  <span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(data, <span class="dt">features =</span> <span class="kw">c</span>(drat, cyl), <span class="dt">response =</span> mpg)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(data, ...) {
+  <span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(data, <span class="dt">features =</span> <span class="kw">c</span>(drat, cyl), <span class="dt">response =</span> mpg, ...)
 }</code></pre></div>
-<p>Then use it for training and evaluation as follows:</p>
+<p>The <code>...</code> parameter is used to forward additional options to <code>input_fn</code> (e.g. <code>shuffle = FALSE</code> for prediction).</p>
+<p>You would use the helper function for training and evaluation as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># train the model</span>
-model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">train</span>(<span class="kw">mtcars_input_fn</span>(train))
+model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">train</span>(<span class="kw">mtcars_input_fn</span>(train_data))
 
 <span class="co"># evaluate the model</span>
-model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(train))</code></pre></div>
+model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test_data))</code></pre></div>
 </div>
 </div>
 <div id="matrix-input" class="section level2">

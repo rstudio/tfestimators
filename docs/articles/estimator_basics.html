@@ -172,14 +172,18 @@
 <li>Lists of vectors</li>
 </ul>
 <p>For example:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input &lt;-<span class="st"> </span><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mtcars, <span class="dt">features =</span> <span class="kw">c</span>(drat, cyl), <span class="dt">response =</span> vs)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input &lt;-<span class="st"> </span><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mtcars, 
+                  <span class="dt">features =</span> <span class="kw">c</span>(drat, cyl), 
+                  <span class="dt">response =</span> vs,
+                  <span class="dt">batch_size =</span> <span class="dv">128</span>)</code></pre></div>
+<p>The <code>batch_size</code> specifies the number of observations to draw for each training step.</p>
 <p>You can also write fully custom input functions that draw data from arbitrary data sources. See the <a href="input_functions.html">input functions</a> article for additional details.</p>
 </div>
 <div id="feature-columns" class="section level2">
 <h2 class="hasAnchor">
 <a href="#feature-columns" class="anchor"></a>Feature Columns</h2>
 <p>Feature columns speicfy the feature transformations to apply before using data within training or prediction. This code specifies that the <code>profit</code> column is a standard numeric variable and that the <code>profession</code> column is categorical with 5 buckets:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cols &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(
   <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"profit"</span>),
   <span class="kw"><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity</a></span>(<span class="st">"profession"</span>, <span class="dt">num_buckets =</span> <span class="dv">5</span>)
 )</code></pre></div>
