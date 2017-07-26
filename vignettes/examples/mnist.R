@@ -121,7 +121,8 @@ predictions <- predict(
 )
 
 # plot predictions versus actual for small subset
-indices <- sample(nrow(mnist$test$x), 20)
+n <- 20
+indices <- sample(nrow(mnist$test$x), n)
 classes <- vapply(indices, function(i) {
   predictions[[i]]$classes
 }, character(1))
