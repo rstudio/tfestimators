@@ -85,25 +85,8 @@ input_fn.data.frame <- function(object,
   }
   
   # determine response variable
-  input_response <- (function() {
-    
-    if (is.null(response))
-      return(NULL)
-    
-    # for data.frames, extract response as R array
-    if (is.data.frame(object))
-      return(coerce(object[[response]]))
-    
-    # for plain R lists, construct numpy array
-    if (is.list(object)) {
-      result <- unname(object[[response]])
-      return(np$array(result))
-    }
-    
-    # otherwise, produce R array by default
+  input_response <- if (!is.null(response))
     coerce(object[[response]])
-    
-  })()
   
   # input function to be used with canned estimators
   canned_input_fn_generator <- function() {
@@ -111,26 +94,11 @@ input_fn.data.frame <- function(object,
     # convert to named R list
     values <- (function() {
       
-      # construct list of arrays for data.frames
-      if (is.data.frame(object)) {
-        result <- lapply(features, function(feature) {
-          coerce(object[[feature]])
-        })
-        names(result) <- features
-        return(dict(result))
-      }
-      
-      # construct dictionary of features for lists
-      if (is.list(object)) {
-        result <- dict()
-        lapply(features, function(feature) {
-          result[[feature]] <- np$array(
-            object[[feature]],
-            dtype = np$int64
-          )
-        })
-        return(result)
-      }
+      result <- lapply(features, function(feature) {
+        coerce(object[[feature]])
+      })
+      names(result) <- features
+      return(dict(result))
       
     })()
     
@@ -152,21 +120,9 @@ input_fn.data.frame <- function(object,
     
     values <- (function() {
       
-      if (is.data.frame(object)) {
-        
-        # TODO: since we're creating an R matrix, this implies that
-        # all features must have the same data type?
-        return(list(features = data.matrix(object[features])))
-      }
-      
-      if (is.list(object)) {
-        result <- dict()
-        result$features <- np$array(
-          unname(object[features]),
-          dtype = np$int64
-        )
-        return(result)
-      }
+      # TODO: since we're creating an R matrix, this implies that
+      # all features must have the same data type?
+      return(list(features = data.matrix(object[features])))
       
     })()
     
