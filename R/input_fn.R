@@ -77,6 +77,10 @@ input_fn.data.frame <- function(object,
   # coerce vectors to a TensorFlow-friendly format when appropriate
   coerce <- function(variable) {
     
+    # convert lists to numpy arrays
+    if (is.list(variable))
+      return(np$array(unname(variable), dtype = np$int64))
+    
     # convert factors to [0, n] range
     if (is.factor(variable))
       variable <- as.integer(variable) - 1L
