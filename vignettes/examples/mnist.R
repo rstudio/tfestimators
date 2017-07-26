@@ -115,10 +115,7 @@ train(classifier, input_fn = mnist_input_fn(mnist$train), steps = 200)
 evaluate(classifier, input_fn = mnist_input_fn(mnist$test), steps = 200)
 
 # use our classifier to predict labels for a subset of the test dataset
-predictions <- predict(
-  classifier,
-  input_fn = mnist_input_fn(mnist$test, shuffle = FALSE)
-)
+predictions <- predict(classifier, input_fn = mnist_input_fn(mnist$test))
 
 # plot predictions versus actual for small subset
 n <- 20

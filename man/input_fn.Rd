@@ -14,11 +14,11 @@
 \method{input_fn}{formula}(object, data, ...)
 
 \method{input_fn}{data.frame}(object, features, response = NULL,
-  batch_size = 128, shuffle = TRUE, num_epochs = 1,
+  batch_size = 128, shuffle = "auto", num_epochs = 1,
   queue_capacity = 1000, num_threads = 1)
 
 \method{input_fn}{list}(object, features, response = NULL, batch_size = 128,
-  shuffle = TRUE, num_epochs = 1, queue_capacity = 1000,
+  shuffle = "auto", num_epochs = 1, queue_capacity = 1000,
   num_threads = 1)
 
 \method{input_fn}{matrix}(object, ...)
@@ -32,8 +32,9 @@
 
 \item{batch_size}{The size of batches}
 
-\item{shuffle}{Whether to shuffles the queue. Avoid shuffle at prediction
-time}
+\item{shuffle}{Whether to shuffle the queue. When \code{"auto"} (the default),
+shuffling will be performed except when this input function is called by
+a \code{predict()} method.}
 
 \item{num_epochs}{The number of epochs to iterate over data. If \code{NULL} will
 run forever.}
