@@ -4,8 +4,8 @@
 \alias{numpy_input_fn}
 \title{Construct input function that would feed dict of numpy arrays into the model.}
 \usage{
-numpy_input_fn(x, y = NULL, batch_size = 128L, num_epochs = 1L,
-  shuffle = NULL, queue_capacity = 1000L, num_threads = 1L)
+numpy_input_fn(x, y = NULL, batch_size = 128, num_epochs = 1,
+  shuffle = NULL, queue_capacity = 1000, num_threads = 1)
 }
 \arguments{
 \item{x}{dict of numpy array object.}

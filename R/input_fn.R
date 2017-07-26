@@ -262,18 +262,18 @@ input_fn.matrix <- function(object, ...)
 #' @family input functions
 numpy_input_fn <- function(x,
                            y = NULL,
-                           batch_size = 128L,
-                           num_epochs = 1L,
+                           batch_size = 128,
+                           num_epochs = 1,
                            shuffle = NULL,
-                           queue_capacity = 1000L,
-                           num_threads = 1L)
+                           queue_capacity = 1000,
+                           num_threads = 1)
 {
   function(estimator) {
     tf$estimator$inputs$numpy_input_fn(
       x = x,
       y = y,
       batch_size = as.integer(batch_size),
-      num_epochs = as.integer(num_epochs),
+      num_epochs = as_nullable_integer(num_epochs),
       shuffle = shuffle,
       queue_capacity = as.integer(queue_capacity),
       num_threads = as.integer(num_threads)
