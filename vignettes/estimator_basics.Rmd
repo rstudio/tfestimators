@@ -73,8 +73,13 @@ Input functions are used to provide data to Estimtor training and prediction met
 For example:
 
 ```{r}
-input <- input_fn(mtcars, features = c(drat, cyl), response = vs)
+input <- input_fn(mtcars, 
+                  features = c(drat, cyl), 
+                  response = vs,
+                  batch_size = 128)
 ```
+
+The `batch_size` specifies the number of observations to draw for each training step. 
 
 You can also write fully custom input functions that draw data from arbitrary data sources. See the [input functions](input_functions.html) article for additional details.
 
@@ -83,7 +88,7 @@ You can also write fully custom input functions that draw data from arbitrary da
 Feature columns speicfy the feature transformations to apply before using data within training or prediction. This code specifies that the `profit` column is a standard numeric variable and that the `profession` column is categorical with 5 buckets:
 
 ```{r}
-fc <- feature_columns(
+cols <- feature_columns(
   column_numeric("profit"),
   column_categorical_with_identity("profession", num_buckets = 5)
 )
