@@ -66,37 +66,37 @@ test_that("input_fn can be constructed correctly from list objects", {
   expect_equal(length(fake_sequence_input_fn), 2)
   expect_true(is.tensor(fake_sequence_input_fn[[1]][[1]]))
   expect_true(is.tensor(fake_sequence_input_fn[[2]]))
-  
+
   # features_as_named_list == FALSE
   fake_sequence_input_fn <- input_fn(
      object = list(
-       feature1 = list(
+       featureA = list(
          list(list(1), list(2), list(3)),
          list(list(4), list(5), list(6))),
-       feature2 = list(
+       featureB = list(
          list(list(7), list(8), list(9)),
          list(list(10), list(11), list(12))),
        response = list(
          list(1, 2, 3), list(4, 5, 6))),
-     features = c("feature1", "feature2"),
+     features = c("featureA", "featureB"),
      response = "response",
      batch_size = 10L)(FALSE)()
   expect_equal(length(fake_sequence_input_fn), 2) # features + response
   expect_true(is.tensor(fake_sequence_input_fn[[1]][[1]]))
   expect_true(is.tensor(fake_sequence_input_fn[[2]]))
-  
+
   # features_as_named_list == TRUE
   fake_sequence_input_fn <- input_fn(
     object = list(
-      feature1 = list(
+      featureA = list(
         list(list(1), list(2), list(3)),
         list(list(4), list(5), list(6))),
-      feature2 = list(
+      featureB = list(
         list(list(7), list(8), list(9)),
         list(list(10), list(11), list(12))),
       response = list(
         list(1, 2, 3), list(4, 5, 6))),
-    features = c("feature1", "feature2"),
+    features = c("featureA", "featureB"),
     response = "response",
     batch_size = 10L)(TRUE)()
   expect_equal(length(fake_sequence_input_fn), 2) # features + response
