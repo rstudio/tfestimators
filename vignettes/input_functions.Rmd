@@ -29,7 +29,12 @@ knitr::opts_chunk$set(eval = FALSE)
 
 Inputs to TensorFlow estimators are provided using an input function. Input functions take an artibrary data source (e.g. in-memory dataframe/matrix, streaming data, custom data format, etc.) and convert it into feature and label Tensors to pass on to modeling functions.
 
-The main purpose of input functions is turning raw data sources into Tensors. You can also use input functions to do feature engineering, however it's in general much better to use [feature columns](feature_columns.html) for this purpose whenever possible, as in that case the tranformations are made part of the TensorFlow graph and can be executed without an R runtime (e.g. when the model is deployed onto a device or server).
+The main purposes of input functions is:
+
+1) Turning raw data sources into Tensors. 
+2) Configuring how data is drawn during training (shuffling, batch size, epochs, etc.)
+
+You can also use input functions to do feature engineering, however it's in general much better to use [feature columns](feature_columns.html) for this purpose whenever possible, as in that case the tranformations are made part of the TensorFlow graph and can be executed without an R runtime (e.g. when the model is deployed onto a device or server).
 
 The **tfestimators** package includes an `input_fn()` method that will create an input function automatically from an existing data frame, matrix, or list. It's also possible to write a fully custom input function. Both methods of creating input functions are covered below.
 
@@ -41,7 +46,11 @@ For example, to create an input function for the **mtcars** dataset with feature
 
 ```{r}
 model %>% train(
-  input_fn(mtcars, features = c(drat, cyl), response = mpg)
+  input_fn(mtcars, 
+           features = c(drat, cyl), 
+           response = mpg,
+           batch_size = 128,
+           epochs = 3)
 )
 ```
 
@@ -49,9 +58,15 @@ Or alternatively use the R formula interface like this:
 
 ```{r}
 model %>% train(
-  input_fn(mpg ~ drat + cyl, data = mtcars)
+  input_fn(mpg ~ drat + cyl, 
+           data = mtcars,
+           batch_size = 128,
+           epochs = 3)
 )
 ```
+
+Note that `input_fn` functions provide several parameters for controlling how data is drawn from the input source. These include `batch_size` (defaults to 128), `shuffle` (default to `TRUE`), and `epochs` (defaults to 1). Note that when providing an input function for prediction you should always set `shuffle = FALSE`.
+
 
 ### Training vs. Evaluation
 
@@ -60,19 +75,21 @@ It's often the case that you'll want to use the same basic input function for tr
 For example, imagine we have already split the **mtcars** dataset into training and test subsets. We could have an input function generator like this:
 
 ```{r}
-mtcars_input_fn <- function(data) {
-  input_fn(data, features = c(drat, cyl), response = mpg)
+mtcars_input_fn <- function(data, ...) {
+  input_fn(data, features = c(drat, cyl), response = mpg, ...)
 }
 ```
 
-Then use it for training and evaluation as follows:
+The `...` parameter is used to forward additional options to `input_fn` (e.g. `shuffle = FALSE` for prediction).
+
+You would use the helper function for training and evaluation as follows:
 
 ```{r}
 # train the model
-model %>% train(mtcars_input_fn(train))
+model %>% train(mtcars_input_fn(train_data))
 
 # evaluate the model
-model %>% evaluate(mtcars_input_fn(train))
+model %>% evaluate(mtcars_input_fn(test_data))
 ```
 
 ## Matrix Input

@@ -78,18 +78,21 @@ library(tfestimators)
 
 # return an input_fn for a given subset of data
 mtcars_input_fn <- function(data) {
-  input_fn(data, features = c(disp, cyl), response = mpg)
+  input_fn(data, 
+           features = c(disp, cyl), 
+           response = mpg,
+           batch_size = 128)
 }
 ```
 
-The `input_fn` method can take an R data frame or matrix along with the names of feature and response variables and automatically create an input function for it.
+The `input_fn` method can take an R data frame or matrix along with the names of feature and response variables and automatically create an input function for it. The `batch_size` specifies the number of observations to draw for each training step.
 
 #### Feature Columns
 
 Next we define the feature columns for our model. Feature columns are mappings of raw input data to the data that we'll actually feed into our training, evaluation, and prediction steps. Here we create a list of feature columns containing the `disp` and `cyl` variables:
 
 ```{r}
-fc <- feature_columns(
+cols <- feature_columns(
   column_numeric("disp"),
   column_numeric("cyl")
 )
@@ -98,7 +101,7 @@ fc <- feature_columns(
 You can also define multiple feature columns at once:
 
 ```{r}
-fc <- feature_columns( 
+cols <- feature_columns( 
   column_numeric("disp", "cyl")
 )
 ```
@@ -110,7 +113,7 @@ By using the family of [feature column functions](reference/index.html#section-f
 We create the estimator by calling `linear_regressor()` function and passing it a set of feature columns: 
 
 ```{r}
-model <- linear_regressor(fc)
+model <- linear_regressor(feature_columns = cols)
 ```
 
 
