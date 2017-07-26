@@ -98,12 +98,13 @@ classifier <- linear_classifier(
 )
 
 # construct an input function generator
-mnist_input_fn <- function(data) {
+mnist_input_fn <- function(data, ...) {
   input_fn(
     data,
     response = "y",
     features = "x",
-    batch_size = 128
+    batch_size = 128,
+    ...
   )
 }
 
@@ -112,3 +113,40 @@ train(classifier, input_fn = mnist_input_fn(mnist$train), steps = 200)
 
 # evaluate the classifier on the test dataset
 evaluate(classifier, input_fn = mnist_input_fn(mnist$test), steps = 200)
+
+# use our classifier to predict labels for a subset of the test dataset
+predictions <- predict(
+  classifier,
+  input_fn = mnist_input_fn(mnist$test, shuffle = FALSE)
+)
+
+# plot predictions versus actual for small subset
+indices <- sample(nrow(mnist$test$x), 20)
+classes <- vapply(indices, function(i) {
+  predictions[[i]]$classes
+}, character(1))
+
+data <- array(mnist$test$x[indices, ], dim = c(n, 28, 28))
+melted <- melt(data, varnames = c("image", "x", "y"), value.name = "intensity")
+melted$class <- classes
+
+image_labels <- setNames(
+  sprintf("Predicted: %s\nActual: %s", classes, mnist$test$y[indices]),
+  1:n
+)
+
+ggplot(melted, aes(x = x, y = y, fill = intensity)) +
+  geom_tile() +
+  scale_y_reverse() +
+  facet_wrap(~ image, ncol = 5, labeller = labeller(image = image_labels)) +
+  theme(
+    panel.spacing = unit(0, "lines"),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  ) +
+  labs(
+    title = "MNIST Image Data",
+    subtitle = "Visualization of a sample of images contained in MNIST data set.",
+    x = NULL,
+    y = NULL
+  )
