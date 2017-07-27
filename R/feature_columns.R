@@ -85,8 +85,11 @@ with_column_names <- function(names, expr) {
 #'   
 #' @export
 #' @family feature_column wrappers
-column_categorical_with_vocabulary_list <- function(
-  ..., vocabulary_list, dtype = NULL, default_value = -1L, num_oov_buckets = 0L)
+column_categorical_with_vocabulary_list <- function(...,
+                                                    vocabulary_list,
+                                                    dtype = NULL,
+                                                    default_value = -1L,
+                                                    num_oov_buckets = 0L)
 {
   create_columns(..., f = function(column) {
     feature_column_lib$categorical_column_with_vocabulary_list(
@@ -139,9 +142,12 @@ column_categorical_with_vocabulary_list <- function(
 #' @importFrom tidyselect vars_select quos
 #' 
 #' @export
-column_categorical_with_vocabulary_file <- function(
-  ..., vocabulary_file, vocabulary_size, num_oov_buckets = 0L,
-  default_value = NULL, dtype = tf$string)
+column_categorical_with_vocabulary_file <- function(...,
+                                                    vocabulary_file,
+                                                    vocabulary_size,
+                                                    num_oov_buckets = 0L,
+                                                    default_value = NULL,
+                                                    dtype = tf$string)
 {
   create_columns(..., f = function(column) {
     feature_column_lib$categorical_column_with_vocabulary_file(
@@ -185,7 +191,10 @@ column_categorical_with_vocabulary_file <- function(
 #'   
 #' @family feature_column wrappers
 #' @export
-column_categorical_with_identity <- function(..., num_buckets, default_value = NULL) {
+column_categorical_with_identity <- function(...,
+                                             num_buckets,
+                                             default_value = NULL)
+{
   create_columns(..., f = function(column) {
     feature_column_lib$categorical_column_with_identity(
       key = column,
@@ -237,9 +246,10 @@ column_indicator <- function(categorical_column) {
 #' @family feature_column wrappers
 #'   
 #' @export
-column_categorical_with_hash_bucket <- function(..., hash_bucket_size, dtype = tf$string) {
-  
-  
+column_categorical_with_hash_bucket <- function(...,
+                                                hash_bucket_size,
+                                                dtype = tf$string)
+{
   hash_bucket_size <- as.integer(hash_bucket_size)
   if (hash_bucket_size <= 1) {
     stop("hash_bucket_size must be larger than 1")
@@ -291,7 +301,12 @@ column_categorical_with_hash_bucket <- function(..., hash_bucket_size, dtype = t
 #' @family feature_column wrappers
 #'
 #' @export
-column_numeric <- function(..., shape = list(1L), default_value = NULL, dtype = tf$float32, normalizer_fn = NULL) {
+column_numeric <- function(...,
+                           shape = list(1L),
+                           default_value = NULL,
+                           dtype = tf$float32,
+                           normalizer_fn = NULL)
+{
   create_columns(..., f = function(column) {
     feature_column_lib$numeric_column(
       key = column,
@@ -343,7 +358,15 @@ column_numeric <- function(..., shape = list(1L), default_value = NULL, dtype = 
 #' @family feature_column wrappers
 #'   
 #' @export
-column_embedding <- function(categorical_column, dimension, combiner = "mean", initializer = NULL, ckpt_to_load_from = NULL, tensor_name_in_ckpt = NULL, max_norm = NULL, trainable = TRUE) {
+column_embedding <- function(categorical_column,
+                             dimension,
+                             combiner = "mean",
+                             initializer = NULL,
+                             ckpt_to_load_from = NULL,
+                             tensor_name_in_ckpt = NULL,
+                             max_norm = NULL,
+                             trainable = TRUE)
+{
   feature_column_lib$embedding_column(
     categorical_column = categorical_column,
     dimension = as.integer(dimension),
@@ -385,8 +408,10 @@ column_embedding <- function(categorical_column, dimension, combiner = "mean", i
 #' @family feature_column wrappers
 #'   
 #' @export
-column_crossed <- function(keys, hash_bucket_size, hash_key = NULL) {
-  
+column_crossed <- function(keys,
+                           hash_bucket_size,
+                           hash_key = NULL)
+{
   hash_bucket_size <- as.integer(hash_bucket_size)
   if (hash_bucket_size <= 1) {
     stop("hash_bucket_size must be larger than 1")
@@ -422,7 +447,10 @@ column_crossed <- function(keys, hash_bucket_size, hash_key = NULL) {
 #' @family feature_column wrappers
 #'   
 #' @export
-column_weighted_categorical <- function(categorical_column, weight_feature_key, dtype = tf$float32) {
+column_weighted_categorical <- function(categorical_column,
+                                        weight_feature_key,
+                                        dtype = tf$float32)
+{
   feature_column_lib$weighted_categorical_column(
     categorical_column = categorical_column,
     weight_feature_key = weight_feature_key,
@@ -498,7 +526,11 @@ column_bucketized <- function(source_column, boundaries) {
 #'   
 #' @family feature_column wrappers
 #' @export
-input_layer <- function(features, feature_columns, weight_collections = NULL, trainable = TRUE) {
+input_layer <- function(features,
+                        feature_columns,
+                        weight_collections = NULL,
+                        trainable = TRUE)
+{
   tf$feature_column$input_layer(
     features = features,
     feature_columns = feature_columns,
