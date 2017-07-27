@@ -100,12 +100,12 @@ There are a wide variety of feature column functions available:
 |---------------------------------------|----------------------------------------------------------------|
 | `column_indicator()`  | Represents multi-hot representation of given categorical column.   |
 | `column_numeric()`  |  Represents real valued or numerical features.  |
-| `column_embedding()`  | Creates an _DenseColumn that converts from sparse, categorical input.   |
+| `column_embedding()`  | Creates an dense column that converts from sparse, categorical input.   |
 | `column_bucketized()`  | Represents discretized dense input.   |
-| `column_weighted_categorical()`  | Applies weight values to a _CategoricalColumn.   |
-| `column_categorical_with_vocabulary_list()`  | 	Creates a _CategoricalColumn with in-memory vocabulary. |
-| `column_categorical_with_vocabulary_file()`  | Creates a _CategoricalColumn with a vocabulary file.   |
-| `column_categorical_with_identity()`  | Creates a _CategoricalColumn that returns identity values.   |
+| `column_categorical_weighted()`  | Applies weight values to a categorical column.   |
+| `column_categorical_with_vocabulary_list()`  | 	Creates a categorical column with in-memory vocabulary. |
+| `column_categorical_with_vocabulary_file()`  | Creates a categorical column with a vocabulary file.   |
+| `column_categorical_with_identity()`  | Creates a categorical column that returns identity values.   |
 | `column_categorical_with_hash_bucket()`  | Represents sparse feature where ids are set by hashing.   |
 
 

@@ -85,11 +85,11 @@ reference:
       - column_categorical_with_vocabulary_file
       - column_categorical_with_identity
       - column_categorical_with_hash_bucket
+      - column_categorical_weighted
       - column_indicator
       - column_numeric
       - column_embedding
       - column_crossed
-      - column_weighted_categorical
       - column_bucketized
       - set_column_names
 
