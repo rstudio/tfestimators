@@ -12,8 +12,9 @@
 #' @param features The names of features to be used
 #' @param response The response variable name to be used
 #' @param batch_size The size of batches
-#' @param shuffle Whether to shuffles the queue. Avoid shuffle at prediction 
-#'   time
+#' @param shuffle Whether to shuffle the queue. When \code{"auto"} (the default),
+#'   shuffling will be performed except when this input function is called by
+#'   a \code{predict()} method.
 #' @param num_epochs The number of epochs to iterate over data. If `NULL` will 
 #'   run forever.
 #' @param queue_capacity The size of queue to accumulate.
@@ -59,7 +60,7 @@ input_fn.data.frame <- function(object,
                                 features,
                                 response = NULL,
                                 batch_size = 128,
-                                shuffle = TRUE,
+                                shuffle = "auto",
                                 num_epochs = 1,
                                 queue_capacity = 1000,
                                 num_threads = 1)
@@ -73,6 +74,23 @@ input_fn.data.frame <- function(object,
   batch_size <- as.integer(batch_size)
   queue_capacity <- as.integer(queue_capacity)
   num_threads <- as.integer(num_threads)
+  
+  # convert 'shuffle' at runtime based on call context
+  resolve_shuffle <- function(shuffle) {
+    
+    if (!identical(shuffle, "auto"))
+      return(shuffle)
+    
+    # check to see if we're being called by a predict method
+    calls <- sys.calls()
+    match <- Find(function(call) {
+      identical(call[[1]], quote(predict.tf_estimator)) ||
+      identical(call[[1]], quote(object$estimator$predict))
+    }, calls)
+    
+    # prefer shuffling if we're not within predict
+    is.null(match)
+  }
   
   # coerce vectors to a TensorFlow-friendly format when appropriate
   coerce <- function(variable) {
@@ -153,6 +171,7 @@ input_fn.data.frame <- function(object,
   # return function which provides canned vs custom input function
   # as requested
   function(estimator) {
+    shuffle <<- resolve_shuffle(shuffle)
     if (inherits(estimator, "tf_custom_estimator"))
       return(custom_input_fn_generator())
     else
@@ -273,4 +292,3 @@ normalize_input_fn <- function(object, input_fn) {
   # other function signatures are errors
   stop("'input_fn' should accept 0 or 1 arguments")
 }
-
