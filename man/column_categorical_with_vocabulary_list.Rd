@@ -2,14 +2,14 @@
 % Please edit documentation in R/feature_columns.R
 \name{column_categorical_with_vocabulary_list}
 \alias{column_categorical_with_vocabulary_list}
-\title{A \code{_CategoricalColumn} with in-memory vocabulary.}
+\title{Construct a Categorical Column with In-Memory Vocabulary}
 \usage{
 column_categorical_with_vocabulary_list(..., vocabulary_list, dtype = NULL,
   default_value = -1L, num_oov_buckets = 0L)
 }
 \arguments{
-\item{...}{Expression(s) identifying input feature(s). Used as the column name
-and the dictionary key for feature parsing configs, feature \code{Tensor}
+\item{...}{Expression(s) identifying input feature(s). Used as the column
+name and the dictionary key for feature parsing configs, feature \code{Tensor}
 objects, and feature columns.}
 
 \item{vocabulary_list}{An ordered iterable defining the vocabulary. Each
@@ -28,13 +28,13 @@ input value. A positive \code{num_oov_buckets} can not be specified with
 \code{default_value}.}
 }
 \value{
-A \code{_CategoricalColumn} with in-memory vocabulary.
+A categorical column with in-memory vocabulary.
 }
 \description{
 Use this when your inputs are in string or integer format, and you have an
 in-memory vocabulary mapping each value to an integer ID. By default,
 out-of-vocabulary values are ignored. Use \code{default_value} to specify how to
-include out-of-vocabulary values. For input dictionary \code{features},
+include out-of-vocabulary values. For the input dictionary \code{features},
 \code{features$key} is either \code{Tensor} or \code{SparseTensor}. If \code{Tensor}, missing
 values can be represented by \code{-1} for int and \code{''} for string.
 }
@@ -47,13 +47,12 @@ duplicate keys. ValueError: if \code{dtype} is not integer or string.
 }
 
 \seealso{
-Other feature_column wrappers: \code{\link{column_bucketized}},
+Other feature column constructors: \code{\link{column_bucketized}},
+  \code{\link{column_categorical_weighted}},
   \code{\link{column_categorical_with_hash_bucket}},
   \code{\link{column_categorical_with_identity}},
   \code{\link{column_categorical_with_vocabulary_file}},
   \code{\link{column_crossed}},
   \code{\link{column_embedding}},
-  \code{\link{column_numeric}},
-  \code{\link{column_weighted_categorical}},
-  \code{\link{input_layer}}
+  \code{\link{column_numeric}}, \code{\link{input_layer}}
 }

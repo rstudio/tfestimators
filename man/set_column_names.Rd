@@ -3,7 +3,7 @@
 \name{set_column_names}
 \alias{set_column_names}
 \alias{with_column_names}
-\title{Set available feature column names}
+\title{Set Available Feature Column Names}
 \usage{
 set_column_names(names)
 
@@ -15,7 +15,7 @@ with_column_names(names, expr)
 \item{expr}{Expression to evaluate with column names set.}
 }
 \value{
-Previously set column names (invisibly)
+The previously set feature column names (invisibly).
 }
 \description{
 Provide a list of names (or an R object with \code{names()} or \code{colnames()}) which

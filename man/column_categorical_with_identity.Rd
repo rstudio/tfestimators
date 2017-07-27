@@ -2,13 +2,13 @@
 % Please edit documentation in R/feature_columns.R
 \name{column_categorical_with_identity}
 \alias{column_categorical_with_identity}
-\title{A \code{_CategoricalColumn} that returns identity values.}
+\title{Construct a Categorical Column that Returns Identity Values}
 \usage{
 column_categorical_with_identity(..., num_buckets, default_value = NULL)
 }
 \arguments{
-\item{...}{Expression(s) identifying input feature(s). Used as the column name
-and the dictionary key for feature parsing configs, feature \code{Tensor}
+\item{...}{Expression(s) identifying input feature(s). Used as the column
+name and the dictionary key for feature parsing configs, feature \code{Tensor}
 objects, and feature columns.}
 
 \item{num_buckets}{Number of unique values.}
@@ -17,7 +17,7 @@ objects, and feature columns.}
 out-of-range inputs. Otherwise, this value must be in the range \code{[0, num_buckets)}, and will replace inputs in that range.}
 }
 \value{
-A \code{_CategoricalColumn} that returns identity values.
+A categorical column that returns identity values.
 }
 \description{
 Use this when your inputs are integers in the range \code{[0, num_buckets)}, and
@@ -41,13 +41,12 @@ if \code{default_value} is not in range \code{[0, num_buckets)}.
 }
 
 \seealso{
-Other feature_column wrappers: \code{\link{column_bucketized}},
+Other feature column constructors: \code{\link{column_bucketized}},
+  \code{\link{column_categorical_weighted}},
   \code{\link{column_categorical_with_hash_bucket}},
   \code{\link{column_categorical_with_vocabulary_file}},
   \code{\link{column_categorical_with_vocabulary_list}},
   \code{\link{column_crossed}},
   \code{\link{column_embedding}},
-  \code{\link{column_numeric}},
-  \code{\link{column_weighted_categorical}},
-  \code{\link{input_layer}}
+  \code{\link{column_numeric}}, \code{\link{input_layer}}
 }

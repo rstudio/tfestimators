@@ -2,7 +2,7 @@
 % Please edit documentation in R/feature_columns.R
 \name{input_layer}
 \alias{input_layer}
-\title{Returns a dense \code{Tensor} as input layer based on given \code{feature_columns}.}
+\title{Construct an Input Layer}
 \usage{
 input_layer(features, feature_columns, weight_collections = NULL,
   trainable = TRUE)
@@ -32,12 +32,19 @@ A \code{Tensor} which represents input layer of a model. Its shape is
 first_layer_dimension is determined based on given \code{feature_columns}.
 }
 \description{
-Generally a single example in training data is described with FeatureColumns.
+Returns a dense \code{Tensor} as input layer based on given \code{feature_columns}.
 At the first layer of the model, this column oriented data should be converted
-to a single \code{Tensor}. Example:
+to a single \code{Tensor}.
 }
-\details{
-\preformatted{price <- column_numeric('price')
+\section{Raises}{
+ ValueError: if an item in \code{feature_columns} is not a
+dense column.
+}
+
+\examples{
+
+\dontrun{
+#' price <- column_numeric('price')
 keywords_embedded <- column_embedding(categorical_column_with_hash_bucket("keywords", 1000), dimensions = 16)
 columns <- c(price, keywords_embedded, ...)
 features <- tf$parse_example(..., features = make_parse_example_spec(columns))
@@ -45,19 +52,14 @@ dense_tensor <- input_layer(features, columns)
 prediction <- tf$layers$dense(dense_tensor, 1)
 }
 }
-\section{Raises}{
- ValueError: if an item in \code{feature_columns} is not a
-\code{_DenseColumn}.
-}
-
 \seealso{
-Other feature_column wrappers: \code{\link{column_bucketized}},
+Other feature column constructors: \code{\link{column_bucketized}},
+  \code{\link{column_categorical_weighted}},
   \code{\link{column_categorical_with_hash_bucket}},
   \code{\link{column_categorical_with_identity}},
   \code{\link{column_categorical_with_vocabulary_file}},
   \code{\link{column_categorical_with_vocabulary_list}},
   \code{\link{column_crossed}},
   \code{\link{column_embedding}},
-  \code{\link{column_numeric}},
-  \code{\link{column_weighted_categorical}}
+  \code{\link{column_numeric}}
 }

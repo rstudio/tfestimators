@@ -2,31 +2,32 @@
 % Please edit documentation in R/feature_columns.R
 \name{column_numeric}
 \alias{column_numeric}
-\title{Represents real valued or numerical features.}
+\title{Construct a Real-Valued Column}
 \usage{
-column_numeric(..., shape = list(1L), default_value = NULL,
+column_numeric(..., shape = c(1L), default_value = NULL,
   dtype = tf$float32, normalizer_fn = NULL)
 }
 \arguments{
-\item{...}{Expression(s) identifying input feature(s). Used as the column name
-and the dictionary key for feature parsing configs, feature \code{Tensor}
+\item{...}{Expression(s) identifying input feature(s). Used as the column
+name and the dictionary key for feature parsing configs, feature \code{Tensor}
 objects, and feature columns.}
 
-\item{shape}{An iterable of integers specifies the shape of the \code{Tensor}. An
+\item{shape}{An integer vector that specifies the shape of the \code{Tensor}. An
 integer can be given which means a single dimension \code{Tensor} with given
 width. The \code{Tensor} representing the column will have the shape of
-\link{batch_size} + \code{shape}.}
+\code{batch_size + shape}.}
 
 \item{default_value}{A single value compatible with \code{dtype} or an iterable of
-values compatible with \code{dtype} which the column takes on during
-\code{tf.Example} parsing if data is missing. A default value of \code{NULL} will
-cause \code{tf.parse_example} to fail if an example does not contain this
-column. If a single value is provided, the same value will be applied as
-the default value for every item. If an iterable of values is provided, the
-shape of the \code{default_value} should be equal to the given \code{shape}.}
+values compatible with \code{dtype} which the column takes on during parsing if
+data is missing. A default value of \code{NULL} will cause \code{tf.parse_example} to
+fail if an example does not contain this column. If a single value is
+provided, the same value will be applied as the default value for every
+item. If an iterable of values is provided, the shape of the
+\code{default_value} should be equal to the given \code{shape}.}
 
-\item{dtype}{defines the type of values. Default value is \code{tf.float32}. Must
-be a non-quantized, real integer or floating point type.}
+\item{dtype}{The types for values contained in the column. The default value
+is \code{tf$float32}. Must be a non-quantized, real integer or floating point
+type.}
 
 \item{normalizer_fn}{If not \code{NULL}, a function that can be used to normalize
 the value of the tensor after \code{default_value} is applied for parsing.
@@ -34,31 +35,28 @@ Normalizer function takes the input \code{Tensor} as its argument, and returns
 the output \code{Tensor}. (e.g. lambda x: (x - 3.0) / 4.2). Please note that
 even though the most common use case of this function is normalization, it
 can be used for any kind of Tensorflow transformations.}
-
-\item{fc}{Feature columns}
 }
 \value{
-A \code{_NumericColumn}.
+A numeric column.
 }
 \description{
-Represents real valued or numerical features.
+Construct a Real-Valued Column
 }
 \section{Raises}{
  TypeError: if any dimension in shape is not an int
 ValueError: if any dimension in shape is not a positive integer TypeError:
 if \code{default_value} is an iterable but not compatible with \code{shape}
 TypeError: if \code{default_value} is not compatible with \code{dtype}. ValueError:
-if \code{dtype} is not convertible to \code{tf.float32}.
+if \code{dtype} is not convertible to \code{tf$float32}.
 }
 
 \seealso{
-Other feature_column wrappers: \code{\link{column_bucketized}},
+Other feature column constructors: \code{\link{column_bucketized}},
+  \code{\link{column_categorical_weighted}},
   \code{\link{column_categorical_with_hash_bucket}},
   \code{\link{column_categorical_with_identity}},
   \code{\link{column_categorical_with_vocabulary_file}},
   \code{\link{column_categorical_with_vocabulary_list}},
   \code{\link{column_crossed}},
-  \code{\link{column_embedding}},
-  \code{\link{column_weighted_categorical}},
-  \code{\link{input_layer}}
+  \code{\link{column_embedding}}, \code{\link{input_layer}}
 }

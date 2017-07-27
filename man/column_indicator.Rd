@@ -2,16 +2,16 @@
 % Please edit documentation in R/feature_columns.R
 \name{column_indicator}
 \alias{column_indicator}
-\title{Represents multi-hot representation of given categorical column.}
+\title{Represents Multi-Hot Representation of Given Categorical Column}
 \usage{
 column_indicator(categorical_column)
 }
 \arguments{
-\item{categorical_column}{A \code{_CategoricalColumn} which is created by
-\code{categorical_column_with_*} or \code{crossed_column} functions.}
+\item{categorical_column}{A categorical column which is created by
+the \code{categorical_column_with_*()} or \code{crossed_column()} functions.}
 }
 \value{
-An \code{_IndicatorColumn}.
+An indicator column.
 }
 \description{
 Used to wrap any \code{categorical_column_*} (e.g., to feed to DNN). Use

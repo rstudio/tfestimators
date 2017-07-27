@@ -2,31 +2,29 @@
 % Please edit documentation in R/feature_columns.R
 \name{column_embedding}
 \alias{column_embedding}
-\title{\code{_DenseColumn} that converts from sparse, categorical input.}
+\title{Construct a Dense Column}
 \usage{
 column_embedding(categorical_column, dimension, combiner = "mean",
   initializer = NULL, ckpt_to_load_from = NULL,
   tensor_name_in_ckpt = NULL, max_norm = NULL, trainable = TRUE)
 }
 \arguments{
-\item{categorical_column}{A \code{_CategoricalColumn} created by a
-\code{categorical_column_with_*} function. This column produces the sparse IDs
+\item{categorical_column}{A categorical column created by a
+\code{column_categorical_*()} function. This column produces the sparse IDs
 that are inputs to the embedding lookup.}
 
-\item{dimension}{An integer specifying dimension of the embedding, must be >
-0.}
+\item{dimension}{A positive integer, specifying dimension of the embedding.}
 
 \item{combiner}{A string specifying how to reduce if there are multiple
-entries in a single row. Currently 'mean', 'sqrtn' and 'sum' are supported,
-with 'mean' the default. 'sqrtn' often achieves good accuracy, in
-particular with bag-of-words columns. Each of this can be thought as
-example level normalizations on the column. For more information, see
-\code{tf.embedding_lookup_sparse}.}
+entries in a single row. Currently \code{"mean"}, \code{"sqrtn"} and \code{"sum"} are
+supported, with \code{"mean"} the default. \code{"sqrtn"}' often achieves good
+accuracy, in particular with bag-of-words columns. Each of this can be
+thought as example level normalizations on the column.}
 
 \item{initializer}{A variable initializer function to be used in embedding
 variable initialization. If not specified, defaults to
-\code{tf.truncated_normal_initializer} with mean \code{0.0} and standard deviation
-\code{1/sqrt(dimension)}.}
+\code{tf$truncated_normal_initializer} with mean \code{0.0} and standard deviation
+\code{1 / sqrt(dimension)}.}
 
 \item{ckpt_to_load_from}{String representing checkpoint name/pattern from
 which to restore column weights. Required if \code{tensor_name_in_ckpt} is not
@@ -42,12 +40,13 @@ value.}
 \item{trainable}{Whether or not the embedding is trainable. Default is TRUE.}
 }
 \value{
-\code{_DenseColumn} that converts from sparse input.
+A dense column that converts from sparse input.
 }
 \description{
 Use this when your inputs are sparse, but you want to convert them to a dense
 representation (e.g., to feed to a DNN). Inputs must be a
-\code{_CategoricalColumn} created by any of the \code{categorical_column_*} function.
+categorical column created by any of the \code{column_categorical_*()}
+functions.
 }
 \section{Raises}{
  ValueError: if \code{dimension} not > 0. ValueError: if exactly
@@ -56,13 +55,12 @@ ValueError: if \code{initializer} is specified and is not callable.
 }
 
 \seealso{
-Other feature_column wrappers: \code{\link{column_bucketized}},
+Other feature column constructors: \code{\link{column_bucketized}},
+  \code{\link{column_categorical_weighted}},
   \code{\link{column_categorical_with_hash_bucket}},
   \code{\link{column_categorical_with_identity}},
   \code{\link{column_categorical_with_vocabulary_file}},
   \code{\link{column_categorical_with_vocabulary_list}},
   \code{\link{column_crossed}},
-  \code{\link{column_numeric}},
-  \code{\link{column_weighted_categorical}},
-  \code{\link{input_layer}}
+  \code{\link{column_numeric}}, \code{\link{input_layer}}
 }

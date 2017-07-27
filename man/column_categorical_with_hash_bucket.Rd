@@ -2,13 +2,13 @@
 % Please edit documentation in R/feature_columns.R
 \name{column_categorical_with_hash_bucket}
 \alias{column_categorical_with_hash_bucket}
-\title{Represents sparse feature where ids are set by hashing.}
+\title{Represents Sparse Feature where IDs are set by Hashing}
 \usage{
 column_categorical_with_hash_bucket(..., hash_bucket_size, dtype = tf$string)
 }
 \arguments{
-\item{...}{Expression(s) identifying input feature(s). Used as the column name
-and the dictionary key for feature parsing configs, feature \code{Tensor}
+\item{...}{Expression(s) identifying input feature(s). Used as the column
+name and the dictionary key for feature parsing configs, feature \code{Tensor}
 objects, and feature columns.}
 
 \item{hash_bucket_size}{An int > 1. The number of buckets.}
@@ -34,13 +34,12 @@ ValueError: \code{dtype} is neither string nor integer.
 }
 
 \seealso{
-Other feature_column wrappers: \code{\link{column_bucketized}},
+Other feature column constructors: \code{\link{column_bucketized}},
+  \code{\link{column_categorical_weighted}},
   \code{\link{column_categorical_with_identity}},
   \code{\link{column_categorical_with_vocabulary_file}},
   \code{\link{column_categorical_with_vocabulary_list}},
   \code{\link{column_crossed}},
   \code{\link{column_embedding}},
-  \code{\link{column_numeric}},
-  \code{\link{column_weighted_categorical}},
-  \code{\link{input_layer}}
+  \code{\link{column_numeric}}, \code{\link{input_layer}}
 }
