@@ -15,10 +15,9 @@ dynamic_rnn(problem_type, prediction_type, sequence_feature_columns,
 Dynamic RNN Estimator
 }
 \seealso{
-Other canned estimators: \code{\link{dnn_classifier}},
+Other canned estimators: \code{\link{dnn_estimators}},
   \code{\link{dnn_linear_combined_classifier}},
   \code{\link{dnn_linear_combined_regressor}},
-  \code{\link{dnn_regressor}},
   \code{\link{linear_classifier}},
   \code{\link{linear_regressor}},
   \code{\link{state_saving_rnn}}

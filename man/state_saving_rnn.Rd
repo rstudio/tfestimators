@@ -16,10 +16,10 @@ state_saving_rnn(problem_type, num_unroll, batch_size, sequence_feature_columns,
 State Saving RNN Estimator
 }
 \seealso{
-Other canned estimators: \code{\link{dnn_classifier}},
+Other canned estimators: \code{\link{dnn_estimators}},
   \code{\link{dnn_linear_combined_classifier}},
   \code{\link{dnn_linear_combined_regressor}},
-  \code{\link{dnn_regressor}}, \code{\link{dynamic_rnn}},
+  \code{\link{dynamic_rnn}},
   \code{\link{linear_classifier}},
   \code{\link{linear_regressor}}
 }

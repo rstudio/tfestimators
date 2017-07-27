@@ -41,10 +41,10 @@ Train a linear regression model to predict label value given observation of
 feature values.
 }
 \seealso{
-Other canned estimators: \code{\link{dnn_classifier}},
+Other canned estimators: \code{\link{dnn_estimators}},
   \code{\link{dnn_linear_combined_classifier}},
   \code{\link{dnn_linear_combined_regressor}},
-  \code{\link{dnn_regressor}}, \code{\link{dynamic_rnn}},
+  \code{\link{dynamic_rnn}},
   \code{\link{linear_classifier}},
   \code{\link{state_saving_rnn}}
 }
