@@ -36,16 +36,16 @@
 #'   labels which will be fed into the model.
 #' 
 #' @export
-SVM <- function(example_id_column,
-                feature_columns,
-                weight_column_name = NULL,
-                model_dir = NULL,
-                l1_regularization = 0.0,
-                l2_regularization = 0.0,
-                num_loss_partitions = 1L,
-                kernels = NULL,
-                config = NULL,
-                feature_engineering_fn = NULL)
+svm_classifier <- function(example_id_column,
+                           feature_columns,
+                           weight_column_name = NULL,
+                           model_dir = NULL,
+                           l1_regularization = 0.0,
+                           l2_regularization = 0.0,
+                           num_loss_partitions = 1L,
+                           kernels = NULL,
+                           config = NULL,
+                           feature_engineering_fn = NULL)
 {
   estimator <- tf$contrib$learn$SVM(
     example_id_column = example_id_column,
