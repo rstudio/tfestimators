@@ -1,14 +1,5 @@
-#' Pipe operator
-#'
-#' See \code{\link[magrittr]{\%>\%}} for more details.
-#'
-#' @name %>%
-#' @rdname pipe
-#' @keywords internal
 #' @export
-#' @import magrittr
-#' @usage lhs \%>\% rhs
-NULL
+magrittr::`%>%`
 
 #' @export
 reticulate::use_python
@@ -32,28 +23,22 @@ tensorflow::tf_config
 tensorflow::tensorboard
 
 
-#' @importFrom tidyselect starts_with
-#' @export starts_with
+#' @export
 tidyselect::starts_with
 
-#' @importFrom tidyselect ends_with
-#' @export ends_with
+#' @export
 tidyselect::ends_with
 
-#' @importFrom tidyselect contains
-#' @export contains
+#' @export
 tidyselect::contains
 
-#' @importFrom tidyselect matches
-#' @export matches
+#' @export
 tidyselect::matches
 
-#' @importFrom tidyselect everything
-#' @export everything
+#' @export
 tidyselect::everything
 
-#' @importFrom tidyselect one_of
-#' @export one_of
+#' @export
 tidyselect::one_of
 
 

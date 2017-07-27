@@ -55,7 +55,7 @@ size of the last dimension of the labels and logits \code{Tensor} objects
 (typically, these have shape \code{[batch_size, label_dimension]}).}
 
 \item{weight_column}{A string or a \code{_NumericColumn} created by
-\code{\link[=numeric_column]{numeric_column()}} defining feature column representing weights. It is used
+\code{\link[=column_numeric]{column_numeric()}} defining feature column representing weights. It is used
 to down weight or boost examples during training. It will be multiplied by
 the loss of the example. If it is a string, it is used as a key to fetch
 weight tensor from the \code{features} argument. If it is a \code{_NumericColumn},

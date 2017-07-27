@@ -228,6 +228,7 @@ export_savedmodel.tf_estimator <- function(object,
 
 #' Get the list coefficients or variables from this model's checkpoint.
 #'
+#' @importFrom stats coef
 #' @export
 #' @family custom estimator methods
 coef.tf_estimator <- function(object, ...) {

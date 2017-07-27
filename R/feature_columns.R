@@ -538,7 +538,6 @@ input_layer <- function(features,
   )
 }
 
-#' @importFrom tidyselect vars_select quos
 create_columns <- function(..., f) {
 
   columns <- if (have_active_column_names())
