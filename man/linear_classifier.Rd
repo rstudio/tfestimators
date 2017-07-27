@@ -50,8 +50,7 @@ classes. When number of possible classes is 2, this is binary classification.
 }
 \seealso{
 Other canned estimators: \code{\link{dnn_estimators}},
-  \code{\link{dnn_linear_combined_classifier}},
-  \code{\link{dnn_linear_combined_regressor}},
+  \code{\link{dnn_linear_combined_estimators}},
   \code{\link{dynamic_rnn}},
   \code{\link{linear_regressor}},
   \code{\link{state_saving_rnn}}
