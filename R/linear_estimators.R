@@ -20,7 +20,7 @@
 #'   is fetched by key `weight_column.key`, then weight_column.normalizer_fn is
 #'   applied on it to get weight tensor.
 #' @param optimizer An instance of `tf.Optimizer` used to train the model.
-#'   Defaults to FTRL optimizer.
+#'   Defaults to the FTRL optimizer.
 #' @param config `RunConfig` object to configure the runtime settings.
 #' @param partitioner Optional. Partitioner for input layer.
 #'
@@ -78,7 +78,7 @@ linear_regressor <- function(feature_columns,
 #'   integer values in {0, 1,..., n_classes-1} for `n_classes`>2 . Also there
 #'   will be errors if vocabulary is not provided and labels are string.
 #' @param optimizer An instance of `tf.Optimizer` used to train the model.
-#'   Defaults to FTRL optimizer.
+#'   Defaults to the FTRL optimizer.
 #' @param config `RunConfig` object to configure the runtime settings.
 #' @param partitioner Optional. Partitioner for input layer.
 #'

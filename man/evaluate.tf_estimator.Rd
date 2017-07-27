@@ -8,6 +8,8 @@
   checkpoint_path = NULL, name = NULL, hooks = NULL, ...)
 }
 \arguments{
+\item{object}{A TensorFlow estimator.}
+
 \item{input_fn}{Input function returning a list of: features - Dictionary of
 string feature name to \code{Tensor} or \code{SparseTensor}. labels - \code{Tensor} or
 dictionary of \code{Tensor} with labels.}
@@ -25,6 +27,9 @@ in tensorboard.}
 
 \item{hooks}{List of \code{SessionRunHook} subclass instances. Used for callbacks
 inside the evaluation call.}
+
+\item{...}{Optional arguments passed on to the estimator's \code{evaluate()}
+method.}
 }
 \value{
 A dict containing the evaluation metrics specified in \code{model_fn}

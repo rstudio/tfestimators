@@ -1,4 +1,3 @@
-#' @export
 tf_experiment <- function(experiment) {
   structure(
     list(experiment = experiment),
@@ -23,6 +22,9 @@ tf_experiment <- function(experiment) {
 #' result of the `evaluate` call to the `Estimator` as well as the export
 #' results using the specified `ExportStrategy`.
 #' 
+#' @param object A TensorFlow experiment.
+#' @param ... Optional arguments, passed to the experiment's `train_and_evaluate()`
+#'   method.
 #' 
 #' @return The result of the `evaluate` call to the `Estimator` as well as the
 #'   export results using the specified `ExportStrategy`.
@@ -41,8 +43,11 @@ train_and_evaluate.tf_experiment <- function(object, ...) {
 #' `delay_secs` seconds, or if it's `NULL`, defaults to using 
 #' `self._eval_delay_secs` seconds.
 #' 
+#' @template roxlate-object-experiment
 #' @param delay_secs Start evaluating after this many seconds. If `NULL`,
 #'   defaults to using `self._eval_delays_secs`.
+#' @param ... Optional arguments passed on to the experiment's `evaluate()`
+#'   method.
 #'   
 #' @return The result of the `evaluate` call to the `Estimator`.
 #'   
@@ -64,7 +69,9 @@ evaluate.tf_experiment <- function(object,
 #' Train the estimator for `self._train_steps` steps, after waiting for 
 #' `delay_secs` seconds. If `self._train_steps` is `NULL`, train forever.
 #' 
+#' @param object A TensorFlow experiment object.
 #' @param delay_secs Start training after this many seconds.
+#' @param ... Optional arguments passed to the estimator's `train()` method.
 #'   
 #' @return The trained estimator.
 #' @export
@@ -81,12 +88,15 @@ train.tf_experiment <- function(object,
   invisible(result)
 }
 
-#' Experiment constructor
+#' Construct an Experiment
 #' 
 #' An Experiment contains all information needed to train a model. After an
 #' experiment is created (by passing an Estimator and inputs for training and
 #' evaluation), an Experiment instance knows how to invoke training and eval
 #' loops in a sensible fashion for distributed training.
+#' 
+#' @template roxlate-object-estimator
+#' 
 #' @param train_input_fn function, returns features and labels for training.
 #' @param eval_input_fn function, returns features and labels for evaluation. 
 #'   If`eval_steps` is `None`, this should be configured only to produce for a 
@@ -109,11 +119,11 @@ train.tf_experiment <- function(object,
 #' @param continuous_eval_throttle_secs Do not re-evaluate unless the last
 #'   evaluation was started at least this many seconds ago for
 #'   continuous_eval().
-#' @param min_eval_frequency: (applies only to train_and_evaluate). the minimum 
-#'   number of steps between evaluations. Of course, evaluation does not occur
-#'   if no new snapshot is available, hence, this is the minimum. If 0, the
-#'   evaluation will only happen after training. If NULL, defaults to 1, unless
-#'   model_dir is on GCS, in which case the default is 1000.
+#' @param min_eval_frequency The minimum number of steps between evaluations. Of
+#'   course, evaluation does not occur if no new snapshot is available, hence,
+#'   this is the minimum. If 0, the evaluation will only happen after training.
+#'   If NULL, defaults to 1, unless model_dir is on GCS, in which case the
+#'   default is 1000.
 #' @param delay_workers_by_global_step if `TRUE` delays training workers based 
 #'   on global step instead of time.
 #' @param export_strategies Iterable of `ExportStrategy`s, or a single one, or
@@ -123,6 +133,8 @@ train.tf_experiment <- function(object,
 #'   training-evaluation iteration. With a small value, the model will be
 #'   evaluated more frequently with more checkpoints saved. If `NULL`, will use
 #'   a default value (which is smaller than `train_steps` if provided).
+#' @param ... Optional arguments passed on to the \code{Experiment} constructor.
+#' 
 #' @export
 #' @family experiment methods
 experiment.tf_estimator <- function(object,

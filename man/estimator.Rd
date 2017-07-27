@@ -36,6 +36,8 @@ are \code{NULL}, a temporary directory will be used.}
 
 \item{params}{\code{dict} of hyper parameters that will be passed into \code{model_fn}.
 Keys are names of parameters, values are basic python types.}
+
+\item{class}{An optional set of \R classes to add to the generated object.}
 }
 \description{
 This is the core Estimator class to train and evaluate TensorFlow models.

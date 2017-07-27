@@ -1,32 +1,29 @@
-#' Input function constructor
+#' Construct an Input Function
 #' 
-#' This function constructs input function from various types of input used to feed the
-#' estimator.
+#' This function constructs input function from various types of input used to
+#' feed different TensorFlow estimators.
 #' 
 #' For list objects, this method is particularly useful when constructing
 #' dynamic length of inputs for models like recurrent neural networks. Note that
 #' some arguments are not available yet for input_fn applied to list objects. 
 #' See S3 method signatures below for more details.
 #' 
-#' @param object The object that represents the input source
-#' @param features The names of features to be used
-#' @param response The response variable name to be used
-#' @param batch_size The size of batches
+#' @param object,data An 'input source' -- either a data set (e.g. an \R `data.frame`),
+#'   or another kind of object that can provide the data required for training.
+#' @param features The names of feature variables to be used.
+#' @param response The name of the response variable.
+#' @param batch_size The batch size.
 #' @param shuffle Whether to shuffle the queue. When \code{"auto"} (the default),
 #'   shuffling will be performed except when this input function is called by
 #'   a \code{predict()} method.
-#' @param num_epochs The number of epochs to iterate over data. If `NULL` will 
-#'   run forever.
+#' @param num_epochs The number of epochs to iterate over data.
 #' @param queue_capacity The size of queue to accumulate.
 #' @param num_threads The number of threads used for reading and enqueueing. In 
-#'   order to have predicted and repeatable order of reading and enqueueing, 
+#'   order to have predictable and repeatable order of reading and enqueueing, 
 #'   such as in prediction and evaluation mode, `num_threads` should be 1.
+#' @param ... Optional arguments passed on to implementing submethods.
 #'
-#' @name input_fn
 #' @family input functions
-NULL
-
-
 #' @export
 input_fn <- function(object, ...) {
   UseMethod("input_fn")

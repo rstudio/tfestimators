@@ -8,6 +8,8 @@
   max_steps = NULL, ...)
 }
 \arguments{
+\item{object}{A TensorFlow estimator.}
+
 \item{input_fn}{Input function returning a list of: features - \code{Tensor} or
 dictionary of string feature name to \code{Tensor}. labels - \code{Tensor} or
 dictionary of \code{Tensor} with labels.}
@@ -28,6 +30,8 @@ train forever or train until input_fn generates the \code{OutOfRange} or
 \code{StopIteration} error. If set, \code{steps} must be \code{NULL}. If \code{OutOfRange} or
 \code{StopIteration} error occurs in the middle, training stops before
 \code{max_steps} steps.}
+
+\item{...}{Optional arguments, passed on to the estimator's \code{train()} method.}
 }
 \value{
 \code{self}, for chaining.

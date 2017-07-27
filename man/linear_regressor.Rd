@@ -30,7 +30,7 @@ is fetched by key \code{weight_column.key}, then weight_column.normalizer_fn is
 applied on it to get weight tensor.}
 
 \item{optimizer}{An instance of \code{tf.Optimizer} used to train the model.
-Defaults to FTRL optimizer.}
+Defaults to the FTRL optimizer.}
 
 \item{config}{\code{RunConfig} object to configure the runtime settings.}
 
@@ -44,6 +44,5 @@ feature values.
 Other canned estimators: \code{\link{dnn_estimators}},
   \code{\link{dnn_linear_combined_estimators}},
   \code{\link{dynamic_rnn}},
-  \code{\link{linear_classifier}},
-  \code{\link{state_saving_rnn}}
+  \code{\link{linear_classifier}}
 }

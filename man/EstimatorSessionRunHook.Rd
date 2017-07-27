@@ -9,7 +9,7 @@
 EstimatorSessionRunHook
 }
 \value{
-\link{KerasCallback}.
+A \code{KerasCallback}.
 }
 \description{
 Base R6 class for creating custom SessionRunHook

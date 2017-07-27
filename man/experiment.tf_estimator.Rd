@@ -2,7 +2,7 @@
 % Please edit documentation in R/experiments.R
 \name{experiment.tf_estimator}
 \alias{experiment.tf_estimator}
-\title{Experiment constructor}
+\title{Construct an Experiment}
 \usage{
 \method{experiment}{tf_estimator}(object, train_input_fn, eval_input_fn,
   train_steps = 2L, eval_steps = 2L, eval_metrics = NULL,
@@ -12,6 +12,8 @@
   export_strategies = NULL, train_steps_per_iteration = NULL, ...)
 }
 \arguments{
+\item{object}{A TensorFlow estimator.}
+
 \item{train_input_fn}{function, returns features and labels for training.}
 
 \item{eval_input_fn}{function, returns features and labels for evaluation.
@@ -44,6 +46,12 @@ eval in steps. If \code{None}, runs evaluation only at the end of training.}
 evaluation was started at least this many seconds ago for
 continuous_eval().}
 
+\item{min_eval_frequency}{The minimum number of steps between evaluations. Of
+course, evaluation does not occur if no new snapshot is available, hence,
+this is the minimum. If 0, the evaluation will only happen after training.
+If NULL, defaults to 1, unless model_dir is on GCS, in which case the
+default is 1000.}
+
 \item{delay_workers_by_global_step}{if \code{TRUE} delays training workers based
 on global step instead of time.}
 
@@ -56,11 +64,7 @@ training-evaluation iteration. With a small value, the model will be
 evaluated more frequently with more checkpoints saved. If \code{NULL}, will use
 a default value (which is smaller than \code{train_steps} if provided).}
 
-\item{min_eval_frequency:}{(applies only to train_and_evaluate). the minimum
-number of steps between evaluations. Of course, evaluation does not occur
-if no new snapshot is available, hence, this is the minimum. If 0, the
-evaluation will only happen after training. If NULL, defaults to 1, unless
-model_dir is on GCS, in which case the default is 1000.}
+\item{...}{Optional arguments passed on to the \code{Experiment} constructor.}
 }
 \description{
 An Experiment contains all information needed to train a model. After an

@@ -110,6 +110,7 @@ estimator_spec <- function(mode,
 #' @param config Configuration object.
 #' @param params `dict` of hyper parameters that will be passed into `model_fn`.
 #'   Keys are names of parameters, values are basic python types.
+#' @param class An optional set of \R classes to add to the generated object.
 #'   
 #' @export
 #' @family custom estimator methods

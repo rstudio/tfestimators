@@ -7,8 +7,10 @@
 \alias{input_fn.data.frame}
 \alias{input_fn.list}
 \alias{input_fn.matrix}
-\title{Input function constructor}
+\title{Construct an Input Function}
 \usage{
+input_fn(object, ...)
+
 \method{input_fn}{default}(object, ...)
 
 \method{input_fn}{formula}(object, data, ...)
@@ -24,30 +26,32 @@
 \method{input_fn}{matrix}(object, ...)
 }
 \arguments{
-\item{object}{The object that represents the input source}
+\item{object, data}{An 'input source' -- either a data set (e.g. an \R \code{data.frame}),
+or another kind of object that can provide the data required for training.}
 
-\item{features}{The names of features to be used}
+\item{...}{Optional arguments passed on to implementing submethods.}
 
-\item{response}{The response variable name to be used}
+\item{features}{The names of feature variables to be used.}
 
-\item{batch_size}{The size of batches}
+\item{response}{The name of the response variable.}
+
+\item{batch_size}{The batch size.}
 
 \item{shuffle}{Whether to shuffle the queue. When \code{"auto"} (the default),
 shuffling will be performed except when this input function is called by
 a \code{predict()} method.}
 
-\item{num_epochs}{The number of epochs to iterate over data. If \code{NULL} will
-run forever.}
+\item{num_epochs}{The number of epochs to iterate over data.}
 
 \item{queue_capacity}{The size of queue to accumulate.}
 
 \item{num_threads}{The number of threads used for reading and enqueueing. In
-order to have predicted and repeatable order of reading and enqueueing,
+order to have predictable and repeatable order of reading and enqueueing,
 such as in prediction and evaluation mode, \code{num_threads} should be 1.}
 }
 \description{
-This function constructs input function from various types of input used to feed the
-estimator.
+This function constructs input function from various types of input used to
+feed different TensorFlow estimators.
 }
 \details{
 For list objects, this method is particularly useful when constructing

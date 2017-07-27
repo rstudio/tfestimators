@@ -200,7 +200,7 @@ hook_global_step_waiter <- function(wait_until_step) {
 #'  \item{\code{end(session)}}{Called at the end of session.}
 #' }
 #' 
-#' @return [KerasCallback].
+#' @return A `KerasCallback`.
 #' 
 #' @examples 
 #' library(tfestimators)

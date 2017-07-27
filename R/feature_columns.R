@@ -515,16 +515,6 @@ column_bucketized <- function(source_column, boundaries) {
 #'
 #' @family feature column constructors
 #' @export
-#' @examples
-#'
-#' \dontrun{
-#' #' price <- column_numeric('price')
-#' keywords_embedded <- column_embedding(categorical_column_with_hash_bucket("keywords", 1000), dimensions = 16)
-#' columns <- c(price, keywords_embedded, ...)
-#' features <- tf$parse_example(..., features = make_parse_example_spec(columns))
-#' dense_tensor <- input_layer(features, columns)
-#' prediction <- tf$layers$dense(dense_tensor, 1)
-#' }
 input_layer <- function(features,
                         feature_columns,
                         weight_collections = NULL,

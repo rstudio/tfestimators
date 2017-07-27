@@ -38,7 +38,7 @@ integer values in {0, 1,..., n_classes-1} for \code{n_classes}>2 . Also there
 will be errors if vocabulary is not provided and labels are string.}
 
 \item{optimizer}{An instance of \code{tf.Optimizer} used to train the model.
-Defaults to FTRL optimizer.}
+Defaults to the FTRL optimizer.}
 
 \item{config}{\code{RunConfig} object to configure the runtime settings.}
 
@@ -51,7 +51,5 @@ classes. When number of possible classes is 2, this is binary classification.
 \seealso{
 Other canned estimators: \code{\link{dnn_estimators}},
   \code{\link{dnn_linear_combined_estimators}},
-  \code{\link{dynamic_rnn}},
-  \code{\link{linear_regressor}},
-  \code{\link{state_saving_rnn}}
+  \code{\link{dynamic_rnn}}, \code{\link{linear_regressor}}
 }

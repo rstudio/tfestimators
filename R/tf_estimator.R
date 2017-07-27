@@ -15,6 +15,7 @@ tf_classifier <- function(estimator, class) {
 
 #' Trains a model given training data input_fn.
 #' 
+#' @param object A TensorFlow estimator.
 #' @param input_fn Input function returning a list of: features - `Tensor` or
 #'   dictionary of string feature name to `Tensor`. labels - `Tensor` or
 #'   dictionary of `Tensor` with labels.
@@ -32,6 +33,7 @@ tf_classifier <- function(estimator, class) {
 #'   `StopIteration` error. If set, `steps` must be `NULL`. If `OutOfRange` or
 #'   `StopIteration` error occurs in the middle, training stops before
 #'   `max_steps` steps.
+#' @param ... Optional arguments, passed on to the estimator's `train()` method.
 #'   
 #' @return `self`, for chaining.
 #'   
@@ -64,6 +66,8 @@ train.tf_estimator <- function(object,
 
 #' Returns predictions for given features.
 #' 
+#' @template roxlate-object-estimator
+#' 
 #' @param input_fn Input function returning features which is a dictionary of
 #'   string feature name to `Tensor` or `SparseTensor`. If it returns a list,
 #'   first item is extracted as features. Prediction continues until `input_fn`
@@ -76,6 +80,11 @@ train.tf_estimator <- function(object,
 #'   inside the prediction call.
 #' @param checkpoint_path Path of a specific checkpoint to predict. If `NULL`,
 #'   the latest checkpoint in `model_dir` is used.
+#' @param as_iterable Boolean; should a raw Python generator be returned? When
+#'   `FALSE` (the default), the predicted values will be consumed from the
+#'   generator and returned as an \R object.
+#' @param ... Optional arguments passed on to the estimator's `predict()`
+#'   method.
 #'   
 #' @section Yields: Evaluated values of `predictions` tensors.
 #'   
@@ -121,7 +130,8 @@ predict.tf_estimator <- function(object,
 #' - `steps` batches are processed, or
 #' - `input_fn` raises an end-of-input exception (`OutOfRangeError` or
 #'   `StopIteration`).
-#'   
+#'
+#' @template roxlate-object-estimator
 #' @param input_fn Input function returning a list of: features - Dictionary of
 #'   string feature name to `Tensor` or `SparseTensor`. labels - `Tensor` or
 #'   dictionary of `Tensor` with labels.
@@ -135,6 +145,8 @@ predict.tf_estimator <- function(object,
 #'   on different data sets, such as on training data vs test data. Metrics for
 #'   different evaluations are saved in separate folders, and appear separately
 #'   in tensorboard.
+#' @param ... Optional arguments passed on to the estimator's `evaluate()`
+#'   method.
 #'   
 #' @return A dict containing the evaluation metrics specified in `model_fn`
 #'   keyed by name, as well as an entry `global_step` which contains the value
@@ -187,6 +199,8 @@ evaluate.tf_estimator <- function(object,
 #' file without renaming it is specified as `{'my_asset_file.txt':
 #' '/path/to/my_asset_file.txt'}`.
 #' 
+#' @template roxlate-object-estimator
+#' 
 #' @param export_dir_base A string containing a directory in which to create
 #'   timestamped subdirectories containing exported SavedModels.
 #' @param serving_input_receiver_fn A function that takes no argument and
@@ -198,8 +212,10 @@ evaluate.tf_estimator <- function(object,
 #' @param checkpoint_path The checkpoint path to export. If `NULL` (the
 #'   default), the most recent checkpoint found within the model directory is
 #'   chosen.
+#' @param ... Optional arguments passed on to the estimator's
+#'   `export_savedmodel()` method.
 #'   
-#' @return The string path to the exported directory.
+#' @return The path to the exported directory, as a string.
 #'   
 #' @section Raises: ValueError: if no serving_input_receiver_fn is provided, no
 #'   export_outputs are provided, or no checkpoint can be found.
@@ -228,7 +244,9 @@ export_savedmodel.tf_estimator <- function(object,
 
 #' Get the list coefficients or variables from this model's checkpoint.
 #'
-#' @importFrom stats coef
+#' @param object An estimator.
+#' @param ... Optional arguments; currently unused.
+#' 
 #' @export
 #' @family custom estimator methods
 coef.tf_estimator <- function(object, ...) {

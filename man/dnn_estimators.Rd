@@ -43,8 +43,8 @@ weight tensor from the \code{features} argument. If it is a \code{_NumericColumn
 then the raw tensor is fetched by key \code{weight_column.key}, then
 \code{weight_column.normalizer_fn} is applied on it to get weight tensor.}
 
-\item{optimizer}{Either the name of the optimizer to be used when training the model,
-or a \code{tf.Optimizer} instance. Defaults to the Adagrad optimizer.}
+\item{optimizer}{Either the name of the optimizer to be used when training
+the model, or a \code{tf$Optimizer} instance. Defaults to the Adagrad optimizer.}
 
 \item{activation_fn}{The activation function to apply to each layer. Defaults
 to the \strong{re}ctified \strong{l}inear \strong{u}nit activation function (\code{tf$nn$relu}).}
@@ -58,12 +58,15 @@ Defaults to \code{min_max_variable_partitioner} with \code{min_slice_size} 64 <<
 \item{config}{A \code{RunConfig} object, used to configure the runtime
 settings.}
 
+\item{n_classes}{The number of label classes.}
+
 \item{label_vocabulary}{A list of strings represents possible label values.
 If given, labels must be string type and have any value in
 \code{label_vocabulary}. If it is not given, that means labels are already
-encoded as integer or float within \link{0, 1} for \code{n_classes=2} and encoded as
-integer values in {0, 1,..., n_classes-1} for \code{n_classes}>2 . Also there
-will be errors if vocabulary is not provided and labels are string.}
+encoded as integer or float within \code{[0, 1]} for \code{n_classes == 2} and
+encoded as integer values in \code{{0, 1,..., n_classes-1}} for \code{n_classes > 2}.
+Also there will be errors if vocabulary is not provided and labels are
+string.}
 }
 \description{
 Create a deep neural network (DNN) estimator.
@@ -72,6 +75,5 @@ Create a deep neural network (DNN) estimator.
 Other canned estimators: \code{\link{dnn_linear_combined_estimators}},
   \code{\link{dynamic_rnn}},
   \code{\link{linear_classifier}},
-  \code{\link{linear_regressor}},
-  \code{\link{state_saving_rnn}}
+  \code{\link{linear_regressor}}
 }

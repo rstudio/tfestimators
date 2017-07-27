@@ -67,6 +67,16 @@ Defaults to \code{min_max_variable_partitioner} with \code{min_slice_size} 64 <<
 
 \item{config}{A \code{RunConfig} object, used to configure the runtime
 settings.}
+
+\item{n_classes}{The number of label classes.}
+
+\item{label_vocabulary}{A list of strings represents possible label values.
+If given, labels must be string type and have any value in
+\code{label_vocabulary}. If it is not given, that means labels are already
+encoded as integer or float within \code{[0, 1]} for \code{n_classes == 2} and
+encoded as integer values in \code{{0, 1,..., n_classes-1}} for \code{n_classes > 2}.
+Also there will be errors if vocabulary is not provided and labels are
+string.}
 }
 \description{
 Also known as \code{wide-n-deep} estimators, these are estimators for
@@ -76,6 +86,5 @@ TensorFlow Linear and DNN joined models for regression.
 Other canned estimators: \code{\link{dnn_estimators}},
   \code{\link{dynamic_rnn}},
   \code{\link{linear_classifier}},
-  \code{\link{linear_regressor}},
-  \code{\link{state_saving_rnn}}
+  \code{\link{linear_regressor}}
 }

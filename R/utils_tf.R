@@ -1,5 +1,8 @@
 #' Function to get the latest checkpoint in a checkpoint directory
 #' 
+#' @param checkpoint_dir The path to the checkpoint directory.
+#' @param ... Optional arguments passed on to \code{latest_checkpoint()}.
+#' 
 #' @export
 #' @family utility functions
 get_latest_checkpoint <- function(checkpoint_dir, ...) {

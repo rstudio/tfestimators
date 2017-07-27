@@ -9,6 +9,8 @@
   checkpoint_path = NULL, ...)
 }
 \arguments{
+\item{object}{A TensorFlow estimator.}
+
 \item{export_dir_base}{A string containing a directory in which to create
 timestamped subdirectories containing exported SavedModels.}
 
@@ -24,9 +26,12 @@ needed.}
 \item{checkpoint_path}{The checkpoint path to export. If \code{NULL} (the
 default), the most recent checkpoint found within the model directory is
 chosen.}
+
+\item{...}{Optional arguments passed on to the estimator's
+\code{export_savedmodel()} method.}
 }
 \value{
-The string path to the exported directory.
+The path to the exported directory, as a string.
 }
 \description{
 This method builds a new graph by first calling the serving_input_receiver_fn

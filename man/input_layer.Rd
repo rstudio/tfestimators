@@ -41,17 +41,6 @@ to a single \code{Tensor}.
 dense column.
 }
 
-\examples{
-
-\dontrun{
-#' price <- column_numeric('price')
-keywords_embedded <- column_embedding(categorical_column_with_hash_bucket("keywords", 1000), dimensions = 16)
-columns <- c(price, keywords_embedded, ...)
-features <- tf$parse_example(..., features = make_parse_example_spec(columns))
-dense_tensor <- input_layer(features, columns)
-prediction <- tf$layers$dense(dense_tensor, 1)
-}
-}
 \seealso{
 Other feature column constructors: \code{\link{column_bucketized}},
   \code{\link{column_categorical_weighted}},

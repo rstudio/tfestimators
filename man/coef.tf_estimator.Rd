@@ -6,6 +6,11 @@
 \usage{
 \method{coef}{tf_estimator}(object, ...)
 }
+\arguments{
+\item{object}{An estimator.}
+
+\item{...}{Optional arguments; currently unused.}
+}
 \description{
 Get the list coefficients or variables from this model's checkpoint.
 }

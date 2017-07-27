@@ -8,6 +8,8 @@
   predict_keys = NULL, hooks = NULL, as_iterable = FALSE, ...)
 }
 \arguments{
+\item{object}{A TensorFlow estimator.}
+
 \item{input_fn}{Input function returning features which is a dictionary of
 string feature name to \code{Tensor} or \code{SparseTensor}. If it returns a list,
 first item is extracted as features. Prediction continues until \code{input_fn}
@@ -23,6 +25,13 @@ returns all.}
 
 \item{hooks}{List of \code{SessionRunHook} subclass instances. Used for callbacks
 inside the prediction call.}
+
+\item{as_iterable}{Boolean; should a raw Python generator be returned? When
+\code{FALSE} (the default), the predicted values will be consumed from the
+generator and returned as an \R object.}
+
+\item{...}{Optional arguments passed on to the estimator's \code{predict()}
+method.}
 }
 \description{
 Returns predictions for given features.

@@ -7,7 +7,11 @@
 \method{train}{tf_experiment}(object, delay_secs = NULL, ...)
 }
 \arguments{
+\item{object}{A TensorFlow experiment object.}
+
 \item{delay_secs}{Start training after this many seconds.}
+
+\item{...}{Optional arguments passed to the estimator's \code{train()} method.}
 }
 \value{
 The trained estimator.

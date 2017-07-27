@@ -6,6 +6,12 @@
 \usage{
 \method{train_and_evaluate}{tf_experiment}(object, ...)
 }
+\arguments{
+\item{object}{A TensorFlow experiment.}
+
+\item{...}{Optional arguments, passed to the experiment's \code{train_and_evaluate()}
+method.}
+}
 \value{
 The result of the \code{evaluate} call to the \code{Estimator} as well as the
 export results using the specified \code{ExportStrategy}.

@@ -6,6 +6,11 @@
 \usage{
 get_latest_checkpoint(checkpoint_dir, ...)
 }
+\arguments{
+\item{checkpoint_dir}{The path to the checkpoint directory.}
+
+\item{...}{Optional arguments passed on to \code{latest_checkpoint()}.}
+}
 \description{
 Function to get the latest checkpoint in a checkpoint directory
 }
