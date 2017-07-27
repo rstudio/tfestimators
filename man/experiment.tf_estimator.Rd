@@ -9,7 +9,7 @@
   train_monitors = NULL, eval_hooks = NULL, local_eval_frequency = NULL,
   eval_delay_secs = 120L, continuous_eval_throttle_secs = 60L,
   min_eval_frequency = NULL, delay_workers_by_global_step = NULL,
-  export_strategies = NULL, train_steps_per_iteration = NULL)
+  export_strategies = NULL, train_steps_per_iteration = NULL, ...)
 }
 \arguments{
 \item{train_input_fn}{function, returns features and labels for training.}

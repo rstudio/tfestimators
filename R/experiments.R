@@ -29,8 +29,8 @@ tf_experiment <- function(experiment) {
 #'   
 #' @export
 #' @family experiment methods
-train_and_evaluate.tf_experiment <- function(object) {
-  object$experiment$train_and_evaluate()
+train_and_evaluate.tf_experiment <- function(object, ...) {
+  object$experiment$train_and_evaluate(...)
 }
 
 #' Evaluate on the evaluation data.
@@ -48,8 +48,14 @@ train_and_evaluate.tf_experiment <- function(object) {
 #'   
 #' @export
 #' @family experiment methods
-evaluate.tf_experiment <- function(object, delay_secs = NULL) {
-  object$experiment$evaluate(delay_secs = delay_secs)
+evaluate.tf_experiment <- function(object,
+                                   delay_secs = NULL,
+                                   ...)
+{
+  object$experiment$evaluate(
+    delay_secs = delay_secs,
+    ...
+  )
 }
 
 
@@ -63,8 +69,16 @@ evaluate.tf_experiment <- function(object, delay_secs = NULL) {
 #' @return The trained estimator.
 #' @export
 #' @family experiment methods
-train.tf_experiment <- function(object, delay_secs = NULL) {
-  invisible(object$experiment$train(delay_secs = delay_secs))
+train.tf_experiment <- function(object,
+                                delay_secs = NULL,
+                                ...)
+{
+  result <- object$experiment$train(
+    delay_secs = delay_secs,
+    ...
+  )
+  
+  invisible(result)
 }
 
 #' Experiment constructor
@@ -111,22 +125,22 @@ train.tf_experiment <- function(object, delay_secs = NULL) {
 #'   a default value (which is smaller than `train_steps` if provided).
 #' @export
 #' @family experiment methods
-experiment.tf_estimator <- function(
-  object,
-  train_input_fn,
-  eval_input_fn,
-  train_steps = 2L,
-  eval_steps = 2L,
-  eval_metrics = NULL,
-  train_monitors = NULL,
-  eval_hooks = NULL,
-  local_eval_frequency = NULL,
-  eval_delay_secs = 120L,
-  continuous_eval_throttle_secs = 60L,
-  min_eval_frequency = NULL,
-  delay_workers_by_global_step = NULL,
-  export_strategies = NULL,
-  train_steps_per_iteration = NULL)
+experiment.tf_estimator <- function(object,
+                                    train_input_fn,
+                                    eval_input_fn,
+                                    train_steps = 2L,
+                                    eval_steps = 2L,
+                                    eval_metrics = NULL,
+                                    train_monitors = NULL,
+                                    eval_hooks = NULL,
+                                    local_eval_frequency = NULL,
+                                    eval_delay_secs = 120L,
+                                    continuous_eval_throttle_secs = 60L,
+                                    min_eval_frequency = NULL,
+                                    delay_workers_by_global_step = NULL,
+                                    export_strategies = NULL,
+                                    train_steps_per_iteration = NULL,
+                                    ...)
 {
   experiment <- contrib_learn$Experiment(
     estimator = object$estimator,
@@ -143,7 +157,8 @@ experiment.tf_estimator <- function(
     min_eval_frequency = as_nullable_integer(min_eval_frequency),
     delay_workers_by_global_step = as_nullable_integer(delay_workers_by_global_step),
     export_strategies = export_strategies,
-    train_steps_per_iteration = as_nullable_integer(train_steps_per_iteration)
+    train_steps_per_iteration = as_nullable_integer(train_steps_per_iteration),
+    ...
   )
   
   tf_experiment(experiment)

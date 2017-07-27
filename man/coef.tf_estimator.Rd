@@ -4,7 +4,7 @@
 \alias{coef.tf_estimator}
 \title{Get the list coefficients or variables from this model's checkpoint.}
 \usage{
-\method{coef}{tf_estimator}(object)
+\method{coef}{tf_estimator}(object, ...)
 }
 \description{
 Get the list coefficients or variables from this model's checkpoint.

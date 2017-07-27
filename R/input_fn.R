@@ -63,7 +63,8 @@ input_fn.data.frame <- function(object,
                                 shuffle = "auto",
                                 num_epochs = 1,
                                 queue_capacity = 1000,
-                                num_threads = 1)
+                                num_threads = 1,
+                                ...)
 {
   all_names <- object_names(object)
   features <- vars_select(all_names, !! enquo(features))

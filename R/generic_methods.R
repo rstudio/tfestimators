@@ -19,7 +19,7 @@ export_savedmodel <- function(object, ...) {
 }
 
 #' @export
-experiment <- function(x, ...) {
+experiment <- function(object, ...) {
   UseMethod("experiment")
 }
 

@@ -22,7 +22,9 @@ run_config <- function() {
 }
 
 #' @export
-print.tensorflow.python.estimator.run_config.RunConfig <- function(config) {
+print.tensorflow.python.estimator.run_config.RunConfig <- function(x, ...) {
+  config <- x
+  
   config_names <- names(config)
   config_items <- unlist(lapply(config_names, function(item) {
     if (is.null(config[[item]])) {

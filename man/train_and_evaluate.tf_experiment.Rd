@@ -4,7 +4,7 @@
 \alias{train_and_evaluate.tf_experiment}
 \title{Interleaves training and evaluation.}
 \usage{
-\method{train_and_evaluate}{tf_experiment}(object)
+\method{train_and_evaluate}{tf_experiment}(object, ...)
 }
 \value{
 The result of the \code{evaluate} call to the \code{Estimator} as well as the

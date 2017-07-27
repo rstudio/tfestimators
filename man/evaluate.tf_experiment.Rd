@@ -4,7 +4,7 @@
 \alias{evaluate.tf_experiment}
 \title{Evaluate on the evaluation data.}
 \usage{
-\method{evaluate}{tf_experiment}(object, delay_secs = NULL)
+\method{evaluate}{tf_experiment}(object, delay_secs = NULL, ...)
 }
 \arguments{
 \item{delay_secs}{Start evaluating after this many seconds. If \code{NULL},

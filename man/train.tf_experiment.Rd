@@ -4,7 +4,7 @@
 \alias{train.tf_experiment}
 \title{Fit the estimator using the training data.}
 \usage{
-\method{train}{tf_experiment}(object, delay_secs = NULL)
+\method{train}{tf_experiment}(object, delay_secs = NULL, ...)
 }
 \arguments{
 \item{delay_secs}{Start training after this many seconds.}

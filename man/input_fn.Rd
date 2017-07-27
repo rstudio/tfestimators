@@ -15,11 +15,11 @@
 
 \method{input_fn}{data.frame}(object, features, response = NULL,
   batch_size = 128, shuffle = "auto", num_epochs = 1,
-  queue_capacity = 1000, num_threads = 1)
+  queue_capacity = 1000, num_threads = 1, ...)
 
 \method{input_fn}{list}(object, features, response = NULL, batch_size = 128,
   shuffle = "auto", num_epochs = 1, queue_capacity = 1000,
-  num_threads = 1)
+  num_threads = 1, ...)
 
 \method{input_fn}{matrix}(object, ...)
 }

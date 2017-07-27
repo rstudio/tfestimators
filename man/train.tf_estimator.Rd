@@ -5,7 +5,7 @@
 \title{Trains a model given training data input_fn.}
 \usage{
 \method{train}{tf_estimator}(object, input_fn, steps = NULL, hooks = NULL,
-  max_steps = NULL)
+  max_steps = NULL, ...)
 }
 \arguments{
 \item{input_fn}{Input function returning a list of: features - \code{Tensor} or

@@ -44,7 +44,8 @@ train.tf_estimator <- function(object,
                                input_fn,
                                steps = NULL,
                                hooks = NULL,
-                               max_steps = NULL)
+                               max_steps = NULL,
+                               ...)
 {
   # show training loss metrics 
   # (https://www.tensorflow.org/get_started/monitors#enabling_logging_with_tensorflow)
@@ -53,8 +54,11 @@ train.tf_estimator <- function(object,
       input_fn = normalize_input_fn(object, input_fn),
       steps = as_nullable_integer(steps),
       hooks = normalize_session_run_hooks(hooks),
-      max_steps = as_nullable_integer(max_steps))
+      max_steps = as_nullable_integer(max_steps),
+      ...
+    )
   })
+  
   invisible(object)
 }
 
@@ -88,14 +92,17 @@ predict.tf_estimator <- function(object,
                                  checkpoint_path = NULL,
                                  predict_keys = NULL,
                                  hooks = NULL,
-                                 as_iterable = FALSE)
+                                 as_iterable = FALSE,
+                                 ...)
 {
-  est <- object$estimator
-  predictions <- est$predict(
+  predictions <- object$estimator$predict(
     input_fn = normalize_input_fn(object, input_fn),
     checkpoint_path = checkpoint_path,
     hooks = normalize_session_run_hooks(hooks),
-    predict_keys = predict_keys)
+    predict_keys = predict_keys,
+    ...
+  )
+  
   if (!as_iterable) {
     if (!any(inherits(predictions, "python.builtin.iterator"),
              inherits(predictions, "python.builtin.generator"))) {
@@ -142,15 +149,18 @@ evaluate.tf_estimator <- function(object,
                                   steps = NULL,
                                   checkpoint_path = NULL,
                                   name = NULL,
-                                  hooks = NULL)
+                                  hooks = NULL,
+                                  ...)
 {
-  est <- object$estimator
   with_logging_verbosity(tf$logging$INFO, {
-    est$evaluate(input_fn = normalize_input_fn(object, input_fn),
-                 steps = as_nullable_integer(steps),
-                 checkpoint_path = checkpoint_path,
-                 name = name,
-                 hooks = normalize_session_run_hooks(hooks))
+    object$estimator$evaluate(
+      input_fn = normalize_input_fn(object, input_fn),
+      steps = as_nullable_integer(steps),
+      checkpoint_path = checkpoint_path,
+      name = name,
+      hooks = normalize_session_run_hooks(hooks),
+      ...
+    )
   })
 }
 
@@ -201,22 +211,26 @@ export_savedmodel.tf_estimator <- function(object,
                                            serving_input_receiver_fn,
                                            assets_extra = NULL,
                                            as_text = FALSE,
-                                           checkpoint_path = NULL)
+                                           checkpoint_path = NULL,
+                                           ...)
 {
-  invisible(object$estimator$export_savedmodel(
+  status <- object$estimator$export_savedmodel(
     export_dir_base = export_dir_base,
     serving_input_receiver_fn = serving_input_receiver_fn,
     assets_extra = assets_extra,
     as_text = as_text,
-    checkpoint_path = checkpoint_path
-  ))
+    checkpoint_path = checkpoint_path,
+    ...
+  )
+  
+  invisible(status)
 }
 
 #' Get the list coefficients or variables from this model's checkpoint.
 #'
 #' @export
 #' @family custom estimator methods
-coef.tf_estimator <- function(object) {
+coef.tf_estimator <- function(object, ...) {
   contrib_framework <- import("tensorflow.contrib.framework")
   list_variables <- contrib_framework$list_variables
   list_variables(object$estimator$model_dir)

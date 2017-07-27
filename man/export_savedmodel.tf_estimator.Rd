@@ -6,7 +6,7 @@
 \usage{
 \method{export_savedmodel}{tf_estimator}(object, export_dir_base,
   serving_input_receiver_fn, assets_extra = NULL, as_text = FALSE,
-  checkpoint_path = NULL)
+  checkpoint_path = NULL, ...)
 }
 \arguments{
 \item{export_dir_base}{A string containing a directory in which to create
