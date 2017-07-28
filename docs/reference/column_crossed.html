@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Returns a column for performing crosses of categorical features. — column_crossed • tfestimators</title>
+<title>Construct a Crossed Column — column_crossed • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,18 +119,12 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Returns a column for performing crosses of categorical features.</h1>
+    <h1>Construct a Crossed Column</h1>
     </div>
 
     
-    <p>Crossed features will be hashed according to <code>hash_bucket_size</code>.
-Conceptually, the transformation can be thought of as: Hash(cartesian product
-of features) <!-- % \code{hash_bucket_size} For example, if the input features are: * -->
-SparseTensor referred by first key: shape = 2, 2 0, 0: "a" 1, 0: "b"
-1, 1: "c" * SparseTensor referred by second key: shape = 2, 1 0, 0: "d"
-1, 0: "e" then crossed feature will look like: shape = 2, 2 0, 0:
-Hash64("d", Hash64("a")) <!-- % hash_bucket_size \link{1, 0}: Hash64("e", Hash64("b")) -->
-<!-- % hash_bucket_size \link{1, 1}: Hash64("e", Hash64("c")) % hash_bucket_size --></p>
+    <p>Returns a column for performing crosses of categorical features. Crossed
+features will be hashed according to <code>hash_bucket_size</code>.</p>
     
 
     <pre class="usage"><span class='fu'>column_crossed</span>(<span class='no'>keys</span>, <span class='no'>hash_bucket_size</span>, <span class='kw'>hash_key</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
@@ -142,42 +136,41 @@ Hash64("d", Hash64("a")) <!-- % hash_bucket_size \link{1, 0}: Hash64("e", Hash64
       <th>keys</th>
       <td><p>An iterable identifying the features to be crossed. Each element
 can be either: * string: Will use the corresponding feature which must be
-of string type. * <code>_CategoricalColumn</code>: Will use the transformed tensor
-produced by this column. Does not support hashed categorical column.</p></td>
+of string type. * categorical column: Will use the transformed tensor
+produced by this column. Does not support hashed categorical columns.</p></td>
     </tr>
     <tr>
       <th>hash_bucket_size</th>
-      <td><p>An int &gt; 1. The number of buckets.</p></td>
+      <td><p>The number of buckets (&gt; 1).</p></td>
     </tr>
     <tr>
       <th>hash_key</th>
-      <td><p>Specify the hash_key that will be used by the
+      <td><p>Optional: specify the hash_key that will be used by the
 <code>FingerprintCat64</code> function to combine the crosses fingerprints on
-SparseCrossOp (optional).</p></td>
+<code>SparseCrossOp</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>_CrossedColumn</code>.</p>
+    <p>A crossed column.</p>
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
     <p>ValueError: If <code>len(keys) &lt; 2</code>. ValueError: If any of the
-keys is neither a string nor <code>_CategoricalColumn</code>. ValueError: If any of
+keys is neither a string nor categorical column. ValueError: If any of
 the keys is <code>_HashedCategoricalColumn</code>. ValueError: If <code>hash_bucket_size &lt; 1</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p>Other feature column constructors: <code><a href='column_bucketized.html'>column_bucketized</a></code>,
+  <code><a href='column_categorical_weighted.html'>column_categorical_weighted</a></code>,
   <code><a href='column_categorical_with_hash_bucket.html'>column_categorical_with_hash_bucket</a></code>,
   <code><a href='column_categorical_with_identity.html'>column_categorical_with_identity</a></code>,
   <code><a href='column_categorical_with_vocabulary_file.html'>column_categorical_with_vocabulary_file</a></code>,
   <code><a href='column_categorical_with_vocabulary_list.html'>column_categorical_with_vocabulary_list</a></code>,
   <code><a href='column_embedding.html'>column_embedding</a></code>,
-  <code><a href='column_numeric.html'>column_numeric</a></code>,
-  <code><a href='column_weighted_categorical.html'>column_weighted_categorical</a></code>,
-  <code><a href='input_layer.html'>input_layer</a></code></p>
+  <code><a href='column_numeric.html'>column_numeric</a></code>, <code><a href='input_layer.html'>input_layer</a></code></p>
     
 
   </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title><code>_DenseColumn</code> that converts from sparse, categorical input. — column_embedding • tfestimators</title>
+<title>Construct a Dense Column — column_embedding • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,13 +119,14 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1><code>_DenseColumn</code> that converts from sparse, categorical input.</h1>
+    <h1>Construct a Dense Column</h1>
     </div>
 
     
     <p>Use this when your inputs are sparse, but you want to convert them to a dense
 representation (e.g., to feed to a DNN). Inputs must be a
-<code>_CategoricalColumn</code> created by any of the <code>categorical_column_*</code> function.</p>
+categorical column created by any of the <code>column_categorical_*()</code>
+functions.</p>
     
 
     <pre class="usage"><span class='fu'>column_embedding</span>(<span class='no'>categorical_column</span>, <span class='no'>dimension</span>, <span class='kw'>combiner</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
@@ -137,30 +138,28 @@ representation (e.g., to feed to a DNN). Inputs must be a
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>categorical_column</th>
-      <td><p>A <code>_CategoricalColumn</code> created by a
-<code>categorical_column_with_*</code> function. This column produces the sparse IDs
+      <td><p>A categorical column created by a
+<code>column_categorical_*()</code> function. This column produces the sparse IDs
 that are inputs to the embedding lookup.</p></td>
     </tr>
     <tr>
       <th>dimension</th>
-      <td><p>An integer specifying dimension of the embedding, must be &gt;
-0.</p></td>
+      <td><p>A positive integer, specifying dimension of the embedding.</p></td>
     </tr>
     <tr>
       <th>combiner</th>
       <td><p>A string specifying how to reduce if there are multiple
-entries in a single row. Currently 'mean', 'sqrtn' and 'sum' are supported,
-with 'mean' the default. 'sqrtn' often achieves good accuracy, in
-particular with bag-of-words columns. Each of this can be thought as
-example level normalizations on the column. For more information, see
-<code>tf.embedding_lookup_sparse</code>.</p></td>
+entries in a single row. Currently <code>"mean"</code>, <code>"sqrtn"</code> and <code>"sum"</code> are
+supported, with <code>"mean"</code> the default. <code>"sqrtn"</code>' often achieves good
+accuracy, in particular with bag-of-words columns. Each of this can be
+thought as example level normalizations on the column.</p></td>
     </tr>
     <tr>
       <th>initializer</th>
       <td><p>A variable initializer function to be used in embedding
 variable initialization. If not specified, defaults to
-<code>tf.truncated_normal_initializer</code> with mean <code>0.0</code> and standard deviation
-<code>1/sqrt(dimension)</code>.</p></td>
+<code>tf$truncated_normal_initializer</code> with mean <code>0.0</code> and standard deviation
+<code>1 / sqrt(dimension)</code>.</p></td>
     </tr>
     <tr>
       <th>ckpt_to_load_from</th>
@@ -187,7 +186,7 @@ value.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>_DenseColumn</code> that converts from sparse input.</p>
+    <p>A dense column that converts from sparse input.</p>
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
@@ -198,14 +197,13 @@ ValueError: if <code>initializer</code> is specified and is not callable.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p>Other feature column constructors: <code><a href='column_bucketized.html'>column_bucketized</a></code>,
+  <code><a href='column_categorical_weighted.html'>column_categorical_weighted</a></code>,
   <code><a href='column_categorical_with_hash_bucket.html'>column_categorical_with_hash_bucket</a></code>,
   <code><a href='column_categorical_with_identity.html'>column_categorical_with_identity</a></code>,
   <code><a href='column_categorical_with_vocabulary_file.html'>column_categorical_with_vocabulary_file</a></code>,
   <code><a href='column_categorical_with_vocabulary_list.html'>column_categorical_with_vocabulary_list</a></code>,
   <code><a href='column_crossed.html'>column_crossed</a></code>,
-  <code><a href='column_numeric.html'>column_numeric</a></code>,
-  <code><a href='column_weighted_categorical.html'>column_weighted_categorical</a></code>,
-  <code><a href='input_layer.html'>input_layer</a></code></p>
+  <code><a href='column_numeric.html'>column_numeric</a></code>, <code><a href='input_layer.html'>input_layer</a></code></p>
     
 
   </div>

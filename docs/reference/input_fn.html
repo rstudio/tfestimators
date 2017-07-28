@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Input function constructor — input_fn • tfestimators</title>
+<title>Construct an Input Function — input_fn • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,15 +119,17 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Input function constructor</h1>
+    <h1>Construct an Input Function</h1>
     </div>
 
     
-    <p>This function constructs input function from various types of input used to feed the
-estimator.</p>
+    <p>This function constructs input function from various types of input used to
+feed different TensorFlow estimators.</p>
     
 
-    <pre class="usage"><span class='co'># S3 method for default</span>
+    <pre class="usage"><span class='fu'>input_fn</span>(<span class='no'>object</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for default</span>
 <span class='fu'>input_fn</span>(<span class='no'>object</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for formula</span>
@@ -135,13 +137,13 @@ estimator.</p>
 
 <span class='co'># S3 method for data.frame</span>
 <span class='fu'>input_fn</span>(<span class='no'>object</span>, <span class='no'>features</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>batch_size</span> <span class='kw'>=</span> <span class='fl'>128</span>, <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>num_epochs</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>queue_capacity</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>num_threads</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+  <span class='kw'>batch_size</span> <span class='kw'>=</span> <span class='fl'>128</span>, <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='st'>"auto"</span>, <span class='kw'>num_epochs</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>queue_capacity</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>num_threads</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for list</span>
 <span class='fu'>input_fn</span>(<span class='no'>object</span>, <span class='no'>features</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>batch_size</span> <span class='kw'>=</span> <span class='fl'>128</span>,
-  <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>num_epochs</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>queue_capacity</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>num_threads</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+  <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='st'>"auto"</span>, <span class='kw'>num_epochs</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>queue_capacity</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>num_threads</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for matrix</span>
 <span class='fu'>input_fn</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
@@ -150,30 +152,35 @@ estimator.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object</th>
-      <td><p>The object that represents the input source</p></td>
+      <th>object, data</th>
+      <td><p>An 'input source' -- either a data set (e.g. an <span style="R">R</span> <code>data.frame</code>),
+or another kind of object that can provide the data required for training.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Optional arguments passed on to implementing submethods.</p></td>
     </tr>
     <tr>
       <th>features</th>
-      <td><p>The names of features to be used</p></td>
+      <td><p>The names of feature variables to be used.</p></td>
     </tr>
     <tr>
       <th>response</th>
-      <td><p>The response variable name to be used</p></td>
+      <td><p>The name of the response variable.</p></td>
     </tr>
     <tr>
       <th>batch_size</th>
-      <td><p>The size of batches</p></td>
+      <td><p>The batch size.</p></td>
     </tr>
     <tr>
       <th>shuffle</th>
-      <td><p>Whether to shuffles the queue. Avoid shuffle at prediction
-time</p></td>
+      <td><p>Whether to shuffle the queue. When <code>"auto"</code> (the default),
+shuffling will be performed except when this input function is called by
+a <code>predict()</code> method.</p></td>
     </tr>
     <tr>
       <th>num_epochs</th>
-      <td><p>The number of epochs to iterate over data. If <code>NULL</code> will
-run forever.</p></td>
+      <td><p>The number of epochs to iterate over data.</p></td>
     </tr>
     <tr>
       <th>queue_capacity</th>
@@ -182,7 +189,7 @@ run forever.</p></td>
     <tr>
       <th>num_threads</th>
       <td><p>The number of threads used for reading and enqueueing. In
-order to have predicted and repeatable order of reading and enqueueing,
+order to have predictable and repeatable order of reading and enqueueing,
 such as in prediction and evaluation mode, <code>num_threads</code> should be 1.</p></td>
     </tr>
     </table>

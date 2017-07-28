@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Returns a dense <code>Tensor</code> as input layer based on given <code>feature_columns</code>. — input_layer • tfestimators</title>
+<title>Construct an Input Layer — input_layer • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,13 +119,13 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Returns a dense <code>Tensor</code> as input layer based on given <code>feature_columns</code>.</h1>
+    <h1>Construct an Input Layer</h1>
     </div>
 
     
-    <p>Generally a single example in training data is described with FeatureColumns.
+    <p>Returns a dense <code>Tensor</code> as input layer based on given <code>feature_columns</code>.
 At the first layer of the model, this column oriented data should be converted
-to a single <code>Tensor</code>. Example:</p>
+to a single <code>Tensor</code>.</p>
     
 
     <pre class="usage"><span class='fu'>input_layer</span>(<span class='no'>features</span>, <span class='no'>feature_columns</span>, <span class='kw'>weight_collections</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -168,32 +168,22 @@ will be added. Note that, variables will also be added to collections
 (batch_size, first_layer_dimension) and its dtype is <code>float32</code>.
 first_layer_dimension is determined based on given <code>feature_columns</code>.</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <pre>price &lt;- column_numeric('price')
-keywords_embedded &lt;- column_embedding(categorical_column_with_hash_bucket("keywords", 1000), dimensions = 16)
-columns &lt;- c(price, keywords_embedded, ...)
-features &lt;- tf$parse_example(..., features = make_parse_example_spec(columns))
-dense_tensor &lt;- input_layer(features, columns)
-prediction &lt;- tf$layers$dense(dense_tensor, 1)
-</pre>
-    
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
     <p>ValueError: if an item in <code>feature_columns</code> is not a
-<code>_DenseColumn</code>.</p>
+dense column.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p>Other feature column constructors: <code><a href='column_bucketized.html'>column_bucketized</a></code>,
+  <code><a href='column_categorical_weighted.html'>column_categorical_weighted</a></code>,
   <code><a href='column_categorical_with_hash_bucket.html'>column_categorical_with_hash_bucket</a></code>,
   <code><a href='column_categorical_with_identity.html'>column_categorical_with_identity</a></code>,
   <code><a href='column_categorical_with_vocabulary_file.html'>column_categorical_with_vocabulary_file</a></code>,
   <code><a href='column_categorical_with_vocabulary_list.html'>column_categorical_with_vocabulary_list</a></code>,
   <code><a href='column_crossed.html'>column_crossed</a></code>,
   <code><a href='column_embedding.html'>column_embedding</a></code>,
-  <code><a href='column_numeric.html'>column_numeric</a></code>,
-  <code><a href='column_weighted_categorical.html'>column_weighted_categorical</a></code></p>
+  <code><a href='column_numeric.html'>column_numeric</a></code></p>
     
 
   </div>
@@ -203,8 +193,6 @@ prediction &lt;- tf$layers$dense(dense_tensor, 1)
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
 
       <li><a href="#raises">Raises</a></li>
 

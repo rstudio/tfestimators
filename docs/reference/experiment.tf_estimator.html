@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Experiment constructor — experiment.tf_estimator • tfestimators</title>
+<title>Construct an Experiment — experiment.tf_estimator • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,7 +119,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Experiment constructor</h1>
+    <h1>Construct an Experiment</h1>
     </div>
 
     
@@ -130,16 +130,20 @@ loops in a sensible fashion for distributed training.</p>
     
 
     <pre class="usage"><span class='co'># S3 method for tf_estimator</span>
-<span class='fu'>experiment</span>(<span class='no'>object</span>, <span class='no'>train_input_fn</span>, <span class='no'>eval_input_fn</span>,
+<span class='fu'><a href='experiment.html'>experiment</a></span>(<span class='no'>object</span>, <span class='no'>train_input_fn</span>, <span class='no'>eval_input_fn</span>,
   <span class='kw'>train_steps</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>eval_steps</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>eval_metrics</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>train_monitors</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>eval_hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>local_eval_frequency</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>eval_delay_secs</span> <span class='kw'>=</span> <span class='fl'>120L</span>, <span class='kw'>continuous_eval_throttle_secs</span> <span class='kw'>=</span> <span class='fl'>60L</span>,
   <span class='kw'>min_eval_frequency</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>delay_workers_by_global_step</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>export_strategies</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>train_steps_per_iteration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>export_strategies</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>train_steps_per_iteration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p>A TensorFlow estimator.</p></td>
+    </tr>
     <tr>
       <th>train_input_fn</th>
       <td><p>function, returns features and labels for training.</p></td>
@@ -193,6 +197,14 @@ evaluation was started at least this many seconds ago for
 continuous_eval().</p></td>
     </tr>
     <tr>
+      <th>min_eval_frequency</th>
+      <td><p>The minimum number of steps between evaluations. Of
+course, evaluation does not occur if no new snapshot is available, hence,
+this is the minimum. If 0, the evaluation will only happen after training.
+If NULL, defaults to 1, unless model_dir is on GCS, in which case the
+default is 1000.</p></td>
+    </tr>
+    <tr>
       <th>delay_workers_by_global_step</th>
       <td><p>if <code>TRUE</code> delays training workers based
 on global step instead of time.</p></td>
@@ -211,12 +223,8 @@ evaluated more frequently with more checkpoints saved. If <code>NULL</code>, wil
 a default value (which is smaller than <code>train_steps</code> if provided).</p></td>
     </tr>
     <tr>
-      <th>min_eval_frequency:</th>
-      <td><p>(applies only to train_and_evaluate). the minimum
-number of steps between evaluations. Of course, evaluation does not occur
-if no new snapshot is available, hence, this is the minimum. If 0, the
-evaluation will only happen after training. If NULL, defaults to 1, unless
-model_dir is on GCS, in which case the default is 1000.</p></td>
+      <th>...</th>
+      <td><p>Optional arguments passed on to the <code>Experiment</code> constructor.</p></td>
     </tr>
     </table>
     

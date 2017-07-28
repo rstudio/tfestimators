@@ -171,7 +171,7 @@ custom_model_fn &lt;-<span class="st"> </span><span class="cf">function</span>(f
 <span class="co"># Intialize classifer and training</span>
 classifier &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/estimator.html">estimator</a></span>(
   <span class="dt">model_fn =</span> custom_model_fn) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">train</span>(<span class="dt">input_fn =</span> inputs, <span class="dt">steps =</span> <span class="dv">2</span>)
+<span class="st">  </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="dt">input_fn =</span> inputs, <span class="dt">steps =</span> <span class="dv">2</span>)
 
 <span class="co"># Genearate predictions</span>
 predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> inputs)

@@ -131,15 +131,24 @@ exhausted or another exception is raised. Start the evaluation after
     
 
     <pre class="usage"><span class='co'># S3 method for tf_experiment</span>
-<span class='fu'>evaluate</span>(<span class='no'>object</span>, <span class='kw'>delay_secs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+<span class='fu'><a href='evaluate.html'>evaluate</a></span>(<span class='no'>object</span>, <span class='kw'>delay_secs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>object</th>
+      <td><p>A TensorFlow experiment.</p></td>
+    </tr>
+    <tr>
       <th>delay_secs</th>
       <td><p>Start evaluating after this many seconds. If <code>NULL</code>,
 defaults to using <code>self._eval_delays_secs</code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Optional arguments passed on to the experiment's <code><a href='evaluate.html'>evaluate()</a></code>
+method.</p></td>
     </tr>
     </table>
     

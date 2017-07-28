@@ -137,7 +137,7 @@ testthat<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <p>Firstly, define features transformations and initiailize your classifier similar to the following:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fcs &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(...)
 
-model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dnn_classifier.html">dnn_classifier</a></span>(
+model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dnn_estimators.html">dnn_classifier</a></span>(
   <span class="dt">n_classes =</span> <span class="dv">1000</span>,
   <span class="dt">feature_columns =</span> fcs,
   <span class="dt">weight_column =</span> <span class="st">'example-weight'</span>,
@@ -169,7 +169,7 @@ model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dnn_c
   <span class="kw">return</span>(<span class="kw">list</span>(features, labels))
 }</code></pre></div>
 <p>Finally we can train the model using the training input function parsed by <code>classifier_parse_example_spec</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">train</span>(model, <span class="dt">input_fn =</span> input_fn_train)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/train.html">train</a></span>(model, <span class="dt">input_fn =</span> input_fn_train)</code></pre></div>
 </div>
 </div>
   </div>

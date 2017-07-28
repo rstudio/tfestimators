@@ -111,7 +111,7 @@
 <ul>
 <li><p>Canned estimators (pre-built implementations of various models).</p></li>
 <li><p>Custom estimators (custom model implementations).</p></li>
-<li><p>Estimator methods (core methods like <code>train()</code>, <code>predict()</code>, etc. which work the same for all canned and custom estimators).</p></li>
+<li><p>Estimator methods (core methods like <code><a href="../reference/train.html">train()</a></code>, <code>predict()</code>, etc. which work the same for all canned and custom estimators).</p></li>
 <li><p>Feature columns (definitions of how features should be transformed during modeling).</p></li>
 <li><p>Input functions (sources of data for training and prediction).</p></li>
 </ul>
@@ -142,19 +142,19 @@
 <td>Linear classifier model.</td>
 </tr>
 <tr class="odd">
-<td><code><a href="../reference/dnn_regressor.html">dnn_regressor()</a></code></td>
+<td><code><a href="../reference/dnn_estimators.html">dnn_regressor()</a></code></td>
 <td>DNN Regression.</td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/dnn_classifier.html">dnn_classifier()</a></code></td>
+<td><code><a href="../reference/dnn_estimators.html">dnn_classifier()</a></code></td>
 <td>DNN Classification.</td>
 </tr>
 <tr class="odd">
-<td><code><a href="../reference/dnn_linear_combined_regressor.html">dnn_linear_combined_regressor()</a></code></td>
+<td><code><a href="../reference/dnn_linear_combined_estimators.html">dnn_linear_combined_regressor()</a></code></td>
 <td>DNN Linear Combined Regression.</td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/dnn_linear_combined_classifier.html">dnn_linear_combined_classifier()</a></code></td>
+<td><code><a href="../reference/dnn_linear_combined_estimators.html">dnn_linear_combined_classifier()</a></code></td>
 <td>DNN Linear Combined Classification.</td>
 </tr>
 </tbody>
@@ -208,27 +208,27 @@
 </tr>
 <tr class="odd">
 <td><code><a href="../reference/column_embedding.html">column_embedding()</a></code></td>
-<td>Creates an _DenseColumn that converts from sparse, categorical input.</td>
+<td>Creates an dense column that converts from sparse, categorical input.</td>
 </tr>
 <tr class="even">
 <td><code><a href="../reference/column_bucketized.html">column_bucketized()</a></code></td>
 <td>Represents discretized dense input.</td>
 </tr>
 <tr class="odd">
-<td><code><a href="../reference/column_weighted_categorical.html">column_weighted_categorical()</a></code></td>
-<td>Applies weight values to a _CategoricalColumn.</td>
+<td><code><a href="../reference/column_categorical_weighted.html">column_categorical_weighted()</a></code></td>
+<td>Applies weight values to a categorical column.</td>
 </tr>
 <tr class="even">
 <td><code><a href="../reference/column_categorical_with_vocabulary_list.html">column_categorical_with_vocabulary_list()</a></code></td>
-<td>Creates a _CategoricalColumn with in-memory vocabulary.</td>
+<td>Creates a categorical column with in-memory vocabulary.</td>
 </tr>
 <tr class="odd">
 <td><code><a href="../reference/column_categorical_with_vocabulary_file.html">column_categorical_with_vocabulary_file()</a></code></td>
-<td>Creates a _CategoricalColumn with a vocabulary file.</td>
+<td>Creates a categorical column with a vocabulary file.</td>
 </tr>
 <tr class="even">
 <td><code><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity()</a></code></td>
-<td>Creates a _CategoricalColumn that returns identity values.</td>
+<td>Creates a categorical column that returns identity values.</td>
 </tr>
 <tr class="odd">
 <td><code><a href="../reference/column_categorical_with_hash_bucket.html">column_categorical_with_hash_bucket()</a></code></td>
@@ -243,7 +243,7 @@
 <a href="#creating-an-estimator" class="anchor"></a>Creating an Estimator</h2>
 <p>Here’s an example of creating a Linear DNN Combined canned Estimator. In creating the estimator we pass the feature columns and other parameters that specifies the layers and architecture of the model. Note that for this particular canned Estimator, it takes two types of feature columns that are used for constructing linear layer and fully connected deep layers separately:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">classifier &lt;-
-<span class="st">    </span><span class="kw"><a href="../reference/dnn_linear_combined_classifier.html">dnn_linear_combined_classifier</a></span>(
+<span class="st">    </span><span class="kw"><a href="../reference/dnn_linear_combined_estimators.html">dnn_linear_combined_classifier</a></span>(
       <span class="dt">linear_feature_columns =</span> linear_feature_columns,
       <span class="dt">dnn_feature_columns =</span> dnn_feature_columns,
       <span class="dt">dnn_hidden_units =</span> <span class="kw">c</span>(3L, 3L),
@@ -253,8 +253,8 @@
 <div id="training-and-prediction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#training-and-prediction" class="anchor"></a>Training and Prediction</h2>
-<p>Users can then call <code>train()</code> to train the initialized Estimator for a number of steps:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">classifier &lt;-<span class="st"> </span><span class="kw">train</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn, <span class="dt">steps =</span> <span class="dv">2</span>)</code></pre></div>
+<p>Users can then call <code><a href="../reference/train.html">train()</a></code> to train the initialized Estimator for a number of steps:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">classifier &lt;-<span class="st"> </span><span class="kw"><a href="../reference/train.html">train</a></span>(classifier, <span class="dt">input_fn =</span> custom_input_fn, <span class="dt">steps =</span> <span class="dv">2</span>)</code></pre></div>
 <p>Once a model is trained, users can use <code>predict()</code> that makes predictions on a given input function that represents the inference data source.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn)</code></pre></div>
 <p>Users can also pass a key to <code>predict_keys</code> argument in <code>predict()</code> that generates different types of predictions, such as probabilities using <code>prediction_keys()$PROBABILITIES</code>:</p>
@@ -283,7 +283,7 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td><code>train()</code></td>
+<td><code><a href="../reference/train.html">train()</a></code></td>
 <td>Trains a model given training data input_fn.</td>
 </tr>
 <tr class="even">
@@ -291,11 +291,11 @@
 <td>Returns predictions for given features.</td>
 </tr>
 <tr class="odd">
-<td><code>evaluate()</code></td>
+<td><code><a href="../reference/evaluate.html">evaluate()</a></code></td>
 <td>Evaluates the model given evaluation data input_fn.</td>
 </tr>
 <tr class="even">
-<td><code>export_savedmodel()</code></td>
+<td><code><a href="../reference/export_savedmodel.html">export_savedmodel()</a></code></td>
 <td>Exports inference graph as a SavedModel into a given directory.</td>
 </tr>
 <tr class="odd">

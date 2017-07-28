@@ -128,14 +128,22 @@
     
 
     <pre class="usage"><span class='co'># S3 method for tf_experiment</span>
-<span class='fu'>train</span>(<span class='no'>object</span>, <span class='kw'>delay_secs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+<span class='fu'><a href='train.html'>train</a></span>(<span class='no'>object</span>, <span class='kw'>delay_secs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>object</th>
+      <td><p>A TensorFlow experiment object.</p></td>
+    </tr>
+    <tr>
       <th>delay_secs</th>
       <td><p>Start training after this many seconds.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Optional arguments passed to the estimator's <code><a href='train.html'>train()</a></code> method.</p></td>
     </tr>
     </table>
     

@@ -132,22 +132,114 @@
   <span class='kw'>predict_probabilities</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>momentum</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gradient_clipping_norm</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>dropout_keep_probabilities</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>feature_engineering_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>model_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>config</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-        
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>problem_type</th>
+      <td><p>whether the <code>Estimator</code> is intended for a regression or
+classification problem. Value must be one of <code>ProblemType.CLASSIFICATION</code>
+or <code>ProblemType.LINEAR_REGRESSION</code>.</p></td>
+    </tr>
+    <tr>
+      <th>prediction_type</th>
+      <td><p>whether the <code>Estimator</code> should return a value for each
+step in the sequence, or just a single value for the final time step. Must
+be one of <code>PredictionType.SINGLE_VALUE</code> or <code>PredictionType.MULTIPLE_VALUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>sequence_feature_columns</th>
+      <td><p>An iterable containing all the feature
+columns describing sequence features. All items in the iterable should be
+instances of classes derived from <code>FeatureColumn</code>.</p></td>
+    </tr>
+    <tr>
+      <th>context_feature_columns</th>
+      <td><p>An iterable containing all the feature columns
+describing context features, i.e., features that apply across all time
+steps. All items in the set should be instances of classes derived from
+<code>FeatureColumn</code>.</p></td>
+    </tr>
+    <tr>
+      <th>num_classes</th>
+      <td><p>the number of classes for a classification problem. Only
+used when <code>problem_type=ProblemType.CLASSIFICATION</code>.</p></td>
+    </tr>
+    <tr>
+      <th>num_units</th>
+      <td><p>A list of integers indicating the number of units in the
+<code>RNNCell</code>s in each layer.</p></td>
+    </tr>
+    <tr>
+      <th>cell_type</th>
+      <td><p>A subclass of <code>RNNCell</code> or one of 'basic_rnn,' 'lstm' or
+'gru'.</p></td>
+    </tr>
+    <tr>
+      <th>optimizer</th>
+      <td><p>Either the name of the optimizer to be used when training
+the model, or a <code>tf$Optimizer</code> instance. Defaults to the SGD optimizer.</p></td>
+    </tr>
+    <tr>
+      <th>learning_rate</th>
+      <td><p>Learning rate. This argument has no effect if
+<code>optimizer</code> is an instance of an <code>Optimizer</code>.</p></td>
+    </tr>
+    <tr>
+      <th>predict_probabilities</th>
+      <td><p>A boolean indicating whether to predict
+probabilities for all classes. Used only if <code>problem_type</code> is
+<code>ProblemType.CLASSIFICATION</code></p></td>
+    </tr>
+    <tr>
+      <th>momentum</th>
+      <td><p>Momentum value. Only used if <code>optimizer_type</code> is 'Momentum'.</p></td>
+    </tr>
+    <tr>
+      <th>gradient_clipping_norm</th>
+      <td><p>Parameter used for gradient clipping. If
+<code>NULL</code>, then no clipping is performed.</p></td>
+    </tr>
+    <tr>
+      <th>dropout_keep_probabilities</th>
+      <td><p>a list of dropout probabilities or <code>NULL</code>.
+If a list is given, it must have length <code>len(num_units) + 1</code>. If <code>NULL</code>,
+then no dropout is applied.</p></td>
+    </tr>
+    <tr>
+      <th>feature_engineering_fn</th>
+      <td><p>Takes features and labels which are the output
+of <code>input_fn</code> and returns features and labels which will be fed into
+<code>model_fn</code>. Please check <code>model_fn</code> for a definition of features and
+labels.</p></td>
+    </tr>
+    <tr>
+      <th>model_dir</th>
+      <td><p>Directory to save the model parameters, graph, and so on.
+This can also be used to load checkpoints from the directory into a
+estimator to continue training a previously saved model.</p></td>
+    </tr>
+    <tr>
+      <th>config</th>
+      <td><p>A <code>RunConfig</code> object, used to configure the runtime
+settings.</p></td>
+    </tr>
+    </table>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other canned estimators: <code><a href='dnn_classifier.html'>dnn_classifier</a></code>,
-  <code><a href='dnn_linear_combined_classifier.html'>dnn_linear_combined_classifier</a></code>,
-  <code><a href='dnn_linear_combined_regressor.html'>dnn_linear_combined_regressor</a></code>,
-  <code><a href='dnn_regressor.html'>dnn_regressor</a></code>,
+    <p>Other canned estimators: <code>dnn_estimators</code>,
+  <code>dnn_linear_combined_estimators</code>,
   <code><a href='linear_classifier.html'>linear_classifier</a></code>,
-  <code><a href='linear_regressor.html'>linear_regressor</a></code>,
-  <code><a href='state_saving_rnn.html'>state_saving_rnn</a></code></p>
+  <code><a href='linear_regressor.html'>linear_regressor</a></code></p>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#see-also">See also</a></li>
           </ul>

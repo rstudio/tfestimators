@@ -105,23 +105,23 @@
     
 <div class="contents">
 <p>Experiments are designed for easier experiments, e.g. define your model, specify training and evaluation data and steps, frequencies, where to run, metrics to use to monitor the process, etc. They contain all neccessary information required, such as <code>input_fn</code> for both training and evaluation, to run experiments and can be easily packed up to run in cloud, local, or cluster environment.</p>
-<p>The <code>Experiment</code> is the core to the distributed execution. In each TensorFlow cluster, there are several parameter servers and several worker tasks. Most workers are handing the training process, which basically calls the Estimator <code>train()</code> with the training <code>input_fn</code>. One of the workers is designated leader and is responsible for managing checkpoints and other maintenance work. Currently, the primary mode of replica training in TensorFlow Estimators is between-graph replication and asynchronous training. However, it could be easily extended to support other replicated training settings. With this architecture, gradient descent training can be executed in parallel. Please read our <a href="http://terrytangyuan.github.io/data/papers/tf-estimators-kdd-paper.pdf">white paper</a> if you are interested in the details of the design.</p>
+<p>The <code>Experiment</code> is the core to the distributed execution. In each TensorFlow cluster, there are several parameter servers and several worker tasks. Most workers are handing the training process, which basically calls the Estimator <code><a href="../reference/train.html">train()</a></code> with the training <code>input_fn</code>. One of the workers is designated leader and is responsible for managing checkpoints and other maintenance work. Currently, the primary mode of replica training in TensorFlow Estimators is between-graph replication and asynchronous training. However, it could be easily extended to support other replicated training settings. With this architecture, gradient descent training can be executed in parallel. Please read our <a href="http://terrytangyuan.github.io/data/papers/tf-estimators-kdd-paper.pdf">white paper</a> if you are interested in the details of the design.</p>
 <p>The architecture of <code>Experiment</code> is summarized in the figure below:</p>
 <div class="figure">
 <img src="images/experiment.png" class="screenshot" width="770" height="270">
 </div>
 <p>For example, we firstly construct a classifier</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clf &lt;-
-<span class="st">  </span><span class="kw"><a href="../reference/dnn_linear_combined_classifier.html">dnn_linear_combined_classifier</a></span>(
+<span class="st">  </span><span class="kw"><a href="../reference/dnn_linear_combined_estimators.html">dnn_linear_combined_classifier</a></span>(
     <span class="dt">linear_feature_columns =</span> linear_feature_columns,
     <span class="dt">dnn_feature_columns =</span> dnn_feature_columns,
     <span class="dt">dnn_hidden_units =</span> <span class="kw">c</span>(3L, 3L),
     <span class="dt">dnn_optimizer =</span> <span class="st">"Adagrad"</span>
   )
   </code></pre></div>
-<p>and then we pass the classifier into <code>experiment()</code> together with other neccessary information, such as separate input functions for training and evaluation, training and avaluation steps, etc. Then we can call <code>train_and_evaluate()</code> to conduct the experiment by running training and evaluation altogether.</p>
+<p>and then we pass the classifier into <code><a href="../reference/experiment.html">experiment()</a></code> together with other neccessary information, such as separate input functions for training and evaluation, training and avaluation steps, etc. Then we can call <code><a href="../reference/train_and_evaluate.html">train_and_evaluate()</a></code> to conduct the experiment by running training and evaluation altogether.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
-experiment &lt;-<span class="st"> </span><span class="kw">experiment</span>(
+experiment &lt;-<span class="st"> </span><span class="kw"><a href="../reference/experiment.html">experiment</a></span>(
   clf,
   <span class="dt">train_input_fn =</span> custom_train_input_fn,
   <span class="dt">eval_input_fn =</span> custom_eval_input_fn,
@@ -130,7 +130,7 @@ experiment &lt;-<span class="st"> </span><span class="kw">experiment</span>(
   <span class="dt">continuous_eval_throttle_secs =</span> 60L
 )
 
-experiment_result &lt;-<span class="st"> </span><span class="kw">train_and_evaluate</span>(experiment)</code></pre></div>
+experiment_result &lt;-<span class="st"> </span><span class="kw"><a href="../reference/train_and_evaluate.html">train_and_evaluate</a></span>(experiment)</code></pre></div>
 <p>The following functions are available for working with experiments:</p>
 <table class="table">
 <thead><tr class="header">
@@ -139,19 +139,19 @@ experiment_result &lt;-<span class="st"> </span><span class="kw">train_and_evalu
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td><code>experiment()</code></td>
+<td><code><a href="../reference/experiment.html">experiment()</a></code></td>
 <td>Create an experiment.</td>
 </tr>
 <tr class="even">
-<td><code>train()</code></td>
+<td><code><a href="../reference/train.html">train()</a></code></td>
 <td>Training method for experiments.</td>
 </tr>
 <tr class="odd">
-<td><code>evaluate()</code></td>
+<td><code><a href="../reference/evaluate.html">evaluate()</a></code></td>
 <td>Evaluation method for experiments.</td>
 </tr>
 <tr class="even">
-<td><code>train_and_evaluate()</code></td>
+<td><code><a href="../reference/train_and_evaluate.html">train_and_evaluate()</a></code></td>
 <td>Interleave training and evaluation.</td>
 </tr>
 </tbody>

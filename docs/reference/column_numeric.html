@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Represents real valued or numerical features. — column_numeric • tfestimators</title>
+<title>Construct a Real-Valued Column — column_numeric • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,14 +119,14 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Represents real valued or numerical features.</h1>
+    <h1>Construct a Real-Valued Column</h1>
     </div>
 
     
-    <p>Represents real valued or numerical features.</p>
+    <p>Construct a Real-Valued Column</p>
     
 
-    <pre class="usage"><span class='fu'>column_numeric</span>(<span class='no'>...</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='fl'>1L</span>), <span class='kw'>default_value</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>column_numeric</span>(<span class='no'>...</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1L</span>), <span class='kw'>default_value</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>float32</span>, <span class='kw'>normalizer_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
@@ -134,31 +134,32 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p>Expression(s) identifying input feature(s). Used as the column name
-and the dictionary key for feature parsing configs, feature <code>Tensor</code>
+      <td><p>Expression(s) identifying input feature(s). Used as the column
+name and the dictionary key for feature parsing configs, feature <code>Tensor</code>
 objects, and feature columns.</p></td>
     </tr>
     <tr>
       <th>shape</th>
-      <td><p>An iterable of integers specifies the shape of the <code>Tensor</code>. An
+      <td><p>An integer vector that specifies the shape of the <code>Tensor</code>. An
 integer can be given which means a single dimension <code>Tensor</code> with given
 width. The <code>Tensor</code> representing the column will have the shape of
-batch_size + <code>shape</code>.</p></td>
+<code>batch_size + shape</code>.</p></td>
     </tr>
     <tr>
       <th>default_value</th>
       <td><p>A single value compatible with <code>dtype</code> or an iterable of
-values compatible with <code>dtype</code> which the column takes on during
-<code>tf.Example</code> parsing if data is missing. A default value of <code>NULL</code> will
-cause <code>tf.parse_example</code> to fail if an example does not contain this
-column. If a single value is provided, the same value will be applied as
-the default value for every item. If an iterable of values is provided, the
-shape of the <code>default_value</code> should be equal to the given <code>shape</code>.</p></td>
+values compatible with <code>dtype</code> which the column takes on during parsing if
+data is missing. A default value of <code>NULL</code> will cause <code>tf.parse_example</code> to
+fail if an example does not contain this column. If a single value is
+provided, the same value will be applied as the default value for every
+item. If an iterable of values is provided, the shape of the
+<code>default_value</code> should be equal to the given <code>shape</code>.</p></td>
     </tr>
     <tr>
       <th>dtype</th>
-      <td><p>defines the type of values. Default value is <code>tf.float32</code>. Must
-be a non-quantized, real integer or floating point type.</p></td>
+      <td><p>The types for values contained in the column. The default value
+is <code>tf$float32</code>. Must be a non-quantized, real integer or floating point
+type.</p></td>
     </tr>
     <tr>
       <th>normalizer_fn</th>
@@ -169,15 +170,11 @@ the output <code>Tensor</code>. (e.g. lambda x: (x - 3.0) / 4.2). Please note th
 even though the most common use case of this function is normalization, it
 can be used for any kind of Tensorflow transformations.</p></td>
     </tr>
-    <tr>
-      <th>fc</th>
-      <td><p>Feature columns</p></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>_NumericColumn</code>.</p>
+    <p>A numeric column.</p>
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
@@ -185,19 +182,18 @@ can be used for any kind of Tensorflow transformations.</p></td>
 ValueError: if any dimension in shape is not a positive integer TypeError:
 if <code>default_value</code> is an iterable but not compatible with <code>shape</code>
 TypeError: if <code>default_value</code> is not compatible with <code>dtype</code>. ValueError:
-if <code>dtype</code> is not convertible to <code>tf.float32</code>.</p>
+if <code>dtype</code> is not convertible to <code>tf$float32</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p>Other feature column constructors: <code><a href='column_bucketized.html'>column_bucketized</a></code>,
+  <code><a href='column_categorical_weighted.html'>column_categorical_weighted</a></code>,
   <code><a href='column_categorical_with_hash_bucket.html'>column_categorical_with_hash_bucket</a></code>,
   <code><a href='column_categorical_with_identity.html'>column_categorical_with_identity</a></code>,
   <code><a href='column_categorical_with_vocabulary_file.html'>column_categorical_with_vocabulary_file</a></code>,
   <code><a href='column_categorical_with_vocabulary_list.html'>column_categorical_with_vocabulary_list</a></code>,
   <code><a href='column_crossed.html'>column_crossed</a></code>,
-  <code><a href='column_embedding.html'>column_embedding</a></code>,
-  <code><a href='column_weighted_categorical.html'>column_weighted_categorical</a></code>,
-  <code><a href='input_layer.html'>input_layer</a></code></p>
+  <code><a href='column_embedding.html'>column_embedding</a></code>, <code><a href='input_layer.html'>input_layer</a></code></p>
     
 
   </div>

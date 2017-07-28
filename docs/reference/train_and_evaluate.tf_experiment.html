@@ -140,8 +140,22 @@ results using the specified <code>ExportStrategy</code>.</p>
     
 
     <pre class="usage"><span class='co'># S3 method for tf_experiment</span>
-<span class='fu'>train_and_evaluate</span>(<span class='no'>object</span>)</pre>
-        
+<span class='fu'><a href='train_and_evaluate.html'>train_and_evaluate</a></span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p>A TensorFlow experiment.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Optional arguments, passed to the experiment's <code><a href='train_and_evaluate.html'>train_and_evaluate()</a></code>
+method.</p></td>
+    </tr>
+    </table>
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The result of the <code>evaluate</code> call to the <code>Estimator</code> as well as the
@@ -158,6 +172,7 @@ export results using the specified <code>ExportStrategy</code>.</p>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
 

@@ -128,11 +128,15 @@
 
     <pre class="usage"><span class='co'># S3 method for tf_estimator</span>
 <span class='fu'>predict</span>(<span class='no'>object</span>, <span class='no'>input_fn</span>, <span class='kw'>checkpoint_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>predict_keys</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>as_iterable</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>predict_keys</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>as_iterable</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p>A TensorFlow estimator.</p></td>
+    </tr>
     <tr>
       <th>input_fn</th>
       <td><p>Input function returning features which is a dictionary of
@@ -156,6 +160,17 @@ returns all.</p></td>
       <th>hooks</th>
       <td><p>List of <code>SessionRunHook</code> subclass instances. Used for callbacks
 inside the prediction call.</p></td>
+    </tr>
+    <tr>
+      <th>as_iterable</th>
+      <td><p>Boolean; should a raw Python generator be returned? When
+<code>FALSE</code> (the default), the predicted values will be consumed from the
+generator and returned as an <span style="R">R</span> object.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Optional arguments passed on to the estimator's <code>predict()</code>
+method.</p></td>
     </tr>
     </table>
     

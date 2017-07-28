@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>TensorFlow -- Support Vector Machines — svm_classifier • tfestimators</title>
+<title>Support Vector Machine (SVM) model for binary classification. — svm_classifier • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,21 +119,91 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>TensorFlow -- Support Vector Machines</h1>
+    <h1>Support Vector Machine (SVM) model for binary classification.</h1>
     </div>
 
     
-    <p>Perform Support Vector Machines for binary classification using TensorFlow.</p>
+    <p>Currently, only linear SVMs are supported. For the underlying optimization
+problem, the <code>SDCAOptimizer</code> is used. For performance and convergence tuning,
+the num_loss_partitions parameter passed to <code>SDCAOptimizer</code> (see <code>__init__()</code>
+method), should be set to (#concurrent train ops per worker) x (#workers). If
+num_loss_partitions is larger or equal to this value, convergence is
+guaranteed but becomes slower as num_loss_partitions increases. If it is set
+to a smaller value, the optimizer is more aggressive in reducing the global
+loss but convergence is not guaranteed. The recommended value in tf.learn
+(where there is one process per worker) is the number of workers running the
+train steps. It defaults to 1 (single machine).</p>
     
 
-    <pre class="usage"><span class='fu'>svm_classifier</span>(<span class='no'>feature_columns</span>, <span class='no'>example_id_column</span>, <span class='kw'>weight_column_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>model_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>config</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-        
+    <pre class="usage"><span class='fu'>svm_classifier</span>(<span class='no'>example_id_column</span>, <span class='no'>feature_columns</span>, <span class='kw'>weight_column_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>model_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>l1_regularization</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>l2_regularization</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>num_loss_partitions</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>kernels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>config</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>feature_engineering_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>example_id_column</th>
+      <td><p>A string defining the feature column name
+representing example ids. Used to initialize the underlying optimizer.</p></td>
+    </tr>
+    <tr>
+      <th>feature_columns</th>
+      <td><p>An iterable containing all the feature columns used by
+the model. All items in the set should be instances of classes derived from
+<code>FeatureColumn</code>.</p></td>
+    </tr>
+    <tr>
+      <th>weight_column_name</th>
+      <td><p>A string defining feature column name representing
+weights. It is used to down weight or boost examples during training. It
+will be multiplied by the loss of the example.</p></td>
+    </tr>
+    <tr>
+      <th>model_dir</th>
+      <td><p>Directory to save model parameters, graph and etc. This can
+also be used to load checkpoints from the directory into a estimator to
+continue training a previously saved model.</p></td>
+    </tr>
+    <tr>
+      <th>l1_regularization</th>
+      <td><p>L1-regularization parameter. Refers to global L1
+regularization (across all examples).</p></td>
+    </tr>
+    <tr>
+      <th>l2_regularization</th>
+      <td><p>L2-regularization parameter. Refers to global L2
+regularization (across all examples).</p></td>
+    </tr>
+    <tr>
+      <th>num_loss_partitions</th>
+      <td><p>number of partitions of the (global) loss function
+optimized by the underlying optimizer (SDCAOptimizer).</p></td>
+    </tr>
+    <tr>
+      <th>kernels</th>
+      <td><p>A list of kernels for the SVM. Currently, no kernels are
+supported. Reserved for future use for non-linear SVMs.</p></td>
+    </tr>
+    <tr>
+      <th>config</th>
+      <td><p>RunConfig object to configure the runtime settings.</p></td>
+    </tr>
+    <tr>
+      <th>feature_engineering_fn</th>
+      <td><p>Feature engineering function. Takes features
+and labels which are the output of <code>input_fn</code> and returns features and
+labels which will be fed into the model.</p></td>
+    </tr>
+    </table>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
                 </ul>
 
   </div>

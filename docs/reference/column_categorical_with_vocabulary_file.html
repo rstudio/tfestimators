@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A <code>_CategoricalColumn</code> with a vocabulary file. — column_categorical_with_vocabulary_file • tfestimators</title>
+<title>Construct a Categorical Column with a Vocabulary File — column_categorical_with_vocabulary_file • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,7 +119,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A <code>_CategoricalColumn</code> with a vocabulary file.</h1>
+    <h1>Construct a Categorical Column with a Vocabulary File</h1>
     </div>
 
     
@@ -127,14 +127,10 @@
 vocabulary file that maps each value to an integer ID. By default,
 out-of-vocabulary values are ignored. Use either (but not both) of
 <code>num_oov_buckets</code> and <code>default_value</code> to specify how to include
-out-of-vocabulary values. For input dictionary <code>features</code>, <code>features[key]</code> is either <code>Tensor</code> or
-<code>SparseTensor</code>. If <code>Tensor</code>, missing values can be represented by <code>-1</code> for int
-and <code>''</code> for string. Note that these values are independent of the
-<code>default_value</code> argument. Example with <code>num_oov_buckets</code>:
-File '/us/states.txt' contains 50 lines, each with a 2-character U.S. state
-abbreviation. All inputs with values in that file are assigned an ID 0-49,
-corresponding to its line number. All other values are hashed and assigned an
-ID 50-54.</p>
+out-of-vocabulary values. For input dictionary <code>features</code>, <code>features[key]</code> is
+either <code>Tensor</code> or <code>SparseTensor</code>. If <code>Tensor</code>, missing values can be
+represented by <code>-1</code> for int and <code>''</code> for string. Note that these values are
+independent of the <code>default_value</code> argument.</p>
     
 
     <pre class="usage"><span class='fu'>column_categorical_with_vocabulary_file</span>(<span class='no'>...</span>, <span class='no'>vocabulary_file</span>, <span class='no'>vocabulary_size</span>,
@@ -145,8 +141,8 @@ ID 50-54.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p>Expression(s) identifying input feature(s). Used as the column name
-and the dictionary key for feature parsing configs, feature <code>Tensor</code>
+      <td><p>Expression(s) identifying input feature(s). Used as the column
+name and the dictionary key for feature parsing configs, feature <code>Tensor</code>
 objects, and feature columns.</p></td>
     </tr>
     <tr>
@@ -155,7 +151,9 @@ objects, and feature columns.</p></td>
     </tr>
     <tr>
       <th>vocabulary_size</th>
-      <td><p>Number of the elements in the vocabulary. This must be no greater than length of <code>vocabulary_file</code>, if less than length, later values are ignored.</p></td>
+      <td><p>Number of the elements in the vocabulary. This must be
+no greater than length of <code>vocabulary_file</code>, if less than length, later
+values are ignored.</p></td>
     </tr>
     <tr>
       <th>num_oov_buckets</th>
@@ -167,17 +165,20 @@ input value. A positive <code>num_oov_buckets</code> can not be specified with
     </tr>
     <tr>
       <th>default_value</th>
-      <td><p>The integer ID value to return for out-of-vocabulary feature values, defaults to <code>-1</code>. This can not be specified with a positive <code>num_oov_buckets</code>.</p></td>
+      <td><p>The integer ID value to return for out-of-vocabulary
+feature values, defaults to <code>-1</code>. This can not be specified with a positive
+<code>num_oov_buckets</code>.</p></td>
     </tr>
     <tr>
       <th>dtype</th>
-      <td><p>The type of features. Only string and integer types are supported.</p></td>
+      <td><p>The type of features. Only string and integer types are
+supported.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>_CategoricalColumn</code> with a vocabulary file.</p>
+    <p>A categorical column with a vocabulary file.</p>
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
@@ -190,14 +191,13 @@ ValueError: <code>dtype</code> is neither string nor integer.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p>Other feature column constructors: <code><a href='column_bucketized.html'>column_bucketized</a></code>,
+  <code><a href='column_categorical_weighted.html'>column_categorical_weighted</a></code>,
   <code><a href='column_categorical_with_hash_bucket.html'>column_categorical_with_hash_bucket</a></code>,
   <code><a href='column_categorical_with_identity.html'>column_categorical_with_identity</a></code>,
   <code><a href='column_categorical_with_vocabulary_list.html'>column_categorical_with_vocabulary_list</a></code>,
   <code><a href='column_crossed.html'>column_crossed</a></code>,
   <code><a href='column_embedding.html'>column_embedding</a></code>,
-  <code><a href='column_numeric.html'>column_numeric</a></code>,
-  <code><a href='column_weighted_categorical.html'>column_weighted_categorical</a></code>,
-  <code><a href='input_layer.html'>input_layer</a></code></p>
+  <code><a href='column_numeric.html'>column_numeric</a></code>, <code><a href='input_layer.html'>input_layer</a></code></p>
     
 
   </div>

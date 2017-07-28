@@ -63,6 +63,11 @@ reference:
       - dnn_classifier
       - dnn_linear_combined_regressor
       - dnn_linear_combined_classifier
+      
+  - title: "Contributed Estimators"
+    contents:
+      - svm_classifier
+      - dynamic_rnn
 
   - title: "Estimator Methods"
     contents:

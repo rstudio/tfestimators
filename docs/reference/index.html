@@ -155,27 +155,35 @@
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="dnn_regressor.html">dnn_regressor</a></code> </p>
+            <p><code><a href="dnn_estimators.html">dnn_regressor</a></code> <code><a href="dnn_estimators.html">dnn_classifier</a></code> </p>
           </td>
-          <td><p>A Regressor for TensorFlow DNN Models</p></td>
+          <td><p>Deep Neural Networks</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="dnn_classifier.html">dnn_classifier</a></code> </p>
+            <p><code><a href="dnn_linear_combined_estimators.html">dnn_linear_combined_regressor</a></code> <code><a href="dnn_linear_combined_estimators.html">dnn_linear_combined_classifier</a></code> </p>
           </td>
-          <td><p>A classifier for TensorFlow DNN models.</p></td>
+          <td><p>Linear Combined Deep Neural Networks</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-contributed-estimators" class="hasAnchor"><a href="#section-contributed-estimators" class="anchor"></a>Contributed Estimators</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="svm_classifier.html">svm_classifier</a></code> </p>
+          </td>
+          <td><p>Support Vector Machine (SVM) model for binary classification.</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="dnn_linear_combined_regressor.html">dnn_linear_combined_regressor</a></code> </p>
+            <p><code><a href="dynamic_rnn.html">dynamic_rnn</a></code> </p>
           </td>
-          <td><p>An estimator for TensorFlow Linear and DNN joined models for regression.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="dnn_linear_combined_classifier.html">dnn_linear_combined_classifier</a></code> </p>
-          </td>
-          <td><p>An estimator for TensorFlow Linear and DNN joined classification models.</p></td>
+          <td><p>Dynamic RNN Estimator</p></td>
         </tr>
       </tbody><tbody>
         <tr>
@@ -227,7 +235,7 @@
           <td>
             <p><code><a href="input_fn.html">input_fn</a></code> </p>
           </td>
-          <td><p>Input function constructor</p></td>
+          <td><p>Construct an Input Function</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -247,79 +255,79 @@
           <td>
             <p><code><a href="feature_columns.html">feature_columns</a></code> </p>
           </td>
-          <td><p>Create list of feature columns</p></td>
+          <td><p>Feature Columns</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="input_layer.html">input_layer</a></code> </p>
           </td>
-          <td><p>Returns a dense <code>Tensor</code> as input layer based on given <code>feature_columns</code>.</p></td>
+          <td><p>Construct an Input Layer</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="column_categorical_with_vocabulary_list.html">column_categorical_with_vocabulary_list</a></code> </p>
           </td>
-          <td><p>A <code>_CategoricalColumn</code> with in-memory vocabulary.</p></td>
+          <td><p>Construct a Categorical Column with In-Memory Vocabulary</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="column_categorical_with_vocabulary_file.html">column_categorical_with_vocabulary_file</a></code> </p>
           </td>
-          <td><p>A <code>_CategoricalColumn</code> with a vocabulary file.</p></td>
+          <td><p>Construct a Categorical Column with a Vocabulary File</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="column_categorical_with_identity.html">column_categorical_with_identity</a></code> </p>
           </td>
-          <td><p>A <code>_CategoricalColumn</code> that returns identity values.</p></td>
+          <td><p>Construct a Categorical Column that Returns Identity Values</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="column_categorical_with_hash_bucket.html">column_categorical_with_hash_bucket</a></code> </p>
           </td>
-          <td><p>Represents sparse feature where ids are set by hashing.</p></td>
+          <td><p>Represents Sparse Feature where IDs are set by Hashing</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="column_categorical_weighted.html">column_categorical_weighted</a></code> </p>
+          </td>
+          <td><p>Construct a Weighted Categorical Column</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="column_indicator.html">column_indicator</a></code> </p>
           </td>
-          <td><p>Represents multi-hot representation of given categorical column.</p></td>
+          <td><p>Represents Multi-Hot Representation of Given Categorical Column</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="column_numeric.html">column_numeric</a></code> </p>
           </td>
-          <td><p>Represents real valued or numerical features.</p></td>
+          <td><p>Construct a Real-Valued Column</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="column_embedding.html">column_embedding</a></code> </p>
           </td>
-          <td><p><code>_DenseColumn</code> that converts from sparse, categorical input.</p></td>
+          <td><p>Construct a Dense Column</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="column_crossed.html">column_crossed</a></code> </p>
           </td>
-          <td><p>Returns a column for performing crosses of categorical features.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="column_weighted_categorical.html">column_weighted_categorical</a></code> </p>
-          </td>
-          <td><p>Applies weight values to a <code>_CategoricalColumn</code>.</p></td>
+          <td><p>Construct a Crossed Column</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="column_bucketized.html">column_bucketized</a></code> </p>
           </td>
-          <td><p>Represents discretized dense input.</p></td>
+          <td><p>Construct a Bucketized Column</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="set_column_names.html">set_column_names</a></code> <code><a href="set_column_names.html">with_column_names</a></code> </p>
           </td>
-          <td><p>Set available feature column names</p></td>
+          <td><p>Set Available Feature Column Names</p></td>
         </tr>
       </tbody><tbody>
         <tr>
@@ -353,7 +361,7 @@
           <td>
             <p><code><a href="experiment.tf_estimator.html">experiment</a></code> </p>
           </td>
-          <td><p>Experiment constructor</p></td>
+          <td><p>Construct an Experiment</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -504,6 +512,7 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#section-canned-estimators">Canned Estimators</a></li>
+      <li><a href="#section-contributed-estimators">Contributed Estimators</a></li>
       <li><a href="#section-estimator-methods">Estimator Methods</a></li>
       <li><a href="#section-input-function">Input Function</a></li>
       <li><a href="#section-feature-columns">Feature Columns</a></li>

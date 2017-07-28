@@ -176,7 +176,7 @@ mtcars_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(d
 <div id="training" class="section level4">
 <h4 class="hasAnchor">
 <a href="#training" class="anchor"></a>Training</h4>
-<p>Next, we train the model using the <code>train()</code> function. Note that we segment <code>mtcars</code> into training and test datasets so we can evaluate the model on a different subset of data.</p>
+<p>Next, we train the model using the <code><a href="reference/train.html">train()</a></code> function. Note that we segment <code>mtcars</code> into training and test datasets so we can evaluate the model on a different subset of data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># randomly segment mtcars into test and training datasets</span>
 mtcars &lt;-<span class="st"> </span>mtcars[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(mtcars)),]
 test_obs &lt;-<span class="st"> </span><span class="kw">as.integer</span>(<span class="fl">0.2</span> <span class="op">*</span><span class="st"> </span><span class="kw">nrow</span>(mtcars))
@@ -184,21 +184,21 @@ train &lt;-<span class="st"> </span>mtcars[<span class="op">-</span>(<span class
 test &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span><span class="op">:</span>test_obs,]
 
 <span class="co"># train the model</span>
-model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">train</span>(<span class="kw">mtcars_input_fn</span>(train))</code></pre></div>
+model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/train.html">train</a></span>(<span class="kw">mtcars_input_fn</span>(train))</code></pre></div>
 </div>
 <div id="evaluation" class="section level4">
 <h4 class="hasAnchor">
 <a href="#evaluation" class="anchor"></a>Evaluation</h4>
-<p>We can evaluate the model’s accuracy using the <code>evaluate()</code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
+<p>We can evaluate the model’s accuracy using the <code><a href="reference/evaluate.html">evaluate()</a></code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/evaluate.html">evaluate</a></span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
 <pre><code>## $average_loss
-## [1] 1323.876
+## [1] 740.2554
 ## 
 ## $global_step
 ## [1] 1
 ## 
 ## $loss
-## [1] 7943.257</code></pre>
+## [1] 4441.532</code></pre>
 </div>
 <div id="prediction" class="section level4">
 <h4 class="hasAnchor">
@@ -208,17 +208,17 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tr
 model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
 <pre><code>## [[1]]
 ## [[1]]$predictions
-## [1] 81.8
+## [1] 25.02
 ## 
 ## 
 ## [[2]]
 ## [[2]]$predictions
-## [1] 30.4
+## [1] 65.4
 ## 
 ## 
 ## [[3]]
 ## [[3]]$predictions
-## [1] 25.02</code></pre>
+## [1] 22.6</code></pre>
 </div>
 </div>
 </div>

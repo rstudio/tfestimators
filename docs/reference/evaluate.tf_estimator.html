@@ -132,12 +132,16 @@ until:</p><ul>
     
 
     <pre class="usage"><span class='co'># S3 method for tf_estimator</span>
-<span class='fu'>evaluate</span>(<span class='no'>object</span>, <span class='no'>input_fn</span>, <span class='kw'>steps</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>checkpoint_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+<span class='fu'><a href='evaluate.html'>evaluate</a></span>(<span class='no'>object</span>, <span class='no'>input_fn</span>, <span class='kw'>steps</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>checkpoint_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p>A TensorFlow estimator.</p></td>
+    </tr>
     <tr>
       <th>input_fn</th>
       <td><p>Input function returning a list of: features - Dictionary of
@@ -165,6 +169,11 @@ in tensorboard.</p></td>
       <th>hooks</th>
       <td><p>List of <code>SessionRunHook</code> subclass instances. Used for callbacks
 inside the evaluation call.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Optional arguments passed on to the estimator's <code><a href='evaluate.html'>evaluate()</a></code>
+method.</p></td>
     </tr>
     </table>
     

@@ -158,7 +158,7 @@ predict_input_fn &lt;-<span class="st"> </span><span class="kw">constructed_inpu
 diameter &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"diameter"</span>)
 height &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"height"</span>)
 
-model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/dnn_linear_combined_classifier.html">dnn_linear_combined_classifier</a></span>(
+model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/dnn_linear_combined_estimators.html">dnn_linear_combined_classifier</a></span>(
   <span class="dt">linear_feature_columns =</span> <span class="kw"><a href="../../reference/feature_columns.html">feature_columns</a></span>(diameter),
   <span class="dt">dnn_feature_columns =</span> <span class="kw"><a href="../../reference/feature_columns.html">feature_columns</a></span>(height),
   <span class="dt">dnn_hidden_units =</span> <span class="kw">c</span>(100L, 50L)
@@ -204,9 +204,9 @@ model_params &lt;-<span class="st"> </span><span class="kw">list</span>(<span cl
 <span class="co"># Instantiate Estimator</span>
 model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/estimator.html">estimator</a></span>(model_fn, <span class="dt">params =</span> model_params)
 
-<span class="kw">train</span>(model, <span class="dt">input_fn =</span> train_input_fn, <span class="dt">steps =</span> <span class="dv">2</span>)
+<span class="kw"><a href="../../reference/train.html">train</a></span>(model, <span class="dt">input_fn =</span> train_input_fn, <span class="dt">steps =</span> <span class="dv">2</span>)
 
-<span class="kw">evaluate</span>(model, <span class="dt">input_fn =</span> test_input_fn, <span class="dt">steps =</span> <span class="dv">2</span>)</code></pre></div>
+<span class="kw"><a href="../../reference/evaluate.html">evaluate</a></span>(model, <span class="dt">input_fn =</span> test_input_fn, <span class="dt">steps =</span> <span class="dv">2</span>)</code></pre></div>
 </div>
   </div>
 

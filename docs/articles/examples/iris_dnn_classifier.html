@@ -119,7 +119,7 @@ iris_train &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(p
 iris_test  &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(partitions<span class="op">$</span>test)
 
 <span class="co"># construct classifier</span>
-classifier &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/dnn_classifier.html">dnn_classifier</a></span>(
+classifier &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/dnn_estimators.html">dnn_classifier</a></span>(
   <span class="dt">feature_columns =</span> <span class="kw"><a href="../../reference/feature_columns.html">feature_columns</a></span>(
     <span class="kw"><a href="../../reference/column_numeric.html">column_numeric</a></span>(<span class="kw">features</span>())
   ),
@@ -137,14 +137,14 @@ classifier &lt;-<span class="st"> </span><span class="kw"><a href="../../referen
 }
 
 <span class="co"># train classifier with training dataset</span>
-<span class="kw">train</span>(
+<span class="kw"><a href="../../reference/train.html">train</a></span>(
   classifier,
   <span class="dt">input_fn =</span> <span class="kw">.input_fn</span>(iris_train)
 )
 
 <span class="co"># valuate with test dataset</span>
 predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> <span class="kw">.input_fn</span>(iris_test))
-evaluation &lt;-<span class="st"> </span><span class="kw">evaluate</span>(classifier, <span class="dt">input_fn =</span> <span class="kw">.input_fn</span>(iris_test))</code></pre></div>
+evaluation &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/evaluate.html">evaluate</a></span>(classifier, <span class="dt">input_fn =</span> <span class="kw">.input_fn</span>(iris_test))</code></pre></div>
 </div>
   </div>
 
