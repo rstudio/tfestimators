@@ -17,7 +17,7 @@ print.tf_estimator <- function(x, ...) {
   )
   
   fields <- list(
-    "Model Directory" = estimator$model_dir
+    "Model Directory" = x$estimator$model_dir
   )
   
   body <- enumerate(fields, function(key, val) {
