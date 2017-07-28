@@ -2,12 +2,13 @@
 % Please edit documentation in R/estimator_keys.R
 \name{prediction_keys}
 \alias{prediction_keys}
-\title{Enum for canonical model prediction keys.}
+\title{Canonical Model Prediction Keys}
 \usage{
 prediction_keys()
 }
 \description{
-Used by models that predict values, such as regressor models.
+The canonical set of keys used for models and estimators that provide
+different types of predicted values through their \code{predict()} method.
 }
 \examples{
 keys <- prediction_keys()

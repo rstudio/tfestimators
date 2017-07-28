@@ -27,25 +27,20 @@ dnn_linear_combined_classifier(model_dir = NULL,
 This can also be used to load checkpoints from the directory into a
 estimator to continue training a previously saved model.}
 
-\item{linear_feature_columns}{An iterable containing all the feature columns
-used by linear part of the model. All items in the set must be instances of
-classes derived from \code{FeatureColumn}.}
+\item{linear_feature_columns}{The feature columns used by linear (wide) part
+of the model.}
 
-\item{linear_optimizer}{An instance of \code{tf.Optimizer} used to apply gradients
-to the linear part of the model. Defaults to FTRL optimizer.}
+\item{linear_optimizer}{Either the name of the optimizer to be used when
+training the model, or a TensorFlow optimizer instance. Defaults to the
+FTRL optimizer.}
 
-\item{dnn_feature_columns}{An iterable containing all the feature columns
-used by deep part of the model. All items in the set must be instances of
-classes derived from \code{FeatureColumn}.}
+\item{dnn_feature_columns}{The feature columns used by the neural network
+(deep) part in the model.}
 
-\item{dnn_optimizer}{An instance of \code{tf.Optimizer} used to apply gradients to
-the deep part of the model. Defaults to Adagrad optimizer.}
-
-\item{dnn_hidden_units}{List of hidden units per layer. All layers are fully
-connected.}
-
-\item{dnn_activation_fn}{Activation function applied to each layer. If NULL,
-will use \code{tf$nn$relu}.}
+\item{dnn_hidden_units}{An integer vector, indicating the number of hidden
+units in each layer. All layers are fully connected. For example,
+\code{c(64, 32)} means the first layer has 64 nodes, and the second layer
+has 32 nodes.}
 
 \item{dnn_dropout}{When not NULL, the probability we will drop out a given
 coordinate.}
@@ -77,6 +72,14 @@ encoded as integer or float within \code{[0, 1]} for \code{n_classes == 2} and
 encoded as integer values in \code{{0, 1,..., n_classes-1}} for \code{n_classes > 2}.
 Also there will be errors if vocabulary is not provided and labels are
 string.}
+
+\item{linear_optimizer}{Either the name of the optimizer to be used when
+training the model, or a TensorFlow optimizer instance. Defaults to the
+Adagrad optimizer.}
+
+\item{activation_fn}{The activation function to apply to each layer. Defaults
+to the \strong{re}ctified \strong{l}inear \strong{u}nit activation function
+(\code{tf$nn$relu}).}
 }
 \description{
 Also known as \code{wide-n-deep} estimators, these are estimators for

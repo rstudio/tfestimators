@@ -44,7 +44,8 @@ then the raw tensor is fetched by key \code{weight_column.key}, then
 \code{weight_column.normalizer_fn} is applied on it to get weight tensor.}
 
 \item{optimizer}{Either the name of the optimizer to be used when training
-the model, or a \code{tf$Optimizer} instance. Defaults to the Adagrad optimizer.}
+the model, or a TensorFlow optimizer instance. Defaults to the Adagrad
+optimizer.}
 
 \item{activation_fn}{The activation function to apply to each layer. Defaults
 to the \strong{re}ctified \strong{l}inear \strong{u}nit activation function (\code{tf$nn$relu}).}

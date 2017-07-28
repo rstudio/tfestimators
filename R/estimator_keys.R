@@ -1,6 +1,7 @@
-#' Enum for canonical model prediction keys.
+#' Canonical Model Prediction Keys
 #' 
-#' Used by models that predict values, such as regressor models.
+#' The canonical set of keys used for models and estimators that provide
+#' different types of predicted values through their `predict()` method.
 #' 
 #' @export
 #' @examples 
@@ -20,9 +21,10 @@ print.tensorflow.python.estimator.canned.prediction_keys.PredictionKeys <- funct
   cat(paste0("Available predictions keys: ", paste(names(prediction_keys()), collapse = ", ")))
 }
 
-#' Enum for metric keys. 
+#' Canonical Metric Keys
 #' 
-#' Used by retrieving available metrics from canned estimators.
+#' The canonical set of keys that can be used to access metrics from canned
+#' estimators.
 #' 
 #' @examples 
 #' metrics <- metric_keys()
@@ -42,13 +44,16 @@ print.tensorflow.python.estimator.canned.metric_keys.MetricKeys <- function(obje
   cat(paste0("Available metric keys: ", paste(names(metric_keys()), collapse = ", ")))
 }
 
-#' Standard names for model modes.
+#' Canonical Mode Modes
 #' 
-#' The following standard keys are defined: 
+#' The names for different possible modes for an estimator. The following
+#' standard keys are defined:
 #' 
-#' * `TRAIN`: training mode.
-#' * `EVAL`: evaluation mode.
-#' * `PREDICT`: inference mode.
+#' \tabular{ll}{
+#' `TRAIN`   \tab Training mode.               \cr
+#' `EVAL`    \tab Evaluation mode.             \cr
+#' `PREDICT` \tab Prediction / inference mode. \cr
+#' }
 #' 
 #' @examples 
 #' modes <- mode_keys()

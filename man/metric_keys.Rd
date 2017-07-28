@@ -2,12 +2,13 @@
 % Please edit documentation in R/estimator_keys.R
 \name{metric_keys}
 \alias{metric_keys}
-\title{Enum for metric keys.}
+\title{Canonical Metric Keys}
 \usage{
 metric_keys()
 }
 \description{
-Used by retrieving available metrics from canned estimators.
+The canonical set of keys that can be used to access metrics from canned
+estimators.
 }
 \examples{
 metrics <- metric_keys()

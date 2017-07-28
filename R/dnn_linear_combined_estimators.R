@@ -5,20 +5,23 @@
 #' 
 #' @inheritParams estimators
 #' 
-#' @param linear_feature_columns An iterable containing all the feature columns 
-#'   used by linear part of the model. All items in the set must be instances of
-#'   classes derived from `FeatureColumn`.
-#' @param linear_optimizer An instance of `tf.Optimizer` used to apply gradients
-#'   to the linear part of the model. Defaults to FTRL optimizer.
-#' @param dnn_feature_columns An iterable containing all the feature columns 
-#'   used by deep part of the model. All items in the set must be instances of 
-#'   classes derived from `FeatureColumn`.
-#' @param dnn_optimizer An instance of `tf.Optimizer` used to apply gradients to
-#'   the deep part of the model. Defaults to Adagrad optimizer.
-#' @param dnn_hidden_units List of hidden units per layer. All layers are fully 
-#'   connected.
-#' @param dnn_activation_fn Activation function applied to each layer. If NULL, 
-#'   will use `tf$nn$relu`.
+#' @param linear_feature_columns The feature columns used by linear (wide) part
+#'   of the model.
+#' @param linear_optimizer Either the name of the optimizer to be used when
+#'   training the model, or a TensorFlow optimizer instance. Defaults to the
+#'   FTRL optimizer.
+#' @param dnn_feature_columns The feature columns used by the neural network
+#'   (deep) part in the model.
+#' @param linear_optimizer Either the name of the optimizer to be used when
+#'   training the model, or a TensorFlow optimizer instance. Defaults to the
+#'   Adagrad optimizer.
+#' @param dnn_hidden_units An integer vector, indicating the number of hidden
+#'   units in each layer. All layers are fully connected. For example,
+#'   `c(64, 32)` means the first layer has 64 nodes, and the second layer
+#'   has 32 nodes.
+#' @param activation_fn The activation function to apply to each layer. Defaults
+#'   to the **re**ctified **l**inear **u**nit activation function
+#'   (`tf$nn$relu`).
 #' @param dnn_dropout When not NULL, the probability we will drop out a given 
 #'   coordinate.
 #'   

@@ -2,18 +2,19 @@
 % Please edit documentation in R/estimator_keys.R
 \name{mode_keys}
 \alias{mode_keys}
-\title{Standard names for model modes.}
+\title{Canonical Mode Modes}
 \usage{
 mode_keys()
 }
 \description{
-The following standard keys are defined:
+The names for different possible modes for an estimator. The following
+standard keys are defined:
 }
 \details{
-\itemize{
-\item \code{TRAIN}: training mode.
-\item \code{EVAL}: evaluation mode.
-\item \code{PREDICT}: inference mode.
+\tabular{ll}{
+\code{TRAIN}   \tab Training mode. \cr
+\code{EVAL}    \tab Evaluation mode. \cr
+\code{PREDICT} \tab Prediction / inference mode. \cr
 }
 }
 \examples{
