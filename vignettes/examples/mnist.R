@@ -73,6 +73,7 @@ data <- array(mnist$train$x[indices, ], dim = c(n, 28, 28))
 melted <- melt(data, varnames = c("image", "x", "y"), value.name = "intensity")
 ggplot(melted, aes(x = x, y = y, fill = intensity)) +
   geom_tile() +
+  scale_fill_continuous(name = "Pixel Intensity") +
   scale_y_reverse() +
   facet_wrap(~ image, nrow = sqrt(n), ncol = sqrt(n)) +
   theme(

@@ -11,6 +11,15 @@ warnf <- function(fmt, ..., call. = TRUE, immediate. = FALSE) {
   warning(sprintf(fmt, ...), call. = call., immediate. = immediate.)
 }
 
+enumerate <- function(object, f, ...) {
+  nm <- names(object)
+  result <- lapply(seq_along(object), function(i) {
+    f(nm[[i]], object[[i]], ...)
+  })
+  names(result) <- names(object)
+  result
+}
+
 # make sure an object is a function
 resolve_fn <- function(object) {
   if (is.function(object))
