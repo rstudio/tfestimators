@@ -242,17 +242,22 @@ export_savedmodel.tf_estimator <- function(object,
   invisible(status)
 }
 
-#' Get the list coefficients or variables from this model's checkpoint.
+#' Get the list coefficients or variables from this model's latest checkpoint.
 #'
 #' @param object An estimator.
 #' @param ... Optional arguments; currently unused.
 #' 
+#' @return A named list of variables, such as each hidden layer's biases and
+#' weights matrices (if using any of the DNN estimators), global step, etc.
+#' 
 #' @export
 #' @family custom estimator methods
 coef.tf_estimator <- function(object, ...) {
-  vars <- tf$python$training$checkpoint_utils$list_variables(object$estimator$model_dir)
-  var_names <- lapply(vars, function(var) var[[1]])
-  cleaned_vars <- lapply(vars, function(var) var[[2]])
+  training_lib <- tf$python$training
+  model_dir <- object$estimator$model_dir
+  ckp <- training_lib$checkpoint_utils$load_checkpoint(get_latest_checkpoint(model_dir))
+  var_names <- list_variable_names(model_dir)
+  cleaned_vars <- lapply(var_names, function(var_name) ckp$get_tensor(var_name[[1]]))
   names(cleaned_vars) <- var_names
   cleaned_vars
 }

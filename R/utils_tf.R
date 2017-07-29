@@ -12,6 +12,19 @@ get_latest_checkpoint <- function(checkpoint_dir, ...) {
   tf$python$training$saver$latest_checkpoint(checkpoint_dir, ...) 
 }
 
+
+list_variable_names <- function(model_dir) {
+  lapply(list_variables(model_dir), function(var) var[[1]])
+}
+
+list_variable_shapes <- function(model_dir) {
+  lapply(list_variables(model_dir), function(var) var[[2]])
+}
+
+list_variables <- function(model_dir) {
+  tf$python$training$checkpoint_utils$list_variables(model_dir)
+}
+
 check_dtype <- function(dtype) {
   if (!inherits(dtype, "tensorflow.python.framework.dtypes.DType")) {
     stop("dtype must of tf$DType objects, e.g. tf$int64")
