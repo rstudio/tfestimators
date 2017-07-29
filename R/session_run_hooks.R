@@ -26,13 +26,15 @@ hook_logging_tensor <- function(tensors,
                                 formatter = NULL,
                                 at_end = FALSE)
 {
-  tf$python$training$basic_session_run_hooks$LoggingTensorHook(
-    tensors = ensure_dict(tensors, named = F),
-    every_n_iter = as_nullable_integer(every_n_iter),
-    every_n_secs = as_nullable_integer(every_n_secs),
-    formatter = formatter,
-    at_end = at_end
-  )
+  with_logging_verbosity(tf$logging$INFO, {
+      tf$python$training$basic_session_run_hooks$LoggingTensorHook(
+        tensors = ensure_dict(tensors, named = F),
+        every_n_iter = every_n_iter,
+        every_n_secs = every_n_secs,
+        formatter = formatter,
+        at_end = at_end
+    )
+  })
 }
 
 #' Monitor to request stop at a specified step.
