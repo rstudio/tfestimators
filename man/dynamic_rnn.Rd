@@ -66,7 +66,7 @@ labels.}
 This can also be used to load checkpoints from the directory into a
 estimator to continue training a previously saved model.}
 
-\item{config}{A \code{RunConfig} object, used to configure the runtime
+\item{config}{A run configuration created by run_config(), used to configure the runtime
 settings.}
 }
 \description{

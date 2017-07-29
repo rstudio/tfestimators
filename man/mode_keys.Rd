@@ -12,8 +12,8 @@ standard keys are defined:
 }
 \details{
 \tabular{ll}{
-\code{TRAIN}   \tab Training mode. \cr
-\code{EVAL}    \tab Evaluation mode. \cr
+\code{TRAIN}   \tab Training mode.               \cr
+\code{EVAL}    \tab Evaluation mode.             \cr
 \code{PREDICT} \tab Prediction / inference mode. \cr
 }
 }

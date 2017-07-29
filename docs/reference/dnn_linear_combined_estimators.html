@@ -152,35 +152,26 @@ estimator to continue training a previously saved model.</p></td>
     </tr>
     <tr>
       <th>linear_feature_columns</th>
-      <td><p>An iterable containing all the feature columns
-used by linear part of the model. All items in the set must be instances of
-classes derived from <code>FeatureColumn</code>.</p></td>
+      <td><p>The feature columns used by linear (wide) part
+of the model.</p></td>
     </tr>
     <tr>
       <th>linear_optimizer</th>
-      <td><p>An instance of <code>tf.Optimizer</code> used to apply gradients
-to the linear part of the model. Defaults to FTRL optimizer.</p></td>
+      <td><p>Either the name of the optimizer to be used when
+training the model, or a TensorFlow optimizer instance. Defaults to the
+FTRL optimizer.</p></td>
     </tr>
     <tr>
       <th>dnn_feature_columns</th>
-      <td><p>An iterable containing all the feature columns
-used by deep part of the model. All items in the set must be instances of
-classes derived from <code>FeatureColumn</code>.</p></td>
-    </tr>
-    <tr>
-      <th>dnn_optimizer</th>
-      <td><p>An instance of <code>tf.Optimizer</code> used to apply gradients to
-the deep part of the model. Defaults to Adagrad optimizer.</p></td>
+      <td><p>The feature columns used by the neural network
+(deep) part in the model.</p></td>
     </tr>
     <tr>
       <th>dnn_hidden_units</th>
-      <td><p>List of hidden units per layer. All layers are fully
-connected.</p></td>
-    </tr>
-    <tr>
-      <th>dnn_activation_fn</th>
-      <td><p>Activation function applied to each layer. If NULL,
-will use <code>tf$nn$relu</code>.</p></td>
+      <td><p>An integer vector, indicating the number of hidden
+units in each layer. All layers are fully connected. For example,
+<code>c(64, 32)</code> means the first layer has 64 nodes, and the second layer
+has 32 nodes.</p></td>
     </tr>
     <tr>
       <th>dnn_dropout</th>
@@ -195,13 +186,13 @@ size of the last dimension of the labels and logits <code>Tensor</code> objects
     </tr>
     <tr>
       <th>weight_column</th>
-      <td><p>A string or a <code>_NumericColumn</code> created by
-<code><a href='column_numeric.html'>column_numeric()</a></code> defining feature column representing weights. It is used
+      <td><p>A string, or a numeric column created by
+column_numeric() defining feature column representing weights. It is used
 to down weight or boost examples during training. It will be multiplied by
 the loss of the example. If it is a string, it is used as a key to fetch
-weight tensor from the <code>features</code> argument. If it is a <code>_NumericColumn</code>,
-then the raw tensor is fetched by key <code>weight_column.key</code>, then
-<code>weight_column.normalizer_fn</code> is applied on it to get weight tensor.</p></td>
+weight tensor from the <code>features</code> argument. If it is a numeric column,
+then the raw tensor is fetched by key <code>weight_column$key</code>, then
+<code>weight_column$normalizer_fn</code> is applied on it to get weight tensor.</p></td>
     </tr>
     <tr>
       <th>input_layer_partitioner</th>
@@ -210,7 +201,7 @@ Defaults to <code>min_max_variable_partitioner</code> with <code>min_slice_size<
     </tr>
     <tr>
       <th>config</th>
-      <td><p>A <code>RunConfig</code> object, used to configure the runtime
+      <td><p>A run configuration created by run_config(), used to configure the runtime
 settings.</p></td>
     </tr>
     <tr>
@@ -223,15 +214,26 @@ settings.</p></td>
 If given, labels must be string type and have any value in
 <code>label_vocabulary</code>. If it is not given, that means labels are already
 encoded as integer or float within <code>[0, 1]</code> for <code>n_classes == 2</code> and
-encoded as integer values in <code>{0, 1,..., n_classes-1}</code> for <code>n_classes &gt; 2</code>.
-Also there will be errors if vocabulary is not provided and labels are
+encoded as integer values in <code>{0, 1,..., n_classes -1}</code> for <code>n_classes &gt; 2</code>. Also there will be errors if vocabulary is not provided and labels are
 string.</p></td>
+    </tr>
+    <tr>
+      <th>linear_optimizer</th>
+      <td><p>Either the name of the optimizer to be used when
+training the model, or a TensorFlow optimizer instance. Defaults to the
+Adagrad optimizer.</p></td>
+    </tr>
+    <tr>
+      <th>activation_fn</th>
+      <td><p>The activation function to apply to each layer. Defaults
+to the <strong>re</strong>ctified <strong>l</strong>inear <strong>u</strong>nit activation function
+(<code>tf$nn$relu</code>).</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other canned estimators: <code>dnn_estimators</code>,
+    <p>Other canned estimators: <code><a href='dnn_estimators.html'>dnn_estimators</a></code>,
   <code><a href='dynamic_rnn.html'>dynamic_rnn</a></code>,
   <code><a href='linear_classifier.html'>linear_classifier</a></code>,
   <code><a href='linear_regressor.html'>linear_regressor</a></code></p>

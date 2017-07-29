@@ -49,18 +49,18 @@ coordinate.}
 size of the last dimension of the labels and logits \code{Tensor} objects
 (typically, these have shape \code{[batch_size, label_dimension]}).}
 
-\item{weight_column}{A string or a \code{_NumericColumn} created by
-\code{\link[=column_numeric]{column_numeric()}} defining feature column representing weights. It is used
+\item{weight_column}{A string, or a numeric column created by
+column_numeric() defining feature column representing weights. It is used
 to down weight or boost examples during training. It will be multiplied by
 the loss of the example. If it is a string, it is used as a key to fetch
-weight tensor from the \code{features} argument. If it is a \code{_NumericColumn},
-then the raw tensor is fetched by key \code{weight_column.key}, then
-\code{weight_column.normalizer_fn} is applied on it to get weight tensor.}
+weight tensor from the \code{features} argument. If it is a numeric column,
+then the raw tensor is fetched by key \code{weight_column$key}, then
+\code{weight_column$normalizer_fn} is applied on it to get weight tensor.}
 
 \item{input_layer_partitioner}{An optional partitioner for the input layer.
 Defaults to \code{min_max_variable_partitioner} with \code{min_slice_size} 64 << 20.}
 
-\item{config}{A \code{RunConfig} object, used to configure the runtime
+\item{config}{A run configuration created by run_config(), used to configure the runtime
 settings.}
 
 \item{n_classes}{The number of label classes.}
@@ -69,8 +69,7 @@ settings.}
 If given, labels must be string type and have any value in
 \code{label_vocabulary}. If it is not given, that means labels are already
 encoded as integer or float within \code{[0, 1]} for \code{n_classes == 2} and
-encoded as integer values in \code{{0, 1,..., n_classes-1}} for \code{n_classes > 2}.
-Also there will be errors if vocabulary is not provided and labels are
+encoded as integer values in \code{{0, 1,..., n_classes -1}} for \code{n_classes > 2}. Also there will be errors if vocabulary is not provided and labels are
 string.}
 
 \item{linear_optimizer}{Either the name of the optimizer to be used when
