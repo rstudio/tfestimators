@@ -252,5 +252,9 @@ export_savedmodel.tf_estimator <- function(object,
 coef.tf_estimator <- function(object, ...) {
   contrib_framework <- import("tensorflow.contrib.framework")
   list_variables <- contrib_framework$list_variables
-  list_variables(object$estimator$model_dir)
+  vars <- list_variables(object$estimator$model_dir)
+  var_names <- lapply(vars, function(var) var[[1]])
+  cleaned_vars <- lapply(vars, function(var) var[[2]])
+  names(cleaned_vars) <- var_names
+  cleaned_vars
 }
