@@ -109,110 +109,110 @@
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tensorflow)
 <span class="kw">library</span>(tfestimators)
-tf$logging$<span class="kw">set_verbosity</span>(tf$logging$INFO)
+tf<span class="op">$</span>logging<span class="op">$</span><span class="kw">set_verbosity</span>(tf<span class="op">$</span>logging<span class="op">$</span>INFO)
 
-cnn_model_fn &lt;-<span class="st"> </span>function(features, labels, mode, params, config) {
+cnn_model_fn &lt;-<span class="st"> </span><span class="cf">function</span>(features, labels, mode, params, config) {
   
   <span class="co"># Input Layer</span>
   <span class="co"># Reshape X to 4-D tensor: [batch_size, width, height, channels]</span>
   <span class="co"># MNIST images are 28x28 pixels, and have one color channel</span>
-  input_layer &lt;-<span class="st"> </span>tf$<span class="kw">reshape</span>(features$x, <span class="kw">c</span>(-1L, 28L, 28L, 1L))
+  input_layer &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">reshape</span>(features<span class="op">$</span>x, <span class="kw">c</span>(<span class="op">-</span>1L, 28L, 28L, 1L))
   
   <span class="co"># Convolutional Layer #1</span>
   <span class="co"># Computes 32 features using a 5x5 filter with ReLU activation.</span>
   <span class="co"># Padding is added to preserve width and height.</span>
   <span class="co"># Input Tensor Shape: [batch_size, 28, 28, 1]</span>
   <span class="co"># Output Tensor Shape: [batch_size, 28, 28, 32]</span>
-  conv1 &lt;-<span class="st"> </span>tf$layers$<span class="kw">conv2d</span>(
+  conv1 &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">conv2d</span>(
     <span class="dt">inputs =</span> input_layer,
     <span class="dt">filters =</span> 32L,
     <span class="dt">kernel_size =</span> <span class="kw">c</span>(5L, 5L),
     <span class="dt">padding =</span> <span class="st">"same"</span>,
-    <span class="dt">activation =</span> tf$nn$relu)
+    <span class="dt">activation =</span> tf<span class="op">$</span>nn<span class="op">$</span>relu)
   
   <span class="co"># Pooling Layer #1</span>
   <span class="co"># First max pooling layer with a 2x2 filter and stride of 2</span>
   <span class="co"># Input Tensor Shape: [batch_size, 28, 28, 32]</span>
   <span class="co"># Output Tensor Shape: [batch_size, 14, 14, 32]</span>
-  pool1 &lt;-<span class="st"> </span>tf$layers$<span class="kw">max_pooling2d</span>(<span class="dt">inputs =</span> conv1, <span class="dt">pool_size =</span> <span class="kw">c</span>(2L, 2L), <span class="dt">strides =</span> 2L)
+  pool1 &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">max_pooling2d</span>(<span class="dt">inputs =</span> conv1, <span class="dt">pool_size =</span> <span class="kw">c</span>(2L, 2L), <span class="dt">strides =</span> 2L)
   
   <span class="co"># Convolutional Layer #2</span>
   <span class="co"># Computes 64 features using a 5x5 filter.</span>
   <span class="co"># Padding is added to preserve width and height.</span>
   <span class="co"># Input Tensor Shape: [batch_size, 14, 14, 32]</span>
   <span class="co"># Output Tensor Shape: [batch_size, 14, 14, 64]</span>
-  conv2 &lt;-<span class="st"> </span>tf$layers$<span class="kw">conv2d</span>(
+  conv2 &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">conv2d</span>(
     <span class="dt">inputs =</span> pool1,
     <span class="dt">filters =</span> 64L,
     <span class="dt">kernel_size =</span> <span class="kw">c</span>(5L, 5L),
     <span class="dt">padding =</span> <span class="st">"same"</span>,
-    <span class="dt">activation =</span> tf$nn$relu)
+    <span class="dt">activation =</span> tf<span class="op">$</span>nn<span class="op">$</span>relu)
   
   <span class="co"># Pooling Layer #2</span>
   <span class="co"># Second max pooling layer with a 2x2 filter and stride of 2</span>
   <span class="co"># Input Tensor Shape: [batch_size, 14, 14, 64]</span>
   <span class="co"># Output Tensor Shape: [batch_size, 7, 7, 64]</span>
-  pool2 &lt;-<span class="st"> </span>tf$layers$<span class="kw">max_pooling2d</span>(<span class="dt">inputs =</span> conv2, <span class="dt">pool_size =</span> <span class="kw">c</span>(2L, 2L), <span class="dt">strides =</span> 2L)
+  pool2 &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">max_pooling2d</span>(<span class="dt">inputs =</span> conv2, <span class="dt">pool_size =</span> <span class="kw">c</span>(2L, 2L), <span class="dt">strides =</span> 2L)
   
   <span class="co"># Flatten tensor into a batch of vectors</span>
   <span class="co"># Input Tensor Shape: [batch_size, 7, 7, 64]</span>
   <span class="co"># Output Tensor Shape: [batch_size, 7 * 7 * 64]</span>
-  pool2_flat &lt;-<span class="st"> </span>tf$<span class="kw">reshape</span>(pool2, <span class="kw">c</span>(-1L, 7L *<span class="st"> </span>7L *<span class="st"> </span>64L))
+  pool2_flat &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">reshape</span>(pool2, <span class="kw">c</span>(<span class="op">-</span>1L, 7L <span class="op">*</span><span class="st"> </span>7L <span class="op">*</span><span class="st"> </span>64L))
   
   <span class="co"># Dense Layer</span>
   <span class="co"># Densely connected layer with 1024 neurons</span>
   <span class="co"># Input Tensor Shape: [batch_size, 7 * 7 * 64]</span>
   <span class="co"># Output Tensor Shape: [batch_size, 1024]</span>
-  dense &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(<span class="dt">inputs =</span> pool2_flat, <span class="dt">units =</span> 1024L, <span class="dt">activation =</span> tf$nn$relu)
+  dense &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(<span class="dt">inputs =</span> pool2_flat, <span class="dt">units =</span> 1024L, <span class="dt">activation =</span> tf<span class="op">$</span>nn<span class="op">$</span>relu)
   
   <span class="co"># Add dropout operation; 0.6 probability that element will be kept</span>
-  dropout &lt;-<span class="st"> </span>tf$layers$<span class="kw">dropout</span>(
-    <span class="dt">inputs =</span> dense, <span class="dt">rate =</span> <span class="fl">0.4</span>, <span class="dt">training =</span> (mode ==<span class="st"> </span><span class="kw"><a href="../../reference/mode_keys.html">mode_keys</a></span>()$TRAIN))
+  dropout &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dropout</span>(
+    <span class="dt">inputs =</span> dense, <span class="dt">rate =</span> <span class="fl">0.4</span>, <span class="dt">training =</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>TRAIN))
   
   <span class="co"># Logits layer</span>
   <span class="co"># Input Tensor Shape: [batch_size, 1024]</span>
   <span class="co"># Output Tensor Shape: [batch_size, 10]</span>
-  logits &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(<span class="dt">inputs =</span> dropout, <span class="dt">units =</span> 10L)
+  logits &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(<span class="dt">inputs =</span> dropout, <span class="dt">units =</span> 10L)
   
   <span class="co"># Generate Predictions (for PREDICT mode)</span>
-  predicted_classes &lt;-<span class="st"> </span>tf$<span class="kw">argmax</span>(<span class="dt">input =</span> logits, <span class="dt">axis =</span> 1L, <span class="dt">name =</span> <span class="st">"predicted_classes"</span>)
-  if (mode ==<span class="st"> </span><span class="kw"><a href="../../reference/mode_keys.html">mode_keys</a></span>()$PREDICT) {
+  predicted_classes &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">argmax</span>(<span class="dt">input =</span> logits, <span class="dt">axis =</span> 1L, <span class="dt">name =</span> <span class="st">"predicted_classes"</span>)
+  <span class="cf">if</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>PREDICT) {
     predictions &lt;-<span class="st"> </span><span class="kw">list</span>(
       <span class="dt">classes =</span> predicted_classes,
-      <span class="dt">probabilities =</span> tf$nn$<span class="kw">softmax</span>(logits, <span class="dt">name =</span> <span class="st">"softmax_tensor"</span>)
+      <span class="dt">probabilities =</span> tf<span class="op">$</span>nn<span class="op">$</span><span class="kw">softmax</span>(logits, <span class="dt">name =</span> <span class="st">"softmax_tensor"</span>)
     )
     <span class="kw">return</span>(<span class="kw"><a href="../../reference/estimator_spec.html">estimator_spec</a></span>(<span class="dt">mode =</span> mode, <span class="dt">predictions =</span> predictions))
   }
   
   <span class="co"># Calculate Loss (for both TRAIN and EVAL modes)</span>
-  onehot_labels &lt;-<span class="st"> </span>tf$<span class="kw">one_hot</span>(<span class="dt">indices =</span> tf$<span class="kw">cast</span>(labels, tf$int32), <span class="dt">depth =</span> 10L)
-  loss &lt;-<span class="st"> </span>tf$losses$<span class="kw">softmax_cross_entropy</span>(
+  onehot_labels &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">one_hot</span>(<span class="dt">indices =</span> tf<span class="op">$</span><span class="kw">cast</span>(labels, tf<span class="op">$</span>int32), <span class="dt">depth =</span> 10L)
+  loss &lt;-<span class="st"> </span>tf<span class="op">$</span>losses<span class="op">$</span><span class="kw">softmax_cross_entropy</span>(
     <span class="dt">onehot_labels =</span> onehot_labels, <span class="dt">logits =</span> logits)
   
   <span class="co"># Configure the Training Op (for TRAIN mode)</span>
-  if (mode ==<span class="st"> </span><span class="kw"><a href="../../reference/mode_keys.html">mode_keys</a></span>()$TRAIN) {
-    optimizer &lt;-<span class="st"> </span>tf$train$<span class="kw">GradientDescentOptimizer</span>(<span class="dt">learning_rate =</span> <span class="fl">0.001</span>)
-    train_op &lt;-<span class="st"> </span>optimizer$<span class="kw">minimize</span>(
+  <span class="cf">if</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>TRAIN) {
+    optimizer &lt;-<span class="st"> </span>tf<span class="op">$</span>train<span class="op">$</span><span class="kw">GradientDescentOptimizer</span>(<span class="dt">learning_rate =</span> <span class="fl">0.001</span>)
+    train_op &lt;-<span class="st"> </span>optimizer<span class="op">$</span><span class="kw">minimize</span>(
       <span class="dt">loss =</span> loss,
-      <span class="dt">global_step =</span> tf$train$<span class="kw">get_global_step</span>())
+      <span class="dt">global_step =</span> tf<span class="op">$</span>train<span class="op">$</span><span class="kw">get_global_step</span>())
     <span class="kw">return</span>(<span class="kw"><a href="../../reference/estimator_spec.html">estimator_spec</a></span>(<span class="dt">mode =</span> mode, <span class="dt">loss =</span> loss, <span class="dt">train_op =</span> train_op))
   }
     
   <span class="co"># Add evaluation metrics (for EVAL mode)</span>
-  eval_metric_ops &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">accuracy =</span> tf$metrics$<span class="kw">accuracy</span>(
+  eval_metric_ops &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">accuracy =</span> tf<span class="op">$</span>metrics<span class="op">$</span><span class="kw">accuracy</span>(
     <span class="dt">labels =</span> labels, <span class="dt">predictions =</span> predicted_classes))
 
   <span class="kw">return</span>(<span class="kw"><a href="../../reference/estimator_spec.html">estimator_spec</a></span>(
     <span class="dt">mode =</span> mode, <span class="dt">loss =</span> loss, <span class="dt">eval_metric_ops =</span> eval_metric_ops))
 }
 
-np &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">"numpy"</span>, <span class="dt">convert =</span> <span class="ot">FALSE</span>)
+np &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/reexports">import</a></span>(<span class="st">"numpy"</span>, <span class="dt">convert =</span> <span class="ot">FALSE</span>)
 <span class="co"># Load training and eval data</span>
-mnist &lt;-<span class="st"> </span>tf$contrib$learn$datasets$<span class="kw">load_dataset</span>(<span class="st">"mnist"</span>)
-train_data &lt;-<span class="st"> </span>np$<span class="kw">asmatrix</span>(mnist$train$images, <span class="dt">dtype =</span> np$float32)
-train_labels &lt;-<span class="st"> </span>np$<span class="kw">asarray</span>(mnist$train$labels, <span class="dt">dtype =</span> np$int32)
-eval_data &lt;-<span class="st"> </span>np$<span class="kw">asmatrix</span>(mnist$test$images, <span class="dt">dtype =</span> np$float32)
-eval_labels &lt;-<span class="st"> </span>np$<span class="kw">asarray</span>(mnist$test$labels, <span class="dt">dtype =</span> np$int32)
+mnist &lt;-<span class="st"> </span>tf<span class="op">$</span>contrib<span class="op">$</span>learn<span class="op">$</span>datasets<span class="op">$</span><span class="kw">load_dataset</span>(<span class="st">"mnist"</span>)
+train_data &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">asmatrix</span>(mnist<span class="op">$</span>train<span class="op">$</span>images, <span class="dt">dtype =</span> np<span class="op">$</span>float32)
+train_labels &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">asarray</span>(mnist<span class="op">$</span>train<span class="op">$</span>labels, <span class="dt">dtype =</span> np<span class="op">$</span>int32)
+eval_data &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">asmatrix</span>(mnist<span class="op">$</span>test<span class="op">$</span>images, <span class="dt">dtype =</span> np<span class="op">$</span>float32)
+eval_labels &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">asarray</span>(mnist<span class="op">$</span>test<span class="op">$</span>labels, <span class="dt">dtype =</span> np<span class="op">$</span>int32)
 
 <span class="co"># Create the Estimator</span>
 mnist_classifier &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/estimator.html">estimator</a></span>(
