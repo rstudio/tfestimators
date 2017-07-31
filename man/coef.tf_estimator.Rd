@@ -2,7 +2,7 @@
 % Please edit documentation in R/tf_estimator.R
 \name{coef.tf_estimator}
 \alias{coef.tf_estimator}
-\title{Get the list coefficients or variables from this model's latest checkpoint.}
+\title{Extract Model Coefficients}
 \usage{
 \method{coef}{tf_estimator}(object, ...)
 }
@@ -16,7 +16,7 @@ A named list of variables, such as each hidden layer's biases and
 weights matrices (if using any of the DNN estimators), global step, etc.
 }
 \description{
-Get the list coefficients or variables from this model's latest checkpoint.
+Extract Model Coefficients
 }
 \seealso{
 Other custom estimator methods: \code{\link{estimator_spec}},

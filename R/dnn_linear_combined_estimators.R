@@ -12,15 +12,15 @@
 #'   FTRL optimizer.
 #' @param dnn_feature_columns The feature columns used by the neural network
 #'   (deep) part in the model.
-#' @param linear_optimizer Either the name of the optimizer to be used when
+#' @param dnn_optimizer Either the name of the optimizer to be used when
 #'   training the model, or a TensorFlow optimizer instance. Defaults to the
 #'   Adagrad optimizer.
 #' @param dnn_hidden_units An integer vector, indicating the number of hidden
 #'   units in each layer. All layers are fully connected. For example,
 #'   `c(64, 32)` means the first layer has 64 nodes, and the second layer
 #'   has 32 nodes.
-#' @param activation_fn The activation function to apply to each layer. Defaults
-#'   to the **re**ctified **l**inear **u**nit activation function
+#' @param dnn_activation_fn The activation function to apply to each layer.
+#'   Defaults to the **re**ctified **l**inear **u**nit activation function
 #'   (`tf$nn$relu`).
 #' @param dnn_dropout When not NULL, the probability we will drop out a given 
 #'   coordinate.

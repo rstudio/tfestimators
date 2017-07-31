@@ -2,7 +2,7 @@
 % Please edit documentation in R/tf_estimator.R
 \name{export_savedmodel.tf_estimator}
 \alias{export_savedmodel.tf_estimator}
-\title{Exports inference graph as a SavedModel into a given directory.}
+\title{Save an Estimator}
 \usage{
 \method{export_savedmodel}{tf_estimator}(object, export_dir_base,
   serving_input_receiver_fn, assets_extra = NULL, as_text = FALSE,
@@ -34,6 +34,11 @@ chosen.}
 The path to the exported directory, as a string.
 }
 \description{
+Save an estimator (alongside its weights) to the directory \code{export_dir_base}.
+}
+\details{
+TODO: we should document how a user can load a saved model here as well.
+
 This method builds a new graph by first calling the serving_input_receiver_fn
 to obtain feature \code{Tensor}s, and then calling this \code{Estimator}'s model_fn to
 generate the model graph based on those features. It restores the given

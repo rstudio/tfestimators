@@ -4,6 +4,7 @@
 ^images/
 ^internal/
 ^man-roxygen/
+^mnist-data/
 ^scripts/
 ^travis/
 ^.*\.csv$

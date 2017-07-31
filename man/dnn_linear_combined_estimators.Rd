@@ -37,10 +37,18 @@ FTRL optimizer.}
 \item{dnn_feature_columns}{The feature columns used by the neural network
 (deep) part in the model.}
 
+\item{dnn_optimizer}{Either the name of the optimizer to be used when
+training the model, or a TensorFlow optimizer instance. Defaults to the
+Adagrad optimizer.}
+
 \item{dnn_hidden_units}{An integer vector, indicating the number of hidden
 units in each layer. All layers are fully connected. For example,
 \code{c(64, 32)} means the first layer has 64 nodes, and the second layer
 has 32 nodes.}
+
+\item{dnn_activation_fn}{The activation function to apply to each layer.
+Defaults to the \strong{re}ctified \strong{l}inear \strong{u}nit activation function
+(\code{tf$nn$relu}).}
 
 \item{dnn_dropout}{When not NULL, the probability we will drop out a given
 coordinate.}
@@ -71,14 +79,6 @@ If given, labels must be string type and have any value in
 encoded as integer or float within \code{[0, 1]} for \code{n_classes == 2} and
 encoded as integer values in \code{{0, 1,..., n_classes -1}} for \code{n_classes > 2}. Also there will be errors if vocabulary is not provided and labels are
 string.}
-
-\item{linear_optimizer}{Either the name of the optimizer to be used when
-training the model, or a TensorFlow optimizer instance. Defaults to the
-Adagrad optimizer.}
-
-\item{activation_fn}{The activation function to apply to each layer. Defaults
-to the \strong{re}ctified \strong{l}inear \strong{u}nit activation function
-(\code{tf$nn$relu}).}
 }
 \description{
 Also known as \code{wide-n-deep} estimators, these are estimators for
