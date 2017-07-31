@@ -46,7 +46,6 @@ test_that("custom model works on iris data", {
   }
   
   tmp_dir <- tempdir()
-  dir.create(tmp_dir, showWarnings = FALSE)
   
   # training
   classifier <-
@@ -79,10 +78,22 @@ test_that("custom model works on iris data", {
   # evaluate
   expect_equal(names(evaluate(classifier, constructed_input_fn, steps = 2L)), c("loss", "global_step"))
 
-  # coefficients
+  # validate coefficients
   coefs <- coef(classifier)
-  # KV pairs for variables
-  expect_equal(rep(2, length(coefs)), unlist(lapply(coefs, length)))
   
-  unlink(tmp_dir, recursive = TRUE)
+  # TODO: what test is appropriate here?
+  # > str(coefs)
+  # List of 12
+  # $ OptimizeLoss/Stack/fully_connected_1/weights/Adagrad: num [1:4, 1:10] 0.125 0.105 0.115 0.101 0.1 ...
+  # $ OptimizeLoss/Stack/fully_connected_2/weights/Adagrad: num [1:10, 1:20] 0.1 0.1 0.112 0.103 0.1 ...
+  # $ OptimizeLoss/Stack/fully_connected_3/weights/Adagrad: num [1:20, 1:10] 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 ...
+  # $ OptimizeLoss/fully_connected/biases/Adagrad         : num [1:3(1d)] 0.144 0.34 0.203
+  # $ OptimizeLoss/fully_connected/weights/Adagrad        : num [1:10, 1:3] 0.1 0.124 0.103 0.109 0.163 ...
+  # $ OptimizeLoss/learning_rate                          : num 0.1
+  # $ Stack/fully_connected_1/weights                     : num [1:4, 1:10] -0.108 -0.3476 0.3361 -0.0033 -0.4944 ...
+  # $ Stack/fully_connected_2/weights                     : num [1:10, 1:20] 0.044 -0.196 0.201 0.352 -0.274 ...
+  # $ Stack/fully_connected_3/weights                     : num [1:20, 1:10] -0.0699 -0.2572 0.1323 0.3049 -0.1709 ...
+  # $ fully_connected/biases                              : num [1:3(1d)] 0.0536 -0.0116 -0.0128
+  # $ fully_connected/weights                             : num [1:10, 1:3] -0.3485 0.3212 0.1499 -0.0287 -0.0591 ...
+  # $ global_step                                         : num 2
 })

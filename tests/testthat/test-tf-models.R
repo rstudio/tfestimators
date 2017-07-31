@@ -4,13 +4,14 @@ test_that("train(), predict(), and evaluate() work for regressors", {
   
   specs <- mtcars_regression_specs()
 
-  reg <-
-    dnn_linear_combined_regressor(
-      linear_feature_columns = specs$linear_feature_columns,
-      dnn_feature_columns = specs$dnn_feature_columns,
-      dnn_hidden_units = c(1L, 1L),
-      dnn_optimizer = "Adagrad"
-    ) %>% train(input_fn = specs$input_fn, steps = 2)
+  estimator <- dnn_linear_combined_regressor(
+    linear_feature_columns = specs$linear_feature_columns,
+    dnn_feature_columns = specs$dnn_feature_columns,
+    dnn_hidden_units = c(1L, 1L),
+    dnn_optimizer = "Adagrad"
+  )
+  
+  train(estimator, input_fn = specs$input_fn, steps = 20)
   
   coefs <- coef(reg)
   expect_gt(length(coefs), 0)
@@ -18,7 +19,7 @@ test_that("train(), predict(), and evaluate() work for regressors", {
   predictions <- predict(reg, input_fn = specs$input_fn)
   expect_equal(length(predictions), 32)
   
-  loss <- evaluate(reg, input_fn = specs$input_fn)$loss
+  loss <- evaluate(reg, input_fn = specs$input_fn)
   expect_lte(loss, 4000)
 })
 
@@ -27,7 +28,6 @@ test_that("train(), predict(), and evaluate() work for classifiers", {
   specs <- mtcars_classification_specs()
 
   tmp_dir <- tempdir()
-  dir.create(tmp_dir, showWarnings = FALSE)
   clf <-
     dnn_linear_combined_classifier(
       linear_feature_columns = specs$linear_feature_columns,
@@ -55,6 +55,4 @@ test_that("train(), predict(), and evaluate() work for classifiers", {
 
   accuracy <- evaluate(clf, input_fn = specs$input_fn)$accuracy
   expect_lte(accuracy, 0.6)
-
-  unlink(tmp_dir, recursive = TRUE)
 })
