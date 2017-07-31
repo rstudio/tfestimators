@@ -4,7 +4,7 @@ library(tensorflow)
 library(tfestimators)
 
 # initialize data directory
-data_dir <- "data"
+data_dir <- "mnist-data"
 dir.create(data_dir, recursive = TRUE, showWarnings = FALSE)
 
 # download the MNIST data sets, and read them into R
@@ -110,7 +110,7 @@ mnist_input_fn <- function(data, ...) {
 }
 
 # train the classifier
-train(classifier, input_fn = mnist_input_fn(mnist$train), steps = 200)
+train(classifier, input_fn = mnist_input_fn(mnist$train), max_steps = 300)
 
 # evaluate the classifier on the test dataset
 evaluate(classifier, input_fn = mnist_input_fn(mnist$test), steps = 200)

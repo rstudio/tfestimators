@@ -95,7 +95,6 @@
 #'   `model_fn`. Please check `model_fn` for a definition of features and
 #'   labels.
 #' @export
-#' @family canned estimators
 dynamic_rnn <- function(problem_type,
                         prediction_type,
                         sequence_feature_columns,

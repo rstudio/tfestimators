@@ -72,9 +72,3 @@ settings.}
 \description{
 Dynamic RNN Estimator
 }
-\seealso{
-Other canned estimators: \code{\link{dnn_estimators}},
-  \code{\link{dnn_linear_combined_estimators}},
-  \code{\link{linear_classifier}},
-  \code{\link{linear_regressor}}
-}

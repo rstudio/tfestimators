@@ -86,7 +86,5 @@ TensorFlow Linear and DNN joined models for regression.
 }
 \seealso{
 Other canned estimators: \code{\link{dnn_estimators}},
-  \code{\link{dynamic_rnn}},
-  \code{\link{linear_classifier}},
-  \code{\link{linear_regressor}}
+  \code{\link{linear_estimators}}
 }
