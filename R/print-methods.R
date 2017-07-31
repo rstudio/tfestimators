@@ -16,17 +16,28 @@ print.tf_estimator <- function(x, ...) {
     as.character(x$estimator)
   )
   
+  model_dir <-  x$estimator$model_dir
+
   fields <- list(
-    "Model Directory" = x$estimator$model_dir
+    "Model Directory" = model_dir
   )
   
   body <- enumerate(fields, function(key, val) {
     sprintf("%s: %s", key, val)
   })
-  
+
+  # Model checkpoint only exists when it's been trained
+  if (dir.exists(model_dir)) {
+    global_step <- coef(x)[[tf$python$framework$ops$GraphKeys()$GLOBAL_STEP]]
+    model_trained_info <- sprintf("Model has been trained for %s step(s).", global_step)
+  } else {
+    model_trained_info <- sprintf("Model has not been trained yet.")
+  }
+
   output <- paste(
     header,
     body,
+    model_trained_info,
     sep = "\n",
     collapse = "\n"
   )
