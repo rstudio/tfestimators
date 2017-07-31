@@ -22,6 +22,15 @@ tf_classifier <- function(estimator, class) {
 #' @param checkpoint_path The path to a specific model checkpoint to be used for
 #'   prediction. If `NULL` (the default), the latest checkpoint in `model_dir`
 #'   is used.
+#'   
+#' @param steps The number of steps for which the model should be trained on
+#'   this particular `train()` invocation. If `NULL` (the default), this function
+#'   will either train forever, or until the supplied `input_fn()` has provided
+#'   all available data.
+#'   
+#' @param max_steps The total number of steps for which the model should be
+#'   trained. If set, `steps` must be `NULL`. If the estimator has already been
+#'   trained a total of `max_steps` times, then no training will be performed.
 #'
 #' @param as_iterable Boolean; should a raw Python generator be returned? When
 #'   `FALSE` (the default), the predicted values will be consumed from the
@@ -38,13 +47,6 @@ NULL
 #'
 #' @template roxlate-object-estimator
 #'
-#' @param steps The number of steps for which the model should be trained on
-#'   this particular `train()` invocation. If `NULL` (the default), this function
-#'   will either train forever, or until the supplied `input_fn()` has provided
-#'   all available data.
-#' @param max_steps The total number of steps for which the model should be
-#'   trained. If set, `steps` must be `NULL`. If the estimator has already been
-#'   trained a total of `max_steps` times, then no training will be performed.
 #' @param ... Optional arguments, passed on to the estimator's `train()` method.
 #'
 #' @export
@@ -141,6 +143,7 @@ predict.tf_estimator <- function(object,
 #'   on different data sets, such as on training data vs test data. Metrics for
 #'   different evaluations are saved in separate folders, and appear separately
 #'   in tensorboard.
+#'
 #' @param ... Optional arguments passed on to the estimator's `evaluate()`
 #'   method.
 #'
