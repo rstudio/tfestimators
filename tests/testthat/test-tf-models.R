@@ -13,13 +13,13 @@ test_that("train(), predict(), and evaluate() work for regressors", {
   
   train(estimator, input_fn = specs$input_fn, steps = 20)
   
-  coefs <- coef(reg)
+  coefs <- coef(estimator)
   expect_gt(length(coefs), 0)
   
-  predictions <- predict(reg, input_fn = specs$input_fn)
+  predictions <- predict(estimator, input_fn = specs$input_fn)
   expect_equal(length(predictions), 32)
   
-  loss <- evaluate(reg, input_fn = specs$input_fn)
+  loss <- evaluate(estimator, input_fn = specs$input_fn)$loss
   expect_lte(loss, 4000)
 })
 

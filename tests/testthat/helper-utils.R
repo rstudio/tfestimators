@@ -6,7 +6,7 @@ library(tensorflow)
 mtcars_regression_specs <- function() {
   dnn_feature_columns <- feature_columns(column_numeric("drat"))
   linear_feature_columns <- feature_columns(column_numeric("drat"))
-  constructed_input_fn <- input_fn(mtcars, response = "mpg", features = c("drat", "cyl"))
+  constructed_input_fn <- input_fn(mtcars, response = "mpg", features = c("drat", "cyl"), batch_size = 8L)
   list(dnn_feature_columns = dnn_feature_columns,
        linear_feature_columns = linear_feature_columns,
        input_fn = constructed_input_fn)
