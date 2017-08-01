@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Exports inference graph as a SavedModel into a given directory. — export_savedmodel.tf_estimator • tfestimators</title>
+<title>Save an Estimator — export_savedmodel.tf_estimator • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,29 +119,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Exports inference graph as a SavedModel into a given directory.</h1>
+    <h1>Save an Estimator</h1>
     </div>
 
     
-    <p>This method builds a new graph by first calling the serving_input_receiver_fn
-to obtain feature <code>Tensor</code>s, and then calling this <code>Estimator</code>'s model_fn to
-generate the model graph based on those features. It restores the given
-checkpoint (or, lacking that, the most recent checkpoint) into this graph in
-a fresh session. Finally it creates a timestamped export directory below the
-given export_dir_base, and writes a <code>SavedModel</code> into it containing a single
-<code>MetaGraphDef</code> saved from this session. The exported <code>MetaGraphDef</code> will
-provide one <code>SignatureDef</code> for each element of the export_outputs dict
-returned from the model_fn, named using the same keys. One of these keys is
-always signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY, indicating
-which signature will be served when a serving request does not specify one.
-For each signature, the outputs are provided by the corresponding
-<code>ExportOutput</code>s, and the inputs are always the input receivers provided by
-the serving_input_receiver_fn. Extra assets may be written into the
-SavedModel via the extra_assets argument. This should be a dict, where each
-key gives a destination path (including the filename) relative to the
-assets.extra directory. The corresponding value gives the full path of the
-source file to be copied. For example, the simple case of copying a single
-file without renaming it is specified as <code>{'my_asset_file.txt': '/path/to/my_asset_file.txt'}</code>.</p>
+    <p>Save an estimator (alongside its weights) to the directory <code>export_dir_base</code>.</p>
     
 
     <pre class="usage"><span class='co'># S3 method for tf_estimator</span>
@@ -193,6 +175,29 @@ chosen.</p></td>
 
     <p>The path to the exported directory, as a string.</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>TODO: we should document how a user can load a saved model here as well.</p>
+<p>This method builds a new graph by first calling the serving_input_receiver_fn
+to obtain feature <code>Tensor</code>s, and then calling this <code>Estimator</code>'s model_fn to
+generate the model graph based on those features. It restores the given
+checkpoint (or, lacking that, the most recent checkpoint) into this graph in
+a fresh session. Finally it creates a timestamped export directory below the
+given export_dir_base, and writes a <code>SavedModel</code> into it containing a single
+<code>MetaGraphDef</code> saved from this session. The exported <code>MetaGraphDef</code> will
+provide one <code>SignatureDef</code> for each element of the export_outputs dict
+returned from the model_fn, named using the same keys. One of these keys is
+always signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY, indicating
+which signature will be served when a serving request does not specify one.
+For each signature, the outputs are provided by the corresponding
+<code>ExportOutput</code>s, and the inputs are always the input receivers provided by
+the serving_input_receiver_fn. Extra assets may be written into the
+SavedModel via the extra_assets argument. This should be a dict, where each
+key gives a destination path (including the filename) relative to the
+assets.extra directory. The corresponding value gives the full path of the
+source file to be copied. For example, the simple case of copying a single
+file without renaming it is specified as <code>{'my_asset_file.txt': '/path/to/my_asset_file.txt'}</code>.</p>
+    
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
     <p>ValueError: if no serving_input_receiver_fn is provided, no
@@ -214,6 +219,8 @@ export_outputs are provided, or no checkpoint can be found.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#raises">Raises</a></li>
 

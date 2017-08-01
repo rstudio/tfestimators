@@ -113,7 +113,7 @@
 <span class="kw">library</span>(tfestimators)
 
 <span class="co"># initialize data directory</span>
-data_dir &lt;-<span class="st"> "data"</span>
+data_dir &lt;-<span class="st"> "mnist-data"</span>
 <span class="kw">dir.create</span>(data_dir, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)
 
 <span class="co"># download the MNIST data sets, and read them into R</span>
@@ -200,7 +200,7 @@ melted &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocum
   )
 
 <span class="co"># construct a linear classifier</span>
-classifier &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/linear_classifier.html">linear_classifier</a></span>(
+classifier &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/linear_estimators.html">linear_classifier</a></span>(
   <span class="dt">feature_columns =</span> <span class="kw"><a href="../../reference/feature_columns.html">feature_columns</a></span>(
     <span class="kw"><a href="../../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"x"</span>, <span class="dt">shape =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes_linetype_size_shape">shape</a></span>(784L))
   ),

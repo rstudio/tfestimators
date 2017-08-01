@@ -167,11 +167,23 @@ FTRL optimizer.</p></td>
 (deep) part in the model.</p></td>
     </tr>
     <tr>
+      <th>dnn_optimizer</th>
+      <td><p>Either the name of the optimizer to be used when
+training the model, or a TensorFlow optimizer instance. Defaults to the
+Adagrad optimizer.</p></td>
+    </tr>
+    <tr>
       <th>dnn_hidden_units</th>
       <td><p>An integer vector, indicating the number of hidden
 units in each layer. All layers are fully connected. For example,
 <code>c(64, 32)</code> means the first layer has 64 nodes, and the second layer
 has 32 nodes.</p></td>
+    </tr>
+    <tr>
+      <th>dnn_activation_fn</th>
+      <td><p>The activation function to apply to each layer.
+Defaults to the <strong>re</strong>ctified <strong>l</strong>inear <strong>u</strong>nit activation function
+(<code>tf$nn$relu</code>).</p></td>
     </tr>
     <tr>
       <th>dnn_dropout</th>
@@ -217,26 +229,12 @@ encoded as integer or float within <code>[0, 1]</code> for <code>n_classes == 2<
 encoded as integer values in <code>{0, 1,..., n_classes -1}</code> for <code>n_classes &gt; 2</code>. Also there will be errors if vocabulary is not provided and labels are
 string.</p></td>
     </tr>
-    <tr>
-      <th>linear_optimizer</th>
-      <td><p>Either the name of the optimizer to be used when
-training the model, or a TensorFlow optimizer instance. Defaults to the
-Adagrad optimizer.</p></td>
-    </tr>
-    <tr>
-      <th>activation_fn</th>
-      <td><p>The activation function to apply to each layer. Defaults
-to the <strong>re</strong>ctified <strong>l</strong>inear <strong>u</strong>nit activation function
-(<code>tf$nn$relu</code>).</p></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p>Other canned estimators: <code>dnn_estimators</code>,
-  <code><a href='dynamic_rnn.html'>dynamic_rnn</a></code>,
-  <code><a href='linear_classifier.html'>linear_classifier</a></code>,
-  <code><a href='linear_regressor.html'>linear_regressor</a></code></p>
+  <code>linear_estimators</code></p>
     
 
   </div>

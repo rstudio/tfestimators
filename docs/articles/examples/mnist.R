@@ -110,7 +110,7 @@ mnist_input_fn <- function(data, ...) {
 }
 
 # train the classifier
-train(classifier, input_fn = mnist_input_fn(mnist$train), max_steps = 300)
+train(classifier, input_fn = mnist_input_fn(mnist$train), steps = 200)
 
 # evaluate the classifier on the test dataset
 evaluate(classifier, input_fn = mnist_input_fn(mnist$test), steps = 200)

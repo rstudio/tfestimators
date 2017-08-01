@@ -4,7 +4,7 @@ library(tensorflow)
 library(tfestimators)
 
 # initialize data directory
-data_dir <- "data"
+data_dir <- "mnist-data"
 dir.create(data_dir, recursive = TRUE, showWarnings = FALSE)
 
 # download the MNIST data sets, and read them into R

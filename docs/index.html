@@ -170,8 +170,8 @@ mtcars_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(d
 <div id="estimator" class="section level4">
 <h4 class="hasAnchor">
 <a href="#estimator" class="anchor"></a>Estimator</h4>
-<p>We create the estimator by calling <code><a href="reference/linear_regressor.html">linear_regressor()</a></code> function and passing it a set of feature columns:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw"><a href="reference/linear_regressor.html">linear_regressor</a></span>(<span class="dt">feature_columns =</span> cols)</code></pre></div>
+<p>We create the estimator by calling <code><a href="reference/linear_estimators.html">linear_regressor()</a></code> function and passing it a set of feature columns:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw"><a href="reference/linear_estimators.html">linear_regressor</a></span>(<span class="dt">feature_columns =</span> cols)</code></pre></div>
 </div>
 <div id="training" class="section level4">
 <h4 class="hasAnchor">
@@ -192,13 +192,13 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a
 <p>We can evaluate the model’s accuracy using the <code><a href="reference/evaluate.html">evaluate()</a></code> function (here we use the <code>test</code> dataset rather than the <code>train</code> dataset):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/evaluate.html">evaluate</a></span>(<span class="kw">mtcars_input_fn</span>(test))</code></pre></div>
 <pre><code>## $average_loss
-## [1] 808.0655
+## [1] 114.9727
 ## 
 ## $global_step
 ## [1] 1
 ## 
 ## $loss
-## [1] 4848.393</code></pre>
+## [1] 689.8363</code></pre>
 </div>
 <div id="prediction" class="section level4">
 <h4 class="hasAnchor">
@@ -208,17 +208,17 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a
 model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(obs))</code></pre></div>
 <pre><code>## [[1]]
 ## [[1]]$predictions
-## [1] 33.4
+## [1] 33.40001
 ## 
 ## 
 ## [[2]]
 ## [[2]]$predictions
-## [1] 30.4
+## [1] 25.02
 ## 
 ## 
 ## [[3]]
 ## [[3]]$predictions
-## [1] 53</code></pre>
+## [1] 16.8</code></pre>
 </div>
 </div>
 </div>
