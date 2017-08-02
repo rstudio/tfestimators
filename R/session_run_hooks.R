@@ -106,7 +106,11 @@ hook_checkpoint_saver <- function(checkpoint_dir,
 #' @family session_run_hook wrappers
 #' 
 #' @export
-hook_step_counter <- function(every_n_steps = 100L, every_n_secs = NULL, output_dir = NULL, summary_writer = NULL) {
+hook_step_counter <- function(every_n_steps = 100L,
+                              every_n_secs = NULL,
+                              output_dir = NULL,
+                              summary_writer = NULL) 
+{
   tf$python$training$basic_session_run_hooks$StepCounterHook(
     every_n_steps = as.integer(every_n_steps),
     every_n_secs = as_nullable_integer(every_n_secs),
@@ -154,7 +158,13 @@ hook_nan_tensor <- function(loss_tensor, fail_on_nan_loss = TRUE) {
 #' @family session_run_hook wrappers
 #'   
 #' @export
-hook_summary_saver <- function(save_steps = NULL, save_secs = NULL, output_dir = NULL, summary_writer = NULL, scaffold = NULL, summary_op = NULL) {
+hook_summary_saver <- function(save_steps = NULL,
+                               save_secs = NULL,
+                               output_dir = NULL,
+                               summary_writer = NULL,
+                               scaffold = NULL,
+                               summary_op = NULL)
+{
   if (!is.null(save_secs) && !is.null(save_steps)) {
     stop(" Only one of save_secs or save_steps can be specified")
   }
@@ -226,13 +236,51 @@ EstimatorSessionRunHook <- R6Class(
   "EstimatorSessionRunHook",
   
   public = list(
-    begin = function() {},
-    after_create_session = function() {},
-    before_run = function() {},
-    after_run = function() {},
-    end = function() {}
-  )
+    
+    initialize = function(begin = NULL,
+                          after_create_session = NULL,
+                          before_run = NULL,
+                          after_run = NULL,
+                          end = NULL)
+    {
+      for (key in ls()) {
+        object <- get(key, envir = environment())
+        self[[key]] <- object %||% function(...) {}
+      }
+    }
+  ),
+  
+  lock_objects = FALSE
 )
+
+#' Create Session Run Hooks
+#' 
+#' Create a set of session run hooks, used to record information during
+#' training of an estimator.
+#' 
+#' @param begin `function()`: An \R function, to be called once before using the session.
+#' @param after_create_session `function(session, coord)`: An \R function, to be called
+#'   once the new TensorFlow session has been created.
+#' @param before_run `function(run_context)`: An \R function to be called before a run.
+#' @param after_run `function(run_context, run_values)`: An \R function to be called
+#'   after a run.
+#' @param end `function(session)`: An \R function to be called at the end of the session.
+#' 
+#' @export
+session_run_hook <- function(begin = NULL,
+                             after_create_session = NULL,
+                             before_run = NULL,
+                             after_run = NULL,
+                             end = NULL)
+{
+  EstimatorSessionRunHook$new(
+    begin = begin,
+    after_create_session = after_create_session,
+    before_run = before_run,
+    after_run = after_run,
+    end = end
+  )
+}
 
 normalize_session_run_hooks <- function(session_run_hooks) {
 
