@@ -187,11 +187,16 @@ hook_global_step_waiter <- function(wait_until_step) {
   )
 }
 
-#' Base R6 class for creating custom SessionRunHook
+#' TensorFlow Session Run Hook
+#'
+#' This is the base R6 class used for custom session run hooks, which can be
+#' used to monitor estimators while they are trained by TensorFlow. This class
+#' itself does not provide any hooks; users should define their own R6 classes
+#' extending this class and override the methods as needed.
 #' 
 #' @docType class
 #' 
-#' @format An [R6Class] generator object
+#' @format An [R6Class] generator object.
 #' 
 #' @section Methods:
 #' \describe{
@@ -201,8 +206,6 @@ hook_global_step_waiter <- function(wait_until_step) {
 #'  \item{\code{after_run(run_context, run_values)}}{Called after each call to run().}
 #'  \item{\code{end(session)}}{Called at the end of session.}
 #' }
-#' 
-#' @return A `KerasCallback`.
 #' 
 #' @examples 
 #' library(tfestimators)
@@ -219,30 +222,16 @@ hook_global_step_waiter <- function(wait_until_step) {
 #'  
 #' @family session_run_hook wrappers
 #' @export
-EstimatorSessionRunHook <- R6Class("EstimatorSessionRunHook",
-
-                         public = list(
-
-                           begin = function() {
-
-                           },
-
-                           after_create_session = function(session, coord) {
-
-                           },
-
-                           before_run = function(run_context) {
-
-                           },
-
-                           after_run = function(run_context, run_values) {
-
-                           },
-
-                           end = function(session) {
-
-                           }
-                         )
+EstimatorSessionRunHook <- R6Class(
+  "EstimatorSessionRunHook",
+  
+  public = list(
+    begin = function() {},
+    after_create_session = function() {},
+    before_run = function() {},
+    after_run = function() {},
+    end = function() {}
+  )
 )
 
 normalize_session_run_hooks <- function(session_run_hooks) {

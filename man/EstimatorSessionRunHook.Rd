@@ -3,16 +3,16 @@
 \docType{class}
 \name{EstimatorSessionRunHook}
 \alias{EstimatorSessionRunHook}
-\title{Base R6 class for creating custom SessionRunHook}
-\format{An \link{R6Class} generator object}
+\title{TensorFlow Session Run Hook}
+\format{An \link{R6Class} generator object.}
 \usage{
 EstimatorSessionRunHook
 }
-\value{
-A \code{KerasCallback}.
-}
 \description{
-Base R6 class for creating custom SessionRunHook
+This is the base R6 class used for custom session run hooks, which can be
+used to monitor estimators while they are trained by TensorFlow. This class
+itself does not provide any hooks; users should define their own R6 classes
+extending this class and override the methods as needed.
 }
 \section{Methods}{
 
