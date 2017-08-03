@@ -4,6 +4,10 @@
 #'
 #' @inheritParams estimators
 #' 
+#' @template roxlate-activation-fn
+#' @templateVar name activation_fn
+#' @templateVar default relu
+#' 
 #' @param hidden_units An integer vector, indicating the number of hidden
 #'   units in each layer. All layers are fully connected. For example,
 #'   `c(64, 32)` means the first layer has 64 nodes, and the second layer
@@ -11,8 +15,6 @@
 #' @param optimizer Either the name of the optimizer to be used when training
 #'   the model, or a TensorFlow optimizer instance. Defaults to the Adagrad
 #'   optimizer.
-#' @param activation_fn The activation function to apply to each layer. Defaults
-#'   to the **re**ctified **l**inear **u**nit activation function (`tf$nn$relu`).
 #' @param dropout When not `NULL`, the probability we will drop out a given
 #'   coordinate.
 #'
@@ -29,7 +31,7 @@ dnn_regressor <- function(hidden_units,
                           label_dimension = 1L,
                           weight_column = NULL,
                           optimizer = "Adagrad",
-                          activation_fn = tf$nn$relu,
+                          activation_fn = "relu",
                           dropout = NULL,
                           input_layer_partitioner = NULL,
                           config = NULL)
@@ -42,7 +44,7 @@ dnn_regressor <- function(hidden_units,
       label_dimension = as.integer(label_dimension),
       weight_column = weight_column,
       optimizer = optimizer,
-      activation_fn = activation_fn,
+      activation_fn = resolve_activation_fn(activation_fn),
       dropout = dropout,
       input_layer_partitioner = input_layer_partitioner,
       config = config
@@ -62,7 +64,7 @@ dnn_classifier <- function(hidden_units,
                            weight_column = NULL,
                            label_vocabulary = NULL,
                            optimizer = "Adagrad",
-                           activation_fn = tf$nn$relu,
+                           activation_fn = "relu",
                            dropout = NULL,
                            input_layer_partitioner = NULL,
                            config = NULL)
@@ -76,7 +78,7 @@ dnn_classifier <- function(hidden_units,
       weight_column = weight_column,
       label_vocabulary = label_vocabulary,
       optimizer = optimizer,
-      activation_fn = activation_fn,
+      activation_fn = resolve_activation_fn(activation_fn),
       dropout = dropout,
       input_layer_partitioner = input_layer_partitioner,
       config = config

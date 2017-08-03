@@ -5,6 +5,10 @@
 #' 
 #' @inheritParams estimators
 #' 
+#' @template roxlate-activation-fn
+#' @templateVar name dnn_activation_fn
+#' @templateVar default relu
+#' 
 #' @param linear_feature_columns The feature columns used by linear (wide) part
 #'   of the model.
 #' @param linear_optimizer Either the name of the optimizer to be used when
@@ -19,9 +23,6 @@
 #'   units in each layer. All layers are fully connected. For example,
 #'   `c(64, 32)` means the first layer has 64 nodes, and the second layer
 #'   has 32 nodes.
-#' @param dnn_activation_fn The activation function to apply to each layer.
-#'   Defaults to the **re**ctified **l**inear **u**nit activation function
-#'   (`tf$nn$relu`).
 #' @param dnn_dropout When not NULL, the probability we will drop out a given 
 #'   coordinate.
 #'   
@@ -38,7 +39,7 @@ dnn_linear_combined_regressor <- function(model_dir = NULL,
                                           dnn_feature_columns = NULL,
                                           dnn_optimizer = "Adagrad",
                                           dnn_hidden_units = NULL,
-                                          dnn_activation_fn = tf$nn$relu,
+                                          dnn_activation_fn = "relu",
                                           dnn_dropout = NULL,
                                           label_dimension = 1L,
                                           weight_column = NULL,
@@ -53,7 +54,7 @@ dnn_linear_combined_regressor <- function(model_dir = NULL,
       dnn_feature_columns = ensure_nullable_list(dnn_feature_columns),
       dnn_optimizer = dnn_optimizer,
       dnn_hidden_units = as.integer(dnn_hidden_units),
-      dnn_activation_fn = dnn_activation_fn,
+      dnn_activation_fn = resolve_activation_fn(dnn_activation_fn),
       dnn_dropout = dnn_dropout,
       label_dimension = as.integer(label_dimension),
       weight_column = weight_column,
@@ -74,7 +75,7 @@ dnn_linear_combined_classifier <- function(model_dir = NULL,
                                            dnn_feature_columns = NULL,
                                            dnn_optimizer = "Adagrad",
                                            dnn_hidden_units = NULL,
-                                           dnn_activation_fn = tf$nn$relu,
+                                           dnn_activation_fn = "relu",
                                            dnn_dropout = NULL,
                                            n_classes = 2L,
                                            weight_column = NULL,
@@ -90,7 +91,7 @@ dnn_linear_combined_classifier <- function(model_dir = NULL,
       dnn_feature_columns = ensure_nullable_list(dnn_feature_columns),
       dnn_optimizer = dnn_optimizer,
       dnn_hidden_units = as.integer(dnn_hidden_units),
-      dnn_activation_fn = dnn_activation_fn,
+      dnn_activation_fn = resolve_activation_fn(dnn_activation_fn),
       dnn_dropout = dnn_dropout,
       n_classes = as.integer(n_classes),
       weight_column = weight_column,
