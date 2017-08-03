@@ -64,3 +64,17 @@ resolve_model_dir <- function(model_dir) {
   else
     model_dir
 }
+
+resolve_activation_fn <- function(activation_fn) {
+  
+  # resolve activation functions specified by name in 'tf$nn' module
+  if (is.character(activation_fn) && length(activation_fn) == 1) {
+    if (!activation_fn %in% names(tf$nn)) {
+      fmt <- "'%s' is not a known activation function in the 'tf$nn' module"
+      stopf(fmt, activation_fn)
+    }
+    activation_fn <- tf$nn[[activation_fn]]
+  }
+  
+  activation_fn
+}

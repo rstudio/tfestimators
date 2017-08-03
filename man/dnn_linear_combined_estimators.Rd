@@ -11,16 +11,16 @@
 dnn_linear_combined_regressor(model_dir = NULL,
   linear_feature_columns = NULL, linear_optimizer = "Ftrl",
   dnn_feature_columns = NULL, dnn_optimizer = "Adagrad",
-  dnn_hidden_units = NULL, dnn_activation_fn = tf$nn$relu,
-  dnn_dropout = NULL, label_dimension = 1L, weight_column = NULL,
+  dnn_hidden_units = NULL, dnn_activation_fn = "relu", dnn_dropout = NULL,
+  label_dimension = 1L, weight_column = NULL,
   input_layer_partitioner = NULL, config = NULL)
 
 dnn_linear_combined_classifier(model_dir = NULL,
   linear_feature_columns = NULL, linear_optimizer = "Ftrl",
   dnn_feature_columns = NULL, dnn_optimizer = "Adagrad",
-  dnn_hidden_units = NULL, dnn_activation_fn = tf$nn$relu,
-  dnn_dropout = NULL, n_classes = 2L, weight_column = NULL,
-  label_vocabulary = NULL, input_layer_partitioner = NULL, config = NULL)
+  dnn_hidden_units = NULL, dnn_activation_fn = "relu", dnn_dropout = NULL,
+  n_classes = 2L, weight_column = NULL, label_vocabulary = NULL,
+  input_layer_partitioner = NULL, config = NULL)
 }
 \arguments{
 \item{model_dir}{Directory to save the model parameters, graph, and so on.
@@ -46,9 +46,13 @@ units in each layer. All layers are fully connected. For example,
 \code{c(64, 32)} means the first layer has 64 nodes, and the second layer
 has 32 nodes.}
 
-\item{dnn_activation_fn}{The activation function to apply to each layer.
-Defaults to the \strong{re}ctified \strong{l}inear \strong{u}nit activation function
-(\code{tf$nn$relu}).}
+\item{dnn_activation_fn}{The activation function to apply to each layer. This can either be an
+actual activation function (e.g. \code{tf$nn$relu}), or the name of an
+activation function (e.g. \code{"relu"}). Defaults to the
+\code{"relu"} activation function. See
+\url{https://www.tensorflow.org/versions/r0.12/api_docs/python/nn/activation_functions_}
+for documentation related to the set of activation functions available
+in TensorFlow.}
 
 \item{dnn_dropout}{When not NULL, the probability we will drop out a given
 coordinate.}

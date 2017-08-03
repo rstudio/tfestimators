@@ -10,12 +10,12 @@
 \usage{
 dnn_regressor(hidden_units, feature_columns, model_dir = NULL,
   label_dimension = 1L, weight_column = NULL, optimizer = "Adagrad",
-  activation_fn = tf$nn$relu, dropout = NULL,
-  input_layer_partitioner = NULL, config = NULL)
+  activation_fn = "relu", dropout = NULL, input_layer_partitioner = NULL,
+  config = NULL)
 
 dnn_classifier(hidden_units, feature_columns, model_dir = NULL,
   n_classes = 2L, weight_column = NULL, label_vocabulary = NULL,
-  optimizer = "Adagrad", activation_fn = tf$nn$relu, dropout = NULL,
+  optimizer = "Adagrad", activation_fn = "relu", dropout = NULL,
   input_layer_partitioner = NULL, config = NULL)
 }
 \arguments{
@@ -47,8 +47,13 @@ then the raw tensor is fetched by key \code{weight_column$key}, then
 the model, or a TensorFlow optimizer instance. Defaults to the Adagrad
 optimizer.}
 
-\item{activation_fn}{The activation function to apply to each layer. Defaults
-to the \strong{re}ctified \strong{l}inear \strong{u}nit activation function (\code{tf$nn$relu}).}
+\item{activation_fn}{The activation function to apply to each layer. This can either be an
+actual activation function (e.g. \code{tf$nn$relu}), or the name of an
+activation function (e.g. \code{"relu"}). Defaults to the
+\code{"relu"} activation function. See
+\url{https://www.tensorflow.org/versions/r0.12/api_docs/python/nn/activation_functions_}
+for documentation related to the set of activation functions available
+in TensorFlow.}
 
 \item{dropout}{When not \code{NULL}, the probability we will drop out a given
 coordinate.}
