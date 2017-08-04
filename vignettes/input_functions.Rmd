@@ -27,16 +27,16 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ## Overview
 
-Inputs to TensorFlow estimators are provided using an input function. Input functions take an artibrary data source (e.g. in-memory dataframe/matrix, streaming data, custom data format, etc.) and convert it into feature and label Tensors to pass on to modeling functions.
+TensorFlow estimators receive data through input functions. Input functions take an arbitrary data source (in-memory data sets, streaming data, custom data format, and so on) and generate Tensors that can be supplied to TensorFlow models.
 
-The main purposes of input functions is:
+More concretely, input functions are used to:
 
-1) Turning raw data sources into Tensors. 
-2) Configuring how data is drawn during training (shuffling, batch size, epochs, etc.)
+1) Turn raw data sources into Tensors, and
+2) Configure how data is drawn during training (shuffling, batch size, epochs, etc.)
 
-You can also use input functions to do feature engineering, however it's in general much better to use [feature columns](feature_columns.html) for this purpose whenever possible, as in that case the tranformations are made part of the TensorFlow graph and can be executed without an R runtime (e.g. when the model is deployed onto a device or server).
+You can also perform feature engineering within an input function; however, it's better to use [feature columns](feature_columns.html) for this purpose whenever possible, as in that case the tranformations are made part of the TensorFlow graph and so can be executed without an R runtime (e.g. when the model is deployed onto a device or server).
 
-The **tfestimators** package includes an `input_fn()` method that will create an input function automatically from an existing data frame, matrix, or list. It's also possible to write a fully custom input function. Both methods of creating input functions are covered below.
+The **tfestimators** package includes an `input_fn()` function that can create TensorFlow input functions from common R data sources (e.g. data frames and matrices). It's also possible to write a fully custom input function. Both methods of creating input functions are covered below.
 
 ## Data Frame Input
 
@@ -65,7 +65,7 @@ model %>% train(
 )
 ```
 
-Note that `input_fn` functions provide several parameters for controlling how data is drawn from the input source. These include `batch_size` (defaults to 128), `shuffle` (default to `TRUE`), and `epochs` (defaults to 1). Note that when providing an input function for prediction you should always set `shuffle = FALSE`.
+Note that `input_fn` functions provide several parameters for controlling how data is drawn from the input source. These include `batch_size` (defaults to 128), `shuffle` (default to `"auto"`), and `epochs` (defaults to 1). Note that, by default, shuffling is disabled during prediction.
 
 
 ### Training vs. Evaluation
@@ -76,13 +76,16 @@ For example, imagine we have already split the **mtcars** dataset into training 
 
 ```{r}
 mtcars_input_fn <- function(data, ...) {
-  input_fn(data, features = c(drat, cyl), response = mpg, ...)
+  input_fn(data,
+           features = c("drat", "cyl"),
+           response = "mpg",
+           ...)
 }
 ```
 
-The `...` parameter is used to forward additional options to `input_fn` (e.g. `shuffle = FALSE` for prediction).
+The `...` parameter is used to forward additional options to `input_fn()`.
 
-You would use the helper function for training and evaluation as follows:
+This helper function could then be used during training and evaluation as follows:
 
 ```{r}
 # train the model
@@ -99,7 +102,7 @@ As with data frames, you can also pass an R matrix to `input_fn()` to automatica
 ```{r}
 m <- matrix(c(1:12), nrow = 4, ncol = 3)
 colnames(m) <- c("x1", "x2", "y")
-input_fn(m, features = c(x1, x2), response = y)
+input_fn(m, features = c("x1", "x2"), response = "y")
 ```
 
 ## List Input

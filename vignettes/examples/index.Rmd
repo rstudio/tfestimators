@@ -2,6 +2,9 @@
 title: "TensorFlow Estimator API Examples"
 ---
 
+This collection of examples will show you how you can use
+`tfestimators` to easily construct powerful models using TensorFlow.
+
 ```{r index, echo=FALSE}
 # list all the .Rmd files we have
 files <- setdiff(list.files(pattern = "[.]Rmd$"), "index.Rmd")
@@ -9,8 +12,6 @@ files <- setdiff(list.files(pattern = "[.]Rmd$"), "index.Rmd")
 # extract DESCRIPTIONs from their front-matter
 descriptions <- sapply(files, function(file) {
   yaml <- rmarkdown::yaml_front_matter(file)
-  if (is.null(yaml$description))
-    yaml$title
   yaml$description
 })
 

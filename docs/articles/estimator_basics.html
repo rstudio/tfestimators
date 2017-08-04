@@ -121,7 +121,7 @@
 <li><p>Run hooks (callbacks for recording context and interacting with training as it proceeds)</p></li>
 </ul>
 <p>Please read our <a href="http://terrytangyuan.github.io/data/papers/tf-estimators-kdd-paper.pdf">white paper</a> if you are interested in the detailed design of the above components.</p>
-<p>Below we enumerate some of the core functions in each of these componets to provide a high level overview of what’s available. See the linked articles for more details on using all of the components together.</p>
+<p>Below we enumerate some of the core functions in each of these components to provide a high level overview of what’s available. See the linked articles for more details on using all of the components together.</p>
 </div>
 <div id="canned-estimators" class="section level2">
 <h2 class="hasAnchor">
@@ -159,30 +159,30 @@
 </tr>
 </tbody>
 </table>
-<p>Before you can use an estimator you need to provide an input function and define a set of feature columns. The following two sections cover how to do this.</p>
+<p>Before you can use an estimator, you need to provide an input function and define a set of feature columns. The following two sections cover how to do this.</p>
 </div>
 <div id="input-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#input-functions" class="anchor"></a>Input Functions</h2>
-<p>Input functions are used to provide data to Estimtor training and prediction methods. The R interface provides several high-level input function implementations for various common R data sources, including:</p>
+<p>Input functions are used to provide data to to estimators during training, evaluation and prediction. The R interface provides several high-level input function implementations for various common R data sources, including:</p>
 <ul>
 <li>Formulas</li>
 <li>Matrices</li>
 <li>Data Frames</li>
 <li>Lists of vectors</li>
 </ul>
-<p>For example:</p>
+<p>For example, here’s how we might construct an input function that uses the <code>mtcars</code> data frame as a data source, treating the <code>drat</code> and <code>cyl</code> variables as feature columns, and <code>vs</code> as a response.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input &lt;-<span class="st"> </span><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mtcars, 
-                  <span class="dt">features =</span> <span class="kw">c</span>(drat, cyl), 
-                  <span class="dt">response =</span> vs,
-                  <span class="dt">batch_size =</span> <span class="dv">128</span>)</code></pre></div>
-<p>The <code>batch_size</code> specifies the number of observations to draw for each training step.</p>
+                  <span class="dt">features =</span> <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>),
+                  <span class="dt">response =</span> <span class="st">"vs"</span>)</code></pre></div>
+<p>The formula interface is a bit more succinct, in this case, and should feel familiar to R users who have experience fitting models using the R <code>stats</code> package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input &lt;-<span class="st"> </span><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(vs <span class="op">~</span><span class="st"> </span>drat <span class="op">+</span><span class="st"> </span>cyl, <span class="dt">data =</span> mtcars)</code></pre></div>
 <p>You can also write fully custom input functions that draw data from arbitrary data sources. See the <a href="input_functions.html">input functions</a> article for additional details.</p>
 </div>
 <div id="feature-columns" class="section level2">
 <h2 class="hasAnchor">
 <a href="#feature-columns" class="anchor"></a>Feature Columns</h2>
-<p>Feature columns speicfy the feature transformations to apply before using data within training or prediction. This code specifies that the <code>profit</code> column is a standard numeric variable and that the <code>profession</code> column is categorical with 5 buckets:</p>
+<p>In TensorFlow, feature columns are used to specify the ‘shapes’, or ‘types’, of inputs that can be expected by a particular model. For example, in the following code, we define two simple feature columns: a numeric column called <code>"profit"</code>, and a categorical column called <code>"profession"</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cols &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(
   <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"profit"</span>),
   <span class="kw"><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity</a></span>(<span class="st">"profession"</span>, <span class="dt">num_buckets =</span> <span class="dv">5</span>)
@@ -241,8 +241,13 @@
 <div id="creating-an-estimator" class="section level2">
 <h2 class="hasAnchor">
 <a href="#creating-an-estimator" class="anchor"></a>Creating an Estimator</h2>
-<p>Here’s an example of creating a Linear DNN Combined canned Estimator. In creating the estimator we pass the feature columns and other parameters that specifies the layers and architecture of the model. Note that for this particular canned Estimator, it takes two types of feature columns that are used for constructing linear layer and fully connected deep layers separately:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">classifier &lt;-
+<p>Here’s an example of creating a Linear DNN Combined canned Estimator. In creating the estimator we pass the feature columns and other parameters that specifies the layers and architecture of the model. Note that this particular estimator takes two sets of feature columns – one used for constructing the linear layer, and the other used for the fully connected deep layer.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># construct feature columns</span>
+linear_feature_columns &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(...)
+dnn_feature_columns &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(...)
+
+<span class="co"># generate classifier</span>
+classifier &lt;-
 <span class="st">    </span><span class="kw"><a href="../reference/dnn_linear_combined_estimators.html">dnn_linear_combined_classifier</a></span>(
       <span class="dt">linear_feature_columns =</span> linear_feature_columns,
       <span class="dt">dnn_feature_columns =</span> dnn_feature_columns,

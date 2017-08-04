@@ -21,13 +21,20 @@ menu:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Experiments are designed for easier experiments, e.g. define your model, specify training and evaluation data and steps, frequencies, where to run, metrics to use to monitor the process, etc. They contain all neccessary information required, such as `input_fn` for both training and evaluation, to run experiments and can be easily packed up to run in cloud, local, or cluster environment. 
+TensorFlow experiments are used to bundle together all of the different pieces needed to train, evaluate, and predict using a TensorFlow estimator. An experiment bundles together:
 
+1. An estimator, which defines the underlying model,
+2. A 'training' input function, used for training the model,
+3. A 'eval' input function, used for evaluating the performance of the model,
+4. Various parameters that control how the model should be trained and evaluated,
+5. Monitors and metrics, which can be used to monitor the progression of an
+   experiment's progress as it is trained and evaluated.
+   
 The `Experiment` is the core to the distributed execution. In each TensorFlow cluster, there are several parameter servers and several worker tasks. Most workers are handing the training process, which basically calls the Estimator `train()` with the training `input_fn`. One of the workers is designated leader and is responsible for managing checkpoints and other maintenance work. Currently, the primary mode of replica training in TensorFlow Estimators is between-graph replication and asynchronous training. However, it could be easily extended to support other replicated training settings. With this architecture, gradient descent training can be executed in parallel. Please read our [white paper](http://terrytangyuan.github.io/data/papers/tf-estimators-kdd-paper.pdf) if you are interested in the details of the design. 
 
 The architecture of `Experiment` is summarized in the figure below:
 
-![](images/experiment.png){width=770 height=270 .screenshot}
+![](images/experiment.png){.screenshot}
 
 For example, we firstly construct a classifier
 

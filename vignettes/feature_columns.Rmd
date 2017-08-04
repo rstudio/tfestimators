@@ -23,7 +23,7 @@ knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 
 ## Overview
 
-Feature columns are used to specify the feature transformations and combinations for a model, e.g. `column_embedding()` that converts a categorical variable into embedding and `column_crossed()` that combines two variables in a specified way. 
+Feature columns are used to specify how Tensors received from the input function should be combined and transformed before entering the model. A feature column can be a plain mapping to some input column (e.g. `column_numeric()` for a column of numerical data), or a transformation of other feature columns (e.g. `column_crossed()` to define a new column as the cross of two other feature columns).
 
 Some typical mappings of R data type to feature column are:
 
@@ -42,7 +42,7 @@ cols <- feature_columns(
 )
 ```
 
-You can also define multiple feature columns at once (note that in that case columns should be combined recusirvely since the column functions will return more than one column):
+You can also define multiple feature columns at once.
 
 ```{r}
 cols <- feature_columns(
@@ -51,12 +51,12 @@ cols <- feature_columns(
 )
 ```
 
-Note that when creating `feature_columns()` the data that you pass as the first argument (`mtcars`) need not contain all of your data. The purpose of the argument is to define the set of columns against which column definitions will be matched so it can be a small sample of your data or even just a character vector with the column names.
+Note that when creating `feature_columns()`, the data that you pass as the first argument (`mtcars`) need not contain all of your data. The purpose of the argument is to define the set of columns against which column definitions will be matched, so it can be a small sample of your data or even just a character vector with the column names.
 
 
 ## Pattern Matching
 
-You can also do pattern matching similar to what you may be famillar with from `dplyr::select` statements to define multiple columns at once. To do this, establish the set of column names to match against using the `names` argument:
+**tfestimators** uses the [tidyselect](https://github.com/tidyverse/tidyselect) package to make it easy to define feature columns, similar to what you might be familiar with in the `dplyr` package. To do this, establish the set of column names to match against using the `names` argument:
 
 ```{r}
 cols <- feature_columns(names = subsidiaries, 
@@ -68,7 +68,7 @@ cols <- feature_columns(names = subsidiaries,
 
 The `names` parameter can either be a character vector with the names or any R object which implements the `names()` or `colnames()` method.
 
-If the code you are using to compose columns is more complicated or if you need save references to columns for use in column embeddings you can also establish a scope for given set of column names using the `with_column_names()` function:
+If the code you are using to compose columns is more complicated, or if you need save references to columns for use in column embeddings you can also establish a scope for given set of column names using the `with_column_names()` function:
 
 ```{r}
 cols <- with_column_names(names = subsidiaries, {
@@ -85,7 +85,6 @@ cols <- with_column_names(names = subsidiaries, {
 })
 ```
 
-
 Available pattern matching operators include:
 
 | Operator | Description |
@@ -97,8 +96,8 @@ Available pattern matching operators include:
 | `one_of()`  |  Included in character vector |
 | `everything()`  | All columns |
 
-
-
+See `help("select_helpers", package = "tidyselect")` for full information on the set of
+helpers made available by the **tidyselect** package.
 
 
 
