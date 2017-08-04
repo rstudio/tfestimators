@@ -123,7 +123,7 @@
     </div>
 
     
-    <p>Evaluate an estimator on input data provided by an <code>input_fn()</code>.</p>
+    <p>Evaluate an estimator on input data provided by an <code><a href='input_fn.html'>input_fn()</a></code>.</p>
     
 
     <pre class="usage"><span class='co'># S3 method for tf_estimator</span>
@@ -145,8 +145,8 @@ helper function.</p></td>
     <tr>
       <th>steps</th>
       <td><p>The number of steps for which the model should be trained on
-this particular <code>train()</code> invocation. If <code>NULL</code> (the default), this function
-will either train forever, or until the supplied <code>input_fn()</code> has provided
+this particular <code><a href='train.html'>train()</a></code> invocation. If <code>NULL</code> (the default), this function
+will either train forever, or until the supplied <code><a href='input_fn.html'>input_fn()</a></code> has provided
 all available data.</p></td>
     </tr>
     <tr>
@@ -169,7 +169,7 @@ training loop.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Optional arguments passed on to the estimator's <code>evaluate()</code>
+      <td><p>Optional arguments passed on to the estimator's <code><a href='evaluate.html'>evaluate()</a></code>
 method.</p></td>
     </tr>
     </table>
@@ -180,10 +180,10 @@ method.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>For each step, this method will call <code>input_fn()</code> to produce a single batch
+    <p>For each step, this method will call <code><a href='input_fn.html'>input_fn()</a></code> to produce a single batch
 of data. Evaluation continues until:</p><ul>
 <li><p><code>steps</code> batches are processed, or</p></li>
-<li><p>The <code>input_fn()</code> is exhausted of data.</p></li>
+<li><p>The <code><a href='input_fn.html'>input_fn()</a></code> is exhausted of data.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

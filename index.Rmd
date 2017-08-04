@@ -16,14 +16,7 @@ knitr::opts_chunk$set(eval = FALSE, echo = TRUE)
 
 # R Interface to TensorFlow Estimators
 
-<div class="alert alert-warning" role="alert">
-**IMPORTANT NOTE**: This package is under active development and the APIs are still subject to substantial changes. Help and documentation are also currently incomplete. The package is currently suitable for review and feedback but not for everyday use.
-</div>
-
-
-
-<img src="articles/images/estimator.png" align="right" width="50%" style="margin-left: 15px;">
-
+<img src="articles/images/tensorflow-2-100709406-large.jpg" align="right" width="50%" style="margin-left: 15px;">
 
 The **tfestimators** package is an R interface to TensorFlow Estimators, a high-level API that provides:
 
@@ -49,19 +42,18 @@ First, install the tfestimators R package as follows:
 devtools::install_github("rstudio/tfestimators")
 ```
 
-Then, use the `install_tensorflow()` function to install the current nightly build of TensorFlow (see the TensorFlow repository home page for [nightly build URLs](https://github.com/tensorflow/tensorflow#installation) for various platforms):
+Then, use the `install_tensorflow()` function to install TensorFlow:
 
 ```{r, eval=FALSE}
 library(tfestimators)
-install_tensorflow(package_url = "https://ci.tensorflow.org/view/Nightly/<path-to-tf-package>")
+install_tensorflow()
 ```
 
-<div class="alert alert-warning" role="alert">
-**IMPORTANT NOTE**: The **tfestimators** package currently requires the nightly build of TensorFlow, it will not work with the release version as it relies on APIs only in the development version.
-</div>
+This will provide you with a default installation of TensorFlow suitable for getting started with the tensorflow R package. See the [article on installation](https://tensorflow.rstudio.com/installation.html) to learn about more advanced options, including installing a version of TensorFlow that takes advantage of Nvidia GPUs if you have the correct CUDA libraries installed.
 
 
 
+Note that the **tfestimators** package requires the very latest version of TensorFlow (v1.3), so you should be sure to install the updated version even if you may already have another earlier version installed.
 
 ### Simple Example
 
