@@ -2,7 +2,7 @@
 % Please edit documentation in R/experiments.R
 \name{train_and_evaluate.tf_experiment}
 \alias{train_and_evaluate.tf_experiment}
-\title{Interleaves training and evaluation.}
+\title{Interleaves Training and Evaluation}
 \usage{
 \method{train_and_evaluate}{tf_experiment}(object, ...)
 }

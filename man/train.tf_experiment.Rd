@@ -2,7 +2,7 @@
 % Please edit documentation in R/experiments.R
 \name{train.tf_experiment}
 \alias{train.tf_experiment}
-\title{Fit the estimator using the training data.}
+\title{Fit the Estimator Using Training Data}
 \usage{
 \method{train}{tf_experiment}(object, delay_secs = NULL, ...)
 }

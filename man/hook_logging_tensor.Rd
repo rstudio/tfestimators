@@ -2,7 +2,7 @@
 % Please edit documentation in R/session_run_hooks.R
 \name{hook_logging_tensor}
 \alias{hook_logging_tensor}
-\title{Prints the given tensors every N local steps, every N seconds, or at end}
+\title{Prints Given Tensors Every N Local Steps, Every N Seconds, or at End}
 \usage{
 hook_logging_tensor(tensors, every_n_iter = NULL, every_n_secs = NULL,
   formatter = NULL, at_end = FALSE)

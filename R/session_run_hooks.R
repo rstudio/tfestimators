@@ -1,4 +1,4 @@
-#' Prints the given tensors every N local steps, every N seconds, or at end
+#' Prints Given Tensors Every N Local Steps, Every N Seconds, or at End
 #' 
 #' The tensors will be printed to the log, with `INFO` severity.
 #' 
@@ -35,7 +35,7 @@ hook_logging_tensor <- function(tensors,
   })
 }
 
-#' Monitor to request stop at a specified step
+#' Monitor to Request Stop at a Specified Step
 #' 
 #' @param num_steps Number of steps to execute.
 #' @param last_step Step after which to stop.
@@ -54,7 +54,7 @@ hook_stop_at_step <- function(num_steps = NULL, last_step = NULL) {
 }
 
 
-#' Saves checkpoints every N steps or seconds
+#' Saves Checkpoints Every N Steps or Seconds
 #' 
 #' @param checkpoint_dir The base directory for the checkpoint files.
 #' @param save_secs An integer, indicating saving checkpoints every N secs.
@@ -94,7 +94,7 @@ hook_checkpoint_saver <- function(checkpoint_dir,
 }
 
 
-#' Steps per second monitor
+#' Steps per Second Monitor
 #' 
 #' @param every_n_steps Run this counter every N steps
 #' @param every_n_secs Run this counter every N seconds
@@ -117,7 +117,7 @@ hook_step_counter <- function(every_n_steps = 100,
   )
 }
 
-#' NaN Loss monitor
+#' NaN Loss Monitor
 #' 
 #' Monitors loss and stops training if loss is NaN. Can either fail with
 #' exception or just stop training.
@@ -135,7 +135,7 @@ hook_nan_tensor <- function(loss_tensor, fail_on_nan_loss = TRUE) {
   )
 }
 
-#' Saves summaries every N steps
+#' Saves Summaries Every N Steps
 #' 
 #' 
 #' @param save_steps An integer indicating saving summaries every N steps. Exactly one of
@@ -176,7 +176,7 @@ hook_summary_saver <- function(save_steps = NULL,
 }
 
 
-#' Delay execution until global step reaches to wait_until_step.
+#' Delay Execution until Global Step Reaches to `wait_until_step`.
 #' 
 #' This hook delays execution until global step reaches to `wait_until_step`. It
 #' is used to gradually start workers in distributed settings. One example usage
@@ -194,7 +194,7 @@ hook_global_step_waiter <- function(wait_until_step) {
   )
 }
 
-#' TensorFlow session run hook used in estimators
+#' TensorFlow Session Run Hook used in Estimators
 #'
 #' This is the base R6 class used for custom session run hooks, which can be
 #' used to monitor estimators while they are trained by TensorFlow. This class
@@ -250,7 +250,7 @@ EstimatorSessionRunHook <- R6Class(
   lock_objects = FALSE
 )
 
-#' Create session run hooks
+#' Create Session Run Hooks
 #' 
 #' Create a set of session run hooks, used to record information during
 #' training of an estimator.

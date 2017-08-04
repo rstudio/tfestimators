@@ -3,7 +3,7 @@
 \docType{class}
 \name{EstimatorSessionRunHook}
 \alias{EstimatorSessionRunHook}
-\title{TensorFlow session run hook used in estimators}
+\title{TensorFlow Session Run Hook used in Estimators}
 \format{An \link{R6Class} generator object.}
 \usage{
 EstimatorSessionRunHook

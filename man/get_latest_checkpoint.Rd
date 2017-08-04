@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_tf.R
 \name{get_latest_checkpoint}
 \alias{get_latest_checkpoint}
-\title{Function to get the latest checkpoint in a checkpoint directory}
+\title{Get the Latest Checkpoint in a Checkpoint Directory}
 \usage{
 get_latest_checkpoint(checkpoint_dir, ...)
 }
@@ -12,7 +12,7 @@ get_latest_checkpoint(checkpoint_dir, ...)
 \item{...}{Optional arguments passed on to \code{latest_checkpoint()}.}
 }
 \description{
-Function to get the latest checkpoint in a checkpoint directory
+Get the Latest Checkpoint in a Checkpoint Directory
 }
 \seealso{
 Other utility functions: \code{\link{graph_keys}}

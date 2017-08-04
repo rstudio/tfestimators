@@ -211,7 +211,7 @@ input_fn.matrix <- function(object, ...)
   )
 }
 
-#' Construct input function that would feed dict of numpy arrays into the model
+#' Construct Input Function Containing Python Dictionaries of Numpy Arrays
 #' 
 #' This returns a function outputting `features` and `target` based on the dict 
 #' of numpy arrays. The dict `features` has the same keys as the `x`.

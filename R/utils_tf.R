@@ -1,4 +1,4 @@
-#' Function to get the latest checkpoint in a checkpoint directory
+#' Get the Latest Checkpoint in a Checkpoint Directory
 #' 
 #' @param checkpoint_dir The path to the checkpoint directory.
 #' @param ... Optional arguments passed on to \code{latest_checkpoint()}.
@@ -79,7 +79,7 @@ resolve_activation_fn <- function(activation_fn) {
   activation_fn
 }
 
-#' Standard names to use for graph collections
+#' Standard Names to Use for Graph Collections
 #' 
 #' The standard library uses various well-known names to collect and retrieve 
 #' values associated with a graph.

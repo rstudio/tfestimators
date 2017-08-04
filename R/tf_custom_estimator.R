@@ -8,7 +8,7 @@ tf_custom_estimator <- function(estimator, model_fn, classes) {
   )
 }
 
-#' Ops and objects returned from a `model_fn` and passed to [estimator()]
+#' Ops and Objects Returned From Model Function and Passed to Estimator
 #' 
 #' Estimator spec fully defines the model to be run by [estimator()].
 #' 

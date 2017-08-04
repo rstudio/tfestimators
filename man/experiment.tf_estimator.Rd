@@ -5,9 +5,9 @@
 \title{Construct an Experiment}
 \usage{
 \method{experiment}{tf_estimator}(object, train_input_fn, eval_input_fn,
-  train_steps = 2L, eval_steps = 2L, eval_metrics = NULL,
+  train_steps = 2, eval_steps = 2, eval_metrics = NULL,
   train_monitors = NULL, eval_hooks = NULL, local_eval_frequency = NULL,
-  eval_delay_secs = 120L, continuous_eval_throttle_secs = 60L,
+  eval_delay_secs = 120, continuous_eval_throttle_secs = 60,
   min_eval_frequency = NULL, delay_workers_by_global_step = NULL,
   export_strategies = NULL, train_steps_per_iteration = NULL, ...)
 }

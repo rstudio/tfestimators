@@ -2,7 +2,7 @@
 % Please edit documentation in R/session_run_hooks.R
 \name{hook_stop_at_step}
 \alias{hook_stop_at_step}
-\title{Monitor to request stop at a specified step}
+\title{Monitor to Request Stop at a Specified Step}
 \usage{
 hook_stop_at_step(num_steps = NULL, last_step = NULL)
 }
@@ -12,7 +12,7 @@ hook_stop_at_step(num_steps = NULL, last_step = NULL)
 \item{last_step}{Step after which to stop.}
 }
 \description{
-Monitor to request stop at a specified step
+Monitor to Request Stop at a Specified Step
 }
 \seealso{
 Other session_run_hook wrappers: \code{\link{EstimatorSessionRunHook}},

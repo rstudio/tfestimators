@@ -2,7 +2,7 @@
 % Please edit documentation in R/session_run_hooks.R
 \name{hook_nan_tensor}
 \alias{hook_nan_tensor}
-\title{NaN Loss monitor}
+\title{NaN Loss Monitor}
 \usage{
 hook_nan_tensor(loss_tensor, fail_on_nan_loss = TRUE)
 }

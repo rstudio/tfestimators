@@ -2,7 +2,7 @@
 % Please edit documentation in R/session_run_hooks.R
 \name{hook_summary_saver}
 \alias{hook_summary_saver}
-\title{Saves summaries every N steps}
+\title{Saves Summaries Every N Steps}
 \usage{
 hook_summary_saver(save_steps = NULL, save_secs = NULL, output_dir = NULL,
   summary_writer = NULL, scaffold = NULL, summary_op = NULL)
@@ -28,7 +28,7 @@ output by TensorFlow summary methods like \code{tf$summary$scalar} or
 one, they must be passed in as a list.}
 }
 \description{
-Saves summaries every N steps
+Saves Summaries Every N Steps
 }
 \seealso{
 Other session_run_hook wrappers: \code{\link{EstimatorSessionRunHook}},

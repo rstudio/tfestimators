@@ -2,7 +2,7 @@
 % Please edit documentation in R/parsing_utils.R
 \name{regressor_parse_example_spec}
 \alias{regressor_parse_example_spec}
-\title{Generates parsing spec for \code{tf$parse_example} to be used with regressors}
+\title{Generates Parsing Spec for TensorFlow Example to be Used with Regressors}
 \usage{
 regressor_parse_example_spec(feature_columns, label_key,
   label_dtype = tf$float32, label_default = NULL, label_dimension = 1L,

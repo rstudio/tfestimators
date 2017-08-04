@@ -2,7 +2,7 @@
 % Please edit documentation in R/session_run_hooks.R
 \name{hook_checkpoint_saver}
 \alias{hook_checkpoint_saver}
-\title{Saves checkpoints every N steps or seconds}
+\title{Saves Checkpoints Every N Steps or Seconds}
 \usage{
 hook_checkpoint_saver(checkpoint_dir, save_secs = NULL, save_steps = NULL,
   saver = NULL, checkpoint_basename = "model.ckpt", scaffold = NULL,
@@ -27,7 +27,7 @@ for callbacks that run immediately after the corresponding
 was triggered.}
 }
 \description{
-Saves checkpoints every N steps or seconds
+Saves Checkpoints Every N Steps or Seconds
 }
 \seealso{
 Other session_run_hook wrappers: \code{\link{EstimatorSessionRunHook}},

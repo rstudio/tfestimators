@@ -2,7 +2,7 @@
 % Please edit documentation in R/session_run_hooks.R
 \name{hook_global_step_waiter}
 \alias{hook_global_step_waiter}
-\title{Delay execution until global step reaches to wait_until_step.}
+\title{Delay Execution until Global Step Reaches to \code{wait_until_step}.}
 \usage{
 hook_global_step_waiter(wait_until_step)
 }

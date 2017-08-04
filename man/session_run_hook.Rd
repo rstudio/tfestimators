@@ -2,7 +2,7 @@
 % Please edit documentation in R/session_run_hooks.R
 \name{session_run_hook}
 \alias{session_run_hook}
-\title{Create session run hooks}
+\title{Create Session Run Hooks}
 \usage{
 session_run_hook(begin = NULL, after_create_session = NULL,
   before_run = NULL, after_run = NULL, end = NULL)

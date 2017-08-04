@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_tf.R
 \name{graph_keys}
 \alias{graph_keys}
-\title{Standard names to use for graph collections}
+\title{Standard Names to Use for Graph Collections}
 \usage{
 graph_keys()
 }

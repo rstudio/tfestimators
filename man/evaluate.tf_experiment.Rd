@@ -2,7 +2,7 @@
 % Please edit documentation in R/experiments.R
 \name{evaluate.tf_experiment}
 \alias{evaluate.tf_experiment}
-\title{Evaluate on the evaluation data.}
+\title{Evaluate on The Evaluation Data}
 \usage{
 \method{evaluate}{tf_experiment}(object, delay_secs = NULL, ...)
 }

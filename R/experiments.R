@@ -5,7 +5,7 @@ tf_experiment <- function(experiment) {
   )
 }
 
-#' Interleaves training and evaluation.
+#' Interleaves Training and Evaluation
 #' 
 #' The frequency of evaluation is controlled by the contructor arg 
 #' `min_eval_frequency`. When this parameter is 0, evaluation happens only after
@@ -35,7 +35,7 @@ train_and_evaluate.tf_experiment <- function(object, ...) {
   object$experiment$train_and_evaluate(...)
 }
 
-#' Evaluate on the evaluation data.
+#' Evaluate on The Evaluation Data
 #' 
 #' Runs evaluation on the evaluation data and returns the result. Runs for 
 #' `self._eval_steps` steps, or if it's `NULL`, then run until input is 
@@ -64,7 +64,7 @@ evaluate.tf_experiment <- function(object,
 }
 
 
-#' Fit the estimator using the training data.
+#' Fit the Estimator Using Training Data
 #' 
 #' Train the estimator for `self._train_steps` steps, after waiting for 
 #' `delay_secs` seconds. If `self._train_steps` is `NULL`, train forever.
@@ -140,14 +140,14 @@ train.tf_experiment <- function(object,
 experiment.tf_estimator <- function(object,
                                     train_input_fn,
                                     eval_input_fn,
-                                    train_steps = 2L,
-                                    eval_steps = 2L,
+                                    train_steps = 2,
+                                    eval_steps = 2,
                                     eval_metrics = NULL,
                                     train_monitors = NULL,
                                     eval_hooks = NULL,
                                     local_eval_frequency = NULL,
-                                    eval_delay_secs = 120L,
-                                    continuous_eval_throttle_secs = 60L,
+                                    eval_delay_secs = 120,
+                                    continuous_eval_throttle_secs = 60,
                                     min_eval_frequency = NULL,
                                     delay_workers_by_global_step = NULL,
                                     export_strategies = NULL,

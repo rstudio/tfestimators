@@ -2,7 +2,7 @@
 % Please edit documentation in R/tf_custom_estimator.R
 \name{estimator_spec}
 \alias{estimator_spec}
-\title{Ops and objects returned from a \code{model_fn} and passed to \code{\link[=estimator]{estimator()}}}
+\title{Ops and Objects Returned From Model Function and Passed to Estimator}
 \usage{
 estimator_spec(mode, predictions = NULL, loss = NULL, train_op = NULL,
   eval_metric_ops = NULL, export_outputs = NULL,

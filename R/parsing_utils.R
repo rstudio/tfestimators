@@ -1,4 +1,4 @@
-#' Generates parsing spec for `tf$parse_example` to be used with regressors
+#' Generates Parsing Spec for TensorFlow Example to be Used with Regressors
 #' 
 #' If users keep data in `tf$Example` format, they need to call `tf$parse_example` 
 #' with a proper feature spec. There are two main things that this utility 
@@ -53,7 +53,7 @@ regressor_parse_example_spec <- function(feature_columns, label_key, label_dtype
   )
 }
 
-#' Generates parsing spec for `tf$parse_example` to be used with classifiers
+#' Generates Parsing Spec for TensorFlow Example to be Used with Classifiers
 #' 
 #' If users keep data in TensorFlow Example format, they need to call `tf$parse_example` 
 #' with a proper feature spec. There are two main things that this utility 

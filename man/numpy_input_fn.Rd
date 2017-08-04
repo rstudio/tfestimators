@@ -2,7 +2,7 @@
 % Please edit documentation in R/input_fn.R
 \name{numpy_input_fn}
 \alias{numpy_input_fn}
-\title{Construct input function that would feed dict of numpy arrays into the model}
+\title{Construct Input Function Containing Python Dictionaries of Numpy Arrays}
 \usage{
 numpy_input_fn(x, y = NULL, batch_size = 128, num_epochs = 1,
   shuffle = NULL, queue_capacity = 1000, num_threads = 1)

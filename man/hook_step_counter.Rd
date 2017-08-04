@@ -2,7 +2,7 @@
 % Please edit documentation in R/session_run_hooks.R
 \name{hook_step_counter}
 \alias{hook_step_counter}
-\title{Steps per second monitor}
+\title{Steps per Second Monitor}
 \usage{
 hook_step_counter(every_n_steps = 100, every_n_secs = NULL,
   output_dir = NULL, summary_writer = NULL)
@@ -17,7 +17,7 @@ hook_step_counter(every_n_steps = 100, every_n_secs = NULL,
 \item{summary_writer}{The summary writer}
 }
 \description{
-Steps per second monitor
+Steps per Second Monitor
 }
 \seealso{
 Other session_run_hook wrappers: \code{\link{EstimatorSessionRunHook}},
