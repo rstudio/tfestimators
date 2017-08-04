@@ -28,7 +28,7 @@ print.tf_estimator <- function(x, ...) {
 
   # Model checkpoint only exists when it's been trained
   if (dir.exists(model_dir)) {
-    global_step <- coef(x)[[tf$python$framework$ops$GraphKeys()$GLOBAL_STEP]]
+    global_step <- coef(x)[[graph_keys()$GLOBAL_STEP]]
     model_trained_info <- sprintf(
       "Model has been trained for %i %s.",
       as.integer(global_step),
