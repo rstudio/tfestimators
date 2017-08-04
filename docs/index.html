@@ -123,11 +123,11 @@
 <p>To use <strong>tfestimators</strong> you need to install both the R package as well as <a href="https://rstudio.github.io/tensorflow/">TensorFlow</a> itself.</p>
 <p>First, install the tfestimators R package as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"rstudio/tfestimators"</span>)</code></pre></div>
-<p>Then, use the <code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/install_tensorflow">install_tensorflow()</a></code> function to install TensorFlow:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tfestimators)
-<span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/install_tensorflow">install_tensorflow</a></span>()</code></pre></div>
-<p>This will provide you with a default installation of TensorFlow suitable for getting started with the tensorflow R package. See the <a href="https://tensorflow.rstudio.com/installation.html">article on installation</a> to learn about more advanced options, including installing a version of TensorFlow that takes advantage of Nvidia GPUs if you have the correct CUDA libraries installed.</p>
-<p>Note that the <strong>tfestimators</strong> package requires the very latest version of TensorFlow (v1.3), so you should be sure to install the updated version even if you may already have another earlier version installed.</p>
+<p>Then, use the <code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/install_tensorflow">install_tensorflow()</a></code> function to install the current nightly build of TensorFlow (see the TensorFlow repository home page for <a href="https://github.com/tensorflow/tensorflow#installation">nightly build URLs</a> for various platforms):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/install_tensorflow">install_tensorflow</a></span>(<span class="dt">package_url =</span> <span class="st">"https://ci.tensorflow.org/view/Nightly/&lt;path-to-tf-package&gt;"</span>)</code></pre></div>
+<div class="alert alert-warning" role="alert">
+<p><strong>IMPORTANT NOTE</strong>: The <strong>tfestimators</strong> package currently requires the nightly build of TensorFlow, it will not work with the release version as it relies on APIs only in the development version.</p>
+</div>
 </div>
 <div id="simple-example" class="section level3">
 <h3 class="hasAnchor">
