@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Saves checkpoints every N steps or seconds. — hook_checkpoint_saver • tfestimators</title>
+<title>Saves checkpoints every N steps or seconds — hook_checkpoint_saver • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,11 +119,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Saves checkpoints every N steps or seconds.</h1>
+    <h1>Saves checkpoints every N steps or seconds</h1>
     </div>
 
     
-    <p>Saves checkpoints every N steps or seconds.</p>
+    <p>Saves checkpoints every N steps or seconds</p>
     
 
     <pre class="usage"><span class='fu'>hook_checkpoint_saver</span>(<span class='no'>checkpoint_dir</span>, <span class='kw'>save_secs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>save_steps</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -135,33 +135,33 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>checkpoint_dir</th>
-      <td><p><code>str</code>, base directory for the checkpoint files.</p></td>
+      <td><p>The base directory for the checkpoint files.</p></td>
     </tr>
     <tr>
       <th>save_secs</th>
-      <td><p><code>int</code>, save every N secs.</p></td>
+      <td><p>An integer, indicating saving checkpoints every N secs.</p></td>
     </tr>
     <tr>
       <th>save_steps</th>
-      <td><p><code>int</code>, save every N steps.</p></td>
+      <td><p>An integer, indicating saving checkpoints every N steps.</p></td>
     </tr>
     <tr>
       <th>saver</th>
-      <td><p><code>Saver</code> object, used for saving.</p></td>
+      <td><p>A saver object, used for saving.</p></td>
     </tr>
     <tr>
       <th>checkpoint_basename</th>
-      <td><p><code>str</code>, base name for the checkpoint files.</p></td>
+      <td><p>The base name for the checkpoint files.</p></td>
     </tr>
     <tr>
       <th>scaffold</th>
-      <td><p><code>Scaffold</code>, use to get saver object.</p></td>
+      <td><p>A scaffold, used to get saver object.</p></td>
     </tr>
     <tr>
       <th>listeners</th>
-      <td><p>List of <code>CheckpointSaverListener</code> subclass instances. Used
+      <td><p>List of checkpoint saver listener subclass instances, used
 for callbacks that run immediately after the corresponding
-CheckpointSaverHook callbacks, only in steps where the CheckpointSaverHook
+<code>hook_checkpoint_saver</code> callbacks, only in steps where <code>the hook_checkpoint_saver</code>
 was triggered.</p></td>
     </tr>
     </table>

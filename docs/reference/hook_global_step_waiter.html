@@ -126,7 +126,7 @@
     <p>This hook delays execution until global step reaches to <code>wait_until_step</code>. It
 is used to gradually start workers in distributed settings. One example usage
 would be setting <code>wait_until_step=int(K*log(task_id+1))</code> assuming that
-task_id=0 is the chief.</p>
+<code>task_id=0</code> is the chief.</p>
     
 
     <pre class="usage"><span class='fu'>hook_global_step_waiter</span>(<span class='no'>wait_until_step</span>)</pre>
@@ -136,7 +136,7 @@ task_id=0 is the chief.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>wait_until_step</th>
-      <td><p>an <code>int</code> shows until which global step should we wait.</p></td>
+      <td><p>An integer indicating that until which global step should we wait.</p></td>
     </tr>
     </table>
     

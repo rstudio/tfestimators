@@ -7,13 +7,13 @@
 hook_global_step_waiter(wait_until_step)
 }
 \arguments{
-\item{wait_until_step}{an \code{int} shows until which global step should we wait.}
+\item{wait_until_step}{An integer indicating that until which global step should we wait.}
 }
 \description{
 This hook delays execution until global step reaches to \code{wait_until_step}. It
 is used to gradually start workers in distributed settings. One example usage
 would be setting \code{wait_until_step=int(K*log(task_id+1))} assuming that
-task_id=0 is the chief.
+\code{task_id=0} is the chief.
 }
 \seealso{
 Other session_run_hook wrappers: \code{\link{EstimatorSessionRunHook}},

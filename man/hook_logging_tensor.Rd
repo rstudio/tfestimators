@@ -2,33 +2,31 @@
 % Please edit documentation in R/session_run_hooks.R
 \name{hook_logging_tensor}
 \alias{hook_logging_tensor}
-\title{Prints the given tensors every N local steps, every N seconds, or at end.}
+\title{Prints the given tensors every N local steps, every N seconds, or at end}
 \usage{
 hook_logging_tensor(tensors, every_n_iter = NULL, every_n_secs = NULL,
   formatter = NULL, at_end = FALSE)
 }
 \arguments{
-\item{tensors}{\code{dict} that maps string-valued tags to tensors/tensor names,
-or \code{iterable} of tensors/tensor names.}
+\item{tensors}{A list that maps string-valued tags to tensors/tensor names.}
 
-\item{every_n_iter}{\code{int}, print the values of \code{tensors} once every N local
-steps taken on the current worker.}
+\item{every_n_iter}{An integer value, indicating the values of \code{tensors} will be printed
+once every N local steps taken on the current worker.}
 
-\item{every_n_secs}{\code{int} or \code{float}, print the values of \code{tensors} once
-every N seconds. Exactly one of \code{every_n_iter} and \code{every_n_secs} should be
-provided.}
+\item{every_n_secs}{An integer or float value, indicating the values of \code{tensors} will be printed
+once every N seconds. Exactly one of \code{every_n_iter} and \code{every_n_secs} should be provided.}
 
-\item{formatter}{function, takes dict of \code{tag}->\code{Tensor} and returns a
+\item{formatter}{A function that takes \code{list(tag = tensor)} and returns a
 string. If \code{NULL} uses default printing all tensors.}
 
-\item{at_end}{\code{bool} specifying whether to print the values of \code{tensors} at the
+\item{at_end}{A boolean value specifying whether to print the values of \code{tensors} at the
 end of the run.}
 }
 \description{
 The tensors will be printed to the log, with \code{INFO} severity.
 }
 \details{
-Note that if \code{at_end} is True, \code{tensors} should not include any tensor
+Note that if \code{at_end} is \code{TRUE}, \code{tensors} should not include any tensor
 whose evaluation produces a side effect such as consuming additional inputs.
 }
 \seealso{

@@ -135,27 +135,28 @@
     <tr>
       <th>model_fn</th>
       <td><p>Model function. Follows the signature:</p><ul>
-<li><p><code>features</code>: single <code>Tensor</code> or <code>dict</code> of <code>Tensor</code>s (depending on data
+<li><p><code>features</code>: single tensor or list of tensors (depending on data
 passed to <code>train</code>),</p></li>
-<li><p><code>labels</code>: <code>Tensor</code> or <code>dict</code> of <code>Tensor</code>s (for multi-head models).
-If mode is <code>ModeKeys.PREDICT</code>, <code>labels=NULL</code> will be passed.
+<li><p><code>labels</code>: single tensor or list of tensors (for multi-head models).
+If <code>mode</code> is <code>mode_keys()$PREDICT</code>, <code>labels = NULL</code> will be passed.
 If the <code>model_fn</code>'s signature does not accept <code>mode</code>, the <code>model_fn</code>
-must still be able to handle <code>labels=NULL</code>.</p></li>
-<li><p><code>mode</code>: Optional. Specifies if this training, evaluation or prediction.
-See <code>ModeKeys</code>.</p></li>
-<li><p><code>params</code>: Optional <code>dict</code> of hyperparameters. Will receive what is passed
-to Estimator in <code>params</code> parameter. This allows to configure Estimators
+must still be able to handle <code>labels = NULL</code>.</p></li>
+<li><p><code>mode</code>: Optional argument that specifies if this training, evaluation or prediction
+created by <code><a href='mode_keys.html'>mode_keys()</a></code>.</p></li>
+<li><p><code>params</code>: Optional list of hyperparameters. Will receive what is passed
+to estimator in <code>params</code> parameter. This allows to configure estimators
 from hyper parameter tuning.</p></li>
-<li><p><code>config</code>: Optional configuration object. Will receive what is passed to
-Estimator in <code>config</code> parameter, or the default <code>config</code>. Allows updating
-things in your model_fn based on configuration such as <code>num_ps_replicas</code>, or <code>model_dir</code>.</p></li>
+<li><p><code>config</code>: Optional configuration object created by <code><a href='run_config.html'>run_config()</a></code>.
+Will receive what is passed to estimator in <code>config</code> parameter, or the default <code>config</code>.
+Allows updating things in your <code>model_fn</code> based on configuration such as
+<code>num_ps_replicas</code>, or <code>model_dir</code>.</p></li>
 </ul></td>
     </tr>
     <tr>
       <th>model_dir</th>
       <td><p>Directory to save model parameters, graph and etc. This can
 also be used to load checkpoints from the directory into a estimator to
-continue training a previously saved model. If <code>NULL</code>, the model_dir in
+continue training a previously saved model. If <code>NULL</code>, the <code>model_dir</code> in
 <code>config</code> will be used if set. If both are set, they must be same. If both
 are <code>NULL</code>, a temporary directory will be used.</p></td>
     </tr>
@@ -165,7 +166,7 @@ are <code>NULL</code>, a temporary directory will be used.</p></td>
     </tr>
     <tr>
       <th>params</th>
-      <td><p><code>dict</code> of hyper parameters that will be passed into <code>model_fn</code>.
+      <td><p>List of hyper parameters that will be passed into <code>model_fn</code>.
 Keys are names of parameters, values are basic python types.</p></td>
     </tr>
     <tr>
@@ -182,21 +183,21 @@ necessary to perform training, evaluation, or predictions.</p>
 <p>All outputs (checkpoints, event files, etc.) are written to <code>model_dir</code>, or a
 subdirectory thereof. If <code>model_dir</code> is not set, a temporary directory is
 used.</p>
-<p>The <code>config</code> argument can be passed <code>RunConfig</code> object containing information
+<p>The <code>config</code> argument can be used to passed run configuration object containing information
 about the execution environment. It is passed on to the <code>model_fn</code>, if the
 <code>model_fn</code> has a parameter named "config" (and input functions in the same
-manner). If the <code>config</code> parameter is not passed, it is instantiated by the
-<code>Estimator</code>. Not passing config means that defaults useful for local
-execution are used. <code>Estimator</code> makes config available to the model (for
+manner). If the <code>config</code> parameter is not passed, it is instantiated by
+<code>estimator()</code>. Not passing config means that defaults useful for local
+execution are used. <code>estimator()</code> makes config available to the model (for
 instance, to allow specialization based on the number of workers available),
 and also uses some of its fields to control internals, especially regarding
 checkpointing.</p>
 <p>The <code>params</code> argument contains hyperparameters. It is passed to the
 <code>model_fn</code>, if the <code>model_fn</code> has a parameter named "params", and to the
-input functions in the same manner. <code>Estimator</code> only passes params along, it
+input functions in the same manner. <code>estimator()</code> only passes <code>params</code> along, it
 does not inspect it. The structure of <code>params</code> is therefore entirely up to
 the developer.</p>
-<p>None of <code>Estimator</code>'s methods can be overridden in subclasses (its
+<p>None of estimator's methods can be overridden in subclasses (its
 constructor enforces this). Subclasses should use <code>model_fn</code> to configure the
 base class, and may add methods implementing specialized functionality.</p>
     

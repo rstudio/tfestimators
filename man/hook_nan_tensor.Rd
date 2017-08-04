@@ -2,14 +2,14 @@
 % Please edit documentation in R/session_run_hooks.R
 \name{hook_nan_tensor}
 \alias{hook_nan_tensor}
-\title{NaN Loss monitor.}
+\title{NaN Loss monitor}
 \usage{
 hook_nan_tensor(loss_tensor, fail_on_nan_loss = TRUE)
 }
 \arguments{
-\item{loss_tensor}{\code{Tensor}, the loss tensor.}
+\item{loss_tensor}{The loss tensor.}
 
-\item{fail_on_nan_loss}{\code{bool}, whether to raise exception when loss is NaN.}
+\item{fail_on_nan_loss}{A boolean indicating whether to raise exception when loss is NaN.}
 }
 \description{
 Monitors loss and stops training if loss is NaN. Can either fail with

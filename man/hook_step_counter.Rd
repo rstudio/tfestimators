@@ -2,22 +2,22 @@
 % Please edit documentation in R/session_run_hooks.R
 \name{hook_step_counter}
 \alias{hook_step_counter}
-\title{Steps per second monitor.}
+\title{Steps per second monitor}
 \usage{
-hook_step_counter(every_n_steps = 100L, every_n_secs = NULL,
+hook_step_counter(every_n_steps = 100, every_n_secs = NULL,
   output_dir = NULL, summary_writer = NULL)
 }
 \arguments{
-\item{every_n_steps}{every_n_steps}
+\item{every_n_steps}{Run this counter every N steps}
 
-\item{every_n_secs}{every_n_secs}
+\item{every_n_secs}{Run this counter every N seconds}
 
-\item{output_dir}{output_dir}
+\item{output_dir}{The output directory}
 
-\item{summary_writer}{summary_writer}
+\item{summary_writer}{The summary writer}
 }
 \description{
-Steps per second monitor.
+Steps per second monitor
 }
 \seealso{
 Other session_run_hook wrappers: \code{\link{EstimatorSessionRunHook}},

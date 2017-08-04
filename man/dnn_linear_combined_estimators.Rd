@@ -54,7 +54,7 @@ activation function (e.g. \code{"relu"}). Defaults to the
 for documentation related to the set of activation functions available
 in TensorFlow.}
 
-\item{dnn_dropout}{When not NULL, the probability we will drop out a given
+\item{dnn_dropout}{When not \code{NULL}, the probability we will drop out a given
 coordinate.}
 
 \item{label_dimension}{Number of regression targets per example. This is the

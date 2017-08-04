@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Saves summaries every N steps. — hook_summary_saver • tfestimators</title>
+<title>Saves summaries every N steps — hook_summary_saver • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,11 +119,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Saves summaries every N steps.</h1>
+    <h1>Saves summaries every N steps</h1>
     </div>
 
     
-    <p>Saves summaries every N steps.</p>
+    <p>Saves summaries every N steps</p>
     
 
     <pre class="usage"><span class='fu'>hook_summary_saver</span>(<span class='kw'>save_steps</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>save_secs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>output_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -134,33 +134,33 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>save_steps</th>
-      <td><p><code>int</code>, save summaries every N steps. Exactly one of
+      <td><p>An integer indicating saving summaries every N steps. Exactly one of
 <code>save_secs</code> and <code>save_steps</code> should be set.</p></td>
     </tr>
     <tr>
       <th>save_secs</th>
-      <td><p><code>int</code>, save summaries every N seconds.</p></td>
+      <td><p>An integer indicating saving summaries every N seconds.</p></td>
     </tr>
     <tr>
       <th>output_dir</th>
-      <td><p><code>string</code>, the directory to save the summaries to. Only used
+      <td><p>The directory to save the summaries to. Only used
 if no <code>summary_writer</code> is supplied.</p></td>
     </tr>
     <tr>
       <th>summary_writer</th>
-      <td><p><code>SummaryWriter</code>. If <code>NULL</code> and an <code>output_dir</code> was
+      <td><p>The summary writer. If <code>NULL</code> and an <code>output_dir</code> was
 passed, one will be created accordingly.</p></td>
     </tr>
     <tr>
       <th>scaffold</th>
-      <td><p><code>Scaffold</code> to get summary_op if it's not provided.</p></td>
+      <td><p>A scaffold to get summary_op if it's not provided.</p></td>
     </tr>
     <tr>
       <th>summary_op</th>
-      <td><p><code>Tensor</code> of type <code>string</code> containing the serialized
-<code>Summary</code> protocol buffer or a list of <code>Tensor</code>. They are most likely an
-output by TF summary methods like <code>tf.summary.scalar</code> or
-<code>tf.summary.merge_all</code>. It can be passed in as one tensor; if more than
+      <td><p>A tensor of type <code>tf$string</code> containing the serialized
+summary protocol buffer or a list of tensors. They are most likely an
+output by TensorFlow summary methods like <code>tf$summary$scalar</code> or
+<code>tf$summary$merge_all</code>. It can be passed in as one tensor; if more than
 one, they must be passed in as a list.</p></td>
     </tr>
     </table>

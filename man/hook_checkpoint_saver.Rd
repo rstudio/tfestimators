@@ -2,32 +2,32 @@
 % Please edit documentation in R/session_run_hooks.R
 \name{hook_checkpoint_saver}
 \alias{hook_checkpoint_saver}
-\title{Saves checkpoints every N steps or seconds.}
+\title{Saves checkpoints every N steps or seconds}
 \usage{
 hook_checkpoint_saver(checkpoint_dir, save_secs = NULL, save_steps = NULL,
   saver = NULL, checkpoint_basename = "model.ckpt", scaffold = NULL,
   listeners = NULL)
 }
 \arguments{
-\item{checkpoint_dir}{\code{str}, base directory for the checkpoint files.}
+\item{checkpoint_dir}{The base directory for the checkpoint files.}
 
-\item{save_secs}{\code{int}, save every N secs.}
+\item{save_secs}{An integer, indicating saving checkpoints every N secs.}
 
-\item{save_steps}{\code{int}, save every N steps.}
+\item{save_steps}{An integer, indicating saving checkpoints every N steps.}
 
-\item{saver}{\code{Saver} object, used for saving.}
+\item{saver}{A saver object, used for saving.}
 
-\item{checkpoint_basename}{\code{str}, base name for the checkpoint files.}
+\item{checkpoint_basename}{The base name for the checkpoint files.}
 
-\item{scaffold}{\code{Scaffold}, use to get saver object.}
+\item{scaffold}{A scaffold, used to get saver object.}
 
-\item{listeners}{List of \code{CheckpointSaverListener} subclass instances. Used
+\item{listeners}{List of checkpoint saver listener subclass instances, used
 for callbacks that run immediately after the corresponding
-CheckpointSaverHook callbacks, only in steps where the CheckpointSaverHook
+\code{hook_checkpoint_saver} callbacks, only in steps where \code{the hook_checkpoint_saver}
 was triggered.}
 }
 \description{
-Saves checkpoints every N steps or seconds.
+Saves checkpoints every N steps or seconds
 }
 \seealso{
 Other session_run_hook wrappers: \code{\link{EstimatorSessionRunHook}},
