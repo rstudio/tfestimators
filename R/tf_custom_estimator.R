@@ -68,48 +68,49 @@ estimator_spec <- function(mode,
 #' subdirectory thereof. If `model_dir` is not set, a temporary directory is 
 #' used.
 #' 
-#' The `config` argument can be passed `RunConfig` object containing information
+#' The `config` argument can be used to passed run configuration object containing information
 #' about the execution environment. It is passed on to the `model_fn`, if the 
 #' `model_fn` has a parameter named "config" (and input functions in the same 
-#' manner). If the `config` parameter is not passed, it is instantiated by the 
-#' `Estimator`. Not passing config means that defaults useful for local
-#' execution are used. `Estimator` makes config available to the model (for
+#' manner). If the `config` parameter is not passed, it is instantiated by 
+#' `estimator()`. Not passing config means that defaults useful for local
+#' execution are used. `estimator()` makes config available to the model (for
 #' instance, to allow specialization based on the number of workers available),
 #' and also uses some of its fields to control internals, especially regarding
 #' checkpointing.
 #' 
 #' The `params` argument contains hyperparameters. It is passed to the 
 #' `model_fn`, if the `model_fn` has a parameter named "params", and to the
-#' input functions in the same manner. `Estimator` only passes params along, it
+#' input functions in the same manner. `estimator()` only passes `params` along, it
 #' does not inspect it. The structure of `params` is therefore entirely up to
 #' the developer.
 #' 
-#' None of `Estimator`'s methods can be overridden in subclasses (its 
+#' None of estimator's methods can be overridden in subclasses (its 
 #' constructor enforces this). Subclasses should use `model_fn` to configure the
 #' base class, and may add methods implementing specialized functionality.
 #' 
 #' @param model_fn Model function. Follows the signature: 
-#'   * `features`: single `Tensor` or `dict` of `Tensor`s (depending on data 
+#'   * `features`: single tensor or list of tensors (depending on data 
 #'     passed to `train`), 
-#'   * `labels`: `Tensor` or `dict` of `Tensor`s (for multi-head models). 
-#'     If mode is `ModeKeys.PREDICT`, `labels=NULL` will be passed. 
+#'   * `labels`: single tensor or list of tensors (for multi-head models). 
+#'     If `mode` is `mode_keys()$PREDICT`, `labels = NULL` will be passed. 
 #'     If the `model_fn`'s signature does not accept `mode`, the `model_fn` 
-#'     must still be able to handle `labels=NULL`. 
-#'   * `mode`: Optional. Specifies if this training, evaluation or prediction. 
-#'     See `ModeKeys`. 
-#'   * `params`: Optional `dict` of hyperparameters. Will receive what is passed 
-#'     to Estimator in `params` parameter. This allows to configure Estimators 
+#'     must still be able to handle `labels = NULL`. 
+#'   * `mode`: Optional argument that specifies if this training, evaluation or prediction
+#'     created by [mode_keys()].
+#'   * `params`: Optional list of hyperparameters. Will receive what is passed 
+#'     to estimator in `params` parameter. This allows to configure estimators 
 #'     from hyper parameter tuning. 
-#'   * `config`: Optional configuration object. Will receive what is passed to 
-#'   Estimator in `config` parameter, or the default `config`. Allows updating 
-#'   things in your model_fn based on configuration such as `num_ps_replicas`, or `model_dir`.
+#'   * `config`: Optional configuration object created by [run_config()]. 
+#'   Will receive what is passed to estimator in `config` parameter, or the default `config`. 
+#'   Allows updating things in your `model_fn` based on configuration such as 
+#'   `num_ps_replicas`, or `model_dir`.
 #' @param model_dir Directory to save model parameters, graph and etc. This can
 #'   also be used to load checkpoints from the directory into a estimator to
-#'   continue training a previously saved model. If `NULL`, the model_dir in
+#'   continue training a previously saved model. If `NULL`, the `model_dir` in
 #'   `config` will be used if set. If both are set, they must be same. If both
 #'   are `NULL`, a temporary directory will be used.
 #' @param config Configuration object.
-#' @param params `dict` of hyper parameters that will be passed into `model_fn`.
+#' @param params List of hyper parameters that will be passed into `model_fn`.
 #'   Keys are names of parameters, values are basic python types.
 #' @param class An optional set of \R classes to add to the generated object.
 #'   
