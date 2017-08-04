@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Base R6 class for creating custom SessionRunHook — EstimatorSessionRunHook • tfestimators</title>
+<title>TensorFlow Session Run Hook — EstimatorSessionRunHook • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,22 +119,21 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Base R6 class for creating custom SessionRunHook</h1>
+    <h1>TensorFlow Session Run Hook</h1>
     </div>
 
     
-    <p>Base R6 class for creating custom SessionRunHook</p>
+    <p>This is the base R6 class used for custom session run hooks, which can be
+used to monitor estimators while they are trained by TensorFlow. This class
+itself does not provide any hooks; users should define their own R6 classes
+extending this class and override the methods as needed.</p>
     
 
     <pre class="usage"><span class='no'>EstimatorSessionRunHook</span></pre>
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>An R6Class generator object</p>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A <code>KerasCallback</code>.</p>
+    <p>An R6Class generator object.</p>
     
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
@@ -161,7 +160,7 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>tfestimators</span>)
 
-<span class='no'>CustomSessionRunHook</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>R6</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/R6/topics/R6Class'>R6Class</a></span>(
+<span class='no'>CustomSessionRunHook</span> <span class='kw'>&lt;-</span> <span class='kw'>R6</span><span class='kw'>::</span><span class='fu'>R6Class</span>(
   <span class='st'>"CustomSessionRunHook"</span>,
   <span class='kw'>inherit</span> <span class='kw'>=</span> <span class='no'>EstimatorSessionRunHook</span>,
   <span class='kw'>public</span> <span class='kw'>=</span> <span class='fu'>list</span>(
@@ -169,15 +168,14 @@
       <span class='fu'>cat</span>(<span class='st'>"Running custom session run hook at the end of a session"</span>)
     })
  )
-<span class='no'>custom_hook</span> <span class='kw'>&lt;-</span> <span class='no'>CustomSessionRunHook</span>$<span class='fu'>new</span>()</div></pre>
+<span class='no'>custom_hook</span> <span class='kw'>&lt;-</span> <span class='no'>CustomSessionRunHook</span>$<span class='fu'>new</span>()</div><div class='output co'>#&gt; <span class='error'>Error in self[[key]] &lt;- object %||% function(...) {}: cannot add bindings to a locked environment</span></div><div class='input'> 
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
       <li><a href="#format">Format</a></li>
-
-      <li><a href="#value">Value</a></li>
 
       <li><a href="#methods">Methods</a></li>
 

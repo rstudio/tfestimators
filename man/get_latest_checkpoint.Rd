@@ -14,3 +14,6 @@ get_latest_checkpoint(checkpoint_dir, ...)
 \description{
 Function to get the latest checkpoint in a checkpoint directory
 }
+\seealso{
+Other utility functions: \code{\link{graph_keys}}
+}

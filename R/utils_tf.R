@@ -79,7 +79,7 @@ resolve_activation_fn <- function(activation_fn) {
   activation_fn
 }
 
-#' Standard names to use for graph collections.
+#' Standard names to use for graph collections
 #' 
 #' The standard library uses various well-known names to collect and retrieve 
 #' values associated with a graph.
@@ -98,17 +98,17 @@ resolve_activation_fn <- function(activation_fn) {
 #' 
 #' * `LOCAL_VARIABLES`: the subset of `Variable` objects that are local to each 
 #' machine. Usually used for temporarily variables, like counters. Note: use 
-#' `tf.contrib.framework.local_variable` to add to this collection.
+#' `tf$contrib$framework$local_variable` to add to this collection.
 #' 
 #' * `MODEL_VARIABLES`: the subset of `Variable` objects that are used in the 
 #' model for inference (feed forward). Note: use 
-#' `tf.contrib.framework.model_variable` to add to this collection.
+#' `tf$contrib$framework$model_variable` to add to this collection.
 #' 
 #' * `TRAINABLE_VARIABLES`: the subset of `Variable` objects that will be
-#' trained by an optimizer. See @{tf.trainable_variables} for more details.
+#' trained by an optimizer. See `tf$trainable_variables` for more details.
 #' 
 #' * `SUMMARIES`: the summary `Tensor` objects that have been created in the 
-#' graph. See @{tf.summary.merge_all} for more details.
+#' graph. See `tf$summary$merge_all` for more details.
 #' 
 #' * `QUEUE_RUNNERS`: the `QueueRunner` objects that are used to produce input
 #' for a computation. See `tf$train$start_queue_runners` for more details.
@@ -119,11 +119,15 @@ resolve_activation_fn <- function(activation_fn) {
 #' * `REGULARIZATION_LOSSES`: regularization losses collected during graph 
 #' construction. The following standard keys are defined, but their 
 #' collections are **not** automatically populated as many of the others are:
-#' 
 #'   * `WEIGHTS` 
 #'   * `BIASES` 
 #'   * `ACTIVATIONS`
 #' 
+#' @examples 
+#' graph_keys()
+#' 
+#' @export
+#' @family utility functions
 graph_keys <- function() {
   tf$python$framework$ops$GraphKeys()
 }

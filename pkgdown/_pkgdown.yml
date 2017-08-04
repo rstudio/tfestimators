@@ -131,3 +131,8 @@ reference:
     contents:
       - regressor_parse_example_spec
       - classifier_parse_example_spec
+      
+  - title: "Other Utilities"
+    contents:
+      - graph_keys
+      - get_latest_checkpoint

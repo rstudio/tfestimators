@@ -109,8 +109,8 @@
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tfestimators)
 
-maybe_download_abalone &lt;-<span class="st"> </span><span class="cf">function</span>(train_data_path, test_data_path, predict_data_path, column_names_to_assign) {
-  <span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(train_data_path) <span class="op">||</span><span class="st"> </span><span class="op">!</span><span class="kw">file.exists</span>(test_data_path) <span class="op">||</span><span class="st"> </span><span class="op">!</span><span class="kw">file.exists</span>(predict_data_path)) {
+maybe_download_abalone &lt;-<span class="st"> </span>function(train_data_path, test_data_path, predict_data_path, column_names_to_assign) {
+  if (!<span class="kw">file.exists</span>(train_data_path) ||<span class="st"> </span>!<span class="kw">file.exists</span>(test_data_path) ||<span class="st"> </span>!<span class="kw">file.exists</span>(predict_data_path)) {
     <span class="kw">cat</span>(<span class="st">"Downloading abalone data ..."</span>)
     train_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"http://download.tensorflow.org/data/abalone_train.csv"</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>)
     test_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"http://download.tensorflow.org/data/abalone_test.csv"</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>)
@@ -121,7 +121,7 @@ maybe_download_abalone &lt;-<span class="st"> </span><span class="cf">function</
     <span class="kw">write.csv</span>(train_data, train_data_path, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)
     <span class="kw">write.csv</span>(test_data, test_data_path, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)
     <span class="kw">write.csv</span>(predict_data, predict_data_path, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)
-  } <span class="cf">else</span> {
+  } else {
     train_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(train_data_path, <span class="dt">header =</span> <span class="ot">TRUE</span>)
     test_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(test_data_path, <span class="dt">header =</span> <span class="ot">TRUE</span>)
     predict_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(predict_data_path, <span class="dt">header =</span> <span class="ot">TRUE</span>)
@@ -137,14 +137,14 @@ downloaded_data &lt;-<span class="st"> </span><span class="kw">maybe_download_ab
   <span class="kw">file.path</span>(<span class="kw">getwd</span>(), <span class="st">"predict_abalone.csv"</span>),
   COLNAMES
 )
-train_data &lt;-<span class="st"> </span>downloaded_data<span class="op">$</span>train_data
-test_data &lt;-<span class="st"> </span>downloaded_data<span class="op">$</span>test_data
-predict_data &lt;-<span class="st"> </span>downloaded_data<span class="op">$</span>predict_data
+train_data &lt;-<span class="st"> </span>downloaded_data$train_data
+test_data &lt;-<span class="st"> </span>downloaded_data$test_data
+predict_data &lt;-<span class="st"> </span>downloaded_data$predict_data
 
-constructed_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(dataset) {
+constructed_input_fn &lt;-<span class="st"> </span>function(dataset) {
   <span class="kw"><a href="../../reference/input_fn.html">input_fn</a></span>(
     dataset,
-    <span class="dt">features =</span> <span class="op">-</span>num_rings,
+    <span class="dt">features =</span> -num_rings,
     <span class="dt">response =</span> num_rings,
     <span class="dt">num_epochs =</span> <span class="ot">NULL</span>,
     <span class="dt">shuffle =</span> <span class="ot">TRUE</span>
@@ -164,30 +164,30 @@ model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/dn
   <span class="dt">dnn_hidden_units =</span> <span class="kw">c</span>(100L, 50L)
 )
 
-model_fn &lt;-<span class="st"> </span><span class="cf">function</span>(features, labels, mode, params, config) {
+model_fn &lt;-<span class="st"> </span>function(features, labels, mode, params, config) {
   <span class="co"># Connect the first hidden layer to input layer</span>
-  first_hidden_layer &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(features, 10L, <span class="dt">activation =</span> tf<span class="op">$</span>nn<span class="op">$</span>relu)
+  first_hidden_layer &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(features, 10L, <span class="dt">activation =</span> tf$nn$relu)
   
   <span class="co"># Connect the second hidden layer to first hidden layer with relu</span>
-  second_hidden_layer &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(first_hidden_layer, 10L, <span class="dt">activation =</span> tf<span class="op">$</span>nn<span class="op">$</span>relu)
+  second_hidden_layer &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(first_hidden_layer, 10L, <span class="dt">activation =</span> tf$nn$relu)
   
   <span class="co"># Connect the output layer to second hidden layer (no activation fn)</span>
-  output_layer &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(second_hidden_layer, 1L)
+  output_layer &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(second_hidden_layer, 1L)
   
   <span class="co"># Reshape output layer to 1-dim Tensor to return predictions</span>
-  <span class="co"># </span><span class="al">TODO</span><span class="co">: This failed if it's c(-1L) - check in reticulate for single element vector conversion</span>
-  predictions &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">reshape</span>(output_layer, <span class="kw">list</span>(<span class="op">-</span>1L))
+  <span class="co"># TODO: This failed if it's c(-1L) - check in reticulate for single element vector conversion</span>
+  predictions &lt;-<span class="st"> </span>tf$<span class="kw">reshape</span>(output_layer, <span class="kw">list</span>(-1L))
   predictions_list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">ages =</span> predictions)
   
   <span class="co"># Calculate loss using mean squared error</span>
-  loss &lt;-<span class="st"> </span>tf<span class="op">$</span>losses<span class="op">$</span><span class="kw">mean_squared_error</span>(labels, predictions)
+  loss &lt;-<span class="st"> </span>tf$losses$<span class="kw">mean_squared_error</span>(labels, predictions)
   
-  eval_metric_ops &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">rmse =</span> tf<span class="op">$</span>metrics<span class="op">$</span><span class="kw">root_mean_squared_error</span>(
-    tf<span class="op">$</span><span class="kw">cast</span>(labels, tf<span class="op">$</span>float64), predictions
+  eval_metric_ops &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">rmse =</span> tf$metrics$<span class="kw">root_mean_squared_error</span>(
+    tf$<span class="kw">cast</span>(labels, tf$float64), predictions
   ))
   
-  optimizer &lt;-<span class="st"> </span>tf<span class="op">$</span>train<span class="op">$</span><span class="kw">GradientDescentOptimizer</span>(<span class="dt">learning_rate =</span> params<span class="op">$</span>learning_rate)
-  train_op &lt;-<span class="st"> </span>optimizer<span class="op">$</span><span class="kw">minimize</span>(<span class="dt">loss =</span> loss, <span class="dt">global_step =</span> tf<span class="op">$</span>train<span class="op">$</span><span class="kw">get_global_step</span>())
+  optimizer &lt;-<span class="st"> </span>tf$train$<span class="kw">GradientDescentOptimizer</span>(<span class="dt">learning_rate =</span> params$learning_rate)
+  train_op &lt;-<span class="st"> </span>optimizer$<span class="kw">minimize</span>(<span class="dt">loss =</span> loss, <span class="dt">global_step =</span> tf$train$<span class="kw">get_global_step</span>())
   
   <span class="kw">return</span>(<span class="kw"><a href="../../reference/estimator_spec.html">estimator_spec</a></span>(
     <span class="dt">mode =</span> mode,
