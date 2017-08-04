@@ -125,6 +125,7 @@ resolve_activation_fn <- function(activation_fn) {
 #' 
 #' @examples 
 #' graph_keys()
+#' graph_keys()$LOSSES
 #' 
 #' @export
 #' @family utility functions

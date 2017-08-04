@@ -20,7 +20,7 @@
 #'   string.
 #'
 #' @param weight_column A string, or a numeric column created by
-#'   column_numeric() defining feature column representing weights. It is used
+#'   [column_numeric()] defining feature column representing weights. It is used
 #'   to down weight or boost examples during training. It will be multiplied by
 #'   the loss of the example. If it is a string, it is used as a key to fetch
 #'   weight tensor from the `features` argument. If it is a numeric column,
@@ -29,7 +29,7 @@
 #'   
 #' @param n_classes The number of label classes.
 #'   
-#' @param config A run configuration created by run_config(), used to configure the runtime
+#' @param config A run configuration created by [run_config()], used to configure the runtime
 #'   settings.
 #'   
 #' @param input_layer_partitioner An optional partitioner for the input layer.

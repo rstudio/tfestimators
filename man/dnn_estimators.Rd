@@ -36,7 +36,7 @@ size of the last dimension of the labels and logits \code{Tensor} objects
 (typically, these have shape \code{[batch_size, label_dimension]}).}
 
 \item{weight_column}{A string, or a numeric column created by
-column_numeric() defining feature column representing weights. It is used
+\code{\link[=column_numeric]{column_numeric()}} defining feature column representing weights. It is used
 to down weight or boost examples during training. It will be multiplied by
 the loss of the example. If it is a string, it is used as a key to fetch
 weight tensor from the \code{features} argument. If it is a numeric column,
@@ -61,7 +61,7 @@ coordinate.}
 \item{input_layer_partitioner}{An optional partitioner for the input layer.
 Defaults to \code{min_max_variable_partitioner} with \code{min_slice_size} 64 << 20.}
 
-\item{config}{A run configuration created by run_config(), used to configure the runtime
+\item{config}{A run configuration created by \code{\link[=run_config]{run_config()}}, used to configure the runtime
 settings.}
 
 \item{n_classes}{The number of label classes.}

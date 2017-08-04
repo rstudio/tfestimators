@@ -211,7 +211,7 @@ input_fn.matrix <- function(object, ...)
   )
 }
 
-#' Construct input function that would feed dict of numpy arrays into the model.
+#' Construct input function that would feed dict of numpy arrays into the model
 #' 
 #' This returns a function outputting `features` and `target` based on the dict 
 #' of numpy arrays. The dict `features` has the same keys as the `x`.
@@ -224,7 +224,7 @@ input_fn.matrix <- function(object, ...)
 #' @param batch_size Integer, size of batches to return.
 #' @param num_epochs Integer, number of epochs to iterate over data. If `NULL`
 #'   will run forever.
-#' @param shuffle Boolean, if TRUE shuffles the queue. Avoid shuffle at
+#' @param shuffle Boolean, if `TRUE` shuffles the queue. Avoid shuffle at
 #'   prediction time.
 #' @param queue_capacity Integer, size of queue to accumulate.
 #' @param num_threads Integer, number of threads used for reading and

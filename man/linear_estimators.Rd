@@ -29,7 +29,7 @@ size of the last dimension of the labels and logits \code{Tensor} objects
 (typically, these have shape \code{[batch_size, label_dimension]}).}
 
 \item{weight_column}{A string, or a numeric column created by
-column_numeric() defining feature column representing weights. It is used
+\code{\link[=column_numeric]{column_numeric()}} defining feature column representing weights. It is used
 to down weight or boost examples during training. It will be multiplied by
 the loss of the example. If it is a string, it is used as a key to fetch
 weight tensor from the \code{features} argument. If it is a numeric column,
@@ -40,7 +40,7 @@ then the raw tensor is fetched by key \code{weight_column$key}, then
 the model, or a TensorFlow optimizer instance. Defaults to the FTRL
 optimizer.}
 
-\item{config}{A run configuration created by run_config(), used to configure the runtime
+\item{config}{A run configuration created by \code{\link[=run_config]{run_config()}}, used to configure the runtime
 settings.}
 
 \item{partitioner}{An optional partitioner for the input layer.}

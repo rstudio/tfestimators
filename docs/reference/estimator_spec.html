@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Ops and objects returned from a <code>model_fn</code> and passed to <code>Estimator</code>. — estimator_spec • tfestimators</title>
+<title>Ops and objects returned from a <code>model_fn</code> and passed to <code>estimator()</code> — estimator_spec • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,11 +119,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Ops and objects returned from a <code>model_fn</code> and passed to <code>Estimator</code>.</h1>
+    <h1>Ops and objects returned from a <code>model_fn</code> and passed to <code>estimator()</code></h1>
     </div>
 
     
-    <p><code>EstimatorSpec</code> fully defines the model to be run by <code>Estimator</code>.</p>
+    <p>Estimator spec fully defines the model to be run by <code><a href='estimator.html'>estimator()</a></code>.</p>
     
 
     <pre class="usage"><span class='fu'>estimator_spec</span>(<span class='no'>mode</span>, <span class='kw'>predictions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>loss</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>train_op</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -135,15 +135,15 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>mode</th>
-      <td><p>A <code>ModeKeys</code>. Specifies if this is training, evaluation or prediction.</p></td>
+      <td><p>A key that specifies if this is training, evaluation or prediction by <code><a href='mode_keys.html'>mode_keys()</a></code></p></td>
     </tr>
     <tr>
       <th>predictions</th>
-      <td><p>Predictions <code>Tensor</code> or dict of <code>Tensor</code>.</p></td>
+      <td><p>Predictions tensor or list of tensors.</p></td>
     </tr>
     <tr>
       <th>loss</th>
-      <td><p>Training loss <code>Tensor</code>. Must be either scalar, or with shape <code>c(1)</code>.</p></td>
+      <td><p>Training loss tensor. Must be either scalar, or with shape <code>c(1)</code>.</p></td>
     </tr>
     <tr>
       <th>train_op</th>
@@ -151,31 +151,32 @@
     </tr>
     <tr>
       <th>eval_metric_ops</th>
-      <td><p>Dict of metric results keyed by name. The values of the dict are the results of calling a metric function,
-namely a <code>(metric_tensor, update_op)</code> list.</p></td>
+      <td><p>List of metric results keyed by name. The values of the dict are the results of
+calling a metric function, namely a <code>(metric_tensor, update_op)</code> list.</p></td>
     </tr>
     <tr>
       <th>export_outputs</th>
-      <td><p>Describes the output signatures to be exported to <code>SavedModel</code> and used during serving.
-A dict <code>{name: output}</code> where:</p><ul>
+      <td><p>Describes the output signatures to be exported to saved model and used during serving.
+A <code>list(name = output)</code> where:</p><ul>
 <li><p>name: An arbitrary name for this output.</p></li>
-<li><p>output: an <code>ExportOutput</code> object such as <code>ClassificationOutput</code>, <code>RegressionOutput</code>, or <code>PredictOutput</code>.
+<li><p>output: an export output object such as classification output, regression output, or prediction output.
 Single-headed models only need to specify one entry in this dictionary.
 Multi-headed models should specify one entry for each head, one of which must be named using
-signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY.</p></li>
+<code>signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY</code>.</p></li>
 </ul></td>
     </tr>
     <tr>
       <th>training_chief_hooks</th>
-      <td><p>Iterable of <code>tf.train.SessionRunHook</code> objects to run on the chief worker during training.</p></td>
+      <td><p>List of session run hooks to run on the chief worker during training.</p></td>
     </tr>
     <tr>
       <th>training_hooks</th>
-      <td><p>Iterable of <code>tf.train.SessionRunHook</code> objects that to run on all workers during training.</p></td>
+      <td><p>List of session run hooks that to run on all workers during training.</p></td>
     </tr>
     <tr>
       <th>scaffold</th>
-      <td><p>A <code>tf.train.Scaffold</code> object that can be used to set initialization, saver, and more to be used in training.</p></td>
+      <td><p>A <code>tf$train$Scaffold</code> object that can be used to set initialization, saver,
+and more to be used in training.</p></td>
     </tr>
     </table>
     

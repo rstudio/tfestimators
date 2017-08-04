@@ -2,7 +2,7 @@
 % Please edit documentation in R/input_fn.R
 \name{numpy_input_fn}
 \alias{numpy_input_fn}
-\title{Construct input function that would feed dict of numpy arrays into the model.}
+\title{Construct input function that would feed dict of numpy arrays into the model}
 \usage{
 numpy_input_fn(x, y = NULL, batch_size = 128, num_epochs = 1,
   shuffle = NULL, queue_capacity = 1000, num_threads = 1)
@@ -17,7 +17,7 @@ numpy_input_fn(x, y = NULL, batch_size = 128, num_epochs = 1,
 \item{num_epochs}{Integer, number of epochs to iterate over data. If \code{NULL}
 will run forever.}
 
-\item{shuffle}{Boolean, if TRUE shuffles the queue. Avoid shuffle at
+\item{shuffle}{Boolean, if \code{TRUE} shuffles the queue. Avoid shuffle at
 prediction time.}
 
 \item{queue_capacity}{Integer, size of queue to accumulate.}

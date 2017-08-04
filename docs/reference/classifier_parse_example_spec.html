@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generates parsing spec for <code>tf$parse_example</code> to be used with classifiers. — classifier_parse_example_spec • tfestimators</title>
+<title>Generates parsing spec for <code>tf$parse_example</code> to be used with classifiers — classifier_parse_example_spec • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,11 +119,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generates parsing spec for <code>tf$parse_example</code> to be used with classifiers.</h1>
+    <h1>Generates parsing spec for <code>tf$parse_example</code> to be used with classifiers</h1>
     </div>
 
     
-    <p>If users keep data in <code>tf$Example</code> format, they need to call <code>tf$parse_example</code>
+    <p>If users keep data in TensorFlow Example format, they need to call <code>tf$parse_example</code>
 with a proper feature spec. There are two main things that this utility
 helps:</p><ul>
 <li><p>Users need to combine parsing spec of features with labels and
@@ -171,12 +171,12 @@ format <code>key:clicked, value:1</code>. This means that if there is no data wi
     </tr>
     <tr>
       <th>weight_column</th>
-      <td><p>A string or a <code>_NumericColumn</code> created by
-<code>column_numeric</code> defining feature column representing
+      <td><p>A string or a numeric column created by
+<code><a href='column_numeric.html'>column_numeric()</a></code> defining feature column representing
 weights. It is used to down weight or boost examples during training. It
 will be multiplied by the loss of the example. If it is a string, it is
 used as a key to fetch weight tensor from the <code>features</code>. If it is a
-<code>_NumericColumn</code>, raw tensor is fetched by key <code>weight_column$key</code>, then
+numeric column, raw tensor is fetched by key <code>weight_column$key</code>, then
 <code>weight_column$normalizer_fn</code> is applied on it to get weight tensor.</p></td>
     </tr>
     </table>
@@ -192,8 +192,8 @@ used as a key to fetch weight tensor from the <code>features</code>. If it is a
     <ul>
 <li><p>ValueError: If label is used in <code>feature_columns</code>.</p></li>
 <li><p>ValueError: If weight_column is used in <code>feature_columns</code>.</p></li>
-<li><p>ValueError: If any of the given <code>feature_columns</code> is not a <code>_FeatureColumn</code> instance.</p></li>
-<li><p>ValueError: If <code>weight_column</code> is not a <code>_NumericColumn</code> instance.</p></li>
+<li><p>ValueError: If any of the given <code>feature_columns</code> is not a feature column instance.</p></li>
+<li><p>ValueError: If <code>weight_column</code> is not a numeric column instance.</p></li>
 <li><p>ValueError: if label_key is <code>NULL</code>.</p></li>
 </ul>
     

@@ -48,6 +48,7 @@ collections are \strong{not} automatically populated as many of the others are:
 }
 \examples{
 graph_keys()
+graph_keys()$LOSSES
 
 }
 \seealso{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/parsing_utils.R
 \name{classifier_parse_example_spec}
 \alias{classifier_parse_example_spec}
-\title{Generates parsing spec for \code{tf$parse_example} to be used with classifiers.}
+\title{Generates parsing spec for \code{tf$parse_example} to be used with classifiers}
 \usage{
 classifier_parse_example_spec(feature_columns, label_key,
   label_dtype = tf$int64, label_default = NULL, weight_column = NULL)
@@ -27,12 +27,12 @@ format \code{key:clicked, value:1}. This means that if there is no data with key
 \code{label_deafault=0}. Type of this value should be compatible with
 \code{label_dtype}.}
 
-\item{weight_column}{A string or a \code{_NumericColumn} created by
-\code{column_numeric} defining feature column representing
+\item{weight_column}{A string or a numeric column created by
+\code{\link[=column_numeric]{column_numeric()}} defining feature column representing
 weights. It is used to down weight or boost examples during training. It
 will be multiplied by the loss of the example. If it is a string, it is
 used as a key to fetch weight tensor from the \code{features}. If it is a
-\code{_NumericColumn}, raw tensor is fetched by key \code{weight_column$key}, then
+numeric column, raw tensor is fetched by key \code{weight_column$key}, then
 \code{weight_column$normalizer_fn} is applied on it to get weight tensor.}
 }
 \value{
@@ -40,7 +40,7 @@ A dict mapping each feature key to a \code{FixedLenFeature} or
 \code{VarLenFeature} value.
 }
 \description{
-If users keep data in \code{tf$Example} format, they need to call \code{tf$parse_example}
+If users keep data in TensorFlow Example format, they need to call \code{tf$parse_example}
 with a proper feature spec. There are two main things that this utility
 helps:
 \itemize{
@@ -58,8 +58,8 @@ dtype).
 \itemize{
 \item ValueError: If label is used in \code{feature_columns}.
 \item ValueError: If weight_column is used in \code{feature_columns}.
-\item ValueError: If any of the given \code{feature_columns} is not a \code{_FeatureColumn} instance.
-\item ValueError: If \code{weight_column} is not a \code{_NumericColumn} instance.
+\item ValueError: If any of the given \code{feature_columns} is not a feature column instance.
+\item ValueError: If \code{weight_column} is not a numeric column instance.
 \item ValueError: if label_key is \code{NULL}.
 }
 }
