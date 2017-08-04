@@ -1,20 +1,18 @@
-#' Prints the given tensors every N local steps, every N seconds, or at end.
+#' Prints the given tensors every N local steps, every N seconds, or at end
 #' 
 #' The tensors will be printed to the log, with `INFO` severity.
 #' 
-#' Note that if `at_end` is True, `tensors` should not include any tensor 
+#' Note that if `at_end` is `TRUE`, `tensors` should not include any tensor 
 #' whose evaluation produces a side effect such as consuming additional inputs.
 #' 
-#' @param tensors `dict` that maps string-valued tags to tensors/tensor names,
-#'   or `iterable` of tensors/tensor names.
-#' @param every_n_iter `int`, print the values of `tensors` once every N local
-#'   steps taken on the current worker.
-#' @param every_n_secs `int` or `float`, print the values of `tensors` once
-#'   every N seconds. Exactly one of `every_n_iter` and `every_n_secs` should be
-#'   provided.
-#' @param formatter function, takes dict of `tag`->`Tensor` and returns a
+#' @param tensors A list that maps string-valued tags to tensors/tensor names.
+#' @param every_n_iter An integer value, indicating the values of `tensors` will be printed
+#' once every N local steps taken on the current worker.
+#' @param every_n_secs An integer or float value, indicating the values of `tensors` will be printed
+#' once every N seconds. Exactly one of `every_n_iter` and `every_n_secs` should be provided.
+#' @param formatter A function that takes `list(tag = tensor)` and returns a
 #'   string. If `NULL` uses default printing all tensors.
-#' @param at_end `bool` specifying whether to print the values of `tensors` at the
+#' @param at_end A boolean value specifying whether to print the values of `tensors` at the
 #' end of the run.
 #'   
 #' @family session_run_hook wrappers
@@ -37,7 +35,7 @@ hook_logging_tensor <- function(tensors,
   })
 }
 
-#' Monitor to request stop at a specified step.
+#' Monitor to request stop at a specified step
 #' 
 #' @param num_steps Number of steps to execute.
 #' @param last_step Step after which to stop.
@@ -56,17 +54,17 @@ hook_stop_at_step <- function(num_steps = NULL, last_step = NULL) {
 }
 
 
-#' Saves checkpoints every N steps or seconds.
+#' Saves checkpoints every N steps or seconds
 #' 
-#' @param checkpoint_dir `str`, base directory for the checkpoint files.
-#' @param save_secs `int`, save every N secs.
-#' @param save_steps `int`, save every N steps.
-#' @param saver `Saver` object, used for saving.
-#' @param checkpoint_basename `str`, base name for the checkpoint files.
-#' @param scaffold `Scaffold`, use to get saver object.
-#' @param listeners List of `CheckpointSaverListener` subclass instances. Used
+#' @param checkpoint_dir The base directory for the checkpoint files.
+#' @param save_secs An integer, indicating saving checkpoints every N secs.
+#' @param save_steps An integer, indicating saving checkpoints every N steps.
+#' @param saver A saver object, used for saving.
+#' @param checkpoint_basename The base name for the checkpoint files.
+#' @param scaffold A scaffold, used to get saver object.
+#' @param listeners List of checkpoint saver listener subclass instances, used
 #'   for callbacks that run immediately after the corresponding
-#'   CheckpointSaverHook callbacks, only in steps where the CheckpointSaverHook
+#'   `hook_checkpoint_saver` callbacks, only in steps where `the hook_checkpoint_saver`
 #'   was triggered.
 #'   
 #' @family session_run_hook wrappers
@@ -96,17 +94,17 @@ hook_checkpoint_saver <- function(checkpoint_dir,
 }
 
 
-#' Steps per second monitor.
+#' Steps per second monitor
 #' 
-#' @param every_n_steps every_n_steps
-#' @param every_n_secs every_n_secs
-#' @param output_dir output_dir
-#' @param summary_writer summary_writer
+#' @param every_n_steps Run this counter every N steps
+#' @param every_n_secs Run this counter every N seconds
+#' @param output_dir The output directory
+#' @param summary_writer The summary writer
 #' 
 #' @family session_run_hook wrappers
 #' 
 #' @export
-hook_step_counter <- function(every_n_steps = 100L,
+hook_step_counter <- function(every_n_steps = 100,
                               every_n_secs = NULL,
                               output_dir = NULL,
                               summary_writer = NULL) 
@@ -119,13 +117,13 @@ hook_step_counter <- function(every_n_steps = 100L,
   )
 }
 
-#' NaN Loss monitor.
+#' NaN Loss monitor
 #' 
 #' Monitors loss and stops training if loss is NaN. Can either fail with
 #' exception or just stop training.
 #' 
-#' @param loss_tensor `Tensor`, the loss tensor.
-#' @param fail_on_nan_loss `bool`, whether to raise exception when loss is NaN.
+#' @param loss_tensor The loss tensor.
+#' @param fail_on_nan_loss A boolean indicating whether to raise exception when loss is NaN.
 #'   
 #' @family session_run_hook wrappers
 #'   
@@ -137,22 +135,21 @@ hook_nan_tensor <- function(loss_tensor, fail_on_nan_loss = TRUE) {
   )
 }
 
-#' Saves summaries every N steps.
+#' Saves summaries every N steps
 #' 
 #' 
-#' 
-#' @param save_steps `int`, save summaries every N steps. Exactly one of
+#' @param save_steps An integer indicating saving summaries every N steps. Exactly one of
 #'   `save_secs` and `save_steps` should be set.
-#' @param save_secs `int`, save summaries every N seconds.
-#' @param output_dir `string`, the directory to save the summaries to. Only used
+#' @param save_secs An integer indicating saving summaries every N seconds.
+#' @param output_dir The directory to save the summaries to. Only used
 #'   if no `summary_writer` is supplied.
-#' @param summary_writer `SummaryWriter`. If `NULL` and an `output_dir` was
+#' @param summary_writer The summary writer. If `NULL` and an `output_dir` was
 #'   passed, one will be created accordingly.
-#' @param scaffold `Scaffold` to get summary_op if it's not provided.
-#' @param summary_op `Tensor` of type `string` containing the serialized
-#'   `Summary` protocol buffer or a list of `Tensor`. They are most likely an
-#'   output by TF summary methods like `tf.summary.scalar` or
-#'   `tf.summary.merge_all`. It can be passed in as one tensor; if more than
+#' @param scaffold A scaffold to get summary_op if it's not provided.
+#' @param summary_op A tensor of type `tf$string` containing the serialized
+#'   summary protocol buffer or a list of tensors. They are most likely an
+#'   output by TensorFlow summary methods like `tf$summary$scalar` or
+#'   `tf$summary$merge_all`. It can be passed in as one tensor; if more than
 #'   one, they must be passed in as a list.
 #'   
 #' @family session_run_hook wrappers
@@ -184,9 +181,9 @@ hook_summary_saver <- function(save_steps = NULL,
 #' This hook delays execution until global step reaches to `wait_until_step`. It
 #' is used to gradually start workers in distributed settings. One example usage
 #' would be setting `wait_until_step=int(K*log(task_id+1))` assuming that 
-#' task_id=0 is the chief.
+#' `task_id=0` is the chief.
 #' 
-#' @param wait_until_step an `int` shows until which global step should we wait.
+#' @param wait_until_step An integer indicating that until which global step should we wait.
 #'   
 #' @family session_run_hook wrappers
 #'   
@@ -197,7 +194,7 @@ hook_global_step_waiter <- function(wait_until_step) {
   )
 }
 
-#' TensorFlow Session Run Hook
+#' TensorFlow session run hook used in estimators
 #'
 #' This is the base R6 class used for custom session run hooks, which can be
 #' used to monitor estimators while they are trained by TensorFlow. This class
@@ -253,7 +250,7 @@ EstimatorSessionRunHook <- R6Class(
   lock_objects = FALSE
 )
 
-#' Create Session Run Hooks
+#' Create session run hooks
 #' 
 #' Create a set of session run hooks, used to record information during
 #' training of an estimator.

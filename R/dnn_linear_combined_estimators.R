@@ -23,7 +23,7 @@
 #'   units in each layer. All layers are fully connected. For example,
 #'   `c(64, 32)` means the first layer has 64 nodes, and the second layer
 #'   has 32 nodes.
-#' @param dnn_dropout When not NULL, the probability we will drop out a given 
+#' @param dnn_dropout When not `NULL`, the probability we will drop out a given 
 #'   coordinate.
 #'   
 #' @family canned estimators
