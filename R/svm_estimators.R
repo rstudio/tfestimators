@@ -35,7 +35,6 @@
 #'   and labels which are the output of `input_fn` and returns features and
 #'   labels which will be fed into the model.
 #' 
-#' @export
 svm_classifier <- function(example_id_column,
                            feature_columns,
                            weight_column_name = NULL,

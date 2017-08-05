@@ -1,7 +1,6 @@
 ## TODO: export once it's documented?
 ## #' State Saving RNN Estimator
 ## #' 
-## #' @export
 ## #' @family canned estimators
 ## state_saving_rnn <- function(problem_type,
 ##                              num_unroll,
@@ -94,7 +93,6 @@
 #'   of `input_fn` and returns features and labels which will be fed into
 #'   `model_fn`. Please check `model_fn` for a definition of features and
 #'   labels.
-#' @export
 dynamic_rnn <- function(problem_type,
                         prediction_type,
                         sequence_feature_columns,
