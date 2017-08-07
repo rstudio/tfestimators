@@ -2,6 +2,7 @@
 title: "R Interface to TensorFlow Estimators"
 output: html_document
 type: docs
+repo: https://github.com/rstudio/tfestimators
 menu:
   main:
     name: "Overview"
