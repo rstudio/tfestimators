@@ -8,8 +8,8 @@ column_categorical_with_identity(..., num_buckets, default_value = NULL)
 }
 \arguments{
 \item{...}{Expression(s) identifying input feature(s). Used as the column
-name and the dictionary key for feature parsing configs, feature \code{Tensor}
-objects, and feature columns.}
+name and the dictionary key for feature parsing configs, feature tensors,
+and feature columns.}
 
 \item{num_buckets}{Number of unique values.}
 
@@ -30,14 +30,17 @@ Typically, this is used for contiguous ranges of integer indexes, but it
 doesn't have to be. This might be inefficient, however, if many of IDs are
 unused. Consider \code{categorical_column_with_hash_bucket} in that case.
 
-For input dictionary \code{features}, \code{features$key} is either \code{Tensor} or
-\code{SparseTensor}. If \code{Tensor}, missing values can be represented by \code{-1} for
+For input dictionary \code{features}, \code{features$key} is either tensor or sparse
+tensor object. If it's tensor object, missing values can be represented by \code{-1} for
 int and \code{''} for string. Note that these values are independent of the
 \code{default_value} argument.
 }
 \section{Raises}{
- ValueError: if \code{num_buckets} is less than one. ValueError:
-if \code{default_value} is not in range \code{[0, num_buckets)}.
+
+\itemize{
+\item ValueError: if \code{num_buckets} is less than one.
+\item ValueError: if \code{default_value} is not in range \code{[0, num_buckets)}.
+}
 }
 
 \seealso{

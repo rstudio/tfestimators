@@ -59,8 +59,8 @@ with_column_names <- function(names, expr) {
 # Base documentation for feature column constructors ----
 
 #' @param ... Expression(s) identifying input feature(s). Used as the column
-#'   name and the dictionary key for feature parsing configs, feature `Tensor`
-#'   objects, and feature columns.
+#'   name and the dictionary key for feature parsing configs, feature tensors,
+#'   and feature columns.
 #'
 #' @name column_base
 NULL
@@ -71,8 +71,8 @@ NULL
 #' in-memory vocabulary mapping each value to an integer ID. By default,
 #' out-of-vocabulary values are ignored. Use `default_value` to specify how to
 #' include out-of-vocabulary values. For the input dictionary `features`,
-#' `features$key` is either `Tensor` or `SparseTensor`. If `Tensor`, missing
-#' values can be represented by `-1` for int and `''` for string.
+#' `features$key` is either tensor or sparse tensor object. If it's tensor object,
+#' missing values can be represented by `-1` for int and `''` for string.
 #'
 #' Note that these values are independent of the `default_value` argument.
 #'
@@ -91,8 +91,10 @@ NULL
 #'   `default_value`.
 #' @return A categorical column with in-memory vocabulary.
 #'
-#' @section Raises: ValueError: if `vocabulary_list` is empty, or contains
-#'   duplicate keys. ValueError: if `dtype` is not integer or string.
+#' @section Raises: 
+#' * ValueError: if `vocabulary_list` is empty, or contains
+#' duplicate keys. 
+#' * ValueError: if `dtype` is not integer or string.
 #'
 #' @export
 #' @family feature column constructors
@@ -120,7 +122,7 @@ column_categorical_with_vocabulary_list <- function(...,
 #' out-of-vocabulary values are ignored. Use either (but not both) of
 #' `num_oov_buckets` and `default_value` to specify how to include
 #' out-of-vocabulary values. For input dictionary `features`, `features[key]` is
-#' either `Tensor` or `SparseTensor`. If `Tensor`, missing values can be
+#' either tensor or sparse tensor object. If it's tensor object, missing values can be
 #' represented by `-1` for int and `''` for string. Note that these values are
 #' independent of the `default_value` argument.
 #'
@@ -144,10 +146,10 @@ column_categorical_with_vocabulary_list <- function(...,
 #' @return A categorical column with a vocabulary file.
 #'
 #' @section Raises:
-#' ValueError: `vocabulary_file` is missing.
-#' ValueError: `vocabulary_size` is missing or < 1.
-#' ValueError: `num_oov_buckets` is not a non-negative integer.
-#' ValueError: `dtype` is neither string nor integer.
+#' * ValueError: `vocabulary_file` is missing.
+#' * ValueError: `vocabulary_size` is missing or < 1.
+#' * ValueError: `num_oov_buckets` is not a non-negative integer.
+#' * ValueError: `dtype` is neither string nor integer.
 #'
 #' @family feature column constructors
 #' @export
@@ -181,8 +183,8 @@ column_categorical_with_vocabulary_file <- function(...,
 #' doesn't have to be. This might be inefficient, however, if many of IDs are
 #' unused. Consider `categorical_column_with_hash_bucket` in that case.
 #'
-#' For input dictionary `features`, `features$key` is either `Tensor` or
-#' `SparseTensor`. If `Tensor`, missing values can be represented by `-1` for
+#' For input dictionary `features`, `features$key` is either tensor or sparse 
+#' tensor object. If it's tensor object, missing values can be represented by `-1` for
 #' int and `''` for string. Note that these values are independent of the
 #' `default_value` argument.
 #'
@@ -195,8 +197,9 @@ column_categorical_with_vocabulary_file <- function(...,
 #'
 #' @return A categorical column that returns identity values.
 #'
-#' @section Raises: ValueError: if `num_buckets` is less than one. ValueError:
-#'   if `default_value` is not in range `[0, num_buckets)`.
+#' @section Raises: 
+#' * ValueError: if `num_buckets` is less than one. 
+#' * ValueError: if `default_value` is not in range `[0, num_buckets)`.
 #'
 #' @family feature column constructors
 #' @export
@@ -236,8 +239,8 @@ column_indicator <- function(categorical_column) {
 #' Use this when your sparse features are in string or integer format, and you
 #' want to distribute your inputs into a finite number of buckets by hashing.
 #' output_id = Hash(input_feature_string) % bucket_size For input dictionary
-#' `features`, `features$key$` is either `Tensor` or `SparseTensor`. If
-#' `Tensor`, missing values can be represented by `-1` for int and `''` for
+#' `features`, `features$key$` is either tensor or sparse tensor object. If it's 
+#' tensor object, missing values can be represented by `-1` for int and `''` for
 #' string. Note that these values are independent of the `default_value`
 #' argument.
 #'
@@ -249,8 +252,9 @@ column_indicator <- function(categorical_column) {
 #'
 #' @return A `_HashedCategoricalColumn`.
 #'
-#' @section Raises: ValueError: `hash_bucket_size` is not greater than 1.
-#'   ValueError: `dtype` is neither string nor integer.
+#' @section Raises: 
+#' * ValueError: `hash_bucket_size` is not greater than 1.
+#' * ValueError: `dtype` is neither string nor integer.
 #'
 #' @family feature column constructors
 #'
@@ -277,13 +281,13 @@ column_categorical_with_hash_bucket <- function(...,
 #'
 #' @inheritParams column_base
 #'
-#' @param shape An integer vector that specifies the shape of the `Tensor`. An
-#'   integer can be given which means a single dimension `Tensor` with given
-#'   width. The `Tensor` representing the column will have the shape of
+#' @param shape An integer vector that specifies the shape of the tensor. An
+#'   integer can be given which means a single dimension tensor with given
+#'   width. The tensor representing the column will have the shape of
 #'   `batch_size + shape`.
 #' @param default_value A single value compatible with `dtype` or an iterable of
 #'   values compatible with `dtype` which the column takes on during parsing if
-#'   data is missing. A default value of `NULL` will cause `tf.parse_example` to
+#'   data is missing. A default value of `NULL` will cause `tf$parse_example` to
 #'   fail if an example does not contain this column. If a single value is
 #'   provided, the same value will be applied as the default value for every
 #'   item. If an iterable of values is provided, the shape of the
@@ -294,17 +298,18 @@ column_categorical_with_hash_bucket <- function(...,
 #' @param normalizer_fn If not `NULL`, a function that can be used to normalize
 #'   the value of the tensor after `default_value` is applied for parsing.
 #'   Normalizer function takes the input `Tensor` as its argument, and returns
-#'   the output `Tensor`. (e.g. lambda x: (x - 3.0) / 4.2). Please note that
+#'   the output tensor. (e.g. `function(x) {(x - 3.0) / 4.2)}`. Please note that
 #'   even though the most common use case of this function is normalization, it
 #'   can be used for any kind of Tensorflow transformations.
 #'
 #' @return A numeric column.
 #'
-#' @section Raises: TypeError: if any dimension in shape is not an int
-#'   ValueError: if any dimension in shape is not a positive integer TypeError:
-#'   if `default_value` is an iterable but not compatible with `shape`
-#'   TypeError: if `default_value` is not compatible with `dtype`. ValueError:
-#'   if `dtype` is not convertible to `tf$float32`.
+#' @section Raises: 
+#' * TypeError: if any dimension in shape is not an int
+#' * ValueError: if any dimension in shape is not a positive integer 
+#' * TypeError: if `default_value` is an iterable but not compatible with `shape`
+#' * TypeError: if `default_value` is not compatible with `dtype`
+#' * ValueError: if `dtype` is not convertible to `tf$float32`
 #'
 #' @family feature column constructors
 #'
@@ -358,9 +363,11 @@ column_numeric <- function(...,
 #'
 #' @return A dense column that converts from sparse input.
 #'
-#' @section Raises: ValueError: if `dimension` not > 0. ValueError: if exactly
-#'   one of `ckpt_to_load_from` and `tensor_name_in_ckpt` is specified.
-#'   ValueError: if `initializer` is specified and is not callable.
+#' @section Raises: 
+#' * ValueError: if `dimension` not > 0. 
+#' * ValueError: if exactly one of `ckpt_to_load_from` and `tensor_name_in_ckpt`
+#' is specified.
+#' * ValueError: if `initializer` is specified and is not callable.
 #'
 #' @family feature column constructors
 #'
@@ -392,8 +399,9 @@ column_embedding <- function(categorical_column,
 #' features will be hashed according to `hash_bucket_size`.
 #'
 #' @param keys An iterable identifying the features to be crossed. Each element
-#'   can be either: * string: Will use the corresponding feature which must be
-#'   of string type. * categorical column: Will use the transformed tensor
+#'   can be either: 
+#'   * string: Will use the corresponding feature which must be of string type. 
+#'   * categorical column: Will use the transformed tensor
 #'   produced by this column. Does not support hashed categorical columns.
 #' @param hash_bucket_size The number of buckets (> 1).
 #' @param hash_key Optional: specify the hash_key that will be used by the
@@ -402,10 +410,11 @@ column_embedding <- function(categorical_column,
 #'
 #' @return A crossed column.
 #'
-#' @section Raises: ValueError: If `len(keys) < 2`. ValueError: If any of the
-#'   keys is neither a string nor categorical column. ValueError: If any of
-#'   the keys is `_HashedCategoricalColumn`. ValueError: If `hash_bucket_size <
-#'   1`.
+#' @section Raises: 
+#' * ValueError: If `len(keys) < 2`. 
+#' * ValueError: If any of the keys is neither a string nor categorical column. 
+#' * ValueError: If any of the keys is `_HashedCategoricalColumn`. 
+#' * ValueError: If `hash_bucket_size < 1`.
 #'
 #' @family feature column constructors
 #'
@@ -437,14 +446,15 @@ column_crossed <- function(keys,
 #' @param categorical_column A categorical column created by
 #'   `column_categorical_*()` functions.
 #' @param weight_feature_key String key for weight values.
-#' @param dtype Type of weights, such as `tf.float32`. Only float and integer
+#' @param dtype Type of weights, such as `tf$float32`. Only float and integer
 #'   weights are supported.
 #'
 #' @return A categorical column composed of two sparse features: one
 #'   represents id, the other represents weight (value) of the id feature in
 #'   that example.
 #'
-#' @section Raises: ValueError: if `dtype` is not convertible to float.
+#' @section Raises: 
+#' * ValueError: if `dtype` is not convertible to float.
 #'
 #' @family feature column constructors
 #'
@@ -472,8 +482,8 @@ column_categorical_weighted <- function(categorical_column,
 #' @return A bucketized column.
 #'
 #' @section Raises:
-#' ValueError: If `source_column` is not a numeric column, or if it is not one-dimensional.
-#' ValueError: If `boundaries` is not a sorted list or list.
+#' * ValueError: If `source_column` is not a numeric column, or if it is not one-dimensional.
+#' * ValueError: If `boundaries` is not a sorted list or list.
 #'
 #' @family feature column constructors
 #'
@@ -487,31 +497,31 @@ column_bucketized <- function(source_column, boundaries) {
 
 #' Construct an Input Layer
 #'
-#' Returns a dense `Tensor` as input layer based on given `feature_columns`.
+#' Returns a dense tensor as input layer based on given `feature_columns`.
 #' At the first layer of the model, this column oriented data should be converted
-#' to a single `Tensor`.
+#' to a single tensor.
 #'
-#' @param features A mapping from key to tensors. `_FeatureColumn`s look up via
-#'   these keys. For example `numeric_column('price')` will look at 'price' key
-#'   in this dict. Values can be a `SparseTensor` or a `Tensor` depends on
-#'   corresponding `_FeatureColumn`.
+#' @param features A mapping from key to tensors. Feature columns look up via
+#'   these keys. For example `column_numeric('price')` will look at 'price' key
+#'   in this dict. Values can be a sparse tensor or tensor depends on
+#'   corresponding feature column.
 #' @param feature_columns An iterable containing the FeatureColumns to use as
 #'   inputs to your model. All items should be instances of classes derived from
-#'   `_DenseColumn` such as `numeric_column`, `embedding_column`,
-#'   `bucketized_column`, `indicator_column`. If you have categorical features,
-#'   you can wrap them with an `embedding_column` or `indicator_column`.
+#'   a dense column such as [column_numeric()], [column_embedding()],
+#'   [column_bucketized()], [column_indicator()]. If you have categorical features,
+#'   you can wrap them with an [column_embedding()] or [column_indicator()].
 #' @param weight_collections A list of collection names to which the Variable
 #'   will be added. Note that, variables will also be added to collections
-#'   `tf.GraphKeys.GLOBAL_VARIABLES` and `ops.GraphKeys.MODEL_VARIABLES`.
+#'   `graph_keys()$GLOBAL_VARIABLES` and `graph_keys()$MODEL_VARIABLES`.
 #' @param trainable If `TRUE` also add the variable to the graph collection
-#'   `GraphKeys.TRAINABLE_VARIABLES` (see `tf.Variable`).
+#'   `graph_keys()$TRAINABLE_VARIABLES` (see `tf$Variable`).
 #'
-#' @return A `Tensor` which represents input layer of a model. Its shape is
+#' @return A tensor which represents input layer of a model. Its shape is
 #'   (batch_size, first_layer_dimension) and its dtype is `float32`.
 #'   first_layer_dimension is determined based on given `feature_columns`.
 #'
-#' @section Raises: ValueError: if an item in `feature_columns` is not a
-#'   dense column.
+#' @section Raises: 
+#' * ValueError: if an item in `feature_columns` is not a dense column.
 #'
 #' @family feature column constructors
 #' @export

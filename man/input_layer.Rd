@@ -8,37 +8,39 @@ input_layer(features, feature_columns, weight_collections = NULL,
   trainable = TRUE)
 }
 \arguments{
-\item{features}{A mapping from key to tensors. \code{_FeatureColumn}s look up via
-these keys. For example \code{numeric_column('price')} will look at 'price' key
-in this dict. Values can be a \code{SparseTensor} or a \code{Tensor} depends on
-corresponding \code{_FeatureColumn}.}
+\item{features}{A mapping from key to tensors. Feature columns look up via
+these keys. For example \code{column_numeric('price')} will look at 'price' key
+in this dict. Values can be a sparse tensor or tensor depends on
+corresponding feature column.}
 
 \item{feature_columns}{An iterable containing the FeatureColumns to use as
 inputs to your model. All items should be instances of classes derived from
-\code{_DenseColumn} such as \code{numeric_column}, \code{embedding_column},
-\code{bucketized_column}, \code{indicator_column}. If you have categorical features,
-you can wrap them with an \code{embedding_column} or \code{indicator_column}.}
+a dense column such as \code{\link[=column_numeric]{column_numeric()}}, \code{\link[=column_embedding]{column_embedding()}},
+\code{\link[=column_bucketized]{column_bucketized()}}, \code{\link[=column_indicator]{column_indicator()}}. If you have categorical features,
+you can wrap them with an \code{\link[=column_embedding]{column_embedding()}} or \code{\link[=column_indicator]{column_indicator()}}.}
 
 \item{weight_collections}{A list of collection names to which the Variable
 will be added. Note that, variables will also be added to collections
-\code{tf.GraphKeys.GLOBAL_VARIABLES} and \code{ops.GraphKeys.MODEL_VARIABLES}.}
+\code{graph_keys()$GLOBAL_VARIABLES} and \code{graph_keys()$MODEL_VARIABLES}.}
 
 \item{trainable}{If \code{TRUE} also add the variable to the graph collection
-\code{GraphKeys.TRAINABLE_VARIABLES} (see \code{tf.Variable}).}
+\code{graph_keys()$TRAINABLE_VARIABLES} (see \code{tf$Variable}).}
 }
 \value{
-A \code{Tensor} which represents input layer of a model. Its shape is
+A tensor which represents input layer of a model. Its shape is
 (batch_size, first_layer_dimension) and its dtype is \code{float32}.
 first_layer_dimension is determined based on given \code{feature_columns}.
 }
 \description{
-Returns a dense \code{Tensor} as input layer based on given \code{feature_columns}.
+Returns a dense tensor as input layer based on given \code{feature_columns}.
 At the first layer of the model, this column oriented data should be converted
-to a single \code{Tensor}.
+to a single tensor.
 }
 \section{Raises}{
- ValueError: if an item in \code{feature_columns} is not a
-dense column.
+
+\itemize{
+\item ValueError: if an item in \code{feature_columns} is not a dense column.
+}
 }
 
 \seealso{

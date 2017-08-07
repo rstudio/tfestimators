@@ -135,9 +135,11 @@ features will be hashed according to <code>hash_bucket_size</code>.</p>
     <tr>
       <th>keys</th>
       <td><p>An iterable identifying the features to be crossed. Each element
-can be either: * string: Will use the corresponding feature which must be
-of string type. * categorical column: Will use the transformed tensor
-produced by this column. Does not support hashed categorical columns.</p></td>
+can be either:</p><ul>
+<li><p>string: Will use the corresponding feature which must be of string type.</p></li>
+<li><p>categorical column: Will use the transformed tensor
+produced by this column. Does not support hashed categorical columns.</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>hash_bucket_size</th>
@@ -157,9 +159,13 @@ produced by this column. Does not support hashed categorical columns.</p></td>
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
-    <p>ValueError: If <code>len(keys) &lt; 2</code>. ValueError: If any of the
-keys is neither a string nor categorical column. ValueError: If any of
-the keys is <code>_HashedCategoricalColumn</code>. ValueError: If <code>hash_bucket_size &lt; 1</code>.</p>
+    
+    <ul>
+<li><p>ValueError: If <code>len(keys) &lt; 2</code>.</p></li>
+<li><p>ValueError: If any of the keys is neither a string nor categorical column.</p></li>
+<li><p>ValueError: If any of the keys is <code>_HashedCategoricalColumn</code>.</p></li>
+<li><p>ValueError: If <code>hash_bucket_size &lt; 1</code>.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

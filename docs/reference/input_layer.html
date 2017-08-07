@@ -123,9 +123,9 @@
     </div>
 
     
-    <p>Returns a dense <code>Tensor</code> as input layer based on given <code>feature_columns</code>.
+    <p>Returns a dense tensor as input layer based on given <code>feature_columns</code>.
 At the first layer of the model, this column oriented data should be converted
-to a single <code>Tensor</code>.</p>
+to a single tensor.</p>
     
 
     <pre class="usage"><span class='fu'>input_layer</span>(<span class='no'>features</span>, <span class='no'>feature_columns</span>, <span class='kw'>weight_collections</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -136,42 +136,44 @@ to a single <code>Tensor</code>.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>features</th>
-      <td><p>A mapping from key to tensors. <code>_FeatureColumn</code>s look up via
-these keys. For example <code>numeric_column('price')</code> will look at 'price' key
-in this dict. Values can be a <code>SparseTensor</code> or a <code>Tensor</code> depends on
-corresponding <code>_FeatureColumn</code>.</p></td>
+      <td><p>A mapping from key to tensors. Feature columns look up via
+these keys. For example <code><a href='column_numeric.html'>column_numeric('price')</a></code> will look at 'price' key
+in this dict. Values can be a sparse tensor or tensor depends on
+corresponding feature column.</p></td>
     </tr>
     <tr>
       <th>feature_columns</th>
       <td><p>An iterable containing the FeatureColumns to use as
 inputs to your model. All items should be instances of classes derived from
-<code>_DenseColumn</code> such as <code>numeric_column</code>, <code>embedding_column</code>,
-<code>bucketized_column</code>, <code>indicator_column</code>. If you have categorical features,
-you can wrap them with an <code>embedding_column</code> or <code>indicator_column</code>.</p></td>
+a dense column such as <code><a href='column_numeric.html'>column_numeric()</a></code>, <code><a href='column_embedding.html'>column_embedding()</a></code>,
+<code><a href='column_bucketized.html'>column_bucketized()</a></code>, <code><a href='column_indicator.html'>column_indicator()</a></code>. If you have categorical features,
+you can wrap them with an <code><a href='column_embedding.html'>column_embedding()</a></code> or <code><a href='column_indicator.html'>column_indicator()</a></code>.</p></td>
     </tr>
     <tr>
       <th>weight_collections</th>
       <td><p>A list of collection names to which the Variable
 will be added. Note that, variables will also be added to collections
-<code>tf.GraphKeys.GLOBAL_VARIABLES</code> and <code>ops.GraphKeys.MODEL_VARIABLES</code>.</p></td>
+<code>graph_keys()$GLOBAL_VARIABLES</code> and <code>graph_keys()$MODEL_VARIABLES</code>.</p></td>
     </tr>
     <tr>
       <th>trainable</th>
       <td><p>If <code>TRUE</code> also add the variable to the graph collection
-<code>GraphKeys.TRAINABLE_VARIABLES</code> (see <code>tf.Variable</code>).</p></td>
+<code>graph_keys()$TRAINABLE_VARIABLES</code> (see <code>tf$Variable</code>).</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>Tensor</code> which represents input layer of a model. Its shape is
+    <p>A tensor which represents input layer of a model. Its shape is
 (batch_size, first_layer_dimension) and its dtype is <code>float32</code>.
 first_layer_dimension is determined based on given <code>feature_columns</code>.</p>
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
-    <p>ValueError: if an item in <code>feature_columns</code> is not a
-dense column.</p>
+    
+    <ul>
+<li><p>ValueError: if an item in <code>feature_columns</code> is not a dense column.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

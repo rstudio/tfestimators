@@ -128,7 +128,7 @@ vocabulary file that maps each value to an integer ID. By default,
 out-of-vocabulary values are ignored. Use either (but not both) of
 <code>num_oov_buckets</code> and <code>default_value</code> to specify how to include
 out-of-vocabulary values. For input dictionary <code>features</code>, <code>features[key]</code> is
-either <code>Tensor</code> or <code>SparseTensor</code>. If <code>Tensor</code>, missing values can be
+either tensor or sparse tensor object. If it's tensor object, missing values can be
 represented by <code>-1</code> for int and <code>''</code> for string. Note that these values are
 independent of the <code>default_value</code> argument.</p>
     
@@ -142,8 +142,8 @@ independent of the <code>default_value</code> argument.</p>
     <tr>
       <th>...</th>
       <td><p>Expression(s) identifying input feature(s). Used as the column
-name and the dictionary key for feature parsing configs, feature <code>Tensor</code>
-objects, and feature columns.</p></td>
+name and the dictionary key for feature parsing configs, feature tensors,
+and feature columns.</p></td>
     </tr>
     <tr>
       <th>vocabulary_file</th>
@@ -183,10 +183,12 @@ supported.</p></td>
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
     
-    <p>ValueError: <code>vocabulary_file</code> is missing.
-ValueError: <code>vocabulary_size</code> is missing or &lt; 1.
-ValueError: <code>num_oov_buckets</code> is not a non-negative integer.
-ValueError: <code>dtype</code> is neither string nor integer.</p>
+    <ul>
+<li><p>ValueError: <code>vocabulary_file</code> is missing.</p></li>
+<li><p>ValueError: <code>vocabulary_size</code> is missing or &lt; 1.</p></li>
+<li><p>ValueError: <code>num_oov_buckets</code> is not a non-negative integer.</p></li>
+<li><p>ValueError: <code>dtype</code> is neither string nor integer.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

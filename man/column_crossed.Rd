@@ -8,9 +8,12 @@ column_crossed(keys, hash_bucket_size, hash_key = NULL)
 }
 \arguments{
 \item{keys}{An iterable identifying the features to be crossed. Each element
-can be either: * string: Will use the corresponding feature which must be
-of string type. * categorical column: Will use the transformed tensor
-produced by this column. Does not support hashed categorical columns.}
+can be either:
+\itemize{
+\item string: Will use the corresponding feature which must be of string type.
+\item categorical column: Will use the transformed tensor
+produced by this column. Does not support hashed categorical columns.
+}}
 
 \item{hash_bucket_size}{The number of buckets (> 1).}
 
@@ -26,9 +29,13 @@ Returns a column for performing crosses of categorical features. Crossed
 features will be hashed according to \code{hash_bucket_size}.
 }
 \section{Raises}{
- ValueError: If \code{len(keys) < 2}. ValueError: If any of the
-keys is neither a string nor categorical column. ValueError: If any of
-the keys is \code{_HashedCategoricalColumn}. ValueError: If \code{hash_bucket_size < 1}.
+
+\itemize{
+\item ValueError: If \code{len(keys) < 2}.
+\item ValueError: If any of the keys is neither a string nor categorical column.
+\item ValueError: If any of the keys is \code{_HashedCategoricalColumn}.
+\item ValueError: If \code{hash_bucket_size < 1}.
+}
 }
 
 \seealso{

@@ -49,9 +49,13 @@ categorical column created by any of the \code{column_categorical_*()}
 functions.
 }
 \section{Raises}{
- ValueError: if \code{dimension} not > 0. ValueError: if exactly
-one of \code{ckpt_to_load_from} and \code{tensor_name_in_ckpt} is specified.
-ValueError: if \code{initializer} is specified and is not callable.
+
+\itemize{
+\item ValueError: if \code{dimension} not > 0.
+\item ValueError: if exactly one of \code{ckpt_to_load_from} and \code{tensor_name_in_ckpt}
+is specified.
+\item ValueError: if \code{initializer} is specified and is not callable.
+}
 }
 
 \seealso{

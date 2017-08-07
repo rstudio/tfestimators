@@ -9,8 +9,8 @@ column_categorical_with_vocabulary_file(..., vocabulary_file, vocabulary_size,
 }
 \arguments{
 \item{...}{Expression(s) identifying input feature(s). Used as the column
-name and the dictionary key for feature parsing configs, feature \code{Tensor}
-objects, and feature columns.}
+name and the dictionary key for feature parsing configs, feature tensors,
+and feature columns.}
 
 \item{vocabulary_file}{The vocabulary file name.}
 
@@ -40,16 +40,18 @@ vocabulary file that maps each value to an integer ID. By default,
 out-of-vocabulary values are ignored. Use either (but not both) of
 \code{num_oov_buckets} and \code{default_value} to specify how to include
 out-of-vocabulary values. For input dictionary \code{features}, \code{features[key]} is
-either \code{Tensor} or \code{SparseTensor}. If \code{Tensor}, missing values can be
+either tensor or sparse tensor object. If it's tensor object, missing values can be
 represented by \code{-1} for int and \code{''} for string. Note that these values are
 independent of the \code{default_value} argument.
 }
 \section{Raises}{
 
-ValueError: \code{vocabulary_file} is missing.
-ValueError: \code{vocabulary_size} is missing or < 1.
-ValueError: \code{num_oov_buckets} is not a non-negative integer.
-ValueError: \code{dtype} is neither string nor integer.
+\itemize{
+\item ValueError: \code{vocabulary_file} is missing.
+\item ValueError: \code{vocabulary_size} is missing or < 1.
+\item ValueError: \code{num_oov_buckets} is not a non-negative integer.
+\item ValueError: \code{dtype} is neither string nor integer.
+}
 }
 
 \seealso{

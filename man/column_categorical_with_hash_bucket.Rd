@@ -8,8 +8,8 @@ column_categorical_with_hash_bucket(..., hash_bucket_size, dtype = tf$string)
 }
 \arguments{
 \item{...}{Expression(s) identifying input feature(s). Used as the column
-name and the dictionary key for feature parsing configs, feature \code{Tensor}
-objects, and feature columns.}
+name and the dictionary key for feature parsing configs, feature tensors,
+and feature columns.}
 
 \item{hash_bucket_size}{An int > 1. The number of buckets.}
 
@@ -23,14 +23,17 @@ A \code{_HashedCategoricalColumn}.
 Use this when your sparse features are in string or integer format, and you
 want to distribute your inputs into a finite number of buckets by hashing.
 output_id = Hash(input_feature_string) % bucket_size For input dictionary
-\code{features}, \code{features$key$} is either \code{Tensor} or \code{SparseTensor}. If
-\code{Tensor}, missing values can be represented by \code{-1} for int and \code{''} for
+\code{features}, \code{features$key$} is either tensor or sparse tensor object. If it's
+tensor object, missing values can be represented by \code{-1} for int and \code{''} for
 string. Note that these values are independent of the \code{default_value}
 argument.
 }
 \section{Raises}{
- ValueError: \code{hash_bucket_size} is not greater than 1.
-ValueError: \code{dtype} is neither string nor integer.
+
+\itemize{
+\item ValueError: \code{hash_bucket_size} is not greater than 1.
+\item ValueError: \code{dtype} is neither string nor integer.
+}
 }
 
 \seealso{

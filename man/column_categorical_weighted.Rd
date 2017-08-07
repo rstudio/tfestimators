@@ -13,7 +13,7 @@ column_categorical_weighted(categorical_column, weight_feature_key,
 
 \item{weight_feature_key}{String key for weight values.}
 
-\item{dtype}{Type of weights, such as \code{tf.float32}. Only float and integer
+\item{dtype}{Type of weights, such as \code{tf$float32}. Only float and integer
 weights are supported.}
 }
 \value{
@@ -28,7 +28,10 @@ frequencies, you can provide 2 parallel sparse input features ('terms' and
 'frequencies' below).
 }
 \section{Raises}{
- ValueError: if \code{dtype} is not convertible to float.
+
+\itemize{
+\item ValueError: if \code{dtype} is not convertible to float.
+}
 }
 
 \seealso{

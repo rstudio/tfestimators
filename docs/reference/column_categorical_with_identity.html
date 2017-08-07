@@ -137,8 +137,8 @@ fail.</p>
     <tr>
       <th>...</th>
       <td><p>Expression(s) identifying input feature(s). Used as the column
-name and the dictionary key for feature parsing configs, feature <code>Tensor</code>
-objects, and feature columns.</p></td>
+name and the dictionary key for feature parsing configs, feature tensors,
+and feature columns.</p></td>
     </tr>
     <tr>
       <th>num_buckets</th>
@@ -160,15 +160,18 @@ out-of-range inputs. Otherwise, this value must be in the range <code>[0, num_bu
     <p>Typically, this is used for contiguous ranges of integer indexes, but it
 doesn't have to be. This might be inefficient, however, if many of IDs are
 unused. Consider <code>categorical_column_with_hash_bucket</code> in that case.</p>
-<p>For input dictionary <code>features</code>, <code>features$key</code> is either <code>Tensor</code> or
-<code>SparseTensor</code>. If <code>Tensor</code>, missing values can be represented by <code>-1</code> for
+<p>For input dictionary <code>features</code>, <code>features$key</code> is either tensor or sparse
+tensor object. If it's tensor object, missing values can be represented by <code>-1</code> for
 int and <code>''</code> for string. Note that these values are independent of the
 <code>default_value</code> argument.</p>
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
-    <p>ValueError: if <code>num_buckets</code> is less than one. ValueError:
-if <code>default_value</code> is not in range <code>[0, num_buckets)</code>.</p>
+    
+    <ul>
+<li><p>ValueError: if <code>num_buckets</code> is less than one.</p></li>
+<li><p>ValueError: if <code>default_value</code> is not in range <code>[0, num_buckets)</code>.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

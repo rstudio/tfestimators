@@ -20,8 +20,10 @@ include the left boundary, and exclude the right boundary.
 }
 \section{Raises}{
 
-ValueError: If \code{source_column} is not a numeric column, or if it is not one-dimensional.
-ValueError: If \code{boundaries} is not a sorted list or list.
+\itemize{
+\item ValueError: If \code{source_column} is not a numeric column, or if it is not one-dimensional.
+\item ValueError: If \code{boundaries} is not a sorted list or list.
+}
 }
 
 \seealso{

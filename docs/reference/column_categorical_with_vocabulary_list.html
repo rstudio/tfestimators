@@ -127,8 +127,8 @@
 in-memory vocabulary mapping each value to an integer ID. By default,
 out-of-vocabulary values are ignored. Use <code>default_value</code> to specify how to
 include out-of-vocabulary values. For the input dictionary <code>features</code>,
-<code>features$key</code> is either <code>Tensor</code> or <code>SparseTensor</code>. If <code>Tensor</code>, missing
-values can be represented by <code>-1</code> for int and <code>''</code> for string.</p>
+<code>features$key</code> is either tensor or sparse tensor object. If it's tensor object,
+missing values can be represented by <code>-1</code> for int and <code>''</code> for string.</p>
     
 
     <pre class="usage"><span class='fu'>column_categorical_with_vocabulary_list</span>(<span class='no'>...</span>, <span class='no'>vocabulary_list</span>, <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -140,8 +140,8 @@ values can be represented by <code>-1</code> for int and <code>''</code> for str
     <tr>
       <th>...</th>
       <td><p>Expression(s) identifying input feature(s). Used as the column
-name and the dictionary key for feature parsing configs, feature <code>Tensor</code>
-objects, and feature columns.</p></td>
+name and the dictionary key for feature parsing configs, feature tensors,
+and feature columns.</p></td>
     </tr>
     <tr>
       <th>vocabulary_list</th>
@@ -178,8 +178,12 @@ input value. A positive <code>num_oov_buckets</code> can not be specified with
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
-    <p>ValueError: if <code>vocabulary_list</code> is empty, or contains
-duplicate keys. ValueError: if <code>dtype</code> is not integer or string.</p>
+    
+    <ul>
+<li><p>ValueError: if <code>vocabulary_list</code> is empty, or contains
+duplicate keys.</p></li>
+<li><p>ValueError: if <code>dtype</code> is not integer or string.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

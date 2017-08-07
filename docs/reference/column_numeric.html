@@ -135,21 +135,21 @@
     <tr>
       <th>...</th>
       <td><p>Expression(s) identifying input feature(s). Used as the column
-name and the dictionary key for feature parsing configs, feature <code>Tensor</code>
-objects, and feature columns.</p></td>
+name and the dictionary key for feature parsing configs, feature tensors,
+and feature columns.</p></td>
     </tr>
     <tr>
       <th>shape</th>
-      <td><p>An integer vector that specifies the shape of the <code>Tensor</code>. An
-integer can be given which means a single dimension <code>Tensor</code> with given
-width. The <code>Tensor</code> representing the column will have the shape of
+      <td><p>An integer vector that specifies the shape of the tensor. An
+integer can be given which means a single dimension tensor with given
+width. The tensor representing the column will have the shape of
 <code>batch_size + shape</code>.</p></td>
     </tr>
     <tr>
       <th>default_value</th>
       <td><p>A single value compatible with <code>dtype</code> or an iterable of
 values compatible with <code>dtype</code> which the column takes on during parsing if
-data is missing. A default value of <code>NULL</code> will cause <code>tf.parse_example</code> to
+data is missing. A default value of <code>NULL</code> will cause <code>tf$parse_example</code> to
 fail if an example does not contain this column. If a single value is
 provided, the same value will be applied as the default value for every
 item. If an iterable of values is provided, the shape of the
@@ -166,7 +166,7 @@ type.</p></td>
       <td><p>If not <code>NULL</code>, a function that can be used to normalize
 the value of the tensor after <code>default_value</code> is applied for parsing.
 Normalizer function takes the input <code>Tensor</code> as its argument, and returns
-the output <code>Tensor</code>. (e.g. lambda x: (x - 3.0) / 4.2). Please note that
+the output tensor. (e.g. <code>function(x) {(x - 3.0) / 4.2)}</code>. Please note that
 even though the most common use case of this function is normalization, it
 can be used for any kind of Tensorflow transformations.</p></td>
     </tr>
@@ -178,11 +178,14 @@ can be used for any kind of Tensorflow transformations.</p></td>
     
     <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
 
-    <p>TypeError: if any dimension in shape is not an int
-ValueError: if any dimension in shape is not a positive integer TypeError:
-if <code>default_value</code> is an iterable but not compatible with <code>shape</code>
-TypeError: if <code>default_value</code> is not compatible with <code>dtype</code>. ValueError:
-if <code>dtype</code> is not convertible to <code>tf$float32</code>.</p>
+    
+    <ul>
+<li><p>TypeError: if any dimension in shape is not an int</p></li>
+<li><p>ValueError: if any dimension in shape is not a positive integer</p></li>
+<li><p>TypeError: if <code>default_value</code> is an iterable but not compatible with <code>shape</code></p></li>
+<li><p>TypeError: if <code>default_value</code> is not compatible with <code>dtype</code></p></li>
+<li><p>ValueError: if <code>dtype</code> is not convertible to <code>tf$float32</code></p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
