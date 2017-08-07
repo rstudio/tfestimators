@@ -121,47 +121,47 @@ inputs &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/i
   <span class="dt">batch_size =</span> <span class="dv">10</span>
 )
 
-custom_model_fn &lt;-<span class="st"> </span><span class="cf">function</span>(features, labels, mode, params, config) {
+custom_model_fn &lt;-<span class="st"> </span>function(features, labels, mode, params, config) {
   
   <span class="co"># Create three fully connected layers respectively of size 10, 20, and 10 with</span>
   <span class="co"># each layer having a dropout probability of 0.1.</span>
-  logits &lt;-<span class="st"> </span>features <span class="op">%&gt;%</span>
-<span class="st">    </span>tf<span class="op">$</span>contrib<span class="op">$</span>layers<span class="op">$</span><span class="kw">stack</span>(
-    tf<span class="op">$</span>contrib<span class="op">$</span>layers<span class="op">$</span>fully_connected, <span class="kw">c</span>(10L, 20L, 10L),
-      <span class="dt">normalizer_fn =</span> tf<span class="op">$</span>contrib<span class="op">$</span>layers<span class="op">$</span>dropout,
-      <span class="dt">normalizer_params =</span> <span class="kw">list</span>(<span class="dt">keep_prob =</span> <span class="fl">0.9</span>)) <span class="op">%&gt;%</span>
-<span class="st">    </span>tf<span class="op">$</span>contrib<span class="op">$</span>layers<span class="op">$</span><span class="kw">fully_connected</span>(3L, <span class="dt">activation_fn =</span> <span class="ot">NULL</span>) <span class="co"># Compute logits (1 per class) and compute loss.</span>
+  logits &lt;-<span class="st"> </span>features %&gt;%
+<span class="st">    </span>tf$contrib$layers$<span class="kw">stack</span>(
+    tf$contrib$layers$fully_connected, <span class="kw">c</span>(10L, 20L, 10L),
+      <span class="dt">normalizer_fn =</span> tf$contrib$layers$dropout,
+      <span class="dt">normalizer_params =</span> <span class="kw">list</span>(<span class="dt">keep_prob =</span> <span class="fl">0.9</span>)) %&gt;%
+<span class="st">    </span>tf$contrib$layers$<span class="kw">fully_connected</span>(3L, <span class="dt">activation_fn =</span> <span class="ot">NULL</span>) <span class="co"># Compute logits (1 per class) and compute loss.</span>
   
   <span class="co"># Compute predictions.</span>
-  predicted_classes &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">argmax</span>(logits, 1L)
-  <span class="cf">if</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>PREDICT) {
+  predicted_classes &lt;-<span class="st"> </span>tf$<span class="kw">argmax</span>(logits, 1L)
+  if (mode ==<span class="st"> </span><span class="kw"><a href="../../reference/mode_keys.html">mode_keys</a></span>()$PREDICT) {
     predictions &lt;-<span class="st"> </span><span class="kw">list</span>(
       <span class="dt">class =</span> predicted_classes,
-      <span class="dt">prob =</span> tf<span class="op">$</span>nn<span class="op">$</span><span class="kw">softmax</span>(logits))
+      <span class="dt">prob =</span> tf$nn$<span class="kw">softmax</span>(logits))
     <span class="kw">return</span>(<span class="kw"><a href="../../reference/estimator_spec.html">estimator_spec</a></span>(<span class="dt">mode =</span> mode, <span class="dt">predictions =</span> predictions))
   }
   
   <span class="co"># Convert the labels to a one-hot tensor of shape (length of features, 3) and</span>
   <span class="co"># with a on-value of 1 for each one-hot vector of length 3.</span>
-  onehot_labels &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">one_hot</span>(labels, 3L, 1L, 0L)
+  onehot_labels &lt;-<span class="st"> </span>tf$<span class="kw">one_hot</span>(labels, 3L, 1L, 0L)
   <span class="co"># Compute loss.</span>
-  loss &lt;-<span class="st"> </span>tf<span class="op">$</span>losses<span class="op">$</span><span class="kw">softmax_cross_entropy</span>(onehot_labels, logits)
+  loss &lt;-<span class="st"> </span>tf$losses$<span class="kw">softmax_cross_entropy</span>(onehot_labels, logits)
   
-  <span class="cf">if</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>TRAIN) {
-    global_step &lt;-<span class="st"> </span>tf<span class="op">$</span>train<span class="op">$</span><span class="kw">get_global_step</span>()
-    learning_rate &lt;-<span class="st"> </span>tf<span class="op">$</span>train<span class="op">$</span><span class="kw">exponential_decay</span>(
+  if (mode ==<span class="st"> </span><span class="kw"><a href="../../reference/mode_keys.html">mode_keys</a></span>()$TRAIN) {
+    global_step &lt;-<span class="st"> </span>tf$train$<span class="kw">get_global_step</span>()
+    learning_rate &lt;-<span class="st"> </span>tf$train$<span class="kw">exponential_decay</span>(
       <span class="dt">learning_rate =</span> <span class="fl">0.1</span>,
       <span class="dt">global_step =</span> global_step,
       <span class="dt">decay_steps =</span> 100L,
       <span class="dt">decay_rate =</span> <span class="fl">0.001</span>)
-    optimizer &lt;-<span class="st"> </span>tf<span class="op">$</span>train<span class="op">$</span><span class="kw">AdagradOptimizer</span>(<span class="dt">learning_rate =</span> learning_rate)
-    train_op &lt;-<span class="st"> </span>optimizer<span class="op">$</span><span class="kw">minimize</span>(loss, <span class="dt">global_step =</span> global_step)
+    optimizer &lt;-<span class="st"> </span>tf$train$<span class="kw">AdagradOptimizer</span>(<span class="dt">learning_rate =</span> learning_rate)
+    train_op &lt;-<span class="st"> </span>optimizer$<span class="kw">minimize</span>(loss, <span class="dt">global_step =</span> global_step)
     <span class="kw">return</span>(<span class="kw"><a href="../../reference/estimator_spec.html">estimator_spec</a></span>(<span class="dt">mode =</span> mode, <span class="dt">loss =</span> loss, <span class="dt">train_op =</span> train_op))
   }
   
   <span class="co"># Compute evaluation metrics.</span>
   eval_metric_ops &lt;-<span class="st"> </span><span class="kw">list</span>(
-    <span class="dt">accuracy =</span> tf<span class="op">$</span>metrics<span class="op">$</span><span class="kw">accuracy</span>(
+    <span class="dt">accuracy =</span> tf$metrics$<span class="kw">accuracy</span>(
       <span class="dt">labels =</span> labels, <span class="dt">predictions =</span> predicted_classes
     ))
 
@@ -170,7 +170,7 @@ custom_model_fn &lt;-<span class="st"> </span><span class="cf">function</span>(f
 
 <span class="co"># Intialize classifer and training</span>
 classifier &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/estimator.html">estimator</a></span>(
-  <span class="dt">model_fn =</span> custom_model_fn) <span class="op">%&gt;%</span>
+  <span class="dt">model_fn =</span> custom_model_fn) %&gt;%
 <span class="st">  </span><span class="kw"><a href="../../reference/train.html">train</a></span>(<span class="dt">input_fn =</span> inputs, <span class="dt">steps =</span> <span class="dv">2</span>)
 
 <span class="co"># Genearate predictions</span>

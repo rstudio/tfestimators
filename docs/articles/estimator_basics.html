@@ -171,21 +171,21 @@
 <li>Data Frames</li>
 <li>Lists of vectors</li>
 </ul>
-<p>For example, here’s how we might construct an input function that uses the <code>mtcars</code> data frame as a data source, treating the <code>drat</code> and <code>cyl</code> variables as feature columns, and <code>vs</code> as a response.</p>
+<p>For example, here’s how we might construct an input function that uses the <code>mtcars</code> data frame as a data source, treating the <code>drat</code>, <code>mpg</code>, and <code>am</code> variables as feature columns, and <code>vs</code> as a response.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input &lt;-<span class="st"> </span><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mtcars, 
-                  <span class="dt">features =</span> <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"cyl"</span>),
+                  <span class="dt">features =</span> <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"mpg"</span>, <span class="st">"am"</span>),
                   <span class="dt">response =</span> <span class="st">"vs"</span>)</code></pre></div>
 <p>The formula interface is a bit more succinct, in this case, and should feel familiar to R users who have experience fitting models using the R <code>stats</code> package.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input &lt;-<span class="st"> </span><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(vs <span class="op">~</span><span class="st"> </span>drat <span class="op">+</span><span class="st"> </span>cyl, <span class="dt">data =</span> mtcars)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input &lt;-<span class="st"> </span><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(vs ~<span class="st"> </span>drat +<span class="st"> </span>mpg +<span class="st"> </span>am, <span class="dt">data =</span> mtcars)</code></pre></div>
 <p>You can also write fully custom input functions that draw data from arbitrary data sources. See the <a href="input_functions.html">input functions</a> article for additional details.</p>
 </div>
 <div id="feature-columns" class="section level2">
 <h2 class="hasAnchor">
 <a href="#feature-columns" class="anchor"></a>Feature Columns</h2>
-<p>In TensorFlow, feature columns are used to specify the ‘shapes’, or ‘types’, of inputs that can be expected by a particular model. For example, in the following code, we define two simple feature columns: a numeric column called <code>"profit"</code>, and a categorical column called <code>"profession"</code>.</p>
+<p>In TensorFlow, feature columns are used to specify the ‘shapes’, or ‘types’, of inputs that can be expected by a particular model. For example, in the following code, we define two simple feature columns: a numeric column called <code>"drat"</code>, and a indicator column called <code>"am"</code> with one-hot representation.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cols &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(
-  <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"profit"</span>),
-  <span class="kw"><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity</a></span>(<span class="st">"profession"</span>, <span class="dt">num_buckets =</span> <span class="dv">5</span>)
+  <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"drat"</span>),
+  <span class="kw"><a href="../reference/column_indicator.html">column_indicator</a></span>(<span class="st">"am"</span>)
 )</code></pre></div>
 <p>There are a wide variety of feature column functions available:</p>
 <table style="width:100%;" class="table">
@@ -243,8 +243,8 @@
 <a href="#creating-an-estimator" class="anchor"></a>Creating an Estimator</h2>
 <p>Here’s an example of creating a Linear DNN Combined canned Estimator. In creating the estimator we pass the feature columns and other parameters that specifies the layers and architecture of the model. Note that this particular estimator takes two sets of feature columns – one used for constructing the linear layer, and the other used for the fully connected deep layer.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># construct feature columns</span>
-linear_feature_columns &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(...)
-dnn_feature_columns &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(...)
+linear_feature_columns &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(<span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"mpg"</span>))
+dnn_feature_columns &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(<span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"drat"</span>))
 
 <span class="co"># generate classifier</span>
 classifier &lt;-
@@ -259,19 +259,19 @@ classifier &lt;-
 <h2 class="hasAnchor">
 <a href="#training-and-prediction" class="anchor"></a>Training and Prediction</h2>
 <p>Users can then call <code><a href="../reference/train.html">train()</a></code> to train the initialized Estimator for a number of steps:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">classifier &lt;-<span class="st"> </span><span class="kw"><a href="../reference/train.html">train</a></span>(classifier, <span class="dt">input_fn =</span> custom_input_fn, <span class="dt">steps =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">classifier &lt;-<span class="st"> </span><span class="kw"><a href="../reference/train.html">train</a></span>(classifier, <span class="dt">input_fn =</span> input, <span class="dt">steps =</span> <span class="dv">2</span>)</code></pre></div>
 <p>Once a model is trained, users can use <code>predict()</code> that makes predictions on a given input function that represents the inference data source.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> custom_input_fn)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> input)</code></pre></div>
 <p>Users can also pass a key to <code>predict_keys</code> argument in <code>predict()</code> that generates different types of predictions, such as probabilities using <code>prediction_keys()$PROBABILITIES</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(
   classifier,
-  <span class="dt">input_fn =</span> custom_input_fn,
-  <span class="dt">predict_keys =</span> <span class="kw"><a href="../reference/prediction_keys.html">prediction_keys</a></span>()<span class="op">$</span>PROBABILITIES)</code></pre></div>
+  <span class="dt">input_fn =</span> input,
+  <span class="dt">predict_keys =</span> <span class="kw"><a href="../reference/prediction_keys.html">prediction_keys</a></span>()$PROBABILITIES)</code></pre></div>
 <p>or logistic using <code>prediction_keys()$LOGISTIC</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(
   classifier,
-  <span class="dt">input_fn =</span> custom_input_fn,
-  <span class="dt">predict_keys =</span> <span class="kw"><a href="../reference/prediction_keys.html">prediction_keys</a></span>()<span class="op">$</span>LOGISTIC)</code></pre></div>
+  <span class="dt">input_fn =</span> input,
+  <span class="dt">predict_keys =</span> <span class="kw"><a href="../reference/prediction_keys.html">prediction_keys</a></span>()$LOGISTIC)</code></pre></div>
 <p>You can find all the available keys by printing <code><a href="../reference/prediction_keys.html">prediction_keys()</a></code>. However, not all keys can be used by different types of estimators. For example, regressors cannot use <code>PROBABILITIES</code> as one of the keys.</p>
 <p>There’s also a function called <code>coef()</code> that can be used extract the trained coefficients of a model.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">coefs &lt;-<span class="st"> </span><span class="kw">coef</span>(classifier)</code></pre></div>

@@ -132,7 +132,7 @@ sources &lt;-<span class="st"> </span><span class="kw">list</span>(
 )
 
 <span class="co"># read an MNIST file (encoded in IDX format)</span>
-read_idx &lt;-<span class="st"> </span><span class="cf">function</span>(file) {
+read_idx &lt;-<span class="st"> </span>function(file) {
   
   <span class="co"># create binary connection to file</span>
   conn &lt;-<span class="st"> </span><span class="kw">gzfile</span>(file, <span class="dt">open =</span> <span class="st">"rb"</span>)
@@ -152,18 +152,18 @@ read_idx &lt;-<span class="st"> </span><span class="cf">function</span>(file) {
   converted &lt;-<span class="st"> </span><span class="kw">as.integer</span>(data)
   
   <span class="co"># return plain vector for 1-dim array</span>
-  <span class="cf">if</span> (<span class="kw">length</span>(dims) <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)
+  if (<span class="kw">length</span>(dims) ==<span class="st"> </span><span class="dv">1</span>)
     <span class="kw">return</span>(converted)
   
   <span class="co"># wrap 3D data into matrix</span>
-  <span class="kw">matrix</span>(converted, <span class="dt">nrow =</span> dims[<span class="dv">1</span>], <span class="dt">ncol =</span> <span class="kw">prod</span>(dims[<span class="op">-</span><span class="dv">1</span>]), <span class="dt">byrow =</span> <span class="ot">TRUE</span>)
+  <span class="kw">matrix</span>(converted, <span class="dt">nrow =</span> dims[<span class="dv">1</span>], <span class="dt">ncol =</span> <span class="kw">prod</span>(dims[-<span class="dv">1</span>]), <span class="dt">byrow =</span> <span class="ot">TRUE</span>)
 }
 
-mnist &lt;-<span class="st"> </span><span class="kw">rapply</span>(sources, <span class="dt">classes =</span> <span class="st">"character"</span>, <span class="dt">how =</span> <span class="st">"list"</span>, <span class="cf">function</span>(url) {
+mnist &lt;-<span class="st"> </span><span class="kw">rapply</span>(sources, <span class="dt">classes =</span> <span class="st">"character"</span>, <span class="dt">how =</span> <span class="st">"list"</span>, function(url) {
   
   <span class="co"># download + extract the file at the URL</span>
   target &lt;-<span class="st"> </span><span class="kw">file.path</span>(data_dir, <span class="kw">basename</span>(url))
-  <span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(target))
+  if (!<span class="kw">file.exists</span>(target))
     <span class="kw">download.file</span>(url, target)
   
   <span class="co"># read the IDX file</span>
@@ -172,26 +172,26 @@ mnist &lt;-<span class="st"> </span><span class="kw">rapply</span>(sources, <spa
 })
 
 <span class="co"># convert training data intensities to 0-1 range</span>
-mnist<span class="op">$</span>train<span class="op">$</span>x &lt;-<span class="st"> </span>mnist<span class="op">$</span>train<span class="op">$</span>x <span class="op">/</span><span class="st"> </span><span class="dv">255</span>
-mnist<span class="op">$</span>test<span class="op">$</span>x &lt;-<span class="st"> </span>mnist<span class="op">$</span>test<span class="op">$</span>x <span class="op">/</span><span class="st"> </span><span class="dv">255</span>
+mnist$train$x &lt;-<span class="st"> </span>mnist$train$x /<span class="st"> </span><span class="dv">255</span>
+mnist$test$x &lt;-<span class="st"> </span>mnist$test$x /<span class="st"> </span><span class="dv">255</span>
 
 <span class="co"># try plotting the pixel intensities for a random sample of 32 images</span>
 n &lt;-<span class="st"> </span><span class="dv">36</span>
-indices &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">nrow</span>(mnist<span class="op">$</span>train<span class="op">$</span>x), <span class="dt">size =</span> n)
-data &lt;-<span class="st"> </span><span class="kw">array</span>(mnist<span class="op">$</span>train<span class="op">$</span>x[indices, ], <span class="dt">dim =</span> <span class="kw">c</span>(n, <span class="dv">28</span>, <span class="dv">28</span>))
+indices &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">nrow</span>(mnist$train$x), <span class="dt">size =</span> n)
+data &lt;-<span class="st"> </span><span class="kw">array</span>(mnist$train$x[indices, ], <span class="dt">dim =</span> <span class="kw">c</span>(n, <span class="dv">28</span>, <span class="dv">28</span>))
 melted &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/reshape2/topics/melt">melt</a></span>(data, <span class="dt">varnames =</span> <span class="kw">c</span>(<span class="st">"image"</span>, <span class="st">"x"</span>, <span class="st">"y"</span>), <span class="dt">value.name =</span> <span class="st">"intensity"</span>)
-<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(melted, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> intensity)) <span class="op">+</span>
-<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_tile">geom_tile</a></span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/scale_gradient">scale_fill_continuous</a></span>(<span class="dt">name =</span> <span class="st">"Pixel Intensity"</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/scale_continuous">scale_y_reverse</a></span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap">facet_wrap</a></span>(<span class="op">~</span><span class="st"> </span>image, <span class="dt">nrow =</span> <span class="kw">sqrt</span>(n), <span class="dt">ncol =</span> <span class="kw">sqrt</span>(n)) <span class="op">+</span>
+<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(melted, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> intensity)) +
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_tile">geom_tile</a></span>() +
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/scale_gradient">scale_fill_continuous</a></span>(<span class="dt">name =</span> <span class="st">"Pixel Intensity"</span>) +
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/scale_continuous">scale_y_reverse</a></span>() +
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap">facet_wrap</a></span>(~<span class="st"> </span>image, <span class="dt">nrow =</span> <span class="kw">sqrt</span>(n), <span class="dt">ncol =</span> <span class="kw">sqrt</span>(n)) +
 <span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/theme">theme</a></span>(
     <span class="dt">strip.background =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/element">element_blank</a></span>(),
     <span class="dt">strip.text.x =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/element">element_blank</a></span>(),
     <span class="dt">panel.spacing =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/reexports">unit</a></span>(<span class="dv">0</span>, <span class="st">"lines"</span>),
     <span class="dt">axis.text =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/element">element_blank</a></span>(),
     <span class="dt">axis.ticks =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/element">element_blank</a></span>()
-  ) <span class="op">+</span>
+  ) +
 <span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(
     <span class="dt">title =</span> <span class="st">"MNIST Image Data"</span>,
     <span class="dt">subtitle =</span> <span class="st">"Visualization of a sample of images contained in MNIST data set."</span>,
@@ -208,7 +208,7 @@ classifier &lt;-<span class="st"> </span><span class="kw"><a href="../../referen
 )
 
 <span class="co"># construct an input function generator</span>
-mnist_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(data, ...) {
+mnist_input_fn &lt;-<span class="st"> </span>function(data, ...) {
   <span class="kw"><a href="../../reference/input_fn.html">input_fn</a></span>(
     data,
     <span class="dt">response =</span> <span class="st">"y"</span>,
@@ -219,39 +219,39 @@ mnist_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(da
 }
 
 <span class="co"># train the classifier</span>
-<span class="kw"><a href="../../reference/train.html">train</a></span>(classifier, <span class="dt">input_fn =</span> <span class="kw">mnist_input_fn</span>(mnist<span class="op">$</span>train), <span class="dt">steps =</span> <span class="dv">200</span>)
+<span class="kw"><a href="../../reference/train.html">train</a></span>(classifier, <span class="dt">input_fn =</span> <span class="kw">mnist_input_fn</span>(mnist$train), <span class="dt">steps =</span> <span class="dv">200</span>)
 
 <span class="co"># evaluate the classifier on the test dataset</span>
-<span class="kw"><a href="../../reference/evaluate.html">evaluate</a></span>(classifier, <span class="dt">input_fn =</span> <span class="kw">mnist_input_fn</span>(mnist<span class="op">$</span>test), <span class="dt">steps =</span> <span class="dv">200</span>)
+<span class="kw"><a href="../../reference/evaluate.html">evaluate</a></span>(classifier, <span class="dt">input_fn =</span> <span class="kw">mnist_input_fn</span>(mnist$test), <span class="dt">steps =</span> <span class="dv">200</span>)
 
 <span class="co"># use our classifier to predict labels for a subset of the test dataset</span>
-predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> <span class="kw">mnist_input_fn</span>(mnist<span class="op">$</span>test))
+predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> <span class="kw">mnist_input_fn</span>(mnist$test))
 
 <span class="co"># plot predictions versus actual for small subset</span>
 n &lt;-<span class="st"> </span><span class="dv">20</span>
-indices &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">nrow</span>(mnist<span class="op">$</span>test<span class="op">$</span>x), n)
-classes &lt;-<span class="st"> </span><span class="kw">vapply</span>(indices, <span class="cf">function</span>(i) {
-  predictions[[i]]<span class="op">$</span>classes
+indices &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">nrow</span>(mnist$test$x), n)
+classes &lt;-<span class="st"> </span><span class="kw">vapply</span>(indices, function(i) {
+  predictions[[i]]$classes
 }, <span class="kw">character</span>(<span class="dv">1</span>))
 
-data &lt;-<span class="st"> </span><span class="kw">array</span>(mnist<span class="op">$</span>test<span class="op">$</span>x[indices, ], <span class="dt">dim =</span> <span class="kw">c</span>(n, <span class="dv">28</span>, <span class="dv">28</span>))
+data &lt;-<span class="st"> </span><span class="kw">array</span>(mnist$test$x[indices, ], <span class="dt">dim =</span> <span class="kw">c</span>(n, <span class="dv">28</span>, <span class="dv">28</span>))
 melted &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/reshape2/topics/melt">melt</a></span>(data, <span class="dt">varnames =</span> <span class="kw">c</span>(<span class="st">"image"</span>, <span class="st">"x"</span>, <span class="st">"y"</span>), <span class="dt">value.name =</span> <span class="st">"intensity"</span>)
-melted<span class="op">$</span>class &lt;-<span class="st"> </span>classes
+melted$class &lt;-<span class="st"> </span>classes
 
 image_labels &lt;-<span class="st"> </span><span class="kw">setNames</span>(
-  <span class="kw">sprintf</span>(<span class="st">"Predicted: %s</span><span class="ch">\n</span><span class="st">Actual: %s"</span>, classes, mnist<span class="op">$</span>test<span class="op">$</span>y[indices]),
-  <span class="dv">1</span><span class="op">:</span>n
+  <span class="kw">sprintf</span>(<span class="st">"Predicted: %s</span><span class="ch">\n</span><span class="st">Actual: %s"</span>, classes, mnist$test$y[indices]),
+  <span class="dv">1</span>:n
 )
 
-<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(melted, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> intensity)) <span class="op">+</span>
-<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_tile">geom_tile</a></span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/scale_continuous">scale_y_reverse</a></span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap">facet_wrap</a></span>(<span class="op">~</span><span class="st"> </span>image, <span class="dt">ncol =</span> <span class="dv">5</span>, <span class="dt">labeller =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/labeller">labeller</a></span>(<span class="dt">image =</span> image_labels)) <span class="op">+</span>
+<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(melted, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> intensity)) +
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_tile">geom_tile</a></span>() +
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/scale_continuous">scale_y_reverse</a></span>() +
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap">facet_wrap</a></span>(~<span class="st"> </span>image, <span class="dt">ncol =</span> <span class="dv">5</span>, <span class="dt">labeller =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/labeller">labeller</a></span>(<span class="dt">image =</span> image_labels)) +
 <span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/theme">theme</a></span>(
     <span class="dt">panel.spacing =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/reexports">unit</a></span>(<span class="dv">0</span>, <span class="st">"lines"</span>),
     <span class="dt">axis.text =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/element">element_blank</a></span>(),
     <span class="dt">axis.ticks =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/element">element_blank</a></span>()
-  ) <span class="op">+</span>
+  ) +
 <span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(
     <span class="dt">title =</span> <span class="st">"MNIST Image Data"</span>,
     <span class="dt">subtitle =</span> <span class="st">"Visualization of a sample of images contained in MNIST data set."</span>,
