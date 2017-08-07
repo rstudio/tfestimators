@@ -2,7 +2,7 @@
 % Please edit documentation in R/experiments.R
 \name{experiment.tf_estimator}
 \alias{experiment.tf_estimator}
-\title{Construct an Experiment}
+\title{Construct an Experiment from an Estimator}
 \usage{
 \method{experiment}{tf_estimator}(object, train_input_fn, eval_input_fn,
   train_steps = 2, eval_steps = 2, eval_metrics = NULL,

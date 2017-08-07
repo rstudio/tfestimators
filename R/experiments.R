@@ -88,7 +88,7 @@ train.tf_experiment <- function(object,
   invisible(result)
 }
 
-#' Construct an Experiment
+#' Construct an Experiment from an Estimator
 #' 
 #' An Experiment contains all information needed to train a model. After an
 #' experiment is created (by passing an Estimator and inputs for training and
