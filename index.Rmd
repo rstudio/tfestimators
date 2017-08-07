@@ -17,6 +17,8 @@ knitr::opts_chunk$set(eval = FALSE, echo = TRUE)
 
 # R Interface to TensorFlow Estimators
 
+## Overview
+
 <img src="articles/images/tensorflow-2-100709406-large.jpg" align="right" width="50%" style="margin-left: 15px;">
 
 The **tfestimators** package is an R interface to TensorFlow Estimators, a high-level API that provides:
