@@ -30,6 +30,8 @@ test_that("Custom hooks work with linear dnn combined estimators", {
       cat(expected_output)
     }
   )
+  
+  expected_output <- "Running custom session run hook at the end of a session"
 
   actual_output <- capture.output(
     linear_regressor(
