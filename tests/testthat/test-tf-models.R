@@ -27,7 +27,7 @@ test_that("train(), predict(), and evaluate() work for classifiers", {
   
   specs <- mtcars_classification_specs()
 
-  tmp_dir <- tempdir()
+  tmp_dir <- tempfile()
   clf <-
     dnn_linear_combined_classifier(
       linear_feature_columns = specs$linear_feature_columns,
@@ -38,8 +38,7 @@ test_that("train(), predict(), and evaluate() work for classifiers", {
     ) %>% train(input_fn = specs$input_fn)
 
   # check whether tensorboard works with canned estimator
-  if (nzchar(Sys.which("tensorboard")))
-    tensorboard(log_dir = tmp_dir, launch_browser = FALSE)
+  tensorboard(log_dir = tmp_dir, launch_browser = FALSE)
 
   coefs <- coef(clf)
   expect_gt(length(coefs), 0)
