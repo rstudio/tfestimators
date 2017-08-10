@@ -11,7 +11,7 @@ feature_columns(..., names = NULL)
 is used to power generation of feature columns.}
 
 \item{names}{Available feature names (for selection / pattern matching) as a
-character vector (or R object that implements \code{names()} or \code{colnames()})}
+character vector (or R object that implements \code{names()} or \code{colnames()}).}
 }
 \description{
 Constructors for feature columns. A feature column defines the expected

@@ -6,54 +6,25 @@
 #' @param ... One or more feature column definitions. The [tidyselect] package
 #' is used to power generation of feature columns.
 #' @param names Available feature names (for selection / pattern matching) as a
-#'   character vector (or R object that implements `names()` or `colnames()`)
+#'   character vector (or R object that implements `names()` or `colnames()`).
 #'
 #' @seealso [set_column_names()]
 #' @export
 feature_columns <- function(..., names = NULL) {
 
-  # set and restore active column names
-  if (!is.null(names)) {
-    old <- set_column_names(names)
-    on.exit(set_column_names(old), add = TRUE)
-  }
-
-  # each tidyselect can return 1:N columns
-  c(..., recursive = TRUE)
-}
-
-
-#' Set Available Feature Column Names
-#'
-#' Provide a list of names (or an R object with `names()` or `colnames()`) which
-#' are valid for selection within `column_` feature column functions.
-#'
-#' @param names Source of names (character vector, data frame, etc.)
-#' @param expr Expression to evaluate with column names set.
-#'
-#' @return The previously set feature column names (invisibly).
-#'
-#' @export
-set_column_names <- function(names) {
-
-  # determine the names
-  if (!is.character(names))
-    names <- object_names(names)
-
-  # get the old names
-  old <- active_column_names()
-  set_active_column_names(names)
-
-  # return the old names invisibly
-  invisible(old)
-}
-
-#' @rdname set_column_names
-#' @export
-with_column_names <- function(names, expr) {
-  old <- set_column_names(names)
-  on.exit(set_column_names(old), add = TRUE)
-  force(expr)
+  # scope names when they are provided
+  if (!is.null(names))
+    tidyselect::scoped_vars(names)
+    
+  
+  # evaluate in an environment where 'tidyselect' is available
+  data <- tidyselect_data()
+  selections <- lapply(quos(...), function(quo) {
+    rlang::eval_tidy(quo, data = data)
+  })
+  
+  # return selection
+  c(selections, recursive = TRUE)
 }
 
 # Base documentation for feature column constructors ----
@@ -540,10 +511,12 @@ input_layer <- function(features,
 
 create_columns <- function(..., f) {
 
-  columns <- if (have_active_column_names())
-    names(vars_select(active_column_names(), !!! quos(...)))
-  else
-    as.character(c(...))
+  columns <- tryCatch(
+    names(vars_select(peek_vars(), !!! quos(...))),
+    error = function(e) {
+      as.character(c(...))
+    }
+  ) 
 
   columns <- lapply(columns, f)
   if (length(columns) == 1)
@@ -551,17 +524,3 @@ create_columns <- function(..., f) {
   else
     columns
 }
-
-
-set_active_column_names <- function(names) {
-  .globals$active_column_names <- names
-}
-
-active_column_names <- function() {
-  .globals$active_column_names
-}
-
-have_active_column_names <- function() {
-  !is.null(.globals$active_column_names)
-}
-
