@@ -35,7 +35,7 @@ to the default set.}
 function.}
 
 \item{eval_hooks}{A list of \code{SessionRunHook} hooks to pass to the
-\code{Estimator}'s \code{evaluate} function.}
+\code{Estimator}'s \code{evaluate} function. See \code{\link[=session_run_hook]{session_run_hook()}} for more information.}
 
 \item{local_eval_frequency}{(applies only to local_run) Frequency of running
 eval in steps. If \code{None}, runs evaluation only at the end of training.}

@@ -112,7 +112,7 @@ train.tf_experiment <- function(object,
 #' @param train_monitors A list of monitors to pass to the `Estimator`'s `fit`
 #'   function.
 #' @param eval_hooks A list of `SessionRunHook` hooks to pass to the
-#'   `Estimator`'s `evaluate` function.
+#'   `Estimator`'s `evaluate` function. See [session_run_hook()] for more information.
 #' @param local_eval_frequency (applies only to local_run) Frequency of running 
 #'   eval in steps. If `None`, runs evaluation only at the end of training.
 #' @param eval_delay_secs Start evaluating after waiting for this many seconds.

@@ -31,8 +31,7 @@ one, they must be passed in as a list.}
 Saves Summaries Every N Steps
 }
 \seealso{
-Other session_run_hook wrappers: \code{\link{EstimatorSessionRunHook}},
-  \code{\link{hook_checkpoint_saver}},
+Other session_run_hook wrappers: \code{\link{hook_checkpoint_saver}},
   \code{\link{hook_global_step_waiter}},
   \code{\link{hook_logging_tensor}},
   \code{\link{hook_nan_tensor}},

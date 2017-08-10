@@ -194,62 +194,6 @@ hook_global_step_waiter <- function(wait_until_step) {
   )
 }
 
-#' TensorFlow Session Run Hook used in Estimators
-#'
-#' This is the base R6 class used for custom session run hooks, which can be
-#' used to monitor estimators while they are trained by TensorFlow. This class
-#' itself does not provide any hooks; users should define their own R6 classes
-#' extending this class and override the methods as needed.
-#' 
-#' @docType class
-#' 
-#' @format An [R6Class] generator object.
-#' 
-#' @section Methods:
-#' \describe{
-#'  \item{\code{begin()}}{Called once before using the session.}
-#'  \item{\code{after_create_session(session, coord)}}{Called when new TensorFlow session is created.}
-#'  \item{\code{before_run(run_context)}}{Called before each call to run().}
-#'  \item{\code{after_run(run_context, run_values)}}{Called after each call to run().}
-#'  \item{\code{end(session)}}{Called at the end of session.}
-#' }
-#' 
-#' @examples 
-#' library(tfestimators)
-#' 
-#' CustomSessionRunHook <- R6::R6Class(
-#'   "CustomSessionRunHook",
-#'   inherit = EstimatorSessionRunHook,
-#'   public = list(
-#'     end = function(session) {
-#'       cat("Running custom session run hook at the end of a session")
-#'     })
-#'  )
-#' custom_hook <- CustomSessionRunHook$new()
-#'  
-#' @family session_run_hook wrappers
-#' @export
-EstimatorSessionRunHook <- R6Class(
-  "EstimatorSessionRunHook",
-  
-  public = list(
-    
-    initialize = function(begin = NULL,
-                          after_create_session = NULL,
-                          before_run = NULL,
-                          after_run = NULL,
-                          end = NULL)
-    {
-      for (key in ls()) {
-        object <- get(key, envir = environment())
-        self[[key]] <- object %||% function(...) {}
-      }
-    }
-  ),
-  
-  lock_objects = FALSE
-)
-
 #' Create Session Run Hooks
 #' 
 #' Create a set of session run hooks, used to record information during
@@ -264,19 +208,18 @@ EstimatorSessionRunHook <- R6Class(
 #' @param end `function(session)`: An \R function to be called at the end of the session.
 #' 
 #' @export
-session_run_hook <- function(begin = NULL,
-                             after_create_session = NULL,
-                             before_run = NULL,
-                             after_run = NULL,
-                             end = NULL)
+session_run_hook <- function(
+  begin = function() {},
+  after_create_session = function(session, coord) {},
+  before_run = function(context) {},
+  after_run = function(context, values) {},
+  end = function(session) {})
 {
-  EstimatorSessionRunHook$new(
-    begin = begin,
-    after_create_session = after_create_session,
-    before_run = before_run,
-    after_run = after_run,
-    end = end
-  )
+  envir <- new.env(parent = emptyenv())
+  for (key in ls())
+    envir[[key]] <- get(key, envir = environment())
+  class(envir) <- "EstimatorSessionRunHook"
+  envir
 }
 
 normalize_session_run_hooks <- function(session_run_hooks) {

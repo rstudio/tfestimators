@@ -4,8 +4,10 @@
 \alias{session_run_hook}
 \title{Create Session Run Hooks}
 \usage{
-session_run_hook(begin = NULL, after_create_session = NULL,
-  before_run = NULL, after_run = NULL, end = NULL)
+session_run_hook(begin = function() { },
+  after_create_session = function(session, coord) { },
+  before_run = function(context) { }, after_run = function(context, values)
+  { }, end = function(session) { })
 }
 \arguments{
 \item{begin}{\code{function()}: An \R function, to be called once before using the session.}

@@ -15,8 +15,7 @@ hook_stop_at_step(num_steps = NULL, last_step = NULL)
 Monitor to Request Stop at a Specified Step
 }
 \seealso{
-Other session_run_hook wrappers: \code{\link{EstimatorSessionRunHook}},
-  \code{\link{hook_checkpoint_saver}},
+Other session_run_hook wrappers: \code{\link{hook_checkpoint_saver}},
   \code{\link{hook_global_step_waiter}},
   \code{\link{hook_logging_tensor}},
   \code{\link{hook_nan_tensor}},

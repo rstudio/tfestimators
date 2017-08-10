@@ -30,8 +30,7 @@ Note that if \code{at_end} is \code{TRUE}, \code{tensors} should not include any
 whose evaluation produces a side effect such as consuming additional inputs.
 }
 \seealso{
-Other session_run_hook wrappers: \code{\link{EstimatorSessionRunHook}},
-  \code{\link{hook_checkpoint_saver}},
+Other session_run_hook wrappers: \code{\link{hook_checkpoint_saver}},
   \code{\link{hook_global_step_waiter}},
   \code{\link{hook_nan_tensor}},
   \code{\link{hook_step_counter}},

@@ -34,8 +34,7 @@ Imports:
     rlang,
     tidyselect,
     modelr (>= 0.1.1),
-    magrittr,
-    R6
+    magrittr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1.9000
 Suggests:

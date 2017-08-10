@@ -25,19 +25,11 @@ test_that("Hooks works with linear dnn combined estimators", {
 
 test_that("Custom hooks work with linear dnn combined estimators", {
   specs <- mtcars_regression_specs()
-
-  expected_output <- "Running custom session run hook at the end of a session"
-  CustomSessionRunHook <- R6::R6Class(
-    "CustomSessionRunHook",
-    inherit = EstimatorSessionRunHook,
-    public = list(
-      end = function(session) {
-        cat(expected_output)
-      }
-    )
+  custom_hook <- session_run_hook(
+    end = function(session) {
+      cat(expected_output)
+    }
   )
-
-  custom_hook <- CustomSessionRunHook$new()
 
   actual_output <- capture.output(
     linear_regressor(
