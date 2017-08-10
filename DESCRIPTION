@@ -30,7 +30,7 @@ Imports:
     utils,
     reticulate (>= 0.8.0.9003),
     tensorflow (>= 0.9.0.9003),
-    tfruns,
+    tfruns (>= 0.9.0.9006),
     rlang,
     tidyselect,
     modelr (>= 0.1.1),

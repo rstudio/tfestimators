@@ -1,6 +1,5 @@
 #' @import reticulate
 #' @import tensorflow
-#' @import tfruns
 #' @import tidyselect
 #' 
 #' @importFrom R6 R6Class
