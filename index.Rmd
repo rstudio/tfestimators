@@ -48,7 +48,7 @@ devtools::install_github("rstudio/tfestimators")
 Then, use the `install_tensorflow()` function to install the current nightly build of TensorFlow (see the TensorFlow repository home page for [nightly build URLs](https://github.com/tensorflow/tensorflow#installation) for various platforms):
  
 ```{r, eval=FALSE}
-install_tensorflow(package_url = "https://ci.tensorflow.org/view/Nightly/<path-to-tf-package>")
+install_tensorflow(version = "https://ci.tensorflow.org/view/Nightly/<path-to-tf-package>")
 ```
 
 <div class="alert alert-warning" role="alert">
