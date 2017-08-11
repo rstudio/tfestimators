@@ -17,6 +17,3 @@ character vector (or R object that implements \code{names()} or \code{colnames()
 Constructors for feature columns. A feature column defines the expected
 'shape' of an input Tensor.
 }
-\seealso{
-\code{\link[=set_column_names]{set_column_names()}}
-}

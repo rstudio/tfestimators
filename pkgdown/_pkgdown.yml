@@ -91,7 +91,6 @@ reference:
       - column_embedding
       - column_crossed
       - column_bucketized
-      - set_column_names
 
   - title: "Custom Estimators"
     contents:
@@ -107,7 +106,6 @@ reference:
     
   - title: "Run Hooks"
     contents:
-      - EstimatorSessionRunHook
       - hook_checkpoint_saver
       - hook_global_step_waiter
       - hook_logging_tensor

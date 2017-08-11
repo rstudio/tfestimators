@@ -8,7 +8,6 @@
 #' @param names Available feature names (for selection / pattern matching) as a
 #'   character vector (or R object that implements `names()` or `colnames()`).
 #'
-#' @seealso [set_column_names()]
 #' @export
 feature_columns <- function(..., names = NULL) {
 

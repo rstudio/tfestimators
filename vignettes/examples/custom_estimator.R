@@ -1,5 +1,22 @@
+#' In this article, we'll develop a custom estimator to be used with the
+#' [Abalone dataset](https://archive.ics.uci.edu/ml/datasets/abalone). This
+#' dataset provides information on the physical characteristics of a number of
+#' abalones (a type of sea snail), and use these characteristics to predict the
+#' number of rings in the shell. As described at
+#' https://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.names:
+#' 
+#' > Predicting the age of abalone from physical measurements.  The age of
+#' > abalone is determined by cutting the shell through the cone, staining it,
+#' > and counting the number of rings through a microscope -- a boring and
+#' > time-consuming task.  Other measurements, which are easier to obtain, are
+#' > used to predict the age.  Further information, such as weather patterns
+#' > and location (hence food availability) may be required to solve the problem.
+
 library(tfestimators)
 
+#' We'll start by defining a function that will download and save the various
+#' abalone datasets we'll use here. These datasets are hosted freely on the
+#' TensorFlow website.
 maybe_download_abalone <- function(train_data_path, test_data_path, predict_data_path, column_names_to_assign) {
   if (!file.exists(train_data_path) || !file.exists(test_data_path) || !file.exists(predict_data_path)) {
     cat("Downloading abalone data ...")
@@ -20,6 +37,9 @@ maybe_download_abalone <- function(train_data_path, test_data_path, predict_data
   return(list(train_data = train_data, test_data = test_data, predict_data = predict_data))
 }
 
+#' Because the raw datasets are not supplied with column names, we define them
+#' explicitly here (in the order they appear in the dataset), and apply them
+#' when the datasets are downloaded.
 COLNAMES <- c("length", "diameter", "height", "whole_weight", "shucked_weight", "viscera_weight", "shell_weight", "num_rings")
 
 downloaded_data <- maybe_download_abalone(
@@ -32,30 +52,51 @@ train_data <- downloaded_data$train_data
 test_data <- downloaded_data$test_data
 predict_data <- downloaded_data$predict_data
 
-constructed_input_fn <- function(dataset) {
-  input_fn(
-    dataset,
-    features = -num_rings,
-    response = num_rings,
-    num_epochs = NULL,
-    shuffle = TRUE
-  )
+#' We now have the abalone datasets available locally. Now, we begin by defining
+#' an input function for our soon-to-be-defined estimator. Here, we define an
+#' **input function generator** -- this function accepts a dataset, and returns
+#' an input function that pulls data from the associated dataset. Using this, we
+#' can generate input functions for each of our datasets easily.
+#' 
+#' Note that we are attempting to predict the `num_rings` variable, and accept
+#' all other variables contained within the dataset as potentially associated
+#' features.
+abalone_input_fn <- function(dataset) {
+  input_fn(dataset, features = -num_rings, response = num_rings)
 }
 
-train_input_fn <- constructed_input_fn(train_data)
-test_input_fn <- constructed_input_fn(test_data)
-predict_input_fn <- constructed_input_fn(predict_data)
-
-diameter <- column_numeric("diameter")
-height <- column_numeric("height")
-
-model <- dnn_linear_combined_classifier(
-  linear_feature_columns = feature_columns(diameter),
-  dnn_feature_columns = feature_columns(height),
-  dnn_hidden_units = c(100L, 50L)
-)
-
+#' Next, we define our custom model function. Canned estimators provided by
+#' TensorFlow / the `tfestimators` package come with pre-packaged model
+#' functions; when you wish to define your own custom estimator, you must
+#' provide your own model function. This is the function responsible for
+#' constructing the actual neural network to be used in your model, and should
+#' be created by composing TensorFlow's primitives for layers together.
+#' 
+#' We'll construct a network with two fully-connected hidden layers, and
+#' a final output layer. After you've constructed your neywork and defined
+#' the optimizer + loss functions you wish to use, you can call the
+#' `estimator_spec()` function to construct your estimator.
+#' 
+#' The model function should accept the following parameters:
+#' 
+#' -  `features`: The feature columns (normally supplied by an input function);
+#' 
+#' -  `labels`: The true labels, to be used for computing the loss;
+#' 
+#' -  `mode`: A key that specifies whether training, evaluation, or prediction
+#'    is being performs.
+#'    
+#' -  `params`: A set of custom parameters; typically supplied by the user of
+#'     your custom estimator when instances of this estimator are created. (For
+#'     example, we'll see later that the `learning_rate` is supplied through
+#'     here.)
+#' 
+#' -  `config`: Runtime configuration values; typically unneeded by custom
+#'    estimators, but can be useful if you need to introspect the state of
+#'    the associated TensorFlow session.
+#'
 model_fn <- function(features, labels, mode, params, config) {
+  
   # Connect the first hidden layer to input layer
   first_hidden_layer <- tf$layers$dense(features, 10L, activation = tf$nn$relu)
   
@@ -66,7 +107,6 @@ model_fn <- function(features, labels, mode, params, config) {
   output_layer <- tf$layers$dense(second_hidden_layer, 1L)
   
   # Reshape output layer to 1-dim Tensor to return predictions
-  # TODO: This failed if it's c(-1L) - check in reticulate for single element vector conversion
   predictions <- tf$reshape(output_layer, list(-1L))
   predictions_list <- list(ages = predictions)
   
@@ -89,12 +129,12 @@ model_fn <- function(features, labels, mode, params, config) {
   ))
 }
 
-# Set model params
-model_params <- list(learning_rate = 0.001)
+#' We've defined our model function -- we can now use the `estimator()`
+#' function to create an instance of the estimator we've defined, using
+#' that model function.
+model <- estimator(model_fn, params = list(learning_rate = 0.001))
 
-# Instantiate Estimator
-model <- estimator(model_fn, params = model_params)
-
-train(model, input_fn = train_input_fn, steps = 2)
-
-evaluate(model, input_fn = test_input_fn, steps = 2)
+#' Now, we can train, evaluate, and predict using our estimator.
+train(model, input_fn = abalone_input_fn(train_data))
+evaluate(model, input_fn = abalone_input_fn(test_data))
+predict(model, input_fn = abalone_input_fn(predict_data))
