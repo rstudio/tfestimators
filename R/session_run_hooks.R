@@ -264,7 +264,5 @@ hook_history_saver <-
 
 hook_view_metrics <-
   session_run_hook(after_run = function(run_context, run_values) {
-    cleaned_history <- as.data.frame(.globals$history)
-    cleaned_history$steps <- NULL
-    tfruns::view_run_metrics(cleaned_history)
+    tfruns::view_run_metrics(as.data.frame(.globals$history$losses))
   })

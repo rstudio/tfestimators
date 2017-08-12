@@ -7,11 +7,9 @@ tf_estimator_history <- function(losses = NULL, steps = NULL) {
 
 #' @export
 as.data.frame.tf_estimator_history <- function(x, ...) {
-  df <- data.frame(
-    steps = x$steps,
-    mean_losses = x$losses$mean_losses,
-    total_losses = x$losses$total_losses
-  )
+  df <- cbind(
+    as.data.frame(x$losses),
+    data.frame(steps = x$steps))
   rownames(df) <- NULL
   df
 }
