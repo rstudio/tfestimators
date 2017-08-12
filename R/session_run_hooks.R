@@ -248,3 +248,14 @@ normalize_session_run_hooks <- function(session_run_hooks) {
     }
   })
 }
+
+hook_history_saver <-
+  session_run_hook(after_run = function(run_context, run_values) {
+    global_step_op <- run_context$session$graph$get_collection(graph_keys()$GLOBAL_STEP)
+    losses_op <- run_context$session$graph$get_collection(graph_keys()$LOSSES)
+    losses <- run_context$session$run(losses_op)
+    mean_loss <- mean(losses[[1]])
+    global_step <- run_context$session$run(global_step_op)
+    .globals$history$losses <<- c(.globals$history$losses, mean_loss)
+    .globals$history$steps <<- unlist(c(.globals$history$steps, global_step))
+  })

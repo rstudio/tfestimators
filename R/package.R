@@ -40,6 +40,7 @@ np <- NULL
 
 .globals <- new.env(parent = emptyenv())
 .globals$active_column_names <- NULL
+.globals$history <- NULL
 
 .onLoad <- function(libname, pkgname) {
   # core modules

@@ -5,7 +5,7 @@
 \title{Train an Estimator}
 \usage{
 \method{train}{tf_estimator}(object, input_fn, steps = NULL, hooks = NULL,
-  max_steps = NULL, ...)
+  max_steps = NULL, keep_history = FALSE, ...)
 }
 \arguments{
 \item{object}{A TensorFlow estimator.}
@@ -24,6 +24,8 @@ training loop.}
 \item{max_steps}{The total number of steps for which the model should be
 trained. If set, \code{steps} must be \code{NULL}. If the estimator has already been
 trained a total of \code{max_steps} times, then no training will be performed.}
+
+\item{keep_history}{Whether to keep training history of losses vs. steps}
 
 \item{...}{Optional arguments, passed on to the estimator's \code{train()} method.}
 }

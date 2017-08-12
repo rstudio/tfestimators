@@ -1,7 +1,14 @@
-tf_estimator <- function(estimator, classes) {
+tf_estimator <- function(estimator, classes, history = NULL) {
   structure(
-    list(estimator = estimator),
+    list(estimator = estimator, history = history),
     class = c("tf_estimator", paste("tf_estimator", classes, sep = "_"))
+  )
+}
+
+tf_history <- function(losses = NULL, steps = NULL) {
+  structure(
+    list(losses = losses, steps = steps),
+    class = "tf_history"
   )
 }
 
@@ -47,6 +54,7 @@ NULL
 #'
 #' @template roxlate-object-estimator
 #'
+#' @param keep_history Whether to keep training history of losses vs. steps
 #' @param ... Optional arguments, passed on to the estimator's `train()` method.
 #'
 #' @export
@@ -56,8 +64,13 @@ train.tf_estimator <- function(object,
                                steps = NULL,
                                hooks = NULL,
                                max_steps = NULL,
+                               keep_history = FALSE,
                                ...)
 {
+  if (keep_history) {
+    .globals$history <- tf_history()
+    hooks <- c(hooks, hook_history_saver)
+  }
   # show training loss metrics
   # (https://www.tensorflow.org/get_started/monitors#enabling_logging_with_tensorflow)
   with_logging_verbosity(tf$logging$INFO, {
@@ -69,7 +82,7 @@ train.tf_estimator <- function(object,
       ...
     )
   })
-
+  if (keep_history) object$history <- .globals$history
   invisible(object)
 }
 
