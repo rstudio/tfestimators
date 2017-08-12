@@ -76,6 +76,14 @@ resolve_activation_fn <- function(activation_fn) {
   activation_fn
 }
 
+# determine whether to view metrics or not
+resolve_view_metrics <- function(verbose, steps) {
+  (steps > 1)          &&             # more than 1 step
+    verbose &&                          # verbose mode is on
+    !is.null(getOption("viewer")) &&    # have an internal viewer available
+    nzchar(Sys.getenv("RSTUDIO"))       # running under RStudio
+}
+
 #' Standard Names to Use for Graph Collections
 #' 
 #' The standard library uses various well-known names to collect and retrieve 
