@@ -25,7 +25,7 @@ training loop.}
 trained. If set, \code{steps} must be \code{NULL}. If the estimator has already been
 trained a total of \code{max_steps} times, then no training will be performed.}
 
-\item{keep_history}{Whether to keep training history of losses vs. steps}
+\item{keep_history}{Whether to keep training history of losses vs. steps.}
 
 \item{...}{Optional arguments, passed on to the estimator's \code{train()} method.}
 }

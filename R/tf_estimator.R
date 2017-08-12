@@ -5,13 +5,6 @@ tf_estimator <- function(estimator, classes, history = NULL) {
   )
 }
 
-tf_history <- function(losses = NULL, steps = NULL) {
-  structure(
-    list(losses = losses, steps = steps),
-    class = "tf_history"
-  )
-}
-
 tf_regressor <- function(estimator, class) {
   tf_estimator(estimator, c("regressor", class))
 }
@@ -54,7 +47,7 @@ NULL
 #'
 #' @template roxlate-object-estimator
 #'
-#' @param keep_history Whether to keep training history of losses vs. steps
+#' @param keep_history Whether to keep training history of losses vs. steps.
 #' @param ... Optional arguments, passed on to the estimator's `train()` method.
 #'
 #' @export
@@ -68,7 +61,7 @@ train.tf_estimator <- function(object,
                                ...)
 {
   if (keep_history) {
-    .globals$history <- tf_history()
+    .globals$history <- tf_estimator_history()
     hooks <- c(hooks, hook_history_saver)
   }
   # show training loss metrics
