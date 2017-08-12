@@ -47,7 +47,9 @@ NULL
 #'
 #' @template roxlate-object-estimator
 #'
-#' @param keep_history Whether to keep training history of losses vs. steps.
+#' @param verbose Whether to print out pregress in a progres bar (not implemented)
+#' @param view_metrics Whether to view the training metrics/losses in RStudio brower
+#' (if available), otherwise in an external web browser.
 #' @param ... Optional arguments, passed on to the estimator's `train()` method.
 #'
 #' @export
@@ -57,12 +59,17 @@ train.tf_estimator <- function(object,
                                steps = NULL,
                                hooks = NULL,
                                max_steps = NULL,
-                               keep_history = FALSE,
+                               verbose = TRUE,
+                               view_metrics = getOption("tfestimators.view_metrics", default = "auto"),
                                ...)
 {
-  if (keep_history) {
+  if (verbose) {
     .globals$history <- tf_estimator_history()
     hooks <- c(hooks, hook_history_saver)
+    # TODO: progress bar
+  }
+  if (identical(view_metrics, "auto") && resolve_view_metrics(verbose, steps)) {
+    hooks <- c(hooks, hook_view_metrics)
   }
   # show training loss metrics
   # (https://www.tensorflow.org/get_started/monitors#enabling_logging_with_tensorflow)
@@ -75,7 +82,7 @@ train.tf_estimator <- function(object,
       ...
     )
   })
-  if (keep_history) object$history <- .globals$history
+  if (verbose) object$history <- .globals$history
   invisible(object)
 }
 

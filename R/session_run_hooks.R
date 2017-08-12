@@ -254,8 +254,15 @@ hook_history_saver <-
     global_step_op <- run_context$session$graph$get_collection(graph_keys()$GLOBAL_STEP)
     losses_op <- run_context$session$graph$get_collection(graph_keys()$LOSSES)
     losses <- run_context$session$run(losses_op)
-    mean_loss <- mean(losses[[1]])
     global_step <- run_context$session$run(global_step_op)
-    .globals$history$losses <<- c(.globals$history$losses, mean_loss)
+    .globals$history$losses$mean_losses <<- c(.globals$history$losses$mean_losses, mean(losses[[1]]))
+    .globals$history$losses$total_losses <<- c(.globals$history$losses$total_losses, sum(losses[[1]]))
     .globals$history$steps <<- unlist(c(.globals$history$steps, global_step))
+  })
+
+hook_view_metrics <-
+  session_run_hook(after_run = function(run_context, run_values) {
+    cleaned_history <- as.data.frame(.globals$history)
+    cleaned_history$steps <- NULL
+    tfruns::view_run_metrics(cleaned_history)
   })
