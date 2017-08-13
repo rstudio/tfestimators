@@ -264,16 +264,20 @@ hook_history_saver <-
 
 hook_view_metrics <- function() {
   metrics_viewer <- NULL
-  session_run_hook(
-    after_run = function(run_context, run_values) {
-      metrics_df <- as.data.frame(.globals$history$losses)
-      if (is.null(metrics_viewer)) {
-        metrics_viewer <- tfruns::view_run_metrics(metrics_df)
-      } else {
-        tfruns::update_run_metrics(metrics_viewer, metrics_df)
-      }
-      # pump events
-      Sys.sleep(0.05)
+  on_metrics <- function(sleep_time) {
+    metrics_df <- as.data.frame(.globals$history$losses)
+    if (is.null(metrics_viewer)) {
+      metrics_viewer <- tfruns::view_run_metrics(metrics_df)
+    } else {
+      tfruns::update_run_metrics(metrics_viewer, metrics_df)
     }
+    # pump events
+    Sys.sleep(sleep_time)
+
+    # record metrics
+    tfruns::write_run_metadata("metrics", metrics_df)
+  }
+  session_run_hook(
+    after_run = function(context, values) on_metrics(0.02)
   )
 }
