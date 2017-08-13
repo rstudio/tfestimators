@@ -132,7 +132,7 @@ eval_input_fn <- numpy_input_fn(
 train(
   mnist_classifier,
   input_fn = train_input_fn,
-  steps = 2)
+  steps = 10)
 
 evaluate(
   mnist_classifier,

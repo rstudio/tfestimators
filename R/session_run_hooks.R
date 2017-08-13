@@ -262,7 +262,18 @@ hook_history_saver <-
     .globals$history$steps <- unlist(c(.globals$history$steps, global_step))
   })
 
-hook_view_metrics <-
-  session_run_hook(after_run = function(run_context, run_values) {
-    tfruns::view_run_metrics(as.data.frame(.globals$history$losses))
-  })
+hook_view_metrics <- function() {
+  metrics_viewer <- NULL
+  session_run_hook(
+    after_run = function(run_context, run_values) {
+      metrics_df <- as.data.frame(.globals$history$losses)
+      if (is.null(metrics_viewer)) {
+        metrics_viewer <- tfruns::view_run_metrics(metrics_df)
+      } else {
+        tfruns::update_run_metrics(metrics_viewer, metrics_df)
+      }
+      # pump events
+      Sys.sleep(0.05)
+    }
+  )
+}
