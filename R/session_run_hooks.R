@@ -249,18 +249,21 @@ normalize_session_run_hooks <- function(session_run_hooks) {
   })
 }
 
-hook_history_saver <-
-  session_run_hook(after_run = function(run_context, run_values) {
-    session <- run_context$session
-    graph <- session$graph
-    global_step_op <- graph$get_collection(graph_keys()$GLOBAL_STEP)
-    losses_op <- graph$get_collection(graph_keys()$LOSSES)
-    raw_losses <- session$run(losses_op)[[1]]
-    global_step <- session$run(global_step_op)
-    .globals$history$losses$mean_losses <- c(.globals$history$losses$mean_losses, mean(raw_losses))
-    .globals$history$losses$total_losses <- c(.globals$history$losses$total_losses, sum(raw_losses))
-    .globals$history$steps <- unlist(c(.globals$history$steps, global_step))
-  })
+hook_history_saver <- function() {
+  session_run_hook(
+    after_run = function(run_context, run_values) {
+      session <- run_context$session
+      graph <- session$graph
+      global_step_op <- graph$get_collection(graph_keys()$GLOBAL_STEP)
+      losses_op <- graph$get_collection(graph_keys()$LOSSES)
+      raw_losses <- session$run(losses_op)[[1]]
+      global_step <- session$run(global_step_op)
+      .globals$history$losses$mean_losses <- c(.globals$history$losses$mean_losses, mean(raw_losses))
+      .globals$history$losses$total_losses <- c(.globals$history$losses$total_losses, sum(raw_losses))
+      .globals$history$steps <- unlist(c(.globals$history$steps, global_step))
+    }
+  )
+}
 
 hook_view_metrics <- function(steps) {
   

@@ -65,8 +65,8 @@ train.tf_estimator <- function(object,
 {
   if (verbose) {
     .globals$history <- tf_estimator_history()
-    hooks <- c(hooks, hook_history_saver)
-    # TODO: progress bar
+    hooks <- c(hooks, hook_history_saver())
+    hooks <- c(hooks, hook_progress_bar(steps))
   }
   
   if (identical(view_metrics, "auto") && resolve_view_metrics(verbose, steps)) {
