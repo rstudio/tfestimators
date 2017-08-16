@@ -263,29 +263,32 @@ hook_history_saver <-
   })
 
 hook_view_metrics <- function(steps) {
+  
+  force(steps)
   metrics_viewer <- NULL
+  
   get_metrics_df <- function() {
     df <- as.data.frame(.globals$history$losses)
-    # pad to steps if necessary
-    pad <- steps - nrow(df)
-    padded_df <- df
-    for (metric in 1:pad)
-      padded_df <- rbind(padded_df, rep_len(NA, ncol(df)))
-    padded_df
+    pad(df, steps)
   }
+  
   on_metrics <- function(sleep_time) {
+    
+    # update and record metrics
     metrics_df <- get_metrics_df()
     if (is.null(metrics_viewer)) {
-      metrics_viewer <- tfruns::view_run_metrics(metrics_df)
+      metrics_viewer <<- tfruns::view_run_metrics(metrics_df)
     } else {
       tfruns::update_run_metrics(metrics_viewer, metrics_df)
     }
+    
     # pump events
     Sys.sleep(sleep_time)
 
     # record metrics
     tfruns::write_run_metadata("metrics", metrics_df)
   }
+  
   session_run_hook(
     after_run = function(context, values) on_metrics(0.03)
   )

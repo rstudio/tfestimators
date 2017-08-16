@@ -35,4 +35,3 @@ import_package_module <- function(module, convert = TRUE) {
   python_path <- system.file("python", package = "tfestimators")
   import_from_path(module, python_path, convert = convert)
 }
-

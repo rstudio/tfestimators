@@ -68,9 +68,11 @@ train.tf_estimator <- function(object,
     hooks <- c(hooks, hook_history_saver)
     # TODO: progress bar
   }
+  
   if (identical(view_metrics, "auto") && resolve_view_metrics(verbose, steps)) {
     hooks <- c(hooks, hook_view_metrics(steps))
   }
+  
   # show training loss metrics
   # (https://www.tensorflow.org/get_started/monitors#enabling_logging_with_tensorflow)
   with_logging_verbosity(tf$logging$INFO, {
@@ -82,7 +84,10 @@ train.tf_estimator <- function(object,
       ...
     )
   })
-  if (verbose) object$history <- .globals$history
+  
+  if (verbose)
+    object$history <- .globals$history
+  
   invisible(object)
 }
 
