@@ -107,11 +107,11 @@
 <div class="source-ref">
 <p><span class="caption">Source: </span><a href="https://github.com/rstudio/tfestimators/blob/master/vignettes/examples/custom_estimator.R" class="uri">https://github.com/rstudio/tfestimators/blob/master/vignettes/examples/custom_estimator.R</a></p>
 </div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tfestimators)</code></pre></div>
 <p>In this article, we’ll develop a custom estimator to be used with the <a href="https://archive.ics.uci.edu/ml/datasets/abalone">Abalone dataset</a>. This dataset provides information on the physical characteristics of a number of abalones (a type of sea snail), and use these characteristics to predict the number of rings in the shell. As described at <a href="https://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.names" class="uri">https://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.names</a>:</p>
 <blockquote>
 <p>Predicting the age of abalone from physical measurements. The age of abalone is determined by cutting the shell through the cone, staining it, and counting the number of rings through a microscope – a boring and time-consuming task. Other measurements, which are easier to obtain, are used to predict the age. Further information, such as weather patterns and location (hence food availability) may be required to solve the problem.</p>
 </blockquote>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tfestimators)</code></pre></div>
 <p>We’ll start by defining a function that will download and save the various abalone datasets we’ll use here. These datasets are hosted freely on the TensorFlow website.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">maybe_download_abalone &lt;-<span class="st"> </span><span class="cf">function</span>(train_data_path, test_data_path, predict_data_path, column_names_to_assign) {
   <span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(train_data_path) <span class="op">||</span><span class="st"> </span><span class="op">!</span><span class="kw">file.exists</span>(test_data_path) <span class="op">||</span><span class="st"> </span><span class="op">!</span><span class="kw">file.exists</span>(predict_data_path)) {

@@ -31,7 +31,7 @@ The **tfestimators** package is an R interface to TensorFlow Estimators, a high-
 
 - An Experiment API that provides distributed training and hyperparameter tuning for both canned and custom estimators.
 
-The above figure is a simplified overview of the TensorFlow Estimators interface. For more details and the design of the original Python API, please check out the white paper: [TensorFlow Estimators: Managing Simplicity vs. Flexibility in High-Level Machine Learning Frameworks](http://terrytangyuan.github.io/data/papers/tf-estimators-kdd-paper.pdf).
+For more details on the architecture and design of TensorflowEstimators, please see the white paper: [TensorFlow Estimators: Managing Simplicity vs. Flexibility in High-Level Machine Learning Frameworks](http://terrytangyuan.github.io/data/papers/tf-estimators-kdd-paper.pdf).
 
 ## Quick Start
 
@@ -45,15 +45,14 @@ First, install the tfestimators R package as follows:
 devtools::install_github("rstudio/tfestimators")
 ```
 
-Then, use the `install_tensorflow()` function to install the current nightly build of TensorFlow (see the TensorFlow repository home page for [nightly build URLs](https://github.com/tensorflow/tensorflow#installation) for various platforms):
+Then, use the `install_tensorflow()` function to install TensorFlow (note that the tfestimators package requires version 1.3 or higher of TensorFlow so even if you already have TensorFlow installed you should update if you are running a previous version):
+
  
 ```{r, eval=FALSE}
-install_tensorflow(version = "https://ci.tensorflow.org/view/Nightly/<path-to-tf-package>")
+install_tensorflow()
 ```
 
-<div class="alert alert-warning" role="alert">
-**IMPORTANT NOTE**: The **tfestimators** package currently requires the nightly build of TensorFlow, it will not work with the release version as it relies on APIs only in the development version.
-</div>
+This will provide you with a default installation of TensorFlow suitable for getting started. See the [article on installation](https://tensorflow.rstudio.com/installation.html) to learn about more advanced options, including installing a version of TensorFlow that takes advantage of NVIDIA GPUs if you have the correct CUDA libraries installed.
 
 ### Simple Example
 

@@ -128,7 +128,8 @@
 
     <pre class="usage"><span class='co'># S3 method for tf_estimator</span>
 <span class='fu'><a href='evaluate.html'>evaluate</a></span>(<span class='no'>object</span>, <span class='no'>input_fn</span>, <span class='kw'>steps</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>checkpoint_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>checkpoint_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -166,6 +167,10 @@ in tensorboard.</p></td>
       <th>hooks</th>
       <td><p>A list of <span style="R">R</span> functions, to be used as callbacks inside the
 training loop.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Show progress output as the model is trained?</p></td>
     </tr>
     <tr>
       <th>...</th>

@@ -1,5 +1,3 @@
-library(tfestimators)
-
 #' In this article, we'll develop a custom estimator to be used with the
 #' [Abalone dataset](https://archive.ics.uci.edu/ml/datasets/abalone). This
 #' dataset provides information on the physical characteristics of a number of
@@ -13,7 +11,9 @@ library(tfestimators)
 #' > time-consuming task.  Other measurements, which are easier to obtain, are
 #' > used to predict the age.  Further information, such as weather patterns
 #' > and location (hence food availability) may be required to solve the problem.
-#' 
+
+library(tfestimators)
+
 #' We'll start by defining a function that will download and save the various
 #' abalone datasets we'll use here. These datasets are hosted freely on the
 #' TensorFlow website.
