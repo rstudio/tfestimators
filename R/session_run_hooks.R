@@ -194,10 +194,25 @@ hook_global_step_waiter <- function(wait_until_step) {
   )
 }
 
+#' Create Session Run Arguments
+#' 
+#' Create a set of session run arguments. These are used as the return values in
+#' the `before_run(context)` callback of a [session_run_hook()], for requesting
+#' the values of specific tensor in the `after_run(context, values)` callback.
+#' 
+#' @param ... A set of tensors or operations.
+#' 
+#' @seealso [session_run_hook()]
+#' @export
+session_run_args <- function(...) {
+  tf$train$SessionRunArgs(c(...))
+}
+
 #' Create Session Run Hooks
 #' 
 #' Create a set of session run hooks, used to record information during
-#' training of an estimator.
+#' training of an estimator. See **Details** for more information on the
+#' various hooks that can be defined.
 #' 
 #' @param begin `function()`: An \R function, to be called once before using the session.
 #' @param after_create_session `function(session, coord)`: An \R function, to be called
@@ -207,6 +222,13 @@ hook_global_step_waiter <- function(wait_until_step) {
 #'   after a run.
 #' @param end `function(session)`: An \R function to be called at the end of the session.
 #' 
+#' Typically, you'll want to define a `before_run()` hook that defines the set
+#' of tensors you're interested in for a particular run, and then you'll use the
+#' resulting values of those tensors in your `after_run()` hook. The tensors
+#' requested in your `before_run()` hook will be made available as part of the
+#' second argument in the `after_run()` hook (the `values` argument).
+#' 
+#' @seealso [session_run_args()]
 #' @export
 session_run_hook <- function(
   begin = function() {},
@@ -216,8 +238,21 @@ session_run_hook <- function(
   end = function(session) {})
 {
   envir <- new.env(parent = emptyenv())
-  for (key in ls())
-    envir[[key]] <- get(key, envir = environment())
+  
+  return_null <- function(callback, ...) {
+    force(callback)
+    function(...) {
+      callback(...)
+      NULL
+    }
+  }
+  
+  envir$begin                <- return_null(begin)
+  envir$after_create_session <- return_null(after_create_session)
+  envir$before_run           <- before_run
+  envir$after_run            <- return_null(after_run)
+  envir$end                  <- return_null(end)
+  
   class(envir) <- "EstimatorSessionRunHook"
   envir
 }

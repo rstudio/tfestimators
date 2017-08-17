@@ -49,7 +49,7 @@ class RSessionRunHook(SessionRunHook):
     Returns:
       None or a `SessionRunArgs` object.
     """
-    self.r_before_run(run_context)
+    return self.r_before_run(run_context)
 
   def after_run(self, run_context, run_values):
     """Called after each call to run().

@@ -60,7 +60,7 @@ train.tf_estimator <- function(object,
                                hooks = NULL,
                                max_steps = NULL,
                                verbose = TRUE,
-                               view_metrics = getOption("tfestimators.view_metrics", default = "auto"),
+                               view_metrics = FALSE,
                                ...)
 {
   if (verbose) {

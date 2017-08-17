@@ -5,39 +5,24 @@ hook_progress_bar <- function(steps) {
   else
     ":current/:total [:bar] - ETA: :eta - loss: :loss"
   
-  # placeholder for progress bar
-  bar <- NULL
+  bar <- progress::progress_bar$new(
+    format = format,
+    total = steps,
+    complete = "=",
+    incomplete = ".",
+    clear = FALSE
+  )
   
   session_run_hook(
     
-    begin = function() {
-      
-      # TODO: can we also report which epoch we're running here?
-      bar <<- progress::progress_bar$new(
-        format = format,
-        total = steps,
-        complete = "=",
-        incomplete = ".",
-        clear = FALSE
-      )
-      bar$tick(0)
-      
-      NULL
+    before_run = function(context) {
+      session_run_args(run_context_losses(context))
     },
     
     after_run = function(context, values) {
-      
-      # TODO: how do we detect if we've run out of items?
-      tokens <- list(
-        loss = format(mean(run_context_losses(context)))
-      )
-      
+      loss <- values$results[[length(values$results)]]
+      tokens <- list(loss = format(round(loss, 2), nsmall = 2))
       bar$tick(tokens = tokens)
-      
-      NULL
-    },
-    
-    end = function(session) {
     }
     
   )

@@ -20,9 +20,19 @@ once the new TensorFlow session has been created.}
 \item{after_run}{\code{function(run_context, run_values)}: An \R function to be called
 after a run.}
 
-\item{end}{\code{function(session)}: An \R function to be called at the end of the session.}
+\item{end}{\code{function(session)}: An \R function to be called at the end of the session.
+
+Typically, you'll want to define a \code{before_run()} hook that defines the set
+of tensors you're interested in for a particular run, and then you'll use the
+resulting values of those tensors in your \code{after_run()} hook. The tensors
+requested in your \code{before_run()} hook will be made available as part of the
+second argument in the \code{after_run()} hook (the \code{values} argument).}
 }
 \description{
 Create a set of session run hooks, used to record information during
-training of an estimator.
+training of an estimator. See \strong{Details} for more information on the
+various hooks that can be defined.
+}
+\seealso{
+\code{\link[=session_run_args]{session_run_args()}}
 }
