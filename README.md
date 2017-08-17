@@ -1,6 +1,18 @@
 ## tfestimators - R Interface to TensorFlow Estimator API
 
-This package provides a high-level interface to TensorFlow in R, using the [Estimator](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/python/estimator) module distributed as part of [TensorFlow](https://www.tensorflow.org/).
+<img src="vignettes/images/tensorflow-2-100709406-large.jpg" align="right" width="50%" style="margin-left: 15px;">
+
+The **tfestimators** package is an R interface to TensorFlow Estimators, a high-level API that provides:
+
+- Implementations of many different model types including linear models and deep neural networks. More models are coming soon such as state saving recurrent neural networks, dynamic recurrent neural networks, support vector machines, random forest, KMeans clustering, etc. 
+
+- A flexible framework for defining arbitrary new model types as custom estimators.
+
+- Standalone deployment of models (no R runtime required) in a wide variety of environments.
+
+- An Experiment API that provides distributed training and hyperparameter tuning for both canned and custom estimators.
+
+For more details on the architecture and design of TensorflowEstimators, please see the white paper: [TensorFlow Estimators: Managing Simplicity vs. Flexibility in High-Level Machine Learning Frameworks](http://terrytangyuan.github.io/data/papers/tf-estimators-kdd-paper.pdf).
 
 To view the current documentation, clone the repository then browse the docs folder:
 
