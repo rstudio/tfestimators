@@ -65,7 +65,7 @@ train.tf_estimator <- function(object,
   if (verbose) {
     .globals$history <- tf_estimator_history()
     hooks <- c(hooks, hook_history_saver())
-    hooks <- c(hooks, hook_progress_bar(steps))
+    hooks <- c(hooks, hook_progress_bar("Training", steps))
   }
   
   if (identical(view_metrics, "auto") && resolve_view_metrics(verbose, steps)) {
@@ -180,7 +180,7 @@ evaluate.tf_estimator <- function(object,
   if (verbose) {
     .globals$history <- tf_estimator_history()
     hooks <- c(hooks, hook_history_saver())
-    hooks <- c(hooks, hook_progress_bar(steps))
+    hooks <- c(hooks, hook_progress_bar("Evaluating", steps))
   }
   
   with_logging_verbosity(tf$logging$WARN, {

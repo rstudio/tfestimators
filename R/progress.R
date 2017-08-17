@@ -1,7 +1,7 @@
-hook_progress_bar <- function(steps) {
+hook_progress_bar <- function(label, steps) {
   
   format <- if (is.null(steps))
-    "[:spin] - loss: :loss"
+    paste("[:spin]", label, "-- loss: :loss, step: :step")
   else
     ":current/:total [:bar] - ETA: :eta - loss: :loss"
   
@@ -9,7 +9,7 @@ hook_progress_bar <- function(steps) {
   .n <- 0
   .bar <- progress::progress_bar$new(
     format = format,
-    total = steps,
+    total = steps %||% 1E6,
     complete = "=",
     incomplete = ".",
     clear = FALSE,
@@ -27,7 +27,7 @@ hook_progress_bar <- function(steps) {
     after_run = function(context, values) {
       # update progress bar
       loss <- values$results[[length(values$results)]]
-      tokens <- list(loss = format(round(loss, 2), nsmall = 2))
+      tokens <- list(loss = format(round(loss, 2), nsmall = 2), step = .n + 1)
       .bar$tick(tokens = tokens)
       
       # save and update state
@@ -38,7 +38,7 @@ hook_progress_bar <- function(steps) {
     end = function(session) {
       
       # if we ran as many steps as expected, bail
-      if (.n == steps)
+      if (identical(.n, steps))
         return()
       
       # otherwise, write a single-tick progress bar encoding the finished state
@@ -56,7 +56,7 @@ hook_progress_bar <- function(steps) {
       # update progress bar
       values <- .values
       loss <- values$results[[length(values$results)]]
-      tokens <- list(loss = format(round(loss, 2), nsmall = 2))
+      tokens <- list(loss = format(round(loss, 2), nsmall = 2), step = .n + 1)
       .bar$tick(len = .n, tokens = tokens)
     }
     
