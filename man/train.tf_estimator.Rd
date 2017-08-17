@@ -25,10 +25,9 @@ training loop.}
 trained. If set, \code{steps} must be \code{NULL}. If the estimator has already been
 trained a total of \code{max_steps} times, then no training will be performed.}
 
-\item{verbose}{Whether to print out pregress in a progres bar (not implemented)}
+\item{verbose}{Show progress output as the model is trained?}
 
-\item{view_metrics}{Whether to view the training metrics/losses in RStudio brower
-(if available), otherwise in an external web browser.}
+\item{view_metrics}{View training metrics as the model is trained?}
 
 \item{...}{Optional arguments, passed on to the estimator's \code{train()} method.}
 }

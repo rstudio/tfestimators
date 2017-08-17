@@ -47,9 +47,8 @@ NULL
 #'
 #' @template roxlate-object-estimator
 #'
-#' @param verbose Whether to print out pregress in a progres bar (not implemented)
-#' @param view_metrics Whether to view the training metrics/losses in RStudio brower
-#' (if available), otherwise in an external web browser.
+#' @param verbose Show progress output as the model is trained?
+#' @param view_metrics View training metrics as the model is trained?
 #' @param ... Optional arguments, passed on to the estimator's `train()` method.
 #'
 #' @export
@@ -75,7 +74,7 @@ train.tf_estimator <- function(object,
   
   # show training loss metrics
   # (https://www.tensorflow.org/get_started/monitors#enabling_logging_with_tensorflow)
-  with_logging_verbosity(tf$logging$INFO, {
+  with_logging_verbosity(tf$logging$WARN, {
     object$estimator$train(
       input_fn = normalize_input_fn(object, input_fn),
       steps = as_nullable_integer(steps),
@@ -161,7 +160,7 @@ predict.tf_estimator <- function(object,
 #'   on different data sets, such as on training data vs test data. Metrics for
 #'   different evaluations are saved in separate folders, and appear separately
 #'   in tensorboard.
-#'
+#' @param verbose Show progress output as the model is trained?
 #' @param ... Optional arguments passed on to the estimator's `evaluate()`
 #'   method.
 #'
@@ -175,9 +174,16 @@ evaluate.tf_estimator <- function(object,
                                   checkpoint_path = NULL,
                                   name = NULL,
                                   hooks = NULL,
+                                  verbose = TRUE,
                                   ...)
 {
-  with_logging_verbosity(tf$logging$INFO, {
+  if (verbose) {
+    .globals$history <- tf_estimator_history()
+    hooks <- c(hooks, hook_history_saver())
+    hooks <- c(hooks, hook_progress_bar(steps))
+  }
+  
+  with_logging_verbosity(tf$logging$WARN, {
     object$estimator$evaluate(
       input_fn = normalize_input_fn(object, input_fn),
       steps = as_nullable_integer(steps),

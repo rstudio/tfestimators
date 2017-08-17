@@ -10,14 +10,8 @@ class RSessionRunHook(SessionRunHook):
     self.r_end = r_end
   
   def begin(self):
-    """Called once before using the session.
-    When called, the default graph is the one that will be launched in the
-    session.  The hook can modify the graph by adding new operations to it.
-    After the `begin()` call the graph will be finalized and the other callbacks
-    can not modify the graph anymore. Second call of `begin()` on the same
-    graph, should not change the graph.
-    """
-    self.r_begin()
+    try: self.r_begin()
+    except: pass
   
   def after_create_session(self, session, coord):
     """Called when new TensorFlow session is created.
@@ -31,7 +25,8 @@ class RSessionRunHook(SessionRunHook):
       session: A TensorFlow Session that has been created.
       coord: A Coordinator object which keeps track of all threads.
     """
-    self.r_after_create_session(session, coord)
+    try: self.r_after_create_session(session, coord)
+    except: pass
 
   def before_run(self, run_context):
     """Called before each call to run().
@@ -49,7 +44,8 @@ class RSessionRunHook(SessionRunHook):
     Returns:
       None or a `SessionRunArgs` object.
     """
-    return self.r_before_run(run_context)
+    try: return self.r_before_run(run_context)
+    except: pass
 
   def after_run(self, run_context, run_values):
     """Called after each call to run().
@@ -62,7 +58,8 @@ class RSessionRunHook(SessionRunHook):
       run_context: A `SessionRunContext` object.
       run_values: A SessionRunValues object.
     """
-    self.r_after_run(run_context, run_values)
+    try: self.r_after_run(run_context, run_values)
+    except: pass
 
   def end(self, session):
     """Called at the end of session.
@@ -76,4 +73,5 @@ class RSessionRunHook(SessionRunHook):
     Args:
       session: A TensorFlow Session that will be soon closed.
     """
-    self.r_end(session)
+    try: self.r_end(session)
+    except: pass
