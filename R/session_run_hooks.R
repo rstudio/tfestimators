@@ -205,7 +205,7 @@ hook_global_step_waiter <- function(wait_until_step) {
 #' @seealso [session_run_hook()]
 #' @export
 session_run_args <- function(...) {
-  tf$train$SessionRunArgs(c(...))
+  tf$train$SessionRunArgs(list(...))
 }
 
 #' Create Session Run Hooks

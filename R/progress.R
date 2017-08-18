@@ -18,17 +18,25 @@ hook_progress_bar <- function(label, steps) {
     show_after = 0
   )
   
+  update_progress <- function(values, n = 1) {
+    losses <- values$results[["losses"]]
+    loss <- losses[[length(losses)]]
+    tokens <- list(loss = format(round(loss, 2), nsmall = 2), step = .n + 1)
+    .bar$tick(len = n, tokens = tokens)
+  }
+  
   session_run_hook(
     
     before_run = function(context) {
-      session_run_args(run_context_losses(context))
+      session_run_args(
+        losses = run_context_losses(context)
+      )
     },
     
     after_run = function(context, values) {
+      
       # update progress bar
-      loss <- values$results[[length(values$results)]]
-      tokens <- list(loss = format(round(loss, 2), nsmall = 2), step = .n + 1)
-      .bar$tick(tokens = tokens)
+      update_progress(values)
       
       # save and update state
       .values <<- values
@@ -41,7 +49,8 @@ hook_progress_bar <- function(label, steps) {
       if (identical(.n, steps))
         return()
       
-      # otherwise, write a single-tick progress bar encoding the finished state
+      # otherwise, write a single-tick progress bar
+      # encoding the finished state
       .bar <<- progress::progress_bar$new(
         format = format,
         total = .n,
@@ -54,10 +63,7 @@ hook_progress_bar <- function(label, steps) {
       )
       
       # update progress bar
-      values <- .values
-      loss <- values$results[[length(values$results)]]
-      tokens <- list(loss = format(round(loss, 2), nsmall = 2), step = .n + 1)
-      .bar$tick(len = .n, tokens = tokens)
+      update_progress(.values, .n)
     }
     
   )
