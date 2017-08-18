@@ -5,6 +5,5 @@
 .Ruserdata
 internal/
 .!*
-index.html
 *.csv
 MNIST-data
