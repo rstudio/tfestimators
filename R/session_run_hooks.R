@@ -310,24 +310,22 @@ hook_view_metrics <- function(steps) {
     pad(df, steps)
   }
   
-  on_metrics <- function(sleep_time) {
+  on_metrics <- function() {
     
     # update and record metrics
     metrics_df <- get_metrics_df()
     if (is.null(metrics_viewer)) {
       metrics_viewer <<- tfruns::view_run_metrics(metrics_df)
+      Sys.sleep(0.5) # pump events
     } else {
       tfruns::update_run_metrics(metrics_viewer, metrics_df)
     }
-    
-    # pump events
-    Sys.sleep(sleep_time)
 
     # record metrics
     tfruns::write_run_metadata("metrics", metrics_df)
   }
   
   session_run_hook(
-    after_run = function(context, values) on_metrics(0.03)
+    after_run = function(context, values) on_metrics()
   )
 }
