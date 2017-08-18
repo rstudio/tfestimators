@@ -183,7 +183,7 @@ evaluate.tf_estimator <- function(object,
     hooks <- c(hooks, hook_progress_bar("Evaluating", steps))
   }
   
-  with_logging_verbosity(tf$logging$WARN, {
+  result <- with_logging_verbosity(tf$logging$WARN, {
     object$estimator$evaluate(
       input_fn = normalize_input_fn(object, input_fn),
       steps = as_nullable_integer(steps),
@@ -193,6 +193,9 @@ evaluate.tf_estimator <- function(object,
       ...
     )
   })
+  
+  tfruns::write_run_metadata("evaluation", result)
+  result
 }
 
 #' Save an Estimator
