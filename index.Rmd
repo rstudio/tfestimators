@@ -31,7 +31,7 @@ The **tfestimators** package is an R interface to TensorFlow Estimators, a high-
 
 - An Experiment API that provides distributed training and hyperparameter tuning for both canned and custom estimators.
 
-For more details on the architecture and design of TensorflowEstimators, please see the white paper: [TensorFlow Estimators: Managing Simplicity vs. Flexibility in High-Level Machine Learning Frameworks](http://terrytangyuan.github.io/data/papers/tf-estimators-kdd-paper.pdf).
+For more details on the architecture and design of TensorFlow Estimators, please see the white paper: [TensorFlow Estimators: Managing Simplicity vs. Flexibility in High-Level Machine Learning Frameworks](http://terrytangyuan.github.io/data/papers/tf-estimators-kdd-paper.pdf).
 
 ## Quick Start
 

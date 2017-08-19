@@ -5,7 +5,14 @@ bibentry(bibtype = "InProceedings",
   title = "TensorFlow Estimators: Managing Simplicity vs. Flexibility in High-Level Machine Learning Frameworks",
   booktitle = "Proceedings of the 23rd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining",
   year = "2017",
-  institution = "ACM",
+  isbn = "978-1-4503-4887-4",
+  location = "Halifax, NS, Canada",
+  pages = "1763--1771",
+  url = "http://doi.acm.org/10.1145/3097983.3098171",
+  doi = "10.1145/3097983.3098171",
+  acmid = "3098171",
+  publisher = "ACM",
+  address = "New York, NY, USA",
   textVersion = 'Heng-Tze Cheng, Lichan Hong, Mustafa Ispir, Clemens Mewald, Zakaria Haque, Illia Polosukhin, Georgios Roumpos, D Sculley, Jamie Smith, David Soergel, Yuan Tang, Philipp Tucker, Martin Wicke, Cassandra Xia, and Jianwei Xie. TensorFlow Estimators: Managing Simplicity vs. Flexibility in High-Level Machine Learning Frameworks. Proceedings of the 23rd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining, Halifax, NS, Canada, August 13 - August 17 (2017). '
 )
 
