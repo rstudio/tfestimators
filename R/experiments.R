@@ -29,7 +29,6 @@ tf_experiment <- function(experiment) {
 #' @return The result of the `evaluate` call to the `Estimator` as well as the
 #'   export results using the specified `ExportStrategy`.
 #'   
-#' @export
 #' @family experiment methods
 train_and_evaluate.tf_experiment <- function(object, ...) {
   object$experiment$train_and_evaluate(...)
@@ -51,7 +50,6 @@ train_and_evaluate.tf_experiment <- function(object, ...) {
 #'   
 #' @return The result of the `evaluate` call to the `Estimator`.
 #'   
-#' @export
 #' @family experiment methods
 evaluate.tf_experiment <- function(object,
                                    delay_secs = NULL,
@@ -74,7 +72,6 @@ evaluate.tf_experiment <- function(object,
 #' @param ... Optional arguments passed to the estimator's `train()` method.
 #'   
 #' @return The trained estimator.
-#' @export
 #' @family experiment methods
 train.tf_experiment <- function(object,
                                 delay_secs = NULL,
@@ -135,7 +132,6 @@ train.tf_experiment <- function(object,
 #'   a default value (which is smaller than `train_steps` if provided).
 #' @param ... Optional arguments passed on to the \code{Experiment} constructor.
 #' 
-#' @export
 #' @family experiment methods
 experiment.tf_estimator <- function(object,
                                     train_input_fn,
@@ -154,6 +150,7 @@ experiment.tf_estimator <- function(object,
                                     train_steps_per_iteration = NULL,
                                     ...)
 {
+  object$estimator$config$environment <- tf$contrib$learn$RunConfig()$environment
   experiment <- contrib_learn$Experiment(
     estimator = object$estimator,
     train_input_fn = normalize_input_fn(object, train_input_fn),

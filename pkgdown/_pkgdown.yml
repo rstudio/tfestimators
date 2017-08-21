@@ -29,8 +29,8 @@ navbar:
 #          href: articles/recurrent_neural_networks.html
         - text: "--------------------------"
         - text: "Advanced"
-        - text: "Experiments"
-          href: articles/experiments.html
+#        - text: "Experiments"
+#          href: articles/experiments.html
         - text: "Run Hooks"
           href: articles/run_hooks.html
 #        - text: "Run Configuration"
@@ -97,12 +97,12 @@ reference:
       - estimator
       - estimator_spec
   
-  - title: "Experiment API (Unstable)"
-    contents:
-      - experiment.tf_estimator
-      - train.tf_experiment
-      - evaluate.tf_experiment
-      - train_and_evaluate.tf_experiment
+#  - title: "Experiment API (Unstable)"
+#    contents:
+#      - experiment.tf_estimator
+#      - train.tf_experiment
+#      - evaluate.tf_experiment
+#      - train_and_evaluate.tf_experiment
     
   - title: "Run Hooks"
     contents:

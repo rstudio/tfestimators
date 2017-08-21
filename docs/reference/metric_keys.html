@@ -74,9 +74,6 @@
     <li class="divider"></li>
     <li class="dropdown-header">Advanced</li>
     <li>
-      <a href="../articles/experiments.html">Experiments</a>
-    </li>
-    <li>
       <a href="../articles/run_hooks.html">Run Hooks</a>
     </li>
     <li>
@@ -136,10 +133,11 @@ estimators.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>metrics</span> <span class='kw'>&lt;-</span> <span class='fu'>metric_keys</span>()</div><div class='output co'>#&gt; <span class='error'>Error in py_get_attr_impl(x, name, silent): AttributeError: 'module' object has no attribute 'metric_keys'</span></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='no'>metrics</span> <span class='kw'>&lt;-</span> <span class='fu'>metric_keys</span>()
+
 <span class='co'># Get the available keys</span>
-<span class='no'>metrics</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'metrics' not found</span></div><div class='input'>
-<span class='no'>metrics</span>$<span class='no'>ACCURACY</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'metrics' not found</span></div><div class='input'>
+<span class='no'>metrics</span></div><div class='output co'>#&gt; Available metric keys: ACCURACY, ACCURACY_AT_THRESHOLD, ACCURACY_BASELINE, AUC, AUC_PR, LABEL_MEAN, LOSS, LOSS_MEAN, PRECISION_AT_THRESHOLD, PREDICTION_MEAN, RECALL_AT_THRESHOLD</div><div class='input'>
+<span class='no'>metrics</span>$<span class='no'>ACCURACY</span></div><div class='output co'>#&gt; [1] "accuracy"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

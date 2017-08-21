@@ -154,10 +154,11 @@ These articles provide in depth documentation and example uses of canned estimat
 
 These articles describe more advanced topics/usage:
 
-- [Experiments](articles/experiments.html)
+
 - [Run Hooks](articles/run_hooks.html)
 <!--
 - [Run Configuration](articles/run_configuration.html)
+- [Experiments](articles/experiments.html)
 -->
 - [Custom Estimators](articles/creating_estimators.html)
 - [TensorFlow Layers](articles/layers.html)

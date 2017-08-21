@@ -52,9 +52,6 @@
     <li class="divider">
     <li class="dropdown-header">Advanced</li>
     <li>
-      <a href="../articles/experiments.html">Experiments</a>
-    </li>
-    <li>
       <a href="../articles/run_hooks.html">Run Hooks</a>
     </li>
     <li>
@@ -173,8 +170,8 @@
 <p>We first write a function that downloads the training, testing, and evaluation data from TensorFlow website if we haven’t downloaded them before.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tfestimators)
 
-maybe_download_abalone &lt;-<span class="st"> </span><span class="cf">function</span>(train_data_path, test_data_path, predict_data_path, column_names_to_assign) {
-  <span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(train_data_path) <span class="op">||</span><span class="st"> </span><span class="op">!</span><span class="kw">file.exists</span>(test_data_path) <span class="op">||</span><span class="st"> </span><span class="op">!</span><span class="kw">file.exists</span>(predict_data_path)) {
+maybe_download_abalone &lt;-<span class="st"> </span>function(train_data_path, test_data_path, predict_data_path, column_names_to_assign) {
+  if (!<span class="kw">file.exists</span>(train_data_path) ||<span class="st"> </span>!<span class="kw">file.exists</span>(test_data_path) ||<span class="st"> </span>!<span class="kw">file.exists</span>(predict_data_path)) {
     <span class="kw">cat</span>(<span class="st">"Downloading abalone data ..."</span>)
     train_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"http://download.tensorflow.org/data/abalone_train.csv"</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>)
     test_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"http://download.tensorflow.org/data/abalone_test.csv"</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>)
@@ -185,7 +182,7 @@ maybe_download_abalone &lt;-<span class="st"> </span><span class="cf">function</
     <span class="kw">write.csv</span>(train_data, train_data_path, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)
     <span class="kw">write.csv</span>(test_data, test_data_path, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)
     <span class="kw">write.csv</span>(predict_data, predict_data_path, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)
-  } <span class="cf">else</span> {
+  } else {
     train_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(train_data_path, <span class="dt">header =</span> <span class="ot">TRUE</span>)
     test_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(test_data_path, <span class="dt">header =</span> <span class="ot">TRUE</span>)
     predict_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(predict_data_path, <span class="dt">header =</span> <span class="ot">TRUE</span>)
@@ -201,13 +198,13 @@ downloaded_data &lt;-<span class="st"> </span><span class="kw">maybe_download_ab
   <span class="kw">file.path</span>(<span class="kw">getwd</span>(), <span class="st">"predict_abalone.csv"</span>),
   COLNAMES
 )
-train_data &lt;-<span class="st"> </span>downloaded_data<span class="op">$</span>train_data
-test_data &lt;-<span class="st"> </span>downloaded_data<span class="op">$</span>test_data
-predict_data &lt;-<span class="st"> </span>downloaded_data<span class="op">$</span>predict_data</code></pre></div>
+train_data &lt;-<span class="st"> </span>downloaded_data$train_data
+test_data &lt;-<span class="st"> </span>downloaded_data$test_data
+predict_data &lt;-<span class="st"> </span>downloaded_data$predict_data</code></pre></div>
 <p>Next, we construct the input function like the following:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
-constructed_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(dataset) {
-  <span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(dataset, <span class="dt">features =</span> <span class="op">-</span>num_rings, <span class="dt">response =</span> num_rings, <span class="dt">num_epochs =</span> <span class="ot">NULL</span>, <span class="dt">shuffle =</span> <span class="ot">TRUE</span>)
+constructed_input_fn &lt;-<span class="st"> </span>function(dataset) {
+  <span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(dataset, <span class="dt">features =</span> -num_rings, <span class="dt">response =</span> num_rings, <span class="dt">num_epochs =</span> <span class="ot">NULL</span>, <span class="dt">shuffle =</span> <span class="ot">TRUE</span>)
 }
 train_input_fn &lt;-<span class="st"> </span><span class="kw">constructed_input_fn</span>(train_data)
 test_input_fn &lt;-<span class="st"> </span><span class="kw">constructed_input_fn</span>(test_data)
@@ -246,7 +243,7 @@ model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/estim
 <h1 class="hasAnchor">
 <a href="#constructing-modelfn" class="anchor"></a>Constructing the model_fn</h1>
 <p>The basic skeleton for an <code>Estimator</code> API model function looks like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_fn &lt;-<span class="st"> </span><span class="cf">function</span>(features, labels, mode, params, config) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_fn &lt;-<span class="st"> </span>function(features, labels, mode, params, config) {
   <span class="co"># Logic to do the following:</span>
   <span class="co"># 1. Configure the model via TensorFlow operations</span>
   <span class="co"># 2. Define the loss function for training/evaluation</span>
@@ -291,7 +288,7 @@ model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/estim
 <li><p><code>train_op</code> (required only in <code>TRAIN</code> mode). An Op that runs one step of training.</p></li>
 <li><p><code>eval_metric_ops</code> (optional). A dict of name/value pairs specifying the metrics that will be calculated when the model runs in <code>EVAL</code> mode. The name is a label of your choice for the metric, and the value is the result of your metric calculation. The <code>tf$metrics</code> module provides predefined functions for a variety of common metrics. The following <code>eval_metric_ops</code> contains an <code>"accuracy"</code> metric calculated using <code>tf$metrics$accuracy</code>:</p></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval_metric_ops &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">accuracy =</span> tf<span class="op">$</span>metrics<span class="op">$</span><span class="kw">accuracy</span>(labels, predictions))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval_metric_ops &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">accuracy =</span> tf$metrics$<span class="kw">accuracy</span>(labels, predictions))</code></pre></div>
 <p>If you do not specify <code>eval_metric_ops</code>, only <code>loss</code> will be calculated during evaluation.</p>
 <div id="configuring-a-neural-network-with-feature_column-and-layers" class="section level2">
 <h2 class="hasAnchor">
@@ -312,22 +309,22 @@ model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/estim
 <li>
 <code>tf$nn$relu</code>. The following code creates a layer of <code>units</code> nodes fully connected to the previous layer <code>input_layer</code> with a <a href="https://en.wikipedia.org/wiki/Rectifier_(neural_networks)">ReLU activation function</a>:</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hidden_layer &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(<span class="dt">inputs =</span> input_layer, <span class="dt">units =</span> 10L, <span class="dt">activation =</span> tf<span class="op">$</span>nn<span class="op">$</span>relu)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hidden_layer &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(<span class="dt">inputs =</span> input_layer, <span class="dt">units =</span> 10L, <span class="dt">activation =</span> tf$nn$relu)</code></pre></div>
 <ul>
 <li>
 <code>tf$nn$relu6</code>. The following code creates a layer of <code>units</code> nodes fully connected to the previous layer <code>hidden_layer</code> with a ReLU 6 activation function:</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">second_hidden_layer &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(
-<span class="dt">inputs =</span> hidden_layer, <span class="dt">units =</span> 20L, <span class="dt">activation =</span> tf<span class="op">$</span>nn<span class="op">$</span>relu)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">second_hidden_layer &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(
+<span class="dt">inputs =</span> hidden_layer, <span class="dt">units =</span> 20L, <span class="dt">activation =</span> tf$nn$relu)</code></pre></div>
 <ul>
 <li>
 <code>NULL</code>. The following code creates a layer of <code>units</code> nodes fully connected to the previous layer <code>second_hidden_layer</code> with <em>no</em> activation function, just a linear transformation:</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output_layer &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(<span class="dt">inputs =</span> second_hidden_layer,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output_layer &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(<span class="dt">inputs =</span> second_hidden_layer,
 <span class="dt">units =</span> 3L, <span class="dt">activation =</span> <span class="ot">NULL</span>)</code></pre></div>
 <p>Other activation functions are possible, e.g.:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output_layer &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(<span class="dt">inputs =</span> second_hidden_layer,
-<span class="dt">units =</span> 10L, <span class="dt">activation_fn =</span> tf<span class="op">$</span>sigmoid)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output_layer &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(<span class="dt">inputs =</span> second_hidden_layer,
+<span class="dt">units =</span> 10L, <span class="dt">activation_fn =</span> tf$sigmoid)</code></pre></div>
 <p>The above code creates the neural network layer <code>output_layer</code>, which is fully connected to <code>second_hidden_layer</code> with a sigmoid activation function <code>tf$sigmoid</code>.</p>
 <p>The network contains two hidden layers, each with 10 nodes and a ReLU activation function. The output layer contains no activation function, and is <code>tf$reshape</code> to a one-dimensional tensor to capture the model’s predictions, which are stored in <code>predictions_dict</code>.</p>
 </div>
@@ -341,10 +338,10 @@ model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/estim
 <li><p><code>mean_squared_error(labels, predictions)</code>. Calculates loss using the <a href="https://en.wikipedia.org/wiki/Mean_squared_error">mean squared error</a> (MSE; also known as L<sub>2</sub> loss).</p></li>
 </ul>
 <p>The following example adds a definition for <code>loss</code> to the abalone <code>model_fn</code> using <code>mean_squared_error()</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">loss &lt;-<span class="st"> </span>tf<span class="op">$</span>losses<span class="op">$</span><span class="kw">mean_squared_error</span>(labels, predictions)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">loss &lt;-<span class="st"> </span>tf$losses$<span class="kw">mean_squared_error</span>(labels, predictions)</code></pre></div>
 <p>Supplementary metrics for evaluation can be added to an <code>eval_metric_ops</code> dict. The following code defines an <code>rmse</code> metric, which calculates the root mean squared error for the model predictions. Note that the <code>labels</code> tensor is cast to a <code>float64</code> type to match the data type of the <code>predictions</code> tensor, which will contain real values:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval_metric_ops &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">rmse =</span> tf<span class="op">$</span>metrics<span class="op">$</span><span class="kw">root_mean_squared_error</span>(
-tf<span class="op">$</span><span class="kw">cast</span>(labels, tf<span class="op">$</span>float64), predictions
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval_metric_ops &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">rmse =</span> tf$metrics$<span class="kw">root_mean_squared_error</span>(
+tf$<span class="kw">cast</span>(labels, tf$float64), predictions
 ))</code></pre></div>
 </div>
 <div id="defining-the-training-op-for-the-model" class="section level2">
@@ -352,37 +349,37 @@ tf<span class="op">$</span><span class="kw">cast</span>(labels, tf<span class="o
 <a href="#defining-the-training-op-for-the-model" class="anchor"></a>Defining the training op for the model</h2>
 <p>The training op defines the optimization algorithm TensorFlow will use when fitting the model to the training data. Typically when training, the goal is to minimize loss. A simple way to create the training op is to instantiate a <code>tf$train$Optimizer</code> subclass and call the <code>minimize</code> method.</p>
 <p>The following code defines a training op for the abalone <code>model_fn</code> using the loss value calculated in <a href="#defining-loss">Defining Loss for the Model</a>, the learning rate passed to the function in <code>params</code>, and the gradient descent optimizer. For <code>global_step</code>, the convenience function <code>tf$train$get_global_step</code> takes care of generating an integer variable:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">optimizer &lt;-<span class="st"> </span>tf<span class="op">$</span>train<span class="op">$</span><span class="kw">GradientDescentOptimizer</span>(<span class="dt">learning_rate =</span> params<span class="op">$</span>learning_rate)
-train_op &lt;-<span class="st"> </span>optimizer<span class="op">$</span><span class="kw">minimize</span>(<span class="dt">loss =</span> loss, <span class="dt">global_step =</span> tf<span class="op">$</span>train<span class="op">$</span><span class="kw">get_global_step</span>())</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">optimizer &lt;-<span class="st"> </span>tf$train$<span class="kw">GradientDescentOptimizer</span>(<span class="dt">learning_rate =</span> params$learning_rate)
+train_op &lt;-<span class="st"> </span>optimizer$<span class="kw">minimize</span>(<span class="dt">loss =</span> loss, <span class="dt">global_step =</span> tf$train$<span class="kw">get_global_step</span>())</code></pre></div>
 </div>
 <div id="the-complete-abalone-model_fn" class="section level2">
 <h2 class="hasAnchor">
 <a href="#the-complete-abalone-model_fn" class="anchor"></a>The complete abalone model_fn</h2>
 <p>Here’s the final, complete <code>model_fn</code> for the abalone age predictor. The following code configures the neural network; defines loss and the training op; and returns a <code>estimator_spec</code> object containing <code>mode</code>, <code>predictions_dict</code>, <code>loss</code>, and <code>train_op</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_fn &lt;-<span class="st"> </span><span class="cf">function</span>(features, labels, mode, params, config) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_fn &lt;-<span class="st"> </span>function(features, labels, mode, params, config) {
   <span class="co"># Connect the first hidden layer to input layer</span>
-  first_hidden_layer &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(features, 10L, <span class="dt">activation =</span> tf<span class="op">$</span>nn<span class="op">$</span>relu)
+  first_hidden_layer &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(features, 10L, <span class="dt">activation =</span> tf$nn$relu)
   
   <span class="co"># Connect the second hidden layer to first hidden layer with relu</span>
-  second_hidden_layer &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(first_hidden_layer, 10L, <span class="dt">activation =</span> tf<span class="op">$</span>nn<span class="op">$</span>relu)
+  second_hidden_layer &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(first_hidden_layer, 10L, <span class="dt">activation =</span> tf$nn$relu)
   
   <span class="co"># Connect the output layer to second hidden layer (no activation fn)</span>
-  output_layer &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(second_hidden_layer, 1L)
+  output_layer &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(second_hidden_layer, 1L)
   
   <span class="co"># Reshape output layer to 1-dim Tensor to return predictions</span>
-  <span class="co"># </span><span class="al">TODO</span><span class="co">: This failed if it's c(-1L) - check in reticulate for single element vector conversion</span>
-  predictions &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">reshape</span>(output_layer, <span class="kw">list</span>(<span class="op">-</span>1L))
+  <span class="co"># TODO: This failed if it's c(-1L) - check in reticulate for single element vector conversion</span>
+  predictions &lt;-<span class="st"> </span>tf$<span class="kw">reshape</span>(output_layer, <span class="kw">list</span>(-1L))
   predictions_list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">ages =</span> predictions)
   
   <span class="co"># Calculate loss using mean squared error</span>
-  loss &lt;-<span class="st"> </span>tf<span class="op">$</span>losses<span class="op">$</span><span class="kw">mean_squared_error</span>(labels, predictions)
+  loss &lt;-<span class="st"> </span>tf$losses$<span class="kw">mean_squared_error</span>(labels, predictions)
   
-  eval_metric_ops &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">rmse =</span> tf<span class="op">$</span>metrics<span class="op">$</span><span class="kw">root_mean_squared_error</span>(
-    tf<span class="op">$</span><span class="kw">cast</span>(labels, tf<span class="op">$</span>float64), predictions
+  eval_metric_ops &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">rmse =</span> tf$metrics$<span class="kw">root_mean_squared_error</span>(
+    tf$<span class="kw">cast</span>(labels, tf$float64), predictions
   ))
   
-  optimizer &lt;-<span class="st"> </span>tf<span class="op">$</span>train<span class="op">$</span><span class="kw">GradientDescentOptimizer</span>(<span class="dt">learning_rate =</span> params<span class="op">$</span>learning_rate)
-  train_op &lt;-<span class="st"> </span>optimizer<span class="op">$</span><span class="kw">minimize</span>(<span class="dt">loss =</span> loss, <span class="dt">global_step =</span> tf<span class="op">$</span>train<span class="op">$</span><span class="kw">get_global_step</span>())
+  optimizer &lt;-<span class="st"> </span>tf$train$<span class="kw">GradientDescentOptimizer</span>(<span class="dt">learning_rate =</span> params$learning_rate)
+  train_op &lt;-<span class="st"> </span>optimizer$<span class="kw">minimize</span>(<span class="dt">loss =</span> loss, <span class="dt">global_step =</span> tf$train$<span class="kw">get_global_step</span>())
   
   <span class="kw">return</span>(<span class="kw"><a href="../reference/estimator_spec.html">estimator_spec</a></span>(
     <span class="dt">mode =</span> mode,

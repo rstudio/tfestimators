@@ -52,9 +52,6 @@
     <li class="divider">
     <li class="dropdown-header">Advanced</li>
     <li>
-      <a href="../articles/experiments.html">Experiments</a>
-    </li>
-    <li>
       <a href="../articles/run_hooks.html">Run Hooks</a>
     </li>
     <li>
@@ -175,7 +172,7 @@
   <span class="dt">dnn_optimizer =</span> <span class="st">"Adagrad"</span>
 )
 
-lr <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/train.html">train</a></span>(
+lr %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/train.html">train</a></span>(
   <span class="dt">input_fn =</span> custom_input_fn,
   <span class="dt">steps =</span> 10L,
   <span class="dt">monitors =</span> monitor)</code></pre></div>
@@ -185,17 +182,17 @@ lr <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a hr
 <a href="#custom-run-hooks" class="anchor"></a>Custom Run Hooks</h2>
 <p>Users can also create custom run hooks by defining the behaviors of the hook in different phases of a session in object-oriented programming style.</p>
 <p>For example, the following code defines a custom run hook that prints out some information at the end of each session run by overriding the <code>end()</code> function in <code>EstimatorSessionRunHook</code> <a href="https://cran.r-project.org/web/packages/R6/vignettes/Introduction.html">R6</a> class.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">CustomSessionRunHook &lt;-<span class="st"> </span>R6<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/R6/topics/R6Class">R6Class</a></span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">CustomSessionRunHook &lt;-<span class="st"> </span>R6::<span class="kw">R6Class</span>(
   <span class="st">"CustomSessionRunHook"</span>,
   <span class="dt">inherit =</span> EstimatorSessionRunHook,
   <span class="dt">public =</span> <span class="kw">list</span>(
-    <span class="dt">end =</span> <span class="cf">function</span>(session) {
+    <span class="dt">end =</span> function(session) {
       <span class="kw">cat</span>(<span class="st">"Running custom session run hook at the end of a session"</span>)
     }
   )
 )
   
-custom_hook &lt;-<span class="st"> </span>CustomSessionRunHook<span class="op">$</span><span class="kw">new</span>()</code></pre></div>
+custom_hook &lt;-<span class="st"> </span>CustomSessionRunHook$<span class="kw">new</span>()</code></pre></div>
 <p>The following functions can be overridden from the <code>EstimatorSessionRunHook</code> class to implement fully customized run hook:</p>
 <ul>
 <li>
