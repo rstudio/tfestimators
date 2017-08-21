@@ -1,7 +1,7 @@
 Package: tfestimators
 Type: Package
 Title: High-level Estimator Interface to TensorFlow in R
-Version: 0.1.2
+Version: 0.1.2.9000
 Authors@R: c(
   person("Yuan", "Tang", role = c("aut", "cre"),
          email = "terrytangyuan@gmail.com"),
