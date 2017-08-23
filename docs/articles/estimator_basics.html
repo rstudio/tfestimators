@@ -104,6 +104,7 @@
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
+<p><img src="images/estimator-apis.png" align="right" width="50%" style="margin-left: 15px;"></p>
 <p>The basic components of the TensorFlow Estimators API include:</p>
 <ul>
 <li><p>Canned estimators (pre-built implementations of various models).</p></li>
@@ -116,6 +117,7 @@
 <ul>
 <li><p>Experiments (wrappers around estimators that handle concerns like distributed training, hyperparameter tuning, etc.)</p></li>
 <li><p>Run hooks (callbacks for recording context and interacting with training as it proceeds)</p></li>
+<li><p>SavedModel export utilities (exports the trained model to be deployed in places like CloudML)</p></li>
 </ul>
 <p>Please read our <a href="http://terrytangyuan.github.io/data/papers/tf-estimators-kdd-paper.pdf">white paper</a> if you are interested in the detailed design of the above components.</p>
 <p>Below we enumerate some of the core functions in each of these components to provide a high level overview of what’s available. See the linked articles for more details on using all of the components together.</p>
