@@ -101,8 +101,9 @@
     
     
 <div class="contents">
-<p>The tfestimators framework makes it easy to construct and train machine learning models via its high-level Estimator API. <code>Estimator</code> offers classes you can instantiate to quickly configure common model types such as regressors and classifiers.</p>
-<p>But what if none of the predefined model types meets your needs? Perhaps you need more granular control over model configuration, such as the ability to customize the loss function used for optimization, or specify different activation functions for each neural network layer. Or maybe you’re implementing a ranking or recommendation system, and neither a classifier nor a regressor is appropriate for generating predictions.</p>
+<p><img src="images/estimator-apis.png" align="right" width="50%" style="margin-left: 15px;"></p>
+<p>The tfestimators framework makes it easy to construct and build machine learning models via its high-level Estimator API. <code>Estimator</code> offers classes you can instantiate to quickly configure common model types such as regressors and classifiers.</p>
+<p>But what if none of the predefined model types meets your needs? Perhaps you need more granular control over model configuration, such as the ability to customize the loss function used for optimization, or specify different activation functions for each neural network layer. Or maybe you’re implementing a ranking or recommendation system, and neither a classifier nor a regressor is appropriate for generating predictions. The figure on the right illustrates the basic components of an estimator. Users can implement custom behaviors and or architecture inside the <code>model_fn</code> of the estimator.</p>
 <p>This tutorial covers how to create your own <code>Estimator</code> using the building blocks provided in <code>tfestimators</code> package, which will predict the ages of <a href="https://en.wikipedia.org/wiki/Abalone">abalones</a> based on their physical measurements. You’ll learn how to do the following:</p>
 <ul>
 <li>Instantiate an <code>Estimator</code>

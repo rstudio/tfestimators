@@ -21,8 +21,10 @@ menu:
 knitr::opts_chunk$set(echo = TRUE, eval = TRUE)
 ```
 
+<img src="images/estimator-apis.png" align="right" width="50%" style="margin-left: 15px;">
 
-The tfestimators framework makes it easy to construct and train machine
+
+The tfestimators framework makes it easy to construct and build machine
 learning models via its high-level Estimator API. `Estimator`
 offers classes you can instantiate to quickly configure common model types such
 as regressors and classifiers.
@@ -32,7 +34,9 @@ Perhaps you need more granular control over model configuration, such as
 the ability to customize the loss function used for optimization, or specify
 different activation functions for each neural network layer. Or maybe you're
 implementing a ranking or recommendation system, and neither a classifier nor a
-regressor is appropriate for generating predictions.
+regressor is appropriate for generating predictions. The figure on the right 
+illustrates the basic components of an estimator. Users can implement 
+custom behaviors and or architecture inside the `model_fn` of the estimator.
 
 This tutorial covers how to create your own `Estimator` using the building
 blocks provided in `tfestimators` package, which will predict the ages of

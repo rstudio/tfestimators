@@ -23,25 +23,23 @@ knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 
 ## Overview
 
-<img src="images/estimator-apis.png" align="right" width="50%" style="margin-left: 15px;">
-
 The basic components of the TensorFlow Estimators API include:
 
 - Canned estimators (pre-built implementations of various models).
 
 - Custom estimators (custom model implementations).
 
-- Estimator methods (core methods like `train()`, `predict()`, etc. which work the same for all canned and custom estimators).
+- Estimator methods (core methods like `train()`, `predict()`, `evaluate()`, etc. which work the same for all canned and custom estimators).
 
 - Feature columns (definitions of how features should be transformed during modeling).
 
-- Input functions (sources of data for training and prediction).
+- Input functions (sources of data for training, evaluation, and prediction).
 
-In addition, there are APIs that cover more advanced training scenarios:
+In addition, there are APIs that cover more advanced usages:
 
 - Experiments (wrappers around estimators that handle concerns like distributed training, hyperparameter tuning, etc.)
 
-- Run hooks (callbacks for recording context and interacting with training as it proceeds)
+- Run hooks (callbacks for recording context and interacting with each modelling processes)
 
 - SavedModel export utilities (exports the trained model to be deployed in places like CloudML)
 
