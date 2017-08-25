@@ -92,7 +92,7 @@ train.tf_estimator <- function(object,
 
 #' Generate Predictions with an Estimator
 #'
-#' Generate predicted labels / values for input data provided by `input_fn()`,
+#' Generate predicted labels / values for input data provided by `input_fn()`.
 #'
 #' @inheritParams train-evaluate-predict
 #'

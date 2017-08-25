@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Ops and Objects Returned From Model Function and Passed to Estimator — estimator_spec • tfestimators</title>
+<title>Define an Estimator Specification — estimator_spec • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -116,64 +116,48 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Ops and Objects Returned From Model Function and Passed to Estimator</h1>
+    <h1>Define an Estimator Specification</h1>
     </div>
 
     
-    <p>Estimator spec fully defines the model to be run by <code><a href='estimator.html'>estimator()</a></code>.</p>
+    <p>Define the estimator specification, used as part of the <code>model_fn</code> defined with
+custom estimators created by <code><a href='estimator.html'>estimator()</a></code>. See <code><a href='estimator.html'>estimator()</a></code> for more details.</p>
     
 
     <pre class="usage"><span class='fu'>estimator_spec</span>(<span class='no'>mode</span>, <span class='kw'>predictions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>loss</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>train_op</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>eval_metric_ops</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>export_outputs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>training_chief_hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>training_hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>scaffold</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>eval_metric_ops</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>mode</th>
-      <td><p>A key that specifies if this is training, evaluation or prediction by <code><a href='mode_keys.html'>mode_keys()</a></code></p></td>
+      <td><p>A key that specifies whether we are performing
+training (<code>"train"</code>), evaluation (<code>"eval"</code>), or prediction (<code>"infer"</code>).
+These values can also be accessed through the <code><a href='mode_keys.html'>mode_keys()</a></code> object.</p></td>
     </tr>
     <tr>
       <th>predictions</th>
-      <td><p>Predictions tensor or list of tensors.</p></td>
+      <td><p>The prediction tensor(s).</p></td>
     </tr>
     <tr>
       <th>loss</th>
-      <td><p>Training loss tensor. Must be either scalar, or with shape <code>c(1)</code>.</p></td>
+      <td><p>The training loss tensor. Must be either scalar, or with shape <code>c(1)</code>.</p></td>
     </tr>
     <tr>
       <th>train_op</th>
-      <td><p>Op for the training step.</p></td>
+      <td><p>The training operation -- typically, a call to <code>optimizer$minimize(...)</code>,
+depending on the type of optimizer used during training.</p></td>
     </tr>
     <tr>
       <th>eval_metric_ops</th>
-      <td><p>List of metric results keyed by name. The values of the dict are the results of
-calling a metric function, namely a <code>(metric_tensor, update_op)</code> list.</p></td>
+      <td><p>A list of metrics to be computed as part of evaluation.
+This should be a named list, mapping metric names (e.g. <code>"rmse"</code>) to the operation
+that computes the associated metric (e.g. <code>tf$metrics$root_mean_squared_error(...)</code>).</p></td>
     </tr>
     <tr>
-      <th>export_outputs</th>
-      <td><p>Describes the output signatures to be exported to saved model and used during serving.
-A <code>list(name = output)</code> where:</p><ul>
-<li><p>name: An arbitrary name for this output.</p></li>
-<li><p>output: an export output object such as classification output, regression output, or prediction output.
-Single-headed models only need to specify one entry in this dictionary.
-Multi-headed models should specify one entry for each head, one of which must be named using
-<code>signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY</code>.</p></li>
-</ul></td>
-    </tr>
-    <tr>
-      <th>training_chief_hooks</th>
-      <td><p>List of session run hooks to run on the chief worker during training.</p></td>
-    </tr>
-    <tr>
-      <th>training_hooks</th>
-      <td><p>List of session run hooks that to run on all workers during training.</p></td>
-    </tr>
-    <tr>
-      <th>scaffold</th>
-      <td><p>A <code>tf$train$Scaffold</code> object that can be used to set initialization, saver,
-and more to be used in training.</p></td>
+      <th>...</th>
+      <td><p>Other optional (named) arguments, to be passed to the <code>EstimatorSpec</code> constructor.</p></td>
     </tr>
     </table>
     
@@ -201,7 +185,7 @@ and more to be used in training.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Yuan Tang, JJ Allaire, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>, Kevin Ushey.</p>
+  <p>Developed by Yuan Tang, JJ Allaire, Kevin Ushey, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
 </div>
 
 <div class="pkgdown">

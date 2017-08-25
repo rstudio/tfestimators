@@ -49,7 +49,7 @@ estimator_spec <- function(mode,
   )
 }
 
-#' Custom estimator constructor
+#' Construct a Custom Estimator
 #' 
 #' Construct a custom estimator, to be used to train and evaluate
 #' TensorFlow models.

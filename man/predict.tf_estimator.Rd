@@ -33,7 +33,7 @@ generator and returned as an \R object.}
 method.}
 }
 \description{
-Generate predicted labels / values for input data provided by \code{input_fn()},
+Generate predicted labels / values for input data provided by \code{input_fn()}.
 }
 \section{Yields}{
  Evaluated values of \code{predictions} tensors.

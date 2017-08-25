@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Run Configuration — run_config • tfestimators</title>
+<title>Extract Model Coefficients — coef.tf_estimator • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -116,48 +116,54 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Run Configuration</h1>
+    <h1>Extract Model Coefficients</h1>
     </div>
 
     
-    <p>This class specifies the configurations for an <code>Estimator</code> run.</p>
+    <p>Extract Model Coefficients</p>
     
 
-    <pre class="usage"><span class='fu'>run_config</span>()</pre>
-        
+    <pre class="usage"><span class='co'># S3 method for tf_estimator</span>
+<span class='fu'>coef</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p>An estimator.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Optional arguments; currently unused.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A named list of variables, such as each hidden layer's biases and
+weights matrices (if using any of the DNN estimators), global step, etc.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other run_config methods: <code><a href='task_type.html'>task_type</a></code></p>
+    <p>Other custom estimator methods: <code><a href='estimator_spec.html'>estimator_spec</a></code>,
+  <code><a href='estimator.html'>estimator</a></code>,
+  <code><a href='evaluate.tf_estimator.html'>evaluate.tf_estimator</a></code>,
+  <code><a href='export_savedmodel.tf_estimator.html'>export_savedmodel.tf_estimator</a></code>,
+  <code><a href='predict.html'>predict.tf_estimator</a></code>,
+  <code><a href='train.tf_estimator.html'>train.tf_estimator</a></code></p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>config</span> <span class='kw'>&lt;-</span> <span class='fu'>run_config</span>()
-
-<span class='co'># Get the properties of the config</span>
-<span class='fu'>names</span>(<span class='no'>config</span>)</div><div class='output co'>#&gt;  [1] "cluster_spec"                  "evaluation_master"            
-#&gt;  [3] "is_chief"                      "keep_checkpoint_every_n_hours"
-#&gt;  [5] "keep_checkpoint_max"           "log_step_count_steps"         
-#&gt;  [7] "master"                        "model_dir"                    
-#&gt;  [9] "num_ps_replicas"               "num_worker_replicas"          
-#&gt; [11] "replace"                       "save_checkpoints_secs"        
-#&gt; [13] "save_checkpoints_steps"        "save_summary_steps"           
-#&gt; [15] "session_config"                "task_id"                      
-#&gt; [17] "task_type"                     "tf_random_seed"               </div><div class='input'>
-<span class='co'># Change the mutable properties of the config</span>
-<span class='no'>config</span> <span class='kw'>&lt;-</span> <span class='no'>config</span>$<span class='fu'>replace</span>(<span class='kw'>tf_random_seed</span> <span class='kw'>=</span> <span class='fl'>11L</span>, <span class='kw'>save_summary_steps</span> <span class='kw'>=</span> <span class='fl'>12L</span>)
-
-<span class='co'># Print config as key value pairs</span>
-<span class='fu'>print</span>(<span class='no'>config</span>)</div><div class='output co'>#&gt; cluster_spec = NULL, evaluation_master = "", is_chief = TRUE, keep_checkpoint_every_n_hours = 10000, keep_checkpoint_max = 5, log_step_count_steps = 100, master = "", model_dir = NULL, num_ps_replicas = 0, num_worker_replicas = 1, replace = RunConfig, save_checkpoints_secs = 600, save_checkpoints_steps = NULL, save_summary_steps = 12, session_config = NULL, task_id = 0, task_type = worker, tf_random_seed = 11</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#value">Value</a></li>
+
       <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>

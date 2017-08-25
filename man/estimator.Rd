@@ -2,7 +2,7 @@
 % Please edit documentation in R/tf_custom_estimator.R
 \name{estimator}
 \alias{estimator}
-\title{Custom estimator constructor}
+\title{Construct a Custom Estimator}
 \usage{
 estimator(model_fn, model_dir = NULL, config = NULL, params = NULL,
   class = NULL)

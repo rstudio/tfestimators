@@ -165,7 +165,7 @@ These articles describe more advanced topics/usage:
 - [TensorBoard Visualization](articles/tensorboard.html)
 - [Parsing Utilities](articles/parsing_spec.html)
 
-One of the best ways to learn is from reviewing and experimenting with examples. See the [Examples](articles/examples/) page for a variety of examples to help you get started.
+One of the best ways to learn is from reviewing and experimenting with examples. See the [Examples](articles/examples/index.html) page for a variety of examples to help you get started.
 
 <!--
 When you have built your model and are ready to deploy it, see the [Deployment](articles/deployment.html) page for an in-depth review of deployment options.

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Custom estimator constructor — estimator • tfestimators</title>
+<title>Construct a Custom Estimator — estimator • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -116,11 +116,12 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Custom estimator constructor</h1>
+    <h1>Construct a Custom Estimator</h1>
     </div>
 
     
-    <p>This is the core Estimator class to train and evaluate TensorFlow models.</p>
+    <p>Construct a custom estimator, to be used to train and evaluate
+TensorFlow models.</p>
     
 
     <pre class="usage"><span class='fu'>estimator</span>(<span class='no'>model_fn</span>, <span class='kw'>model_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>config</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -131,23 +132,8 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model_fn</th>
-      <td><p>Model function. Follows the signature:</p><ul>
-<li><p><code>features</code>: single tensor or list of tensors (depending on data
-passed to <code>train</code>),</p></li>
-<li><p><code>labels</code>: single tensor or list of tensors (for multi-head models).
-If <code>mode</code> is <code>mode_keys()$PREDICT</code>, <code>labels = NULL</code> will be passed.
-If the <code>model_fn</code>'s signature does not accept <code>mode</code>, the <code>model_fn</code>
-must still be able to handle <code>labels = NULL</code>.</p></li>
-<li><p><code>mode</code>: Optional argument that specifies if this training, evaluation or prediction
-created by <code><a href='mode_keys.html'>mode_keys()</a></code>.</p></li>
-<li><p><code>params</code>: Optional list of hyperparameters. Will receive what is passed
-to estimator in <code>params</code> parameter. This allows to configure estimators
-from hyper parameter tuning.</p></li>
-<li><p><code>config</code>: Optional configuration object created by <code><a href='run_config.html'>run_config()</a></code>.
-Will receive what is passed to estimator in <code>config</code> parameter, or the default <code>config</code>.
-Allows updating things in your <code>model_fn</code> based on configuration such as
-<code>num_ps_replicas</code>, or <code>model_dir</code>.</p></li>
-</ul></td>
+      <td><p>The model function. See <strong>Model Function</strong> for details
+on the structure of a model function.</p></td>
     </tr>
     <tr>
       <th>model_dir</th>
@@ -175,20 +161,20 @@ Keys are names of parameters, values are basic python types.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <code>Estimator</code> object wraps a model which is specified by a <code>model_fn</code>,
-which, given inputs and a number of other parameters, returns the ops
-necessary to perform training, evaluation, or predictions.</p>
+which, given inputs and a number of other parameters, returns the operations
+necessary to perform training, evaluation, and prediction.</p>
 <p>All outputs (checkpoints, event files, etc.) are written to <code>model_dir</code>, or a
 subdirectory thereof. If <code>model_dir</code> is not set, a temporary directory is
 used.</p>
-<p>The <code>config</code> argument can be used to passed run configuration object containing information
-about the execution environment. It is passed on to the <code>model_fn</code>, if the
-<code>model_fn</code> has a parameter named "config" (and input functions in the same
-manner). If the <code>config</code> parameter is not passed, it is instantiated by
-<code>estimator()</code>. Not passing config means that defaults useful for local
-execution are used. <code>estimator()</code> makes config available to the model (for
-instance, to allow specialization based on the number of workers available),
-and also uses some of its fields to control internals, especially regarding
-checkpointing.</p>
+<p>The <code>config</code> argument can be used to passed run configuration object
+containing information about the execution environment. It is passed on to
+the <code>model_fn</code>, if the <code>model_fn</code> has a parameter named "config" (and input
+functions in the same manner). If the <code>config</code> parameter is not passed, it is
+instantiated by <code>estimator()</code>. Not passing config means that defaults useful
+for local execution are used. <code>estimator()</code> makes config available to the
+model (for instance, to allow specialization based on the number of workers
+available), and also uses some of its fields to control internals, especially
+regarding checkpointing.</p>
 <p>The <code>params</code> argument contains hyperparameters. It is passed to the
 <code>model_fn</code>, if the <code>model_fn</code> has a parameter named "params", and to the
 input functions in the same manner. <code>estimator()</code> only passes <code>params</code> along, it
@@ -197,6 +183,40 @@ the developer.</p>
 <p>None of estimator's methods can be overridden in subclasses (its
 constructor enforces this). Subclasses should use <code>model_fn</code> to configure the
 base class, and may add methods implementing specialized functionality.</p>
+    
+    <h2 class="hasAnchor" id="model-functions"><a class="anchor" href="#model-functions"></a>Model Functions</h2>
+
+    
+    <p>The <code>model_fn</code> should be an <span style="R">R</span> function of the form:</p><pre>function(features, labels, mode, params) {
+    # 1. Configure the model via TensorFlow operations.
+    # 2. Define the loss function for training and evaluation.
+    # 3. Define the training optimizer.
+    # 4. Define how predictions should be produced.
+    # 5. Return the result as an `estimator_spec()` object.
+    estimator_spec(mode, predictions, loss, train_op, eval_metric_ops)
+}</pre>
+    <p>The model function's inputs are defined as follows:</p><table><tr><td>
+<code>features</code> </td>
+<td>
+The feature tensor(s). </td>
+</tr><tr><td>
+<code>labels</code>   </td>
+<td>
+The label tensor(s). </td>
+</tr><tr><td>
+<code>mode</code>     </td>
+<td>
+The current training mode ("train", "eval", "infer").
+These can be accessed through the <code><a href='mode_keys.html'>mode_keys()</a></code> object. </td>
+</tr><tr><td>
+<code>params</code>   </td>
+<td>
+An optional list of hyperparameters, as received
+through the <code>estimator()</code> constructor. </td>
+</tr></table>
+    <p>See <code><a href='estimator_spec.html'>estimator_spec()</a></code> for more details as to how the estimator specification
+should be constructed, and <a href='https://www.tensorflow.org/extend/estimators#constructing_the_model_fn'>https://www.tensorflow.org/extend/estimators#constructing_the_model_fn</a> for
+more information as to how the model function should be constructed.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -216,6 +236,8 @@ base class, and may add methods implementing specialized functionality.</p>
       
       <li><a href="#details">Details</a></li>
 
+      <li><a href="#model-functions">Model Functions</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 
@@ -224,7 +246,7 @@ base class, and may add methods implementing specialized functionality.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Yuan Tang, JJ Allaire, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>, Kevin Ushey.</p>
+  <p>Developed by Yuan Tang, JJ Allaire, Kevin Ushey, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
 </div>
 
 <div class="pkgdown">
