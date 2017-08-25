@@ -8,27 +8,27 @@ tf_custom_estimator <- function(estimator, model_fn, classes) {
   )
 }
 
-#' Ops and Objects Returned From Model Function and Passed to Estimator
+#' Define an Estimator Specification
 #' 
-#' Estimator spec fully defines the model to be run by [estimator()].
+#' Define the estimator specification, used as part of the `model_fn` defined with
+#' custom estimators created by [estimator()]. See [estimator()] for more details.
 #' 
-#' @param mode A key that specifies if this is training, evaluation or prediction by [mode_keys()]
-#' @param predictions Predictions tensor or list of tensors.
-#' @param loss Training loss tensor. Must be either scalar, or with shape `c(1)`.
-#' @param train_op Op for the training step.
-#' @param eval_metric_ops List of metric results keyed by name. The values of the dict are the results of 
-#' calling a metric function, namely a `(metric_tensor, update_op)` list.
-#' @param export_outputs Describes the output signatures to be exported to saved model and used during serving. 
-#' A `list(name = output)` where:
-#' * name: An arbitrary name for this output. 
-#' * output: an export output object such as classification output, regression output, or prediction output. 
-#' Single-headed models only need to specify one entry in this dictionary. 
-#' Multi-headed models should specify one entry for each head, one of which must be named using
-#' `signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY`.
-#' @param training_chief_hooks List of session run hooks to run on the chief worker during training.
-#' @param training_hooks List of session run hooks that to run on all workers during training.
-#' @param scaffold A `tf$train$Scaffold` object that can be used to set initialization, saver,
-#' and more to be used in training.
+#' @param mode A key that specifies whether we are performing
+#'   training (`"train"`), evaluation (`"eval"`), or prediction (`"infer"`).
+#'   These values can also be accessed through the [mode_keys()] object.
+#'   
+#' @param predictions The prediction tensor(s).
+#' 
+#' @param loss The training loss tensor. Must be either scalar, or with shape `c(1)`.
+#' 
+#' @param train_op The training operation -- typically, a call to `optimizer$minimize(...)`,
+#'   depending on the type of optimizer used during training.
+#'   
+#' @param eval_metric_ops A list of metrics to be computed as part of evaluation.
+#'   This should be a named list, mapping metric names (e.g. `"rmse"`) to the operation
+#'   that computes the associated metric (e.g. `tf$metrics$root_mean_squared_error(...)`).
+#' 
+#' @param ... Other optional (named) arguments, to be passed to the `EstimatorSpec` constructor.
 #' 
 #' @export
 #' @family custom estimator methods
@@ -37,23 +37,16 @@ estimator_spec <- function(mode,
                            loss = NULL,
                            train_op = NULL,
                            eval_metric_ops = NULL,
-                           export_outputs = NULL,
-                           training_chief_hooks = NULL,
-                           training_hooks = NULL,
-                           scaffold = NULL)
+                           ...)
 {
   estimator_lib$model_fn_lib$EstimatorSpec(
     mode = mode,
     predictions = predictions,
     loss = loss,
     train_op = train_op,
-    # TODO: need to use reticulate::tuple() - fix this on Python end to soften the requirements in model_fn
-    eval_metric_ops = reticulate::dict(
-      lapply(eval_metric_ops, function(x) reticulate::tuple(unlist(x)))),
-    export_outputs = export_outputs,
-    training_chief_hooks = training_chief_hooks,
-    training_hooks = training_hooks,
-    scaffold = scaffold)
+    eval_metric_ops = eval_metric_ops,
+    ...
+  )
 }
 
 #' Custom estimator constructor

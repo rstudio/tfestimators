@@ -2,43 +2,32 @@
 % Please edit documentation in R/tf_custom_estimator.R
 \name{estimator_spec}
 \alias{estimator_spec}
-\title{Ops and Objects Returned From Model Function and Passed to Estimator}
+\title{Define an Estimator Specification}
 \usage{
 estimator_spec(mode, predictions = NULL, loss = NULL, train_op = NULL,
-  eval_metric_ops = NULL, export_outputs = NULL,
-  training_chief_hooks = NULL, training_hooks = NULL, scaffold = NULL)
+  eval_metric_ops = NULL, ...)
 }
 \arguments{
-\item{mode}{A key that specifies if this is training, evaluation or prediction by \code{\link[=mode_keys]{mode_keys()}}}
+\item{mode}{A key that specifies whether we are performing
+training (\code{"train"}), evaluation (\code{"eval"}), or prediction (\code{"infer"}).
+These values can also be accessed through the \code{\link[=mode_keys]{mode_keys()}} object.}
 
-\item{predictions}{Predictions tensor or list of tensors.}
+\item{predictions}{The prediction tensor(s).}
 
-\item{loss}{Training loss tensor. Must be either scalar, or with shape \code{c(1)}.}
+\item{loss}{The training loss tensor. Must be either scalar, or with shape \code{c(1)}.}
 
-\item{train_op}{Op for the training step.}
+\item{train_op}{The training operation -- typically, a call to \code{optimizer$minimize(...)},
+depending on the type of optimizer used during training.}
 
-\item{eval_metric_ops}{List of metric results keyed by name. The values of the dict are the results of
-calling a metric function, namely a \code{(metric_tensor, update_op)} list.}
+\item{eval_metric_ops}{A list of metrics to be computed as part of evaluation.
+This should be a named list, mapping metric names (e.g. \code{"rmse"}) to the operation
+that computes the associated metric (e.g. \code{tf$metrics$root_mean_squared_error(...)}).}
 
-\item{export_outputs}{Describes the output signatures to be exported to saved model and used during serving.
-A \code{list(name = output)} where:
-\itemize{
-\item name: An arbitrary name for this output.
-\item output: an export output object such as classification output, regression output, or prediction output.
-Single-headed models only need to specify one entry in this dictionary.
-Multi-headed models should specify one entry for each head, one of which must be named using
-\code{signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY}.
-}}
-
-\item{training_chief_hooks}{List of session run hooks to run on the chief worker during training.}
-
-\item{training_hooks}{List of session run hooks that to run on all workers during training.}
-
-\item{scaffold}{A \code{tf$train$Scaffold} object that can be used to set initialization, saver,
-and more to be used in training.}
+\item{...}{Other optional (named) arguments, to be passed to the \code{EstimatorSpec} constructor.}
 }
 \description{
-Estimator spec fully defines the model to be run by \code{\link[=estimator]{estimator()}}.
+Define the estimator specification, used as part of the \code{model_fn} defined with
+custom estimators created by \code{\link[=estimator]{estimator()}}. See \code{\link[=estimator]{estimator()}} for more details.
 }
 \seealso{
 Other custom estimator methods: \code{\link{coef.tf_estimator}},
