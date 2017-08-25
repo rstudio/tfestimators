@@ -77,11 +77,16 @@ resolve_activation_fn <- function(activation_fn) {
 }
 
 # determine whether to view metrics or not
-resolve_view_metrics <- function(verbose, steps) {
-  (steps > 1)          &&             # more than 1 step
-    verbose &&                          # verbose mode is on
-    !is.null(getOption("viewer")) &&    # have an internal viewer available
-    nzchar(Sys.getenv("RSTUDIO"))       # running under RStudio
+resolve_view_metrics <- function(view_metrics, verbose, steps) {
+  
+  if (identical(view_metrics, "auto"))
+    view_metrics <- steps > 1 && verbose
+  
+  # TODO: enable outside of RStudio?
+  if (is.null(getOption("viewer")) || is.na(Sys.getenv("RSTUDIO", unset = NA)))
+    view_metrics <- FALSE
+  
+  view_metrics
 }
 
 #' Standard Names to Use for Graph Collections
