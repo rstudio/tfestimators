@@ -8,24 +8,8 @@ estimator(model_fn, model_dir = NULL, config = NULL, params = NULL,
   class = NULL)
 }
 \arguments{
-\item{model_fn}{Model function. Follows the signature:
-\itemize{
-\item \code{features}: single tensor or list of tensors (depending on data
-passed to \code{train}),
-\item \code{labels}: single tensor or list of tensors (for multi-head models).
-If \code{mode} is \code{mode_keys()$PREDICT}, \code{labels = NULL} will be passed.
-If the \code{model_fn}'s signature does not accept \code{mode}, the \code{model_fn}
-must still be able to handle \code{labels = NULL}.
-\item \code{mode}: Optional argument that specifies if this training, evaluation or prediction
-created by \code{\link[=mode_keys]{mode_keys()}}.
-\item \code{params}: Optional list of hyperparameters. Will receive what is passed
-to estimator in \code{params} parameter. This allows to configure estimators
-from hyper parameter tuning.
-\item \code{config}: Optional configuration object created by \code{\link[=run_config]{run_config()}}.
-Will receive what is passed to estimator in \code{config} parameter, or the default \code{config}.
-Allows updating things in your \code{model_fn} based on configuration such as
-\code{num_ps_replicas}, or \code{model_dir}.
-}}
+\item{model_fn}{The model function. See \strong{Model Function} for details
+on the structure of a model function.}
 
 \item{model_dir}{Directory to save model parameters, graph and etc. This can
 also be used to load checkpoints from the directory into a estimator to
@@ -41,26 +25,27 @@ Keys are names of parameters, values are basic python types.}
 \item{class}{An optional set of \R classes to add to the generated object.}
 }
 \description{
-This is the core Estimator class to train and evaluate TensorFlow models.
+Construct a custom estimator, to be used to train and evaluate
+TensorFlow models.
 }
 \details{
 The \code{Estimator} object wraps a model which is specified by a \code{model_fn},
-which, given inputs and a number of other parameters, returns the ops
-necessary to perform training, evaluation, or predictions.
+which, given inputs and a number of other parameters, returns the operations
+necessary to perform training, evaluation, and prediction.
 
 All outputs (checkpoints, event files, etc.) are written to \code{model_dir}, or a
 subdirectory thereof. If \code{model_dir} is not set, a temporary directory is
 used.
 
-The \code{config} argument can be used to passed run configuration object containing information
-about the execution environment. It is passed on to the \code{model_fn}, if the
-\code{model_fn} has a parameter named "config" (and input functions in the same
-manner). If the \code{config} parameter is not passed, it is instantiated by
-\code{estimator()}. Not passing config means that defaults useful for local
-execution are used. \code{estimator()} makes config available to the model (for
-instance, to allow specialization based on the number of workers available),
-and also uses some of its fields to control internals, especially regarding
-checkpointing.
+The \code{config} argument can be used to passed run configuration object
+containing information about the execution environment. It is passed on to
+the \code{model_fn}, if the \code{model_fn} has a parameter named "config" (and input
+functions in the same manner). If the \code{config} parameter is not passed, it is
+instantiated by \code{estimator()}. Not passing config means that defaults useful
+for local execution are used. \code{estimator()} makes config available to the
+model (for instance, to allow specialization based on the number of workers
+available), and also uses some of its fields to control internals, especially
+regarding checkpointing.
 
 The \code{params} argument contains hyperparameters. It is passed to the
 \code{model_fn}, if the \code{model_fn} has a parameter named "params", and to the
@@ -72,6 +57,39 @@ None of estimator's methods can be overridden in subclasses (its
 constructor enforces this). Subclasses should use \code{model_fn} to configure the
 base class, and may add methods implementing specialized functionality.
 }
+\section{Model Functions}{
+
+
+The \code{model_fn} should be an \R function of the form:
+\preformatted{function(features, labels, mode, params) {
+    # 1. Configure the model via TensorFlow operations.
+    # 2. Define the loss function for training and evaluation.
+    # 3. Define the training optimizer.
+    # 4. Define how predictions should be produced.
+    # 5. Return the result as an `estimator_spec()` object.
+    estimator_spec(mode, predictions, loss, train_op, eval_metric_ops)
+}}
+
+The model function's inputs are defined as follows:
+
+\tabular{ll}{
+\code{features} \tab
+The feature tensor(s). \cr
+\code{labels}   \tab
+The label tensor(s). \cr
+\code{mode}     \tab
+The current training mode ("train", "eval", "infer").
+These can be accessed through the \code{mode_keys()} object. \cr
+\code{params}   \tab
+An optional list of hyperparameters, as received
+through the \code{estimator()} constructor. \cr
+}
+
+See \code{\link[=estimator_spec]{estimator_spec()}} for more details as to how the estimator specification
+should be constructed, and \url{https://www.tensorflow.org/extend/estimators#constructing_the_model_fn} for
+more information as to how the model function should be constructed.
+}
+
 \seealso{
 Other custom estimator methods: \code{\link{coef.tf_estimator}},
   \code{\link{estimator_spec}},
