@@ -2,7 +2,7 @@
 
 [![Travis-CI Build Status](https://travis-ci.org/rstudio/tfestimators.svg?branch=master)](https://travis-ci.org/rstudio/tfestimators) 
 
-<img src="vignettes/images/tensorflow-2-100709406-large.jpg" align="right" width="50%" style="margin-left: 15px;">
+<img src="vignettes/images/tensorflow-architecture.png" align="right" width="50%" style="margin-left: 15px;">
 
 The **tfestimators** package is an R interface to TensorFlow Estimators, a high-level API that provides:
 
