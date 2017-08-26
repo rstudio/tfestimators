@@ -44,7 +44,9 @@ estimator_spec <- function(mode,
     predictions = predictions,
     loss = loss,
     train_op = train_op,
-    eval_metric_ops = eval_metric_ops,
+    # TODO: need to use reticulate::tuple() - fix this on Python end to soften the requirements in model_fn
+    eval_metric_ops = reticulate::dict(
+      lapply(eval_metric_ops, function(x) reticulate::tuple(unlist(x)))),
     ...
   )
 }
