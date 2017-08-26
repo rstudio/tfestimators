@@ -38,7 +38,7 @@ test_that("train(), predict(), and evaluate() work for classifiers", {
     ) %>% train(input_fn = specs$input_fn)
 
   # check whether tensorboard works with canned estimator
-  # tensorboard(log_dir = tmp_dir, launch_browser = FALSE)
+  tensorboard(log_dir = tmp_dir, launch_browser = FALSE)
 
   coefs <- coef(clf)
   expect_gt(length(coefs), 0)
