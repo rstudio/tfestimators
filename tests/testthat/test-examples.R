@@ -9,20 +9,15 @@ skip_if_no_tensorflow <- function() {
 # some helpers
 run_example <- function(example_path) {
   env <- new.env()
-  capture.output({
-    old_wd <- getwd()
-    setwd(dirname(example_path))
-    on.exit(setwd(old_wd), add = TRUE)
-    source(basename(example_path), local = env)
-  }, type = "output")
+  source(example_path, local = env)
   rm(list = ls(env), envir = env)
   gc()
 }
 
-examples <- if (nzchar(Sys.getenv("TENSORFLOW_TEST_EXAMPLES"))) {
+examples <- if (TRUE) {
   vignettes_examples_dir <- "../../vignettes/examples"
   c(
-    file.path(vignettes_examples_dir, "layers_tutorial.R"),
+    file.path(vignettes_examples_dir, "tensorflow_layers.R"),
     file.path(vignettes_examples_dir, "custom_estimator.R")
     )
 }
