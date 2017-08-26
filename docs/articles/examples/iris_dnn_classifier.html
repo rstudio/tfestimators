@@ -106,14 +106,14 @@
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tfestimators)
 
-response &lt;-<span class="st"> </span><span class="cf">function</span>() <span class="st">"Species"</span>
-features &lt;-<span class="st"> </span><span class="cf">function</span>() <span class="kw">setdiff</span>(<span class="kw">names</span>(iris), <span class="kw">response</span>())
+response &lt;-<span class="st"> </span>function() <span class="st">"Species"</span>
+features &lt;-<span class="st"> </span>function() <span class="kw">setdiff</span>(<span class="kw">names</span>(iris), <span class="kw">response</span>())
 
 <span class="co"># split into train, test datasets</span>
 <span class="kw">set.seed</span>(<span class="dv">123</span>)
-partitions &lt;-<span class="st"> </span>modelr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/modelr/topics/resample_partition">resample_partition</a></span>(iris, <span class="kw">c</span>(<span class="dt">test =</span> <span class="fl">0.2</span>, <span class="dt">train =</span> <span class="fl">0.8</span>))
-iris_train &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(partitions<span class="op">$</span>train)
-iris_test  &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(partitions<span class="op">$</span>test)
+partitions &lt;-<span class="st"> </span>modelr::<span class="kw">resample_partition</span>(iris, <span class="kw">c</span>(<span class="dt">test =</span> <span class="fl">0.2</span>, <span class="dt">train =</span> <span class="fl">0.8</span>))
+iris_train &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(partitions$train)
+iris_test  &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(partitions$test)
 
 <span class="co"># construct feature columns</span>
 feature_columns &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/feature_columns.html">feature_columns</a></span>(
@@ -128,7 +128,7 @@ classifier &lt;-<span class="st"> </span><span class="kw"><a href="../../referen
 )
 
 <span class="co"># construct input function </span>
-iris_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(data) {
+iris_input_fn &lt;-<span class="st"> </span>function(data) {
   <span class="kw"><a href="../../reference/input_fn.html">input_fn</a></span>(data, <span class="dt">features =</span> <span class="kw">features</span>(), <span class="dt">response =</span> <span class="kw">response</span>())
 }
 
