@@ -309,7 +309,10 @@ hook_view_metrics <- function(steps) {
   
   get_metrics_df <- function() {
     df <- as.data.frame(.globals$history$losses)
-    ifelse(!is.null(steps), pad(df, steps), df)
+    if (!is.null(steps)) {
+      df <- pad(df, steps)
+    }
+    df
   }
   
   on_metrics <- function() {
