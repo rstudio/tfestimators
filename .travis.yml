@@ -4,6 +4,10 @@ language: r
 
 warnings_are_errors: false
 
+env:
+  global:
+    - TENSORFLOW_TEST_EXAMPLES="1"
+
 os:
   - linux
   # - osx

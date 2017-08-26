@@ -68,7 +68,7 @@ train.tf_estimator <- function(object,
     hooks <- c(hooks, hook_progress_bar("Training", steps))
   }
   
-  if (resolve_view_metrics(view_metrics, verbose, steps))
+  if (resolve_view_metrics(view_metrics, verbose))
     hooks <- c(hooks, hook_view_metrics(steps))
   
   # show training loss metrics

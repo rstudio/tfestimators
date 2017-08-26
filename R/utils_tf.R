@@ -77,10 +77,10 @@ resolve_activation_fn <- function(activation_fn) {
 }
 
 # determine whether to view metrics or not
-resolve_view_metrics <- function(view_metrics, verbose, steps) {
-  
+resolve_view_metrics <- function(view_metrics, verbose) {
+
   if (identical(view_metrics, "auto"))
-    view_metrics <- steps > 1 && verbose
+    view_metrics <- verbose
   
   # TODO: enable outside of RStudio?
   if (is.null(getOption("viewer")) || is.na(Sys.getenv("RSTUDIO", unset = NA)))
