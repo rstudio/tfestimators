@@ -5,7 +5,7 @@
 \title{Train an Estimator}
 \usage{
 \method{train}{tf_estimator}(object, input_fn, steps = NULL, hooks = NULL,
-  max_steps = NULL, verbose = TRUE, view_metrics = FALSE, ...)
+  max_steps = NULL, verbose = TRUE, view_metrics = "auto", ...)
 }
 \arguments{
 \item{object}{A TensorFlow estimator.}
