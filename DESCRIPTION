@@ -29,7 +29,7 @@ Depends:
 Imports:
     utils,
     reticulate (>= 1.0.0.9003),
-    tensorflow (>= 1.3.0.9004),
+    tensorflow (>= 1.3.0.9005),
     tfruns (>= 0.9.0.9009),
     rlang,
     tidyselect,
