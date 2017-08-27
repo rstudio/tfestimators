@@ -61,9 +61,6 @@ hook_progress_bar <- function(label, steps) {
         stream = stdout(),
         show_after = 0
       )
-      
-      # update progress bar
-      update_progress(.values, .n)
     }
     
   )
