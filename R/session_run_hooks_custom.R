@@ -105,7 +105,7 @@ hook_progress_bar <- function(label, steps) {
     end = function(session) {
       
       # if we ran as many steps as expected, bail
-      if (identical(.n, steps))
+      if (is.null(steps) || identical(.n, steps))
         return()
 
       update_progress(.values, steps - .n)
