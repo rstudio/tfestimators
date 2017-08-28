@@ -20,6 +20,8 @@ cache:
 before_script:
   - pip2.7 install --upgrade --ignore-installed --user travis pip setuptools wheel virtualenv
   - R -e 'tensorflow::install_tensorflow(version = "1.3.0")'
+  - mkdir inst/examples
+  - cp -R vignettes/examples/* inst/examples
 
 addons:
   apt:
