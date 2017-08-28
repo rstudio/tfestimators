@@ -28,9 +28,9 @@ Depends:
     R (>= 3.0.0)
 Imports:
     utils,
-    reticulate (>= 1.0.0.9003),
-    tensorflow (>= 1.3.0.9005),
-    tfruns (>= 0.9.0.9009),
+    reticulate (>= 1.1), 
+    tensorflow (>= 1.3.1),
+    tfruns (>= 0.9.1),
     rlang,
     tidyselect,
     modelr (>= 0.1.1),
@@ -43,6 +43,4 @@ Suggests:
     knitr
 VignetteBuilder: knitr
 Remotes:
-  rstudio/tensorflow,
-  rstudio/tfruns,
   tidyverse/tidyselect
