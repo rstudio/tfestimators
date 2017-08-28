@@ -22,7 +22,7 @@ feature_columns <- function(..., names = NULL) {
     rlang::eval_tidy(quo, data = data)
   })
   
-  # return selection
+  # flatten our (potentially recursive) list
   c(selections, recursive = TRUE)
 }
 
