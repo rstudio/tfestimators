@@ -107,7 +107,7 @@ hook_progress_bar <- function(label, steps) {
       # if we ran as many steps as expected, bail
       if (identical(.n, steps))
         return()
-      
+
       # otherwise, write a single-tick progress bar
       # encoding the finished state
       .bar <<- progress::progress_bar$new(
@@ -120,6 +120,9 @@ hook_progress_bar <- function(label, steps) {
         stream = stdout(),
         show_after = 0
       )
+      
+      # update progress bar
+      update_progress(.values, .n)
     }
     
   )
