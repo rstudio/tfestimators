@@ -10,8 +10,7 @@ class RSessionRunHook(SessionRunHook):
     self.r_end = r_end
   
   def begin(self):
-    try: self.r_begin()
-    except: pass
+    self.r_begin()
   
   def after_create_session(self, session, coord):
     """Called when new TensorFlow session is created.
@@ -25,8 +24,7 @@ class RSessionRunHook(SessionRunHook):
       session: A TensorFlow Session that has been created.
       coord: A Coordinator object which keeps track of all threads.
     """
-    try: self.r_after_create_session(session, coord)
-    except: pass
+    self.r_after_create_session(session, coord)
 
   def before_run(self, run_context):
     """Called before each call to run().
@@ -44,8 +42,7 @@ class RSessionRunHook(SessionRunHook):
     Returns:
       None or a `SessionRunArgs` object.
     """
-    try: return self.r_before_run(run_context)
-    except: pass
+    return self.r_before_run(run_context)
 
   def after_run(self, run_context, run_values):
     """Called after each call to run().
@@ -58,8 +55,7 @@ class RSessionRunHook(SessionRunHook):
       run_context: A `SessionRunContext` object.
       run_values: A SessionRunValues object.
     """
-    try: self.r_after_run(run_context, run_values)
-    except: pass
+    self.r_after_run(run_context, run_values)
 
   def end(self, session):
     """Called at the end of session.
@@ -73,5 +69,4 @@ class RSessionRunHook(SessionRunHook):
     Args:
       session: A TensorFlow Session that will be soon closed.
     """
-    try: self.r_end(session)
-    except: pass
+    self.r_end(session)
