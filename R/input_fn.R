@@ -64,9 +64,18 @@ input_fn.data.frame <- function(object,
                                 ...)
 {
   all_names <- object_names(object)
-  features <- vars_select(all_names, !! enquo(features))
-  if (!missing(response))
-    response <- vars_select(all_names, !! enquo(response))
+  
+  # evaluate features (use tidyselect overscope)
+  eq_features <- enquo(features)
+  environment(eq_features) <- as_overscope(eq_features, data = tidyselect_data())
+  features <- vars_select(all_names, !! eq_features)
+  
+  # evaluate response (use tidyselect overscope)
+  if (!missing(response)) {
+    eq_response <- enquo(response)
+    environment(eq_response) <- as_overscope(eq_response, data = tidyselect_data())
+    response <- vars_select(all_names, !! eq_response)
+  }
   
   num_epochs <- as_nullable_integer(num_epochs)
   batch_size <- as.integer(batch_size)
