@@ -104,25 +104,11 @@ hook_progress_bar <- function(label, steps) {
     
     end = function(session) {
       
-      # if we ran no more than the steps as expected, bail
-      if (.n <= steps)
+      # if we ran as many steps as expected, bail
+      if (identical(.n, steps))
         return()
 
-      # otherwise, write a single-tick progress bar
-      # encoding the finished state
-      .bar <<- progress::progress_bar$new(
-        format = format,
-        total = .n,
-        complete = "=",
-        incomplete = ".",
-        clear = FALSE,
-        width = min(getOption("width"), 80),
-        stream = stdout(),
-        show_after = 0
-      )
-      
-      # update progress bar
-      update_progress(.values, .n)
+      update_progress(.values, steps - .n)
     }
     
   )
