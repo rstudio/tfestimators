@@ -9,3 +9,36 @@ test_that("feature columns can be constructed correctly", {
   expect_equal(length(fcs), 2)
   expect_true(grepl("NumericColumn", class(fcs[[1]])[1]))
 })
+
+test_that("feature columns can be constructed with (cond) ~ (op) syntax", {
+  
+  names <- do.call(paste0, expand.grid(letters, 0:9))
+  
+  # bare calls (no extra arguments to column function)
+  mild <- feature_columns(
+    column_numeric(starts_with("a")),
+    names = names
+  )
+  
+  spicy <- feature_columns(
+    starts_with("a") ~ column_numeric(),
+    names = names
+  )
+  
+  expect_equal(mild, spicy)
+  
+  # extra arguments to 'column_numeric()'
+  mild <- feature_columns(
+    column_numeric(starts_with("a"), shape = 1L),
+    names = names
+  )
+  
+  spicy <- feature_columns(
+    starts_with("a") ~ column_numeric(shape = 1L),
+    names = names
+  )
+  
+  expect_equal(mild, spicy)
+  
+})
+

@@ -14,16 +14,45 @@ feature_columns <- function(..., names = NULL) {
   # scope names when they are provided
   if (!is.null(names))
     tidyselect::scoped_vars(names)
-    
   
   # evaluate in an environment where 'tidyselect' is available
   data <- tidyselect_data()
   selections <- lapply(quos(...), function(quo) {
+    
+    # if this is a two-sided formula, transform call from e.g.
+    #
+    #     starts_with("a") ~ column_numeric()
+    #
+    # to
+    #
+    #     column_numeric(starts_with("a"))
+    #
+    expr <- quo_expr(quo)
+    if (is_formula(expr, lhs = TRUE)) {
+      
+      # extract formula expressions
+      lhs <- expr[[2]]; rhs <- expr[[3]]
+      
+      # inject lhs as first argument to rhs
+      injected <- as.call(c(lang_head(rhs), lhs, lang_tail(rhs)))
+      
+      # update expression
+      quo <- set_expr(quo, injected)
+    }
+    
     rlang::eval_tidy(quo, data = data)
   })
   
   # flatten our (potentially recursive) list
-  c(selections, recursive = TRUE)
+  flattened <- c(selections, recursive = TRUE)
+  
+  # remove duplicated columns (in case a column was
+  # matched by multiple criterion
+  keys <- vapply(flattened, function(item) {
+    item$key
+  }, character(1))
+  dupes <- duplicated(keys)
+  flattened[!dupes]
 }
 
 # Base documentation for feature column constructors ----
