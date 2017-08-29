@@ -21,19 +21,23 @@ hook_view_metrics <- function(steps) {
   .metrics_viewer <- NULL
   .time <- Sys.time() - 1.0 # forces immediate update
   
-  get_metrics_df <- function() {
+  # NOTE: we need to pad with an extra row of data to signal to
+  # the viewer that there is more data incoming. by returning a
+  # metrics dataframe with no padding, we signal to the viewer
+  # that there is no more data incoming
+  get_metrics_df <- function(finalize) {
     df <- as.data.frame(.globals$history$losses)
-    if (!is.null(steps)) {
-      df <- pad(df, steps)
-    }
-    df
+    if (finalize)
+      return(df)
+    pad(df, steps %||% nrow(df) + 1)
   }
   
-  on_metrics <- function() {
+  on_metrics <- function(finalize = FALSE) {
     
     # update and record metrics
-    metrics_df <- get_metrics_df()
-    if (is.null(steps) || is.null(.metrics_viewer)) {
+    metrics_df <- get_metrics_df(finalize)
+    
+    if (is.null(.metrics_viewer)) {
       .metrics_viewer <<- tfruns::view_run_metrics(metrics_df)
     } else {
       tfruns::update_run_metrics(.metrics_viewer, metrics_df)
@@ -52,7 +56,8 @@ hook_view_metrics <- function(steps) {
   }
   
   session_run_hook(
-    after_run = function(context, values) on_metrics()
+    after_run = function(context, values) on_metrics(FALSE),
+    end = function(session) on_metrics(TRUE)
   )
 }
 
