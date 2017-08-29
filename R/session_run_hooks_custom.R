@@ -19,7 +19,7 @@ hook_view_metrics <- function(steps) {
   force(steps)
   
   .metrics_viewer <- NULL
-  .time <- Sys.time()
+  .time <- Sys.time() - 1.0 # forces immediate update
   
   get_metrics_df <- function() {
     df <- as.data.frame(.globals$history$losses)
@@ -33,9 +33,8 @@ hook_view_metrics <- function(steps) {
     
     # update and record metrics
     metrics_df <- get_metrics_df()
-    if (is.null(.metrics_viewer)) {
+    if (is.null(steps) || is.null(.metrics_viewer)) {
       .metrics_viewer <<- tfruns::view_run_metrics(metrics_df)
-      Sys.sleep(0.1)
     } else {
       tfruns::update_run_metrics(.metrics_viewer, metrics_df)
     }
