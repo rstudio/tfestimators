@@ -17,6 +17,10 @@ knitr::opts_chunk$set(eval = FALSE, echo = TRUE)
 
 # R Interface to TensorFlow Estimators
 
+<div id="build-status">
+[![Travis-CI Build Status](https://travis-ci.org/rstudio/tfestimators.svg?branch=master)](https://travis-ci.org/rstudio/tfestimators.svg) 
+</div>
+
 ## Overview
 
 <img src="articles/images/tensorflow-architecture.png" align="right" width="50%" style="margin-left: 15px;">
