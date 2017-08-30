@@ -26,7 +26,7 @@ hook_logging_tensor <- function(tensors,
 {
   with_logging_verbosity(tf$logging$INFO, {
       tf$python$training$basic_session_run_hooks$LoggingTensorHook(
-        tensors = ensure_dict(tensors, named = F),
+        tensors = ensure_dict(tensors, named = FALSE),
         every_n_iter = every_n_iter,
         every_n_secs = every_n_secs,
         formatter = formatter,

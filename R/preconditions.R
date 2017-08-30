@@ -41,7 +41,7 @@ ensure_scalar <- function(object) {
   object
 }
 
-ensure_dict <- function(x, named = F) {
+ensure_dict <- function(x, named = FALSE) {
   if (is.list(x)) {
     if (named && is.null(names(x))) {
       stop("x must be a named list")
