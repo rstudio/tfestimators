@@ -108,7 +108,7 @@ column_categorical_with_vocabulary_list <- function(...,
       key = column,
       vocabulary_list = vocabulary_list,
       dtype = dtype,
-      default_value = default_value,
+      default_value = as_nullable_integer(default_value),
       num_oov_buckets = as.integer(num_oov_buckets)
     )
   })
@@ -165,7 +165,7 @@ column_categorical_with_vocabulary_file <- function(...,
       vocabulary_file = vocabulary_file,
       vocabulary_size = vocabulary_size,
       num_oov_buckets = as.integer(num_oov_buckets),
-      default_value = as.integer(default_value),
+      default_value = as_nullable_integer(default_value),
       dtype = dtype
     )
   })
@@ -204,13 +204,13 @@ column_categorical_with_vocabulary_file <- function(...,
 #' @export
 column_categorical_with_identity <- function(...,
                                              num_buckets,
-                                             default_value = 0L)
+                                             default_value = NULL)
 {
   create_columns(..., f = function(column) {
     feature_column_lib$categorical_column_with_identity(
       key = column,
       num_buckets = as.integer(num_buckets),
-      default_value = if (is.null(default_value)) NULL else as.integer(default_value)
+      default_value = as_nullable_integer(default_value)
     )
 
   })
