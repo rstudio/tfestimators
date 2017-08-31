@@ -210,7 +210,7 @@ column_categorical_with_identity <- function(...,
     feature_column_lib$categorical_column_with_identity(
       key = column,
       num_buckets = as.integer(num_buckets),
-      default_value = as.integer(default_value)
+      default_value = if (is.null(default_value)) NULL else as.integer(default_value)
     )
 
   })
