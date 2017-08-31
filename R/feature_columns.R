@@ -204,7 +204,7 @@ column_categorical_with_vocabulary_file <- function(...,
 #' @export
 column_categorical_with_identity <- function(...,
                                              num_buckets,
-                                             default_value = NULL)
+                                             default_value = 0L)
 {
   create_columns(..., f = function(column) {
     feature_column_lib$categorical_column_with_identity(
