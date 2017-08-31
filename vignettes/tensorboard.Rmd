@@ -47,16 +47,16 @@ with `log_dir` being the directory you used to save the model checkpoints, to la
 
 For example, here's a TensorBoard display for a model's training loss:
 
-![](images/tensorboard-loss.png){width=750 height=545 .screenshot}
+![](images/tensorboard-loss.png){.screenshot}
 
 
 
 Here's another TensorBoard display for this model's TensorFlow graph that demonstrates the architecture of the model:
 
-![](images/tensorboard-graph.png){width=750 height=545 .screenshot}
+![](images/tensorboard-graph.png){.screenshot}
 
 
 You can also click to see each subgraph's details:
 
 
-![](images/tensorboard-graph-details.png){width=750 height=545 .screenshot}
+![](images/tensorboard-graph-details.png){.screenshot}
