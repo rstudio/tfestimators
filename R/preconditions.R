@@ -8,10 +8,17 @@ ensure_valid_column_names <- function(x, columns) {
 }
 
 object_names <- function(x) {
-  if (is.null(colnames(x)))
-    names(x)
-  else
-    colnames(x)
+  
+  # return character vectors as-is
+  if (is.character(x))
+    return(x)
+  
+  # if the object has column names, use those
+  if (!is.null(colnames(x)))
+    return(colnames(x))
+  
+  # otherwise, default to names
+  names(x)
 }
 
 ensure_not_na <- function(object) {
@@ -41,7 +48,7 @@ ensure_scalar <- function(object) {
   object
 }
 
-ensure_dict <- function(x, named = F) {
+ensure_dict <- function(x, named = FALSE) {
   if (is.list(x)) {
     if (named && is.null(names(x))) {
       stop("x must be a named list")
