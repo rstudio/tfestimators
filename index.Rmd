@@ -41,7 +41,7 @@ For more details on the architecture and design of TensorFlow Estimators, please
 
 ### Installation
 
-To use **tfestimators**, you need to install both the R package as well as [TensorFlow](https://rstudio.github.io/tensorflow/) itself.
+To use **tfestimators**, you need to install both the R package as well as [TensorFlow](https://tensorflow.rstudio.com/) itself.
 
 First, install the tfestimators R package as follows:
 
