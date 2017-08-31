@@ -4,7 +4,7 @@
 \alias{column_categorical_with_identity}
 \title{Construct a Categorical Column that Returns Identity Values}
 \usage{
-column_categorical_with_identity(..., num_buckets, default_value = 0L)
+column_categorical_with_identity(..., num_buckets, default_value = NULL)
 }
 \arguments{
 \item{...}{Expression(s) identifying input feature(s). Used as the column
