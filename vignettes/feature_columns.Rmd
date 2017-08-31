@@ -59,29 +59,25 @@ Note that when creating `feature_columns()`, the data that you pass as the first
 **tfestimators** uses the [tidyselect](https://github.com/tidyverse/tidyselect) package to make it easy to define feature columns, similar to what you might be familiar with in the `dplyr` package. To do this, establish the set of column names to match against using the `names` argument:
 
 ```{r}
-cols <- feature_columns(names = subsidiaries, 
-  column_numeric("profit"),
-  column_categorical_with_identity("profession", num_buckets = 5),
-  column_numeric(ends_with("_pct"))
+library(nycflights13)
+data("flights", package = "nycflights13")
+
+cols <- feature_columns(names = flights,
+  column_numeric(ends_with("time")),
+  column_categorical_with_identity("carrier", num_buckets = 5)
 )
 ```
 
 The `names` parameter can either be a character vector with the names or any R object which implements the `names()` or `colnames()` method.
 
-If the code you are using to compose columns is more complicated, or if you need save references to columns for use in column embeddings you can also establish a scope for given set of column names using the `with_column_names()` function:
+If the code you are using to compose columns is more complicated, or if you need save references to columns for use in column embeddings you can also establish a scope for given set of column names using the `with_columns()` function:
 
 ```{r}
-cols <- with_column_names(names = subsidiaries, {
-                        
-  cols <- feature_columns(
-    column_numeric("profit"),
-    column_categorical_with_identity("profession", num_buckets = 5)
-  )                     
-     
-  if (include_pct)
-    cols <- feature_columns(cols, column_numeric(ends_with("_pct")))
-  
-  cols
+cols <- with_columns(flights, {
+  feature_columns(
+    column_numeric(ends_with("time")),
+    column_categorical_with_identity("carrier", num_buckets = 5)
+  )
 })
 ```
 

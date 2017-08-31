@@ -13,7 +13,7 @@ feature_columns <- function(..., names = NULL) {
 
   # scope names when they are provided
   if (!is.null(names))
-    tidyselect::scoped_vars(names)
+    tidyselect::scoped_vars(object_names(names))
   
   # evaluate in an environment where 'tidyselect' is available
   data <- tidyselect_data()
