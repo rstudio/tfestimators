@@ -8,12 +8,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 type: docs
 repo: https://github.com/rstudio/tfestimators
-menu:
-  main:
-    name: "Experiments"
-    identifier: "tfestimators-experiments"
-    parent: "tfestimators-advanced"
-    weight: 10
+# menu:
+#   main:
+#     name: "Experiments"
+#     identifier: "tfestimators-experiments"
+#     parent: "tfestimators-advanced"
+#     weight: 10
 ---
 
 
