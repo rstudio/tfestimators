@@ -52,7 +52,7 @@ model_dir.tf_estimator <- function(object, ...) {
   object$estimator$model_dir
 }
 
-mv_tf_events_file <- function(model_dir = "/tmp/iris-custom-decay-cnn-model") {
+mv_tf_events_file <- function(model_dir) {
   tf_events_file_path <- file.path(model_dir, list.files(model_dir, pattern = "tfevents"))
   destination_path <- file.path(model_dir, "logs")
   dir.create(destination_path, showWarnings = FALSE)
