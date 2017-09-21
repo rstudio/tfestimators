@@ -52,6 +52,13 @@ model_dir.tf_estimator <- function(object, ...) {
   object$estimator$model_dir
 }
 
+mv_tf_events_file <- function(model_dir = "/tmp/iris-custom-decay-cnn-model") {
+  tf_events_file_path <- file.path(model_dir, list.files(model_dir, pattern = "tfevents"))
+  destination_path <- file.path(model_dir, "logs")
+  dir.create(destination_path, showWarnings = FALSE)
+  invisible(file.copy(from = tf_events_file_path, to = destination_path, copy.mode = TRUE, copy.date = TRUE))
+  unlink(tf_events_file_path, recursive = TRUE)
+}
 
 # if the model_dir is unspecified and there is a run_dir() available then 
 # use the run_dir()

@@ -85,6 +85,9 @@ train.tf_estimator <- function(object,
   
   if (verbose)
     object$history <- .globals$history
+
+  # move tfevents file to a separate /logs folder under model_dir
+  mv_tf_events_file(model_dir(object))
   
   invisible(object)
 }
