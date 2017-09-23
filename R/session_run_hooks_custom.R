@@ -63,7 +63,7 @@ hook_view_metrics <- function(props) {
     
   }
 
-  write_run_properties <- function(props = props) {
+  write_run_properties <- function(props) {
     properties <- list()
     properties$steps <- steps
     tfruns::write_run_metadata("properties", properties)
