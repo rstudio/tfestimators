@@ -61,8 +61,15 @@ hook_view_metrics <- function(steps) {
     }
     
   }
+
+  write_run_properties <- function(props = NULL) {
+    properties <- list()
+    properties$steps <- steps
+    tfruns::write_run_metadata("properties", properties)
+  }
   
   session_run_hook(
+    before_run = function(context) write_run_properties(),
     after_run = function(context, values) on_metrics(FALSE),
     end = function(session) on_metrics(TRUE)
   )
