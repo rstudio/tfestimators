@@ -69,10 +69,11 @@ train.tf_estimator <- function(object,
   }
   
   if (resolve_view_metrics(view_metrics, verbose))
-    props <- list(
-      steps = steps
+    run_metadata_props <- list(
+      steps = steps,
+      model = str(object)
     )
-    hooks <- c(hooks, hook_view_metrics(props))
+    hooks <- c(hooks, hook_view_metrics(run_metadata_props))
   
   # show training loss metrics
   # (https://www.tensorflow.org/get_started/monitors#enabling_logging_with_tensorflow)
