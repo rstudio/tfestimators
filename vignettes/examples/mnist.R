@@ -121,9 +121,9 @@ predictions <- predict(classifier, input_fn = mnist_input_fn(mnist$test))
 # plot predictions versus actual for small subset
 n <- 20
 indices <- sample(nrow(mnist$test$x), n)
-classes <- vapply(indices, function(i) {
-  predictions[[i]]$classes
-}, character(1))
+classes <- lapply(indices, function(i) {
+  predictions[[i]]$class_ids
+})
 
 data <- array(mnist$test$x[indices, ], dim = c(n, 28, 28))
 melted <- melt(data, varnames = c("image", "x", "y"), value.name = "intensity")
