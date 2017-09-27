@@ -144,9 +144,28 @@ predict.tf_estimator <- function(object,
              inherits(predictions, "python.builtin.generator"))) {
       warning("predictions are not iterable, no need to convert again")
     } else {
-      predictions <- predictions %>% iterate
+      predictions <- iterate(predictions)
+      
+      # convert Python bytestrings back into R strings
+      for (i in seq_along(predictions)) {
+        classes <- predictions[[i]]$classes
+        if (is.list(classes)) {
+          
+          isBytes <- vapply(classes, function(class) {
+            inherits(class, "python.builtin.bytes")
+          }, logical(1))
+          
+          if (all(isBytes)) {
+            decoded <- vapply(classes, function(class) {
+              class$decode()
+            }, character(1))
+            predictions[[i]]$classes <- decoded
+          }
+        }
+      }
     }
   }
+  
   predictions
 }
 
