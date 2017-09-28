@@ -5,7 +5,8 @@
 \title{Define an Estimator Specification}
 \usage{
 estimator_spec(mode, predictions = NULL, loss = NULL, train_op = NULL,
-  eval_metric_ops = NULL, ...)
+  eval_metric_ops = NULL, training_hooks = NULL, evaluation_hooks = NULL,
+  training_chief_hooks = NULL, ...)
 }
 \arguments{
 \item{mode}{A key that specifies whether we are performing
@@ -25,6 +26,12 @@ that computes the associated metric (e.g. \code{tf$metrics$root_mean_squared_err
 These metric operations should be evaluated without any impact on state (typically
 is a pure computation results based on variables). For example, it should not
 trigger the update ops or requires any input fetching.}
+
+\item{training_hooks}{A list of session run hooks to run on all workers during training.}
+
+\item{evaluation_hooks}{A list of session run hooks to run during evaluation.}
+
+\item{training_chief_hooks}{A list of session run hooks to run on chief worker during training.}
 
 \item{...}{Other optional (named) arguments, to be passed to the \code{EstimatorSpec} constructor.}
 }
