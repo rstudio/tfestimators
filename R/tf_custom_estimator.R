@@ -27,6 +27,9 @@ tf_custom_estimator <- function(estimator, model_fn, classes) {
 #' @param eval_metric_ops A list of metrics to be computed as part of evaluation.
 #'   This should be a named list, mapping metric names (e.g. `"rmse"`) to the operation
 #'   that computes the associated metric (e.g. `tf$metrics$root_mean_squared_error(...)`).
+#'   These metric operations should be evaluated without any impact on state (typically 
+#'   is a pure computation results based on variables). For example, it should not
+#'   trigger the update ops or requires any input fetching.
 #' 
 #' @param ... Other optional (named) arguments, to be passed to the `EstimatorSpec` constructor.
 #' 

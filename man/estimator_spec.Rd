@@ -21,7 +21,10 @@ depending on the type of optimizer used during training.}
 
 \item{eval_metric_ops}{A list of metrics to be computed as part of evaluation.
 This should be a named list, mapping metric names (e.g. \code{"rmse"}) to the operation
-that computes the associated metric (e.g. \code{tf$metrics$root_mean_squared_error(...)}).}
+that computes the associated metric (e.g. \code{tf$metrics$root_mean_squared_error(...)}).
+These metric operations should be evaluated without any impact on state (typically
+is a pure computation results based on variables). For example, it should not
+trigger the update ops or requires any input fetching.}
 
 \item{...}{Other optional (named) arguments, to be passed to the \code{EstimatorSpec} constructor.}
 }
