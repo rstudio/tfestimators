@@ -14,10 +14,6 @@ as.data.frame.tf_estimator_history <- function(x, ...) {
   df
 }
 
-plot.tf_estimator_history <- function(x, method = c("auto", "ggplot2", "base"), smooth = TRUE) {
-  # TODO
-}
-
 #' @export
 print.tf_estimator_history <- function(x, ...) {
   print(as.data.frame(x), ...)
