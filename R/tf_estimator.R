@@ -47,6 +47,8 @@ NULL
 #'
 #' @template roxlate-object-estimator
 #'
+#' @param saving_listeners A list of `CheckpointSaverListener` objects
+#' used for callbacks that run immediately before or after checkpoint savings.
 #' @param verbose Show progress output as the model is trained?
 #' @param view_metrics View training metrics as the model is trained?
 #' @param ... Optional arguments, passed on to the estimator's `train()` method.
@@ -58,6 +60,7 @@ train.tf_estimator <- function(object,
                                steps = NULL,
                                hooks = NULL,
                                max_steps = NULL,
+                               saving_listeners = NULL,
                                verbose = TRUE,
                                view_metrics = "auto",
                                ...)
