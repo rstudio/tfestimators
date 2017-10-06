@@ -46,6 +46,8 @@ svm_classifier <- function(example_id_column,
                            config = NULL,
                            feature_engineering_fn = NULL)
 {
+  params <- as.list(environment(), all = TRUE)
+  
   estimator <- tf$contrib$learn$SVM(
     example_id_column = example_id_column,
     feature_columns = feature_columns,
@@ -59,5 +61,5 @@ svm_classifier <- function(example_id_column,
     feature_engineering_fn = feature_engineering_fn
   )
   
-  tf_classifier(estimator, "svm")
+  tf_classifier(estimator, "svm", params = params)
 }

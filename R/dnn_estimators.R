@@ -69,6 +69,8 @@ dnn_classifier <- function(hidden_units,
                            input_layer_partitioner = NULL,
                            config = NULL)
 {
+  params <- as.list(environment(), all = TRUE)
+  
   estimator <- py_suppress_warnings(
     tf$estimator$DNNClassifier(
       hidden_units = as.integer(hidden_units),
@@ -85,6 +87,6 @@ dnn_classifier <- function(hidden_units,
     )
   )
 
-  tf_classifier(estimator, "dnn_classifier")
+  tf_classifier(estimator, "dnn_classifier", params)
 }
 
