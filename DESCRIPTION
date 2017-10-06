@@ -35,11 +35,10 @@ Imports:
     tfruns (>= 0.9.1),
     tidyselect,
     utils
-Suggests:
-    modelr (>= 0.1.1)
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
 Suggests:
+    modelr (>= 0.1.1),
     testthat,
     knitr
 VignetteBuilder: knitr
