@@ -120,13 +120,13 @@
 )</code></pre></div>
 <p>For the above example, <code>classifier_parse_example_spec</code> would return the following:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">expected_spec &lt;-<span class="st"> </span><span class="kw">list</span>(
-  <span class="dt">a =</span> tf$python$ops$parsing_ops$<span class="kw">FixedLenFeature</span>(reticulate::<span class="kw">tuple</span>(1L), <span class="dt">dtype =</span> tf$float32),
-  <span class="dt">c =</span> tf$python$ops$parsing_ops$<span class="kw">FixedLenFeature</span>(reticulate::<span class="kw">tuple</span>(1L), <span class="dt">dtype =</span> tf$float32),
-  <span class="dt">b =</span> tf$python$ops$parsing_ops$<span class="kw">FixedLenFeature</span>(reticulate::<span class="kw">tuple</span>(1L), <span class="dt">dtype =</span> tf$int64)
+  <span class="dt">a =</span> tf<span class="op">$</span>python<span class="op">$</span>ops<span class="op">$</span>parsing_ops<span class="op">$</span><span class="kw">FixedLenFeature</span>(reticulate<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/reticulate/topics/tuple">tuple</a></span>(1L), <span class="dt">dtype =</span> tf<span class="op">$</span>float32),
+  <span class="dt">c =</span> tf<span class="op">$</span>python<span class="op">$</span>ops<span class="op">$</span>parsing_ops<span class="op">$</span><span class="kw">FixedLenFeature</span>(reticulate<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/reticulate/topics/tuple">tuple</a></span>(1L), <span class="dt">dtype =</span> tf<span class="op">$</span>float32),
+  <span class="dt">b =</span> tf<span class="op">$</span>python<span class="op">$</span>ops<span class="op">$</span>parsing_ops<span class="op">$</span><span class="kw">FixedLenFeature</span>(reticulate<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/reticulate/topics/tuple">tuple</a></span>(1L), <span class="dt">dtype =</span> tf<span class="op">$</span>int64)
 )
 
 <span class="co"># This should be the same as the one we constructed using `classifier_parse_example_spec`</span>
-testthat::<span class="kw">expect_equal</span>(parsing_spec, expected_spec)</code></pre></div>
+testthat<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/testthat/topics/equality-expectations">expect_equal</a></span>(parsing_spec, expected_spec)</code></pre></div>
 </div>
 <div id="example-usage-with-a-classifier" class="section level2">
 <h2 class="hasAnchor">
@@ -145,7 +145,7 @@ model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dnn_e
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">parsing_spec &lt;-<span class="st"> </span><span class="kw"><a href="../reference/classifier_parse_example_spec.html">classifier_parse_example_spec</a></span>(
   <span class="dt">feature_columns =</span> fcs,
   <span class="dt">label_key =</span> <span class="st">'my-label'</span>,
-  <span class="dt">label_dtype =</span> tf$string,
+  <span class="dt">label_dtype =</span> tf<span class="op">$</span>string,
   <span class="dt">weight_column =</span> <span class="st">'example-weight'</span>
 )</code></pre></div>
 <p>This label configuration tells the classifier the following:</p>
@@ -156,12 +156,12 @@ model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dnn_e
 <li>integer id for label ‘photos’ is 0, ‘keep’ is 1, etc</li>
 </ul>
 <p>Then define your input function with the help of <code>read_batch_features</code> that reads the batches of features from files in <code>tf$Example</code> format with the parsing configuration <code>parsing_spec</code> we just defined:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input_fn_train &lt;-<span class="st"> </span>function() {
-  features &lt;-<span class="st"> </span>tf$contrib$learn$<span class="kw">read_batch_features</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input_fn_train &lt;-<span class="st"> </span><span class="cf">function</span>() {
+  features &lt;-<span class="st"> </span>tf<span class="op">$</span>contrib<span class="op">$</span>learn<span class="op">$</span><span class="kw">read_batch_features</span>(
     <span class="dt">file_pattern =</span> train_files,
     <span class="dt">batch_size =</span> batch_size,
     <span class="dt">features =</span> parsing_spec,
-    <span class="dt">reader =</span> tf$RecordIOReader)
+    <span class="dt">reader =</span> tf<span class="op">$</span>RecordIOReader)
   labels &lt;-<span class="st"> </span>features[[<span class="st">"my-label"</span>]]
   <span class="kw">return</span>(<span class="kw">list</span>(features, labels))
 }</code></pre></div>

@@ -59,7 +59,8 @@ np <- NULL
         if (!displayed_warning) {
           message("tfestimators requires version ", required_ver, " ",
                   "of TensorFlow (you are currently running version ", tf_ver, ").\n",
-                  "Please update your version TensorFlow with install_tensorflow().")
+                  "Please update your TensorFlow to nightly builds following the instruction here: \n.",
+                  "https://tensorflow.rstudio.com/tools/installation.html#alternate-versions")
           displayed_warning <<- TRUE
         }
       }

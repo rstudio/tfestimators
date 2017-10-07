@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Canonical Metric Keys — metric_keys • tfestimators</title>
+<title>Establish a Feature Columns Selection Scope — column-scope • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -116,39 +116,43 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Canonical Metric Keys</h1>
+    <h1>Establish a Feature Columns Selection Scope</h1>
     </div>
 
     
-    <p>The canonical set of keys that can be used to access metrics from canned
-estimators.</p>
+    <p>This helper function provides a set of names to be
+used by <code>tidyselect</code> helpers in e.g. <code><a href='feature_columns.html'>feature_columns()</a></code>.</p>
     
 
-    <pre class="usage"><span class='fu'>metric_keys</span>()</pre>
-        
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <pre class="usage"><span class='fu'>set_columns</span>(<span class='no'>columns</span>)
 
-    <p>Other estimator keys: <code><a href='mode_keys.html'>mode_keys</a></code>,
-  <code><a href='prediction_keys.html'>prediction_keys</a></code></p>
+<span class='fu'>with_columns</span>(<span class='no'>columns</span>, <span class='no'>expr</span>)
+
+<span class='fu'>scoped_columns</span>(<span class='no'>columns</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>columns</th>
+      <td><p>Either a named <span style="R">R</span> object (whose names will be
+used to provide a selection context), or a character vector
+of such names.</p></td>
+    </tr>
+    <tr>
+      <th>expr</th>
+      <td><p>An <span style="R">R</span> expression, to be evaluated with the selection
+context active.</p></td>
+    </tr>
+    </table>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>metrics</span> <span class='kw'>&lt;-</span> <span class='fu'>metric_keys</span>()</div><div class='output co'>#&gt; <span class='message'>tfestimators requires version 1.4 of TensorFlow (you are currently running version 1.3).</span>
-#&gt; <span class='message'>Please update your TensorFlow to nightly builds following the instruction here: </span>
-#&gt; <span class='message'>.https://tensorflow.rstudio.com/tools/installation.html#alternate-versions</span></div><div class='input'>
-<span class='co'># Get the available keys</span>
-<span class='no'>metrics</span></div><div class='output co'>#&gt; Available metric keys: ACCURACY, ACCURACY_AT_THRESHOLD, ACCURACY_BASELINE, AUC, AUC_PR, LABEL_MEAN, LOSS, LOSS_MEAN, PRECISION_AT_THRESHOLD, PREDICTION_MEAN, RECALL_AT_THRESHOLD</div><div class='input'>
-<span class='no'>metrics</span>$<span class='no'>ACCURACY</span></div><div class='output co'>#&gt; [1] "accuracy"</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#arguments">Arguments</a></li>
+                </ul>
 
   </div>
 </div>
