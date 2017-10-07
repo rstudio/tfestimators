@@ -43,19 +43,46 @@ np <- NULL
 .globals$history <- NULL
 
 .onLoad <- function(libname, pkgname) {
+  
+  # delay load handler
+  displayed_warning <- FALSE
+  delay_load <- list(
+    
+    priority = 5,
+    
+    environment = "r-tensorflow",
+    
+    on_load = function() {
+      tf_ver <- tf_version()
+      required_ver <- "1.4"
+      if (tf_ver < required_ver) {
+        if (!displayed_warning) {
+          message("tfestimators requires version ", required_ver, " ",
+                  "of TensorFlow (you are currently running version ", tf_ver, ").\n",
+                  "Please update your version TensorFlow with install_tensorflow().")
+          displayed_warning <<- TRUE
+        }
+      }
+    },
+    
+    on_error = function(e) {
+      stop(tf_config()$error_message, call. = FALSE)
+    }
+  )
+  
   # core modules
-  estimator_lib <<- import("tensorflow.python.estimator.estimator", delay_load = TRUE)
-  feature_column_lib <<- import("tensorflow.python.feature_column.feature_column", delay_load = TRUE)
-  random_ops <<- import("tensorflow.python.ops.random_ops", delay_load = TRUE)
-  math_ops <<- import("tensorflow.python.ops.math_ops", delay_load = TRUE)
-  array_ops <<- import("tensorflow.python.ops.array_ops", delay_load = TRUE)
-  functional_ops <<- import("tensorflow.python.ops.functional_ops", delay_load = TRUE)
-  canned_estimator_lib <<- import("tensorflow.python.estimator.canned", delay_load = TRUE)
+  estimator_lib <<- import("tensorflow.python.estimator.estimator", delay_load = delay_load)
+  feature_column_lib <<- import("tensorflow.python.feature_column.feature_column", delay_load = delay_load)
+  random_ops <<- import("tensorflow.python.ops.random_ops", delay_load = delay_load)
+  math_ops <<- import("tensorflow.python.ops.math_ops", delay_load = delay_load)
+  array_ops <<- import("tensorflow.python.ops.array_ops", delay_load = delay_load)
+  functional_ops <<- import("tensorflow.python.ops.functional_ops", delay_load = delay_load)
+  canned_estimator_lib <<- import("tensorflow.python.estimator.canned", delay_load = delay_load)
 
   # contrib modules
-  contrib_learn <<- import("tensorflow.contrib.learn", delay_load = TRUE)
-  contrib_layers <<- import("tensorflow.contrib.layers", delay_load = TRUE)
-  contrib_estimators_lib <<- import("tensorflow.contrib.learn.python.learn.estimators", delay_load = TRUE)
+  contrib_learn <<- import("tensorflow.contrib.learn", delay_load = delay_load)
+  contrib_layers <<- import("tensorflow.contrib.layers", delay_load = delay_load)
+  contrib_estimators_lib <<- import("tensorflow.contrib.learn.python.learn.estimators", delay_load = delay_load)
 
   # other modules
   np <<- import("numpy", convert = FALSE, delay_load = TRUE)
