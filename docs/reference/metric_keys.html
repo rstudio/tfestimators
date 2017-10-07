@@ -133,9 +133,8 @@ estimators.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>metrics</span> <span class='kw'>&lt;-</span> <span class='fu'>metric_keys</span>()</div><div class='output co'>#&gt; <span class='message'>tfestimators requires version 1.4 of TensorFlow (you are currently running version 1.3).</span>
-#&gt; <span class='message'>Please update your TensorFlow to nightly builds following the instruction here: </span>
-#&gt; <span class='message'>.https://tensorflow.rstudio.com/tools/installation.html#alternate-versions</span></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='no'>metrics</span> <span class='kw'>&lt;-</span> <span class='fu'>metric_keys</span>()
+
 <span class='co'># Get the available keys</span>
 <span class='no'>metrics</span></div><div class='output co'>#&gt; Available metric keys: ACCURACY, ACCURACY_AT_THRESHOLD, ACCURACY_BASELINE, AUC, AUC_PR, LABEL_MEAN, LOSS, LOSS_MEAN, PRECISION_AT_THRESHOLD, PREDICTION_MEAN, RECALL_AT_THRESHOLD</div><div class='input'>
 <span class='no'>metrics</span>$<span class='no'>ACCURACY</span></div><div class='output co'>#&gt; [1] "accuracy"</div><div class='input'>
