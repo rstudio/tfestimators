@@ -52,6 +52,12 @@ model_dir.tf_estimator <- function(object, ...) {
   object$estimator$model_dir
 }
 
+mv_tf_events_file <- function(model_dir) {
+  tf_events_file_path <- file.path(model_dir, list.files(model_dir, pattern = "tfevents"))
+  destination_path <- file.path(model_dir, "logs")
+  dir.create(destination_path, showWarnings = FALSE)
+  invisible(file.rename(from = tf_events_file_path, to = file.path(destination_path, basename(tf_events_file_path))))
+}
 
 # if the model_dir is unspecified and there is a run_dir() available then 
 # use the run_dir()

@@ -47,6 +47,8 @@ NULL
 #'
 #' @template roxlate-object-estimator
 #'
+#' @param saving_listeners A list of `CheckpointSaverListener` objects
+#' used for callbacks that run immediately before or after checkpoint savings.
 #' @param verbose Show progress output as the model is trained?
 #' @param view_metrics View training metrics as the model is trained?
 #' @param ... Optional arguments, passed on to the estimator's `train()` method.
@@ -58,6 +60,7 @@ train.tf_estimator <- function(object,
                                steps = NULL,
                                hooks = NULL,
                                max_steps = NULL,
+                               saving_listeners = NULL,
                                verbose = TRUE,
                                view_metrics = "auto",
                                ...)
@@ -69,10 +72,16 @@ train.tf_estimator <- function(object,
   }
   
   if (resolve_view_metrics(view_metrics, verbose))
-    hooks <- c(hooks, hook_view_metrics(steps))
+    hooks <- c(
+      hooks,
+      hook_view_metrics(
+        list(
+          steps = steps,
+          model = str(object)
+          )
+        )
+      )
   
-  # show training loss metrics
-  # (https://www.tensorflow.org/get_started/monitors#enabling_logging_with_tensorflow)
   with_logging_verbosity(tf$logging$WARN, {
     object$estimator$train(
       input_fn = normalize_input_fn(object, input_fn),
@@ -85,6 +94,9 @@ train.tf_estimator <- function(object,
   
   if (verbose)
     object$history <- .globals$history
+
+  # move tfevents file to a separate /logs folder under model_dir
+  mv_tf_events_file(model_dir(object))
   
   invisible(object)
 }

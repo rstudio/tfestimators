@@ -48,3 +48,8 @@ print.tf_estimator <- function(x, ...) {
   
   cat(output, sep = "\n")
 }
+
+#' @export
+str.tf_estimator <- function(object) {
+  paste0(capture.output(print(object)), collapse = "\n")
+}
