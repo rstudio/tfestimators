@@ -138,7 +138,7 @@ predict.tf_estimator <- function(object,
     input_fn = normalize_input_fn(object, input_fn),
     checkpoint_path = checkpoint_path,
     hooks = normalize_session_run_hooks(hooks),
-    predict_keys = predict_keys,
+    predict_keys = resolve_predict_keys(predict_keys),
     ...
   )
 
