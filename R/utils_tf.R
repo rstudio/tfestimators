@@ -163,6 +163,7 @@ graph_keys <- function() {
   tf$python$framework$ops$GraphKeys()
 }
 
+#' @export
 print.tensorflow.python.framework.ops.GraphKeys <- function(object) {
   cat(paste0("Available graph keys: ", paste(names(graph_keys()), collapse = ", ")))
 }
