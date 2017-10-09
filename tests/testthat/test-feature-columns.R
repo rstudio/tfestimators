@@ -42,3 +42,14 @@ test_that("feature columns can be constructed with (cond) ~ (op) syntax", {
   
 })
 
+test_that("duplicates columns are dropped", {
+  
+  names <- c("aa")
+  columns <- feature_columns(
+    column_numeric(starts_with("a")),
+    column_numeric(ends_with("a")),
+    names = names
+  )
+  
+  expect_true(length(columns) == 1)
+})
