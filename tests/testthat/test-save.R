@@ -1,6 +1,6 @@
 context("Testing model save")
 
-test_that("tf_save() runs successfully", {
+test_that("export_savedmodel() runs successfully", {
   specs <- mtcars_regression_specs()
   
   model <- linear_regressor(feature_columns = specs$linear_feature_columns)
@@ -9,7 +9,7 @@ test_that("tf_save() runs successfully", {
   temp_path <- file.path(tempdir(), "testthat-save")
   if (dir.exists(temp_path)) unlink(temp_path, recursive = TRUE)
   
-  tf_save(model, path = temp_path)
+  export_savedmodel(model, temp_path)
   
   dir_contents <- dir(temp_path, recursive = TRUE)
   
