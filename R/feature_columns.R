@@ -46,13 +46,19 @@ feature_columns <- function(..., names = NULL) {
   # flatten our (potentially recursive) list
   flattened <- c(selections, recursive = TRUE)
   
-  # remove duplicated columns (in case a column was
-  # matched by multiple criterion
-  keys <- vapply(flattened, function(item) {
-    item$key
-  }, character(1))
-  dupes <- duplicated(keys)
-  flattened[!dupes]
+  # discover and remove duplicates
+  n <- length(flattened)
+  duplicated <- rep(FALSE, n)
+  for (i in seq_len(n - 1)) {
+    for (j in (i + 1):n) {
+      if (flattened[[i]] == flattened[[j]]) {
+        duplicated[[i]] <- TRUE
+        break
+      }
+    }
+  }
+  
+  flattened[!duplicated]
 }
 
 # Base documentation for feature column constructors ----
