@@ -234,7 +234,7 @@ evaluate.tf_estimator <- function(object,
 #' @param export_dir_base A string containing a directory in which to create
 #'   timestamped subdirectories containing exported SavedModels.
 #' @param serving_input_receiver_fn A function that takes no argument and
-#'   returns a `ServingInputReceiver`.
+#'   returns a `ServingInputReceiver`. Required for custom models.
 #' @param assets_extra A dict specifying how to populate the assets.extra
 #'   directory within the exported SavedModel, or `NULL` if no extra assets are
 #'   needed.
@@ -254,12 +254,25 @@ evaluate.tf_estimator <- function(object,
 #' @family custom estimator methods
 export_savedmodel.tf_estimator <- function(object,
                                            export_dir_base,
-                                           serving_input_receiver_fn,
+                                           serving_input_receiver_fn = NULL,
                                            assets_extra = NULL,
                                            as_text = FALSE,
                                            checkpoint_path = NULL,
                                            ...)
 {
+  if (is.null(serving_input_receiver_fn)) {
+    if ("tf_custom_estimator" %in% class(object))
+      stop("A 'tf_custom_estimator' requires a custom `serving_input_receiver_fn`.")
+    
+    input_spec <- regressor_parse_example_spec(
+      feature_columns = object$params$feature_columns,
+      weight_column = object$params$weight_column,
+      label_key = "label"
+    )
+    
+    serving_input_receiver_fn <- tf$estimator$export$build_parsing_serving_input_receiver_fn(input_spec)
+  }
+  
   status <- object$estimator$export_savedmodel(
     export_dir_base = export_dir_base,
     serving_input_receiver_fn = serving_input_receiver_fn,
