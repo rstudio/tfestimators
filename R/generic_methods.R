@@ -34,7 +34,6 @@ train_and_evaluate <- function(object, ...) {
   UseMethod("train_and_evaluate")
 }
 
-
 #' Construct an Experiment
 #' 
 #' Construct an experiment object.
