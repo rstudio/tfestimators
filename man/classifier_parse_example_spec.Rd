@@ -65,7 +65,5 @@ dtype).
 }
 
 \seealso{
-Other parsing utilities: \code{\link{regressor_parse_example_spec}},
-  \code{\link{tf_save_classifier_spec}},
-  \code{\link{tf_save_regressor_spec}}
+Other parsing utilities: \code{\link{regressor_parse_example_spec}}
 }
