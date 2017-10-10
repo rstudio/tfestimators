@@ -83,6 +83,8 @@ dnn_linear_combined_classifier <- function(model_dir = NULL,
                                            input_layer_partitioner = NULL,
                                            config = NULL)
 {
+  args <- as.list(environment(), all = TRUE)
+  
   estimator <- py_suppress_warnings(
     tf$estimator$DNNLinearCombinedClassifier(
       model_dir = resolve_model_dir(model_dir),
@@ -101,5 +103,5 @@ dnn_linear_combined_classifier <- function(model_dir = NULL,
     )
   )
 
-  tf_classifier(estimator, "dnn_linear_combined_classifier")
+  tf_classifier(estimator, "dnn_linear_combined_classifier", args)
 }
