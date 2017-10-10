@@ -110,6 +110,8 @@ dynamic_rnn <- function(problem_type,
                         model_dir = NULL,
                         config = NULL)
 {
+  args <- as.list(environment(), all = TRUE)
+  
   estimator <- contrib_estimators_lib$dynamic_rnn_estimator$DynamicRnnEstimator(
     problem_type = problem_type,
     prediction_type = prediction_type,
@@ -129,6 +131,6 @@ dynamic_rnn <- function(problem_type,
     config = config
   )
   
-  tf_estimator(estimator, "dynamic_rnn_estimator")
+  tf_estimator(estimator, "dynamic_rnn_estimator", args)
 }
 

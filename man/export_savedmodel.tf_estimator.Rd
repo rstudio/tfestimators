@@ -5,7 +5,7 @@
 \title{Save an Estimator}
 \usage{
 \method{export_savedmodel}{tf_estimator}(object, export_dir_base,
-  serving_input_receiver_fn, assets_extra = NULL, as_text = FALSE,
+  serving_input_receiver_fn = NULL, assets_extra = NULL, as_text = FALSE,
   checkpoint_path = NULL, ...)
 }
 \arguments{
@@ -15,7 +15,7 @@
 timestamped subdirectories containing exported SavedModels.}
 
 \item{serving_input_receiver_fn}{A function that takes no argument and
-returns a \code{ServingInputReceiver}.}
+returns a \code{ServingInputReceiver}. Required for custom models.}
 
 \item{assets_extra}{A dict specifying how to populate the assets.extra
 directory within the exported SavedModel, or \code{NULL} if no extra assets are
