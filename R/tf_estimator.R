@@ -47,7 +47,7 @@ NULL
 #'
 #' @template roxlate-object-estimator
 #'
-#' @param saving_listeners (TensorFlow Version > v1.4) A list of `CheckpointSaverListener` objects
+#' @param saving_listeners (Available since TensorFlow v1.4) A list of `CheckpointSaverListener` objects
 #' used for callbacks that run immediately before or after checkpoint savings.
 #' @param verbose Show progress output as the model is trained?
 #' @param view_metrics View training metrics as the model is trained?
