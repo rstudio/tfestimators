@@ -33,12 +33,12 @@ Imports:
     tfruns (>= 0.9.1),
     rlang,
     tidyselect,
-    modelr (>= 0.1.1),
     magrittr,
     progress
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
 Suggests:
+    modelr (>= 0.1.1),
     testthat,
     knitr
 VignetteBuilder: knitr
