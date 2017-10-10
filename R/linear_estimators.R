@@ -25,7 +25,7 @@ linear_regressor <- function(feature_columns,
                              config = NULL,
                              partitioner = NULL)
 {
-  params <- as.list(environment(), all = TRUE)
+  args <- as.list(environment(), all = TRUE)
   
   estimator <- py_suppress_warnings(
     tf$estimator$LinearRegressor(
@@ -39,7 +39,7 @@ linear_regressor <- function(feature_columns,
     )
   )
 
-  tf_regressor(estimator, "linear_regressor", params = params)
+  tf_regressor(estimator, "linear_regressor", args)
 }
 
 #' @inheritParams linear_estimators
@@ -54,7 +54,7 @@ linear_classifier <- function(feature_columns,
                               config = NULL,
                               partitioner = NULL)
 {
-  params <- as.list(environment(), all = TRUE)
+  args <- as.list(environment(), all = TRUE)
 
   estimator <- py_suppress_warnings(
     tf$estimator$LinearClassifier(
@@ -69,5 +69,5 @@ linear_classifier <- function(feature_columns,
     )
   )
 
-  tf_classifier(estimator, "linear_classifier", params = params)
+  tf_classifier(estimator, "linear_classifier", args)
 }
