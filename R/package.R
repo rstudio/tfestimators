@@ -54,13 +54,11 @@ np <- NULL
     
     on_load = function() {
       tf_ver <- tf_version()
-      required_ver <- "1.4"
+      required_ver <- "1.3"
       if (tf_ver < required_ver) {
         if (!displayed_warning) {
           message("tfestimators requires version ", required_ver, " ",
-                  "of TensorFlow (you are currently running version ", tf_ver, ").\n",
-                  "Please update your TensorFlow to nightly builds following the instruction here: \n.",
-                  "https://tensorflow.rstudio.com/tools/installation.html#alternate-versions")
+                  "of TensorFlow (you are currently running version ", tf_ver, ").\n")
           displayed_warning <<- TRUE
         }
       }
