@@ -31,7 +31,7 @@ Imports:
     progress,
     reticulate (>= 1.1), 
     rlang,
-    tensorflow (>= 1.3.1),
+    tensorflow (>= 1.4.0.9000),
     tfruns (>= 0.9.1),
     tidyselect,
     utils
@@ -43,4 +43,4 @@ Suggests:
     knitr
 VignetteBuilder: knitr
 Remotes:
-  tidyverse/tidyselect
+  rstudio/tensorflow

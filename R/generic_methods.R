@@ -34,17 +34,6 @@ train_and_evaluate <- function(object, ...) {
   UseMethod("train_and_evaluate")
 }
 
-#' Export a Saved Model
-#' 
-#' Serialize a model to disk.
-#' 
-#' @param object An \R object.
-#' @param ... Optional arguments passed on to implementing methods.
-#' 
-#' @export
-export_savedmodel <- function(object, ...) {
-  UseMethod("export_savedmodel")
-}
 
 #' Construct an Experiment
 #' 
