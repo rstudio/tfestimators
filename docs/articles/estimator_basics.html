@@ -174,7 +174,7 @@
                   <span class="dt">features =</span> <span class="kw">c</span>(<span class="st">"drat"</span>, <span class="st">"mpg"</span>, <span class="st">"am"</span>),
                   <span class="dt">response =</span> <span class="st">"vs"</span>)</code></pre></div>
 <p>The formula interface is a bit more succinct, in this case, and should feel familiar to R users who have experience fitting models using the R <code>stats</code> package.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input &lt;-<span class="st"> </span><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(vs ~<span class="st"> </span>drat +<span class="st"> </span>mpg +<span class="st"> </span>am, <span class="dt">data =</span> mtcars)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input &lt;-<span class="st"> </span><span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(vs <span class="op">~</span><span class="st"> </span>drat <span class="op">+</span><span class="st"> </span>mpg <span class="op">+</span><span class="st"> </span>am, <span class="dt">data =</span> mtcars)</code></pre></div>
 <p>You can also write fully custom input functions that draw data from arbitrary data sources. See the <a href="input_functions.html">input functions</a> article for additional details.</p>
 </div>
 <div id="feature-columns" class="section level2">
@@ -264,12 +264,12 @@ classifier &lt;-
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(
   classifier,
   <span class="dt">input_fn =</span> input,
-  <span class="dt">predict_keys =</span> <span class="kw"><a href="../reference/prediction_keys.html">prediction_keys</a></span>()$PROBABILITIES)</code></pre></div>
+  <span class="dt">predict_keys =</span> <span class="kw"><a href="../reference/prediction_keys.html">prediction_keys</a></span>()<span class="op">$</span>PROBABILITIES)</code></pre></div>
 <p>or logistic using <code>prediction_keys()$LOGISTIC</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(
   classifier,
   <span class="dt">input_fn =</span> input,
-  <span class="dt">predict_keys =</span> <span class="kw"><a href="../reference/prediction_keys.html">prediction_keys</a></span>()$LOGISTIC)</code></pre></div>
+  <span class="dt">predict_keys =</span> <span class="kw"><a href="../reference/prediction_keys.html">prediction_keys</a></span>()<span class="op">$</span>LOGISTIC)</code></pre></div>
 <p>You can find all the available keys by printing <code><a href="../reference/prediction_keys.html">prediction_keys()</a></code>. However, not all keys can be used by different types of estimators. For example, regressors cannot use <code>PROBABILITIES</code> as one of the keys.</p>
 <p>There’s also a function called <code>coef()</code> that can be used extract the trained coefficients of a model.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">coefs &lt;-<span class="st"> </span><span class="kw">coef</span>(classifier)</code></pre></div>

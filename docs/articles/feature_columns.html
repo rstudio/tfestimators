@@ -126,40 +126,49 @@
 </tr>
 </tbody>
 </table>
-<p>For example:</p>
+<p>We’ll use the <em>flights</em> dataset from the <a href="https://cran.r-project.org/package=nycflights13">nycflights13</a> package to explore how feature columns can be constructed. The <em>flights</em> dataset records airline on-time data for all flights departing NYC in 2013.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(nycflights13)
+<span class="kw">print</span>(flights)</code></pre></div>
+<pre><code>&gt; print(flights)
+# A tibble: 336,776 x 19
+    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin  dest air_time
+   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;   &lt;chr&gt;  &lt;int&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;
+ 1  2013     1     1      517            515         2      830            819        11      UA   1545  N14228    EWR   IAH      227
+ 2  2013     1     1      533            529         4      850            830        20      UA   1714  N24211    LGA   IAH      227
+ 3  2013     1     1      542            540         2      923            850        33      AA   1141  N619AA    JFK   MIA      160
+# ... with 336,766 more rows, and 4 more variables: distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<p>For example, we can define numeric columns based on the <code>dep_time</code> and <code>dep_delay</code> variables:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cols &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(
-  <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"profit"</span>),
-  <span class="kw"><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity</a></span>(<span class="st">"profession"</span>, <span class="dt">num_buckets =</span> <span class="dv">5</span>)
+  <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"dep_time"</span>),
+  <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"dep_delay"</span>)
 )</code></pre></div>
 <p>You can also define multiple feature columns at once.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cols &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(
-  <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"profit"</span>, <span class="st">"loss"</span>),
-  <span class="kw"><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity</a></span>(<span class="st">"profession"</span>, <span class="dt">num_buckets =</span> <span class="dv">5</span>)
+  <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"dep_time"</span>, <span class="st">"dep_delay"</span>)
 )</code></pre></div>
-<p>Note that when creating <code><a href="../reference/feature_columns.html">feature_columns()</a></code>, the data that you pass as the first argument (<code>mtcars</code>) need not contain all of your data. The purpose of the argument is to define the set of columns against which column definitions will be matched, so it can be a small sample of your data or even just a character vector with the column names.</p>
 </div>
 <div id="pattern-matching" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pattern-matching" class="anchor"></a>Pattern Matching</h2>
-<p><strong>tfestimators</strong> uses the <a href="https://github.com/tidyverse/tidyselect">tidyselect</a> package to make it easy to define feature columns, similar to what you might be familiar with in the <code>dplyr</code> package. To do this, establish the set of column names to match against using the <code>names</code> argument:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cols &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(<span class="dt">names =</span> subsidiaries, 
-  <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"profit"</span>),
-  <span class="kw"><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity</a></span>(<span class="st">"profession"</span>, <span class="dt">num_buckets =</span> <span class="dv">5</span>),
-  <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="kw">ends_with</span>(<span class="st">"_pct"</span>))
+<p>Often, you will find that you want to generate a number of feature column definitions based on some pattern existing in the names of your data set. <strong>tfestimators</strong> uses the <a href="https://github.com/tidyverse/tidyselect">tidyselect</a> package to make it easy to define feature columns, similar to what you might be familiar with in the <code>dplyr</code> package. You can use the <code>names =</code> argument of <code><a href="../reference/feature_columns.html">feature_columns()</a></code> function to define a context from which variable names will be selected.</p>
+<p>For example, we can use the <code>ends_with()</code> helper to assert that all columns ending with <code>"time"</code> are numeric columns as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(nycflights13)
+
+cols &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(<span class="dt">names =</span> flights,
+  <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="kw">ends_with</span>(<span class="st">"time"</span>))
 )</code></pre></div>
-<p>The <code>names</code> parameter can either be a character vector with the names or any R object which implements the <code>names()</code> or <code>colnames()</code> method.</p>
-<p>If the code you are using to compose columns is more complicated, or if you need save references to columns for use in column embeddings you can also establish a scope for given set of column names using the <code>with_column_names()</code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cols &lt;-<span class="st"> </span><span class="kw">with_column_names</span>(<span class="dt">names =</span> subsidiaries, {
-                        
-  cols &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(
-    <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="st">"profit"</span>),
-    <span class="kw"><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity</a></span>(<span class="st">"profession"</span>, <span class="dt">num_buckets =</span> <span class="dv">5</span>)
-  )                     
-     
-  if (include_pct)
-    cols &lt;-<span class="st"> </span><span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(cols, <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="kw">ends_with</span>(<span class="st">"_pct"</span>)))
-  
-  cols
+<p>The <code>names</code> parameter can either be a character vector with the names as-is, or any named R object.</p>
+<p>If the code you are using to compose columns is more complicated, or if you need save references to columns for use in column embeddings you can also establish a scope for given set of column names using the <code><a href="../reference/column-scope.html">with_columns()</a></code> function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cols &lt;-<span class="st"> </span><span class="kw"><a href="../reference/column-scope.html">with_columns</a></span>(flights, {
+  <span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(
+    <span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(<span class="kw">ends_with</span>(<span class="st">"time"</span>))
+  )
+})</code></pre></div>
+<p>You can also use an alternate syntax of the form <code>(pattern) ~ (column)</code>, which can add clarity when longer pattern rules are used, as it separates the matching rule from the column definition:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cols &lt;-<span class="st"> </span><span class="kw"><a href="../reference/column-scope.html">with_columns</a></span>(flights, {
+  <span class="kw"><a href="../reference/feature_columns.html">feature_columns</a></span>(
+    <span class="kw">ends_with</span>(<span class="st">"time"</span>) <span class="op">~</span><span class="st"> </span><span class="kw"><a href="../reference/column_numeric.html">column_numeric</a></span>(),
+  )
 })</code></pre></div>
 <p>Available pattern matching operators include:</p>
 <table class="table">

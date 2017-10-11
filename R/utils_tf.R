@@ -52,6 +52,26 @@ model_dir.tf_estimator <- function(object, ...) {
   object$estimator$model_dir
 }
 
+mv_tf_events_file <- function(model_dir) {
+  tf_events_file_path <- file.path(model_dir, list.files(model_dir, pattern = "tfevents"))
+  destination_path <- file.path(model_dir, "logs")
+  dir.create(destination_path, showWarnings = FALSE)
+  invisible(file.rename(from = tf_events_file_path, to = file.path(destination_path, basename(tf_events_file_path))))
+}
+
+# predict() expects at least "predictions" for predict_keys argument
+resolve_predict_keys <- function(predict_keys) {
+  if (!is.null(predict_keys)) {
+    predict_keys <- unlist(predict_keys)
+    predictions_key <- prediction_keys()$PREDICTIONS
+    if (!predictions_key %in% predict_keys)
+      c(predict_keys, predictions_key)
+    else
+      predict_keys
+  } else {
+   NULL 
+  }
+}
 
 # if the model_dir is unspecified and there is a run_dir() available then 
 # use the run_dir()
@@ -143,6 +163,7 @@ graph_keys <- function() {
   tf$python$framework$ops$GraphKeys()
 }
 
+#' @export
 print.tensorflow.python.framework.ops.GraphKeys <- function(object) {
   cat(paste0("Available graph keys: ", paste(names(graph_keys()), collapse = ", ")))
 }

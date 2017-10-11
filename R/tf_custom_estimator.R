@@ -27,6 +27,15 @@ tf_custom_estimator <- function(estimator, model_fn, classes) {
 #' @param eval_metric_ops A list of metrics to be computed as part of evaluation.
 #'   This should be a named list, mapping metric names (e.g. `"rmse"`) to the operation
 #'   that computes the associated metric (e.g. `tf$metrics$root_mean_squared_error(...)`).
+#'   These metric operations should be evaluated without any impact on state (typically 
+#'   is a pure computation results based on variables). For example, it should not
+#'   trigger the update ops or requires any input fetching.
+#'
+#' @param training_hooks (Available since TensorFlow v1.4) A list of session run hooks to run on all workers during training.
+#' 
+#' @param evaluation_hooks (Available since TensorFlow v1.4) A list of session run hooks to run during evaluation.
+#' 
+#' @param training_chief_hooks (Available since TensorFlow v1.4) A list of session run hooks to run on chief worker during training.
 #' 
 #' @param ... Other optional (named) arguments, to be passed to the `EstimatorSpec` constructor.
 #' 
@@ -37,9 +46,12 @@ estimator_spec <- function(mode,
                            loss = NULL,
                            train_op = NULL,
                            eval_metric_ops = NULL,
+                           training_hooks = NULL,
+                           evaluation_hooks = NULL,
+                           training_chief_hooks = NULL,
                            ...)
 {
-  estimator_lib$model_fn_lib$EstimatorSpec(
+  args <- list(
     mode = mode,
     predictions = predictions,
     loss = loss,
@@ -49,6 +61,12 @@ estimator_spec <- function(mode,
       lapply(eval_metric_ops, function(x) reticulate::tuple(unlist(x)))),
     ...
   )
+  if (tf_version() >= '1.4') {
+    args$training_hooks <- training_hooks
+    args$evaluation_hooks <- evaluation_hooks
+    args$training_chief_hooks <- training_chief_hooks
+  }
+  do.call(estimator_lib$model_fn_lib$EstimatorSpec, args)
 }
 
 #' Construct a Custom Estimator

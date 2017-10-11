@@ -7,3 +7,4 @@ internal/
 .!*
 *.csv
 MNIST-data
+runs/

@@ -7,10 +7,12 @@ warnings_are_errors: false
 env:
   global:
     - TENSORFLOW_TEST_EXAMPLES="1"
+  matrix:
+    - TF_VERSION="1.3"
+    - TF_VERSION="1.4"
 
 os:
   - linux
-  # - osx
 
 cache:
   packages: true
@@ -18,10 +20,7 @@ cache:
     - $HOME/.cache/pip
 
 before_script:
-  - pip2.7 install --upgrade --ignore-installed --user travis pip setuptools wheel virtualenv
-  - R -e 'tensorflow::install_tensorflow(version = "1.3.0")'
-  - mkdir inst/examples
-  - cp -R vignettes/examples/* inst/examples
+  - source scripts/travis_install.sh
 
 addons:
   apt:

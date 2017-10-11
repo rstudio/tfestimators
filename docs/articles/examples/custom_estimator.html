@@ -110,8 +110,8 @@
 </blockquote>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tfestimators)</code></pre></div>
 <p>We’ll start by defining a function that will download and save the various abalone datasets we’ll use here. These datasets are hosted freely on the TensorFlow website.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">maybe_download_abalone &lt;-<span class="st"> </span>function(train_data_path, test_data_path, predict_data_path, column_names_to_assign) {
-  if (!<span class="kw">file.exists</span>(train_data_path) ||<span class="st"> </span>!<span class="kw">file.exists</span>(test_data_path) ||<span class="st"> </span>!<span class="kw">file.exists</span>(predict_data_path)) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">maybe_download_abalone &lt;-<span class="st"> </span><span class="cf">function</span>(train_data_path, test_data_path, predict_data_path, column_names_to_assign) {
+  <span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(train_data_path) <span class="op">||</span><span class="st"> </span><span class="op">!</span><span class="kw">file.exists</span>(test_data_path) <span class="op">||</span><span class="st"> </span><span class="op">!</span><span class="kw">file.exists</span>(predict_data_path)) {
     <span class="kw">cat</span>(<span class="st">"Downloading abalone data ..."</span>)
     train_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"http://download.tensorflow.org/data/abalone_train.csv"</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>)
     test_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"http://download.tensorflow.org/data/abalone_test.csv"</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>)
@@ -122,7 +122,7 @@
     <span class="kw">write.csv</span>(train_data, train_data_path, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)
     <span class="kw">write.csv</span>(test_data, test_data_path, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)
     <span class="kw">write.csv</span>(predict_data, predict_data_path, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)
-  } else {
+  } <span class="cf">else</span> {
     train_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(train_data_path, <span class="dt">header =</span> <span class="ot">TRUE</span>)
     test_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(test_data_path, <span class="dt">header =</span> <span class="ot">TRUE</span>)
     predict_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(predict_data_path, <span class="dt">header =</span> <span class="ot">TRUE</span>)
@@ -138,13 +138,13 @@ downloaded_data &lt;-<span class="st"> </span><span class="kw">maybe_download_ab
   <span class="kw">file.path</span>(<span class="kw">getwd</span>(), <span class="st">"predict_abalone.csv"</span>),
   COLNAMES
 )
-train_data &lt;-<span class="st"> </span>downloaded_data$train_data
-test_data &lt;-<span class="st"> </span>downloaded_data$test_data
-predict_data &lt;-<span class="st"> </span>downloaded_data$predict_data</code></pre></div>
+train_data &lt;-<span class="st"> </span>downloaded_data<span class="op">$</span>train_data
+test_data &lt;-<span class="st"> </span>downloaded_data<span class="op">$</span>test_data
+predict_data &lt;-<span class="st"> </span>downloaded_data<span class="op">$</span>predict_data</code></pre></div>
 <p>We now have the abalone datasets available locally. Now, we begin by defining an input function for our soon-to-be-defined estimator. Here, we define an <strong>input function generator</strong> – this function accepts a dataset, and returns an input function that pulls data from the associated dataset. Using this, we can generate input functions for each of our datasets easily.</p>
 <p>Note that we are attempting to predict the <code>num_rings</code> variable, and accept all other variables contained within the dataset as potentially associated features.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">abalone_input_fn &lt;-<span class="st"> </span>function(dataset) {
-  <span class="kw"><a href="../../reference/input_fn.html">input_fn</a></span>(dataset, <span class="dt">features =</span> -num_rings, <span class="dt">response =</span> num_rings)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">abalone_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(dataset) {
+  <span class="kw"><a href="../../reference/input_fn.html">input_fn</a></span>(dataset, <span class="dt">features =</span> <span class="op">-</span>num_rings, <span class="dt">response =</span> num_rings)
 }</code></pre></div>
 <p>Next, we define our custom model function. Canned estimators provided by TensorFlow / the <code>tfestimators</code> package come with pre-packaged model functions; when you wish to define your own custom estimator, you must provide your own model function. This is the function responsible for constructing the actual neural network to be used in your model, and should be created by composing TensorFlow’s primitives for layers together.</p>
 <p>We’ll construct a network with two fully-connected hidden layers, and a final output layer. After you’ve constructed your neywork and defined the optimizer + loss functions you wish to use, you can call the <code><a href="../../reference/estimator_spec.html">estimator_spec()</a></code> function to construct your estimator.</p>
@@ -156,32 +156,32 @@ predict_data &lt;-<span class="st"> </span>downloaded_data$predict_data</code></
 <li><p><code>params</code>: A set of custom parameters; typically supplied by the user of your custom estimator when instances of this estimator are created. (For example, we’ll see later that the <code>learning_rate</code> is supplied through here.)</p></li>
 <li><p><code>config</code>: Runtime configuration values; typically unneeded by custom estimators, but can be useful if you need to introspect the state of the associated TensorFlow session.</p></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_fn &lt;-<span class="st"> </span>function(features, labels, mode, params, config) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_fn &lt;-<span class="st"> </span><span class="cf">function</span>(features, labels, mode, params, config) {
   
   <span class="co"># Connect the first hidden layer to input layer</span>
-  first_hidden_layer &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(features, 10L, <span class="dt">activation =</span> tf$nn$relu)
+  first_hidden_layer &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(features, 10L, <span class="dt">activation =</span> tf<span class="op">$</span>nn<span class="op">$</span>relu)
   
   <span class="co"># Connect the second hidden layer to first hidden layer with relu</span>
-  second_hidden_layer &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(first_hidden_layer, 10L, <span class="dt">activation =</span> tf$nn$relu)
+  second_hidden_layer &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(first_hidden_layer, 10L, <span class="dt">activation =</span> tf<span class="op">$</span>nn<span class="op">$</span>relu)
   
   <span class="co"># Connect the output layer to second hidden layer (no activation fn)</span>
-  output_layer &lt;-<span class="st"> </span>tf$layers$<span class="kw">dense</span>(second_hidden_layer, 1L)
+  output_layer &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(second_hidden_layer, 1L)
   
   <span class="co"># Reshape output layer to 1-dim Tensor to return predictions</span>
-  predictions &lt;-<span class="st"> </span>tf$<span class="kw">reshape</span>(output_layer, <span class="kw">list</span>(-1L))
+  predictions &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">reshape</span>(output_layer, <span class="kw">list</span>(<span class="op">-</span>1L))
   
   <span class="co"># Provide an estimator spec for `mode_keys()$PREDICT`</span>
-  if (mode ==<span class="st"> </span><span class="kw"><a href="../../reference/mode_keys.html">mode_keys</a></span>()$PREDICT) <span class="kw">return</span>(<span class="kw"><a href="../../reference/estimator_spec.html">estimator_spec</a></span>(<span class="dt">mode =</span> mode, <span class="dt">predictions =</span>  <span class="kw">list</span>(<span class="dt">ages =</span> predictions)))
+  <span class="cf">if</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>PREDICT) <span class="kw">return</span>(<span class="kw"><a href="../../reference/estimator_spec.html">estimator_spec</a></span>(<span class="dt">mode =</span> mode, <span class="dt">predictions =</span>  <span class="kw">list</span>(<span class="dt">ages =</span> predictions)))
   
   <span class="co"># Calculate loss using mean squared error</span>
-  loss &lt;-<span class="st"> </span>tf$losses$<span class="kw">mean_squared_error</span>(labels, predictions)
+  loss &lt;-<span class="st"> </span>tf<span class="op">$</span>losses<span class="op">$</span><span class="kw">mean_squared_error</span>(labels, predictions)
   
-  eval_metric_ops &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">rmse =</span> tf$metrics$<span class="kw">root_mean_squared_error</span>(
-    tf$<span class="kw">cast</span>(labels, tf$float64), predictions
+  eval_metric_ops &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">rmse =</span> tf<span class="op">$</span>metrics<span class="op">$</span><span class="kw">root_mean_squared_error</span>(
+    tf<span class="op">$</span><span class="kw">cast</span>(labels, tf<span class="op">$</span>float64), predictions
   ))
   
-  optimizer &lt;-<span class="st"> </span>tf$train$<span class="kw">GradientDescentOptimizer</span>(<span class="dt">learning_rate =</span> params$learning_rate)
-  train_op &lt;-<span class="st"> </span>optimizer$<span class="kw">minimize</span>(<span class="dt">loss =</span> loss, <span class="dt">global_step =</span> tf$train$<span class="kw">get_global_step</span>())
+  optimizer &lt;-<span class="st"> </span>tf<span class="op">$</span>train<span class="op">$</span><span class="kw">GradientDescentOptimizer</span>(<span class="dt">learning_rate =</span> params<span class="op">$</span>learning_rate)
+  train_op &lt;-<span class="st"> </span>optimizer<span class="op">$</span><span class="kw">minimize</span>(<span class="dt">loss =</span> loss, <span class="dt">global_step =</span> tf<span class="op">$</span>train<span class="op">$</span><span class="kw">get_global_step</span>())
   
   <span class="co"># Provide an estimator spec for `model_keys()$EVAL` and `model_keys()$TRAIN` modes.</span>
   <span class="kw">return</span>(<span class="kw"><a href="../../reference/estimator_spec.html">estimator_spec</a></span>(

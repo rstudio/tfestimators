@@ -21,10 +21,10 @@ hook_history_saver <- function() {
   )
 }
 
-hook_view_metrics <- function(steps) {
+hook_view_metrics <- function(props) {
   
-  force(steps)
-  
+  steps <- props$steps
+
   .metrics_viewer <- NULL
   .time <- Sys.time() - 1.0 # forces immediate update
   
@@ -61,8 +61,16 @@ hook_view_metrics <- function(steps) {
     }
     
   }
+
+  write_run_properties <- function(props) {
+    properties <- list()
+    properties$steps <- steps
+    properties$model <- props$model
+    tfruns::write_run_metadata("properties", properties)
+  }
   
   session_run_hook(
+    before_run = function(context) write_run_properties(props),
     after_run = function(context, values) on_metrics(FALSE),
     end = function(session) on_metrics(TRUE)
   )

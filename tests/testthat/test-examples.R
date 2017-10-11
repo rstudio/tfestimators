@@ -15,7 +15,7 @@ run_example <- function(example_path) {
     on.exit(setwd(old_wd), add = TRUE)
     source(basename(example_path), local = env)
   }, type = "output")
-  
+
   rm(list = ls(env), envir = env)
   gc()
 }
@@ -23,7 +23,8 @@ run_example <- function(example_path) {
 examples <- if (TRUE) {
   c(
     "tensorflow_layers.R",
-    "custom_estimator.R"
+    "custom_estimator.R",
+    "iris_custom_decay_dnn.R"
   )
 }
 

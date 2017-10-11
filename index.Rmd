@@ -42,14 +42,14 @@ To use **tfestimators**, you need to install both the R package as well as [Tens
 First, install the tfestimators R package as follows:
 
 ```{r, eval=FALSE}
-devtools::install_github("rstudio/tfestimators")
+devtools::install_github("rstudio/tfestimators", ref = "v1.3.0")
 ```
 
-Then, use the `install_tensorflow()` function to install TensorFlow (note that the tfestimators package requires version 1.3 or higher of TensorFlow so even if you already have TensorFlow installed you should update if you are running a previous version):
+Then, use the `install_tensorflow()` function to install TensorFlow (note that the current tfestimators package requires version 1.3.0 of TensorFlow so even if you already have TensorFlow installed you should update if you are running a previous version):
 
  
 ```{r, eval=FALSE}
-install_tensorflow()
+install_tensorflow(version = "1.3.0")
 ```
 
 This will provide you with a default installation of TensorFlow suitable for getting started. See the [article on installation](https://tensorflow.rstudio.com/installation.html) to learn about more advanced options, including installing a version of TensorFlow that takes advantage of NVIDIA GPUs if you have the correct CUDA libraries installed.
