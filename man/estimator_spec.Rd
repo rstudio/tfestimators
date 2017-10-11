@@ -27,11 +27,11 @@ These metric operations should be evaluated without any impact on state (typical
 is a pure computation results based on variables). For example, it should not
 trigger the update ops or requires any input fetching.}
 
-\item{training_hooks}{A list of session run hooks to run on all workers during training.}
+\item{training_hooks}{(Available since TensorFlow v1.4) A list of session run hooks to run on all workers during training.}
 
-\item{evaluation_hooks}{A list of session run hooks to run during evaluation.}
+\item{evaluation_hooks}{(Available since TensorFlow v1.4) A list of session run hooks to run during evaluation.}
 
-\item{training_chief_hooks}{A list of session run hooks to run on chief worker during training.}
+\item{training_chief_hooks}{(Available since TensorFlow v1.4) A list of session run hooks to run on chief worker during training.}
 
 \item{...}{Other optional (named) arguments, to be passed to the \code{EstimatorSpec} constructor.}
 }

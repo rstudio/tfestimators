@@ -26,7 +26,7 @@ training loop.}
 trained. If set, \code{steps} must be \code{NULL}. If the estimator has already been
 trained a total of \code{max_steps} times, then no training will be performed.}
 
-\item{saving_listeners}{A list of \code{CheckpointSaverListener} objects
+\item{saving_listeners}{(Available since TensorFlow v1.4) A list of \code{CheckpointSaverListener} objects
 used for callbacks that run immediately before or after checkpoint savings.}
 
 \item{verbose}{Show progress output as the model is trained?}
