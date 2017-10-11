@@ -72,8 +72,6 @@ train.tf_estimator <- function(object,
     input_fn = normalize_input_fn(object, input_fn),
     steps = as_nullable_integer(steps),
     max_steps = as_nullable_integer(max_steps),
-    verbose = verbose,
-    view_metrics = view_metrics,
     ...
     )
   
@@ -97,7 +95,7 @@ train.tf_estimator <- function(object,
         )
       )
 
-  args$hooks <- hooks
+  args$hooks <- normalize_session_run_hooks(hooks)
   
   with_logging_verbosity(tf$logging$WARN, {
     do.call(object$estimator$train, args)
