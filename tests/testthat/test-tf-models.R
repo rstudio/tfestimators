@@ -16,7 +16,7 @@ test_that("train(), predict(), and evaluate() work for regressors", {
   coefs <- coef(estimator)
   expect_gt(length(coefs), 0)
   
-  predictions <- predict(estimator, input_fn = specs$input_fn)
+  predictions <- predict(estimator, input_fn = specs$input_fn, simplify = FALSE)
   expect_equal(length(predictions), 32)
   
   loss <- evaluate(estimator, input_fn = specs$input_fn)$loss
@@ -43,15 +43,23 @@ test_that("train(), predict(), and evaluate() work for classifiers", {
   coefs <- coef(clf)
   expect_gt(length(coefs), 0)
 
-  predictions <- predict(clf, input_fn = specs$input_fn)
+  predictions <- predict(clf, input_fn = specs$input_fn, simplify = FALSE)
   expect_equal(length(predictions), 32)
+  
+  # test prediction simplification for canned estimator
+  predictions <- predict(clf, input_fn = specs$input_fn, simplify = TRUE)
+  expect_equal(dim(predictions), c(32, 5))
+  # test default of simplify for canned estimator
+  predictions <- predict(clf, input_fn = specs$input_fn)
+  expect_equal(dim(predictions), c(32, 5))
+  
   # probabilities
-  predictions <- unlist(predict(clf, input_fn = specs$input_fn, predict_keys = prediction_keys()$PROBABILITIES))
+  predictions <- unlist(predict(clf, input_fn = specs$input_fn, predict_keys = prediction_keys()$PROBABILITIES, simplify = FALSE))
   expect_equal(length(predictions), 64)
   expect_lte(max(predictions), 1)
   expect_gte(min(predictions), 0)
   # other types that is in PredictionKey
-  predictions <- predict(clf, input_fn = specs$input_fn, predict_keys = prediction_keys()$LOGISTIC)
+  predictions <- predict(clf, input_fn = specs$input_fn, predict_keys = prediction_keys()$LOGISTIC, simplify = FALSE)
 
   accuracy <- evaluate(clf, input_fn = specs$input_fn)$accuracy
   expect_lte(accuracy, 0.6)

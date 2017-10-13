@@ -9,7 +9,7 @@ test_that("linear_regressor() runs successfully", {
 
   coef <- coef(estimator)
 
-  predictions <- predict(estimator, input_fn = specs$input_fn)
+  predictions <- predict(estimator, input_fn = specs$input_fn, simplify = FALSE)
   expect_equal(length(predictions), 32)
 })
 
@@ -22,6 +22,6 @@ test_that("linear_classifier() runs successfully", {
     train(input_fn = specs$input_fn, steps = 2)
   tf_coef <- coef(estimator)
 
-  predictions <- predict(estimator, input_fn = specs$input_fn)
+  predictions <- predict(estimator, input_fn = specs$input_fn, simplify = FALSE)
   expect_equal(length(predictions), 32)
 })

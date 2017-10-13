@@ -5,7 +5,8 @@
 \title{Generate Predictions with an Estimator}
 \usage{
 \method{predict}{tf_estimator}(object, input_fn, checkpoint_path = NULL,
-  predict_keys = NULL, hooks = NULL, as_iterable = FALSE, ...)
+  predict_keys = NULL, hooks = NULL, as_iterable = FALSE,
+  simplify = TRUE, ...)
 }
 \arguments{
 \item{object}{A TensorFlow estimator.}
@@ -28,6 +29,16 @@ training loop.}
 \item{as_iterable}{Boolean; should a raw Python generator be returned? When
 \code{FALSE} (the default), the predicted values will be consumed from the
 generator and returned as an \R object.}
+
+\item{simplify}{A boolean value that indicates whether to simplify prediction
+results automatically. If \code{TRUE}, This will automatically use a default prediction
+simplify function to canned estimators that flattens the predictions to a
+cleaner tibble or data.frame object with each column being the prediction results
+for each \code{predict_keys} specified. For custom estimators, predictions will
+not be simplified unless this parameter is a custom function with signature:
+\code{function(predictions) {func(predictions)}}. If a custom function is provided
+for a canned estimator, the custom function will be used instead of the default
+simplify function.}
 
 \item{...}{Optional arguments passed on to the estimator's \code{predict()}
 method.}

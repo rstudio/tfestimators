@@ -34,7 +34,9 @@ Imports:
     tensorflow (>= 1.4.0.9003),
     tfruns (>= 0.9.1),
     tidyselect,
-    utils
+    utils,
+    purrr,
+    dplyr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
 Suggests:
