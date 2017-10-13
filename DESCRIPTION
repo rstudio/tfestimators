@@ -31,7 +31,7 @@ Imports:
     progress,
     reticulate (>= 1.1), 
     rlang,
-    tensorflow (>= 1.4.0.9001),
+    tensorflow (>= 1.4.0.9003),
     tfruns (>= 0.9.1),
     tidyselect,
     utils
