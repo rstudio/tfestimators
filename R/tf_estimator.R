@@ -78,24 +78,8 @@ train.tf_estimator <- function(object,
   if (tf_version() >= '1.4') {
     args$saving_listeners <- saving_listeners
   }
-  if (verbose) {
-    .globals$history <- tf_estimator_history()
-    hooks <- c(hooks, hook_history_saver())
-    hooks <- c(hooks, hook_progress_bar("Training", steps))
-  }
-  
-  if (resolve_view_metrics(view_metrics, verbose))
-    hooks <- c(
-      hooks,
-      hook_view_metrics(
-        list(
-          steps = steps,
-          model = str(object)
-          )
-        )
-      )
 
-  args$hooks <- normalize_session_run_hooks(hooks)
+  args$hooks <- resolve_train_hooks(hooks, verbose, steps, view_metrics, object)
   
   with_logging_verbosity(tf$logging$WARN, {
     do.call(object$estimator$train, args)
@@ -216,19 +200,13 @@ evaluate.tf_estimator <- function(object,
                                   verbose = TRUE,
                                   ...)
 {
-  if (verbose) {
-    .globals$history <- tf_estimator_history()
-    hooks <- c(hooks, hook_history_saver())
-    hooks <- c(hooks, hook_progress_bar("Evaluating", steps))
-  }
-  
   result <- with_logging_verbosity(tf$logging$WARN, {
     object$estimator$evaluate(
       input_fn = normalize_input_fn(object, input_fn),
       steps = as_nullable_integer(steps),
       checkpoint_path = checkpoint_path,
       name = name,
-      hooks = normalize_session_run_hooks(hooks),
+      hooks = resolve_eval_hooks(hooks, verbose, steps),
       ...
     )
   })
