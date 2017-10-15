@@ -133,11 +133,11 @@ iris_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(dat
 }
 
 <span class="co"># train classifier with training dataset</span>
-<span class="kw"><a href="../../reference/train.html">train</a></span>(classifier, <span class="dt">input_fn =</span> <span class="kw">iris_input_fn</span>(iris_train))
+<span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train</a></span>(classifier, <span class="dt">input_fn =</span> <span class="kw">iris_input_fn</span>(iris_train))
 
 <span class="co"># valuate with test dataset</span>
 predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> <span class="kw">iris_input_fn</span>(iris_test))
-evaluation &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/evaluate.html">evaluate</a></span>(classifier, <span class="dt">input_fn =</span> <span class="kw">iris_input_fn</span>(iris_test))</code></pre></div>
+evaluation &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/evaluate">evaluate</a></span>(classifier, <span class="dt">input_fn =</span> <span class="kw">iris_input_fn</span>(iris_test))</code></pre></div>
 </div>
   </div>
 

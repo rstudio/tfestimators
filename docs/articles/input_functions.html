@@ -118,7 +118,7 @@
 <a href="#data-frame-input" class="anchor"></a>Data Frame Input</h2>
 <p>You can create an input function from an R data frame using the <code><a href="../reference/input_fn.html">input_fn()</a></code> method. You can specify feature and response variables either explicitly or using the R formula interface.</p>
 <p>For example, to create an input function for the <strong>mtcars</strong> dataset with features “drat” and “cyl” and response “mpg” you could use this code:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/train.html">train</a></span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train</a></span>(
   <span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mtcars, 
            <span class="dt">features =</span> <span class="kw">c</span>(drat, cyl), 
            <span class="dt">response =</span> mpg,
@@ -126,7 +126,7 @@
            <span class="dt">epochs =</span> <span class="dv">3</span>)
 )</code></pre></div>
 <p>Or alternatively use the R formula interface like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/train.html">train</a></span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train</a></span>(
   <span class="kw"><a href="../reference/input_fn.html">input_fn</a></span>(mpg <span class="op">~</span><span class="st"> </span>drat <span class="op">+</span><span class="st"> </span>cyl, 
            <span class="dt">data =</span> mtcars,
            <span class="dt">batch_size =</span> <span class="dv">128</span>,
@@ -147,10 +147,10 @@
 <p>The <code>...</code> parameter is used to forward additional options to <code><a href="../reference/input_fn.html">input_fn()</a></code>.</p>
 <p>This helper function could then be used during training and evaluation as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># train the model</span>
-model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/train.html">train</a></span>(<span class="kw">mtcars_input_fn</span>(train_data))
+model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train</a></span>(<span class="kw">mtcars_input_fn</span>(train_data))
 
 <span class="co"># evaluate the model</span>
-model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/evaluate.html">evaluate</a></span>(<span class="kw">mtcars_input_fn</span>(test_data))</code></pre></div>
+model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/evaluate">evaluate</a></span>(<span class="kw">mtcars_input_fn</span>(test_data))</code></pre></div>
 </div>
 </div>
 <div id="matrix-input" class="section level2">

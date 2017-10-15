@@ -262,9 +262,9 @@ model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/estim
 <code>mode</code>: One of the following <code><a href="../reference/mode_keys.html">mode_keys()</a></code> string values indicating the context in which the model_fn was invoked:
 <ul>
 <li>
-<code>mode_keys()$TRAIN</code> The <code>model_fn</code> was invoked in training mode, namely via a <code><a href="../reference/train.html">train()</a></code> call.</li>
+<code>mode_keys()$TRAIN</code> The <code>model_fn</code> was invoked in training mode, namely via a <code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train()</a></code> call.</li>
 <li>
-<code>mode_keys()$EVAL</code>. The <code>model_fn</code> was invoked in evaluation mode, namely via an <code><a href="../reference/evaluate.html">evaluate()</a></code> call.</li>
+<code>mode_keys()$EVAL</code>. The <code>model_fn</code> was invoked in evaluation mode, namely via an <code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/evaluate">evaluate()</a></code> call.</li>
 <li>
 <code>mode_keys()$PREDICT</code>. The <code>model_fn</code> was invoked in predict mode, namely via a <code>predict()</code> call.</li>
 </ul>
@@ -400,9 +400,9 @@ model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/estim
 <a href="#running-the-abalone-model" class="anchor"></a>Running the Abalone Model</h1>
 <p>You’ve instantiated an <code>Estimator</code> for the abalone predictor and defined its behavior in <code>model_fn</code>; all that’s left to do is train, evaluate, and make predictions.</p>
 <p>The following code fits the neural network to the training data and evaluates the model performance based on the <code>eval_metric_ops</code> that we have defined:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/train.html">train</a></span>(model, <span class="dt">input_fn =</span> train_input_fn, <span class="dt">steps =</span> <span class="dv">2</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train</a></span>(model, <span class="dt">input_fn =</span> train_input_fn, <span class="dt">steps =</span> <span class="dv">2</span>)
 
-<span class="kw"><a href="../reference/evaluate.html">evaluate</a></span>(model, <span class="dt">input_fn =</span> test_input_fn, <span class="dt">steps =</span> <span class="dv">2</span>)</code></pre></div>
+<span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/evaluate">evaluate</a></span>(model, <span class="dt">input_fn =</span> test_input_fn, <span class="dt">steps =</span> <span class="dv">2</span>)</code></pre></div>
 </div>
 </div>
   </div>

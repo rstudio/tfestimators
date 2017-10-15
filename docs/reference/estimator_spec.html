@@ -125,7 +125,8 @@ custom estimators created by <code><a href='estimator.html'>estimator()</a></cod
     
 
     <pre class="usage"><span class='fu'>estimator_spec</span>(<span class='no'>mode</span>, <span class='kw'>predictions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>loss</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>train_op</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>eval_metric_ops</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>eval_metric_ops</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>training_hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>evaluation_hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>training_chief_hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -153,7 +154,22 @@ depending on the type of optimizer used during training.</p></td>
       <th>eval_metric_ops</th>
       <td><p>A list of metrics to be computed as part of evaluation.
 This should be a named list, mapping metric names (e.g. <code>"rmse"</code>) to the operation
-that computes the associated metric (e.g. <code>tf$metrics$root_mean_squared_error(...)</code>).</p></td>
+that computes the associated metric (e.g. <code>tf$metrics$root_mean_squared_error(...)</code>).
+These metric operations should be evaluated without any impact on state (typically
+is a pure computation results based on variables). For example, it should not
+trigger the update ops or requires any input fetching.</p></td>
+    </tr>
+    <tr>
+      <th>training_hooks</th>
+      <td><p>(Available since TensorFlow v1.4) A list of session run hooks to run on all workers during training.</p></td>
+    </tr>
+    <tr>
+      <th>evaluation_hooks</th>
+      <td><p>(Available since TensorFlow v1.4) A list of session run hooks to run during evaluation.</p></td>
+    </tr>
+    <tr>
+      <th>training_chief_hooks</th>
+      <td><p>(Available since TensorFlow v1.4) A list of session run hooks to run on chief worker during training.</p></td>
     </tr>
     <tr>
       <th>...</th>

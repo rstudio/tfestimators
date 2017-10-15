@@ -194,8 +194,8 @@ predict_data &lt;-<span class="st"> </span>downloaded_data<span class="op">$</sp
 <p>We’ve defined our model function – we can now use the <code><a href="../../reference/estimator.html">estimator()</a></code> function to create an instance of the estimator we’ve defined, using that model function.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/estimator.html">estimator</a></span>(model_fn, <span class="dt">params =</span> <span class="kw">list</span>(<span class="dt">learning_rate =</span> <span class="fl">0.001</span>))</code></pre></div>
 <p>Now, we can train, evaluate, and predict using our estimator.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../../reference/train.html">train</a></span>(model, <span class="dt">input_fn =</span> <span class="kw">abalone_input_fn</span>(train_data))
-<span class="kw"><a href="../../reference/evaluate.html">evaluate</a></span>(model, <span class="dt">input_fn =</span> <span class="kw">abalone_input_fn</span>(test_data))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train</a></span>(model, <span class="dt">input_fn =</span> <span class="kw">abalone_input_fn</span>(train_data))
+<span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/evaluate">evaluate</a></span>(model, <span class="dt">input_fn =</span> <span class="kw">abalone_input_fn</span>(test_data))
 <span class="kw">predict</span>(model, <span class="dt">input_fn =</span> <span class="kw">abalone_input_fn</span>(predict_data))</code></pre></div>
 </div>
   </div>

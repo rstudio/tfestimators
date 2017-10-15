@@ -4,7 +4,7 @@
 \alias{train_and_evaluate.tf_experiment}
 \title{Interleaves Training and Evaluation}
 \usage{
-\method{train_and_evaluate}{tf_experiment}(object, ...)
+train_and_evaluate.tf_experiment(object, ...)
 }
 \arguments{
 \item{object}{A TensorFlow experiment.}

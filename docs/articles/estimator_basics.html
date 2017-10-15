@@ -108,7 +108,7 @@
 <ul>
 <li><p>Canned estimators (pre-built implementations of various models).</p></li>
 <li><p>Custom estimators (custom model implementations).</p></li>
-<li><p>Estimator methods (core methods like <code><a href="../reference/train.html">train()</a></code>, <code>predict()</code>, <code><a href="../reference/evaluate.html">evaluate()</a></code>, etc. which work the same for all canned and custom estimators).</p></li>
+<li><p>Estimator methods (core methods like <code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train()</a></code>, <code>predict()</code>, <code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/evaluate">evaluate()</a></code>, etc. which work the same for all canned and custom estimators).</p></li>
 <li><p>Feature columns (definitions of how features should be transformed during modeling).</p></li>
 <li><p>Input functions (sources of data for training, evaluation, and prediction).</p></li>
 </ul>
@@ -256,8 +256,8 @@ classifier &lt;-
 <div id="training-and-prediction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#training-and-prediction" class="anchor"></a>Training and Prediction</h2>
-<p>Users can then call <code><a href="../reference/train.html">train()</a></code> to train the initialized Estimator for a number of steps:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">classifier &lt;-<span class="st"> </span><span class="kw"><a href="../reference/train.html">train</a></span>(classifier, <span class="dt">input_fn =</span> input, <span class="dt">steps =</span> <span class="dv">2</span>)</code></pre></div>
+<p>Users can then call <code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train()</a></code> to train the initialized Estimator for a number of steps:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">classifier &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train</a></span>(classifier, <span class="dt">input_fn =</span> input, <span class="dt">steps =</span> <span class="dv">2</span>)</code></pre></div>
 <p>Once a model is trained, users can use <code>predict()</code> that makes predictions on a given input function that represents the inference data source.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> input)</code></pre></div>
 <p>Users can also pass a key to <code>predict_keys</code> argument in <code>predict()</code> that generates different types of predictions, such as probabilities using <code>prediction_keys()$PROBABILITIES</code>:</p>
@@ -286,7 +286,7 @@ classifier &lt;-
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td><code><a href="../reference/train.html">train()</a></code></td>
+<td><code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train()</a></code></td>
 <td>Trains a model given training data input_fn.</td>
 </tr>
 <tr class="even">
@@ -294,11 +294,11 @@ classifier &lt;-
 <td>Returns predictions for given features.</td>
 </tr>
 <tr class="odd">
-<td><code><a href="../reference/evaluate.html">evaluate()</a></code></td>
+<td><code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/evaluate">evaluate()</a></code></td>
 <td>Evaluates the model given evaluation data input_fn.</td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/export_savedmodel.html">export_savedmodel()</a></code></td>
+<td><code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/export_savedmodel">export_savedmodel()</a></code></td>
 <td>Exports inference graph as a SavedModel into a given directory.</td>
 </tr>
 <tr class="odd">

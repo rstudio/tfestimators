@@ -124,8 +124,8 @@
     
 
     <pre class="usage"><span class='co'># S3 method for tf_estimator</span>
-<span class='fu'><a href='export_savedmodel.html'>export_savedmodel</a></span>(<span class='no'>object</span>, <span class='no'>export_dir_base</span>,
-  <span class='no'>serving_input_receiver_fn</span>, <span class='kw'>assets_extra</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>as_text</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+<span class='fu'><a href='http://www.rdocumentation.org/packages/tensorflow/topics/export_savedmodel'>export_savedmodel</a></span>(<span class='no'>object</span>, <span class='no'>export_dir_base</span>,
+  <span class='kw'>serving_input_receiver_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>assets_extra</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>as_text</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>checkpoint_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
@@ -143,7 +143,7 @@ timestamped subdirectories containing exported SavedModels.</p></td>
     <tr>
       <th>serving_input_receiver_fn</th>
       <td><p>A function that takes no argument and
-returns a <code>ServingInputReceiver</code>.</p></td>
+returns a <code>ServingInputReceiver</code>. Required for custom models.</p></td>
     </tr>
     <tr>
       <th>assets_extra</th>
@@ -164,7 +164,7 @@ chosen.</p></td>
     <tr>
       <th>...</th>
       <td><p>Optional arguments passed on to the estimator's
-<code><a href='export_savedmodel.html'>export_savedmodel()</a></code> method.</p></td>
+<code><a href='http://www.rdocumentation.org/packages/tensorflow/topics/export_savedmodel'>export_savedmodel()</a></code> method.</p></td>
     </tr>
     </table>
     
