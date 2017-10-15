@@ -22,6 +22,18 @@ tensorflow::tf_config
 #' @export
 tensorflow::tensorboard
 
+#' @export
+tensorflow::evaluate
+
+#' @export
+tensorflow::train
+
+#' @export
+tensorflow::train_and_evaluate
+
+#' @export
+tensorflow::export_savedmodel
+
 #' @importFrom tfruns flags
 #' @export
 tfruns::flags
