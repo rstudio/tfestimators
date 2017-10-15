@@ -335,6 +335,9 @@ export_savedmodel.tf_estimator <- function(object,
 coef.tf_estimator <- function(object, ...) {
   training_lib <- tf$python$training
   model_dir <- object$estimator$model_dir
+  if (length(list.files(model_dir)) == 0) {
+    stop("This model has not been trained yet.")
+  }
   ckp <- training_lib$checkpoint_utils$load_checkpoint(get_latest_checkpoint(model_dir))
   var_names <- list_variable_names(model_dir)
   cleaned_vars <- lapply(var_names, function(var_name) ckp$get_tensor(var_name[[1]]))
