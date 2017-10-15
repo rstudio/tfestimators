@@ -1,4 +1,6 @@
-#' Train and evaluate the `estimator`.
+#' Train and evaluate the estimator.
+#' 
+#' (Available since TensorFlow v1.4)
 #' 
 #' This utility function trains, evaluates, and (optionally) exports the model by
 #' using the given `estimator`. All training related specification is held in
@@ -38,6 +40,9 @@
 #' @family training methods
 #' 
 train_and_evaluate.tf_estimator <- function(object, train_spec, eval_spec) {
+  if (tf_version() < '1.4') {
+    stop("train_and_evaluate() is only available since TensorFlow v1.4")
+  }
   estimator <- object$estimator
   train_spec$args$input_fn <- normalize_input_fn(estimator, train_spec$args$input_fn)
   eval_spec$args$input_fn <- normalize_input_fn(estimator, eval_spec$args$input_fn)

@@ -2,6 +2,12 @@
 
 library(tensorflow)
 
+skip_if_tensorflow_below <- function(version) {
+  if (tf_version() < version) {
+    skip(paste0("Skipped since this test requires TensorFlow >= ", version))
+  }
+}
+
 # using custom input_fn
 mtcars_regression_specs <- function() {
   dnn_feature_columns <- feature_columns(column_numeric("drat"))
