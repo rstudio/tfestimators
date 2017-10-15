@@ -44,8 +44,8 @@ train_and_evaluate.tf_estimator <- function(object, train_spec, eval_spec) {
     stop("train_and_evaluate() is only available since TensorFlow v1.4")
   }
   estimator <- object$estimator
-  train_spec$args$input_fn <- normalize_input_fn(estimator, train_spec$args$input_fn)
-  eval_spec$args$input_fn <- normalize_input_fn(estimator, eval_spec$args$input_fn)
+  train_spec$args$input_fn <- normalize_input_fn(object, train_spec$args$input_fn)
+  eval_spec$args$input_fn <- normalize_input_fn(object, eval_spec$args$input_fn)
   tf$estimator$train_and_evaluate(
     estimator = estimator,
     train_spec = do.call(tf$estimator$TrainSpec, train_spec$args),

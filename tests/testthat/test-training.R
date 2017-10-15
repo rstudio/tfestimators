@@ -40,12 +40,12 @@ test_that("train_and_evaluate() work for custom estimators", {
   
   est <- estimator(model_fn = simple_custom_model_fn)
   
-  tr_spec <- train_spec(input_fn = input, max_steps = 20)
-  ev_spec <- eval_spec(input_fn = input, steps = 20)
-  # train_and_evaluate(
-  #   est,
-  #   train_spec = tr_spec,
-  #   eval_spec = ev_spec
-  # )
+  tr_spec <- train_spec(input_fn = input, max_steps = 2)
+  ev_spec <- eval_spec(input_fn = input, steps = 2)
+  train_and_evaluate(
+    est,
+    train_spec = tr_spec,
+    eval_spec = ev_spec
+  )
   
 })
