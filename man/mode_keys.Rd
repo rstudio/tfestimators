@@ -2,7 +2,7 @@
 % Please edit documentation in R/estimator_keys.R
 \name{mode_keys}
 \alias{mode_keys}
-\title{Canonical Mode Modes}
+\title{Canonical Mode Keys}
 \usage{
 mode_keys()
 }
