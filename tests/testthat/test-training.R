@@ -13,7 +13,7 @@ test_that("train_and_evaluate() work for canned estimators", {
     dnn_optimizer = "Adagrad"
   )
   
-  tr_spec <- train_spec(input_fn = specs$input_fn, max_steps = 2)
+  tr_spec <- train_spec(input_fn = specs$input_fn, max_steps = 10)
   ev_spec <- eval_spec(input_fn = specs$input_fn, steps = 2)
   train_and_evaluate(
     est,
