@@ -1,4 +1,4 @@
-hook_history_saver <- function() {
+hook_history_saver <- function(mode_key) {
   session_run_hook(
     
     before_run = function(context) {
@@ -14,14 +14,14 @@ hook_history_saver <- function() {
       raw_losses <- results$losses[[1]]
       global_step <- results$global_step
       
-      .globals$history$losses$mean_losses <- c(.globals$history$losses$mean_losses, mean(raw_losses))
-      .globals$history$losses$total_losses <- c(.globals$history$losses$total_losses, sum(raw_losses))
-      .globals$history$steps <- unlist(c(.globals$history$steps, global_step))
+      .globals$history[[mode_key]]$losses$mean_losses <- c(.globals$history[[mode_key]]$losses$mean_losses, mean(raw_losses))
+      .globals$history[[mode_key]]$losses$total_losses <- c(.globals$history[[mode_key]]$losses$total_losses, sum(raw_losses))
+      .globals$history[[mode_key]]$steps <- unlist(c(.globals$history[[mode_key]]$steps, global_step))
     }
   )
 }
 
-hook_view_metrics <- function(props) {
+hook_view_metrics <- function(props, mode_key) {
   
   steps <- props$steps
 
@@ -33,7 +33,7 @@ hook_view_metrics <- function(props) {
   # metrics dataframe with no padding, we signal to the viewer
   # that there is no more data incoming
   get_metrics_df <- function(finalize) {
-    df <- as.data.frame(.globals$history$losses)
+    df <- as.data.frame(.globals$history[[mode_key]]$losses)
     if (finalize)
       return(df)
     pad(df, steps %||% nrow(df) + 1)
@@ -81,7 +81,7 @@ hook_progress_bar <- function(label, steps) {
   format <- if (is.null(steps))
     paste("[:spin]", label, "-- loss: :loss, step: :step")
   else
-    ":current/:total [:bar] - ETA: :eta - loss: :loss"
+    paste(label, ":current/:total [:bar] - ETA: :eta - loss: :loss")
   
   .values <- NULL
   .n <- 0

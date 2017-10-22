@@ -111,8 +111,8 @@ resolve_view_metrics <- function(view_metrics, verbose) {
 
 resolve_train_hooks <- function(hooks, verbose, steps, view_metrics, estimator) {
   if (verbose) {
-    .globals$history <- tf_estimator_history()
-    hooks <- c(hooks, hook_history_saver())
+    .globals$history[[mode_keys()$TRAIN]] <- tf_estimator_history()
+    hooks <- c(hooks, hook_history_saver(mode_keys()$TRAIN))
     hooks <- c(hooks, hook_progress_bar("Training", steps))
   }
   
@@ -123,7 +123,8 @@ resolve_train_hooks <- function(hooks, verbose, steps, view_metrics, estimator) 
         list(
           steps = steps,
           model = str(estimator)
-        )
+        ),
+        mode_key = mode_keys()$TRAIN
       )
     )
   
@@ -132,8 +133,8 @@ resolve_train_hooks <- function(hooks, verbose, steps, view_metrics, estimator) 
 
 resolve_eval_hooks <- function(hooks, verbose, steps) {
   if (verbose) {
-    .globals$history <- tf_estimator_history()
-    hooks <- c(hooks, hook_history_saver())
+    .globals$history[[mode_keys()$EVAL]] <- tf_estimator_history()
+    hooks <- c(hooks, hook_history_saver(mode_keys()$EVAL))
     hooks <- c(hooks, hook_progress_bar("Evaluating", steps))
   }
   
