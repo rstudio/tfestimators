@@ -7,16 +7,8 @@ simple_simplify_fn <- function(object, predictions) {
     bind_rows()
 }
 
-validate_prediction_simplify_fn <- function(prediction_simplify_fn) {
-  if (length(formals(prediction_simplify_fn)) == 1) {
-    TRUE
-  } else {
-    stop("simplify must be a function with only one argument.")
-  }
-}
-
 simplify_predictions <- function(object, predictions, simplify) {
-  if (is.function(simplify) && validate_prediction_simplify_fn(simplify)) {
+  if (is.function(simplify)) {
     simplify(predictions)
   } else {
     if (isTRUE(simplify)) {
