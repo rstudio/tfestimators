@@ -5,7 +5,8 @@
 \title{Configuration for the "eval" part for the \code{train_and_evaluate} call.}
 \usage{
 eval_spec(input_fn, steps = 100, name = NULL, hooks = NULL,
-  exporters = NULL, start_delay_secs = 120, throttle_secs = 600)
+  exporters = NULL, start_delay_secs = 120, throttle_secs = 600,
+  verbose = TRUE)
 }
 \arguments{
 \item{input_fn}{Evaluation input function returning a tuple of:

@@ -4,7 +4,8 @@
 \alias{train_spec}
 \title{Configuration for the "train" part for the \code{train_and_evaluate} call.}
 \usage{
-train_spec(input_fn, max_steps = NULL, hooks = NULL)
+train_spec(input_fn, max_steps = NULL, hooks = NULL, verbose = TRUE,
+  view_metrics = "auto")
 }
 \arguments{
 \item{input_fn}{Training input function returning a tuple of:
