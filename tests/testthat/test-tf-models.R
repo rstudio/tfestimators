@@ -46,10 +46,10 @@ test_that("train(), predict(), and evaluate() work for classifiers", {
   predictions <- predict(clf, input_fn = specs$input_fn, simplify = FALSE)
   expect_equal(length(predictions), 32)
   
-  # test prediction simplification for canned estimator
+  # Test prediction simplification for canned estimator
   predictions <- predict(clf, input_fn = specs$input_fn, simplify = TRUE)
   expect_equal(dim(predictions), c(32, 5))
-  # test default of simplify for canned estimator
+  # Test default of simplify for canned estimator
   predictions <- predict(clf, input_fn = specs$input_fn)
   expect_equal(dim(predictions), c(32, 5))
   
@@ -61,6 +61,10 @@ test_that("train(), predict(), and evaluate() work for classifiers", {
   # other types that is in PredictionKey
   predictions <- predict(clf, input_fn = specs$input_fn, predict_keys = prediction_keys()$LOGISTIC, simplify = FALSE)
 
-  accuracy <- evaluate(clf, input_fn = specs$input_fn)$accuracy
+  # Evaluation without simplify
+  accuracy <- evaluate(clf, input_fn = specs$input_fn, simplify = FALSE)$accuracy
   expect_lte(accuracy, 0.6)
+  # Evaluation with simplify
+  evaluation_results <- evaluate(clf, input_fn = specs$input_fn, simplify = TRUE)
+  expect_equal(dim(evaluation_results), c(1, 9))
 })

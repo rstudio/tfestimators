@@ -79,9 +79,9 @@ hook_view_metrics <- function(props, mode_key) {
 hook_progress_bar <- function(label, steps) {
   
   format <- if (is.null(steps))
-    paste("[:spin]", label, "-- loss: :loss, step: :step")
+    paste("[:spin]", label, "-- loss: :loss, step: :step \n")
   else
-    paste(label, ":current/:total [:bar] - ETA: :eta - loss: :loss")
+    paste(label, ":current/:total [:bar] - ETA: :eta - loss: :loss \n")
   
   .values <- NULL
   .n <- 0

@@ -1,4 +1,4 @@
-simple_simplify_fn <- function(object, predictions) {
+simple_simplify_predictions_fn <- function(object, predictions) {
   predictions %>%
     map(~ .x %>%
           map(~.x[[1]]) %>%
@@ -7,22 +7,34 @@ simple_simplify_fn <- function(object, predictions) {
     bind_rows()
 }
 
-simplify_predictions <- function(object, predictions, simplify) {
+simple_simplify_evaluations_fn <- function(object, evaluations) {
+  evaluations %>%
+    flatten() %>%
+    as_tibble() %>%
+    glimpse()
+}
+
+simplify_results <- function(object, results, simplify, mode_key) {
   if (is.function(simplify)) {
-    simplify(predictions)
+    simplify(results)
   } else {
     if (isTRUE(simplify)) {
       if (is.tf_custom_estimator(object)) {
         warning("Predictions are not simplified automatically for custom estimators.\n",
                 "Custom estimator needs to write a custom prediction simplify function. \n",
                 "See ?predict.tf_estimator for more details.")
-        predictions
+        results
       } else {
-        # Apply a simple prediciton simplify function for canned estimators
-        simple_simplify_fn(object, predictions)
+        if (mode_key == mode_keys()$PREDICT) {
+          simple_simplify_predictions_fn(object, results)
+        } else if (mode_key == mode_keys()$EVAL) {
+          simple_simplify_evaluations_fn(object, results)
+        } else {
+         stop("simplify_results has only been implemented for predict() and evaluate().") 
+        }
       }
     } else {
-      predictions
+      results
     }
   }
 }

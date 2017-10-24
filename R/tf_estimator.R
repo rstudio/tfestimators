@@ -176,7 +176,7 @@ predict.tf_estimator <- function(object,
     }
   }
   
-  simplify_predictions(object, predictions, simplify)
+  simplify_results(object, predictions, simplify, mode_keys()$PREDICT)
 }
 
 #' Evaluate an Estimator
@@ -212,9 +212,10 @@ evaluate.tf_estimator <- function(object,
                                   name = NULL,
                                   hooks = NULL,
                                   verbose = TRUE,
+                                  simplify = TRUE,
                                   ...)
 {
-  result <- with_logging_verbosity(tf$logging$WARN, {
+  evaluation_results <- with_logging_verbosity(tf$logging$WARN, {
     object$estimator$evaluate(
       input_fn = normalize_input_fn(object, input_fn),
       steps = as_nullable_integer(steps),
@@ -226,7 +227,7 @@ evaluate.tf_estimator <- function(object,
   })
   
   tfruns::write_run_metadata("evaluation", result)
-  result
+  simplify_results(object, evaluation_results, simplify, mode_keys()$EVAL)
 }
 
 #' Save an Estimator
