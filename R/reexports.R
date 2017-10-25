@@ -11,6 +11,9 @@ reticulate::use_virtualenv
 reticulate::use_condaenv
 
 #' @export
+reticulate::array_reshape
+
+#' @export
 tensorflow::tf
 
 #' @export
