@@ -465,7 +465,7 @@ logging_hook &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 <div id="train-the-model" class="section level3">
 <h3 class="hasAnchor">
 <a href="#train-the-model" class="anchor"></a>Train the Model</h3>
-<p>Now we’re ready to train our model, which we can do by creating <code>train_input_fn</code> ans calling <code><a href="../reference/train.html">train()</a></code> on <code>mnist_classifier</code>.</p>
+<p>Now we’re ready to train our model, which we can do by creating <code>train_input_fn</code> ans calling <code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train()</a></code> on <code>mnist_classifier</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Train the model</span>
 train_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(features_as_named_list) {
   tf<span class="op">$</span>estimator<span class="op">$</span>inputs<span class="op">$</span><span class="kw"><a href="../reference/numpy_input_fn.html">numpy_input_fn</a></span>(
@@ -475,7 +475,7 @@ train_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(fe
     <span class="dt">num_epochs =</span> <span class="ot">NULL</span>,
     <span class="dt">shuffle =</span> <span class="ot">TRUE</span>)
 }
-<span class="kw"><a href="../reference/train.html">train</a></span>(
+<span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train</a></span>(
   mnist_classifier,
   <span class="dt">input_fn =</span> train_input_fn,
   <span class="dt">steps =</span> <span class="dv">20</span>,
@@ -495,7 +495,7 @@ eval_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(fea
     <span class="dt">num_epochs =</span> <span class="ot">NULL</span>,
     <span class="dt">shuffle =</span> <span class="ot">TRUE</span>)
 }
-<span class="kw"><a href="../reference/evaluate.html">evaluate</a></span>(
+<span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/evaluate">evaluate</a></span>(
   mnist_classifier,
   <span class="dt">input_fn =</span> eval_input_fn,
   <span class="dt">steps =</span> <span class="dv">10</span>,
