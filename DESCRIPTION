@@ -29,7 +29,7 @@ Depends:
 Imports:
     magrittr,
     progress,
-    reticulate (>= 1.1), 
+    reticulate (>= 1.2.0.9008), 
     rlang,
     tensorflow (>= 1.4.0.9003),
     tfruns (>= 0.9.1),
@@ -43,4 +43,5 @@ Suggests:
     knitr
 VignetteBuilder: knitr
 Remotes:
+  rstudio/reticulate,
   rstudio/tensorflow
