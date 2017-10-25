@@ -20,9 +20,8 @@ simplify_results <- function(object, results, simplify, mode_key) {
   } else {
     if (isTRUE(simplify)) {
       if (is.tf_custom_estimator(object)) {
-        warning("Predictions are not simplified automatically for custom estimators.\n",
-                "Custom estimator needs to write a custom prediction simplify function. \n",
-                "See ?predict.tf_estimator for more details.")
+        warning("Results are not simplified automatically for custom estimators.\n",
+                "Custom estimator needs to write a custom simplify function. \n")
         results
       } else {
         if (mode_key == mode_keys()$PREDICT) {
