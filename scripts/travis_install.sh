@@ -5,7 +5,7 @@ if [[ "$TF_VERSION" == "1.3" ]]; then
       Rscript -e 'tensorflow::install_tensorflow(version = "1.3")';
 elif [[ "$TF_VERSION" == "1.4" ]]; then
       echo "Installing TensorFlow v1.4 ...";
-      Rscript -e 'tensorflow::install_tensorflow(version = "1.4.0-rc0")';
+      Rscript -e 'tensorflow::install_tensorflow(version = "1.4.0-rc1")';
 elif [[ "$TF_VERSION" == "nightly" ]]; then
       echo "Installing TensorFlow nightly ...";
       Rscript -e 'tensorflow::install_tensorflow(version = "nightly")';
