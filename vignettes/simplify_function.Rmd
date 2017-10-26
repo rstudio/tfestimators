@@ -1,5 +1,5 @@
 ---
-title: "simplify_function"
+title: "Simplify Function"
 output: html_document
 ---
 
@@ -8,6 +8,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Overview
+
+Estimator's `predict()` and `evaluate()` provide an easy and efficient way of making predictions and evaluations on new data. However, the prediction and evaluation results are pretty verbose and usually in forms of nested lists, which isn't user-friendly. By default, the results produced from canned estimators will be simplified using a default simplify function for both `predict()` and `evaluate()`. You can also write a custom simplify function to them. Custom estimators do not simplify results by default unless you provide a custom simplify function. In this tutorial, we'll illustrate how the simplified results look like and how you can write your own simplify function.
 
 ## Simplify Prediction Results
 
@@ -33,24 +35,24 @@ test_data  <- mtcars[-indices, ]
 model <- linear_classifier(feature_columns = cols)
 ```
 
-and we train the model:
+and we train the model using the input function constructed from training data:
 
 ```{r}
 model %>% train(mtcars_input_fn(train_data))
 ```
 
-Let's see how the prediction output looks like without applying the simplifier on the results:
+Here's how the prediction output looks like without applying the simplifier on the results:
 
 ```{r}
 model %>% predict(mtcars_input_fn(mtcars[1, ]), simplify = FALSE)
 ```
 
-Note that here we only use the first row of `mtcars` data since the results will be in forms of long nested lists that may not fit in this page.
+Note that here we only evaluate the first row of `mtcars` data since the results will be in forms of long nested lists that may not fit in this page.
 
 
 ### Default Simplifier
 
-If `simplify = TRUE`, a default simplify function for predictions will be used to flatten the results so they are more appearing and concise:
+If `simplify = TRUE`, a default simplify function for predictions will be used to flatten the results so they are more appearing and concise like the following:
 
 ```{r}
 model %>% predict(mtcars_input_fn(test_data), simplify = TRUE)
@@ -69,23 +71,25 @@ simplify_fn <- function(predictions) {
 
 model %>% predict(mtcars_input_fn(mtcars[1:2, ]), simplify = simplify_fn)
 ```
+Note again that we only make predictions for the first two rows of the data since it's too verbose to fit in this page.
 
 ## Simplify Evaluation Results
 
-Similarly, the evaluation results can be simplified as well. Let's take a look at the raw evaluation results without simplification. 
+Similarly, the evaluation results can be simplified as well. Here's how the raw evaluation results look like without simplification by providing `simplify = FALSE`. 
 
 ```{r}
 model %>% evaluate(mtcars_input_fn(mtcars[1, ]), simplify = FALSE)
 ```
-It contains a list of evaluation results for the metrics pre-defined for this particular canned estimator, such as accuracy, average loss, AUC, etc. This is pretty verbose for only one row of evaluation data. 
+It contains a list of evaluation results for the metrics pre-defined for this particular canned estimator, such as accuracy, average loss, AUC, etc. The evaluation result is pretty verbose without simplification. 
 
 ### Default Simplifier
 
-Now let's take a look at the simplified results:
+Now let's take a look at the simplified results by providing `simplify = TRUE`:
 
 ```{r}
 model %>% evaluate(mtcars_input_fn(test_data), simplify = TRUE)
 ```
+The evaluation results now look compact.  
 
 ### Custom Simplifier for Evaluation Result
 
@@ -99,3 +103,19 @@ simplify_fn <- function(results) {
 model %>% evaluate(mtcars_input_fn(test_data), simplify = simplify_fn)
 ```
 
+
+## Writing Simplify Function for Custom Estimators
+
+So far we've only illustrated how to simplify the results for canned estimator, in particular, `linear_classifier`. Custom estimators do not simplify results by default unless you provide a custom simplify function. The way to write them is almost identical to canned estimators. The predictions and evaluations results are highly dependent on what's defined in the `model_fn` so you need to pay attention to them when writing the simplify function. 
+
+For example, below is a snippet in the `model_fn` that defines the behavior for prediction mode (note the `mode == mode_keys()$PREDICT`). `predictions` is being returned during this phase and is a list of keyed items for raw prediction classes and probabilities.
+
+
+```{r eval=FALSE}
+predictions <- list(
+    class = tf$argmax(logits, 1L),
+    prob = tf$nn$softmax(logits))
+if (mode == mode_keys()$PREDICT) {
+    return(estimator_spec(mode = mode, predictions = predictions, loss = NULL, train_op = NULL))
+}
+```

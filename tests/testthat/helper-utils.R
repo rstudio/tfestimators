@@ -63,7 +63,7 @@ simple_custom_model_fn <- function(features, labels, mode, params, config) {
     class = tf$argmax(logits, 1L),
     prob = tf$nn$softmax(logits))
   
-  if (mode == "infer") {
+  if (mode == mode_keys()$PREDICT) {
     return(estimator_spec(mode = mode, predictions = predictions, loss = NULL, train_op = NULL))
   }
   
