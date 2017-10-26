@@ -7,22 +7,95 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Overview
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+## Simplify Prediction Results
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+First of all, let's define our feature columns, input function, and a basic linear classifier:
 
-```{r cars}
-summary(cars)
+```{r}
+library(tfestimators)
+
+cols <- feature_columns( 
+  column_numeric("disp", "cyl")
+)
+
+mtcars_input_fn <- function(data) {
+  input_fn(data, 
+           features = c("disp", "cyl"), 
+           response = "vs")
+}
+
+indices <- sample(1:nrow(mtcars), size = 0.80 * nrow(mtcars))
+train_data <- mtcars[indices, ]
+test_data  <- mtcars[-indices, ]
+
+model <- linear_classifier(feature_columns = cols)
 ```
 
-## Including Plots
+and we train the model:
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+model %>% train(mtcars_input_fn(train_data))
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Let's see how the prediction output looks like without applying the simplifier on the results:
+
+```{r}
+model %>% predict(mtcars_input_fn(mtcars[1, ]), simplify = FALSE)
+```
+
+Note that here we only use the first row of `mtcars` data since the results will be in forms of long nested lists that may not fit in this page.
+
+
+### Default Simplifier
+
+If `simplify = TRUE`, a default simplify function for predictions will be used to flatten the results so they are more appearing and concise:
+
+```{r}
+model %>% predict(mtcars_input_fn(test_data), simplify = TRUE)
+```
+
+Note that this time we use the full test dataset since no matter how large the prediction results are, we can still see the results in a concise [tibble object](http://tibble.tidyverse.org/index.html). 
+
+### Custom Simplifier for Prediction Result
+
+You can also write your own custom simplify function to clean up the prediction results. For example, below we define a custom function that obtains the probabilities from the list of prediction results with keys being the prediction keys pre-defined for this canned estimator. In this case, `linear_classifier` has logits, probabilities, prediction classes, logistics, etc. pre-defined. We can see a full list of available predictions keys by calling `prediction_keys()`. 
+
+```{r}
+simplify_fn <- function(predictions) {
+  lapply(predictions, function(x) x$probabilities)
+}
+
+model %>% predict(mtcars_input_fn(mtcars[1:2, ]), simplify = simplify_fn)
+```
+
+## Simplify Evaluation Results
+
+Similarly, the evaluation results can be simplified as well. Let's take a look at the raw evaluation results without simplification. 
+
+```{r}
+model %>% evaluate(mtcars_input_fn(mtcars[1, ]), simplify = FALSE)
+```
+It contains a list of evaluation results for the metrics pre-defined for this particular canned estimator, such as accuracy, average loss, AUC, etc. This is pretty verbose for only one row of evaluation data. 
+
+### Default Simplifier
+
+Now let's take a look at the simplified results:
+
+```{r}
+model %>% evaluate(mtcars_input_fn(test_data), simplify = TRUE)
+```
+
+### Custom Simplifier for Evaluation Result
+
+We can also apply a custom simplifier on the evaluation result like the following to obtain the AUC score:
+
+```{r}
+simplify_fn <- function(results) {
+  results$auc 
+}
+
+model %>% evaluate(mtcars_input_fn(test_data), simplify = simplify_fn)
+```
+
