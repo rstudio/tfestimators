@@ -7,7 +7,7 @@
 #' @importFrom stats coef
 #' @importFrom purrr map
 #' @importFrom purrr flatten
-#' @importFrom tibble as_tibble
+#' @importFrom dplyr as_tibble
 #' @importFrom dplyr bind_rows
-#' @importFrom tibble glimpse
+#' @importFrom dplyr glimpse
 NULL
