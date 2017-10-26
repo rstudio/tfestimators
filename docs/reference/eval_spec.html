@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Monitor to Request Stop at a Specified Step — hook_stop_at_step • tfestimators</title>
+<title>Configuration for the "eval" part for the <code>train_and_evaluate</code> call. — eval_spec • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,36 +119,68 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Monitor to Request Stop at a Specified Step</h1>
+    <h1>Configuration for the "eval" part for the <code>train_and_evaluate</code> call.</h1>
     </div>
 
     
-    <p>Monitor to Request Stop at a Specified Step</p>
+    <p><code>EvalSpec</code> combines details of evaluation of the trained model as well as its
+export. Evaluation consists of computing metrics to judge the performance of
+the trained model. Export writes out the trained model on to external
+storage.</p>
     
 
-    <pre class="usage"><span class='fu'>hook_stop_at_step</span>(<span class='kw'>num_steps</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>last_step</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>eval_spec</span>(<span class='no'>input_fn</span>, <span class='kw'>steps</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>exporters</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>start_delay_secs</span> <span class='kw'>=</span> <span class='fl'>120</span>, <span class='kw'>throttle_secs</span> <span class='kw'>=</span> <span class='fl'>600</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>num_steps</th>
-      <td><p>Number of steps to execute.</p></td>
+      <th>input_fn</th>
+      <td><p>Evaluation input function returning a tuple of:</p><ul>
+<li><p>features - <code>Tensor</code> or dictionary of string feature name to <code>Tensor</code>.</p></li>
+<li><p>labels - <code>Tensor</code> or dictionary of <code>Tensor</code> with labels.</p></li>
+</ul></td>
     </tr>
     <tr>
-      <th>last_step</th>
-      <td><p>Step after which to stop.</p></td>
+      <th>steps</th>
+      <td><p>Positive number of steps for which to evaluate model.
+If <code>NULL</code>, evaluates until <code>input_fn</code> raises an end-of-input exception.</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>Name of the evaluation if user needs to run multiple
+evaluations on different data sets. Metrics for different evaluations
+are saved in separate folders, and appear separately in tensorboard.</p></td>
+    </tr>
+    <tr>
+      <th>hooks</th>
+      <td><p>List of session run hooks to run
+during evaluation.</p></td>
+    </tr>
+    <tr>
+      <th>exporters</th>
+      <td><p>List of <code>Exporter</code>s, or a single one, or <code>NULL</code>.
+<code>exporters</code> will be invoked after each evaluation.</p></td>
+    </tr>
+    <tr>
+      <th>start_delay_secs</th>
+      <td><p>Start evaluating after waiting for this many
+seconds.</p></td>
+    </tr>
+    <tr>
+      <th>throttle_secs</th>
+      <td><p>Do not re-evaluate unless the last evaluation was
+started at least this many seconds ago. Of course, evaluation does not
+occur if no new checkpoints are available, hence, this is the minimum.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other session_run_hook wrappers: <code><a href='hook_checkpoint_saver.html'>hook_checkpoint_saver</a></code>,
-  <code><a href='hook_global_step_waiter.html'>hook_global_step_waiter</a></code>,
-  <code><a href='hook_logging_tensor.html'>hook_logging_tensor</a></code>,
-  <code><a href='hook_nan_tensor.html'>hook_nan_tensor</a></code>,
-  <code><a href='hook_step_counter.html'>hook_step_counter</a></code>,
-  <code><a href='hook_summary_saver.html'>hook_summary_saver</a></code></p>
+    <p>Other training methods: <code><a href='train_and_evaluate.tf_estimator.html'>train_and_evaluate.tf_estimator</a></code>,
+  <code><a href='train_spec.html'>train_spec</a></code></p>
     
 
   </div>

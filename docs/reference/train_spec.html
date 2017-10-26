@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Monitor to Request Stop at a Specified Step — hook_stop_at_step • tfestimators</title>
+<title>Configuration for the "train" part for the <code>train_and_evaluate</code> call. — train_spec • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,36 +119,44 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Monitor to Request Stop at a Specified Step</h1>
+    <h1>Configuration for the "train" part for the <code>train_and_evaluate</code> call.</h1>
     </div>
 
     
-    <p>Monitor to Request Stop at a Specified Step</p>
+    <p><code>TrainSpec</code> determines the input data for the training, as well as the
+duration. Optional hooks run at various stages of training.</p>
     
 
-    <pre class="usage"><span class='fu'>hook_stop_at_step</span>(<span class='kw'>num_steps</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>last_step</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>train_spec</span>(<span class='no'>input_fn</span>, <span class='kw'>max_steps</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>view_metrics</span> <span class='kw'>=</span> <span class='st'>"auto"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>num_steps</th>
-      <td><p>Number of steps to execute.</p></td>
+      <th>input_fn</th>
+      <td><p>Training input function returning a tuple of:</p><ul>
+<li><p>features - <code>Tensor</code> or dictionary of string feature name to <code>Tensor</code>.</p></li>
+<li><p>labels - <code>Tensor</code> or dictionary of <code>Tensor</code> with labels.</p></li>
+</ul></td>
     </tr>
     <tr>
-      <th>last_step</th>
-      <td><p>Step after which to stop.</p></td>
+      <th>max_steps</th>
+      <td><p>Positive number of total steps for which to train model.
+If <code>NULL</code>, train forever. The training <code>input_fn</code> is not expected to
+generate <code>OutOfRangeError</code> or <code>StopIteration</code> exceptions.</p></td>
+    </tr>
+    <tr>
+      <th>hooks</th>
+      <td><p>List of session run hooks to run on all workers
+(including chief) during training.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other session_run_hook wrappers: <code><a href='hook_checkpoint_saver.html'>hook_checkpoint_saver</a></code>,
-  <code><a href='hook_global_step_waiter.html'>hook_global_step_waiter</a></code>,
-  <code><a href='hook_logging_tensor.html'>hook_logging_tensor</a></code>,
-  <code><a href='hook_nan_tensor.html'>hook_nan_tensor</a></code>,
-  <code><a href='hook_step_counter.html'>hook_step_counter</a></code>,
-  <code><a href='hook_summary_saver.html'>hook_summary_saver</a></code></p>
+    <p>Other training methods: <code><a href='eval_spec.html'>eval_spec</a></code>,
+  <code><a href='train_and_evaluate.tf_estimator.html'>train_and_evaluate.tf_estimator</a></code></p>
     
 
   </div>
