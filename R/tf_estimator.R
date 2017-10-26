@@ -107,9 +107,8 @@ train.tf_estimator <- function(object,
 #' @template roxlate-object-estimator
 #'
 #' @param predict_keys The types of predictions that should be produced, as an
-#'   \R list. When `NULL` (the default), all possible predicted values will be
-#'   returned. The [prediction_keys()] function provides the set of possible
-#'   prediction keys that can be supplied here.
+#'   \R list. When this argument is not specified (the default), all possible
+#'   predicted values will be returned.
 #' @param simplify A boolean value that indicates whether to simplify prediction
 #'   results automatically. If `TRUE`, This will automatically use a default prediction
 #'   simplify function to canned estimators that flattens the predictions to a
@@ -135,17 +134,18 @@ train.tf_estimator <- function(object,
 predict.tf_estimator <- function(object,
                                  input_fn,
                                  checkpoint_path = NULL,
-                                 predict_keys = NULL,
+                                 predict_keys = c("predictions", "classes", "class_ids", "logistic", "logits", "probabilities"),
                                  hooks = NULL,
                                  as_iterable = FALSE,
                                  simplify = TRUE,
                                  ...)
 {
+  predict_keys <- resolve_predict_keys(match.arg(predict_keys, several.ok = TRUE))
   predictions <- object$estimator$predict(
     input_fn = normalize_input_fn(object, input_fn),
     checkpoint_path = checkpoint_path,
     hooks = normalize_session_run_hooks(hooks),
-    predict_keys = resolve_predict_keys(predict_keys),
+    predict_keys = predict_keys,
     ...
   )
 

@@ -5,7 +5,8 @@
 \title{Generate Predictions with an Estimator}
 \usage{
 \method{predict}{tf_estimator}(object, input_fn, checkpoint_path = NULL,
-  predict_keys = NULL, hooks = NULL, as_iterable = FALSE,
+  predict_keys = c("predictions", "classes", "class_ids", "logistic",
+  "logits", "probabilities"), hooks = NULL, as_iterable = FALSE,
   simplify = TRUE, ...)
 }
 \arguments{
@@ -19,9 +20,8 @@ prediction. If \code{NULL} (the default), the latest checkpoint in \code{model_d
 is used.}
 
 \item{predict_keys}{The types of predictions that should be produced, as an
-\R list. When \code{NULL} (the default), all possible predicted values will be
-returned. The \code{\link[=prediction_keys]{prediction_keys()}} function provides the set of possible
-prediction keys that can be supplied here.}
+\R list. When this argument is not specified (the default), all possible
+predicted values will be returned.}
 
 \item{hooks}{A list of \R functions, to be used as callbacks inside the
 training loop.}

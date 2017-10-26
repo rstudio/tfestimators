@@ -17,26 +17,14 @@ navbar:
           href: articles/input_functions.html
         - text: "Feature Columns"
           href: articles/feature_columns.html
-#        - text: "--------------------------"
-#        - text: "Canned Estimators"
-#        - text: "Linear Models"
-#          href: articles/linear_estimators.html
-#        - text: "Linear/DNN Models"
-#          href: articles/linear_dnn_combined_estimators.html
-#        - text: "Support Vector Machines"
-#          href: articles/support_vector_machines.html
-#        - text: "Recurrent Neural Networks"
-#          href: articles/recurrent_neural_networks.html
         - text: "--------------------------"
         - text: "Advanced"
-#        - text: "Experiments"
-#          href: articles/experiments.html
         - text: "Run Hooks"
           href: articles/run_hooks.html
-#        - text: "Run Configuration"
-#          href: articles/run_configuration.html
         - text: "Custom Estimators"
           href: articles/creating_estimators.html
+        - text: "Simplify Function"
+          href: articles/simplify_function.html
         - text: "TensorFlow Layers"
           href: articles/layers.html
         - text: "TensorBoard Visualization"
