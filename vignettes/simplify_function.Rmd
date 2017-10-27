@@ -1,0 +1,206 @@
+---
+title: "Simplify Function"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+
+Estimator's `predict()` and `evaluate()` provide an easy and efficient way of making predictions and evaluations on new data. However, the prediction and evaluation results are pretty verbose and usually in forms of nested lists, which isn't user-friendly. By default, the results produced from estimators will be simplified using a default simplify function for both `predict()` and `evaluate()`. You can also write a custom simplify function to them. In this tutorial, we'll illustrate how the simplified results look like and how you can write your own simplify function.
+
+## Simplify Prediction Results
+
+First of all, let's define our feature columns, input function, and a basic linear classifier:
+
+```{r eval=FALSE}
+library(tfestimators)
+
+cols <- feature_columns( 
+  column_numeric("disp", "cyl")
+)
+
+mtcars_input_fn <- function(data) {
+  input_fn(data, 
+           features = c("disp", "cyl"), 
+           response = "vs")
+}
+
+indices <- sample(1:nrow(mtcars), size = 0.80 * nrow(mtcars))
+train_data <- mtcars[indices, ]
+test_data  <- mtcars[-indices, ]
+
+model <- linear_classifier(feature_columns = cols)
+```
+
+and we train the model using the input function constructed from training data:
+
+```{r eval=FALSE}
+model %>% train(mtcars_input_fn(train_data))
+```
+
+```
+[-] Training -- loss: 17.33, step: 1 
+```
+
+Here's what the prediction output looks like without applying the simplifier on the results:
+
+```{r eval=FALSE}
+model %>% predict(mtcars_input_fn(mtcars[1, ]), simplify = FALSE)
+```
+
+```
+[[1]]
+[[1]]$probabilities
+[1] 1.000000e+00 3.221593e-15
+
+[[1]]$logits
+[1] -33.3689
+
+[[1]]$classes
+[1] "0"
+
+[[1]]$class_ids
+[1] 0
+
+[[1]]$logistic
+[1] 3.221593e-15
+
+```
+
+### Default Simplifier
+
+If `simplify = TRUE`, a default simplify function for predictions will be used to flatten the results so they are more appealing and concise like the following:
+
+```{r eval=FALSE}
+predictions <- model %>% predict(mtcars_input_fn(test_data), simplify = TRUE)
+```
+
+```
+> predictions
+# A tibble: 7 x 5
+  probabilities    logits   classes class_ids  logistic
+         <list>    <list>    <list>    <list>    <list>
+1     <dbl [2]> <dbl [1]> <chr [1]> <dbl [1]> <dbl [1]>
+2     <dbl [2]> <dbl [1]> <chr [1]> <dbl [1]> <dbl [1]>
+3     <dbl [2]> <dbl [1]> <chr [1]> <dbl [1]> <dbl [1]>
+4     <dbl [2]> <dbl [1]> <chr [1]> <dbl [1]> <dbl [1]>
+5     <dbl [2]> <dbl [1]> <chr [1]> <dbl [1]> <dbl [1]>
+6     <dbl [2]> <dbl [1]> <chr [1]> <dbl [1]> <dbl [1]>
+7     <dbl [2]> <dbl [1]> <chr [1]> <dbl [1]> <dbl [1]>
+```
+
+Note that this time we use the full test dataset since no matter how large the prediction results are, we can still see the results in a concise [tibble object](http://tibble.tidyverse.org/index.html). 
+
+### Custom Simplifier for Prediction Result
+
+You can also write your own custom simplify function to clean up prediction results. For example, below we define a custom function that obtains the probabilities from the list of prediction results with keys being the prediction keys pre-defined for this canned estimator. In this case, `linear_classifier` has logits, probabilities, prediction classes, logistics, etc. pre-defined. We can see a full list of available predictions keys by calling `prediction_keys()`. 
+
+```{r eval=FALSE}
+simplify_fn <- function(predictions) {
+  lapply(predictions, function(x) x$probabilities)
+}
+
+model %>% predict(mtcars_input_fn(mtcars[1:2, ]), simplify = simplify_fn)
+```
+
+```
+[[1]]
+[1] 1.000000e+00 3.221593e-15
+
+[[2]]
+[1] 1.000000e+00 3.221593e-15
+```
+
+## Simplify Evaluation Results
+
+Evaluation results can also be simplified. Here's what the raw evaluation results look like without simplification by providing `simplify = FALSE`. 
+
+```{r eval=FALSE}
+model %>% evaluate(mtcars_input_fn(mtcars[1, ]), simplify = FALSE)
+```
+
+```
+$loss
+[1] 3.221593e-15
+
+$accuracy_baseline
+[1] 1
+
+$global_step
+[1] 1
+
+$auc
+[1] 0.999999
+
+$`prediction/mean`
+[1] 3.221593e-15
+
+$`label/mean`
+[1] 0
+
+$average_loss
+[1] 3.221593e-15
+
+$auc_precision_recall
+[1] 0
+
+$accuracy
+[1] 1
+```
+
+It contains a list of evaluation results for the metrics pre-defined for this particular canned estimator, such as accuracy, average loss, AUC, etc. The evaluation result is pretty verbose without simplification. 
+
+### Default Simplifier
+
+Now let's take a look at the simplified results by providing `simplify = TRUE`:
+
+```{r eval=FALSE}
+evaluations <- model %>% evaluate(mtcars_input_fn(test_data), simplify = TRUE)
+```
+
+```
+> evaluations
+# A tibble: 1 x 9
+      loss accuracy_baseline global_step       auc `prediction/mean` `label/mean`
+     <dbl>             <dbl>       <dbl>     <dbl>             <dbl>        <dbl>
+1 107.1669         0.5714285           1 0.5000001      1.984744e-12    0.4285714
+# ... with 3 more variables: average_loss <dbl>, auc_precision_recall <dbl>,
+#   accuracy <dbl>
+```
+
+The evaluation results now look compact.  
+
+### Custom Simplifier for Evaluation Result
+
+We can also apply a custom simplifier on the evaluation result like the following to obtain the AUC score:
+
+```{r eval=FALSE}
+simplify_fn <- function(results) {
+  results$auc 
+}
+
+model %>% evaluate(mtcars_input_fn(test_data), simplify = simplify_fn)
+```
+
+```
+[1] 0.5000001
+```
+
+## Writing Custom Simplify Function for Custom Estimators
+
+So far we've only illustrated how to simplify the results for canned estimators, in particular, `linear_classifier`. Custom estimators also simplifies results by default unless `simplify = FALSE`. The way to write custom simplify function is almost identical to canned estimators. The predictions and evaluations results are highly dependent on what's defined in the `model_fn` so you need to pay attention to them when writing the simplify function. 
+
+For example, below is a snippet in the `model_fn` that defines the behavior for prediction mode (note the `mode == "infer"`). `predictions` is being returned during this phase and is a list of keyed items for raw prediction classes and probabilities.
+
+
+```{r eval=FALSE}
+predictions <- list(
+    class = tf$argmax(logits, 1L),
+    prob = tf$nn$softmax(logits))
+if (mode == "infer") {
+    return(estimator_spec(mode = mode, predictions = predictions, loss = NULL, train_op = NULL))
+}
+```

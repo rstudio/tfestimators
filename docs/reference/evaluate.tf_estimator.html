@@ -80,6 +80,9 @@
       <a href="../articles/creating_estimators.html">Custom Estimators</a>
     </li>
     <li>
+      <a href="../articles/simplify_function.html">Simplify Function</a>
+    </li>
+    <li>
       <a href="../articles/layers.html">TensorFlow Layers</a>
     </li>
     <li>
@@ -126,7 +129,7 @@
     <pre class="usage"><span class='co'># S3 method for tf_estimator</span>
 <span class='fu'><a href='http://www.rdocumentation.org/packages/tensorflow/topics/evaluate'>evaluate</a></span>(<span class='no'>object</span>, <span class='no'>input_fn</span>, <span class='kw'>steps</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>checkpoint_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>...</span>)</pre>
+  <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -168,6 +171,16 @@ training loop.</p></td>
     <tr>
       <th>verbose</th>
       <td><p>Show progress output as the model is trained?</p></td>
+    </tr>
+    <tr>
+      <th>simplify</th>
+      <td><p>A boolean value that indicates whether to simplify evaluation
+results automatically. If <code>TRUE</code>, This will automatically use a default evaluation
+simplify function to estimators that flattens the predictions to a cleaner tibble
+object with each column being the evaluation results for each evaluation metrics
+pre-define specified. If a custom function is provided with the signature
+<code>function(evaluations) {func(evaluations)}</code>, the custom function will be used
+instead of the default simplify function.</p></td>
     </tr>
     <tr>
       <th>...</th>

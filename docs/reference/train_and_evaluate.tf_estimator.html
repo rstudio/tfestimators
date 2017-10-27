@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Monitor to Request Stop at a Specified Step — hook_stop_at_step • tfestimators</title>
+<title>Train and evaluate the estimator. — train_and_evaluate.tf_estimator • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,36 +119,70 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Monitor to Request Stop at a Specified Step</h1>
+    <h1>Train and evaluate the estimator.</h1>
     </div>
 
     
-    <p>Monitor to Request Stop at a Specified Step</p>
+    <p>(Available since TensorFlow v1.4)</p>
     
 
-    <pre class="usage"><span class='fu'>hook_stop_at_step</span>(<span class='kw'>num_steps</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>last_step</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for tf_estimator</span>
+<span class='fu'><a href='http://www.rdocumentation.org/packages/tensorflow/topics/train_and_evaluate'>train_and_evaluate</a></span>(<span class='no'>object</span>, <span class='no'>train_spec</span>, <span class='no'>eval_spec</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>num_steps</th>
-      <td><p>Number of steps to execute.</p></td>
+      <th>train_spec</th>
+      <td><p>A <code>TrainSpec</code> instance to specify the training specification.</p></td>
     </tr>
     <tr>
-      <th>last_step</th>
-      <td><p>Step after which to stop.</p></td>
+      <th>eval_spec</th>
+      <td><p>A <code>EvalSpec</code> instance to specify the evaluation and export specification.</p></td>
+    </tr>
+    <tr>
+      <th>estimator</th>
+      <td><p>An estimator to train and evaluate.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This utility function trains, evaluates, and (optionally) exports the model by
+using the given <code>estimator</code>. All training related specification is held in
+<code>train_spec</code>, including training <code>input_fn</code> and training max steps, etc. All
+evaluation and export related specification is held in <code>eval_spec</code>, including
+evaluation <code>input_fn</code>, steps, etc.</p>
+<p>This utility function provides consistent behavior for both local
+(non-distributed) and distributed configurations. Currently, the only
+supported distributed training configuration is between-graph replication.</p>
+<p>Overfitting: In order to avoid overfitting, it is recommended to set up the
+training <code>input_fn</code> to shuffle the training data properly. It is also
+recommended to train the model a little longer, say multiple epochs, before
+performing evaluation, as the input pipeline starts from scratch for each
+training. It is particularly important for local training and evaluation.</p>
+<p>Stop condition: In order to support both distributed and non-distributed
+configuration reliably, the only supported stop condition for model
+training is <code>train_spec.max_steps</code>. If <code>train_spec.max_steps</code> is <code>NULL</code>, the
+model is trained forever. <em>Use with care</em> if model stop condition is
+different. For example, assume that the model is expected to be trained with
+one epoch of training data, and the training <code>input_fn</code> is configured to throw
+<code>OutOfRangeError</code> after going through one epoch, which stops the
+<code>Estimator.train</code>. For a three-training-worker distributed configuration, each
+training worker is likely to go through the whole epoch independently. So, the
+model will be trained with three epochs of training data instead of one epoch.</p>
+    
+    <h2 class="hasAnchor" id="raises"><a class="anchor" href="#raises"></a>Raises</h2>
+
+    
+    <ul>
+<li><p>ValueError: if environment variable <code>TF_CONFIG</code> is incorrectly set.</p></li>
+</ul>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other session_run_hook wrappers: <code><a href='hook_checkpoint_saver.html'>hook_checkpoint_saver</a></code>,
-  <code><a href='hook_global_step_waiter.html'>hook_global_step_waiter</a></code>,
-  <code><a href='hook_logging_tensor.html'>hook_logging_tensor</a></code>,
-  <code><a href='hook_nan_tensor.html'>hook_nan_tensor</a></code>,
-  <code><a href='hook_step_counter.html'>hook_step_counter</a></code>,
-  <code><a href='hook_summary_saver.html'>hook_summary_saver</a></code></p>
+    <p>Other training methods: <code><a href='eval_spec.html'>eval_spec</a></code>,
+  <code><a href='train_spec.html'>train_spec</a></code></p>
     
 
   </div>
@@ -157,6 +191,10 @@
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#raises">Raises</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 

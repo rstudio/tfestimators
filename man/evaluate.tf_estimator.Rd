@@ -6,7 +6,7 @@
 \usage{
 \method{evaluate}{tf_estimator}(object, input_fn, steps = NULL,
   checkpoint_path = NULL, name = NULL, hooks = NULL, verbose = TRUE,
-  ...)
+  simplify = TRUE, ...)
 }
 \arguments{
 \item{object}{A TensorFlow estimator.}
@@ -32,6 +32,14 @@ in tensorboard.}
 training loop.}
 
 \item{verbose}{Show progress output as the model is trained?}
+
+\item{simplify}{A boolean value that indicates whether to simplify evaluation
+results automatically. If \code{TRUE}, This will automatically use a default evaluation
+simplify function to estimators that flattens the predictions to a cleaner tibble
+object with each column being the evaluation results for each evaluation metrics
+pre-define specified. If a custom function is provided with the signature
+\code{function(evaluations) {func(evaluations)}}, the custom function will be used
+instead of the default simplify function.}
 
 \item{...}{Optional arguments passed on to the estimator's \code{evaluate()}
 method.}

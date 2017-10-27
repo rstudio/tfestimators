@@ -80,6 +80,9 @@
       <a href="../articles/creating_estimators.html">Custom Estimators</a>
     </li>
     <li>
+      <a href="../articles/simplify_function.html">Simplify Function</a>
+    </li>
+    <li>
       <a href="../articles/layers.html">TensorFlow Layers</a>
     </li>
     <li>
@@ -125,7 +128,9 @@
 
     <pre class="usage"><span class='co'># S3 method for tf_estimator</span>
 <span class='fu'>predict</span>(<span class='no'>object</span>, <span class='no'>input_fn</span>, <span class='kw'>checkpoint_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>predict_keys</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>as_iterable</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>predict_keys</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"predictions"</span>, <span class='st'>"classes"</span>, <span class='st'>"class_ids"</span>, <span class='st'>"logistic"</span>,
+  <span class='st'>"logits"</span>, <span class='st'>"probabilities"</span>), <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>as_iterable</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -148,9 +153,8 @@ is used.</p></td>
     <tr>
       <th>predict_keys</th>
       <td><p>The types of predictions that should be produced, as an
-<span style="R">R</span> list. When <code>NULL</code> (the default), all possible predicted values will be
-returned. The <code><a href='prediction_keys.html'>prediction_keys()</a></code> function provides the set of possible
-prediction keys that can be supplied here.</p></td>
+<span style="R">R</span> list. When this argument is not specified (the default), all possible
+predicted values will be returned.</p></td>
     </tr>
     <tr>
       <th>hooks</th>
@@ -162,6 +166,15 @@ training loop.</p></td>
       <td><p>Boolean; should a raw Python generator be returned? When
 <code>FALSE</code> (the default), the predicted values will be consumed from the
 generator and returned as an <span style="R">R</span> object.</p></td>
+    </tr>
+    <tr>
+      <th>simplify</th>
+      <td><p>A boolean value that indicates whether to simplify prediction
+results automatically. If <code>TRUE</code>, This will automatically use a default prediction
+simplify function to estimators that flattens the predictions to a cleaner tibble
+object with each column being the prediction results for each <code>predict_keys</code> specified.
+If a custom function is provided with the signature <code>function(predictions) {func(predictions)}</code>,
+the custom function will be used instead of the default simplify function.</p></td>
     </tr>
     <tr>
       <th>...</th>

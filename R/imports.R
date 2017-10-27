@@ -5,4 +5,7 @@
 #' 
 #' @importFrom magrittr %>%
 #' @importFrom stats coef
+#' @importFrom purrr flatten
+#' @importFrom purrr reduce
+#' @importFrom tibble as_tibble
 NULL

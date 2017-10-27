@@ -5,7 +5,9 @@
 \title{Generate Predictions with an Estimator}
 \usage{
 \method{predict}{tf_estimator}(object, input_fn, checkpoint_path = NULL,
-  predict_keys = NULL, hooks = NULL, as_iterable = FALSE, ...)
+  predict_keys = c("predictions", "classes", "class_ids", "logistic",
+  "logits", "probabilities"), hooks = NULL, as_iterable = FALSE,
+  simplify = TRUE, ...)
 }
 \arguments{
 \item{object}{A TensorFlow estimator.}
@@ -18,9 +20,8 @@ prediction. If \code{NULL} (the default), the latest checkpoint in \code{model_d
 is used.}
 
 \item{predict_keys}{The types of predictions that should be produced, as an
-\R list. When \code{NULL} (the default), all possible predicted values will be
-returned. The \code{\link[=prediction_keys]{prediction_keys()}} function provides the set of possible
-prediction keys that can be supplied here.}
+\R list. When this argument is not specified (the default), all possible
+predicted values will be returned.}
 
 \item{hooks}{A list of \R functions, to be used as callbacks inside the
 training loop.}
@@ -28,6 +29,13 @@ training loop.}
 \item{as_iterable}{Boolean; should a raw Python generator be returned? When
 \code{FALSE} (the default), the predicted values will be consumed from the
 generator and returned as an \R object.}
+
+\item{simplify}{A boolean value that indicates whether to simplify prediction
+results automatically. If \code{TRUE}, This will automatically use a default prediction
+simplify function to estimators that flattens the predictions to a cleaner tibble
+object with each column being the prediction results for each \code{predict_keys} specified.
+If a custom function is provided with the signature \code{function(predictions) {func(predictions)}},
+the custom function will be used instead of the default simplify function.}
 
 \item{...}{Optional arguments passed on to the estimator's \code{predict()}
 method.}

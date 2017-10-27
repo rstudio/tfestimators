@@ -61,15 +61,16 @@ mv_tf_events_file <- function(model_dir) {
 
 # predict() expects at least "predictions" for predict_keys argument
 resolve_predict_keys <- function(predict_keys) {
-  if (!is.null(predict_keys)) {
+  if (length(predict_keys) == length(names(prediction_keys()))) {
+    # preserve the default behavior of Python API
+    NULL
+  } else {
     predict_keys <- unlist(predict_keys)
     predictions_key <- prediction_keys()$PREDICTIONS
     if (!predictions_key %in% predict_keys)
       c(predict_keys, predictions_key)
     else
       predict_keys
-  } else {
-   NULL 
   }
 }
 
