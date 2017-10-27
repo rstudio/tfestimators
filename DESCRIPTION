@@ -36,7 +36,7 @@ Imports:
     tidyselect,
     utils,
     purrr,
-    dplyr
+    tibble
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
 Suggests:
