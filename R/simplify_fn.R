@@ -1,17 +1,15 @@
 simple_simplify_predictions_fn <- function(object, predictions) {
   predictions %>%
-    map(~ .x %>%
-          map(~.x[[1]]) %>%
-          flatten() %>% 
-          as_tibble()) %>%
-    bind_rows()
+    purrr::reduce(rbind) %>%
+    tibble::as_tibble() %>%
+    tibble::glimpse()
 }
 
 simple_simplify_evaluations_fn <- function(object, evaluations) {
   evaluations %>%
-    flatten() %>%
-    as_tibble() %>%
-    glimpse()
+    purrr::flatten() %>%
+    tibble::as_tibble() %>%
+    tibble::glimpse()
 }
 
 simplify_results <- function(object, results, simplify, mode_key) {

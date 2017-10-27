@@ -155,17 +155,25 @@ model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/linea
 <h3 class="hasAnchor">
 <a href="#default-simplifier" class="anchor"></a>Default Simplifier</h3>
 <p>If <code>simplify = TRUE</code>, a default simplify function for predictions will be used to flatten the results so they are more appealing and concise like the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(test_data), <span class="dt">simplify =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code># A tibble: 7 x 5
-  probabilities    logits classes class_ids     logistic
-          &lt;dbl&gt;     &lt;dbl&gt;   &lt;chr&gt;     &lt;dbl&gt;        &lt;dbl&gt;
-1             1 -73.76886       0         0 9.174686e-33
-2             1 -73.76886       0         0 9.174686e-33
-3             1 -34.88890       0         0 7.046004e-16
-4             1 -65.36886       0         0 4.080051e-29
-5             1 -62.56886       0         0 6.709519e-28
-6             1 -25.02895       0         0 1.349171e-11
-7             1 -25.16895       0         0 1.172913e-11</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span>model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(test_data), <span class="dt">simplify =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>Observations: 7
+Variables: 5
+$ probabilities &lt;list&gt; [&lt;1.00000e+00, 3.13667e-15&gt;, &lt;1.000000e+00, 9.644862e-24&gt;, &lt;1.0...
+$ logits        &lt;list&gt; [-33.39561, -52.99562, -29.15565, -56.95559, -89.79559, -25.015...
+$ classes       &lt;list&gt; ["0", "0", "0", "0", "0", "0", "0"]
+$ class_ids     &lt;list&gt; [0, 0, 0, 0, 0, 0, 0]
+$ logistic      &lt;list&gt; [3.13667e-15, 9.644862e-24, 2.177028e-13, 1.838662e-25, 0, 1.36...</code></pre>
+<pre><code>&gt; predictions
+# A tibble: 7 x 5
+  probabilities    logits   classes class_ids  logistic
+         &lt;list&gt;    &lt;list&gt;    &lt;list&gt;    &lt;list&gt;    &lt;list&gt;
+1     &lt;dbl [2]&gt; &lt;dbl [1]&gt; &lt;chr [1]&gt; &lt;dbl [1]&gt; &lt;dbl [1]&gt;
+2     &lt;dbl [2]&gt; &lt;dbl [1]&gt; &lt;chr [1]&gt; &lt;dbl [1]&gt; &lt;dbl [1]&gt;
+3     &lt;dbl [2]&gt; &lt;dbl [1]&gt; &lt;chr [1]&gt; &lt;dbl [1]&gt; &lt;dbl [1]&gt;
+4     &lt;dbl [2]&gt; &lt;dbl [1]&gt; &lt;chr [1]&gt; &lt;dbl [1]&gt; &lt;dbl [1]&gt;
+5     &lt;dbl [2]&gt; &lt;dbl [1]&gt; &lt;chr [1]&gt; &lt;dbl [1]&gt; &lt;dbl [1]&gt;
+6     &lt;dbl [2]&gt; &lt;dbl [1]&gt; &lt;chr [1]&gt; &lt;dbl [1]&gt; &lt;dbl [1]&gt;
+7     &lt;dbl [2]&gt; &lt;dbl [1]&gt; &lt;chr [1]&gt; &lt;dbl [1]&gt; &lt;dbl [1]&gt;</code></pre>
 <p>Note that this time we use the full test dataset since no matter how large the prediction results are, we can still see the results in a concise <a href="http://tibble.tidyverse.org/index.html">tibble object</a>.</p>
 </div>
 <div id="custom-simplifier-for-prediction-result" class="section level3">
@@ -220,7 +228,7 @@ $accuracy
 <h3 class="hasAnchor">
 <a href="#default-simplifier-1" class="anchor"></a>Default Simplifier</h3>
 <p>Now let’s take a look at the simplified results by providing <code>simplify = TRUE</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/evaluate">evaluate</a></span>(<span class="kw">mtcars_input_fn</span>(test_data), <span class="dt">simplify =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">evaluations &lt;-<span class="st"> </span>model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/evaluate">evaluate</a></span>(<span class="kw">mtcars_input_fn</span>(test_data), <span class="dt">simplify =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>Observations: 1
 Variables: 9
 $ loss                 &lt;dbl&gt; 60.05785
@@ -232,6 +240,13 @@ $ `label/mean`         &lt;dbl&gt; 0.2857143
 $ average_loss         &lt;dbl&gt; 8.579692
 $ auc_precision_recall &lt;dbl&gt; 0.6428569
 $ accuracy             &lt;dbl&gt; 0.7142857</code></pre>
+<pre><code>&gt; evaluations
+# A tibble: 1 x 9
+      loss accuracy_baseline global_step       auc `prediction/mean` `label/mean`
+     &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;             &lt;dbl&gt;        &lt;dbl&gt;
+1 107.1669         0.5714285           1 0.5000001      1.984744e-12    0.4285714
+# ... with 3 more variables: average_loss &lt;dbl&gt;, auc_precision_recall &lt;dbl&gt;,
+#   accuracy &lt;dbl&gt;</code></pre>
 <p>The evaluation results now look compact.</p>
 </div>
 <div id="custom-simplifier-for-evaluation-result" class="section level3">

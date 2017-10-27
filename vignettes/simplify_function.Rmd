@@ -75,20 +75,31 @@ model %>% predict(mtcars_input_fn(mtcars[1, ]), simplify = FALSE)
 If `simplify = TRUE`, a default simplify function for predictions will be used to flatten the results so they are more appealing and concise like the following:
 
 ```{r eval=FALSE}
-model %>% predict(mtcars_input_fn(test_data), simplify = TRUE)
+predictions <- model %>% predict(mtcars_input_fn(test_data), simplify = TRUE)
 ```
 
 ```
+Observations: 7
+Variables: 5
+$ probabilities <list> [<1.00000e+00, 3.13667e-15>, <1.000000e+00, 9.644862e-24>, <1.0...
+$ logits        <list> [-33.39561, -52.99562, -29.15565, -56.95559, -89.79559, -25.015...
+$ classes       <list> ["0", "0", "0", "0", "0", "0", "0"]
+$ class_ids     <list> [0, 0, 0, 0, 0, 0, 0]
+$ logistic      <list> [3.13667e-15, 9.644862e-24, 2.177028e-13, 1.838662e-25, 0, 1.36...
+```
+
+```
+> predictions
 # A tibble: 7 x 5
-  probabilities    logits classes class_ids     logistic
-          <dbl>     <dbl>   <chr>     <dbl>        <dbl>
-1             1 -73.76886       0         0 9.174686e-33
-2             1 -73.76886       0         0 9.174686e-33
-3             1 -34.88890       0         0 7.046004e-16
-4             1 -65.36886       0         0 4.080051e-29
-5             1 -62.56886       0         0 6.709519e-28
-6             1 -25.02895       0         0 1.349171e-11
-7             1 -25.16895       0         0 1.172913e-11
+  probabilities    logits   classes class_ids  logistic
+         <list>    <list>    <list>    <list>    <list>
+1     <dbl [2]> <dbl [1]> <chr [1]> <dbl [1]> <dbl [1]>
+2     <dbl [2]> <dbl [1]> <chr [1]> <dbl [1]> <dbl [1]>
+3     <dbl [2]> <dbl [1]> <chr [1]> <dbl [1]> <dbl [1]>
+4     <dbl [2]> <dbl [1]> <chr [1]> <dbl [1]> <dbl [1]>
+5     <dbl [2]> <dbl [1]> <chr [1]> <dbl [1]> <dbl [1]>
+6     <dbl [2]> <dbl [1]> <chr [1]> <dbl [1]> <dbl [1]>
+7     <dbl [2]> <dbl [1]> <chr [1]> <dbl [1]> <dbl [1]>
 ```
 
 Note that this time we use the full test dataset since no matter how large the prediction results are, we can still see the results in a concise [tibble object](http://tibble.tidyverse.org/index.html). 
@@ -157,7 +168,7 @@ It contains a list of evaluation results for the metrics pre-defined for this pa
 Now let's take a look at the simplified results by providing `simplify = TRUE`:
 
 ```{r eval=FALSE}
-model %>% evaluate(mtcars_input_fn(test_data), simplify = TRUE)
+evaluations <- model %>% evaluate(mtcars_input_fn(test_data), simplify = TRUE)
 ```
 ```
 Observations: 1
@@ -172,6 +183,17 @@ $ average_loss         <dbl> 8.579692
 $ auc_precision_recall <dbl> 0.6428569
 $ accuracy             <dbl> 0.7142857
 ```
+
+```
+> evaluations
+# A tibble: 1 x 9
+      loss accuracy_baseline global_step       auc `prediction/mean` `label/mean`
+     <dbl>             <dbl>       <dbl>     <dbl>             <dbl>        <dbl>
+1 107.1669         0.5714285           1 0.5000001      1.984744e-12    0.4285714
+# ... with 3 more variables: average_loss <dbl>, auc_precision_recall <dbl>,
+#   accuracy <dbl>
+```
+
 The evaluation results now look compact.  
 
 ### Custom Simplifier for Evaluation Result
