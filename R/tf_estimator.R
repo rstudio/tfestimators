@@ -111,13 +111,10 @@ train.tf_estimator <- function(object,
 #'   predicted values will be returned.
 #' @param simplify A boolean value that indicates whether to simplify prediction
 #'   results automatically. If `TRUE`, This will automatically use a default prediction
-#'   simplify function to canned estimators that flattens the predictions to a
-#'   cleaner tibble or data.frame object with each column being the prediction results
-#'   for each `predict_keys` specified. For custom estimators, predictions will
-#'   not be simplified unless this parameter is a custom function with signature:
-#'   `function(predictions) {func(predictions)}`. If a custom function is provided
-#'   for a canned estimator, the custom function will be used instead of the default
-#'   simplify function.
+#'   simplify function to estimators that flattens the predictions to a cleaner tibble
+#'   object with each column being the prediction results for each `predict_keys` specified.
+#'   If a custom function is provided with the signature `function(predictions) {func(predictions)}`,
+#'   the custom function will be used instead of the default simplify function.
 #' @param ... Optional arguments passed on to the estimator's `predict()`
 #'   method.
 #'
@@ -200,13 +197,11 @@ predict.tf_estimator <- function(object,
 #' @param verbose Show progress output as the model is trained?
 #' @param simplify A boolean value that indicates whether to simplify evaluation
 #'   results automatically. If `TRUE`, This will automatically use a default evaluation
-#'   simplify function to canned estimators that flattens the predictions to a
-#'   cleaner tibble or data.frame object with each column being the evaluation results
-#'   for each evaluation metrics pre-defined. For custom estimators, evaluation results
-#'   will not be simplified unless this parameter is a custom function with signature:
-#'   `function(evaluations) {func(evalutions)}`. If a custom function is provided
-#'   for a canned estimator, the custom function will be used instead of the default
-#'   simplify function.
+#'   simplify function to estimators that flattens the predictions to a cleaner tibble
+#'   object with each column being the evaluation results for each evaluation metrics
+#'   pre-define specified. If a custom function is provided with the signature
+#'   `function(evaluations) {func(evaluations)}`, the custom function will be used
+#'   instead of the default simplify function.
 #' @param ... Optional arguments passed on to the estimator's `evaluate()`
 #'   method.
 #'

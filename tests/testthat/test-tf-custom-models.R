@@ -23,9 +23,12 @@ test_that("custom model works on iris data", {
   # check whether tensorboard works with custom estimator
   tensorboard(log_dir = tmp_dir, launch_browser = FALSE)
 
-  # prediction
-  expect_warning(predict(classifier, input_fn = constructed_input_fn), simplify = TRUE)
+  # predictions simplified
+  predictions <- predict(classifier, input_fn = constructed_input_fn, simplify = TRUE)
+  expect_equal(dim(predictions), c(150, 2))
+  # predictions not simplified
   predictions <- predict(classifier, input_fn = constructed_input_fn, simplify = FALSE)
+  expect_equal(length(predictions), 150)
   
   # extract predicted classes
   predicted_classes <- unlist(lapply(predictions, function(prediction) {

@@ -32,13 +32,10 @@ generator and returned as an \R object.}
 
 \item{simplify}{A boolean value that indicates whether to simplify prediction
 results automatically. If \code{TRUE}, This will automatically use a default prediction
-simplify function to canned estimators that flattens the predictions to a
-cleaner tibble or data.frame object with each column being the prediction results
-for each \code{predict_keys} specified. For custom estimators, predictions will
-not be simplified unless this parameter is a custom function with signature:
-\code{function(predictions) {func(predictions)}}. If a custom function is provided
-for a canned estimator, the custom function will be used instead of the default
-simplify function.}
+simplify function to estimators that flattens the predictions to a cleaner tibble
+object with each column being the prediction results for each \code{predict_keys} specified.
+If a custom function is provided with the signature \code{function(predictions) {func(predictions)}},
+the custom function will be used instead of the default simplify function.}
 
 \item{...}{Optional arguments passed on to the estimator's \code{predict()}
 method.}

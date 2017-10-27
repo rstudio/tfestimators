@@ -107,7 +107,7 @@
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p>Estimator’s <code>predict()</code> and <code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/evaluate">evaluate()</a></code> provide an easy and efficient way of making predictions and evaluations on new data. However, the prediction and evaluation results are pretty verbose and usually in forms of nested lists, which isn’t user-friendly. By default, the results produced from canned estimators will be simplified using a default simplify function for both <code>predict()</code> and <code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/evaluate">evaluate()</a></code>. You can also write a custom simplify function to them. Custom estimators do not simplify results by default unless you provide a custom simplify function. In this tutorial, we’ll illustrate how the simplified results look like and how you can write your own simplify function.</p>
+<p>Estimator’s <code>predict()</code> and <code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/evaluate">evaluate()</a></code> provide an easy and efficient way of making predictions and evaluations on new data. However, the prediction and evaluation results are pretty verbose and usually in forms of nested lists, which isn’t user-friendly. By default, the results produced from estimators will be simplified using a default simplify function for both <code>predict()</code> and <code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/evaluate">evaluate()</a></code>. You can also write a custom simplify function to them. In this tutorial, we’ll illustrate how the simplified results look like and how you can write your own simplify function.</p>
 </div>
 <div id="simplify-prediction-results" class="section level2">
 <h2 class="hasAnchor">
@@ -156,13 +156,6 @@ model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/linea
 <a href="#default-simplifier" class="anchor"></a>Default Simplifier</h3>
 <p>If <code>simplify = TRUE</code>, a default simplify function for predictions will be used to flatten the results so they are more appealing and concise like the following:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span>model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict</span>(<span class="kw">mtcars_input_fn</span>(test_data), <span class="dt">simplify =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>Observations: 7
-Variables: 5
-$ probabilities &lt;list&gt; [&lt;1.00000e+00, 3.13667e-15&gt;, &lt;1.000000e+00, 9.644862e-24&gt;, &lt;1.0...
-$ logits        &lt;list&gt; [-33.39561, -52.99562, -29.15565, -56.95559, -89.79559, -25.015...
-$ classes       &lt;list&gt; ["0", "0", "0", "0", "0", "0", "0"]
-$ class_ids     &lt;list&gt; [0, 0, 0, 0, 0, 0, 0]
-$ logistic      &lt;list&gt; [3.13667e-15, 9.644862e-24, 2.177028e-13, 1.838662e-25, 0, 1.36...</code></pre>
 <pre><code>&gt; predictions
 # A tibble: 7 x 5
   probabilities    logits   classes class_ids  logistic
@@ -229,17 +222,6 @@ $accuracy
 <a href="#default-simplifier-1" class="anchor"></a>Default Simplifier</h3>
 <p>Now let’s take a look at the simplified results by providing <code>simplify = TRUE</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">evaluations &lt;-<span class="st"> </span>model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/evaluate">evaluate</a></span>(<span class="kw">mtcars_input_fn</span>(test_data), <span class="dt">simplify =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>Observations: 1
-Variables: 9
-$ loss                 &lt;dbl&gt; 60.05785
-$ accuracy_baseline    &lt;dbl&gt; 0.7142857
-$ global_step          &lt;dbl&gt; 1
-$ auc                  &lt;dbl&gt; 0.5000001
-$ `prediction/mean`    &lt;dbl&gt; 3.603078e-12
-$ `label/mean`         &lt;dbl&gt; 0.2857143
-$ average_loss         &lt;dbl&gt; 8.579692
-$ auc_precision_recall &lt;dbl&gt; 0.6428569
-$ accuracy             &lt;dbl&gt; 0.7142857</code></pre>
 <pre><code>&gt; evaluations
 # A tibble: 1 x 9
       loss accuracy_baseline global_step       auc `prediction/mean` `label/mean`
@@ -261,10 +243,10 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a
 <pre><code>[1] 0.5000001</code></pre>
 </div>
 </div>
-<div id="writing-simplify-function-for-custom-estimators" class="section level2">
+<div id="writing-custom-simplify-function-for-custom-estimators" class="section level2">
 <h2 class="hasAnchor">
-<a href="#writing-simplify-function-for-custom-estimators" class="anchor"></a>Writing Simplify Function for Custom Estimators</h2>
-<p>So far we’ve only illustrated how to simplify the results for canned estimators, in particular, <code>linear_classifier</code>. Custom estimators do not simplify results by default unless you provide a custom simplify function. The way to write them is almost identical to canned estimators. The predictions and evaluations results are highly dependent on what’s defined in the <code>model_fn</code> so you need to pay attention to them when writing the simplify function.</p>
+<a href="#writing-custom-simplify-function-for-custom-estimators" class="anchor"></a>Writing Custom Simplify Function for Custom Estimators</h2>
+<p>So far we’ve only illustrated how to simplify the results for canned estimators, in particular, <code>linear_classifier</code>. Custom estimators also simplifies results by default unless <code>simplify = FALSE</code>. The way to write custom simplify function is almost identical to canned estimators. The predictions and evaluations results are highly dependent on what’s defined in the <code>model_fn</code> so you need to pay attention to them when writing the simplify function.</p>
 <p>For example, below is a snippet in the <code>model_fn</code> that defines the behavior for prediction mode (note the <code>mode == "infer"</code>). <code>predictions</code> is being returned during this phase and is a list of keyed items for raw prediction classes and probabilities.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictions &lt;-<span class="st"> </span><span class="kw">list</span>(
     <span class="dt">class =</span> tf<span class="op">$</span><span class="kw">argmax</span>(logits, 1L),
@@ -284,7 +266,7 @@ model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a
 <li><a href="#overview">Overview</a></li>
       <li><a href="#simplify-prediction-results">Simplify Prediction Results</a></li>
       <li><a href="#simplify-evaluation-results">Simplify Evaluation Results</a></li>
-      <li><a href="#writing-simplify-function-for-custom-estimators">Writing Simplify Function for Custom Estimators</a></li>
+      <li><a href="#writing-custom-simplify-function-for-custom-estimators">Writing Custom Simplify Function for Custom Estimators</a></li>
       </ul>
 </div>
       </div>
