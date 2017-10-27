@@ -72,15 +72,13 @@ train_and_evaluate.tf_estimator <- function(object, train_spec, eval_spec) {
 #' 
 train_spec <- function(input_fn,
                        max_steps = NULL,
-                       hooks = NULL,
-                       verbose = TRUE,
-                       view_metrics = "auto") {
+                       hooks = NULL) {
   structure(
     list(
       args = list(
         input_fn = input_fn,
         max_steps = as_nullable_integer(max_steps),
-        hooks = resolve_train_hooks(hooks, verbose, max_steps, view_metrics, NULL)
+        hooks = normalize_session_run_hooks(hooks)
       )
     ),
     class = "train_spec"
@@ -120,15 +118,14 @@ eval_spec <- function(input_fn,
                       hooks = NULL,
                       exporters = NULL,
                       start_delay_secs = 120,
-                      throttle_secs = 600,
-                      verbose = TRUE) {
+                      throttle_secs = 600) {
   structure(
     list(
       args = list(
         input_fn = input_fn,
         steps = as_nullable_integer(steps),
         name = name,
-        hooks = resolve_eval_hooks(hooks, verbose, steps),
+        hooks = normalize_session_run_hooks(hooks),
         exporters = exporters,
         start_delay_secs = as.integer(start_delay_secs),
         throttle_secs = as.integer(throttle_secs)
