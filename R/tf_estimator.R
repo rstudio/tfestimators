@@ -230,7 +230,7 @@ evaluate.tf_estimator <- function(object,
     )
   })
   
-  tfruns::write_run_metadata("evaluation", result)
+  tfruns::write_run_metadata("evaluation", evaluation_results)
   simplify_results(object, evaluation_results, simplify, mode_keys()$EVAL)
 }
 
