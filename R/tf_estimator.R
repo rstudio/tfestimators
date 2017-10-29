@@ -297,13 +297,21 @@ export_savedmodel.tf_estimator <- function(object,
   if (is.null(serving_input_receiver_fn)) {
     if (is.tf_custom_estimator(object))
       stop("A 'tf_custom_estimator' requires a custom `serving_input_receiver_fn`.")
-    
-    input_spec <- regressor_parse_example_spec(
-      feature_columns = object$args$feature_columns,
-      weight_column = object$args$weight_column,
-      label_key = "label"
-    )
-    
+    if (length(grep("regressor", class(object))) != 0) {
+      input_spec <- regressor_parse_example_spec(
+        feature_columns = object$args$feature_columns,
+        weight_column = object$args$weight_column,
+        label_key = "label"
+      )
+    } else if (length(grep("classifier", class(object))) != 0) {
+      input_spec <- classifier_parse_example_spec(
+        feature_columns = object$args$feature_columns,
+        weight_column = object$args$weight_column,
+        label_key = "label"
+      )
+    } else {
+      stop("Currently only classifier and regressor are supported. Please specify a custom serving_input_receiver_fn. ")
+    }
     serving_input_receiver_fn <- tf$estimator$export$build_parsing_serving_input_receiver_fn(input_spec)
   }
   
