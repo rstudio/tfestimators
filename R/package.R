@@ -27,14 +27,6 @@ NULL
 estimator_lib <- NULL
 feature_column_lib <- NULL
 canned_estimator_lib <- NULL
-random_ops <- NULL
-math_ops <- NULL
-array_ops <- NULL
-functional_ops <- NULL
-
-contrib_learn <- NULL
-contrib_layers <- NULL
-contrib_estimators_lib <- NULL
 
 np <- NULL
 
@@ -72,16 +64,7 @@ np <- NULL
   # core modules
   estimator_lib <<- import("tensorflow.python.estimator.estimator", delay_load = delay_load)
   feature_column_lib <<- import("tensorflow.python.feature_column.feature_column", delay_load = delay_load)
-  random_ops <<- import("tensorflow.python.ops.random_ops", delay_load = delay_load)
-  math_ops <<- import("tensorflow.python.ops.math_ops", delay_load = delay_load)
-  array_ops <<- import("tensorflow.python.ops.array_ops", delay_load = delay_load)
-  functional_ops <<- import("tensorflow.python.ops.functional_ops", delay_load = delay_load)
   canned_estimator_lib <<- import("tensorflow.python.estimator.canned", delay_load = delay_load)
-
-  # contrib modules
-  contrib_learn <<- import("tensorflow.contrib.learn", delay_load = delay_load)
-  contrib_layers <<- import("tensorflow.contrib.layers", delay_load = delay_load)
-  contrib_estimators_lib <<- import("tensorflow.contrib.learn.python.learn.estimators", delay_load = delay_load)
 
   # other modules
   np <<- import("numpy", convert = FALSE, delay_load = TRUE)

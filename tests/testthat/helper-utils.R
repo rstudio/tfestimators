@@ -2,6 +2,10 @@
 
 library(tensorflow)
 
+math_ops <<- import("tensorflow.python.ops.math_ops", delay_load = FALSE)
+array_ops <<- import("tensorflow.python.ops.array_ops", delay_load = FALSE)
+functional_ops <<- import("tensorflow.python.ops.functional_ops", delay_load = FALSE)
+
 skip_if_tensorflow_below <- function(version) {
   if (tf_version() < version) {
     skip(paste0("Skipped since this test requires TensorFlow >= ", version))
@@ -84,7 +88,7 @@ simple_custom_model_fn <- function(features, labels, mode, params, config) {
 get_non_batched_sin_input_fn <- function(sequence_length, increment, seed = NULL) {
     function(features_as_named_list) {
       function() {
-        start <- random_ops$random_uniform(
+        start <- tf$python$ops$random_ops$random_uniform(
           list(), minval = 0, maxval = pi * 2.0,
           dtype = tf$python$framework$dtypes$float32, seed = seed)
         sin_curves <- math_ops$sin(
@@ -105,7 +109,7 @@ get_non_batched_sin_input_fn <- function(sequence_length, increment, seed = NULL
 get_batched_sin_input_fn <- function(batch_size, sequence_length, increment, seed = NULL) {
     function(features_as_named_list) {
       function() {
-        starts <- random_ops$random_uniform(
+        starts <- tf$python$ops$random_ops$random_uniform(
           list(batch_size), minval = 0, maxval = pi * 2.0,
           dtype = tf$python$framework$dtypes$float32, seed = seed)
         sin_curves <- functional_ops$map_fn(
