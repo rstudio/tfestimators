@@ -1,4 +1,11 @@
-hook_history_saver <- function(mode_key) {
+hook_history_saver <- function(mode_key, every_n_step = 2) {
+  
+  .iter_count <<- 0
+  
+  should_save <- function(current_step, every_n_step) {
+    current_step %% every_n_step == 0
+  }
+  
   session_run_hook(
     
     before_run = function(context) {
@@ -9,14 +16,17 @@ hook_history_saver <- function(mode_key) {
     },
     
     after_run = function(context, values) {
-      
-      results <- values$results
-      raw_losses <- results$losses[[1]]
-      global_step <- results$global_step
-      
-      .globals$history[[mode_key]]$losses$mean_losses <- c(.globals$history[[mode_key]]$losses$mean_losses, mean(raw_losses))
-      .globals$history[[mode_key]]$losses$total_losses <- c(.globals$history[[mode_key]]$losses$total_losses, sum(raw_losses))
-      .globals$history[[mode_key]]$steps <- unlist(c(.globals$history[[mode_key]]$steps, global_step))
+      .iter_count <<- .iter_count + 1
+      if (should_save(.iter_count, every_n_step)) {
+
+        results <- values$results
+        raw_losses <- results$losses[[1]]
+        global_step <- results$global_step
+
+        .globals$history[[mode_key]]$losses$mean_losses <- c(.globals$history[[mode_key]]$losses$mean_losses, mean(raw_losses))
+        .globals$history[[mode_key]]$losses$total_losses <- c(.globals$history[[mode_key]]$losses$total_losses, sum(raw_losses))
+        .globals$history[[mode_key]]$steps <- unlist(c(.globals$history[[mode_key]]$steps, global_step))
+      }
     }
   )
 }
