@@ -7,4 +7,5 @@
 #' @importFrom stats coef
 #' @importFrom purrr reduce
 #' @importFrom tibble as_tibble
+#' @importFrom utils capture.output str
 NULL
