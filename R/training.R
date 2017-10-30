@@ -30,7 +30,7 @@
 #' model will be trained with three epochs of training data instead of one epoch.
 #' 
 #' 
-#' @param estimator An estimator to train and evaluate.
+#' @param object An estimator object to train and evaluate.
 #' @param train_spec A `TrainSpec` instance to specify the training specification.
 #' @param eval_spec A `EvalSpec` instance to specify the evaluation and export specification.
 #' 

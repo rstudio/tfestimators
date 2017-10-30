@@ -7,11 +7,11 @@
 \method{train_and_evaluate}{tf_estimator}(object, train_spec, eval_spec)
 }
 \arguments{
+\item{object}{An estimator object to train and evaluate.}
+
 \item{train_spec}{A \code{TrainSpec} instance to specify the training specification.}
 
 \item{eval_spec}{A \code{EvalSpec} instance to specify the evaluation and export specification.}
-
-\item{estimator}{An estimator to train and evaluate.}
 }
 \description{
 (Available since TensorFlow v1.4)

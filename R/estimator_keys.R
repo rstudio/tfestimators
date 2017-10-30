@@ -18,7 +18,7 @@ prediction_keys <- function() {
 }
 
 #' @export
-print.tensorflow.python.estimator.canned.prediction_keys.PredictionKeys <- function(object) {
+print.tensorflow.python.estimator.canned.prediction_keys.PredictionKeys <- function(x, ...) {
   cat(paste0("Available predictions keys: ", paste(names(prediction_keys()), collapse = ", ")))
 }
 
@@ -43,7 +43,7 @@ metric_keys <- function() {
 }
 
 #' @export
-print.tensorflow.python.estimator.canned.metric_keys.MetricKeys <- function(object) {
+print.tensorflow.python.estimator.canned.metric_keys.MetricKeys <- function(x, ...) {
   cat(paste0("Available metric keys: ", paste(names(metric_keys()), collapse = ", ")))
 }
 
@@ -70,7 +70,7 @@ mode_keys <- function() {
 }
 
 #' @export
-print.tensorflow.python.estimator.model_fn.ModeKeys <- function(object) {
+print.tensorflow.python.estimator.model_fn.ModeKeys <- function(x, ...) {
   cat(paste0("Available mode keys: ", paste(names(mode_keys()), collapse = ", ")))
 }
 
@@ -130,7 +130,7 @@ graph_keys <- function() {
 }
 
 #' @export
-print.tensorflow.python.framework.ops.GraphKeys <- function(object) {
+print.tensorflow.python.framework.ops.GraphKeys <- function(x, ...) {
   cat(paste0("Available graph keys: ", paste(names(graph_keys()), collapse = ", ")))
 }
 

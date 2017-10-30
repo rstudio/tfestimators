@@ -50,6 +50,6 @@ print.tf_estimator <- function(x, ...) {
 }
 
 #' @export
-str.tf_estimator <- function(object) {
+str.tf_estimator <- function(object, ...) {
   paste0(capture.output(print(object)), collapse = "\n")
 }
