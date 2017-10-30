@@ -61,8 +61,8 @@ feature_columns <- function(..., names = NULL) {
   flattened[!duplicated]
 }
 
-# Base documentation for feature column constructors ----
-
+#' Base Documentation for Feature Column Constructors
+#' 
 #' @param ... Expression(s) identifying input feature(s). Used as the column
 #'   name and the dictionary key for feature parsing configs, feature tensors,
 #'   and feature columns.
