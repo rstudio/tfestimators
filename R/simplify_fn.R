@@ -6,7 +6,7 @@ simple_simplify_predictions_fn <- function(object, predictions) {
 
 simple_simplify_evaluations_fn <- function(object, evaluations) {
   evaluations %>%
-    purrr::flatten() %>%
+    rlang::flatten() %>%
     tibble::as_tibble()
 }
 
