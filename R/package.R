@@ -45,15 +45,7 @@ np <- NULL
     environment = "r-tensorflow",
     
     on_load = function() {
-      current_tf_ver <- tf_version()
-      required_least_ver <- "1.3"
-      if (current_tf_ver < required_least_ver) {
-        if (!displayed_warning) {
-          packageStartupMessage("tfestimators requires TensorFlow version > ", required_least_ver, " ",
-                  "(you are currently running version ", current_tf_ver, ").\n")
-          displayed_warning <<- TRUE
-        }
-      }
+      check_tensorflow_version(displayed_warning)
     },
     
     on_error = function(e) {
@@ -68,6 +60,18 @@ np <- NULL
 
   # other modules
   np <<- import("numpy", convert = FALSE, delay_load = TRUE)
+}
+
+check_tensorflow_version <- function(displayed_warning) {
+  current_tf_ver <- tf_version()
+  required_least_ver <- "1.3"
+  if (current_tf_ver < required_least_ver) {
+    if (!displayed_warning) {
+      message("tfestimators requires TensorFlow version > ", required_least_ver, " ",
+              "(you are currently running version ", current_tf_ver, ").\n")
+      displayed_warning <<- TRUE
+    }
+  }
 }
 
 .onUnload <- function(libpath) {

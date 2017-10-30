@@ -2,9 +2,9 @@
 
 library(tensorflow)
 
-math_ops <<- import("tensorflow.python.ops.math_ops", delay_load = FALSE)
-array_ops <<- import("tensorflow.python.ops.array_ops", delay_load = FALSE)
-functional_ops <<- import("tensorflow.python.ops.functional_ops", delay_load = FALSE)
+math_ops <<- reticulate::import("tensorflow.python.ops.math_ops", delay_load = FALSE)
+array_ops <<- reticulate::import("tensorflow.python.ops.array_ops", delay_load = FALSE)
+functional_ops <<- reticulate::import("tensorflow.python.ops.functional_ops", delay_load = FALSE)
 
 skip_if_tensorflow_below <- function(version) {
   if (tf_version() < version) {
