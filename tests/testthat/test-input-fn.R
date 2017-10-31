@@ -123,4 +123,15 @@ test_that("R factors are coerced appropriately", {
       response = one_of(RESPONSE)
     )
   )
+  
+  expect_message(
+    train(
+    classifier,
+    input_fn = input_fn(
+      iris,
+      features = one_of(FEATURES),
+      response = one_of(RESPONSE)
+    )
+  ), 
+  "The following factor levels of 'Species' have been encoded:\n- 'setosa' => 0\n- 'versicolor' => 1\n- 'virginica' => 2")
 })

@@ -100,22 +100,32 @@ input_fn.data.frame <- function(object,
   }
   
   # coerce vectors to a TensorFlow-friendly format when appropriate
-  coerce <- function(variable) {
+  coerce <- function(variable, name) {
     
     # convert lists to numpy arrays
     if (is.list(variable))
       return(np$array(unname(variable), dtype = np$int64))
     
     # convert factors to [0, n] range
-    if (is.factor(variable))
+    if (is.factor(variable)) {
+      
+      levels <- levels(variable)
       variable <- as.integer(variable) - 1L
+      
+      msg <- paste(
+        paste0("The following factor levels of ", shQuote(name), " have been encoded:"),
+        paste("-", shQuote(levels), "=>", seq_along(levels) - 1, collapse = "\n"),
+        sep = "\n"
+      )
+      message(msg)
+    }
     
     as.array(variable)
   }
   
   # determine response variable
   input_response <- if (!is.null(response))
-    coerce(object[[response]])
+    coerce(object[[response]], response)
   
   # input function to be used with canned estimators
   canned_input_fn_generator <- function() {
@@ -124,7 +134,7 @@ input_fn.data.frame <- function(object,
     values <- (function() {
       
       result <- lapply(features, function(feature) {
-        coerce(object[[feature]])
+        coerce(object[[feature]], feature)
       })
       names(result) <- features
       return(dict(result))
