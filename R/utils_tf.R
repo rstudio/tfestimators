@@ -97,47 +97,56 @@ resolve_activation_fn <- function(activation_fn) {
   activation_fn
 }
 
-# determine whether to view metrics or not
-resolve_view_metrics <- function(view_metrics, verbose) {
-
-  if (identical(view_metrics, "auto"))
-    view_metrics <- verbose
-  
-  # TODO: enable outside of RStudio?
-  if (is.null(getOption("viewer")) || is.na(Sys.getenv("RSTUDIO", unset = NA)))
-    view_metrics <- FALSE
-  
-  view_metrics
+is.built_in_custom_hook <- function(hook) {
+  is.list(hook) && identical(names(hook), c("hook_fn", "type"))
 }
 
-resolve_train_hooks <- function(hooks, verbose, steps, view_metrics, estimator) {
-  if (verbose) {
-    .globals$history[[mode_keys()$TRAIN]] <- tf_estimator_history()
-    hooks <- c(hooks, hook_history_saver(mode_keys()$TRAIN))
-    hooks <- c(hooks, hook_progress_bar("Training", steps))
-  }
+resolve_train_hooks <- function(hooks, steps, estimator) {
   
-  if (resolve_view_metrics(view_metrics, verbose))
-    hooks <- c(
-      hooks,
-      hook_view_metrics(
-        list(
-          steps = steps,
-          model = str(estimator)
-        ),
-        mode_key = mode_keys()$TRAIN
-      )
-    )
+  .globals$history[[mode_keys()$TRAIN]] <- tf_estimator_history()
   
+  hooks <- lapply(normalize_session_run_hooks(hooks), function(hook) {
+    if (is.built_in_custom_hook(hook)) {
+      type <- hook$type
+      hook_fn <- hook$hook_fn
+      if (type == "hook_history_saver") {
+        hook_fn(mode_keys()$TRAIN)
+      } else if (type == "hook_progress_bar") {
+        hook_fn("Training", steps)
+      } else if (type == "hook_view_metrics") {
+        hook_fn(
+          list(
+            steps = steps,
+            model = str(estimator)
+          ),
+          mode_key = mode_keys()$TRAIN
+        )
+      }
+    } else {
+      hook
+    }
+  })
+
   normalize_session_run_hooks(hooks)
 }
 
-resolve_eval_hooks <- function(hooks, verbose, steps) {
-  if (verbose) {
-    .globals$history[[mode_keys()$EVAL]] <- tf_estimator_history()
-    hooks <- c(hooks, hook_history_saver(mode_keys()$EVAL))
-    hooks <- c(hooks, hook_progress_bar("Evaluating", steps))
-  }
+resolve_eval_hooks <- function(hooks, steps) {
+  
+  .globals$history[[mode_keys()$EVAL]] <- tf_estimator_history()
+
+  hooks <- lapply(normalize_session_run_hooks(hooks), function(hook) {
+    if (is.built_in_custom_hook(hook)) {
+      type <- hook$type
+      hook_fn <- hook$hook_fn
+      if (type == "hook_history_saver") {
+        hook_fn(mode_keys()$EVAL)
+      } else if (type == "hook_progress_bar") {
+        hook_fn("Evaluating", steps)
+      }
+    } else {
+      hook
+    }
+  })
   
   normalize_session_run_hooks(hooks)
 }

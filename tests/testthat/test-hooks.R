@@ -43,3 +43,28 @@ test_that("Custom hooks work with linear dnn combined estimators", {
   )
   expect_equal(actual_output, expected_output)
 })
+
+test_that("Built-in Custom Hook works with linear dnn combined estimators", {
+  specs <- mtcars_regression_specs()
+  
+  lr <- linear_regressor(
+    feature_columns = specs$linear_feature_columns
+  ) %>% train(
+    input_fn = specs$input_fn,
+    steps = 10,
+    hooks = list(
+      hook_progress_bar()
+    ))
+  
+  # NOT WORKING YET
+  lr <- linear_regressor(
+    feature_columns = specs$linear_feature_columns
+  ) %>% train(
+    input_fn = specs$input_fn,
+    steps = 10,
+    hooks = list(
+      hook_history_saver(every_n_step = 2),
+      hook_view_metrics()
+    ))
+})
+

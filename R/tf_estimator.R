@@ -109,7 +109,6 @@ train.tf_estimator <- function(object,
                                max_steps = NULL,
                                saving_listeners = NULL,
                                verbose = TRUE,
-                               view_metrics = "auto",
                                ...)
 {
   args <- list(
@@ -123,14 +122,11 @@ train.tf_estimator <- function(object,
     args$saving_listeners <- saving_listeners
   }
 
-  args$hooks <- resolve_train_hooks(hooks, verbose, steps, view_metrics, object)
+  args$hooks <- resolve_train_hooks(hooks, steps, object)
   
   with_logging_verbosity(tf$logging$WARN, {
     do.call(object$estimator$train, args)
   })
-  
-  if (verbose)
-    object$history <- .globals$history
 
   # move tfevents file to a separate /logs folder under model_dir
   mv_tf_events_file(model_dir(object))
@@ -262,7 +258,6 @@ evaluate.tf_estimator <- function(object,
                                   checkpoint_path = NULL,
                                   name = NULL,
                                   hooks = NULL,
-                                  verbose = TRUE,
                                   simplify = TRUE,
                                   ...)
 {
@@ -272,7 +267,7 @@ evaluate.tf_estimator <- function(object,
       steps = as_nullable_integer(steps),
       checkpoint_path = checkpoint_path,
       name = name,
-      hooks = resolve_eval_hooks(hooks, verbose, steps),
+      hooks = resolve_eval_hooks(hooks, steps),
       ...
     )
   })
