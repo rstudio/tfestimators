@@ -1,13 +1,13 @@
+should_execute <- function(current_step, every_n_step) {
+  current_step %% every_n_step == 0
+}
+
 hook_history_saver <- function(every_n_step = 2) {
   
   hook_fn <- function(mode_key) {
 
     .iter_count <<- 0
-  
-    should_save <- function(current_step, every_n_step) {
-      current_step %% every_n_step == 0
-    }
-    
+
     session_run_hook(
       
       before_run = function(context) {
@@ -19,7 +19,7 @@ hook_history_saver <- function(every_n_step = 2) {
       
       after_run = function(context, values) {
         .iter_count <<- .iter_count + 1
-        if (should_save(.iter_count, every_n_step)) {
+        if (should_execute(.iter_count, every_n_step)) {
           
           results <- values$results
           raw_losses <- results$losses[[1]]
@@ -36,13 +36,14 @@ hook_history_saver <- function(every_n_step = 2) {
   list(hook_fn = hook_fn, type = "hook_history_saver")
 }
 
-hook_view_metrics <- function() {
+hook_view_metrics <- function(every_n_step = 2) {
   
   hook_fn <- function(props, mode_key) {
+
     steps <- props$steps
-    
     .metrics_viewer <- NULL
     .time <- Sys.time() - 1.0 # forces immediate update
+    .iter_count <<- 0
     
     # NOTE: we need to pad with an extra row of data to signal to
     # the viewer that there is more data incoming. by returning a
@@ -59,7 +60,7 @@ hook_view_metrics <- function() {
       
       # update and record metrics
       metrics_df <- get_metrics_df(finalize)
-      
+
       if (is.null(.metrics_viewer)) {
         .metrics_viewer <<- tfruns::view_run_metrics(metrics_df)
       } else {
@@ -87,8 +88,17 @@ hook_view_metrics <- function() {
     
     session_run_hook(
       before_run = function(context) write_run_properties(props),
-      after_run = function(context, values) on_metrics(FALSE),
-      end = function(session) on_metrics(TRUE)
+      after_run = function(context, values) {
+        .iter_count <<- .iter_count + 1
+        if (should_execute(.iter_count, every_n_step)) {
+          on_metrics(FALSE)
+        }
+      },
+      end = function(session) {
+        if (should_execute(.iter_count, every_n_step)) {
+          on_metrics(TRUE) 
+        }
+      }
     )
   }
   
