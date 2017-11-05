@@ -5,8 +5,7 @@
 \title{Train an Estimator}
 \usage{
 \method{train}{tf_estimator}(object, input_fn, steps = NULL, hooks = NULL,
-  max_steps = NULL, saving_listeners = NULL, verbose = TRUE,
-  view_metrics = "auto", ...)
+  max_steps = NULL, saving_listeners = NULL, ...)
 }
 \arguments{
 \item{object}{A TensorFlow estimator.}
@@ -28,10 +27,6 @@ trained a total of \code{max_steps} times, then no training will be performed.}
 
 \item{saving_listeners}{(Available since TensorFlow v1.4) A list of \code{CheckpointSaverListener} objects
 used for callbacks that run immediately before or after checkpoint savings.}
-
-\item{verbose}{Show progress output as the model is trained?}
-
-\item{view_metrics}{View training metrics as the model is trained?}
 
 \item{...}{Optional arguments, passed on to the estimator's \code{train()} method.}
 }

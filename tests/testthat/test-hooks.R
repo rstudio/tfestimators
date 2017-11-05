@@ -87,15 +87,8 @@ test_that("Built-in Custom Hook works with linear dnn combined estimators", {
     list(train = 2:3, eval = 2:3)
   )
   
-  # Test hook_view_metrics
-  lr <- linear_regressor(
-    feature_columns = specs$linear_feature_columns
-  ) %>% train(
-    input_fn = specs$input_fn,
-    steps = 10,
-    hooks = list(
-      hook_history_saver(every_n_step = 2),
-      hook_view_metrics()
-    ))
+  # Test metrics visualization
+  visualize_metrics(mode_keys()$TRAIN)
+  visualize_metrics(mode_keys()$EVAL)
 })
 

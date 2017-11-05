@@ -96,8 +96,6 @@ NULL
 #'   trained a total of `max_steps` times, then no training will be performed.
 #' @param saving_listeners (Available since TensorFlow v1.4) A list of `CheckpointSaverListener` objects
 #' used for callbacks that run immediately before or after checkpoint savings.
-#' @param verbose Show progress output as the model is trained?
-#' @param view_metrics View training metrics as the model is trained?
 #' @param ... Optional arguments, passed on to the estimator's `train()` method.
 #'
 #' @export
@@ -108,7 +106,6 @@ train.tf_estimator <- function(object,
                                hooks = NULL,
                                max_steps = NULL,
                                saving_listeners = NULL,
-                               verbose = TRUE,
                                ...)
 {
   args <- list(
@@ -237,7 +234,6 @@ predict.tf_estimator <- function(object,
 #'   this particular `evaluate()` invocation. If `NULL` (the default), this function
 #'   will either evaluate forever, or until the supplied `input_fn()` has provided
 #'   all available data.
-#' @param verbose Show progress output as the model is trained?
 #' @param simplify A boolean value that indicates whether to simplify evaluation
 #'   results automatically. If `TRUE`, This will automatically use a default evaluation
 #'   simplify function to estimators that flattens the predictions to a cleaner tibble

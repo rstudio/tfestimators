@@ -36,6 +36,34 @@ hook_history_saver <- function(every_n_step = 2) {
   list(hook_fn = hook_fn, type = "hook_history_saver")
 }
 
+# NOTE: we need to pad with an extra row of data to signal to
+# the viewer that there is more data incoming. by returning a
+# metrics dataframe with no padding, we signal to the viewer
+# that there is no more data incoming
+get_metrics_df <- function(mode_key, finalize = TRUE, steps = NULL) {
+  df <- as.data.frame(.globals$history[[mode_key]]$losses)
+  if (finalize)
+    return(df)
+  pad(df, steps %||% nrow(df) + 1)
+}
+
+#' Visualize the training or evaluation metrics
+#' 
+#' @param mode_key The mode when the metrics were collected that you want to visualize, e.g. "train"
+#' 
+#' @return The directory used to save the metrics metadata and generated html file.
+visualize_metrics <- function(mode_key) {
+  if (!mode_key %in% c(mode_keys()$TRAIN, mode_keys()$EVAL)) {
+    stop("Only training and evaluation metrics can be visualized.")
+  }
+  metrics_df <- get_metrics_df(mode_key)
+  if (all(dim(metrics_df) == c(0, 0))) {
+    stop("No metrics available yet to be visualized in the mode you provided.")
+  }
+  tfruns::view_run_metrics(metrics_df)
+}
+
+# TODO: This is currently broken
 hook_view_metrics <- function(every_n_step = 2) {
   
   hook_fn <- function(props, mode_key) {
@@ -45,21 +73,10 @@ hook_view_metrics <- function(every_n_step = 2) {
     .time <- Sys.time() - 1.0 # forces immediate update
     .iter_count <<- 0
     
-    # NOTE: we need to pad with an extra row of data to signal to
-    # the viewer that there is more data incoming. by returning a
-    # metrics dataframe with no padding, we signal to the viewer
-    # that there is no more data incoming
-    get_metrics_df <- function(finalize) {
-      df <- as.data.frame(.globals$history[[mode_key]]$losses)
-      if (finalize)
-        return(df)
-      pad(df, steps %||% nrow(df) + 1)
-    }
-    
     on_metrics <- function(finalize = FALSE) {
       
       # update and record metrics
-      metrics_df <- get_metrics_df(finalize)
+      metrics_df <- get_metrics_df(mode_key, finalize, steps)
 
       if (is.null(.metrics_viewer)) {
         .metrics_viewer <<- tfruns::view_run_metrics(metrics_df)

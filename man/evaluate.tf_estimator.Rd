@@ -5,8 +5,8 @@
 \title{Evaluate an Estimator}
 \usage{
 \method{evaluate}{tf_estimator}(object, input_fn, steps = NULL,
-  checkpoint_path = NULL, name = NULL, hooks = NULL, verbose = TRUE,
-  simplify = TRUE, ...)
+  checkpoint_path = NULL, name = NULL, hooks = NULL, simplify = TRUE,
+  ...)
 }
 \arguments{
 \item{object}{A TensorFlow estimator.}
@@ -30,8 +30,6 @@ in tensorboard.}
 
 \item{hooks}{A list of \R functions, to be used as callbacks inside the
 training loop.}
-
-\item{verbose}{Show progress output as the model is trained?}
 
 \item{simplify}{A boolean value that indicates whether to simplify evaluation
 results automatically. If \code{TRUE}, This will automatically use a default evaluation
