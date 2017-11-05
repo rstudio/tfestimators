@@ -229,6 +229,7 @@ session_run_args <- function(...) {
 #' second argument in the `after_run()` hook (the `values` argument).
 #' 
 #' @seealso [session_run_args()]
+#' @family session_run_hook wrappers
 #' @export
 session_run_hook <- function(
   begin = function() {},

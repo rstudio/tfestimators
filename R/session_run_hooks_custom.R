@@ -2,6 +2,27 @@ should_execute <- function(current_step, every_n_step) {
   current_step %% every_n_step == 0
 }
 
+#' A Custom Run Hook for Saving Metrics History
+#' 
+#' This hook allows users to save the metrics history produced during training or evaluation in
+#' a specified frequency.
+#' 
+#' @param every_n_step Save the metrics every N steps
+#' 
+#' @family session_run_hook wrappers
+#' 
+#' @examples
+#' \dontrun {
+#' lr <- linear_regressor(
+#'   feature_columns = fcs
+#' ) %>% train(
+#'   input_fn = input,
+#'   steps = 10,
+#'   hooks = list(
+#'     hook_history_saver(every_n_step = 2)
+#'   ))
+#' }
+#' 
 hook_history_saver <- function(every_n_step = 2) {
   
   hook_fn <- function(mode_key) {
@@ -36,92 +57,24 @@ hook_history_saver <- function(every_n_step = 2) {
   list(hook_fn = hook_fn, type = "hook_history_saver")
 }
 
-# NOTE: we need to pad with an extra row of data to signal to
-# the viewer that there is more data incoming. by returning a
-# metrics dataframe with no padding, we signal to the viewer
-# that there is no more data incoming
-get_metrics_df <- function(mode_key, finalize = TRUE, steps = NULL) {
-  df <- as.data.frame(.globals$history[[mode_key]]$losses)
-  if (finalize)
-    return(df)
-  pad(df, steps %||% nrow(df) + 1)
-}
-
-#' Visualize the training or evaluation metrics
+#' A Custom Run Hook to Create and Update Progress Bar During Training or Evaluation
 #' 
-#' @param mode_key The mode when the metrics were collected that you want to visualize, e.g. "train"
+#' This hook creates a progress bar that creates and updates the progress bar during training
+#' or evaluation. 
 #' 
-#' @return The directory used to save the metrics metadata and generated html file.
-visualize_metrics <- function(mode_key) {
-  if (!mode_key %in% c(mode_keys()$TRAIN, mode_keys()$EVAL)) {
-    stop("Only training and evaluation metrics can be visualized.")
-  }
-  metrics_df <- get_metrics_df(mode_key)
-  if (all(dim(metrics_df) == c(0, 0))) {
-    stop("No metrics available yet to be visualized in the mode you provided.")
-  }
-  tfruns::view_run_metrics(metrics_df)
-}
-
-# TODO: This is currently broken
-hook_view_metrics <- function(every_n_step = 2) {
-  
-  hook_fn <- function(props, mode_key) {
-
-    steps <- props$steps
-    .metrics_viewer <- NULL
-    .time <- Sys.time() - 1.0 # forces immediate update
-    .iter_count <<- 0
-    
-    on_metrics <- function(finalize = FALSE) {
-      
-      # update and record metrics
-      metrics_df <- get_metrics_df(mode_key, finalize, steps)
-
-      if (is.null(.metrics_viewer)) {
-        .metrics_viewer <<- tfruns::view_run_metrics(metrics_df)
-      } else {
-        tfruns::update_run_metrics(.metrics_viewer, metrics_df)
-      }
-      
-      # record metrics
-      tfruns::write_run_metadata("metrics", metrics_df)
-      
-      # pump events (once every second)
-      now <- Sys.time()
-      if (now - .time > 1.0) {
-        .time <<- now
-        Sys.sleep(0.1)
-      }
-      
-    }
-    
-    write_run_properties <- function(props) {
-      properties <- list()
-      properties$steps <- steps
-      properties$model <- props$model
-      tfruns::write_run_metadata("properties", properties)
-    }
-    
-    session_run_hook(
-      before_run = function(context) write_run_properties(props),
-      after_run = function(context, values) {
-        .iter_count <<- .iter_count + 1
-        if (should_execute(.iter_count, every_n_step)) {
-          on_metrics(FALSE)
-        }
-      },
-      end = function(session) {
-        if (should_execute(.iter_count, every_n_step)) {
-          on_metrics(TRUE) 
-        }
-      }
-    )
-  }
-  
-  list(hook_fn = hook_fn, type = "hook_view_metrics")
-}
-
+#' @family session_run_hook wrappers
+#'
+#' @examples
+#' \dontrun {
+#' lr <- linear_regressor(
+#'   feature_columns = fcs
+#' ) %>% train(
+#'   input_fn = input,
+#'   steps = 10,
+#'   hooks = list(
+#'     hook_progress_bar()
+#'   ))
+#' }
 hook_progress_bar <- function() {
   
   hook_fn <- function(label, steps) {
@@ -181,4 +134,92 @@ hook_progress_bar <- function() {
   }
   
   list(hook_fn = hook_fn, type = "hook_progress_bar")
+}
+
+
+# NOTE: we need to pad with an extra row of data to signal to
+# the viewer that there is more data incoming. by returning a
+# metrics dataframe with no padding, we signal to the viewer
+# that there is no more data incoming
+get_metrics_df <- function(mode_key, finalize = TRUE, steps = NULL) {
+  df <- as.data.frame(.globals$history[[mode_key]]$losses)
+  if (finalize)
+    return(df)
+  pad(df, steps %||% nrow(df) + 1)
+}
+
+#' Visualize the training or evaluation metrics
+#' 
+#' This function allows users to visualize the metrics produced in training or evaluation phases.
+#' 
+#' @param mode_key The mode when the metrics were collected that you want to visualize, e.g. "train"
+#' 
+#' @return The directory used to save the metrics metadata and generated html file.
+visualize_metrics <- function(mode_key = c("train", "eval")) {
+  mode_key <- match.arg(mode_key)
+  metrics_df <- get_metrics_df(mode_key)
+  if (all(dim(metrics_df) == c(0, 0))) {
+    stop("No metrics available yet to be visualized in the mode you provided.")
+  }
+  tfruns::view_run_metrics(metrics_df)
+}
+
+
+# TODO: This is currently broken. Recommend using `visualize_metrics()` in the meantime.
+hook_view_metrics <- function(every_n_step = 2) {
+  
+  hook_fn <- function(props, mode_key) {
+
+    steps <- props$steps
+    .metrics_viewer <- NULL
+    .time <- Sys.time() - 1.0 # forces immediate update
+    .iter_count <<- 0
+    
+    on_metrics <- function(finalize = FALSE) {
+      
+      # update and record metrics
+      metrics_df <- get_metrics_df(mode_key, finalize, steps)
+
+      if (is.null(.metrics_viewer)) {
+        .metrics_viewer <<- tfruns::view_run_metrics(metrics_df)
+      } else {
+        tfruns::update_run_metrics(.metrics_viewer, metrics_df)
+      }
+      
+      # record metrics
+      tfruns::write_run_metadata("metrics", metrics_df)
+      
+      # pump events (once every second)
+      now <- Sys.time()
+      if (now - .time > 1.0) {
+        .time <<- now
+        Sys.sleep(0.1)
+      }
+      
+    }
+    
+    write_run_properties <- function(props) {
+      properties <- list()
+      properties$steps <- steps
+      properties$model <- props$model
+      tfruns::write_run_metadata("properties", properties)
+    }
+    
+    session_run_hook(
+      before_run = function(context) write_run_properties(props),
+      after_run = function(context, values) {
+        .iter_count <<- .iter_count + 1
+        if (should_execute(.iter_count, every_n_step)) {
+          on_metrics(FALSE)
+        }
+      },
+      end = function(session) {
+        if (should_execute(.iter_count, every_n_step)) {
+          on_metrics(TRUE) 
+        }
+      }
+    )
+  }
+  
+  list(hook_fn = hook_fn, type = "hook_view_metrics")
 }

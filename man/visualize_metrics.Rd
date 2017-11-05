@@ -4,7 +4,7 @@
 \alias{visualize_metrics}
 \title{Visualize the training or evaluation metrics}
 \usage{
-visualize_metrics(mode_key)
+visualize_metrics(mode_key = c("train", "eval"))
 }
 \arguments{
 \item{mode_key}{The mode when the metrics were collected that you want to visualize, e.g. "train"}
@@ -13,5 +13,5 @@ visualize_metrics(mode_key)
 The directory used to save the metrics metadata and generated html file.
 }
 \description{
-Visualize the training or evaluation metrics
+This function allows users to visualize the metrics produced in training or evaluation phases.
 }

@@ -17,8 +17,11 @@ Monitor to Request Stop at a Specified Step
 \seealso{
 Other session_run_hook wrappers: \code{\link{hook_checkpoint_saver}},
   \code{\link{hook_global_step_waiter}},
+  \code{\link{hook_history_saver}},
   \code{\link{hook_logging_tensor}},
   \code{\link{hook_nan_tensor}},
+  \code{\link{hook_progress_bar}},
   \code{\link{hook_step_counter}},
-  \code{\link{hook_summary_saver}}
+  \code{\link{hook_summary_saver}},
+  \code{\link{session_run_hook}}
 }
