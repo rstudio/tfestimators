@@ -2,7 +2,7 @@
 % Please edit documentation in R/session_run_hooks_builtin_wrappers.R
 \name{session_run_hook}
 \alias{session_run_hook}
-\title{Create Session Run Hooks}
+\title{Create Custom Session Run Hooks}
 \usage{
 session_run_hook(begin = function() { },
   after_create_session = function(session, coord) { },

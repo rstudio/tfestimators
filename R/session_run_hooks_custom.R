@@ -155,6 +155,7 @@ get_metrics_df <- function(mode_key, finalize = TRUE, steps = NULL) {
 #' @param mode_key The mode when the metrics were collected that you want to visualize, e.g. "train"
 #' 
 #' @return The directory used to save the metrics metadata and generated html file.
+#' @export
 visualize_metrics <- function(mode_key = c("train", "eval")) {
   mode_key <- match.arg(mode_key)
   metrics_df <- get_metrics_df(mode_key)

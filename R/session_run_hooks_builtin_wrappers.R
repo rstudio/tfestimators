@@ -208,7 +208,7 @@ session_run_args <- function(...) {
   tf$train$SessionRunArgs(list(...))
 }
 
-#' Create Session Run Hooks
+#' Create Custom Session Run Hooks
 #' 
 #' Create a set of session run hooks, used to record information during
 #' training of an estimator. See **Details** for more information on the
