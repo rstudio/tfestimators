@@ -14,7 +14,7 @@ This hook allows users to save the metrics history produced during training or e
 a specified frequency.
 }
 \examples{
-\dontrun {
+\dontrun{
 lr <- linear_regressor(
   feature_columns = fcs
 ) \%>\% train(

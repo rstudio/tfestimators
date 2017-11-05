@@ -12,7 +12,7 @@ should_execute <- function(current_step, every_n_step) {
 #' @family session_run_hook wrappers
 #' 
 #' @examples
-#' \dontrun {
+#' \dontrun{
 #' lr <- linear_regressor(
 #'   feature_columns = fcs
 #' ) %>% train(
@@ -65,7 +65,7 @@ hook_history_saver <- function(every_n_step = 2) {
 #' @family session_run_hook wrappers
 #'
 #' @examples
-#' \dontrun {
+#' \dontrun{
 #' lr <- linear_regressor(
 #'   feature_columns = fcs
 #' ) %>% train(

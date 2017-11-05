@@ -11,7 +11,7 @@ This hook creates a progress bar that creates and updates the progress bar durin
 or evaluation.
 }
 \examples{
-\dontrun {
+\dontrun{
 lr <- linear_regressor(
   feature_columns = fcs
 ) \%>\% train(
