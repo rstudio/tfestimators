@@ -3,8 +3,8 @@ new_tf_estimator <- function(estimator, args = NULL, ...,
   structure(
     list(
       estimator = estimator,
-      history = history,
-      args = args),
+      args = args,
+      ...),
     class = c(subclass, "tf_estimator")
   )
 }
