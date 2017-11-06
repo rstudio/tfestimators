@@ -20,7 +20,7 @@ test_that("train(), predict(), and evaluate() work for regressors", {
   expect_equal(length(predictions), 32)
   
   loss <- evaluate(estimator, input_fn = specs$input_fn)$loss
-  expect_lte(loss, 4000)
+  expect_lte(loss, 6000)
 })
 
 test_that("train(), predict(), and evaluate() work for classifiers", {
