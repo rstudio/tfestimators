@@ -27,7 +27,7 @@ hook_history_saver <- function(every_n_step = 2) {
   
   hook_fn <- function(mode_key) {
 
-    .iter_count <<- 0
+    .iter_count <- 0
 
     session_run_hook(
       
@@ -174,7 +174,7 @@ hook_view_metrics <- function(every_n_step = 2) {
     steps <- props$steps
     .metrics_viewer <- NULL
     .time <- Sys.time() - 1.0 # forces immediate update
-    .iter_count <<- 0
+    .iter_count <- 0
     
     on_metrics <- function(finalize = FALSE) {
       
