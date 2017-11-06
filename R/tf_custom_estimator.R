@@ -1,11 +1,7 @@
-tf_custom_estimator <- function(estimator, model_fn, classes) {
-  structure(
-    list(
-      estimator = estimator,
-      model_fn  = model_fn
-    ),
-    class = c("tf_estimator", "tf_custom_estimator", classes)
-  )
+new_tf_custom_estimator <- function(
+  estimator, args = NULL, model_fn, ..., subclass = NULL) {
+  new_tf_estimator(estimator, args = args, model_fn = model_fn, ...,
+                   subclass = c(subclass, "tf_custom_estimator"))
 }
 
 #' Define an Estimator Specification
@@ -161,7 +157,8 @@ estimator <- function(model_fn,
     config = config,
     params = params
   ))
-  tf_custom_estimator(estimator, model_fn, class)
+
+  new_tf_custom_estimator(estimator, model_fn = model_fn, subclass = class)
 }
 
 as_model_fn <- function(f) {

@@ -51,7 +51,7 @@ dnn_regressor <- function(hidden_units,
     )
   )
 
-  tf_regressor(estimator, "dnn_regressor")
+  new_tf_regressor(estimator, subclass = "tf_estimator_regressor_dnn_regressor")
 }
 
 #' @inheritParams dnn_estimators
@@ -87,6 +87,7 @@ dnn_classifier <- function(hidden_units,
     )
   )
 
-  tf_classifier(estimator, "dnn_classifier", args)
+  new_tf_classifier(estimator, args = args, 
+                    subclass = "tf_estimator_classifier_dnn_classifier")
 }
 
