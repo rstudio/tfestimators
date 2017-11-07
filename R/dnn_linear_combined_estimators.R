@@ -65,7 +65,8 @@ dnn_linear_combined_regressor <- function(model_dir = NULL,
     )
   )
 
-  new_tf_regressor(estimator, subclass = "tf_estimator_dnn_linear_combined_regressor")
+  new_tf_regressor(estimator, args = args,
+                   subclass = "tf_estimator_dnn_linear_combined_regressor")
 }
 
 #' @inheritParams dnn_linear_combined_estimators
