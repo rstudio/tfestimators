@@ -137,6 +137,17 @@ hook_progress_bar <- function() {
 }
 
 
+#' Get Saved History
+#' 
+#' This function retrieves the saved metrics history via [hook_history_saver()].
+#' 
+#' @param mode_key The mode when the metrics were collected that you want to retrieve.
+#' @return a data.frame of metrics history
+#' @export
+get_saved_history <- function(mode_key = c("train", "eval")) {
+  as.data.frame(.globals$history[[match.arg(mode_key)]])
+}
+
 # NOTE: we need to pad with an extra row of data to signal to
 # the viewer that there is more data incoming. by returning a
 # metrics dataframe with no padding, we signal to the viewer
@@ -146,81 +157,4 @@ get_metrics_df <- function(mode_key, finalize = TRUE, steps = NULL) {
   if (finalize)
     return(df)
   pad(df, steps %||% nrow(df) + 1)
-}
-
-#' Visualize the training or evaluation metrics
-#' 
-#' This function allows users to visualize the metrics produced in training or evaluation phases.
-#' 
-#' @param mode_key The mode when the metrics were collected that you want to visualize, e.g. "train"
-#' 
-#' @return The directory used to save the metrics metadata and generated html file.
-#' @export
-visualize_metrics <- function(mode_key = c("train", "eval")) {
-  mode_key <- match.arg(mode_key)
-  metrics_df <- get_metrics_df(mode_key)
-  if (all(dim(metrics_df) == c(0, 0))) {
-    stop("No metrics available yet to be visualized in the mode you provided.")
-  }
-  tfruns::view_run_metrics(metrics_df)
-}
-
-
-# TODO: This is currently broken. Recommend using `visualize_metrics()` in the meantime.
-hook_view_metrics <- function(every_n_step = 2) {
-  
-  hook_fn <- function(props, mode_key) {
-
-    steps <- props$steps
-    .metrics_viewer <- NULL
-    .time <- Sys.time() - 1.0 # forces immediate update
-    .iter_count <- 0
-    
-    on_metrics <- function(finalize = FALSE) {
-      
-      # update and record metrics
-      metrics_df <- get_metrics_df(mode_key, finalize, steps)
-
-      if (is.null(.metrics_viewer)) {
-        .metrics_viewer <<- tfruns::view_run_metrics(metrics_df)
-      } else {
-        tfruns::update_run_metrics(.metrics_viewer, metrics_df)
-      }
-      
-      # record metrics
-      tfruns::write_run_metadata("metrics", metrics_df)
-      
-      # pump events (once every second)
-      now <- Sys.time()
-      if (now - .time > 1.0) {
-        .time <<- now
-        Sys.sleep(0.1)
-      }
-      
-    }
-    
-    write_run_properties <- function(props) {
-      properties <- list()
-      properties$steps <- steps
-      properties$model <- props$model
-      tfruns::write_run_metadata("properties", properties)
-    }
-    
-    session_run_hook(
-      before_run = function(context) write_run_properties(props),
-      after_run = function(context, values) {
-        .iter_count <<- .iter_count + 1
-        if (should_execute(.iter_count, every_n_step)) {
-          on_metrics(FALSE)
-        }
-      },
-      end = function(session) {
-        if (should_execute(.iter_count, every_n_step)) {
-          on_metrics(TRUE) 
-        }
-      }
-    )
-  }
-  
-  list(hook_fn = hook_fn, type = "hook_view_metrics")
 }

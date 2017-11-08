@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Visualize the training or evaluation metrics — visualize_metrics • tfestimators</title>
+<title>Get Saved History — get_saved_history • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,27 +119,27 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Visualize the training or evaluation metrics</h1>
+    <h1>Get Saved History</h1>
     </div>
 
     
-    <p>This function allows users to visualize the metrics produced in training or evaluation phases.</p>
+    <p>This function retrieves the saved metrics history via <code><a href='hook_history_saver.html'>hook_history_saver()</a></code>.</p>
     
 
-    <pre class="usage"><span class='fu'>visualize_metrics</span>(<span class='kw'>mode_key</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"train"</span>, <span class='st'>"eval"</span>))</pre>
+    <pre class="usage"><span class='fu'>get_saved_history</span>(<span class='kw'>mode_key</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"train"</span>, <span class='st'>"eval"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>mode_key</th>
-      <td><p>The mode when the metrics were collected that you want to visualize, e.g. "train"</p></td>
+      <td><p>The mode when the metrics were collected that you want to retrieve.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The directory used to save the metrics metadata and generated html file.</p>
+    <p>a data.frame of metrics history</p>
     
 
   </div>

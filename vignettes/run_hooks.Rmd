@@ -81,7 +81,7 @@ lr <- linear_regressor(
   ))
 ```
 
-and then we can use `visualize_metrics("train")` to visualize the metrics saved through training.
+and then we can use `get_saved_history("train")` to retrieve the metrics saved through training.
 
 ## Custom Run Hooks
 

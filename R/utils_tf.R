@@ -113,14 +113,6 @@ resolve_train_hooks <- function(hooks, steps, estimator) {
         hook_fn(mode_keys()$TRAIN)
       } else if (type == "hook_progress_bar") {
         hook_fn("Training", steps)
-      } else if (type == "hook_view_metrics") {
-        hook_fn(
-          list(
-            steps = steps,
-            model = str(estimator)
-          ),
-          mode_key = mode_keys()$TRAIN
-        )
       }
     } else {
       hook

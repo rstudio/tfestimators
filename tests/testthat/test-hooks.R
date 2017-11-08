@@ -87,8 +87,7 @@ test_that("Built-in Custom Hook works with linear dnn combined estimators", {
     list(train = 2:3, eval = 2:3)
   )
   
-  # Test metrics visualization
-  visualize_metrics(mode_keys()$TRAIN)
-  visualize_metrics(mode_keys()$EVAL)
+  expect_equal(dim(get_saved_history(mode_keys()$TRAIN)), c(2, 3))
+  expect_equal(dim(get_saved_history(mode_keys()$EVAL)), c(2, 3))
 })
 

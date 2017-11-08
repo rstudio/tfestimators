@@ -118,4 +118,4 @@ reference:
     contents:
       - graph_keys
       - get_latest_checkpoint
-      - visualize_metrics
+      - get_saved_history
