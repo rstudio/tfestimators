@@ -98,6 +98,7 @@ NULL
 #' used for callbacks that run immediately before or after checkpoint savings.
 #' @param verbose Show progress output as the model is trained?
 #' @param view_metrics View training metrics as the model is trained?
+#' @param debug_logging Enable debug level logging?
 #' @param ... Optional arguments, passed on to the estimator's `train()` method.
 #'
 #' @export
@@ -110,6 +111,7 @@ train.tf_estimator <- function(object,
                                saving_listeners = NULL,
                                verbose = TRUE,
                                view_metrics = "auto",
+                               debug_logging = FALSE,
                                ...)
 {
   args <- list(
@@ -125,7 +127,8 @@ train.tf_estimator <- function(object,
 
   args$hooks <- resolve_train_hooks(hooks, verbose, steps, view_metrics, object)
   
-  with_logging_verbosity(tf$logging$WARN, {
+  logging_level <- if (debug_level) tf$logging$DEBUG else tf$logging$WARN
+  with_logging_verbosity(logging_level, {
     do.call(object$estimator$train, args)
   })
   
