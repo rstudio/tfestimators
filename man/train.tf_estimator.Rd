@@ -6,7 +6,7 @@
 \usage{
 \method{train}{tf_estimator}(object, input_fn, steps = NULL, hooks = NULL,
   max_steps = NULL, saving_listeners = NULL, verbose = TRUE,
-  view_metrics = "auto", ...)
+  view_metrics = "auto", debug_logging = FALSE, ...)
 }
 \arguments{
 \item{object}{A TensorFlow estimator.}
@@ -32,6 +32,8 @@ used for callbacks that run immediately before or after checkpoint savings.}
 \item{verbose}{Show progress output as the model is trained?}
 
 \item{view_metrics}{View training metrics as the model is trained?}
+
+\item{debug_logging}{Enable debug level logging?}
 
 \item{...}{Optional arguments, passed on to the estimator's \code{train()} method.}
 }
