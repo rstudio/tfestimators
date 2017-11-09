@@ -187,11 +187,15 @@ lr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/linear_e
   <span class="dt">feature_columns =</span> fcs
 ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train</a></span>(
   <span class="dt">input_fn =</span> input,
-  <span class="dt">steps =</span> <span class="dv">10</span>,
+  <span class="dt">steps =</span> <span class="dv">4</span>,
   <span class="dt">hooks =</span> <span class="kw">list</span>(
     <span class="kw"><a href="../reference/hook_history_saver.html">hook_history_saver</a></span>(<span class="dt">every_n_step =</span> <span class="dv">2</span>)
   ))</code></pre></div>
-<p>and then we can use <code><a href="../reference/get_saved_history.html">get_saved_history("train")</a></code> to retrieve the metrics saved through training.</p>
+<p>and then we can get the metrics history saved through training as follows:</p>
+<pre><code>&gt; lr$history
+  mean_losses total_losses steps
+1    343.9690     2751.752     2
+2    419.7618     3358.094     4</code></pre>
 </div>
 <div id="custom-run-hooks" class="section level2">
 <h2 class="hasAnchor">
