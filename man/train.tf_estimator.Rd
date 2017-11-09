@@ -30,6 +30,10 @@ used for callbacks that run immediately before or after checkpoint savings.}
 
 \item{...}{Optional arguments, passed on to the estimator's \code{train()} method.}
 }
+\value{
+A data.frame of the training loss history. Note that this will be
+a empty data.frame if \code{\link[=hook_history_saver]{hook_history_saver()}} is not used as one of the hooks provided.
+}
 \description{
 Train an estimator on a set of input data provides by the \code{input_fn()}.
 }

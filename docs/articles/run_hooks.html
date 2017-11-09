@@ -183,16 +183,16 @@ lr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/linear_e
   ))</code></pre></div>
 <pre><code>Training 2/2 [======================================] - ETA:  0s - loss: 3136.10</code></pre>
 <p>Another example is to use <code><a href="../reference/hook_history_saver.html">hook_history_saver()</a></code> to save the training history every 2 training steps like the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/linear_estimators.html">linear_regressor</a></span>(
-  <span class="dt">feature_columns =</span> fcs
-) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train</a></span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/linear_estimators.html">linear_regressor</a></span>(<span class="dt">feature_columns =</span> fcs) 
+training_history &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train</a></span>(
+  lr,
   <span class="dt">input_fn =</span> input,
   <span class="dt">steps =</span> <span class="dv">4</span>,
   <span class="dt">hooks =</span> <span class="kw">list</span>(
     <span class="kw"><a href="../reference/hook_history_saver.html">hook_history_saver</a></span>(<span class="dt">every_n_step =</span> <span class="dv">2</span>)
   ))</code></pre></div>
-<p>and then we can get the metrics history saved through training as follows:</p>
-<pre><code>&gt; lr$history
+<p><code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train()</a></code> returns the saved training metrics history:</p>
+<pre><code>&gt; training_history
   mean_losses total_losses steps
 1    343.9690     2751.752     2
 2    419.7618     3358.094     4</code></pre>

@@ -98,6 +98,8 @@ NULL
 #' used for callbacks that run immediately before or after checkpoint savings.
 #' @param ... Optional arguments, passed on to the estimator's `train()` method.
 #'
+#' @return A data.frame of the training loss history. Note that this will be 
+#' a empty data.frame if [hook_history_saver()] is not used as one of the hooks provided.
 #' @export
 #' @family custom estimator methods
 train.tf_estimator <- function(object,
@@ -124,13 +126,11 @@ train.tf_estimator <- function(object,
   with_logging_verbosity(tf$logging$WARN, {
     do.call(object$estimator$train, args)
   })
-  
-  object$history <- as.data.frame(.globals$history[[mode_keys()$TRAIN]])
 
   # move tfevents file to a separate /logs folder under model_dir
   mv_tf_events_file(model_dir(object))
   
-  invisible(object)
+  invisible(as.data.frame(.globals$history[[mode_keys()$TRAIN]]))
 }
 
 #' Generate Predictions with an Estimator

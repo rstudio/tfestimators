@@ -71,9 +71,9 @@ Training 2/2 [======================================] - ETA:  0s - loss: 3136.10
 Another example is to use `hook_history_saver()` to save the training history every 2 training steps like the following:
 
 ```{r eval=FALSE}
-lr <- linear_regressor(
-  feature_columns = fcs
-) %>% train(
+lr <- linear_regressor(feature_columns = fcs) 
+training_history <- train(
+  lr,
   input_fn = input,
   steps = 4,
   hooks = list(
@@ -81,10 +81,10 @@ lr <- linear_regressor(
   ))
 ```
 
-and then we can get the metrics history saved through training as follows:
+`train()` returns the saved training metrics history:
 
 ```
-> lr$history
+> training_history
   mean_losses total_losses steps
 1    343.9690     2751.752     2
 2    419.7618     3358.094     4
