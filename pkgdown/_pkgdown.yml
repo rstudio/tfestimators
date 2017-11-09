@@ -117,5 +117,4 @@ reference:
   - title: "Other Utilities"
     contents:
       - graph_keys
-      - get_latest_checkpoint
-      - get_saved_history
+      - latest_checkpoint

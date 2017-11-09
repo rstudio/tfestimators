@@ -124,6 +124,8 @@ train.tf_estimator <- function(object,
   with_logging_verbosity(tf$logging$WARN, {
     do.call(object$estimator$train, args)
   })
+  
+  object$history <- as.data.frame(.globals$history[[mode_keys()$TRAIN]])
 
   # move tfevents file to a separate /logs folder under model_dir
   mv_tf_events_file(model_dir(object))
@@ -381,7 +383,7 @@ coef.tf_estimator <- function(object, ...) {
   if (length(list.files(model_dir)) == 0) {
     stop("This model has not been trained yet.")
   }
-  ckp <- training_lib$checkpoint_utils$load_checkpoint(get_latest_checkpoint(model_dir))
+  ckp <- training_lib$checkpoint_utils$load_checkpoint(latest_checkpoint(model_dir))
   var_names <- list_variable_names(model_dir)
   cleaned_vars <- lapply(var_names, function(var_name) ckp$get_tensor(var_name[[1]]))
   names(cleaned_vars) <- var_names

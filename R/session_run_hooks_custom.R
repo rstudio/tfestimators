@@ -137,17 +137,6 @@ hook_progress_bar <- function() {
 }
 
 
-#' Get Saved History
-#' 
-#' This function retrieves the saved metrics history via [hook_history_saver()].
-#' 
-#' @param mode_key The mode when the metrics were collected that you want to retrieve.
-#' @return a data.frame of metrics history
-#' @export
-get_saved_history <- function(mode_key = c("train", "eval")) {
-  as.data.frame(.globals$history[[match.arg(mode_key)]])
-}
-
 # NOTE: we need to pad with an extra row of data to signal to
 # the viewer that there is more data incoming. by returning a
 # metrics dataframe with no padding, we signal to the viewer

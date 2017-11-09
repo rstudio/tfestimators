@@ -5,7 +5,7 @@
 #' 
 #' @export
 #' @family utility functions
-get_latest_checkpoint <- function(checkpoint_dir, ...) {
+latest_checkpoint <- function(checkpoint_dir, ...) {
   tf$python$training$saver$latest_checkpoint(checkpoint_dir, ...) 
 }
 

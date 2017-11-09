@@ -75,13 +75,20 @@ lr <- linear_regressor(
   feature_columns = fcs
 ) %>% train(
   input_fn = input,
-  steps = 10,
+  steps = 4,
   hooks = list(
     hook_history_saver(every_n_step = 2)
   ))
 ```
 
-and then we can use `get_saved_history("train")` to retrieve the metrics saved through training.
+and then we can get the metrics history saved through training as follows:
+
+```
+> lr$history
+  mean_losses total_losses steps
+1    343.9690     2751.752     2
+2    419.7618     3358.094     4
+```
 
 ## Custom Run Hooks
 
