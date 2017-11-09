@@ -10,18 +10,6 @@ hook_progress_bar()
 This hook creates a progress bar that creates and updates the progress bar during training
 or evaluation.
 }
-\examples{
-\dontrun{
-lr <- linear_regressor(
-  feature_columns = fcs
-) \%>\% train(
-  input_fn = input,
-  steps = 10,
-  hooks = list(
-    hook_progress_bar()
-  ))
-}
-}
 \seealso{
 Other session_run_hook wrappers: \code{\link{hook_checkpoint_saver}},
   \code{\link{hook_global_step_waiter}},

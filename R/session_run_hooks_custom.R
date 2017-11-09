@@ -10,18 +10,7 @@ should_execute <- function(current_step, every_n_step) {
 #' @param every_n_step Save the metrics every N steps
 #' 
 #' @family session_run_hook wrappers
-#' 
-#' @examples
-#' \dontrun{
-#' lr <- linear_regressor(
-#'   feature_columns = fcs
-#' ) %>% train(
-#'   input_fn = input,
-#'   steps = 10,
-#'   hooks = list(
-#'     hook_history_saver(every_n_step = 2)
-#'   ))
-#' }
+#' @export
 #' 
 hook_history_saver <- function(every_n_step = 2) {
   
@@ -64,17 +53,7 @@ hook_history_saver <- function(every_n_step = 2) {
 #' 
 #' @family session_run_hook wrappers
 #'
-#' @examples
-#' \dontrun{
-#' lr <- linear_regressor(
-#'   feature_columns = fcs
-#' ) %>% train(
-#'   input_fn = input,
-#'   steps = 10,
-#'   hooks = list(
-#'     hook_progress_bar()
-#'   ))
-#' }
+#' @export
 hook_progress_bar <- function() {
   
   hook_fn <- function(label, steps) {
