@@ -172,8 +172,9 @@ model_dir &lt;-<span class="st"> "/tmp/iris-custom-decay-cnn-model"</span>
 
 <span class="co"># Intialize classifer and training</span>
 classifier &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/estimator.html">estimator</a></span>(
-  <span class="dt">model_fn =</span> custom_model_fn, <span class="dt">model_dir =</span> model_dir) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train</a></span>(<span class="dt">input_fn =</span> inputs, <span class="dt">steps =</span> <span class="dv">100</span>)
+  <span class="dt">model_fn =</span> custom_model_fn, <span class="dt">model_dir =</span> model_dir)
+
+classifier <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train</a></span>(<span class="dt">input_fn =</span> inputs, <span class="dt">steps =</span> <span class="dv">100</span>)
 
 <span class="co"># Genearate predictions</span>
 predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(classifier, <span class="dt">input_fn =</span> inputs)
