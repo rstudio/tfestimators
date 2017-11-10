@@ -19,7 +19,9 @@ will either train forever, or until the supplied \code{input_fn()} has provided
 all available data.}
 
 \item{hooks}{A list of \R functions, to be used as callbacks inside the
-training loop.}
+training loop. By default, \code{hook_history_saver(every_n_step = 10)} and
+\code{hook_progress_bar()} will be attached if not provided to save the metrics
+history and create the progress bar.}
 
 \item{max_steps}{The total number of steps for which the model should be
 trained. If set, \code{steps} must be \code{NULL}. If the estimator has already been
@@ -31,8 +33,7 @@ used for callbacks that run immediately before or after checkpoint savings.}
 \item{...}{Optional arguments, passed on to the estimator's \code{train()} method.}
 }
 \value{
-A data.frame of the training loss history. Note that this will be
-a empty data.frame if \code{\link[=hook_history_saver]{hook_history_saver()}} is not used as one of the hooks provided.
+A data.frame of the training loss history.
 }
 \description{
 Train an estimator on a set of input data provides by the \code{input_fn()}.

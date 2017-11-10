@@ -1,6 +1,6 @@
 context("Testing hooks")
 
-test_that("Hooks works with linear dnn combined estimators", {
+test_that("Hooks works with linear_regressor", {
   specs <- mtcars_regression_specs()
 
   lr <- linear_regressor(feature_columns = specs$linear_feature_columns)
@@ -21,7 +21,7 @@ test_that("Hooks works with linear dnn combined estimators", {
   expect_true(length(list.files("/tmp/ckpt_dir")) > 1)
 })
 
-test_that("Custom hooks work with linear dnn combined estimators", {
+test_that("Custom hooks work with linear_regressor", {
   specs <- mtcars_regression_specs()
   custom_hook <- session_run_hook(
     end = function(session) {
@@ -42,7 +42,7 @@ test_that("Custom hooks work with linear dnn combined estimators", {
   expect_equal(actual_output, expected_output)
 })
 
-test_that("Built-in Custom Hook works with linear dnn combined estimators", {
+test_that("Built-in Custom Hook works with linear_regressor", {
   specs <- mtcars_regression_specs()
   
   # Test hook_progress_bar
@@ -84,5 +84,34 @@ test_that("Built-in Custom Hook works with linear dnn combined estimators", {
     list(train = 2:3, eval = 2:3)
   )
   expect_equal(dim(training_history), c(2, 3))
+  
+  # Test whether default hooks are attached successfully without any hooks specified
+  lr <- linear_regressor(feature_columns = specs$linear_feature_columns)
+  training_history <- lr %>% train(
+    input_fn = specs$input_fn,
+    steps = 2)
+  
+  # Test whether default hooks are attached successfully with wrapper hooks
+  lr <- linear_regressor(feature_columns = specs$linear_feature_columns)
+  training_history <- lr %>% train(
+    input_fn = specs$input_fn,
+    steps = 2,
+    hooks = list(
+      hook_logging_tensor(
+        tensors = list("global_step"),
+        every_n_iter = 2),
+      hook_checkpoint_saver(
+        checkpoint_dir = "/tmp/ckpt_dir",
+        save_secs = 2)))
+  # Test whether default hooks are attached successfully with wrapper hook and built-in custom hook
+  lr <- linear_regressor(feature_columns = specs$linear_feature_columns)
+  training_history <- lr %>% train(
+    input_fn = specs$input_fn,
+    steps = 2,
+    hooks = list(
+      hook_logging_tensor(
+        tensors = list("global_step"),
+        every_n_iter = 2),
+      hook_history_saver(every_n_step = 2)))
 })
 

@@ -101,11 +101,39 @@ is.built_in_custom_hook <- function(hook) {
   is.list(hook) && identical(names(hook), c("hook_fn", "type"))
 }
 
+attach_default_built_in_custom_hooks <- function(hooks) {
+  hooks <- normalize_session_run_hooks(hooks)
+  default_history_saver <- hook_history_saver(every_n_step = 10)
+  default_progress_bar <- hook_progress_bar()
+  built_in_hooks <- lapply(hooks, function(hook) {
+   if (is.built_in_custom_hook(hook)) hook
+  })
+  if (length(built_in_hooks) == 0 || is.null(unlist(built_in_hooks))) {
+    hooks <- c(hooks, list(default_history_saver, default_progress_bar))
+  } else {
+    hook_types <- lapply(built_in_hooks, function(hook) hook$type)
+    append_default_hook <- function(hooks, default_hook) {
+      if (length(hooks) == 1) {
+        list(unlist(hooks), default_hook)
+      } else {
+        c(hooks, list(default_hook))
+      }
+    }
+    if (! "hook_history_saver" %in% hook_types) {
+      hooks <- append_default_hook(hooks, default_history_saver)
+    }
+    if (! "hook_progress_bar" %in% hook_types) {
+      hooks <- append_default_hook(hooks, default_progress_bar)
+    }
+  }
+  hooks
+}
+
 resolve_train_hooks <- function(hooks, steps, estimator) {
   
   .globals$history[[mode_keys()$TRAIN]] <- tf_estimator_history()
   
-  hooks <- lapply(normalize_session_run_hooks(hooks), function(hook) {
+  hooks <- lapply(attach_default_built_in_custom_hooks(hooks), function(hook) {
     if (is.built_in_custom_hook(hook)) {
       type <- hook$type
       hook_fn <- hook$hook_fn
@@ -125,8 +153,8 @@ resolve_train_hooks <- function(hooks, steps, estimator) {
 resolve_eval_hooks <- function(hooks, steps) {
   
   .globals$history[[mode_keys()$EVAL]] <- tf_estimator_history()
-
-  hooks <- lapply(normalize_session_run_hooks(hooks), function(hook) {
+  
+  hooks <- lapply(attach_default_built_in_custom_hooks(hooks), function(hook) {
     if (is.built_in_custom_hook(hook)) {
       type <- hook$type
       hook_fn <- hook$hook_fn

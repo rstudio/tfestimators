@@ -70,7 +70,9 @@ NULL
 #'   helper function.
 #'
 #' @param hooks A list of \R functions, to be used as callbacks inside the
-#'   training loop.
+#'   training loop. By default, `hook_history_saver(every_n_step = 10)` and
+#'   `hook_progress_bar()` will be attached if not provided to save the metrics
+#'   history and create the progress bar.
 #'
 #' @param checkpoint_path The path to a specific model checkpoint to be used for
 #'   prediction. If `NULL` (the default), the latest checkpoint in `model_dir`
@@ -98,8 +100,7 @@ NULL
 #' used for callbacks that run immediately before or after checkpoint savings.
 #' @param ... Optional arguments, passed on to the estimator's `train()` method.
 #'
-#' @return A data.frame of the training loss history. Note that this will be 
-#' a empty data.frame if [hook_history_saver()] is not used as one of the hooks provided.
+#' @return A data.frame of the training loss history.
 #' @export
 #' @family custom estimator methods
 train.tf_estimator <- function(object,

@@ -8,7 +8,9 @@
 helper function.}
 
 \item{hooks}{A list of \R functions, to be used as callbacks inside the
-training loop.}
+training loop. By default, \code{hook_history_saver(every_n_step = 10)} and
+\code{hook_progress_bar()} will be attached if not provided to save the metrics
+history and create the progress bar.}
 
 \item{checkpoint_path}{The path to a specific model checkpoint to be used for
 prediction. If \code{NULL} (the default), the latest checkpoint in \code{model_dir}

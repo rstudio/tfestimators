@@ -29,7 +29,9 @@ different evaluations are saved in separate folders, and appear separately
 in tensorboard.}
 
 \item{hooks}{A list of \R functions, to be used as callbacks inside the
-training loop.}
+training loop. By default, \code{hook_history_saver(every_n_step = 10)} and
+\code{hook_progress_bar()} will be attached if not provided to save the metrics
+history and create the progress bar.}
 
 \item{simplify}{A boolean value that indicates whether to simplify evaluation
 results automatically. If \code{TRUE}, This will automatically use a default evaluation
