@@ -2,7 +2,7 @@
 % Please edit documentation in R/session_run_hooks_builtin_wrappers.R
 \name{session_run_hook}
 \alias{session_run_hook}
-\title{Create Session Run Hooks}
+\title{Create Custom Session Run Hooks}
 \usage{
 session_run_hook(begin = function() { },
   after_create_session = function(session, coord) { },
@@ -35,4 +35,14 @@ various hooks that can be defined.
 }
 \seealso{
 \code{\link[=session_run_args]{session_run_args()}}
+
+Other session_run_hook wrappers: \code{\link{hook_checkpoint_saver}},
+  \code{\link{hook_global_step_waiter}},
+  \code{\link{hook_history_saver}},
+  \code{\link{hook_logging_tensor}},
+  \code{\link{hook_nan_tensor}},
+  \code{\link{hook_progress_bar}},
+  \code{\link{hook_step_counter}},
+  \code{\link{hook_stop_at_step}},
+  \code{\link{hook_summary_saver}}
 }

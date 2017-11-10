@@ -70,7 +70,9 @@ NULL
 #'   helper function.
 #'
 #' @param hooks A list of \R functions, to be used as callbacks inside the
-#'   training loop.
+#'   training loop. By default, `hook_history_saver(every_n_step = 10)` and
+#'   `hook_progress_bar()` will be attached if not provided to save the metrics
+#'   history and create the progress bar.
 #'
 #' @param checkpoint_path The path to a specific model checkpoint to be used for
 #'   prediction. If `NULL` (the default), the latest checkpoint in `model_dir`
@@ -96,10 +98,9 @@ NULL
 #'   trained a total of `max_steps` times, then no training will be performed.
 #' @param saving_listeners (Available since TensorFlow v1.4) A list of `CheckpointSaverListener` objects
 #' used for callbacks that run immediately before or after checkpoint savings.
-#' @param verbose Show progress output as the model is trained?
-#' @param view_metrics View training metrics as the model is trained?
 #' @param ... Optional arguments, passed on to the estimator's `train()` method.
 #'
+#' @return A data.frame of the training loss history.
 #' @export
 #' @family custom estimator methods
 train.tf_estimator <- function(object,
@@ -108,8 +109,6 @@ train.tf_estimator <- function(object,
                                hooks = NULL,
                                max_steps = NULL,
                                saving_listeners = NULL,
-                               verbose = TRUE,
-                               view_metrics = "auto",
                                ...)
 {
   args <- list(
@@ -123,19 +122,16 @@ train.tf_estimator <- function(object,
     args$saving_listeners <- saving_listeners
   }
 
-  args$hooks <- resolve_train_hooks(hooks, verbose, steps, view_metrics, object)
+  args$hooks <- resolve_train_hooks(hooks, steps, object)
   
   with_logging_verbosity(tf$logging$WARN, {
     do.call(object$estimator$train, args)
   })
-  
-  if (verbose)
-    object$history <- .globals$history
 
   # move tfevents file to a separate /logs folder under model_dir
   mv_tf_events_file(model_dir(object))
   
-  invisible(object)
+  invisible(as.data.frame(.globals$history[[mode_keys()$TRAIN]]))
 }
 
 #' Generate Predictions with an Estimator
@@ -241,7 +237,6 @@ predict.tf_estimator <- function(object,
 #'   this particular `evaluate()` invocation. If `NULL` (the default), this function
 #'   will either evaluate forever, or until the supplied `input_fn()` has provided
 #'   all available data.
-#' @param verbose Show progress output as the model is trained?
 #' @param simplify A boolean value that indicates whether to simplify evaluation
 #'   results automatically. If `TRUE`, This will automatically use a default evaluation
 #'   simplify function to estimators that flattens the predictions to a cleaner tibble
@@ -262,7 +257,6 @@ evaluate.tf_estimator <- function(object,
                                   checkpoint_path = NULL,
                                   name = NULL,
                                   hooks = NULL,
-                                  verbose = TRUE,
                                   simplify = TRUE,
                                   ...)
 {
@@ -272,7 +266,7 @@ evaluate.tf_estimator <- function(object,
       steps = as_nullable_integer(steps),
       checkpoint_path = checkpoint_path,
       name = name,
-      hooks = resolve_eval_hooks(hooks, verbose, steps),
+      hooks = resolve_eval_hooks(hooks, steps),
       ...
     )
   })
@@ -390,7 +384,7 @@ coef.tf_estimator <- function(object, ...) {
   if (length(list.files(model_dir)) == 0) {
     stop("This model has not been trained yet.")
   }
-  ckp <- training_lib$checkpoint_utils$load_checkpoint(get_latest_checkpoint(model_dir))
+  ckp <- training_lib$checkpoint_utils$load_checkpoint(latest_checkpoint(model_dir))
   var_names <- list_variable_names(model_dir)
   cleaned_vars <- lapply(var_names, function(var_name) ckp$get_tensor(var_name[[1]]))
   names(cleaned_vars) <- var_names

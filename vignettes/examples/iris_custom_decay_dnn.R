@@ -63,8 +63,9 @@ model_dir <- "/tmp/iris-custom-decay-cnn-model"
 
 # Intialize classifer and training
 classifier <- estimator(
-  model_fn = custom_model_fn, model_dir = model_dir) %>%
-  train(input_fn = inputs, steps = 100)
+  model_fn = custom_model_fn, model_dir = model_dir)
+
+classifier %>% train(input_fn = inputs, steps = 100)
 
 # Genearate predictions
 predictions <- predict(classifier, input_fn = inputs)

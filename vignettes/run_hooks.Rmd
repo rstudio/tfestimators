@@ -41,64 +41,119 @@ Run hooks are useful for tracking training, reporting progress, requesting early
 |---------------------------------------|----------------------------------------------------------------|
 | `hook_checkpoint_saver()`  |  Saves checkpoints every N steps or seconds. |
 | `hook_global_step_waiter()`  | Delay execution until global step reaches to wait_until_step. |
+| `hook_history_saver()`  | Saves Metrics History. |
 | `hook_logging_tensor()`  | Prints the given tensors once every N local steps or once every N seconds. |
 | `hook_nan_tensor()`  | NaN Loss monitor. |
+| `hook_progress_bar()`  | Creates and updates progress bar. |
 | `hook_step_counter()`  | Steps per second monitor. |
 | `hook_stop_at_step()`  | Monitor to request stop at a specified step. |
 | `hook_summary_saver()`  | Saves summaries every N steps. |
 
+For example, we can use `hook_progress_bar()` to attach a hook to create and update a progress bar during the model training process. 
 
-Similarly to feature columns, all available `SessionRunHooks` are named with `hook_xxx` to utilize the autocomplete functionality to speed up searching for available types of `SessionRunHooks`.
-
-For example, in order to customize the checkpoint saving mechanism, users can initialize a monitor using `hook_checkpoint_saver()` that defines the checkpoint directory and the frequency of saving new checkpoint. 
-
-``` r
-monitor <- hook_checkpoint_saver(
-  checkpoint_dir = "/tmp/ckpt_dir",
-  save_secs = 2)
+```{r eval=FALSE}
+fcs <- feature_columns(column_numeric("drat"))
+input <- input_fn(mtcars, response = "mpg", features = c("drat", "cyl"), batch_size = 8L)
+lr <- linear_regressor(
+  feature_columns = fcs
+) %>% train(
+  input_fn = input,
+  steps = 2,
+  hooks = list(
+    hook_progress_bar()
+  ))
 ```
 
-Once monitor and an estimator are defined, the monitor can be attached to the estimator via the argument `monitors` when fitting the model. 
+```
+Training 2/2 [======================================] - ETA:  0s - loss: 3136.10
+```
 
-``` r
-lr <- linear_dnn_combined_regressor(
-  linear_feature_columns = linear_feature_columns,
-  dnn_feature_columns = dnn_feature_columns,
-  dnn_hidden_units = c(1L, 1L),
-  dnn_optimizer = "Adagrad"
-)
+Another example is to use `hook_history_saver()` to save the training history every 2 training steps like the following:
 
-lr %>% train(
-  input_fn = custom_input_fn,
-  steps = 10L,
-  monitors = monitor)
+```{r eval=FALSE}
+lr <- linear_regressor(feature_columns = fcs) 
+training_history <- train(
+  lr,
+  input_fn = input,
+  steps = 4,
+  hooks = list(
+    hook_history_saver(every_n_step = 2)
+  ))
+```
+
+`train()` returns the saved training metrics history:
+
+```
+> training_history
+  mean_losses total_losses steps
+1    343.9690     2751.752     2
+2    419.7618     3358.094     4
 ```
 
 ## Custom Run Hooks
 
-Users can also create custom run hooks by defining the behaviors of the hook in different phases of a session in object-oriented programming style.
+Users can also create custom run hooks by defining the behaviors of the hook in different phases of a session.
 
-For example, the following code defines a custom run hook that prints out some information at the end of each session run by overriding the `end()` function in `EstimatorSessionRunHook` [R6](https://cran.r-project.org/web/packages/R6/vignettes/Introduction.html) class.
+We can implement a custom run hook by defining a list of call back functions as part of `session_run_hook()` initialization. It has the following optional parameters that can be overriden by a custom defined function:
 
-``` r
-CustomSessionRunHook <- R6::R6Class(
-  "CustomSessionRunHook",
-  inherit = EstimatorSessionRunHook,
-  public = list(
-    end = function(session) {
-      cat("Running custom session run hook at the end of a session")
-    }
-  )
-)
-  
-custom_hook <- CustomSessionRunHook$new()
+- `begin`: An \R function with signature `function()`, to be called once before using the session.
+- `after_create_session`: An \R function with signature `function(session, coord)`, to be called once the new TensorFlow session has been created.
+- `before_run`: An \R function with signature `function(run_context)`to be called before a run.
+- `after_run`: An \R function with signature  `function(run_context, run_values)` to be called after a run.
+- `end`: An \R function with signature `function(session)` to be called at the end of the session.
+
+For example, let's try to implement the `hook_history_saver()` that we showed in previous section. We first initialize a `iter_count` variable to save the current count of the steps being run. We increment the count as part of `after_run()` after each `session.run` calls. Inside `before_run()`, we use the context to access the current losses and save it to a tensor named "losses" so that later we can access it inside `after_run()` via `values$results$losses` that contains the evaluated value of tensor "losses". Finally, we calculate the mean of the raw losses and append it to a global state varibale named "mean_losses_history" with the list of mean losses. 
+
+```{r eval=FALSE}
+mean_losses_history <<- NULL
+hook_history_saver_custom <- function(every_n_step) {
+
+    iter_count <<- 0
+
+    session_run_hook(
+
+      before_run = function(context) {
+        session_run_args(
+          losses = context$session$graph$get_collection("losses")
+        )
+      },
+      
+      after_run = function(context, values) {
+        iter_count <<- iter_count + 1
+        print(paste0("Running step: ", iter_count))
+        if (iter_count %% every_n_step == 0) {
+          raw_losses <- values$results$losses[[1]]
+          mean_losses_history <<- c(mean_losses_history, mean(raw_losses))
+        }
+      }
+    )
+}
 ```
 
-The following functions can be overridden from the `EstimatorSessionRunHook` class to implement fully customized run hook:
+Next, we can then attach this hook to our estimator:
+```{r eval=FALSE}
+lr <- linear_regressor(
+  feature_columns = fcs
+) %>% train(
+  input_fn = input,
+  steps = 4,
+  hooks = list(
+    hook_history_saver_custom(every_n_step = 1)
+  ))
+```
 
-- `begin()` - Called once before using the session.
-- `after_create_session()` - Called when new TensorFlow session is created.
-- `before_run()` - Called before each call to session `run()`.
-- `after_run()` - Called after each call to session `run()`.
-- `end()` - Called at the end of session.
+```
+[1] "Running step: 1"
+[1] "Running step: 2"
+[1] "Running step: 3"
+[1] "Running step: 4"
+```
+
+We saved the losses history at every step. Let's check the list of losses:
+
+```
+> mean_losses_history
+[1] 415.8088 452.2128 376.7346 331.6045
+```
+
 

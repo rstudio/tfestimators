@@ -17,9 +17,12 @@ would be setting \code{wait_until_step=int(K*log(task_id+1))} assuming that
 }
 \seealso{
 Other session_run_hook wrappers: \code{\link{hook_checkpoint_saver}},
+  \code{\link{hook_history_saver}},
   \code{\link{hook_logging_tensor}},
   \code{\link{hook_nan_tensor}},
+  \code{\link{hook_progress_bar}},
   \code{\link{hook_step_counter}},
   \code{\link{hook_stop_at_step}},
-  \code{\link{hook_summary_saver}}
+  \code{\link{hook_summary_saver}},
+  \code{\link{session_run_hook}}
 }

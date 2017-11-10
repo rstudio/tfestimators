@@ -20,7 +20,7 @@ test_that("train(), predict(), and evaluate() work for regressors", {
   expect_equal(length(predictions), 32)
   
   loss <- evaluate(estimator, input_fn = specs$input_fn)$loss
-  expect_lte(loss, 4000)
+  expect_lte(loss, 6000)
 })
 
 test_that("train(), predict(), and evaluate() work for classifiers", {
@@ -28,14 +28,14 @@ test_that("train(), predict(), and evaluate() work for classifiers", {
   specs <- mtcars_classification_specs()
 
   tmp_dir <- tempfile()
-  clf <-
-    dnn_linear_combined_classifier(
+  clf <- dnn_linear_combined_classifier(
       linear_feature_columns = specs$linear_feature_columns,
       dnn_feature_columns = specs$dnn_feature_columns,
       dnn_hidden_units = c(3L, 3L),
       dnn_optimizer = "Adagrad",
       model_dir = tmp_dir
-    ) %>% train(input_fn = specs$input_fn)
+    ) 
+  clf %>% train(input_fn = specs$input_fn)
 
   # check whether tensorboard works with canned estimator
   tensorboard(log_dir = tmp_dir, launch_browser = FALSE)

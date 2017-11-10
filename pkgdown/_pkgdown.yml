@@ -84,23 +84,19 @@ reference:
     contents:
       - estimator
       - estimator_spec
-  
-#  - title: "Experiment API (Unstable)"
-#    contents:
-#      - experiment.tf_estimator
-#      - train.tf_experiment
-#      - evaluate.tf_experiment
-#      - train_and_evaluate.tf_experiment
     
   - title: "Run Hooks"
     contents:
       - hook_checkpoint_saver
       - hook_global_step_waiter
+      - hook_history_saver
       - hook_logging_tensor
       - hook_nan_tensor
+      - hook_progress_bar
       - hook_step_counter
       - hook_stop_at_step
       - hook_summary_saver
+      - session_run_hook
   
   - title: "Run Configuration"
     contents:
@@ -121,4 +117,4 @@ reference:
   - title: "Other Utilities"
     contents:
       - graph_keys
-      - get_latest_checkpoint
+      - latest_checkpoint

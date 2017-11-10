@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Standard Names to Use for Graph Collections — graph_keys • tfestimators</title>
+<title>A Custom Run Hook to Create and Update Progress Bar During Training or Evaluation — hook_progress_bar • tfestimators</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,69 +119,36 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Standard Names to Use for Graph Collections</h1>
+    <h1>A Custom Run Hook to Create and Update Progress Bar During Training or Evaluation</h1>
     </div>
 
     
-    <p>The standard library uses various well-known names to collect and retrieve
-values associated with a graph.</p>
+    <p>This hook creates a progress bar that creates and updates the progress bar during training
+or evaluation.</p>
     
 
-    <pre class="usage"><span class='fu'>graph_keys</span>()</pre>
+    <pre class="usage"><span class='fu'>hook_progress_bar</span>()</pre>
         
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>For example, the <code>tf$Optimizer</code> subclasses default to optimizing the
-variables collected under<code>graph_keys()$TRAINABLE_VARIABLES</code> if <code>NULL</code> is
-specified, but it is also possible to pass an explicit list of variables.</p>
-<p>The following standard keys are defined:</p><ul>
-<li><p><code>GLOBAL_VARIABLES</code>: the default collection of <code>Variable</code> objects, shared
-across distributed environment (model variables are subset of these). See
-<code>tf$global_variables</code> for more details. Commonly, all <code>TRAINABLE_VARIABLES</code>
-variables will be in <code>MODEL_VARIABLES</code>, and all <code>MODEL_VARIABLES</code> variables
-will be in <code>GLOBAL_VARIABLES</code>.</p></li>
-<li><p><code>LOCAL_VARIABLES</code>: the subset of <code>Variable</code> objects that are local to each
-machine. Usually used for temporarily variables, like counters. Note: use
-<code>tf$contrib$framework$local_variable</code> to add to this collection.</p></li>
-<li><p><code>MODEL_VARIABLES</code>: the subset of <code>Variable</code> objects that are used in the
-model for inference (feed forward). Note: use
-<code>tf$contrib$framework$model_variable</code> to add to this collection.</p></li>
-<li><p><code>TRAINABLE_VARIABLES</code>: the subset of <code>Variable</code> objects that will be
-trained by an optimizer. See <code>tf$trainable_variables</code> for more details.</p></li>
-<li><p><code>SUMMARIES</code>: the summary <code>Tensor</code> objects that have been created in the
-graph. See <code>tf$summary$merge_all</code> for more details.</p></li>
-<li><p><code>QUEUE_RUNNERS</code>: the <code>QueueRunner</code> objects that are used to produce input
-for a computation. See <code>tf$train$start_queue_runners</code> for more details.</p></li>
-<li><p><code>MOVING_AVERAGE_VARIABLES</code>: the subset of <code>Variable</code> objects that will also
-keep moving averages. See <code>tf$moving_average_variables</code> for more details.</p></li>
-<li><p><code>REGULARIZATION_LOSSES</code>: regularization losses collected during graph
-construction. The following standard keys are defined, but their
-collections are <strong>not</strong> automatically populated as many of the others are:</p><ul>
-<li><p><code>WEIGHTS</code></p></li>
-<li><p><code>BIASES</code></p></li>
-<li><p><code>ACTIVATIONS</code></p></li>
-</ul></li>
-</ul>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other utility functions: <code><a href='latest_checkpoint.html'>latest_checkpoint</a></code></p>
+    <p>Other session_run_hook wrappers: <code><a href='hook_checkpoint_saver.html'>hook_checkpoint_saver</a></code>,
+  <code><a href='hook_global_step_waiter.html'>hook_global_step_waiter</a></code>,
+  <code><a href='hook_history_saver.html'>hook_history_saver</a></code>,
+  <code><a href='hook_logging_tensor.html'>hook_logging_tensor</a></code>,
+  <code><a href='hook_nan_tensor.html'>hook_nan_tensor</a></code>,
+  <code><a href='hook_step_counter.html'>hook_step_counter</a></code>,
+  <code><a href='hook_stop_at_step.html'>hook_stop_at_step</a></code>,
+  <code><a href='hook_summary_saver.html'>hook_summary_saver</a></code>,
+  <code><a href='session_run_hook.html'>session_run_hook</a></code></p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>graph_keys</span>()</div><div class='output co'>#&gt; Available graph keys: ACTIVATIONS, ASSET_FILEPATHS, BIASES, CONCATENATED_VARIABLES, COND_CONTEXT, EVAL_STEP, GLOBAL_STEP, GLOBAL_VARIABLES, INIT_OP, LOCAL_INIT_OP, LOCAL_RESOURCES, LOCAL_VARIABLES, LOSSES, MODEL_VARIABLES, MOVING_AVERAGE_VARIABLES, QUEUE_RUNNERS, READY_FOR_LOCAL_INIT_OP, READY_OP, REGULARIZATION_LOSSES, RESOURCES, SAVEABLE_OBJECTS, SAVERS, SUMMARIES, SUMMARY_OP, TABLE_INITIALIZERS, TRAIN_OP, TRAINABLE_RESOURCE_VARIABLES, TRAINABLE_VARIABLES, UPDATE_OPS, VARIABLES, WEIGHTS, WHILE_CONTEXT</div><div class='input'><span class='fu'>graph_keys</span>()$<span class='no'>LOSSES</span></div><div class='output co'>#&gt; [1] "losses"</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
-      <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>

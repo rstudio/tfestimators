@@ -52,5 +52,5 @@ graph_keys()$LOSSES
 
 }
 \seealso{
-Other utility functions: \code{\link{get_latest_checkpoint}}
+Other utility functions: \code{\link{latest_checkpoint}}
 }

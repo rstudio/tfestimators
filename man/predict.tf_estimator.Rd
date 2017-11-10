@@ -24,7 +24,9 @@ is used.}
 predicted values will be returned.}
 
 \item{hooks}{A list of \R functions, to be used as callbacks inside the
-training loop.}
+training loop. By default, \code{hook_history_saver(every_n_step = 10)} and
+\code{hook_progress_bar()} will be attached if not provided to save the metrics
+history and create the progress bar.}
 
 \item{as_iterable}{Boolean; should a raw Python generator be returned? When
 \code{FALSE} (the default), the predicted values will be consumed from the

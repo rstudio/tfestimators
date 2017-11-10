@@ -5,8 +5,7 @@
 \title{Train an Estimator}
 \usage{
 \method{train}{tf_estimator}(object, input_fn, steps = NULL, hooks = NULL,
-  max_steps = NULL, saving_listeners = NULL, verbose = TRUE,
-  view_metrics = "auto", ...)
+  max_steps = NULL, saving_listeners = NULL, ...)
 }
 \arguments{
 \item{object}{A TensorFlow estimator.}
@@ -20,7 +19,9 @@ will either train forever, or until the supplied \code{input_fn()} has provided
 all available data.}
 
 \item{hooks}{A list of \R functions, to be used as callbacks inside the
-training loop.}
+training loop. By default, \code{hook_history_saver(every_n_step = 10)} and
+\code{hook_progress_bar()} will be attached if not provided to save the metrics
+history and create the progress bar.}
 
 \item{max_steps}{The total number of steps for which the model should be
 trained. If set, \code{steps} must be \code{NULL}. If the estimator has already been
@@ -29,11 +30,10 @@ trained a total of \code{max_steps} times, then no training will be performed.}
 \item{saving_listeners}{(Available since TensorFlow v1.4) A list of \code{CheckpointSaverListener} objects
 used for callbacks that run immediately before or after checkpoint savings.}
 
-\item{verbose}{Show progress output as the model is trained?}
-
-\item{view_metrics}{View training metrics as the model is trained?}
-
 \item{...}{Optional arguments, passed on to the estimator's \code{train()} method.}
+}
+\value{
+A data.frame of the training loss history.
 }
 \description{
 Train an estimator on a set of input data provides by the \code{input_fn()}.
