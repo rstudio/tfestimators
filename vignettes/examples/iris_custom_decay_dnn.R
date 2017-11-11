@@ -71,6 +71,6 @@ classifier %>% train(input_fn = inputs, steps = 100)
 predictions <- predict(classifier, input_fn = inputs)
 
 # Open TensorBoard
-tensorboard(log_dir = model_dir, launch_browser = FALSE)
+# tensorboard(log_dir = model_dir, launch_browser = FALSE)
 
 
