@@ -338,15 +338,20 @@ export_savedmodel.tf_estimator <- function(object,
   if (is.null(serving_input_receiver_fn)) {
     if (is.tf_custom_estimator(object))
       stop("A 'tf_custom_estimator' requires a custom `serving_input_receiver_fn`.")
+    feature_columns_spec <- c(
+      object$args$dnn_feature_columns,
+      object$args$linear_feature_columns,
+      object$args$feature_columns
+      )
     if (length(grep("regressor", class(object))) != 0) {
       input_spec <- regressor_parse_example_spec(
-        feature_columns = object$args$feature_columns,
+        feature_columns = feature_columns_spec,
         weight_column = object$args$weight_column,
         label_key = "label"
       )
     } else if (length(grep("classifier", class(object))) != 0) {
       input_spec <- classifier_parse_example_spec(
-        feature_columns = object$args$feature_columns,
+        feature_columns = feature_columns_spec,
         weight_column = object$args$weight_column,
         label_key = "label"
       )
