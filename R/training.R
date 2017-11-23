@@ -54,7 +54,7 @@ train_and_evaluate.tf_estimator <- function(object, train_spec, eval_spec) {
 }
 
 
-#' Configuration for the "train" part for the `train_and_evaluate` call.
+#' Configuration for the train component of `train_and_evaluate`
 #' 
 #' `TrainSpec` determines the input data for the training, as well as the
 #' duration. Optional hooks run at various stages of training.
@@ -85,7 +85,7 @@ train_spec <- function(input_fn,
   )
 }
 
-#' Configuration for the "eval" part for the `train_and_evaluate` call.
+#' Configuration for the eval component of `train_and_evaluate`
 #' 
 #' `EvalSpec` combines details of evaluation of the trained model as well as its
 #' export. Evaluation consists of computing metrics to judge the performance of

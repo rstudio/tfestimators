@@ -2,7 +2,7 @@
 % Please edit documentation in R/training.R
 \name{train_spec}
 \alias{train_spec}
-\title{Configuration for the "train" part for the \code{train_and_evaluate} call.}
+\title{Configuration for the train component of \code{train_and_evaluate}}
 \usage{
 train_spec(input_fn, max_steps = NULL, hooks = NULL)
 }

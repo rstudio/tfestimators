@@ -2,7 +2,7 @@
 % Please edit documentation in R/training.R
 \name{eval_spec}
 \alias{eval_spec}
-\title{Configuration for the "eval" part for the \code{train_and_evaluate} call.}
+\title{Configuration for the eval component of \code{train_and_evaluate}}
 \usage{
 eval_spec(input_fn, steps = 100, name = NULL, hooks = NULL,
   exporters = NULL, start_delay_secs = 120, throttle_secs = 600)
