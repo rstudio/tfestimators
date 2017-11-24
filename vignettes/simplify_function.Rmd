@@ -1,6 +1,19 @@
 ---
-title: "Simplify Function"
-output: html_document
+title: "Simplifying Results"
+output: 
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Simplifying Results}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+type: docs
+repo: https://github.com/rstudio/tfestimators
+menu:
+  main:
+    name: "Simplifying Results"
+    identifier: "tfestimators-simplifying-results"
+    parent: "tfestimators-advanced"
+    weight: 10
 ---
 
 ```{r setup, include=FALSE}
