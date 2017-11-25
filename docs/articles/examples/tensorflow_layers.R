@@ -58,16 +58,16 @@ cnn_model_fn <- function(features, labels, mode, params, config) {
   
   # Add dropout operation; 0.6 probability that element will be kept
   dropout <- tf$layers$dropout(
-    inputs = dense, rate = 0.4, training = (mode == mode_keys()$TRAIN))
+    inputs = dense, rate = 0.4, training = (mode == "train"))
   
   # Logits layer
   # Input Tensor Shape: [batch_size, 1024]
   # Output Tensor Shape: [batch_size, 10]
   logits <- tf$layers$dense(inputs = dropout, units = 10L)
   
-  # Generate Predictions (for PREDICT mode)
+  # Generate Predictions (for prediction mode)
   predicted_classes <- tf$argmax(input = logits, axis = 1L, name = "predicted_classes")
-  if (mode == mode_keys()$PREDICT) {
+  if (mode == "infer") {
     predictions <- list(
       classes = predicted_classes,
       probabilities = tf$nn$softmax(logits, name = "softmax_tensor")
@@ -75,13 +75,13 @@ cnn_model_fn <- function(features, labels, mode, params, config) {
     return(estimator_spec(mode = mode, predictions = predictions))
   }
   
-  # Calculate Loss (for both TRAIN and EVAL modes)
+  # Calculate Loss (for both train and eval modes)
   onehot_labels <- tf$one_hot(indices = tf$cast(labels, tf$int32), depth = 10L)
   loss <- tf$losses$softmax_cross_entropy(
     onehot_labels = onehot_labels, logits = logits)
   
-  # Configure the Training Op (for TRAIN mode)
-  if (mode == mode_keys()$TRAIN) {
+  # Configure the Training Op (for train mode)
+  if (mode == "train") {
     optimizer <- tf$train$GradientDescentOptimizer(learning_rate = 0.001)
     train_op <- optimizer$minimize(
       loss = loss,
@@ -89,7 +89,7 @@ cnn_model_fn <- function(features, labels, mode, params, config) {
     return(estimator_spec(mode = mode, loss = loss, train_op = train_op))
   }
     
-  # Add evaluation metrics (for EVAL mode)
+  # Add evaluation metrics (for eval mode)
   eval_metric_ops <- list(accuracy = tf$metrics$accuracy(
     labels = labels, predictions = predicted_classes))
 

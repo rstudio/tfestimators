@@ -173,8 +173,8 @@ predict_data &lt;-<span class="st"> </span>downloaded_data<span class="op">$</sp
   <span class="co"># Reshape output layer to 1-dim Tensor to return predictions</span>
   predictions &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">reshape</span>(output_layer, <span class="kw">list</span>(<span class="op">-</span>1L))
   
-  <span class="co"># Provide an estimator spec for `mode_keys()$PREDICT`</span>
-  <span class="cf">if</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>PREDICT) <span class="kw">return</span>(<span class="kw"><a href="../../reference/estimator_spec.html">estimator_spec</a></span>(<span class="dt">mode =</span> mode, <span class="dt">predictions =</span>  <span class="kw">list</span>(<span class="dt">ages =</span> predictions)))
+  <span class="co"># Provide an estimator spec for prediction mode</span>
+  <span class="cf">if</span> (mode <span class="op">==</span><span class="st"> "infer"</span>) <span class="kw">return</span>(<span class="kw"><a href="../../reference/estimator_spec.html">estimator_spec</a></span>(<span class="dt">mode =</span> mode, <span class="dt">predictions =</span>  <span class="kw">list</span>(<span class="dt">ages =</span> predictions)))
   
   <span class="co"># Calculate loss using mean squared error</span>
   loss &lt;-<span class="st"> </span>tf<span class="op">$</span>losses<span class="op">$</span><span class="kw">mean_squared_error</span>(labels, predictions)
@@ -186,7 +186,7 @@ predict_data &lt;-<span class="st"> </span>downloaded_data<span class="op">$</sp
   optimizer &lt;-<span class="st"> </span>tf<span class="op">$</span>train<span class="op">$</span><span class="kw">GradientDescentOptimizer</span>(<span class="dt">learning_rate =</span> params<span class="op">$</span>learning_rate)
   train_op &lt;-<span class="st"> </span>optimizer<span class="op">$</span><span class="kw">minimize</span>(<span class="dt">loss =</span> loss, <span class="dt">global_step =</span> tf<span class="op">$</span>train<span class="op">$</span><span class="kw">get_global_step</span>())
   
-  <span class="co"># Provide an estimator spec for `model_keys()$EVAL` and `model_keys()$TRAIN` modes.</span>
+  <span class="co"># Provide an estimator spec for evaluation and training modes.</span>
   <span class="kw">return</span>(<span class="kw"><a href="../../reference/estimator_spec.html">estimator_spec</a></span>(
     <span class="dt">mode =</span> mode,
     <span class="dt">loss =</span> loss,

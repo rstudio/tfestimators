@@ -25,7 +25,7 @@ custom_model_fn <- function(features, labels, mode, params, config) {
 
   # Compute predictions.
   predicted_classes <- tf$argmax(logits, 1L)
-  if (mode == mode_keys()$PREDICT) {
+  if (mode == "infer") {
     predictions <- list(
       class = predicted_classes,
       prob = tf$nn$softmax(logits))
@@ -38,7 +38,7 @@ custom_model_fn <- function(features, labels, mode, params, config) {
   # Compute loss.
   loss <- tf$losses$softmax_cross_entropy(onehot_labels, logits)
 
-  if (mode == mode_keys()$TRAIN) {
+  if (mode == "train") {
     global_step <- tf$train$get_global_step()
     learning_rate <- tf$train$exponential_decay(
       learning_rate = 0.1,
@@ -69,8 +69,4 @@ classifier %>% train(input_fn = inputs, steps = 100)
 
 # Genearate predictions
 predictions <- predict(classifier, input_fn = inputs)
-
-# Open TensorBoard
-tensorboard(log_dir = model_dir, launch_browser = FALSE)
-
 

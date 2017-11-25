@@ -265,11 +265,11 @@ model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/estim
 <code>mode</code>: One of the following <code><a href="../reference/mode_keys.html">mode_keys()</a></code> string values indicating the context in which the model_fn was invoked:
 <ul>
 <li>
-<code>mode_keys()$TRAIN</code> The <code>model_fn</code> was invoked in training mode, namely via a <code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train()</a></code> call.</li>
+<code>"train"</code> The <code>model_fn</code> was invoked in training mode, namely via a <code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/train">train()</a></code> call.</li>
 <li>
-<code>mode_keys()$EVAL</code>. The <code>model_fn</code> was invoked in evaluation mode, namely via an <code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/evaluate">evaluate()</a></code> call.</li>
+<code>"eval"</code>. The <code>model_fn</code> was invoked in evaluation mode, namely via an <code><a href="http://www.rdocumentation.org/packages/tensorflow/topics/evaluate">evaluate()</a></code> call.</li>
 <li>
-<code>mode_keys()$PREDICT</code>. The <code>model_fn</code> was invoked in predict mode, namely via a <code>predict()</code> call.</li>
+<code>"infer"</code>. The <code>model_fn</code> was invoked in predict mode, namely via a <code>predict()</code> call.</li>
 </ul>
 </li>
 </ul>

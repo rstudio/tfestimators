@@ -161,7 +161,7 @@ Note: For a more comprehensive walkthrough of CNN architecture, see Stanford Uni
 <code>dense()</code>. Constructs a dense layer. Takes number of neurons and activation function as arguments.</li>
 </ul>
 <p>Each of these methods accepts a tensor as input and returns a transformed tensor as output. This makes it easy to connect one layer to another: just take the output from one layer-creation method and supply it as input to another.</p>
-<p>The following <code>cnn_model_fn</code> function conforms to the interface expected by TensorFlow’s Estimator API (more on this later in <a href="#create-the-estimator">Create the Estimator</a>). This example takes MNIST feature data, labels, and <code><a href="../reference/mode_keys.html">mode_keys()</a></code> (e.g. <code>TRAIN</code>, <code>EVAL</code>, <code>PREDICT</code>) as arguments; configures the CNN; and returns predictions, loss, and a training operation:</p>
+<p>The following <code>cnn_model_fn</code> function conforms to the interface expected by TensorFlow’s Estimator API (more on this later in <a href="#create-the-estimator">Create the Estimator</a>). This example takes MNIST feature data, labels, and <code><a href="../reference/mode_keys.html">mode_keys()</a></code> (e.g. <code>"train"</code>, <code>"eval"</code>, <code>"infer"</code>) as arguments; configures the CNN; and returns predictions, loss, and a training operation:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cnn_model_fn &lt;-<span class="st"> </span><span class="cf">function</span>(features, labels, mode, params, config) {
   
   <span class="co"># Input Layer</span>
@@ -218,16 +218,16 @@ Note: For a more comprehensive walkthrough of CNN architecture, see Stanford Uni
   
   <span class="co"># Add dropout operation; 0.6 probability that element will be kept</span>
   dropout &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dropout</span>(
-    <span class="dt">inputs =</span> dense, <span class="dt">rate =</span> <span class="fl">0.4</span>, <span class="dt">training =</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>TRAIN))
+    <span class="dt">inputs =</span> dense, <span class="dt">rate =</span> <span class="fl">0.4</span>, <span class="dt">training =</span> (mode <span class="op">==</span><span class="st"> "train"</span>))
   
   <span class="co"># Logits layer</span>
   <span class="co"># Input Tensor Shape: [batch_size, 1024]</span>
   <span class="co"># Output Tensor Shape: [batch_size, 10]</span>
   logits &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(<span class="dt">inputs =</span> dropout, <span class="dt">units =</span> 10L)
   
-  <span class="co"># Generate Predictions (for PREDICT mode)</span>
+  <span class="co"># Generate Predictions (for prediction mode)</span>
   predicted_classes &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">argmax</span>(<span class="dt">input =</span> logits, <span class="dt">axis =</span> 1L, <span class="dt">name =</span> <span class="st">"predicted_classes"</span>)
-  <span class="cf">if</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>PREDICT) {
+  <span class="cf">if</span> (mode <span class="op">==</span><span class="st"> "infer"</span>) {
     predictions &lt;-<span class="st"> </span><span class="kw">list</span>(
       <span class="dt">classes =</span> predicted_classes,
       <span class="dt">probabilities =</span> tf<span class="op">$</span>nn<span class="op">$</span><span class="kw">softmax</span>(logits, <span class="dt">name =</span> <span class="st">"softmax_tensor"</span>)
@@ -235,13 +235,13 @@ Note: For a more comprehensive walkthrough of CNN architecture, see Stanford Uni
     <span class="kw">return</span>(<span class="kw"><a href="../reference/estimator_spec.html">estimator_spec</a></span>(<span class="dt">mode =</span> mode, <span class="dt">predictions =</span> predictions))
   }
   
-  <span class="co"># Calculate Loss (for both TRAIN and EVAL modes)</span>
+  <span class="co"># Calculate Loss (for both "train" and "eval" modes)</span>
   onehot_labels &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">one_hot</span>(<span class="dt">indices =</span> tf<span class="op">$</span><span class="kw">cast</span>(labels, tf<span class="op">$</span>int32), <span class="dt">depth =</span> 10L)
   loss &lt;-<span class="st"> </span>tf<span class="op">$</span>losses<span class="op">$</span><span class="kw">softmax_cross_entropy</span>(
     <span class="dt">onehot_labels =</span> onehot_labels, <span class="dt">logits =</span> logits)
   
-  <span class="co"># Configure the Training Op (for TRAIN mode)</span>
-  <span class="cf">if</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>TRAIN) {
+  <span class="co"># Configure the Training Op (for "train" mode)</span>
+  <span class="cf">if</span> (mode <span class="op">==</span><span class="st"> "train"</span>) {
     optimizer &lt;-<span class="st"> </span>tf<span class="op">$</span>train<span class="op">$</span><span class="kw">GradientDescentOptimizer</span>(<span class="dt">learning_rate =</span> <span class="fl">0.001</span>)
     train_op &lt;-<span class="st"> </span>optimizer<span class="op">$</span><span class="kw">minimize</span>(
       <span class="dt">loss =</span> loss,
@@ -337,10 +337,10 @@ pool2 &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class
 <p>The <code>inputs</code> argument specifies the input tensor: our flattened feature map, <code>pool2_flat</code>. The <code>units</code> argument specifies the number of neurons in the dense layer (1,024). The <code>activation</code> argument takes the activation function; again, we’ll use <code>tf.nn.relu</code> to add ReLU activation.</p>
 <p>To help improve the results of our model, we also apply dropout regularization to our dense layer, using the <code>dropout</code> method in <code>layers</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dropout &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dropout</span>(
-    <span class="dt">inputs =</span> dense, <span class="dt">rate =</span> <span class="fl">0.4</span>, <span class="dt">training =</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>TRAIN))</code></pre></div>
+    <span class="dt">inputs =</span> dense, <span class="dt">rate =</span> <span class="fl">0.4</span>, <span class="dt">training =</span> (mode <span class="op">==</span><span class="st"> "train"</span>))</code></pre></div>
 <p>Again, <code>inputs</code> specifies the input tensor, which is the output tensor from our dense layer (<code>dense</code>).</p>
 <p>The <code>rate</code> argument specifies the dropout rate; here, we use <code>0.4</code>, which means 40% of the elements will be randomly dropped out during training.</p>
-<p>The <code>training</code> argument takes a boolean specifying whether or not the model is currently being run in training mode; dropout will only be performed if <code>training</code> is <code>True</code>. Here, we check if the <code>mode</code> passed to our model function <code>cnn_model_fn</code> is <code>TRAIN</code> mode.</p>
+<p>The <code>training</code> argument takes a boolean specifying whether or not the model is currently being run in training mode; dropout will only be performed if <code>training</code> is <code>True</code>. Here, we check if the <code>mode</code> passed to our model function <code>cnn_model_fn</code> is <code>"train</code> mode.</p>
 <p>Our output tensor <code>dropout</code> has shape <code>[<em>batch_size</em>, 1024]</code>.</p>
 </div>
 <div id="logits-layer" class="section level3">
@@ -368,7 +368,7 @@ pool2 &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class
 </blockquote>
 <p>We compile our predictions in a dict, and return an <code>estimator_spec</code> object:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predicted_classes &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">argmax</span>(<span class="dt">input =</span> logits, <span class="dt">axis =</span> 1L)
-<span class="cf">if</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>PREDICT) {
+<span class="cf">if</span> (mode <span class="op">==</span><span class="st"> "infer"</span>) {
   predictions &lt;-<span class="st"> </span><span class="kw">list</span>(
     <span class="dt">classes =</span> predicted_classes,
     <span class="dt">probabilities =</span> tf<span class="op">$</span>nn<span class="op">$</span><span class="kw">softmax</span>(logits, <span class="dt">name =</span> <span class="st">"softmax_tensor"</span>)
@@ -406,7 +406,7 @@ loss &lt;-<span class="st"> </span>tf<span class="op">$</span>losses<span class=
 <h3 class="hasAnchor">
 <a href="#configure-the-training-op" class="anchor"></a>Configure the Training Op</h3>
 <p>In the previous section, we defined loss for our CNN as the softmax cross-entropy of the logits layer and our labels. Let’s configure our model to optimize this loss value during training. We’ll use a learning rate of 0.001 and <a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent">stochastic gradient descent</a> as the optimization algorithm:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>TRAIN) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (mode <span class="op">==</span><span class="st"> "train"</span>) {
   optimizer &lt;-<span class="st"> </span>tf<span class="op">$</span>train<span class="op">$</span><span class="kw">GradientDescentOptimizer</span>(<span class="dt">learning_rate =</span> <span class="fl">0.001</span>)
   train_op &lt;-<span class="st"> </span>optimizer<span class="op">$</span><span class="kw">minimize</span>(
     <span class="dt">loss =</span> loss,

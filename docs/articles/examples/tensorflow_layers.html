@@ -167,16 +167,16 @@ cnn_model_fn &lt;-<span class="st"> </span><span class="cf">function</span>(feat
   
   <span class="co"># Add dropout operation; 0.6 probability that element will be kept</span>
   dropout &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dropout</span>(
-    <span class="dt">inputs =</span> dense, <span class="dt">rate =</span> <span class="fl">0.4</span>, <span class="dt">training =</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>TRAIN))
+    <span class="dt">inputs =</span> dense, <span class="dt">rate =</span> <span class="fl">0.4</span>, <span class="dt">training =</span> (mode <span class="op">==</span><span class="st"> "train"</span>))
   
   <span class="co"># Logits layer</span>
   <span class="co"># Input Tensor Shape: [batch_size, 1024]</span>
   <span class="co"># Output Tensor Shape: [batch_size, 10]</span>
   logits &lt;-<span class="st"> </span>tf<span class="op">$</span>layers<span class="op">$</span><span class="kw">dense</span>(<span class="dt">inputs =</span> dropout, <span class="dt">units =</span> 10L)
   
-  <span class="co"># Generate Predictions (for PREDICT mode)</span>
+  <span class="co"># Generate Predictions (for prediction mode)</span>
   predicted_classes &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">argmax</span>(<span class="dt">input =</span> logits, <span class="dt">axis =</span> 1L, <span class="dt">name =</span> <span class="st">"predicted_classes"</span>)
-  <span class="cf">if</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>PREDICT) {
+  <span class="cf">if</span> (mode <span class="op">==</span><span class="st"> "infer"</span>) {
     predictions &lt;-<span class="st"> </span><span class="kw">list</span>(
       <span class="dt">classes =</span> predicted_classes,
       <span class="dt">probabilities =</span> tf<span class="op">$</span>nn<span class="op">$</span><span class="kw">softmax</span>(logits, <span class="dt">name =</span> <span class="st">"softmax_tensor"</span>)
@@ -184,13 +184,13 @@ cnn_model_fn &lt;-<span class="st"> </span><span class="cf">function</span>(feat
     <span class="kw">return</span>(<span class="kw"><a href="../../reference/estimator_spec.html">estimator_spec</a></span>(<span class="dt">mode =</span> mode, <span class="dt">predictions =</span> predictions))
   }
   
-  <span class="co"># Calculate Loss (for both TRAIN and EVAL modes)</span>
+  <span class="co"># Calculate Loss (for both train and eval modes)</span>
   onehot_labels &lt;-<span class="st"> </span>tf<span class="op">$</span><span class="kw">one_hot</span>(<span class="dt">indices =</span> tf<span class="op">$</span><span class="kw">cast</span>(labels, tf<span class="op">$</span>int32), <span class="dt">depth =</span> 10L)
   loss &lt;-<span class="st"> </span>tf<span class="op">$</span>losses<span class="op">$</span><span class="kw">softmax_cross_entropy</span>(
     <span class="dt">onehot_labels =</span> onehot_labels, <span class="dt">logits =</span> logits)
   
-  <span class="co"># Configure the Training Op (for TRAIN mode)</span>
-  <span class="cf">if</span> (mode <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../../reference/mode_keys.html">mode_keys</a></span>()<span class="op">$</span>TRAIN) {
+  <span class="co"># Configure the Training Op (for train mode)</span>
+  <span class="cf">if</span> (mode <span class="op">==</span><span class="st"> "train"</span>) {
     optimizer &lt;-<span class="st"> </span>tf<span class="op">$</span>train<span class="op">$</span><span class="kw">GradientDescentOptimizer</span>(<span class="dt">learning_rate =</span> <span class="fl">0.001</span>)
     train_op &lt;-<span class="st"> </span>optimizer<span class="op">$</span><span class="kw">minimize</span>(
       <span class="dt">loss =</span> loss,
@@ -198,7 +198,7 @@ cnn_model_fn &lt;-<span class="st"> </span><span class="cf">function</span>(feat
     <span class="kw">return</span>(<span class="kw"><a href="../../reference/estimator_spec.html">estimator_spec</a></span>(<span class="dt">mode =</span> mode, <span class="dt">loss =</span> loss, <span class="dt">train_op =</span> train_op))
   }
     
-  <span class="co"># Add evaluation metrics (for EVAL mode)</span>
+  <span class="co"># Add evaluation metrics (for eval mode)</span>
   eval_metric_ops &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">accuracy =</span> tf<span class="op">$</span>metrics<span class="op">$</span><span class="kw">accuracy</span>(
     <span class="dt">labels =</span> labels, <span class="dt">predictions =</span> predicted_classes))
 
