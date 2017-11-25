@@ -10,6 +10,9 @@ tf_estimator_type <- function(estimator) {
 #' @export
 print.tf_estimator <- function(x, ...) {
   
+  if (is.null(x$estimator) || py_is_null_xptr(x$estimator))
+    return(cat("<pointer: 0x0>\n"))
+  
   header <- sprintf(
     "A TensorFlow %s [%s]",
     tf_estimator_type(x),
@@ -53,3 +56,4 @@ print.tf_estimator <- function(x, ...) {
 str.tf_estimator <- function(object, ...) {
   paste0(capture.output(print(object)), collapse = "\n")
 }
+
