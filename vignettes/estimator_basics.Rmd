@@ -77,13 +77,17 @@ For example, here's how we might construct an input function that uses the `mtca
 ```{r}
 input <- input_fn(mtcars, 
                   features = c("drat", "mpg", "am"),
-                  response = "vs")
+                  response = "vs",
+                  batch_size = 128,
+                  epochs = 3)
 ```
 
 The formula interface is a bit more succinct, in this case, and should feel familiar to R users who have experience fitting models using the R `stats` package.
 
 ```{r}
-input <- input_fn(vs ~ drat + mpg + am, data = mtcars)
+input <- input_fn(vs ~ drat + mpg + am, data = mtcars,
+                  batch_size = 128,
+                  epochs = 3)
 ```
 
 You can also write fully custom input functions that draw data from arbitrary data sources. See the [input functions](input_functions.html) article for additional details.
