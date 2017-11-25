@@ -224,9 +224,9 @@ The `model_fn` must accept three arguments:
 model will infer.
 *   `mode`: One of the following `mode_keys()` string values
 indicating the context in which the model_fn was invoked:
-    *   `mode_keys()$TRAIN` The `model_fn` was invoked in training mode, namely via a `train()` call.
-    *   `mode_keys()$EVAL`. The `model_fn` was invoked in evaluation mode, namely via an `evaluate()` call.
-    *   `mode_keys()$PREDICT`. The `model_fn` was invoked in predict mode, namely via a `predict()` call.
+    *   `"train"` The `model_fn` was invoked in training mode, namely via a `train()` call.
+    *   `"eval"`. The `model_fn` was invoked in evaluation mode, namely via an `evaluate()` call.
+    *   `"infer"`. The `model_fn` was invoked in predict mode, namely via a `predict()` call.
 
 
 `model_fn` may also accept a `params` argument containing a dict of
