@@ -109,8 +109,8 @@ model_fn <- function(features, labels, mode, params, config) {
   # Reshape output layer to 1-dim Tensor to return predictions
   predictions <- tf$reshape(output_layer, list(-1L))
   
-  # Provide an estimator spec for `mode_keys()$PREDICT`
-  if (mode == mode_keys()$PREDICT) return(estimator_spec(mode = mode, predictions =  list(ages = predictions)))
+  # Provide an estimator spec for prediction mode
+  if (mode == "infer") return(estimator_spec(mode = mode, predictions =  list(ages = predictions)))
   
   # Calculate loss using mean squared error
   loss <- tf$losses$mean_squared_error(labels, predictions)
@@ -122,7 +122,7 @@ model_fn <- function(features, labels, mode, params, config) {
   optimizer <- tf$train$GradientDescentOptimizer(learning_rate = params$learning_rate)
   train_op <- optimizer$minimize(loss = loss, global_step = tf$train$get_global_step())
   
-  # Provide an estimator spec for `model_keys()$EVAL` and `model_keys()$TRAIN` modes.
+  # Provide an estimator spec for evaluation and training modes.
   return(estimator_spec(
     mode = mode,
     loss = loss,

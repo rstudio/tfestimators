@@ -117,7 +117,7 @@ as output. This makes it easy to connect one layer to another: just take the
 output from one layer-creation method and supply it as input to another.
 
 The following `cnn_model_fn` function conforms to the interface expected by TensorFlow's Estimator API (more on this later in [Create the Estimator](#create-the-estimator)). This example takes
-MNIST feature data, labels, and `mode_keys()` (e.g. `TRAIN`, `EVAL`, `PREDICT`) as arguments;
+MNIST feature data, labels, and `mode_keys()` (e.g. `"train"`, `"eval"`, `"infer"`) as arguments;
 configures the CNN; and returns predictions, loss, and a training operation:
 
 ``` r
@@ -177,16 +177,16 @@ cnn_model_fn <- function(features, labels, mode, params, config) {
   
   # Add dropout operation; 0.6 probability that element will be kept
   dropout <- tf$layers$dropout(
-    inputs = dense, rate = 0.4, training = (mode == mode_keys()$TRAIN))
+    inputs = dense, rate = 0.4, training = (mode == "train"))
   
   # Logits layer
   # Input Tensor Shape: [batch_size, 1024]
   # Output Tensor Shape: [batch_size, 10]
   logits <- tf$layers$dense(inputs = dropout, units = 10L)
   
-  # Generate Predictions (for PREDICT mode)
+  # Generate Predictions (for prediction mode)
   predicted_classes <- tf$argmax(input = logits, axis = 1L, name = "predicted_classes")
-  if (mode == mode_keys()$PREDICT) {
+  if (mode == "infer") {
     predictions <- list(
       classes = predicted_classes,
       probabilities = tf$nn$softmax(logits, name = "softmax_tensor")
@@ -194,13 +194,13 @@ cnn_model_fn <- function(features, labels, mode, params, config) {
     return(estimator_spec(mode = mode, predictions = predictions))
   }
   
-  # Calculate Loss (for both TRAIN and EVAL modes)
+  # Calculate Loss (for both "train" and "eval" modes)
   onehot_labels <- tf$one_hot(indices = tf$cast(labels, tf$int32), depth = 10L)
   loss <- tf$losses$softmax_cross_entropy(
     onehot_labels = onehot_labels, logits = logits)
   
-  # Configure the Training Op (for TRAIN mode)
-  if (mode == mode_keys()$TRAIN) {
+  # Configure the Training Op (for "train" mode)
+  if (mode == "train") {
     optimizer <- tf$train$GradientDescentOptimizer(learning_rate = 0.001)
     train_op <- optimizer$minimize(
       loss = loss,
@@ -412,7 +412,7 @@ to our dense layer, using the `dropout` method in `layers`:
 
 ```r
 dropout <- tf$layers$dropout(
-    inputs = dense, rate = 0.4, training = (mode == mode_keys()$TRAIN))
+    inputs = dense, rate = 0.4, training = (mode == "train"))
 ```
 
 Again, `inputs` specifies the input tensor, which is the output tensor from our
@@ -424,7 +424,7 @@ The `rate` argument specifies the dropout rate; here, we use `0.4`, which means
 The `training` argument takes a boolean specifying whether or not the model is
 currently being run in training mode; dropout will only be performed if
 `training` is `True`. Here, we check if the `mode` passed to our model function
-`cnn_model_fn` is `TRAIN` mode.
+`cnn_model_fn` is `"train` mode.
 
 Our output tensor `dropout` has shape <code>[<em>batch_size</em>, 1024]</code>.
 
@@ -481,7 +481,7 @@ We compile our predictions in a dict, and return an `estimator_spec` object:
 
 ```r
 predicted_classes <- tf$argmax(input = logits, axis = 1L)
-if (mode == mode_keys()$PREDICT) {
+if (mode == "infer") {
   predictions <- list(
     classes = predicted_classes,
     probabilities = tf$nn$softmax(logits, name = "softmax_tensor")
@@ -556,7 +556,7 @@ optimize this loss value during training. We'll use a learning rate of 0.001 and
 as the optimization algorithm:
 
 ```r
-if (mode == mode_keys()$TRAIN) {
+if (mode == "train") {
   optimizer <- tf$train$GradientDescentOptimizer(learning_rate = 0.001)
   train_op <- optimizer$minimize(
     loss = loss,

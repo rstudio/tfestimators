@@ -1,3 +1,7 @@
+available_keys <- function(keys) {
+  unlist(lapply(names(keys), function(x) keys[[x]]))
+}
+
 #' Canonical Model Prediction Keys
 #' 
 #' The canonical set of keys used for models and estimators that provide
@@ -19,7 +23,11 @@ prediction_keys <- function() {
 
 #' @export
 print.tensorflow.python.estimator.canned.prediction_keys.PredictionKeys <- function(x, ...) {
-  cat(paste0("Available predictions keys: ", paste(names(prediction_keys()), collapse = ", ")))
+  cat(paste0(
+    "Available predictions keys: ",
+    paste(
+      available_keys(prediction_keys()),
+      collapse = ", ")))
 }
 
 
@@ -44,7 +52,8 @@ metric_keys <- function() {
 
 #' @export
 print.tensorflow.python.estimator.canned.metric_keys.MetricKeys <- function(x, ...) {
-  cat(paste0("Available metric keys: ", paste(names(metric_keys()), collapse = ", ")))
+  cat(paste0("Available metric keys: ",
+             paste(available_keys(metric_keys()), collapse = ", ")))
 }
 
 
@@ -71,7 +80,7 @@ mode_keys <- function() {
 
 #' @export
 print.tensorflow.python.estimator.model_fn.ModeKeys <- function(x, ...) {
-  cat(paste0("Available mode keys: ", paste(names(mode_keys()), collapse = ", ")))
+  cat(paste0("Available mode keys: ", paste(available_keys(mode_keys()), collapse = ", ")))
 }
 
 
@@ -131,6 +140,6 @@ graph_keys <- function() {
 
 #' @export
 print.tensorflow.python.framework.ops.GraphKeys <- function(x, ...) {
-  cat(paste0("Available graph keys: ", paste(names(graph_keys()), collapse = ", ")))
+  cat(paste0("Available graph keys: ", paste(available_keys(graph_keys()), collapse = ", ")))
 }
 
