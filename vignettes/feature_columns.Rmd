@@ -25,14 +25,6 @@ knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 
 Feature columns are used to specify how Tensors received from the input function should be combined and transformed before entering the model. A feature column can be a plain mapping to some input column (e.g. `column_numeric()` for a column of numerical data), or a transformation of other feature columns (e.g. `column_crossed()` to define a new column as the cross of two other feature columns).
 
-Some typical mappings of R data type to feature column are:
-
-| Data Type  | Feature Column                          |
-|------------|-----------------------------------------|
-| Numeric    | `column_numeric()`                      |
-| Factor     | `column_categorical_with_identity()`    |
-| Character  | `column_categorical_with_hash_bucket()` |
-
 The following feature columns are available:
 
 | Feature Column  | Description |
@@ -47,6 +39,14 @@ The following feature columns are available:
 | `column_embedding()`  | Construct a Dense Column. |
 | `column_crossed()`  | Construct a Crossed Column. |
 | `column_bucketized()`  | Construct a Bucketized Column. |
+
+Some typical mappings of R data types to feature column are:
+
+| Data Type  | Feature Column                          |
+|------------|-----------------------------------------|
+| Numeric    | `column_numeric()`                      |
+| Factor     | `column_categorical_with_identity()`    |
+| Character  | `column_categorical_with_hash_bucket()` |
 
 
 We'll use the *flights* dataset from the [nycflights13](https://cran.r-project.org/package=nycflights13) package to explore how feature columns can be constructed. The *flights* dataset records airline on-time data for all flights departing NYC in 2013.
