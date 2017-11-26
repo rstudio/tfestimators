@@ -33,6 +33,22 @@ Some typical mappings of R data type to feature column are:
 | Factor     | `column_categorical_with_identity()`    |
 | Character  | `column_categorical_with_hash_bucket()` |
 
+The following feature columns are available:
+
+| Feature Column  | Description |
+|---------------------------------------|----------------------------------------------------------------|
+| `column_categorical_with_vocabulary_list()`  | Construct a Categorical Column with In-Memory Vocabulary.  |
+| `column_categorical_with_vocabulary_file()`  |  Construct a Categorical Column with a Vocabulary File. |
+| `column_categorical_with_identity()`  | Construct a Categorical Column that Returns Identity Values. |
+| `column_categorical_with_hash_bucket()`  |  Represents Sparse Feature where IDs are set by Hashing. |
+| `column_categorical_weighted()`  |  Construct a Weighted Categorical Column. |
+| `column_indicator()`  | Represents Multi-Hot Representation of Given Categorical Column. |
+| `column_numeric()`  | Construct a Real-Valued Column. |
+| `column_embedding()`  | Construct a Dense Column. |
+| `column_crossed()`  | Construct a Crossed Column. |
+| `column_bucketized()`  | Construct a Bucketized Column. |
+
+
 We'll use the *flights* dataset from the [nycflights13](https://cran.r-project.org/package=nycflights13) package to explore how feature columns can be constructed. The *flights* dataset records airline on-time data for all flights departing NYC in 2013.
 
 ```{r}

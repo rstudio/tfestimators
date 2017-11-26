@@ -129,6 +129,59 @@
 </tr>
 </tbody>
 </table>
+<p>The following feature columns are available:</p>
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="38%">
+<col width="61%">
+</colgroup>
+<thead><tr class="header">
+<th>Feature Column</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code><a href="../reference/column_categorical_with_vocabulary_list.html">column_categorical_with_vocabulary_list()</a></code></td>
+<td>Construct a Categorical Column with In-Memory Vocabulary.</td>
+</tr>
+<tr class="even">
+<td><code><a href="../reference/column_categorical_with_vocabulary_file.html">column_categorical_with_vocabulary_file()</a></code></td>
+<td>Construct a Categorical Column with a Vocabulary File.</td>
+</tr>
+<tr class="odd">
+<td><code><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity()</a></code></td>
+<td>Construct a Categorical Column that Returns Identity Values.</td>
+</tr>
+<tr class="even">
+<td><code><a href="../reference/column_categorical_with_hash_bucket.html">column_categorical_with_hash_bucket()</a></code></td>
+<td>Represents Sparse Feature where IDs are set by Hashing.</td>
+</tr>
+<tr class="odd">
+<td><code><a href="../reference/column_categorical_weighted.html">column_categorical_weighted()</a></code></td>
+<td>Construct a Weighted Categorical Column.</td>
+</tr>
+<tr class="even">
+<td><code><a href="../reference/column_indicator.html">column_indicator()</a></code></td>
+<td>Represents Multi-Hot Representation of Given Categorical Column.</td>
+</tr>
+<tr class="odd">
+<td><code><a href="../reference/column_numeric.html">column_numeric()</a></code></td>
+<td>Construct a Real-Valued Column.</td>
+</tr>
+<tr class="even">
+<td><code><a href="../reference/column_embedding.html">column_embedding()</a></code></td>
+<td>Construct a Dense Column.</td>
+</tr>
+<tr class="odd">
+<td><code><a href="../reference/column_crossed.html">column_crossed()</a></code></td>
+<td>Construct a Crossed Column.</td>
+</tr>
+<tr class="even">
+<td><code><a href="../reference/column_bucketized.html">column_bucketized()</a></code></td>
+<td>Construct a Bucketized Column.</td>
+</tr>
+</tbody>
+</table>
 <p>We’ll use the <em>flights</em> dataset from the <a href="https://cran.r-project.org/package=nycflights13">nycflights13</a> package to explore how feature columns can be constructed. The <em>flights</em> dataset records airline on-time data for all flights departing NYC in 2013.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(nycflights13)
 <span class="kw">print</span>(flights)</code></pre></div>
