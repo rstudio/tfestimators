@@ -188,8 +188,10 @@ To train and generate predictions with estimators you use the following set of g
 | `train()`  |  Trains a model given training data input_fn. |
 | `predict()`  |  Returns predictions for given features. |
 | `evaluate()`  |  Evaluates the model given evaluation data input_fn. |
+| `train_and_evaluate()`  |  Trains and evaluates a model for both local and distributed configurations. |
 | `export_savedmodel()` | Exports inference graph as a SavedModel into a given directory. |
 | `coef()`  |  Get the list coefficients or variables from this model's checkpoint. |
+
 
 
 
