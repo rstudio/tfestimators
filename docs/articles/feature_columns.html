@@ -108,27 +108,6 @@
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
 <p>Feature columns are used to specify how Tensors received from the input function should be combined and transformed before entering the model. A feature column can be a plain mapping to some input column (e.g. <code><a href="../reference/column_numeric.html">column_numeric()</a></code> for a column of numerical data), or a transformation of other feature columns (e.g. <code><a href="../reference/column_crossed.html">column_crossed()</a></code> to define a new column as the cross of two other feature columns).</p>
-<p>Some typical mappings of R data type to feature column are:</p>
-<table class="table">
-<thead><tr class="header">
-<th>Data Type</th>
-<th>Feature Column</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>Numeric</td>
-<td><code><a href="../reference/column_numeric.html">column_numeric()</a></code></td>
-</tr>
-<tr class="even">
-<td>Factor</td>
-<td><code><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity()</a></code></td>
-</tr>
-<tr class="odd">
-<td>Character</td>
-<td><code><a href="../reference/column_categorical_with_hash_bucket.html">column_categorical_with_hash_bucket()</a></code></td>
-</tr>
-</tbody>
-</table>
 <p>The following feature columns are available:</p>
 <table style="width:100%;" class="table">
 <colgroup>
@@ -179,6 +158,27 @@
 <tr class="even">
 <td><code><a href="../reference/column_bucketized.html">column_bucketized()</a></code></td>
 <td>Construct a Bucketized Column.</td>
+</tr>
+</tbody>
+</table>
+<p>Some typical mappings of R data types to feature column are:</p>
+<table class="table">
+<thead><tr class="header">
+<th>Data Type</th>
+<th>Feature Column</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Numeric</td>
+<td><code><a href="../reference/column_numeric.html">column_numeric()</a></code></td>
+</tr>
+<tr class="even">
+<td>Factor</td>
+<td><code><a href="../reference/column_categorical_with_identity.html">column_categorical_with_identity()</a></code></td>
+</tr>
+<tr class="odd">
+<td>Character</td>
+<td><code><a href="../reference/column_categorical_with_hash_bucket.html">column_categorical_with_hash_bucket()</a></code></td>
 </tr>
 </tbody>
 </table>

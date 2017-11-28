@@ -105,6 +105,19 @@ predictions <- model %>% predict(mtcars_input_fn(test_data), simplify = TRUE)
 7     <dbl [2]> <dbl [1]> <chr [1]> <dbl [1]> <dbl [1]>
 ```
 
+We can use `glimpse()` to get an idea of how each column in `predictions` looks like:
+
+```
+> predictions %>% glimpse()
+Observations: 7
+Variables: 5
+$ probabilities <list> [<1.000000e+00, 2.235996e-13>, <1.000000e+00, 1.888579e-25>, <1.000000e+00, 1...
+$ logits        <list> [-29.12892, -56.9288, -56.9288, -96.1688, -93.7688, -71.9688, -25.16892]
+$ classes       <list> ["0", "0", "0", "0", "0", "0", "0"]
+$ class_ids     <list> [0, 0, 0, 0, 0, 0, 0]
+$ logistic      <list> [2.235996e-13, 1.888579e-25, 1.888579e-25, 0, 0, 5.550676e-32, 1.172945e-11]
+```
+
 Note that this time we use the full test dataset since no matter how large the prediction results are, we can still see the results in a concise [tibble object](http://tibble.tidyverse.org/index.html). 
 
 ### Custom Simplifier for Prediction Result

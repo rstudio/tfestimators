@@ -167,6 +167,15 @@ model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/linea
 5     &lt;dbl [2]&gt; &lt;dbl [1]&gt; &lt;chr [1]&gt; &lt;dbl [1]&gt; &lt;dbl [1]&gt;
 6     &lt;dbl [2]&gt; &lt;dbl [1]&gt; &lt;chr [1]&gt; &lt;dbl [1]&gt; &lt;dbl [1]&gt;
 7     &lt;dbl [2]&gt; &lt;dbl [1]&gt; &lt;chr [1]&gt; &lt;dbl [1]&gt; &lt;dbl [1]&gt;</code></pre>
+<p>We can use <code>glimpse()</code> to get an idea of how each column in <code>predictions</code> looks like:</p>
+<pre><code>&gt; predictions %&gt;% glimpse()
+Observations: 7
+Variables: 5
+$ probabilities &lt;list&gt; [&lt;1.000000e+00, 2.235996e-13&gt;, &lt;1.000000e+00, 1.888579e-25&gt;, &lt;1.000000e+00, 1...
+$ logits        &lt;list&gt; [-29.12892, -56.9288, -56.9288, -96.1688, -93.7688, -71.9688, -25.16892]
+$ classes       &lt;list&gt; ["0", "0", "0", "0", "0", "0", "0"]
+$ class_ids     &lt;list&gt; [0, 0, 0, 0, 0, 0, 0]
+$ logistic      &lt;list&gt; [2.235996e-13, 1.888579e-25, 1.888579e-25, 0, 0, 5.550676e-32, 1.172945e-11]</code></pre>
 <p>Note that this time we use the full test dataset since no matter how large the prediction results are, we can still see the results in a concise <a href="http://tibble.tidyverse.org/index.html">tibble object</a>.</p>
 </div>
 <div id="custom-simplifier-for-prediction-result" class="section level3">
