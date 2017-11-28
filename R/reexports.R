@@ -61,3 +61,7 @@ tfruns::flag_boolean
 #' @export
 tfruns::run_dir
 
+#' @importFrom tibble glimpse
+#' @export
+tibble::glimpse
+

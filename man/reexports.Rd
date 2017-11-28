@@ -40,6 +40,8 @@
 \alias{flag_boolean}
 \alias{reexports}
 \alias{run_dir}
+\alias{reexports}
+\alias{glimpse}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -54,5 +56,7 @@ below to see their documentation.
   \item{tensorflow}{\code{\link[tensorflow]{tf}}, \code{\link[tensorflow]{install_tensorflow}}, \code{\link[tensorflow]{tf_config}}, \code{\link[tensorflow]{tensorboard}}, \code{\link[tensorflow]{evaluate}}, \code{\link[tensorflow]{train}}, \code{\link[tensorflow]{train_and_evaluate}}, \code{\link[tensorflow]{export_savedmodel}}}
 
   \item{tfruns}{\code{\link[tfruns]{flags}}, \code{\link[tfruns]{flag_numeric}}, \code{\link[tfruns]{flag_integer}}, \code{\link[tfruns]{flag_string}}, \code{\link[tfruns]{flag_boolean}}, \code{\link[tfruns]{run_dir}}}
+
+  \item{tibble}{\code{\link[tibble]{glimpse}}}
 }}
 
