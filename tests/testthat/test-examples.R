@@ -20,13 +20,14 @@ run_example <- function(example_path) {
   gc()
 }
 
-examples <- if (TRUE) {
-  c(
-    "tensorflow_layers.R",
-    "custom_estimator.R",
-    "iris_custom_decay_dnn.R"
-  )
-}
+examples <- NULL
+# examples <- if (TRUE) {
+#   c(
+#     "tensorflow_layers.R",
+#     "custom_estimator.R",
+#     "iris_custom_decay_dnn.R"
+#   )
+# }
 
 if (!is.null(examples)) {
   for (example in examples) {
