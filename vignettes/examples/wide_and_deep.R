@@ -33,17 +33,31 @@
 library(tfestimators)
 
 maybe_download_census <- function(train_data_path, test_data_path, column_names_to_assign) {
+  trim_character_cols <- function(df) {
+    df %>%
+      lapply(function(x) if (is.character(x)) trimws(x) else x) %>%
+      data.frame(stringsAsFactors = FALSE)
+  }
+  
   if (!file.exists(train_data_path) || !file.exists(test_data_path)) {
     cat("Downloading census data ...")
-    train_data <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data", header = FALSE, skip = 1)
-    test_data <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test", header = FALSE, skip = 1)
+    train_data <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data", header = FALSE, skip = 1, 
+                           stringsAsFactors = FALSE) %>%
+      trim_character_cols()
+    test_data <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test", header = FALSE, skip = 1,
+                          stringsAsFactors = FALSE) %>%
+      trim_character_cols()
     colnames(train_data) <- column_names_to_assign
     colnames(test_data) <- column_names_to_assign
     write.csv(train_data, train_data_path, row.names = FALSE)
     write.csv(test_data, test_data_path, row.names = FALSE)
   } else {
-    train_data <- read.csv(train_data_path, header = TRUE)
-    test_data <- read.csv(test_data_path, header = TRUE)
+    train_data <- read.csv(train_data_path, header = TRUE,
+                           stringsAsFactors = FALSE) %>%
+      trim_character_cols()
+    test_data <- read.csv(test_data_path, header = TRUE,
+                          stringsAsFactors = FALSE) %>%
+      trim_character_cols()
   }
   return(list(train_data = train_data, test_data = test_data))
 }
@@ -93,9 +107,9 @@ workclass <- column_categorical_with_vocabulary_list(
 
 # To show an example of hashing:
 occupation <- column_categorical_with_hash_bucket(
-  "occupation", hash_bucket_size = 1000, dtype = tf$int32)
+  "occupation", hash_bucket_size = 1000, dtype = tf$string)
 native_country <- column_categorical_with_hash_bucket(
-  "native_country", hash_bucket_size = 1000, dtype = tf$int32)
+  "native_country", hash_bucket_size = 1000, dtype = tf$string)
 
 # Continuous base columns.
 age <- column_numeric("age")
@@ -127,9 +141,9 @@ crossed_columns <- feature_columns(
 #' have not appeared in the training data. Let's add a deep model with
 #' embeddings to fix that.
 
-
+#' 
 #' ### The Deep Model: Neural Network with Embeddings
-
+#' 
 #' The deep model is a feed-forward neural network, as shown in the previous
 #' figure. Each of the sparse, high-dimensional categorical features are first
 #' converted into a low-dimensional and dense real-valued vector, often referred
@@ -176,6 +190,7 @@ deep_columns <- feature_columns(
 #' Now, let's see how to jointly train wide and deep models and allow them to
 #' complement each other’s strengths and weaknesses.
 
+#' 
 #' ### Combining Wide and Deep Models into One
 #'
 #' The wide models and deep models are combined by summing up their final output
@@ -195,8 +210,8 @@ model <- dnn_linear_combined_classifier(
 # Build labels according to income bracket
 train_data$income_bracket <- as.character(train_data$income_bracket)
 test_data$income_bracket <- as.character(test_data$income_bracket)
-train_data$label <- ifelse(train_data$income_bracket == " >50K", 1, 0)
-test_data$label <- ifelse(test_data$income_bracket == " >50K", 1, 0)
+train_data$label <- ifelse(train_data$income_bracket == ">50K", 1, 0)
+test_data$label <- ifelse(test_data$income_bracket == ">50K", 1, 0)
 
 constructed_input_fn <- function(dataset) {
   input_fn(dataset, features = -label, response = label)
