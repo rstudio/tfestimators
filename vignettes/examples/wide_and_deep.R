@@ -141,9 +141,9 @@ crossed_columns <- feature_columns(
 #' have not appeared in the training data. Let's add a deep model with
 #' embeddings to fix that.
 
-
+#' 
 #' ### The Deep Model: Neural Network with Embeddings
-
+#' 
 #' The deep model is a feed-forward neural network, as shown in the previous
 #' figure. Each of the sparse, high-dimensional categorical features are first
 #' converted into a low-dimensional and dense real-valued vector, often referred
@@ -190,6 +190,7 @@ deep_columns <- feature_columns(
 #' Now, let's see how to jointly train wide and deep models and allow them to
 #' complement each other’s strengths and weaknesses.
 
+#' 
 #' ### Combining Wide and Deep Models into One
 #'
 #' The wide models and deep models are combined by summing up their final output
