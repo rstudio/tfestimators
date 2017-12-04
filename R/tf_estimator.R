@@ -1,19 +1,22 @@
-tf_estimator <- function(estimator, classes, history = NULL, args = NULL) {
+new_tf_estimator <- function(estimator, args = NULL, ..., 
+                             subclass = NULL) {
   structure(
     list(
       estimator = estimator,
-      history = history,
-      args = args),
-    class = c("tf_estimator", paste("tf_estimator", classes, sep = "_"))
+      args = args,
+      ...),
+    class = c(subclass, "tf_estimator")
   )
 }
 
-tf_regressor <- function(estimator, class, args = NULL) {
-  tf_estimator(estimator, c("regressor", class), args = args)
+new_tf_regressor <- function(estimator, args = NULL, ..., subclass = NULL) {
+  new_tf_estimator(estimator, args = args, ..., 
+                   subclass = c(subclass, "tf_estimator_regressor"))
 }
 
-tf_classifier <- function(estimator, class, args = NULL) {
-  tf_estimator(estimator, c("classifier", class), args = args)
+new_tf_classifier <- function(estimator, args = NULL, ..., subclass = NULL) {
+  new_tf_estimator(estimator, args = args, ..., 
+                   subclass = c(subclass, "tf_estimator_classifier"))
 }
 
 is.tf_custom_estimator <- function(object) {
