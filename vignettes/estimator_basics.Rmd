@@ -144,7 +144,8 @@ classifier <-
 Users can then call `train()` to train the initialized Estimator for a number of steps:
 
 ```{r}
-classifier <- train(classifier, input_fn = input, steps = 2)
+classifier %>%
+  train(input_fn = input, steps = 2)
 ```
 
 Once a model is trained, users can use `predict()` that makes predictions on a given input function that represents the inference data source. 
