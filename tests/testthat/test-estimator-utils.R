@@ -1,4 +1,4 @@
-context("Test variable name and value extraction")
+context("Testing variable name and value extraction")
 
 mtcars_input_fn <- function(data) {
   input_fn(data, 
