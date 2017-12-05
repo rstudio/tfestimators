@@ -17,6 +17,9 @@ reticulate::array_reshape
 tensorflow::tf
 
 #' @export
+tensorflow::shape
+
+#' @export
 tensorflow::install_tensorflow
 
 #' @export
