@@ -126,7 +126,7 @@ predict_data <- downloaded_data$predict_data
 
 ```
 
-Next, we construct the input function like the following:
+Next, we construct the input function as follows:
 
 ```r
 
@@ -181,11 +181,7 @@ Note: Just like `tfestimators`' predefined regressors and classifiers, the
 `model_dir` and `config`.
 
 For the abalone age predictor, the model will accept one hyperparameter:
-learning rate. Define `LEARNING_RATE` as a constant at the beginning of your
-code (highlighted in bold below), right after the logging configuration:
-
-
-Note: Here, `LEARNING_RATE` is set to `0.001`, but you can tune this value as
+learning rate. Here, `learning_rate` is set to `0.001`, but you can tune this value as
 needed to achieve the best results during model training.
 
 The following code creates the list `model_params`
@@ -247,29 +243,29 @@ The `model_fn` must return an `estimator_spec` object, which contains the follow
 *   `mode` (required). The mode in which the model was run. Typically, you will
 return the `mode` argument of the `model_fn` here.
 
-*   `predictions` (required in `PREDICT` mode). A dict that maps key names of
+*   `predictions` (required in `infer` mode). A dict that maps key names of
 your choice to `Tensor`s containing the predictions from the model, e.g.:
 
 ```r
 predictions <- list(results = tensor_of_predictions)
 ```
 
-In `PREDICT` mode, the dict that you return in `estimator_spec` will then be
+In `infer` mode, the dict that you return in `estimator_spec` will then be
 returned by `predict()`, so you can construct it in the format in which
 you'd like to consume it.
 
 
-*   `loss` (required in `EVAL` and `TRAIN` mode). A `Tensor` containing a scalar
+*   `loss` (required in `eval` and `train` modes). A `Tensor` containing a scalar
 loss value: the output of the model's loss function (discussed in more depth
 later in [Defining loss for the model](#defining-loss)) calculated over all
-the input examples. This is used in `TRAIN` mode for error handling and
-logging, and is automatically included as a metric in `EVAL` mode.
+the input examples. This is used in `train` mode for error handling and
+logging, and is automatically included as a metric in `eval` mode.
 
-*   `train_op` (required only in `TRAIN` mode). An Op that runs one step of
+*   `train_op` (required only in `train` mode). An Op that runs one step of
 training.
 
 *   `eval_metric_ops` (optional). A dict of name/value pairs specifying the
-metrics that will be calculated when the model runs in `EVAL` mode. The name
+metrics that will be calculated when the model runs in `eval` mode. The name
 is a label of your choice for the metric, and the value is the result of
 your metric calculation. The `tf$metrics`
 module provides predefined functions for a variety of common metrics. The
@@ -441,7 +437,6 @@ model_fn <- function(features, labels, mode, params, config) {
   output_layer <- tf$layers$dense(second_hidden_layer, 1L)
   
   # Reshape output layer to 1-dim Tensor to return predictions
-  # TODO: This failed if it's c(-1L) - check in reticulate for single element vector conversion
   predictions <- tf$reshape(output_layer, list(-1L))
   predictions_list <- list(ages = predictions)
   
