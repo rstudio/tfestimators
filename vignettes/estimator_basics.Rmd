@@ -65,7 +65,7 @@ Before you can use an estimator, you need to provide an input function and defin
 
 ## Input Functions
 
-Input functions are used to provide data to to estimators during training, evaluation and prediction. The R interface provides several high-level input function implementations for various common R data sources, including:
+Input functions are used to provide data to estimators during training, evaluation and prediction. The R interface provides several high-level input function implementations for various common R data sources, including:
 
 - Formulas
 - Matrices
@@ -122,7 +122,7 @@ See the article on [feature columns](feature_columns.html) for additional detail
 
 ## Creating an Estimator
 
-Here's an example of creating a Linear DNN Combined canned Estimator. In creating the estimator we pass the feature columns and other parameters that specifies the layers and architecture of the model. Note that this particular estimator takes two sets of feature columns -- one used for constructing the linear layer, and the other used for the fully connected deep layer.
+Here's an example of creating a DNN Linear Combined canned Estimator. In creating the estimator we pass the feature columns and other parameters that specifies the layers and architecture of the model. Note that this particular estimator takes two sets of feature columns -- one used for constructing the linear layer, and the other used for the fully connected deep layer.
 
 ```{r}
 # construct feature columns
@@ -134,7 +134,7 @@ classifier <-
 	dnn_linear_combined_classifier(
 	  linear_feature_columns = linear_feature_columns,
 	  dnn_feature_columns = dnn_feature_columns,
-	  dnn_hidden_units = c(3L, 3L),
+	  dnn_hidden_units = c(3, 3),
 	  dnn_optimizer = "Adagrad"
 	)
 ```
@@ -144,7 +144,8 @@ classifier <-
 Users can then call `train()` to train the initialized Estimator for a number of steps:
 
 ```{r}
-classifier <- train(classifier, input_fn = input, steps = 2)
+classifier %>%
+  train(input_fn = input, steps = 2)
 ```
 
 Once a model is trained, users can use `predict()` that makes predictions on a given input function that represents the inference data source. 

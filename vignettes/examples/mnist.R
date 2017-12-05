@@ -122,7 +122,7 @@ predictions <- predict(classifier, input_fn = mnist_input_fn(mnist$test))
 n <- 20
 indices <- sample(nrow(mnist$test$x), n)
 classes <- vapply(indices, function(i) {
-  predictions[[i]]$classes
+  predictions$classes[[i]]
 }, character(1))
 
 data <- array(mnist$test$x[indices, ], dim = c(n, 28, 28))

@@ -81,12 +81,12 @@ Here, we define a helper function that will return an input function for a subse
 library(tfestimators)
 
 # return an input_fn for a given subset of data
-mtcars_input_fn <- function(data) {
+mtcars_input_fn <- function(data, num_epochs = 1) {
   input_fn(data, 
            features = c("disp", "cyl"), 
            response = "mpg",
            batch_size = 32,
-           num_epochs = 10)
+           num_epochs = num_epochs)
 }
 ```
 
@@ -130,7 +130,7 @@ train <- mtcars[indices, ]
 test  <- mtcars[-indices, ]
 
 # train the model
-model %>% train(mtcars_input_fn(train))
+model %>% train(mtcars_input_fn(train, num_epochs = 10))
 ```
 
 #### Evaluation

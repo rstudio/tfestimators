@@ -122,7 +122,4 @@ input_fn(
 )
 ```
 
-In the above example, the data is a list of two named lists where each named list can be seen as different columns in a dataset. In this case, a column named `features` is being used as features to the model and a column named `response` is being used as the response variable. 
-
-This nested lists format is particularly useful when constructing sequence input to Recurrent Neural Networks (RNN). Once the data is defined using `input_fn()`, it can be used directly in the RNN constructor.
-
+In the above example, the data is a list of two named lists where each named list can be seen as different columns in a dataset. In this case, a column named `features` is being used as features to the model and a column named `response` is being used as the response variable.
