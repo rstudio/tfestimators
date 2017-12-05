@@ -386,17 +386,27 @@ export_savedmodel.tf_estimator <- function(object,
 #' @return For \code{variable_names()}, a vector of variable names. For \code{variable_values()}, a named list of variable values.
 #' @export
 variable_names <- function(object) {
-  if (!length(object$estimator$latest_checkpoint()))
+  model_dir <- object$estimator$model_dir
+  if (!length(list.files(model_dir)))
     stop("'variable_names()' must be called on a trained model")
-  object$estimator$get_variable_names()
+
+  if (tensorflow::tf_version() >= "1.4") {
+    object$estimator$get_variable_names()
+  } else {
+    model_dir %>%
+      list_variable_names() %>%
+      unlist()
+  }
 }
 
 #' @rdname variable_names_values
 #' @param variable (Optional) Names of variables to extract as a character vector. If not specified, values for all variables are returned.
 #' @export
 variable_value <- function(object, variable = NULL) {
-  if (!length(object$estimator$latest_checkpoint()))
+  model_dir <- object$estimator$model_dir
+  if (!length(list.files(model_dir)))
     stop("'variable_value()' must be called on a trained model")
+
   variable_names <- variable_names(object)
   
   if (!is.null(variable)) {
@@ -408,7 +418,16 @@ variable_value <- function(object, variable = NULL) {
     variable <- variable_names
   }
   
-  variable %>%
-    lapply(object$estimator$get_variable_value) %>%
-    rlang::set_names(unlist(variable))
+  if (tensorflow::tf_version() >= "1.4") {
+    variable %>%
+      lapply(object$estimator$get_variable_value) %>%
+      rlang::set_names(unlist(variable))
+  } else {
+    ckp <- model_dir %>%
+      latest_checkpoint() %>%
+      tf$python$training$checkpoint_utils$load_checkpoint()
+    variable %>%
+      lapply(function(var_name) ckp$get_tensor(var_name[[1]])) %>%
+      rlang::set_names(unlist(variable))
+  }
 }
