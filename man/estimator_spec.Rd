@@ -40,8 +40,7 @@ Define the estimator specification, used as part of the \code{model_fn} defined 
 custom estimators created by \code{\link[=estimator]{estimator()}}. See \code{\link[=estimator]{estimator()}} for more details.
 }
 \seealso{
-Other custom estimator methods: \code{\link{coef.tf_estimator}},
-  \code{\link{estimator}},
+Other custom estimator methods: \code{\link{estimator}},
   \code{\link{evaluate.tf_estimator}},
   \code{\link{export_savedmodel.tf_estimator}},
   \code{\link{predict.tf_estimator}},

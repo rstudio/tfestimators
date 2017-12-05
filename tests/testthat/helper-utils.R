@@ -7,7 +7,7 @@ array_ops <<- reticulate::import("tensorflow.python.ops.array_ops", delay_load =
 functional_ops <<- reticulate::import("tensorflow.python.ops.functional_ops", delay_load = FALSE)
 
 skip_if_tensorflow_below <- function(version) {
-  if (tf_version() < version) {
+  if (tensorflow::tf_version() < version) {
     skip(paste0("Skipped since this test requires TensorFlow >= ", version))
   }
 }

@@ -39,8 +39,8 @@ A data.frame of the training loss history.
 Train an estimator on a set of input data provides by the \code{input_fn()}.
 }
 \seealso{
-Other custom estimator methods: \code{\link{coef.tf_estimator}},
-  \code{\link{estimator_spec}}, \code{\link{estimator}},
+Other custom estimator methods: \code{\link{estimator_spec}},
+  \code{\link{estimator}},
   \code{\link{evaluate.tf_estimator}},
   \code{\link{export_savedmodel.tf_estimator}},
   \code{\link{predict.tf_estimator}}

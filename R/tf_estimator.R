@@ -376,25 +376,58 @@ export_savedmodel.tf_estimator <- function(object,
   invisible(status)
 }
 
-#' Extract Model Coefficients
-#'
-#' @param object An estimator.
-#' @param ... Optional arguments; currently unused.
-#'
-#' @return A named list of variables, such as each hidden layer's biases and
-#' weights matrices (if using any of the DNN estimators), global step, etc.
-#'
+#' Get variable names and values associated with an estimator
+#' 
+#' These helper functions extract the names and values of variables
+#'   in the graphs associated with trained estimator models.
+#'   
+#' @name variable_names_values
+#' @param object A trained estimator model.
+#' @return For \code{variable_names()}, a vector of variable names. For \code{variable_values()}, a named list of variable values.
 #' @export
-#' @family custom estimator methods
-coef.tf_estimator <- function(object, ...) {
-  training_lib <- tf$python$training
+variable_names <- function(object) {
   model_dir <- object$estimator$model_dir
-  if (length(list.files(model_dir)) == 0) {
-    stop("This model has not been trained yet.")
+  if (!length(list.files(model_dir)))
+    stop("'variable_names()' must be called on a trained model")
+
+  if (tensorflow::tf_version() >= "1.4") {
+    object$estimator$get_variable_names()
+  } else {
+    model_dir %>%
+      list_variable_names() %>%
+      unlist()
   }
-  ckp <- training_lib$checkpoint_utils$load_checkpoint(latest_checkpoint(model_dir))
-  var_names <- list_variable_names(model_dir)
-  cleaned_vars <- lapply(var_names, function(var_name) ckp$get_tensor(var_name[[1]]))
-  names(cleaned_vars) <- var_names
-  cleaned_vars
+}
+
+#' @rdname variable_names_values
+#' @param variable (Optional) Names of variables to extract as a character vector. If not specified, values for all variables are returned.
+#' @export
+variable_value <- function(object, variable = NULL) {
+  model_dir <- object$estimator$model_dir
+  if (!length(list.files(model_dir)))
+    stop("'variable_value()' must be called on a trained model")
+
+  variable_names <- variable_names(object)
+  
+  if (!is.null(variable)) {
+    not_found <- variable[!(variable %in% variable_names)] %>%
+      unlist()
+    if (length(not_found))
+      stop("Variable not found: ", paste0(not_found, collapse = ", "))
+  } else {
+    variable <- variable_names
+  }
+  
+  if (tensorflow::tf_version() >= "1.4") {
+    variable %>%
+      lapply(object$estimator$get_variable_value) %>%
+      rlang::set_names(unlist(variable))
+  } else {
+    ckp <- model_dir %>%
+      latest_checkpoint() %>%
+      tf$python$training$checkpoint_utils$load_checkpoint()
+    variable %>%
+      lapply(function(var_name) ckp$get_tensor(var_name[[1]])) %>%
+      rlang::set_names(unlist(variable))
+  }
 }
