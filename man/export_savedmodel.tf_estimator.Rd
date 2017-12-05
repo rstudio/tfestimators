@@ -65,8 +65,8 @@ export_outputs are provided, or no checkpoint can be found.
 }
 
 \seealso{
-Other custom estimator methods: \code{\link{coef.tf_estimator}},
-  \code{\link{estimator_spec}}, \code{\link{estimator}},
+Other custom estimator methods: \code{\link{estimator_spec}},
+  \code{\link{estimator}},
   \code{\link{evaluate.tf_estimator}},
   \code{\link{predict.tf_estimator}},
   \code{\link{train.tf_estimator}}
