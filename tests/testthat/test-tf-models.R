@@ -13,7 +13,7 @@ test_that("train(), predict(), and evaluate() work for regressors", {
   
   train(estimator, input_fn = specs$input_fn, steps = 20)
   
-  variable_values <- get_variable_value(estimator)
+  variable_values <- variable_value(estimator)
   expect_gt(length(variable_values), 0)
   
   predictions <- predict(estimator, input_fn = specs$input_fn, simplify = FALSE)
@@ -40,7 +40,7 @@ test_that("train(), predict(), and evaluate() work for classifiers", {
   # check whether tensorboard works with canned estimator
   # tensorboard(log_dir = tmp_dir, launch_browser = FALSE)
 
-  variable_values <- get_variable_value(clf)
+  variable_values <- variable_value(clf)
   expect_gt(length(variable_values), 0)
 
   predictions <- predict(clf, input_fn = specs$input_fn, simplify = FALSE)

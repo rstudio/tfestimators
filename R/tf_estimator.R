@@ -383,21 +383,21 @@ export_savedmodel.tf_estimator <- function(object,
 #'   
 #' @name variable_names_values
 #' @param object A trained estimator model.
-#' @return For \code{get_variable_names()}, a vector of variable names. For \code{get_variable_values()}, a named list of variable values.
+#' @return For \code{variable_names()}, a vector of variable names. For \code{variable_values()}, a named list of variable values.
 #' @export
-get_variable_names <- function(object) {
+variable_names <- function(object) {
   if (!length(object$estimator$latest_checkpoint()))
-    stop("'get_variable_names' must be called on a trained model")
+    stop("'variable_names()' must be called on a trained model")
   object$estimator$get_variable_names()
 }
 
 #' @rdname variable_names_values
 #' @param variable (Optional) Names of variables to extract as a character vector. If not specified, values for all variables are returned.
 #' @export
-get_variable_value <- function(object, variable = NULL) {
+variable_value <- function(object, variable = NULL) {
   if (!length(object$estimator$latest_checkpoint()))
-    stop("'get_variable_value' must be called on a trained model")
-  variable_names <- get_variable_names(object)
+    stop("'variable_value()' must be called on a trained model")
+  variable_names <- variable_names(object)
   
   if (!is.null(variable)) {
     not_found <- variable[!(variable %in% variable_names)] %>%

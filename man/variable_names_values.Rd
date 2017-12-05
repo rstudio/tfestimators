@@ -2,13 +2,13 @@
 % Please edit documentation in R/tf_estimator.R
 \name{variable_names_values}
 \alias{variable_names_values}
-\alias{get_variable_names}
-\alias{get_variable_value}
+\alias{variable_names}
+\alias{variable_value}
 \title{Get variable names and values associated with an estimator}
 \usage{
-get_variable_names(object)
+variable_names(object)
 
-get_variable_value(object, variable = NULL)
+variable_value(object, variable = NULL)
 }
 \arguments{
 \item{object}{A trained estimator model.}
@@ -16,7 +16,7 @@ get_variable_value(object, variable = NULL)
 \item{variable}{(Optional) Names of variables to extract as a character vector. If not specified, values for all variables are returned.}
 }
 \value{
-For \code{get_variable_names()}, a vector of variable names. For \code{get_variable_values()}, a named list of variable values.
+For \code{variable_names()}, a vector of variable names. For \code{variable_values()}, a named list of variable values.
 }
 \description{
 These helper functions extract the names and values of variables
