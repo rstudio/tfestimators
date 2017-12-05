@@ -39,7 +39,8 @@ linear_regressor <- function(feature_columns,
     )
   )
 
-  tf_regressor(estimator, "linear_regressor", args)
+  new_tf_regressor(estimator, args = args, 
+                   subclass = "tf_estimator_regressor_linear_regressor")
 }
 
 #' @inheritParams linear_estimators
@@ -69,5 +70,6 @@ linear_classifier <- function(feature_columns,
     )
   )
 
-  tf_classifier(estimator, "linear_classifier", args)
+  new_tf_classifier(estimator, args = args,
+                    subclass = "tf_estimator_classifier_linear_classifier")
 }

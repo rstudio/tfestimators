@@ -36,6 +36,8 @@ dnn_regressor <- function(hidden_units,
                           input_layer_partitioner = NULL,
                           config = NULL)
 {
+  args <- as.list(environment(), all = TRUE)
+  
   estimator <- py_suppress_warnings(
     tf$estimator$DNNRegressor(
       hidden_units = as.integer(hidden_units),
@@ -51,7 +53,8 @@ dnn_regressor <- function(hidden_units,
     )
   )
 
-  tf_regressor(estimator, "dnn_regressor")
+  new_tf_regressor(estimator, args = args,
+                   subclass = "tf_estimator_regressor_dnn_regressor")
 }
 
 #' @inheritParams dnn_estimators
@@ -87,6 +90,7 @@ dnn_classifier <- function(hidden_units,
     )
   )
 
-  tf_classifier(estimator, "dnn_classifier", args)
+  new_tf_classifier(estimator, args = args, 
+                    subclass = "tf_estimator_classifier_dnn_classifier")
 }
 
