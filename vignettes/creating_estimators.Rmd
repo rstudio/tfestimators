@@ -131,7 +131,7 @@ Next, we construct the input function as follows:
 ```r
 
 constructed_input_fn <- function(dataset) {
-  input_fn(dataset, features = -num_rings, response = num_rings, num_epochs = NULL, shuffle = TRUE)
+  input_fn(dataset, features = -num_rings, response = num_rings, num_epochs = NULL)
 }
 train_input_fn <- constructed_input_fn(train_data)
 test_input_fn <- constructed_input_fn(test_data)
