@@ -215,7 +215,7 @@ predict.tf_estimator <- function(object,
     }
   }
   
-  simplify_results(object, predictions, simplify, mode_keys()$PREDICT)
+  simplify_results(predictions, simplify)
 }
 
 #' Evaluate an Estimator
@@ -275,7 +275,7 @@ evaluate.tf_estimator <- function(object,
   })
   
   tfruns::write_run_metadata("evaluation", evaluation_results)
-  simplify_results(object, evaluation_results, simplify, mode_keys()$EVAL)
+  simplify_results(evaluation_results, simplify)
 }
 
 #' Save an Estimator

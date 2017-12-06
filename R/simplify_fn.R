@@ -1,7 +1,23 @@
-simple_simplify_predictions_fn <- function(object, predictions) {
-  predictions %>%
-    purrr::reduce(rbind) %>%
-    tibble::as_tibble()
+as_tf_prediction <- function(x) {
+  structure(x, class = c("tf_prediction", class(x)))
+}
+
+#' @export
+type_sum.tf_prediction <- function(x) {
+  if (is.numeric(x))
+    paste0(signif(x, digits = 3), collapse = ", ")
+  else
+    paste0(x)
+}
+
+simple_simplify_predictions_fn <- function(predictions) {
+  predictions %>% 
+    purrr::map(~ purrr::map(.x, list)) %>% 
+    purrr::transpose() %>%
+    purrr::map(~ purrr::map(.x, 
+                            purrr::compose(as_tf_prediction, unlist))
+               ) %>% 
+    as_tibble()
 }
 
 simple_simplify_evaluations_fn <- function(object, evaluations) {
@@ -10,20 +26,12 @@ simple_simplify_evaluations_fn <- function(object, evaluations) {
     tibble::as_tibble()
 }
 
-simplify_results <- function(object, results, simplify, mode_key) {
-  if (is.function(simplify)) {
-    simplify(results)
-  } else {
-    if (isTRUE(simplify)) {
-      if (mode_key == mode_keys()$PREDICT) {
-        simple_simplify_predictions_fn(object, results)
-      } else if (mode_key == mode_keys()$EVAL) {
-        simple_simplify_evaluations_fn(object, results)
-      } else {
-       stop("simplify_results has only been implemented for predict() and evaluate().") 
-      }
-    } else {
-      results
-    }
-  }
+simplify_results <- function(results, simplify) {
+  if (simplify) {
+    mode <- resolve_mode()
+    switch(mode,
+           infer = simple_simplify_predictions_fn,
+           eval = simple_simplify_evaluations_fn,
+           identity)(results)
+  } else results
 }

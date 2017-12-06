@@ -35,3 +35,24 @@ import_package_module <- function(module, convert = TRUE) {
   python_path <- system.file("python", package = "tfestimators")
   import_from_path(module, python_path, convert = convert)
 }
+
+resolve_mode <- function() {
+  calls <- sys.calls()
+  
+  mode <- list(
+    infer = ~ identical(.x[[1]], quote(predict.tf_estimator)) ||
+      identical(.x[[1]], quote(object$estimator$predict)),
+    eval = ~ identical(.x[[1]], quote(evaluate.tf_estimator)) ||
+      identical(.x[[1]], quote(object$estimator$evaluate))
+  ) %>%
+    purrr::map(~ purrr::detect(calls, .x)) %>%
+    purrr::compact() %>%
+    names()
+  
+  if (!length(mode))
+    stop("no train() or evaluate() function detected in call stack")
+  if (length(mode) > 1)
+    stop("both train() and evaluate() detected in call stack")
+  
+  mode
+}
