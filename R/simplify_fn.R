@@ -10,8 +10,8 @@ type_sum.tf_prediction <- function(x) {
     paste0(x)
 }
 
-simple_simplify_predictions_fn <- function(predictions) {
-  predictions %>% 
+simple_simplify_predictions_fn <- function(results) {
+  results %>%
     purrr::map(~ purrr::map(.x, list)) %>% 
     purrr::transpose() %>%
     purrr::map(~ purrr::map(.x, 
@@ -20,8 +20,8 @@ simple_simplify_predictions_fn <- function(predictions) {
     as_tibble()
 }
 
-simple_simplify_evaluations_fn <- function(object, evaluations) {
-  evaluations %>%
+simple_simplify_evaluations_fn <- function(results) {
+  results %>%
     rlang::flatten() %>%
     tibble::as_tibble()
 }
