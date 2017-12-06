@@ -12,11 +12,8 @@ type_sum.tf_prediction <- function(x) {
 
 simple_simplify_predictions_fn <- function(results) {
   results %>%
-    purrr::map(~ purrr::map(.x, list)) %>% 
     purrr::transpose() %>%
-    purrr::map(~ purrr::map(.x, 
-                            purrr::compose(as_tf_prediction, unlist))
-               ) %>% 
+    purrr::map(~ purrr::map(.x, as_tf_prediction)) %>% 
     as_tibble()
 }
 
