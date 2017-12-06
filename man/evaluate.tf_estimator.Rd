@@ -33,13 +33,8 @@ training loop. By default, \code{hook_history_saver(every_n_step = 10)} and
 \code{hook_progress_bar()} will be attached if not provided to save the metrics
 history and create the progress bar.}
 
-\item{simplify}{A boolean value that indicates whether to simplify evaluation
-results automatically. If \code{TRUE}, This will automatically use a default evaluation
-simplify function to estimators that flattens the predictions to a cleaner tibble
-object with each column being the evaluation results for each evaluation metrics
-pre-define specified. If a custom function is provided with the signature
-\code{function(evaluations) {func(evaluations)}}, the custom function will be used
-instead of the default simplify function.}
+\item{simplify}{Whether to simplify evaluation results into a \code{tibble}, as
+opposed to a list. Defaults to \code{TRUE}.}
 
 \item{...}{Optional arguments passed on to the estimator's \code{evaluate()}
 method.}
