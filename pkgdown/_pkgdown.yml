@@ -23,8 +23,6 @@ navbar:
           href: articles/run_hooks.html
         - text: "Custom Estimators"
           href: articles/creating_estimators.html
-        - text: "Simplify Function"
-          href: articles/simplify_function.html
         - text: "TensorFlow Layers"
           href: articles/layers.html
         - text: "TensorBoard Visualization"

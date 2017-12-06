@@ -148,12 +148,8 @@ train.tf_estimator <- function(object,
 #' @param predict_keys The types of predictions that should be produced, as an
 #'   \R list. When this argument is not specified (the default), all possible
 #'   predicted values will be returned.
-#' @param simplify A boolean value that indicates whether to simplify prediction
-#'   results automatically. If `TRUE`, This will automatically use a default prediction
-#'   simplify function to estimators that flattens the predictions to a cleaner tibble
-#'   object with each column being the prediction results for each `predict_keys` specified.
-#'   If a custom function is provided with the signature `function(predictions) {func(predictions)}`,
-#'   the custom function will be used instead of the default simplify function.
+#' @param simplify Whether to simplify prediction results into a \code{tibble},
+#'   as opposed to a list. Defaults to \code{TRUE}.
 #' @param as_iterable Boolean; should a raw Python generator be returned? When
 #'   `FALSE` (the default), the predicted values will be consumed from the
 #'   generator and returned as an \R object.
@@ -215,7 +211,7 @@ predict.tf_estimator <- function(object,
     }
   }
   
-  simplify_results(object, predictions, simplify, mode_keys()$PREDICT)
+  simplify_results(predictions, simplify)
 }
 
 #' Evaluate an Estimator
@@ -240,13 +236,8 @@ predict.tf_estimator <- function(object,
 #'   this particular `evaluate()` invocation. If `NULL` (the default), this function
 #'   will either evaluate forever, or until the supplied `input_fn()` has provided
 #'   all available data.
-#' @param simplify A boolean value that indicates whether to simplify evaluation
-#'   results automatically. If `TRUE`, This will automatically use a default evaluation
-#'   simplify function to estimators that flattens the predictions to a cleaner tibble
-#'   object with each column being the evaluation results for each evaluation metrics
-#'   pre-define specified. If a custom function is provided with the signature
-#'   `function(evaluations) {func(evaluations)}`, the custom function will be used
-#'   instead of the default simplify function.
+#' @param simplify Whether to simplify evaluation results into a \code{tibble}, as 
+#'   opposed to a list. Defaults to \code{TRUE}.
 #' @param ... Optional arguments passed on to the estimator's `evaluate()`
 #'   method.
 #'
@@ -275,7 +266,7 @@ evaluate.tf_estimator <- function(object,
   })
   
   tfruns::write_run_metadata("evaluation", evaluation_results)
-  simplify_results(object, evaluation_results, simplify, mode_keys()$EVAL)
+  simplify_results(evaluation_results, simplify)
 }
 
 #' Save an Estimator
