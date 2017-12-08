@@ -129,7 +129,7 @@ attach_default_built_in_custom_hooks <- function(hooks) {
   hooks
 }
 
-resolve_train_hooks <- function(hooks, steps, estimator) {
+resolve_train_hooks <- function(hooks, steps) {
   
   .globals$history[[mode_keys()$TRAIN]] <- tf_estimator_history()
   

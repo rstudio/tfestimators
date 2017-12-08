@@ -125,7 +125,7 @@ train.tf_estimator <- function(object,
     args$saving_listeners <- saving_listeners
   }
 
-  args$hooks <- resolve_train_hooks(hooks, steps, object)
+  args$hooks <- resolve_train_hooks(hooks, steps)
   
   with_logging_verbosity(tf$logging$WARN, {
     do.call(object$estimator$train, args)
