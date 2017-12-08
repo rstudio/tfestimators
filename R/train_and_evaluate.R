@@ -38,7 +38,7 @@
 #' * ValueError: if environment variable `TF_CONFIG` is incorrectly set.
 #' 
 #' @family training methods
-#' 
+#' @export
 train_and_evaluate.tf_estimator <- function(object, train_spec, eval_spec) {
   if (tf_version() < '1.4') {
     stop("train_and_evaluate() is only available since TensorFlow v1.4")
@@ -69,7 +69,7 @@ train_and_evaluate.tf_estimator <- function(object, train_spec, eval_spec) {
 #' (including chief) during training.
 #' 
 #' @family training methods
-#' 
+#' @export
 train_spec <- function(input_fn,
                        max_steps = NULL,
                        hooks = NULL) {
@@ -111,7 +111,7 @@ train_spec <- function(input_fn,
 #' occur if no new checkpoints are available, hence, this is the minimum.
 #' 
 #' @family training methods
-#' 
+#' @export
 eval_spec <- function(input_fn,
                       steps = 100,
                       name = NULL,
