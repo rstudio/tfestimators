@@ -78,7 +78,7 @@ train_spec <- function(input_fn,
       args = list(
         input_fn = input_fn,
         max_steps = as_nullable_integer(max_steps),
-        hooks = normalize_session_run_hooks(hooks)
+        hooks = resolve_train_hooks(hooks, max_steps)
       )
     ),
     class = "train_spec"
@@ -125,7 +125,7 @@ eval_spec <- function(input_fn,
         input_fn = input_fn,
         steps = as_nullable_integer(steps),
         name = name,
-        hooks = normalize_session_run_hooks(hooks),
+        hooks = resolve_eval_hooks(hooks, steps),
         exporters = exporters,
         start_delay_secs = as.integer(start_delay_secs),
         throttle_secs = as.integer(throttle_secs)
