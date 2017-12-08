@@ -46,11 +46,21 @@ train_and_evaluate.tf_estimator <- function(object, train_spec, eval_spec) {
   estimator <- object$estimator
   train_spec$args$input_fn <- normalize_input_fn(object, train_spec$args$input_fn)
   eval_spec$args$input_fn <- normalize_input_fn(object, eval_spec$args$input_fn)
-  tf$estimator$train_and_evaluate(
-    estimator = estimator,
-    train_spec = do.call(tf$estimator$TrainSpec, train_spec$args),
-    eval_spec = do.call(tf$estimator$EvalSpec, eval_spec$args)
-  )
+  with_logging_verbosity(tf$logging$WARN, {
+    tf$estimator$train_and_evaluate(
+      estimator = estimator,
+      train_spec = do.call(tf$estimator$TrainSpec, train_spec$args),
+      eval_spec = do.call(tf$estimator$EvalSpec, eval_spec$args)
+    )
+  })
+  
+  training_history <- as.data.frame(.globals$history[[mode_keys()$TRAIN]])
+  tfruns::write_run_metadata("metrics", training_history)
+  evaluation_results <- as.data.frame(.globals$history[[mode_keys()$EVAL]]) %>%
+    tail(1) %>%
+    as.list()
+  tfruns::write_run_metadata("evaluation", evaluation_results)
+  invisible(training_history)
 }
 
 
