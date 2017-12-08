@@ -134,7 +134,9 @@ train.tf_estimator <- function(object,
   # move tfevents file to a separate /logs folder under model_dir
   mv_tf_events_file(model_dir(object))
   
-  invisible(as.data.frame(.globals$history[[mode_keys()$TRAIN]]))
+  training_history <- as.data.frame(.globals$history[[mode_keys()$TRAIN]])
+  tfruns::write_run_metadata("metrics", training_history)
+  invisible(training_history)
 }
 
 #' Generate Predictions with an Estimator
