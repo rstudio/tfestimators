@@ -54,30 +54,13 @@ train_and_evaluate.tf_estimator <- function(object, train_spec, eval_spec) {
     )
   })
   
-  training_history <- as.data.frame(.globals$history[[mode_keys()$TRAIN]])
-  steps_per_axis_unit <- training_history$steps[2] - training_history$steps[1]
-  
-  training_history <- if (nrow(training_history) > 100) {
-    # cap number of points plotted
-    nrow_history <- nrow(training_history)
-    sampling_indices <- seq(1, nrow_history, by = nrow_history / 100) %>%
-      as.integer()
-    num_steps <- training_history$steps %>%
-      tail(1)
-    steps_per_axis_unit <<- num_steps / 100
-    training_history[sampling_indices, names(training_history) != "steps"]
-  } else training_history[, names(training_history) != "steps"]
-  tfruns::write_run_metadata("metrics", training_history)
-  
-  properties <- list()
-  properties$steps_per_axis_unit <- steps_per_axis_unit
-  tfruns::write_run_metadata("properties", properties)
+  tfruns::write_run_metadata("metrics", compose_history_metadata())
   
   evaluation_results <- as.data.frame(.globals$history[[mode_keys()$EVAL]]) %>%
     tail(1) %>%
     as.list()
   tfruns::write_run_metadata("evaluation", evaluation_results)
-  invisible(training_history)
+  invisible(as.data.frame(.globals$history[[mode_keys()$TRAIN]]))
 }
 
 

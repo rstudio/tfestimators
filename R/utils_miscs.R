@@ -56,3 +56,17 @@ resolve_mode <- function() {
   
   mode
 }
+
+compose_history_metadata <- function(max_rows = 100) {
+  training_history <- as.data.frame(.globals$history[[mode_keys()$TRAIN]])
+  
+  training_history <- if (nrow(training_history) > max_rows) {
+    # cap number of points plotted
+    nrow_history <- nrow(training_history)
+    sampling_indices <- seq(1, nrow_history, by = nrow_history / max_rows) %>%
+      as.integer()
+    training_history[sampling_indices,]
+  } else training_history
+  names(training_history)[names(training_history) == "steps"] <- "epoch"
+  training_history
+}
