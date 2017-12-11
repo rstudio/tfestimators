@@ -23,7 +23,27 @@ as.data.frame.tf_estimator_history <- function(x, ...) {
 
 #' @export
 print.tf_estimator_history <- function(x, ...) {
-  print(as.data.frame(x), ...)
+  
+  steps <- x$params$steps
+  params <- list(steps = steps)
+  params <-  prettyNum(params, big.mark = ",")
+
+  str <- paste0("Trained for ", params[["steps"]]," steps.")
+  
+  # last epoch metrics
+  metrics <- lapply(x$losses, function(metric) {
+    metric[[which(x$step == steps)]]
+  })
+  
+  labels <- names(metrics)
+  max_label_len <- max(nchar(labels))
+  labels <- sprintf(paste0("%", max_label_len, "s"), labels) 
+  metrics <- prettyNum(metrics, big.mark = ",", digits = 4, scientific=FALSE)
+  str <- paste0(str, "\n",
+                "Final step (plot to see history):\n",
+                paste0(labels, ": ", metrics, collapse = "\n"),
+                collapse = "\n")
+  cat(str, "\n")
 }
 
 #' Plot training history
