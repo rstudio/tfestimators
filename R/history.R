@@ -135,3 +135,20 @@ plot.tf_estimator_history <- function(x, y, metrics = NULL, method = c("auto", "
     }
   }
 }
+
+compose_history_metadata <- function(history, max_rows = 100, rename_step_col = TRUE) {
+  training_history <- as.data.frame(history) %>%
+    tidyr::spread("metric", "value")
+  
+  training_history <- if (nrow(training_history) > max_rows) {
+    # cap number of points plotted
+    nrow_history <- nrow(training_history)
+    sampling_indices <- seq(1, nrow_history, by = nrow_history / max_rows) %>%
+      as.integer()
+    training_history[sampling_indices,]
+  } else training_history
+  
+  if (rename_step_col)
+    names(training_history)[names(training_history) == "step"] <- "epoch"
+  training_history
+}
