@@ -7,16 +7,16 @@ new_tf_estimator_history <- function(losses = NULL, step = NULL) {
                     steps = steps),
       losses = losses, 
       step = step
-      ),
+    ),
     class = "tf_estimator_history"
   )
 }
 
 #' @export
 as.data.frame.tf_estimator_history <- function(x, ...) {
-    data.frame(x[["losses"]]) %>%
-      cbind(data.frame(x["step"])) %>%
-      tidyr::gather("metric", "value", -"step")
+  data.frame(x[["losses"]]) %>%
+    cbind(data.frame(x["step"])) %>%
+    tidyr::gather("metric", "value", -"step")
 }
 
 #' @export
