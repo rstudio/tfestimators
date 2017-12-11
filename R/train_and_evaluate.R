@@ -57,9 +57,10 @@ train_and_evaluate.tf_estimator <- function(object, train_spec, eval_spec) {
   history <- do.call(new_tf_estimator_history, .globals$history[[mode_keys()$TRAIN]])
   tfruns::write_run_metadata("metrics", compose_history_metadata(history))
   
-  evaluation_results <- as.data.frame(.globals$history[[mode_keys()$EVAL]]) %>%
-    tail(1) %>%
-    as.list()
+  eval_history <- do.call(new_tf_estimator_history, .globals$history[[mode_keys()$EVAL]])
+  evaluation_results <- eval_history[["losses"]] %>%
+    lapply(tail, 1) %>%
+    c(eval_history$params["steps"])
   tfruns::write_run_metadata("evaluation", evaluation_results)
   invisible(history)
 }
