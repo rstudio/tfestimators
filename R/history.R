@@ -1,12 +1,12 @@
-new_tf_estimator_history <- function(losses = NULL, steps = NULL) {
+new_tf_estimator_history <- function(losses = NULL, step = NULL) {
   metrics <- names(losses)
-  steps <- tail(steps, 1)
+  steps <- tail(step, 1)
   structure(
     list(
       params = list(metrics = metrics,
                     steps = steps),
       losses = losses, 
-      step = steps
+      step = step
       ),
     class = "tf_estimator_history"
   )
