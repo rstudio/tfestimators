@@ -131,7 +131,7 @@ attach_default_built_in_custom_hooks <- function(hooks) {
 
 resolve_train_hooks <- function(hooks, steps) {
   
-  .globals$history[[mode_keys()$TRAIN]] <- tf_estimator_history()
+  .globals$history[[mode_keys()$TRAIN]] <- list()
   
   hooks <- lapply(attach_default_built_in_custom_hooks(hooks), function(hook) {
     if (is.built_in_custom_hook(hook)) {
@@ -152,7 +152,7 @@ resolve_train_hooks <- function(hooks, steps) {
 
 resolve_eval_hooks <- function(hooks, steps) {
   
-  .globals$history[[mode_keys()$EVAL]] <- tf_estimator_history()
+  .globals$history[[mode_keys()$EVAL]] <- list()
   
   hooks <- lapply(attach_default_built_in_custom_hooks(hooks), function(hook) {
     if (is.built_in_custom_hook(hook)) {
