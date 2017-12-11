@@ -134,8 +134,8 @@ train.tf_estimator <- function(object,
   # move tfevents file to a separate /logs folder under model_dir
   mv_tf_events_file(model_dir(object))
   
-  tfruns::write_run_metadata("metrics", compose_history_metadata())
   history <- do.call(new_tf_estimator_history, .globals$history[[mode_keys()$TRAIN]])
+  tfruns::write_run_metadata("metrics", compose_history_metadata(history))
   invisible(history)
 }
 

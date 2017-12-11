@@ -54,13 +54,14 @@ train_and_evaluate.tf_estimator <- function(object, train_spec, eval_spec) {
     )
   })
   
-  tfruns::write_run_metadata("metrics", compose_history_metadata())
+  history <- do.call(new_tf_estimator_history, .globals$history[[mode_keys()$TRAIN]])
+  tfruns::write_run_metadata("metrics", compose_history_metadata(history))
   
   evaluation_results <- as.data.frame(.globals$history[[mode_keys()$EVAL]]) %>%
     tail(1) %>%
     as.list()
   tfruns::write_run_metadata("evaluation", evaluation_results)
-  invisible(.globals$history[[mode_keys()$TRAIN]])
+  invisible(history)
 }
 
 

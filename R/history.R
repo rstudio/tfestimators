@@ -56,7 +56,9 @@ plot.tf_estimator_history <- function(x, y, metrics = NULL, method = c("auto", "
   }
   
   # convert to data frame
-  df <- as.data.frame(x)
+  df <- x %>%
+    compose_history_metadata(rename_step_col = FALSE) %>%
+    tidyr::gather("metric", "value", -"step")
   
   # if metrics is null we plot all of the metrics
   if (is.null(metrics)) metrics <- x$params$metrics
