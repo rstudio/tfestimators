@@ -12,7 +12,7 @@ should_execute <- function(current_step, every_n_step) {
 #' @family session_run_hook wrappers
 #' @export
 #' 
-hook_history_saver <- function(every_n_step = 2) {
+hook_history_saver <- function(every_n_step = 10) {
   
   hook_fn <- function(mode_key) {
 

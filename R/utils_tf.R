@@ -103,7 +103,7 @@ is.built_in_custom_hook <- function(hook) {
 
 attach_default_built_in_custom_hooks <- function(hooks) {
   hooks <- normalize_session_run_hooks(hooks)
-  default_history_saver <- hook_history_saver(every_n_step = 10)
+  default_history_saver <- hook_history_saver()
   default_progress_bar <- hook_progress_bar()
   built_in_hooks <- lapply(hooks, function(hook) {
    if (is.built_in_custom_hook(hook)) hook
