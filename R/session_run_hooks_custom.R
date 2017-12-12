@@ -101,12 +101,12 @@ hook_progress_bar <- function() {
       },
       
       end = function(session) {
-        
-        # if we ran as many steps as expected, bail
-        if (is.null(steps) || identical(.n, steps))
-          return()
-        
-        update_progress(.values, steps - .n)
+        # notify user if didn't train for steps specified
+        if (!is.null(steps) && !identical(.n, steps)) {
+          msg <- paste0("\nTraining completed after ", .n, " steps ",
+                        "but ", steps, " steps was specified")
+          message(msg)
+        }
       }
       
     )
