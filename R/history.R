@@ -1,12 +1,12 @@
 new_tf_estimator_history <- function(training_history = NULL, evaluation_history = NULL) {
   training_history <- training_history %||% .globals$history[[mode_keys()$TRAIN]]
   metrics_train <- names(training_history$losses)
-  steps <- tail(training_history$step, 1)
+  steps <- utils::tail(training_history$step, 1)
   
   evaluation_metrics <- if (!is.null(evaluation_history)) {
     evaluation_history$losses %>%
-      lapply(tail, 1) %>%
-      c(list(step = tail(evaluation_history$step, 1)))
+      lapply(utils::tail, 1) %>%
+      c(list(step = utils::tail(evaluation_history$step, 1)))
   } else NULL
   
   structure(
@@ -71,6 +71,7 @@ print.tf_estimator_history <- function(x, ...) {
 #' @param theme_bw Use `ggplot2::theme_bw()` to plot the history in 
 #'   black and white.
 #' @param ... Additional parameters to pass to the [plot()] method.
+#' @importFrom graphics par plot
 #' 
 #' @export
 plot.tf_estimator_history <- function(x, y, metrics = NULL, method = c("auto", "ggplot2", "base"),
