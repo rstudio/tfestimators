@@ -103,7 +103,11 @@ hook_progress_bar <- function() {
       end = function(session) {
         # notify user if didn't train for steps specified
         if (!is.null(steps) && !identical(.n, steps)) {
-          msg <- paste0("\nTraining completed after ", .n, " steps ",
+          op <- switch(label,
+                       Training = "Training",
+                       Evaluating = "Evaluation",
+                       label)
+          msg <- paste0("\n", op, " completed after ", .n, " steps ",
                         "but ", steps, " steps was specified")
           message(msg)
         }
