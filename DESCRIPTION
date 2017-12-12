@@ -1,7 +1,7 @@
 Package: tfestimators
 Type: Package
 Title: High-level Estimator Interface to TensorFlow in R
-Version: 0.1.3.9000
+Version: 0.1.3.9001
 Authors@R: c(
   person("Yuan", "Tang", role = c("aut", "cre"),
          email = "terrytangyuan@gmail.com"),
@@ -36,10 +36,12 @@ Imports:
     tidyselect,
     utils,
     purrr,
-    tibble
+    tibble,
+    tidyr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
 Suggests:
+    ggplot2,
     modelr (>= 0.1.1),
     testthat,
     knitr

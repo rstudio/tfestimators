@@ -125,7 +125,7 @@ train.tf_estimator <- function(object,
     args$saving_listeners <- saving_listeners
   }
 
-  args$hooks <- resolve_train_hooks(hooks, steps, object)
+  args$hooks <- resolve_train_hooks(hooks, steps)
   
   with_logging_verbosity(tf$logging$WARN, {
     do.call(object$estimator$train, args)
@@ -134,7 +134,9 @@ train.tf_estimator <- function(object,
   # move tfevents file to a separate /logs folder under model_dir
   mv_tf_events_file(model_dir(object))
   
-  invisible(as.data.frame(.globals$history[[mode_keys()$TRAIN]]))
+  history <- new_tf_estimator_history(.globals$history[[mode_keys()$TRAIN]])
+  tfruns::write_run_metadata("metrics", compose_history_metadata(history))
+  invisible(history)
 }
 
 #' Generate Predictions with an Estimator

@@ -37,7 +37,7 @@ hook_history_saver <- function(every_n_step = 2) {
           
           .globals$history[[mode_key]]$losses$mean_losses <- c(.globals$history[[mode_key]]$losses$mean_losses, mean(raw_losses))
           .globals$history[[mode_key]]$losses$total_losses <- c(.globals$history[[mode_key]]$losses$total_losses, sum(raw_losses))
-          .globals$history[[mode_key]]$steps <- unlist(c(.globals$history[[mode_key]]$steps, global_step))
+          .globals$history[[mode_key]]$step <- unlist(c(.globals$history[[mode_key]]$step, global_step))
         }
       }
     )

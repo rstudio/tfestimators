@@ -33,24 +33,34 @@
 #' @param object An estimator object to train and evaluate.
 #' @param train_spec A `TrainSpec` instance to specify the training specification.
 #' @param eval_spec A `EvalSpec` instance to specify the evaluation and export specification.
+#' @param ... Not used.
 #' 
 #' @section Raises:
 #' * ValueError: if environment variable `TF_CONFIG` is incorrectly set.
 #' 
 #' @family training methods
-#' 
-train_and_evaluate.tf_estimator <- function(object, train_spec, eval_spec) {
+#' @export
+train_and_evaluate.tf_estimator <- function(object, train_spec, eval_spec, ...) {
   if (tf_version() < '1.4') {
     stop("train_and_evaluate() is only available since TensorFlow v1.4")
   }
   estimator <- object$estimator
   train_spec$args$input_fn <- normalize_input_fn(object, train_spec$args$input_fn)
   eval_spec$args$input_fn <- normalize_input_fn(object, eval_spec$args$input_fn)
-  tf$estimator$train_and_evaluate(
-    estimator = estimator,
-    train_spec = do.call(tf$estimator$TrainSpec, train_spec$args),
-    eval_spec = do.call(tf$estimator$EvalSpec, eval_spec$args)
-  )
+  with_logging_verbosity(tf$logging$WARN, {
+    tf$estimator$train_and_evaluate(
+      estimator = estimator,
+      train_spec = do.call(tf$estimator$TrainSpec, train_spec$args),
+      eval_spec = do.call(tf$estimator$EvalSpec, eval_spec$args)
+    )
+  })
+  
+  history <- new_tf_estimator_history(.globals$history[[mode_keys()$TRAIN]],
+                                      .globals$history[[mode_keys()$EVAL]])
+  tfruns::write_run_metadata("metrics", compose_history_metadata(history))
+
+  tfruns::write_run_metadata("evaluation", history$evaluation_metrics)
+  invisible(history)
 }
 
 
@@ -69,7 +79,7 @@ train_and_evaluate.tf_estimator <- function(object, train_spec, eval_spec) {
 #' (including chief) during training.
 #' 
 #' @family training methods
-#' 
+#' @export
 train_spec <- function(input_fn,
                        max_steps = NULL,
                        hooks = NULL) {
@@ -78,7 +88,7 @@ train_spec <- function(input_fn,
       args = list(
         input_fn = input_fn,
         max_steps = as_nullable_integer(max_steps),
-        hooks = normalize_session_run_hooks(hooks)
+        hooks = resolve_train_hooks(hooks, max_steps)
       )
     ),
     class = "train_spec"
@@ -111,7 +121,7 @@ train_spec <- function(input_fn,
 #' occur if no new checkpoints are available, hence, this is the minimum.
 #' 
 #' @family training methods
-#' 
+#' @export
 eval_spec <- function(input_fn,
                       steps = 100,
                       name = NULL,
@@ -125,7 +135,7 @@ eval_spec <- function(input_fn,
         input_fn = input_fn,
         steps = as_nullable_integer(steps),
         name = name,
-        hooks = normalize_session_run_hooks(hooks),
+        hooks = resolve_eval_hooks(hooks, steps),
         exporters = exporters,
         start_delay_secs = as.integer(start_delay_secs),
         throttle_secs = as.integer(throttle_secs)
