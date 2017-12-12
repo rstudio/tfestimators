@@ -58,12 +58,6 @@ test_that("Built-in Custom Hook works with linear_regressor", {
     steps = 2,
     hooks = list(
       hook_progress_bar()))
-  # verify that history is not saved by progress bar
-  expect_equal(dim(as.data.frame(training_history)), c(0, 0))
-  expect_equal(
-    lapply(tfestimators:::.globals$history, function(x) dim(as.data.frame(x))),
-    list(train = c(0, 0), eval = c(0, 0))
-  )
   
   # Test hook_history_saver
   lr <- linear_regressor(feature_columns = specs$linear_feature_columns)
