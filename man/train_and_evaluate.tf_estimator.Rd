@@ -4,7 +4,7 @@
 \alias{train_and_evaluate.tf_estimator}
 \title{Train and evaluate the estimator.}
 \usage{
-\method{train_and_evaluate}{tf_estimator}(object, train_spec, eval_spec)
+\method{train_and_evaluate}{tf_estimator}(object, train_spec, eval_spec, ...)
 }
 \arguments{
 \item{object}{An estimator object to train and evaluate.}
@@ -12,6 +12,8 @@
 \item{train_spec}{A \code{TrainSpec} instance to specify the training specification.}
 
 \item{eval_spec}{A \code{EvalSpec} instance to specify the evaluation and export specification.}
+
+\item{...}{Not used.}
 }
 \description{
 (Available since TensorFlow v1.4)
@@ -55,3 +57,4 @@ model will be trained with three epochs of training data instead of one epoch.
 Other training methods: \code{\link{eval_spec}},
   \code{\link{train_spec}}
 }
+\concept{training methods}

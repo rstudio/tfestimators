@@ -33,13 +33,14 @@
 #' @param object An estimator object to train and evaluate.
 #' @param train_spec A `TrainSpec` instance to specify the training specification.
 #' @param eval_spec A `EvalSpec` instance to specify the evaluation and export specification.
+#' @param ... Not used.
 #' 
 #' @section Raises:
 #' * ValueError: if environment variable `TF_CONFIG` is incorrectly set.
 #' 
 #' @family training methods
 #' @export
-train_and_evaluate.tf_estimator <- function(object, train_spec, eval_spec) {
+train_and_evaluate.tf_estimator <- function(object, train_spec, eval_spec, ...) {
   if (tf_version() < '1.4') {
     stop("train_and_evaluate() is only available since TensorFlow v1.4")
   }
