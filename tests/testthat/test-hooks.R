@@ -75,9 +75,9 @@ test_that("Built-in Custom Hook works with linear_regressor", {
   # verify history is saved for both training and evaluation
   expect_equal(
     lapply(tfestimators:::.globals$history, function(x) dim(as.data.frame(x))),
-    list(train = 2:3, eval = 2:3)
+    list(train = c(6, 3), eval = c(6, 3))
   )
-  expect_equal(dim(as.data.frame(training_history)), c(4, 3))
+  expect_equal(dim(as.data.frame(training_history)), c(12, 3))
   
   # Test whether default hooks are attached successfully without any hooks specified
   lr <- linear_regressor(feature_columns = specs$linear_feature_columns)
