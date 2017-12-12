@@ -109,3 +109,12 @@ test_that("Built-in Custom Hook works with linear_regressor", {
       hook_history_saver(every_n_step = 2)))
 })
 
+test_that("First step of training is always saved in default history saver", {
+  specs <- mtcars_regression_specs()
+  lr <- linear_regressor(feature_columns = specs$linear_feature_columns)
+  training_history <- lr %>% train(
+    input_fn = specs$input_fn,
+    steps = 1)
+  expect_equal(dim(as.data.frame(training_history)),
+               c(2, 3))
+})
