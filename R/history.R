@@ -1,12 +1,21 @@
-new_tf_estimator_history <- function(losses = NULL, step = NULL) {
-  metrics <- names(losses)
-  steps <- tail(step, 1)
+new_tf_estimator_history <- function(training_history = NULL, evaluation_history = NULL) {
+  training_history <- training_history %||% .globals$history[[mode_keys()$TRAIN]]
+  metrics_train <- names(training_history$losses)
+  steps <- tail(training_history$step, 1)
+  
+  evaluation_metrics <- if (!is.null(evaluation_history)) {
+    evaluation_history$losses %>%
+      lapply(tail, 1) %>%
+      c(list(step = tail(evaluation_history$step, 1)))
+  } else NULL
+  
   structure(
     list(
-      params = list(metrics = metrics,
+      params = list(metrics = metrics_train,
                     steps = steps),
-      losses = losses, 
-      step = step
+      losses = training_history$losses, 
+      step = training_history$step,
+      evaluation_metrics = evaluation_metrics
     ),
     class = "tf_estimator_history"
   )
