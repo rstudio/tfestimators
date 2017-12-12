@@ -58,12 +58,6 @@ test_that("Built-in Custom Hook works with linear_regressor", {
     steps = 2,
     hooks = list(
       hook_progress_bar()))
-  # verify that history is not saved by progress bar
-  expect_equal(dim(as.data.frame(training_history)), c(0, 0))
-  expect_equal(
-    lapply(tfestimators:::.globals$history, function(x) dim(as.data.frame(x))),
-    list(train = c(0, 0), eval = c(0, 0))
-  )
   
   # Test hook_history_saver
   lr <- linear_regressor(feature_columns = specs$linear_feature_columns)
@@ -81,9 +75,9 @@ test_that("Built-in Custom Hook works with linear_regressor", {
   # verify history is saved for both training and evaluation
   expect_equal(
     lapply(tfestimators:::.globals$history, function(x) dim(as.data.frame(x))),
-    list(train = 2:3, eval = 2:3)
+    list(train = c(6, 3), eval = c(6, 3))
   )
-  expect_equal(dim(as.data.frame(training_history)), c(4, 3))
+  expect_equal(dim(as.data.frame(training_history)), c(12, 3))
   
   # Test whether default hooks are attached successfully without any hooks specified
   lr <- linear_regressor(feature_columns = specs$linear_feature_columns)
@@ -115,3 +109,12 @@ test_that("Built-in Custom Hook works with linear_regressor", {
       hook_history_saver(every_n_step = 2)))
 })
 
+test_that("First step of training is always saved in default history saver", {
+  specs <- mtcars_regression_specs()
+  lr <- linear_regressor(feature_columns = specs$linear_feature_columns)
+  training_history <- lr %>% train(
+    input_fn = specs$input_fn,
+    steps = 1)
+  expect_equal(dim(as.data.frame(training_history)),
+               c(2, 3))
+})
