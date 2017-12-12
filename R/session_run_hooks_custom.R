@@ -1,5 +1,5 @@
 should_execute <- function(current_step, every_n_step) {
-  current_step %% every_n_step == 0
+  (current_step %% every_n_step == 0) || (current_step == 1)
 }
 
 #' A Custom Run Hook for Saving Metrics History
