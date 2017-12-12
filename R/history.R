@@ -36,7 +36,7 @@ print.tf_estimator_history <- function(x, ...) {
   steps <- x$params$steps
   params <- list(steps = steps)
   params <-  prettyNum(params, big.mark = ",")
-
+  
   str <- paste0("Trained for ", params[["steps"]]," steps.")
   
   # last epoch metrics
@@ -44,15 +44,26 @@ print.tf_estimator_history <- function(x, ...) {
     metric[[which(x$step == steps)]]
   })
   
-  labels <- names(metrics)
-  max_label_len <- max(nchar(labels))
-  labels <- sprintf(paste0("%", max_label_len, "s"), labels) 
-  metrics <- prettyNum(metrics, big.mark = ",", digits = 4, scientific=FALSE)
-  str <- paste0(str, "\n",
-                "Final step (plot to see history):\n",
-                paste0(labels, ": ", metrics, collapse = "\n"),
-                collapse = "\n")
   cat(str, "\n")
+  print_metrics <- function(metrics, header) {
+    labels <- names(metrics)
+    max_label_len <- max(nchar(labels))
+    labels <- sprintf(paste0("%", max_label_len, "s"), labels) 
+    metrics <- prettyNum(metrics, big.mark = ",", digits = 4, scientific=FALSE)
+    str <- paste0(paste0(header, "\n"),
+                  paste0(labels, ": ", metrics, collapse = "\n"),
+                  collapse = "\n")
+    cat(str, "\n")
+  }
+  
+  print_metrics(metrics, "Final step (plot to see history):")
+  
+  if (!is.null(x$evaluation_metrics))
+    print_metrics(
+      x$evaluation_metrics[names(x$evaluation_metrics) != "step"], 
+      paste0("Evaluation metrics (step ", x$evaluation_metrics[["step"]], "):")
+    )
+  
 }
 
 #' Plot training history
