@@ -1,6 +1,8 @@
 context("Testing hooks")
 
-test_that("Hooks works with linear_regressor", {
+source("helper-utils.R")
+
+test_succeeds("Hooks works with linear_regressor", {
   specs <- mtcars_regression_specs()
 
   lr <- linear_regressor(feature_columns = specs$linear_feature_columns)
@@ -21,7 +23,7 @@ test_that("Hooks works with linear_regressor", {
   expect_true(length(list.files("/tmp/ckpt_dir")) > 1)
 })
 
-test_that("Custom hooks work with linear_regressor", {
+test_succeeds("Custom hooks work with linear_regressor", {
   specs <- mtcars_regression_specs()
   custom_hook <- session_run_hook(
     end = function(session) {
@@ -42,7 +44,7 @@ test_that("Custom hooks work with linear_regressor", {
   expect_equal(actual_output, expected_output)
 })
 
-test_that("Built-in Custom Hook works with linear_regressor", {
+test_succeeds("Built-in Custom Hook works with linear_regressor", {
   specs <- mtcars_regression_specs()
   
   # Test hook_progress_bar
@@ -109,7 +111,7 @@ test_that("Built-in Custom Hook works with linear_regressor", {
       hook_history_saver(every_n_step = 2)))
 })
 
-test_that("First step of training is always saved in default history saver", {
+test_succeeds("First step of training is always saved in default history saver", {
   specs <- mtcars_regression_specs()
   lr <- linear_regressor(feature_columns = specs$linear_feature_columns)
   training_history <- lr %>% train(

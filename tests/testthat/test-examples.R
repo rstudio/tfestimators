@@ -1,10 +1,6 @@
 context("Testing examples")
 
-skip_if_no_tensorflow <- function() {
-  if (is.null(tensorflow::tf))
-    skip("TensorFlow not available for test")
-}
-
+source("helper-utils.R")
 
 # some helpers
 run_example <- function(example_path) {
@@ -31,7 +27,7 @@ examples <- NULL
 
 if (!is.null(examples)) {
   for (example in examples) {
-    test_that(paste(example, "example runs successfully"), {
+    test_succeeds(paste(example, "example runs successfully"), {
       skip_if_no_tensorflow()
       expect_error(run_example(example), NA)
     })

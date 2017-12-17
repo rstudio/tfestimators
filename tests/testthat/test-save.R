@@ -1,5 +1,7 @@
 context("Testing model save")
 
+source("helper-utils.R")
+
 check_contents <- function(path) {
   dir_contents <- dir(path, recursive = TRUE)
   
@@ -10,7 +12,7 @@ check_contents <- function(path) {
   unlink(path, recursive = TRUE)
 }
 
-test_that("export_savedmodel() runs successfully", {
+test_succeeds("export_savedmodel() runs successfully", {
   specs <- mtcars_regression_specs()
   
   model <- linear_regressor(feature_columns = specs$linear_feature_columns)

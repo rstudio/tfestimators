@@ -1,6 +1,8 @@
 context("Test training methods")
 
-test_that("train_and_evaluate() work for canned estimators", {
+source("helper-utils.R")
+
+test_succeeds("train_and_evaluate() work for canned estimators", {
 
   skip_if_tensorflow_below("1.4")
 
@@ -23,7 +25,7 @@ test_that("train_and_evaluate() work for canned estimators", {
   
 })
 
-test_that("train_and_evaluate() work for custom estimators", {
+test_succeeds("train_and_evaluate() work for custom estimators", {
   
   skip_if_tensorflow_below("1.4")
 

@@ -1,6 +1,8 @@
 context("Testing linear dnn combined estimators")
 
-test_that("linear_dnn_combined_regressor() runs successfully", {
+source("helper-utils.R")
+
+test_succeeds("linear_dnn_combined_regressor() runs successfully", {
   
   specs <- mtcars_regression_specs()
   reg <-
@@ -16,7 +18,7 @@ test_that("linear_dnn_combined_regressor() runs successfully", {
   expect_equal(length(predictions), 32)
 })
 
-test_that("linear_dnn_combined_classifier() runs successfully", {
+test_succeeds("linear_dnn_combined_classifier() runs successfully", {
   
   specs <- mtcars_classification_specs()
   clf <-

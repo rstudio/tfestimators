@@ -1,6 +1,8 @@
 context("Testing linear estimators")
 
-test_that("linear_regressor() runs successfully", {
+source("helper-utils.R")
+
+test_succeeds("linear_regressor() runs successfully", {
   specs <- mtcars_regression_specs()
 
   estimator <- linear_regressor(feature_columns = specs$linear_feature_columns)
@@ -11,7 +13,7 @@ test_that("linear_regressor() runs successfully", {
 })
 
 
-test_that("linear_classifier() runs successfully", {
+test_succeeds("linear_classifier() runs successfully", {
   specs <- mtcars_classification_specs()
 
   estimator <- linear_classifier(feature_columns = specs$linear_feature_columns)

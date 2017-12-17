@@ -1,6 +1,8 @@
 context("Testing feature columns")
 
-test_that("feature columns can be constructed correctly", {
+source("helper-utils.R")
+
+test_succeeds("feature columns can be constructed correctly", {
   
   fcs <- feature_columns(column_numeric("drat"))
   expect_equal(length(fcs), 1)
@@ -10,7 +12,7 @@ test_that("feature columns can be constructed correctly", {
   expect_true(grepl("NumericColumn", class(fcs[[1]])[1]))
 })
 
-test_that("feature columns can be constructed with (cond) ~ (op) syntax", {
+test_succeeds("feature columns can be constructed with (cond) ~ (op) syntax", {
   
   names <- do.call(paste0, expand.grid(letters, 0:9))
   
@@ -42,7 +44,7 @@ test_that("feature columns can be constructed with (cond) ~ (op) syntax", {
   
 })
 
-test_that("duplicates columns are dropped", {
+test_succeeds("duplicates columns are dropped", {
   
   names <- c("aa")
   columns <- feature_columns(

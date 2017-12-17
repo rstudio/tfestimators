@@ -1,6 +1,8 @@
 context("Testing tf models")
 
-test_that("train(), predict(), and evaluate() work for regressors", {
+source("helper-utils.R")
+
+test_succeeds("train(), predict(), and evaluate() work for regressors", {
   
   specs <- mtcars_regression_specs()
 
@@ -23,7 +25,7 @@ test_that("train(), predict(), and evaluate() work for regressors", {
   expect_lte(loss, 6000)
 })
 
-test_that("train(), predict(), and evaluate() work for classifiers", {
+test_succeeds("train(), predict(), and evaluate() work for classifiers", {
   
   specs <- mtcars_classification_specs()
 

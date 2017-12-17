@@ -1,6 +1,8 @@
 context("Testing tf_custom_models methods")
 
-test_that("custom model works on iris data", {
+source("helper-utils.R")
+
+test_succeeds("custom model works on iris data", {
   
   constructed_input_fn <- input_fn(
     object = iris,
