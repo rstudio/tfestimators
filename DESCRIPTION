@@ -1,6 +1,6 @@
 Package: tfestimators
 Type: Package
-Title: High-level Estimator Interface to TensorFlow in R
+Title: High-level Estimator Interface to 'TensorFlow' in R
 Version: 1.4.2
 Authors@R: c(
   person("Yuan", "Tang", role = c("aut", "cre"),
@@ -13,8 +13,8 @@ Authors@R: c(
   person("RStudio", role = c("cph", "fnd")),  
   person(family = "Google Inc.", role = c("cph"))
   )
-Description: This package provides access to TensorFlow's high-level
-    Estimator API for easier machine learning. TensorFlow is an open
+Description: This package provides access to the 'TensorFlow' high-level
+    Estimator 'API' for machine learning. 'TensorFlow' is an open
     source software library for numerical computation using data flow
     graphs.
 License: Apache License 2.0
