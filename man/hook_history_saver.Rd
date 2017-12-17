@@ -4,7 +4,7 @@
 \alias{hook_history_saver}
 \title{A Custom Run Hook for Saving Metrics History}
 \usage{
-hook_history_saver(every_n_step = 2)
+hook_history_saver(every_n_step = 10)
 }
 \arguments{
 \item{every_n_step}{Save the metrics every N steps}

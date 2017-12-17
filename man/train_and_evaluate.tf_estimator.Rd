@@ -57,4 +57,3 @@ model will be trained with three epochs of training data instead of one epoch.
 Other training methods: \code{\link{eval_spec}},
   \code{\link{train_spec}}
 }
-\concept{training methods}
