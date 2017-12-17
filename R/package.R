@@ -5,7 +5,7 @@
 #' API inside TensorFlow that's designed to streamline the process of creating,
 #' evaluating, and deploying general machine learning and deep learning models.
 #' 
-#' \href{https://tensorflow.org}{TensorFlow} is an open source software library 
+#' \href{https://www.tensorflow.org}{TensorFlow} is an open source software library 
 #' for numerical computation using data flow graphs. Nodes in the graph 
 #' represent mathematical operations, while the graph edges represent the 
 #' multidimensional data arrays (tensors) communicated between them. The 
