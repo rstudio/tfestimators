@@ -16,7 +16,7 @@ Authors@R: c(
   person(family = "Google Inc.", role = c("cph"))
   )
 Description: R interface to 'TensorFlow' Estimators, a high-level 
-    API that provides implementations of many different model types 
+    'API' that provides implementations of many different model types 
     including linear models and deep neural networks. 
 License: Apache License 2.0
 URL: https://github.com/rstudio/tfestimators
