@@ -11,12 +11,14 @@ The canonical set of keys that can be used to access metrics from canned
 estimators.
 }
 \examples{
+\dontrun{
 metrics <- metric_keys()
 
 # Get the available keys
 metrics
 
 metrics$ACCURACY
+}
 
 }
 \seealso{

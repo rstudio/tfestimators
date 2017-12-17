@@ -18,8 +18,10 @@ standard keys are defined:
 }
 }
 \examples{
+\dontrun{
 modes <- mode_keys()
 modes$TRAIN
+}
 
 }
 \seealso{

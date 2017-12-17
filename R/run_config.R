@@ -2,7 +2,7 @@
 #' 
 #' This class specifies the configurations for an `Estimator` run.
 #' 
-#' @examples
+#' @examples \dontrun{
 #' config <- run_config()
 #' 
 #' # Get the properties of the config
@@ -13,6 +13,7 @@
 #' 
 #' # Print config as key value pairs
 #' print(config)
+#' }
 #' 
 #' @family run_config methods
 #'   
@@ -47,8 +48,9 @@ print.tensorflow.python.estimator.run_config.RunConfig <- function(x, ...) {
 #' This constant class gives the constant strings for available task types
 #' used in `run_config`.
 #' 
-#' @examples
+#' @examples \dontrun{
 #' task_type()$MASTER
+#' }
 #' 
 #' @export
 #' @family run_config methods

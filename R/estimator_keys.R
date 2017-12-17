@@ -12,7 +12,7 @@ available_keys <- function(keys, key_type) {
 #' different types of predicted values through their `predict()` method.
 #' 
 #' @export
-#' @examples 
+#' @examples  \dontrun{
 #' keys <- prediction_keys()
 #' 
 #' # Get the available keys
@@ -20,6 +20,8 @@ available_keys <- function(keys, key_type) {
 #' 
 #' # Key for retrieving probabilities from prediction values
 #' keys$PROBABILITIES
+#' }
+#' 
 #' @family estimator keys
 prediction_keys <- function() {
   canned_estimator_lib$prediction_keys$PredictionKeys()
@@ -36,13 +38,14 @@ print.tensorflow.python.estimator.canned.prediction_keys.PredictionKeys <- funct
 #' The canonical set of keys that can be used to access metrics from canned
 #' estimators.
 #' 
-#' @examples 
+#' @examples \dontrun{
 #' metrics <- metric_keys()
 #' 
 #' # Get the available keys
 #' metrics
 #' 
 #' metrics$ACCURACY
+#' }
 #' 
 #' @export
 #' @family estimator keys
@@ -67,9 +70,10 @@ print.tensorflow.python.estimator.canned.metric_keys.MetricKeys <- function(x, .
 #' `PREDICT` \tab Prediction / inference mode. \cr
 #' }
 #' 
-#' @examples 
+#' @examples \dontrun{
 #' modes <- mode_keys()
 #' modes$TRAIN
+#' }
 #' 
 #' @export
 #' @family estimator keys
@@ -127,9 +131,10 @@ print.tensorflow.python.estimator.model_fn.ModeKeys <- function(x, ...) {
 #'   * `BIASES` 
 #'   * `ACTIVATIONS`
 #' 
-#' @examples 
+#' @examples \dontrun{
 #' graph_keys()
 #' graph_keys()$LOSSES
+#' }
 #' 
 #' @export
 #' @family utility functions

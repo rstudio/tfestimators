@@ -35,20 +35,22 @@ input_fn.default <- function(object, ...) {
   input_fn(as.data.frame(object, stringsAsFactors = FALSE), ...)
 }
 
-#' @export
-#' @rdname input_fn
-#' @examples 
+#' @examples \dontrun{
 #' # Construct the input function through formula interface
 #' input_fn1 <- input_fn(mpg ~ drat + cyl, mtcars)
+#' }
 #' 
+#' @rdname input_fn
+#' @export
 input_fn.formula <- function(object, data, ...) {
   parsed <- parse_formula(object)
   input_fn(data, parsed$features, parsed$response, ...)
 }
 
-#' @examples
+#' @examples \dontrun{
 #' # Construct the input function from a data.frame object
 #' input_fn1 <- input_fn(mtcars, response = mpg, features = c(drat, cyl))
+#' }
 #' 
 #' @export
 #' @family input function constructors
@@ -196,7 +198,7 @@ input_fn.data.frame <- function(object,
   }
 }
 
-#' @examples
+#' @examples \dontrun{
 #' # Construct the input function from a list object
 #' input_fn1 <- input_fn(
 #'    object = list(
@@ -211,6 +213,7 @@ input_fn.data.frame <- function(object,
 #'    features = c("feature1", "feature2"),
 #'    response = "response",
 #'    batch_size = 10L)
+#' }
 #' 
 #' @export
 #' @family input function constructors

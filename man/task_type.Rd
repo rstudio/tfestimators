@@ -11,7 +11,9 @@ This constant class gives the constant strings for available task types
 used in \code{run_config}.
 }
 \examples{
+\dontrun{
 task_type()$MASTER
+}
 
 }
 \seealso{

@@ -60,12 +60,17 @@ some arguments are not available yet for input_fn applied to list objects.
 See S3 method signatures below for more details.
 }
 \examples{
+\dontrun{
 # Construct the input function through formula interface
 input_fn1 <- input_fn(mpg ~ drat + cyl, mtcars)
+}
 
+\dontrun{
 # Construct the input function from a data.frame object
 input_fn1 <- input_fn(mtcars, response = mpg, features = c(drat, cyl))
+}
 
+\dontrun{
 # Construct the input function from a list object
 input_fn1 <- input_fn(
    object = list(
@@ -80,6 +85,7 @@ input_fn1 <- input_fn(
    features = c("feature1", "feature2"),
    response = "response",
    batch_size = 10L)
+}
 
 }
 \seealso{

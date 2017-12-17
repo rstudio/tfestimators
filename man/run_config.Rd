@@ -10,6 +10,7 @@ run_config()
 This class specifies the configurations for an \code{Estimator} run.
 }
 \examples{
+\dontrun{
 config <- run_config()
 
 # Get the properties of the config
@@ -20,6 +21,7 @@ config <- config$replace(tf_random_seed = 11L, save_summary_steps = 12L)
 
 # Print config as key value pairs
 print(config)
+}
 
 }
 \seealso{

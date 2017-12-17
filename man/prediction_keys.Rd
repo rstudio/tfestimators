@@ -11,6 +11,7 @@ The canonical set of keys used for models and estimators that provide
 different types of predicted values through their \code{predict()} method.
 }
 \examples{
+ \dontrun{
 keys <- prediction_keys()
 
 # Get the available keys
@@ -18,6 +19,8 @@ keys
 
 # Key for retrieving probabilities from prediction values
 keys$PROBABILITIES
+}
+
 }
 \seealso{
 Other estimator keys: \code{\link{metric_keys}},
