@@ -5,9 +5,11 @@
 ^internal/
 ^man-roxygen/
 ^mnist-data/
+^vignettes/examples/mnist-data/
 ^scripts/
 ^travis/
 ^.*\.csv$
 ^\.travis\.yml$
 ^index.*$
 ^pkgdown$
+^inst/python/estimatortools/__pycache__$
