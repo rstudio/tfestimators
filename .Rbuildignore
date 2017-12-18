@@ -12,4 +12,4 @@
 ^\.travis\.yml$
 ^index.*$
 ^pkgdown$
-^inst/python/estimatortools/__pycache__$
+^inst/python/estimatortools/__pycache__/
