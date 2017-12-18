@@ -46,4 +46,3 @@ Suggests:
     testthat,
     knitr
 VignetteBuilder: knitr
-
