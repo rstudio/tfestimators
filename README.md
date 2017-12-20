@@ -1,6 +1,7 @@
 ## tfestimators - R Interface to TensorFlow Estimator API
 
 [![Travis-CI Build Status](https://travis-ci.org/rstudio/tfestimators.svg?branch=master)](https://travis-ci.org/rstudio/tfestimators) 
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/tfestimators)](https://cran.r-project.org/package=tfestimators) 
 
 <img src="vignettes/images/tensorflow-architecture.png" align="right" width="50%" style="margin-left: 15px;">
 
