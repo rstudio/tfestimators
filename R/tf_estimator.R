@@ -344,13 +344,31 @@ export_savedmodel.tf_estimator <- function(object,
       stop("Currently only classifier and regressor are supported. Please specify a custom serving_input_receiver_fn. ")
     }
     
-    features <- list()
-    for (feature in feature_columns_spec) {
-      # first dimension is variable since it's required by cloudml-like interfaces to push multiple instances
-      features[[feature$name]] <- tf$placeholder(shape = shape(NULL, feature$shape), dtype = feature$dtype)
+    if (tf_version() < '1.4') {
+      if (length(grep("regressor", class(object))) != 0) {
+        input_spec <- regressor_parse_example_spec(
+          feature_columns = feature_columns_spec,
+          weight_column = object$args$weight_column,
+          label_key = "label"
+        )
+      } else {
+        input_spec <- classifier_parse_example_spec(
+          feature_columns = feature_columns_spec,
+          weight_column = object$args$weight_column,
+          label_key = "label"
+        )
+      }
+      
+      serving_input_receiver_fn <- tf$estimator$export$build_parsing_serving_input_receiver_fn(input_spec)
+    } else {
+      features <- list()
+      for (feature in feature_columns_spec) {
+        # first dimension is variable since it's required by cloudml-like interfaces to push multiple instances
+        features[[feature$name]] <- tf$placeholder(shape = shape(NULL, feature$shape), dtype = feature$dtype)
+      }
+      
+      serving_input_receiver_fn <- tf$estimator$export$build_raw_serving_input_receiver_fn(features)
     }
-    
-    serving_input_receiver_fn <- tf$estimator$export$build_raw_serving_input_receiver_fn(features)
   }
   
   status <- object$estimator$export_savedmodel(
