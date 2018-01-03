@@ -32,7 +32,7 @@ keras_model_to_estimator <- function(
   
   tryCatch(reticulate::py_get_attr(keras_model, "optimizer"),
            error = function(e) stop(
-             "Given keras model has not been compiled yet. Please compile first\n
+             "Given keras model has not been compiled yet. Please compile first 
              before creating the estimator.")
            )
   
