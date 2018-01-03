@@ -275,8 +275,6 @@ evaluate.tf_estimator <- function(object,
 #'
 #' Save an estimator (alongside its weights) to the directory `export_dir_base`.
 #'
-#' TODO: we should document how a user can load a saved model here as well.
-#'
 #' @details
 #'
 #' This method builds a new graph by first calling the serving_input_receiver_fn
@@ -334,27 +332,25 @@ export_savedmodel.tf_estimator <- function(object,
   if (is.null(serving_input_receiver_fn)) {
     if (is.tf_custom_estimator(object))
       stop("A 'tf_custom_estimator' requires a custom `serving_input_receiver_fn`.")
+    
     feature_columns_spec <- c(
       object$args$dnn_feature_columns,
       object$args$linear_feature_columns,
       object$args$feature_columns
       )
-    if (length(grep("regressor", class(object))) != 0) {
-      input_spec <- regressor_parse_example_spec(
-        feature_columns = feature_columns_spec,
-        weight_column = object$args$weight_column,
-        label_key = "label"
-      )
-    } else if (length(grep("classifier", class(object))) != 0) {
-      input_spec <- classifier_parse_example_spec(
-        feature_columns = feature_columns_spec,
-        weight_column = object$args$weight_column,
-        label_key = "label"
-      )
-    } else {
+    
+    if (length(grep("regressor", class(object))) == 0 &&
+        length(grep("classifier", class(object))) == 0) {
       stop("Currently only classifier and regressor are supported. Please specify a custom serving_input_receiver_fn. ")
     }
-    serving_input_receiver_fn <- tf$estimator$export$build_parsing_serving_input_receiver_fn(input_spec)
+    
+    features <- list()
+    for (feature in feature_columns_spec) {
+      # first dimension is variable since it's required by cloudml-like interfaces to push multiple instances
+      features[[feature$name]] <- tf$placeholder(shape = shape(NULL, feature$shape), dtype = feature$dtype)
+    }
+    
+    serving_input_receiver_fn <- tf$estimator$export$build_raw_serving_input_receiver_fn(features)
   }
   
   status <- object$estimator$export_savedmodel(
