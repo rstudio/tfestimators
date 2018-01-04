@@ -56,7 +56,6 @@ reference:
       - predict.tf_estimator
       - evaluate.tf_estimator
       - export_savedmodel.tf_estimator
-      - coef.tf_estimator
   
   - title: "Input Function"
     contents:
