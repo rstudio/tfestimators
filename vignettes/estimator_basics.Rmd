@@ -174,15 +174,35 @@ predictions <- predict(
 
 You can find all the available keys by printing `prediction_keys()`. However, not all keys can be used by different types of estimators. For example, regressors cannot use `"probabilities"` as one of the keys since probability output only makes sense for classification models.
 
-There's also a function called `coef()` that can be used extract the trained coefficients of a model.
+## Model Persistence
 
-``` {r}
-coefs <- coef(classifier)
+Models created via `tfestimators` are persisted on disk. To obtain the location of where the model artifacts are stored, we can call `model_dir()`:
+
+```{r}
+saved_model_dir <- model_dir(classifier)
 ```
 
-There are a number of estimator methods which can be used generically with any canned or custom estimator:
+And subsequently load the saved model (in a new session) by passing the directory to the `model_dir` argument of the model constructor and use it for prediction or continue training:
 
-To train and generate predictions with estimators you use the following set of generic functions:
+```{r}
+library(tfestimators)
+linear_feature_columns <- feature_columns(column_numeric("mpg"))
+dnn_feature_columns <- feature_columns(column_numeric("drat"))
+
+loaded_model <-
+	dnn_linear_combined_classifier(
+	  linear_feature_columns = linear_feature_columns,
+	  dnn_feature_columns = dnn_feature_columns,
+	  dnn_hidden_units = c(3, 3),
+	  dnn_optimizer = "Adagrad",
+	  model_dir = saved_model_dir
+	)
+loaded_model
+```
+
+## Generic methods
+
+There are a number of estimator methods which can be used generically with any canned or custom estimator:
 
 | Method  | Description |
 |---------------------------------------|----------------------------------------------------------------|
@@ -191,7 +211,6 @@ To train and generate predictions with estimators you use the following set of g
 | `evaluate()`  |  Evaluates the model given evaluation data input_fn. |
 | `train_and_evaluate()`  |  Trains and evaluates a model for both local and distributed configurations. |
 | `export_savedmodel()` | Exports inference graph as a SavedModel into a given directory. |
-| `coef()`  |  Get the list coefficients or variables from this model's checkpoint. |
 
 
 
