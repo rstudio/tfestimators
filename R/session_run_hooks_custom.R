@@ -63,7 +63,7 @@ hook_progress_bar <- function() {
       paste(label, ":current/:total [:bar] - ETA: :eta - loss: :loss")
     
     .values <- NULL
-    .n <- 0
+    .n <- 0L
     .bar <- progress::progress_bar$new(
       format = format,
       total = steps %||% 1E6,
@@ -97,7 +97,7 @@ hook_progress_bar <- function() {
         
         # save and update state
         .values <<- values
-        .n <<- .n + 1
+        .n <<- .n + 1L
       },
       
       end = function(session) {
