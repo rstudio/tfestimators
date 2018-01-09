@@ -17,6 +17,8 @@ navbar:
           href: articles/input_functions.html
         - text: "Feature Columns"
           href: articles/feature_columns.html
+        - text: "Dataset API"
+          href: articles/dataset_api.html
         - text: "--------------------------"
         - text: "Advanced"
         - text: "Run Hooks"
