@@ -6,13 +6,13 @@
 \usage{
 \method{export_savedmodel}{tf_estimator}(object, export_dir_base,
   serving_input_receiver_fn = NULL, assets_extra = NULL, as_text = FALSE,
-  checkpoint_path = NULL, ...)
+  checkpoint_path = NULL, overwrite = TRUE, versioned = !overwrite, ...)
 }
 \arguments{
 \item{object}{A TensorFlow estimator.}
 
-\item{export_dir_base}{A string containing a directory in which to create
-timestamped subdirectories containing exported SavedModels.}
+\item{export_dir_base}{A string containing a directory in which to export the
+SavedModel.}
 
 \item{serving_input_receiver_fn}{A function that takes no argument and
 returns a \code{ServingInputReceiver}. Required for custom models.}
@@ -27,6 +27,10 @@ needed.}
 default), the most recent checkpoint found within the model directory is
 chosen.}
 
+\item{overwrite}{Should the \code{export_dir} directory be overwritten?}
+
+\item{versioned}{Should the model be exported under a versioned subdirectory?}
+
 \item{...}{Optional arguments passed on to the estimator's
 \code{export_savedmodel()} method.}
 }
@@ -37,8 +41,6 @@ The path to the exported directory, as a string.
 Save an estimator (alongside its weights) to the directory \code{export_dir_base}.
 }
 \details{
-TODO: we should document how a user can load a saved model here as well.
-
 This method builds a new graph by first calling the serving_input_receiver_fn
 to obtain feature \code{Tensor}s, and then calling this \code{Estimator}'s model_fn to
 generate the model graph based on those features. It restores the given
