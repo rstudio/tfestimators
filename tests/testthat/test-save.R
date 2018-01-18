@@ -16,7 +16,7 @@ export_test_savedmodel <- function(model) {
   temp_path <- file.path(tempfile(), "testthat-save")
   if (dir.exists(temp_path)) unlink(temp_path, recursive = TRUE)
   
-  export_savedmodel(model, temp_path)
+  export_savedmodel(model, temp_path, overwrite = FALSE)
   
   check_contents(temp_path)
 }
