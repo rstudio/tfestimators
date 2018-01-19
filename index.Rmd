@@ -53,13 +53,13 @@ For more details on the architecture and design of TensorFlow Estimators, please
 
 To use **tfestimators**, you need to install both the R package as well as [TensorFlow](https://tensorflow.rstudio.com/) itself.
 
-First, install the tfestimators R package as follows:
+First, install the tfestimators R package from CRAN as follows:
 
 ```{r, eval=FALSE}
-devtools::install_github("rstudio/tfestimators")
+install.packages("tfestimators")
 ```
 
-Then, use the `install_tensorflow()` function to install TensorFlow (note that the current tfestimators package requires version 1.3.0 of TensorFlow so even if you already have TensorFlow installed you should update if you are running a previous version):
+Then, use the `install_tensorflow()` function to install TensorFlow:
 
 ```{r, eval=FALSE}
 install_tensorflow()
