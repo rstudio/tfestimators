@@ -371,7 +371,10 @@ export_savedmodel.tf_estimator <- function(object,
       features <- list()
       for (feature in feature_columns_spec) {
         # first dimension is variable since it's required by cloudml-like interfaces to push multiple instances
-        features[[feature$name]] <- tf$placeholder_with_default(shape = shape(NULL, feature$shape), dtype = feature$dtype)
+        features[[feature$name]] <- tf$placeholder_with_default(
+          input = feature$dtype$min,
+          shape = shape(NULL, feature$shape)
+        )
       }
       
       serving_input_receiver_fn <- tf$estimator$export$build_raw_serving_input_receiver_fn(features)
