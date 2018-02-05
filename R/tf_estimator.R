@@ -370,9 +370,11 @@ export_savedmodel.tf_estimator <- function(object,
     } else {
       features <- list()
       for (feature in feature_columns_spec) {
+        default_tensor <- tf$constant(value = feature$dtype$min, shape = shape(1, feature$shape))
+        
         # first dimension is variable since it's required by cloudml-like interfaces to push multiple instances
         features[[feature$name]] <- tf$placeholder_with_default(
-          input = feature$dtype$min,
+          input = default_tensor,
           shape = shape(NULL, feature$shape)
         )
       }
