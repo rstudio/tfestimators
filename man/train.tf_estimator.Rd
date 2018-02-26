@@ -14,9 +14,9 @@
 helper function.}
 
 \item{steps}{The number of steps for which the model should be trained on
-this particular \code{train()} invocation. If \code{NULL} (the default), this function
-will either train forever, or until the supplied \code{input_fn()} has provided
-all available data.}
+this particular \code{train()} invocation. If \code{NULL} (the default), this
+function will either train forever, or until the supplied \code{input_fn()} has
+provided all available data.}
 
 \item{hooks}{A list of \R functions, to be used as callbacks inside the
 training loop. By default, \code{hook_history_saver(every_n_step = 10)} and
@@ -27,8 +27,9 @@ history and create the progress bar.}
 trained. If set, \code{steps} must be \code{NULL}. If the estimator has already been
 trained a total of \code{max_steps} times, then no training will be performed.}
 
-\item{saving_listeners}{(Available since TensorFlow v1.4) A list of \code{CheckpointSaverListener} objects
-used for callbacks that run immediately before or after checkpoint savings.}
+\item{saving_listeners}{(Available since TensorFlow v1.4) A list of
+\code{CheckpointSaverListener} objects used for callbacks that run immediately
+before or after checkpoint savings.}
 
 \item{...}{Optional arguments, passed on to the estimator's \code{train()} method.}
 }
