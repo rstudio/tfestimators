@@ -31,6 +31,8 @@ new_tf_custom_estimator <- function(
 #' 
 #' @param evaluation_hooks (Available since TensorFlow v1.4) A list of session run hooks to run during evaluation.
 #' 
+#' @param prediction_hooks (Available since TensorFlow v1.7) A list of session run hooks to run during prediciton.
+#' 
 #' @param training_chief_hooks (Available since TensorFlow v1.4) A list of session run hooks to run on chief worker during training.
 #' 
 #' @param ... Other optional (named) arguments, to be passed to the `EstimatorSpec` constructor.
@@ -44,6 +46,7 @@ estimator_spec <- function(mode,
                            eval_metric_ops = NULL,
                            training_hooks = NULL,
                            evaluation_hooks = NULL,
+                           prediction_hooks = NULL,
                            training_chief_hooks = NULL,
                            ...)
 {
@@ -52,7 +55,7 @@ estimator_spec <- function(mode,
     predictions = predictions,
     loss = loss,
     train_op = train_op,
-    # TODO: need to use reticulate::tuple() - fix this on Python end to soften the requirements in model_fn
+    # This is needed to meet the requirements of model_fn which cannot be changed for now
     eval_metric_ops = reticulate::dict(
       lapply(eval_metric_ops, function(x) reticulate::tuple(unlist(x)))),
     ...
@@ -61,6 +64,9 @@ estimator_spec <- function(mode,
     args$training_hooks <- training_hooks
     args$evaluation_hooks <- evaluation_hooks
     args$training_chief_hooks <- training_chief_hooks
+  }
+  if (tf_version() >= '1.7') {
+    args$prediction_hooks <- prediction_hooks
   }
   do.call(estimator_lib$model_fn_lib$EstimatorSpec, args)
 }
