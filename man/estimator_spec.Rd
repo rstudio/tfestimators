@@ -6,7 +6,7 @@
 \usage{
 estimator_spec(mode, predictions = NULL, loss = NULL, train_op = NULL,
   eval_metric_ops = NULL, training_hooks = NULL, evaluation_hooks = NULL,
-  training_chief_hooks = NULL, ...)
+  prediction_hooks = NULL, training_chief_hooks = NULL, ...)
 }
 \arguments{
 \item{mode}{A key that specifies whether we are performing
@@ -30,6 +30,8 @@ trigger the update ops or requires any input fetching.}
 \item{training_hooks}{(Available since TensorFlow v1.4) A list of session run hooks to run on all workers during training.}
 
 \item{evaluation_hooks}{(Available since TensorFlow v1.4) A list of session run hooks to run during evaluation.}
+
+\item{prediction_hooks}{(Available since TensorFlow v1.7) A list of session run hooks to run during prediciton.}
 
 \item{training_chief_hooks}{(Available since TensorFlow v1.4) A list of session run hooks to run on chief worker during training.}
 

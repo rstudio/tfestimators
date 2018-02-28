@@ -7,7 +7,7 @@
 \method{predict}{tf_estimator}(object, input_fn, checkpoint_path = NULL,
   predict_keys = c("predictions", "classes", "class_ids", "logistic",
   "logits", "probabilities"), hooks = NULL, as_iterable = FALSE,
-  simplify = TRUE, ...)
+  simplify = TRUE, yield_single_examples = TRUE, ...)
 }
 \arguments{
 \item{object}{A TensorFlow estimator.}
@@ -34,6 +34,11 @@ generator and returned as an \R object.}
 
 \item{simplify}{Whether to simplify prediction results into a \code{tibble},
 as opposed to a list. Defaults to \code{TRUE}.}
+
+\item{yield_single_examples}{(Available since TensorFlow v1.7) If \code{FALSE},
+yields the whole batch as returned by the \code{model_fn} instead of decomposing
+the batch into individual elements. This is useful if \code{model_fn} returns some
+tensors with first dimension not equal to the batch size.}
 
 \item{...}{Optional arguments passed on to the estimator's \code{predict()}
 method.}

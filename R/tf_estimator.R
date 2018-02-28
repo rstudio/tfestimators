@@ -93,14 +93,15 @@ NULL
 #' @template roxlate-object-estimator
 #'
 #' @param steps The number of steps for which the model should be trained on
-#'   this particular `train()` invocation. If `NULL` (the default), this function
-#'   will either train forever, or until the supplied `input_fn()` has provided
-#'   all available data.
+#'   this particular `train()` invocation. If `NULL` (the default), this
+#'   function will either train forever, or until the supplied `input_fn()` has
+#'   provided all available data.
 #' @param max_steps The total number of steps for which the model should be
 #'   trained. If set, `steps` must be `NULL`. If the estimator has already been
 #'   trained a total of `max_steps` times, then no training will be performed.
-#' @param saving_listeners (Available since TensorFlow v1.4) A list of `CheckpointSaverListener` objects
-#' used for callbacks that run immediately before or after checkpoint savings.
+#' @param saving_listeners (Available since TensorFlow v1.4) A list of
+#'   `CheckpointSaverListener` objects used for callbacks that run immediately
+#'   before or after checkpoint savings.
 #' @param ... Optional arguments, passed on to the estimator's `train()` method.
 #'
 #' @return A data.frame of the training loss history.
@@ -155,6 +156,10 @@ train.tf_estimator <- function(object,
 #' @param as_iterable Boolean; should a raw Python generator be returned? When
 #'   `FALSE` (the default), the predicted values will be consumed from the
 #'   generator and returned as an \R object.
+#' @param yield_single_examples (Available since TensorFlow v1.7) If `FALSE`,
+#'   yields the whole batch as returned by the `model_fn` instead of decomposing
+#'   the batch into individual elements. This is useful if `model_fn` returns some
+#'   tensors with first dimension not equal to the batch size.
 #' @param ... Optional arguments passed on to the estimator's `predict()`
 #'   method.
 #'
@@ -175,16 +180,22 @@ predict.tf_estimator <- function(object,
                                  hooks = NULL,
                                  as_iterable = FALSE,
                                  simplify = TRUE,
+                                 yield_single_examples = TRUE,
                                  ...)
 {
   predict_keys <- resolve_predict_keys(match.arg(predict_keys, several.ok = TRUE))
-  predictions <- object$estimator$predict(
+  args <- list(
     input_fn = normalize_input_fn(object, input_fn),
     checkpoint_path = checkpoint_path,
     hooks = normalize_session_run_hooks(hooks),
     predict_keys = predict_keys,
     ...
   )
+  if (tf_version() >= '1.7') {
+    args$yield_single_examples <- yield_single_examples
+  }
+
+  predictions <- do.call(object$estimator$predict, args)
 
   if (!as_iterable) {
     if (!any(inherits(predictions, "python.builtin.iterator"),
