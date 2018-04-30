@@ -156,7 +156,7 @@ estimator <- function(model_fn,
                       params = NULL,
                       class = NULL)
 {
-  model_fn <- as_model_fn(model_fn)
+  model_fn <- reticulate::py_func(model_fn)
   estimator <- py_suppress_warnings(estimator_lib$Estimator(
     model_fn = model_fn,
     model_dir = resolve_model_dir(model_dir),
@@ -166,12 +166,6 @@ estimator <- function(model_fn,
 
   new_tf_custom_estimator(estimator, model_fn = model_fn, subclass = class)
 }
-
-as_model_fn <- function(f) {
-  tools <- import_package_module("estimatortools.functions")
-  tools$as_model_fn(f)
-}
-
 
 with_logging_verbosity <- function(verbosity, expr) {
   old <- tf$logging$get_verbosity()
