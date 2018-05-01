@@ -68,5 +68,6 @@ test_succeeds("train(), predict(), and evaluate() work for classifiers", {
   expect_lte(accuracy, 0.6)
   # Evaluation with simplify
   evaluation_results <- evaluate(clf, input_fn = specs$input_fn, simplify = TRUE)
-  expect_equal(dim(evaluation_results), c(1, 9))
+  expect_gte(ncol(evaluation_results), 9)
+  expect_equal(nrow(evaluation_results), 1)
 })
