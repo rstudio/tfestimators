@@ -3,6 +3,7 @@ context("Testing boosted trees estimators")
 source("helper-utils.R")
 
 test_succeeds("boosted_trees_regressor() runs successfully", {
+  skip_if_tensorflow_below("1.8.0")
   specs <- mtcars_regression_specs()
   
   estimator <- boosted_trees_regressor(
@@ -16,6 +17,7 @@ test_succeeds("boosted_trees_regressor() runs successfully", {
 
 
 test_succeeds("boosted_trees_classifier() runs successfully", {
+  skip_if_tensorflow_below("1.8.0")
   specs <- mtcars_classification_specs()
   
   estimator <- boosted_trees_classifier(

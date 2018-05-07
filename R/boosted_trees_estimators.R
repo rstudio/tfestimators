@@ -44,6 +44,10 @@ boosted_trees_regressor <- function(
   min_node_weight = 0,
   config = NULL)
 {
+  if (tensorflow::tf_version() < "1.8.0")
+    stop("'boosted_trees_regressor()' requires TensorFlow 1.8+.",
+         call. = FALSE)
+  
   args <- as.list(environment(), all = TRUE)
   
   estimator <- py_suppress_warnings(
@@ -87,6 +91,10 @@ boosted_trees_classifier <- function(
   min_node_weight = 0,
   config = NULL)
 {
+  if (tensorflow::tf_version() < "1.8.0")
+    stop("'boosted_trees_classifier()' requires TensorFlow 1.8+.",
+         call. = FALSE)
+  
   args <- as.list(environment(), all = TRUE)
   
   estimator <- py_suppress_warnings(
