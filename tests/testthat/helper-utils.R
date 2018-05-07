@@ -40,7 +40,9 @@ if (have_tensorflow()) {
       column_bucketized(column_numeric("drat"), 
                         quantile(mtcars$drat, seq(0.2, 0.8, 0.2)))
     )
-    constructed_input_fn <- input_fn(mtcars, response = "mpg", features = c("drat", "cyl"), batch_size = 1L)
+    constructed_input_fn <- input_fn(
+      mtcars, response = "mpg", features = c("drat", "cyl"), 
+      batch_size = 1L)
     list(dnn_feature_columns = dnn_feature_columns,
          linear_feature_columns = linear_feature_columns,
          bucketized_columns = bucketized_columns,
