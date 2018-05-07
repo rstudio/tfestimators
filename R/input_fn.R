@@ -104,6 +104,10 @@ input_fn.data.frame <- function(object,
   # coerce vectors to a TensorFlow-friendly format when appropriate
   coerce <- function(variable, name) {
     
+    # if variable is already a numpy array, return as is
+    if (inherits(variable, "numpy.ndarray"))
+      return(variable)
+    
     # convert lists to numpy arrays
     if (is.list(variable))
       return(np$array(unname(variable), dtype = np$int64))

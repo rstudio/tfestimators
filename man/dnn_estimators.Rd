@@ -77,6 +77,7 @@ string.}
 Create a deep neural network (DNN) estimator.
 }
 \seealso{
-Other canned estimators: \code{\link{dnn_linear_combined_estimators}},
+Other canned estimators: \code{\link{boosted_trees_estimators}},
+  \code{\link{dnn_linear_combined_estimators}},
   \code{\link{linear_estimators}}
 }

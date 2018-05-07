@@ -89,6 +89,7 @@ Also known as \code{wide-n-deep} estimators, these are estimators for
 TensorFlow Linear and DNN joined models for regression.
 }
 \seealso{
-Other canned estimators: \code{\link{dnn_estimators}},
+Other canned estimators: \code{\link{boosted_trees_estimators}},
+  \code{\link{dnn_estimators}},
   \code{\link{linear_estimators}}
 }
