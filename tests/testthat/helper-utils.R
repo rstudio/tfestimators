@@ -56,7 +56,11 @@ if (have_tensorflow()) {
       column_bucketized(column_numeric("drat"), 
                         quantile(mtcars$drat, seq(0.2, 0.8, 0.2)))
       )
-    constructed_input_fn <- input_fn(mtcars, response = "vs", features = c("drat", "cyl"))
+    constructed_input_fn <- input_fn(
+      purrr::map_at(mtcars, "vs", 
+                    purrr::partial(tensorflow::np_array, dtype = "float32")),
+      response = "vs", features = c("drat", "cyl")
+      )
     list(dnn_feature_columns = dnn_feature_columns,
          linear_feature_columns = linear_feature_columns,
          bucketized_columns = bucketized_columns,
