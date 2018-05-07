@@ -11,7 +11,8 @@ Authors@R: c(
   person("Kevin", "Ushey", role = c("aut"),
          email = "kevin@rstudio.com"),
   person("Kevin", "Kuo", role = c("aut"),
-         email = "kevin.kuo@rstudio.com"),
+         email = "kevin.kuo@rstudio.com",
+         comment = c(ORCID = "0000-0001-7803-7901")),
   person("Daniel", "Falbel", role = c("ctb", "cph")),
   person("RStudio", role = c("cph", "fnd")),  
   person(family = "Google Inc.", role = c("cph"))
