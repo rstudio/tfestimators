@@ -83,13 +83,14 @@ make_ensure_scalar_impl <- function(checker, message, converter) {
                  default = NULL)
   {
     object <- object %||% default
+    
+    if (allow.null && is.null(object)) return(object)
 
     if (!checker(object))
       stopf("'%s' is not %s", deparse(substitute(object)), message)
 
     if (is.na(object)) object <- NA_integer_
     if (!allow.na)     ensure_not_na(object)
-    if (!allow.null)   ensure_not_null(object)
 
     converter(object)
   }
@@ -111,11 +112,14 @@ make_ensure_scalar_impl <- function(checker, message, converter) {
   fn
 }
 
-ensure_scalar_integer <- make_ensure_scalar_impl(
-  is.numeric,
-  "a length-one integer vector",
-  as.integer
-)
+ensure_scalar_integer <- function(x, allow.null = FALSE) {
+  if (rlang::is_null(x) && allow.null)
+    return(x)
+  if (!rlang::is_bare_numeric(x, 1))
+    stop(x, " is not a length-one numeric or integer vector",
+         call. = FALSE)
+  rlang::as_integer(x)
+}
 
 ensure_scalar_double <- make_ensure_scalar_impl(
   is.numeric,
