@@ -22,10 +22,10 @@ bibentry(bibtype = "Manual",
   person("JJ", "Allaire", role = c("aut")),
   person("RStudio", role = c("cph", "fnd")),  
   person("Kevin", "Ushey", role = c("aut")),
-  person("Daniel", "Falbel", role = c("ctb", "cph")),
+  person("Kevin", "Kuo", role = c("aut")),
   person(family = "Google Inc.", role = c("cph"))),
   title = "tfestimators: High-level Estimator Interface to TensorFlow in R",
-  year = "2017",
+  year = "2018",
   url = "https://github.com/rstudio/tfestimators",
   textVersion = "Yuan Tang, JJ Allaire, Kevin Ushey, and Daniel Falbel. tfestimators: High-level Estimator Interface to TensorFlow in R. https://github.com/rstudio/tfestimators"
 )
