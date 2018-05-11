@@ -53,17 +53,17 @@ boosted_trees_regressor <- function(
   estimator <- py_suppress_warnings(
     tf$estimator$BoostedTreesRegressor(
       feature_columns = ensure_nullable_list(feature_columns),
-      n_batches_per_layer = as.integer(n_batches_per_layer),
+      n_batches_per_layer = ensure_scalar_integer(n_batches_per_layer),
       model_dir = resolve_model_dir(model_dir),
-      label_dimension = as.integer(label_dimension),
-      weight_column = weight_column,
-      n_trees = as.integer(n_trees),
-      max_depth = as.integer(max_depth),
-      learning_rate = as.numeric(learning_rate),
-      l1_regularization = as.numeric(l1_regularization),
-      l2_regularization = as.numeric(l2_regularization),
-      tree_complexity = as.numeric(tree_complexity),
-      min_node_weight = as.numeric(min_node_weight),
+      label_dimension = ensure_scalar_integer(label_dimension),
+      weight_column = ensure_scalar_character(weight_column, allow.null = TRUE),
+      n_trees = ensure_scalar_integer(n_trees),
+      max_depth = ensure_scalar_integer(max_depth),
+      learning_rate = ensure_scalar_double(learning_rate),
+      l1_regularization = ensure_scalar_double(l1_regularization),
+      l2_regularization = ensure_scalar_double(l2_regularization),
+      tree_complexity = ensure_scalar_double(tree_complexity),
+      min_node_weight = ensure_scalar_double(min_node_weight),
       config = config
     )
   )
@@ -100,18 +100,18 @@ boosted_trees_classifier <- function(
   estimator <- py_suppress_warnings(
     tf$estimator$BoostedTreesClassifier(
       feature_columns = ensure_nullable_list(feature_columns),
-      n_batches_per_layer = as.integer(n_batches_per_layer),
+      n_batches_per_layer = ensure_scalar_integer(n_batches_per_layer),
       model_dir = resolve_model_dir(model_dir),
-      n_classes = as.integer(n_classes),
-      weight_column = weight_column,
+      n_classes = ensure_scalar_integer(n_classes),
+      weight_column = ensure_scalar_character(weight_column, allow.null = TRUE),
       label_vocabulary = label_vocabulary,
-      n_trees = as.integer(n_trees),
-      max_depth = as.integer(max_depth),
-      learning_rate = as.numeric(learning_rate),
-      l1_regularization = as.numeric(l1_regularization),
-      l2_regularization = as.numeric(l2_regularization),
-      tree_complexity = as.numeric(tree_complexity),
-      min_node_weight = as.numeric(min_node_weight),
+      n_trees = ensure_scalar_integer(n_trees),
+      max_depth = ensure_scalar_integer(max_depth),
+      learning_rate = ensure_scalar_double(learning_rate),
+      l1_regularization = ensure_scalar_double(l1_regularization),
+      l2_regularization = ensure_scalar_double(l2_regularization),
+      tree_complexity = ensure_scalar_double(tree_complexity),
+      min_node_weight = ensure_scalar_double(min_node_weight),
       config = config
     )
   )

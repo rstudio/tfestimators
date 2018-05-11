@@ -117,8 +117,8 @@ train.tf_estimator <- function(object,
 {
   args <- list(
     input_fn = normalize_input_fn(object, input_fn),
-    steps = as_nullable_integer(steps),
-    max_steps = as_nullable_integer(max_steps),
+    steps = ensure_scalar_integer(steps, allow.null = TRUE),
+    max_steps = ensure_scalar_integer(max_steps, allow.null = TRUE),
     ...
     )
   
@@ -270,7 +270,7 @@ evaluate.tf_estimator <- function(object,
   evaluation_results <- with_logging_verbosity(tf$logging$WARN, {
     object$estimator$evaluate(
       input_fn = normalize_input_fn(object, input_fn),
-      steps = as_nullable_integer(steps),
+      steps = ensure_scalar_integer(steps, allow.null = TRUE),
       checkpoint_path = checkpoint_path,
       name = name,
       hooks = resolve_eval_hooks(hooks, steps),

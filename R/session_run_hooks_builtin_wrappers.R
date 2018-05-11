@@ -48,8 +48,8 @@ hook_stop_at_step <- function(num_steps = NULL, last_step = NULL) {
     stop(" Only one of num_steps or last_step can be specified")
   }
   tf$python$training$basic_session_run_hooks$StopAtStepHook(
-    num_steps = as_nullable_integer(num_steps),
-    last_step = as_nullable_integer(last_step)
+    num_steps = ensure_scalar_integer(num_steps, allow.null = TRUE),
+    last_step = ensure_scalar_integer(last_step, allow.null = TRUE)
   )
 }
 
@@ -84,8 +84,8 @@ hook_checkpoint_saver <- function(checkpoint_dir,
   
   tf$python$training$basic_session_run_hooks$CheckpointSaverHook(
     checkpoint_dir = checkpoint_dir,
-    save_secs = as_nullable_integer(save_secs),
-    save_steps = as_nullable_integer(save_steps),
+    save_secs = ensure_scalar_integer(save_secs, allow.null = TRUE),
+    save_steps = ensure_scalar_integer(save_steps, allow.null = TRUE),
     saver = saver,
     checkpoint_basename = checkpoint_basename,
     scaffold = scaffold,
@@ -110,8 +110,8 @@ hook_step_counter <- function(every_n_steps = 100,
                               summary_writer = NULL) 
 {
   tf$python$training$basic_session_run_hooks$StepCounterHook(
-    every_n_steps = as.integer(every_n_steps),
-    every_n_secs = as_nullable_integer(every_n_secs),
+    every_n_steps = ensure_scalar_integer(every_n_steps, allow.null = TRUE),
+    every_n_secs = ensure_scalar_integer(every_n_secs, allow.null = TRUE),
     output_dir = output_dir,
     summary_writer = summary_writer
   )
@@ -166,8 +166,8 @@ hook_summary_saver <- function(save_steps = NULL,
     stop(" Only one of save_secs or save_steps can be specified")
   }
   tf$python$training$basic_session_run_hooks$SummarySaverHook(
-    save_steps = as_nullable_integer(save_steps),
-    save_secs = as_nullable_integer(save_secs),
+    save_steps = ensure_scalar_integer(save_steps, allow.null = TRUE),
+    save_secs = ensure_scalar_integer(save_secs, allow.null = TRUE),
     output_dir = output_dir,
     summary_writer = summary_writer,
     scaffold = scaffold,
@@ -190,7 +190,7 @@ hook_summary_saver <- function(save_steps = NULL,
 #' @export
 hook_global_step_waiter <- function(wait_until_step) {
   tf$python$training$basic_session_run_hooks$GlobalStepWaiterHook(
-    wait_until_step = as.integer(wait_until_step)
+    wait_until_step = ensure_scalar_integer(wait_until_step)
   )
 }
 

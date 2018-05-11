@@ -114,8 +114,8 @@ column_categorical_with_vocabulary_list <- function(...,
       key = column,
       vocabulary_list = vocabulary_list,
       dtype = dtype,
-      default_value = as_nullable_integer(default_value),
-      num_oov_buckets = as.integer(num_oov_buckets)
+      default_value = ensure_scalar_integer(default_value, allow.null = TRUE),
+      num_oov_buckets = ensure_scalar_integer(num_oov_buckets)
     )
   })
 }
@@ -170,8 +170,8 @@ column_categorical_with_vocabulary_file <- function(...,
       key = column,
       vocabulary_file = vocabulary_file,
       vocabulary_size = vocabulary_size,
-      num_oov_buckets = as.integer(num_oov_buckets),
-      default_value = as_nullable_integer(default_value),
+      num_oov_buckets = ensure_scalar_integer(num_oov_buckets),
+      default_value = ensure_scalar_integer(default_value, allow.null = TRUE),
       dtype = dtype
     )
   })
@@ -215,8 +215,8 @@ column_categorical_with_identity <- function(...,
   create_columns(..., f = function(column) {
     feature_column_lib$categorical_column_with_identity(
       key = column,
-      num_buckets = as.integer(num_buckets),
-      default_value = as_nullable_integer(default_value)
+      num_buckets = ensure_scalar_integer(num_buckets),
+      default_value = ensure_scalar_integer(default_value, allow.null = TRUE)
     )
 
   })
@@ -268,7 +268,7 @@ column_categorical_with_hash_bucket <- function(...,
                                                 hash_bucket_size,
                                                 dtype = tf$string)
 {
-  hash_bucket_size <- as.integer(hash_bucket_size)
+  hash_bucket_size <- ensure_scalar_integer(hash_bucket_size)
   if (hash_bucket_size <= 1) {
     stop("hash_bucket_size must be larger than 1")
   }
@@ -328,7 +328,7 @@ column_numeric <- function(...,
   create_columns(..., f = function(column) {
     feature_column_lib$numeric_column(
       key = column,
-      shape = as.integer(shape),
+      shape = ensure_scalar_integer(shape),
       default_value = default_value,
       dtype = dtype,
       normalizer_fn = normalizer_fn
@@ -388,7 +388,7 @@ column_embedding <- function(categorical_column,
 {
   feature_column_lib$embedding_column(
     categorical_column = categorical_column,
-    dimension = as.integer(dimension),
+    dimension = ensure_scalar_integer(dimension),
     combiner = combiner,
     initializer = initializer,
     ckpt_to_load_from = ckpt_to_load_from,
@@ -428,7 +428,7 @@ column_crossed <- function(keys,
                            hash_bucket_size,
                            hash_key = NULL)
 {
-  hash_bucket_size <- as.integer(hash_bucket_size)
+  hash_bucket_size <- ensure_scalar_integer(hash_bucket_size)
   if (hash_bucket_size <= 1) {
     stop("hash_bucket_size must be larger than 1")
   }
