@@ -27,5 +27,5 @@ bibentry(bibtype = "Manual",
   title = "tfestimators: High-level Estimator Interface to TensorFlow in R",
   year = "2018",
   url = "https://github.com/rstudio/tfestimators",
-  textVersion = "Yuan Tang, JJ Allaire, Kevin Ushey, and Daniel Falbel. tfestimators: High-level Estimator Interface to TensorFlow in R. https://github.com/rstudio/tfestimators"
+  textVersion = "Yuan Tang, JJ Allaire, Kevin Ushey, and Kevin Kuo. tfestimators: High-level Estimator Interface to TensorFlow in R. https://github.com/rstudio/tfestimators"
 )
