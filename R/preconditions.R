@@ -69,13 +69,6 @@ ensure_nullable_list <- function(x) {
   unname(result)
 }
 
-as_nullable_integer <- function(x) {
-  if (is.null(x))
-    x
-  else
-    as.integer(x)
-}
-
 make_ensure_scalar_impl <- function(checker, message, converter) {
   fn <- function(object,
                  allow.na = FALSE,
