@@ -1,4 +1,4 @@
-# tfestimators 1.5.9001
+# tfestimators 1.9.0
 
 * Add input checking to exported functions (#150).
 
