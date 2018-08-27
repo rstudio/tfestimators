@@ -17,3 +17,4 @@ Get the Latest Checkpoint in a Checkpoint Directory
 \seealso{
 Other utility functions: \code{\link{graph_keys}}
 }
+\concept{utility functions}

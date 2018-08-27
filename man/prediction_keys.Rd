@@ -26,3 +26,4 @@ keys$PROBABILITIES
 Other estimator keys: \code{\link{metric_keys}},
   \code{\link{mode_keys}}
 }
+\concept{estimator keys}

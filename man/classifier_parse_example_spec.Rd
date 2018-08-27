@@ -67,3 +67,4 @@ dtype).
 \seealso{
 Other parsing utilities: \code{\link{regressor_parse_example_spec}}
 }
+\concept{parsing utilities}

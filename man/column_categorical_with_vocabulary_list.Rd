@@ -4,8 +4,8 @@
 \alias{column_categorical_with_vocabulary_list}
 \title{Construct a Categorical Column with In-Memory Vocabulary}
 \usage{
-column_categorical_with_vocabulary_list(..., vocabulary_list, dtype = NULL,
-  default_value = -1L, num_oov_buckets = 0L)
+column_categorical_with_vocabulary_list(..., vocabulary_list,
+  dtype = NULL, default_value = -1L, num_oov_buckets = 0L)
 }
 \arguments{
 \item{...}{Expression(s) identifying input feature(s). Used as the column
@@ -60,3 +60,4 @@ Other feature column constructors: \code{\link{column_bucketized}},
   \code{\link{column_embedding}},
   \code{\link{column_numeric}}, \code{\link{input_layer}}
 }
+\concept{feature column constructors}

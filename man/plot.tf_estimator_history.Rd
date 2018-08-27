@@ -4,10 +4,10 @@
 \alias{plot.tf_estimator_history}
 \title{Plot training history}
 \usage{
-\method{plot}{tf_estimator_history}(x, y, metrics = NULL, method = c("auto",
-  "ggplot2", "base"), smooth = getOption("tf.estimator.plot.history.smooth",
-  TRUE), theme_bw = getOption("tf.estimator.plot.history.theme_bw", FALSE),
-  ...)
+\method{plot}{tf_estimator_history}(x, y, metrics = NULL,
+  method = c("auto", "ggplot2", "base"),
+  smooth = getOption("tf.estimator.plot.history.smooth", TRUE),
+  theme_bw = getOption("tf.estimator.plot.history.theme_bw", FALSE), ...)
 }
 \arguments{
 \item{x}{Training history object returned from \code{train()}.}

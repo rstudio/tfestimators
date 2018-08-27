@@ -97,3 +97,4 @@ Other custom estimator methods: \code{\link{estimator_spec}},
   \code{\link{predict.tf_estimator}},
   \code{\link{train.tf_estimator}}
 }
+\concept{custom estimator methods}

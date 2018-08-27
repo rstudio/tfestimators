@@ -43,7 +43,7 @@ Imports:
     tibble,
     tidyr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Suggests:
     ggplot2,
     modelr (>= 0.1.1),

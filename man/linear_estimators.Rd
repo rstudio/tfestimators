@@ -2,15 +2,13 @@
 % Please edit documentation in R/linear_estimators.R
 \name{linear_estimators}
 \alias{linear_estimators}
-\alias{linear_estimators}
 \alias{linear_regressor}
-\alias{linear_estimators}
 \alias{linear_classifier}
 \title{Construct a Linear Estimator}
 \usage{
-linear_regressor(feature_columns, model_dir = NULL, label_dimension = 1L,
-  weight_column = NULL, optimizer = "Ftrl", config = NULL,
-  partitioner = NULL)
+linear_regressor(feature_columns, model_dir = NULL,
+  label_dimension = 1L, weight_column = NULL, optimizer = "Ftrl",
+  config = NULL, partitioner = NULL)
 
 linear_classifier(feature_columns, model_dir = NULL, n_classes = 2L,
   weight_column = NULL, label_vocabulary = NULL, optimizer = "Ftrl",
@@ -64,3 +62,4 @@ Other canned estimators: \code{\link{boosted_trees_estimators}},
   \code{\link{dnn_estimators}},
   \code{\link{dnn_linear_combined_estimators}}
 }
+\concept{canned estimators}

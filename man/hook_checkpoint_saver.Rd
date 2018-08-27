@@ -4,8 +4,9 @@
 \alias{hook_checkpoint_saver}
 \title{Saves Checkpoints Every N Steps or Seconds}
 \usage{
-hook_checkpoint_saver(checkpoint_dir, save_secs = NULL, save_steps = NULL,
-  saver = NULL, checkpoint_basename = "model.ckpt", scaffold = NULL,
+hook_checkpoint_saver(checkpoint_dir, save_secs = NULL,
+  save_steps = NULL, saver = NULL,
+  checkpoint_basename = "model.ckpt", scaffold = NULL,
   listeners = NULL)
 }
 \arguments{
@@ -40,3 +41,4 @@ Other session_run_hook wrappers: \code{\link{hook_global_step_waiter}},
   \code{\link{hook_summary_saver}},
   \code{\link{session_run_hook}}
 }
+\concept{session_run_hook wrappers}

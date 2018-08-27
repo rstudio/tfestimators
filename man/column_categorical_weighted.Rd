@@ -44,3 +44,4 @@ Other feature column constructors: \code{\link{column_bucketized}},
   \code{\link{column_embedding}},
   \code{\link{column_numeric}}, \code{\link{input_layer}}
 }
+\concept{feature column constructors}

@@ -2,16 +2,14 @@
 % Please edit documentation in R/dnn_estimators.R
 \name{dnn_estimators}
 \alias{dnn_estimators}
-\alias{dnn_estimators}
 \alias{dnn_regressor}
-\alias{dnn_estimators}
 \alias{dnn_classifier}
 \title{Deep Neural Networks}
 \usage{
 dnn_regressor(hidden_units, feature_columns, model_dir = NULL,
   label_dimension = 1L, weight_column = NULL, optimizer = "Adagrad",
-  activation_fn = "relu", dropout = NULL, input_layer_partitioner = NULL,
-  config = NULL)
+  activation_fn = "relu", dropout = NULL,
+  input_layer_partitioner = NULL, config = NULL)
 
 dnn_classifier(hidden_units, feature_columns, model_dir = NULL,
   n_classes = 2L, weight_column = NULL, label_vocabulary = NULL,
@@ -81,3 +79,4 @@ Other canned estimators: \code{\link{boosted_trees_estimators}},
   \code{\link{dnn_linear_combined_estimators}},
   \code{\link{linear_estimators}}
 }
+\concept{canned estimators}

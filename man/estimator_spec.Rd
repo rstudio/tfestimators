@@ -4,9 +4,10 @@
 \alias{estimator_spec}
 \title{Define an Estimator Specification}
 \usage{
-estimator_spec(mode, predictions = NULL, loss = NULL, train_op = NULL,
-  eval_metric_ops = NULL, training_hooks = NULL, evaluation_hooks = NULL,
-  prediction_hooks = NULL, training_chief_hooks = NULL, ...)
+estimator_spec(mode, predictions = NULL, loss = NULL,
+  train_op = NULL, eval_metric_ops = NULL, training_hooks = NULL,
+  evaluation_hooks = NULL, prediction_hooks = NULL,
+  training_chief_hooks = NULL, ...)
 }
 \arguments{
 \item{mode}{A key that specifies whether we are performing
@@ -48,3 +49,4 @@ Other custom estimator methods: \code{\link{estimator}},
   \code{\link{predict.tf_estimator}},
   \code{\link{train.tf_estimator}}
 }
+\concept{custom estimator methods}

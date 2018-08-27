@@ -4,8 +4,9 @@
 \alias{hook_summary_saver}
 \title{Saves Summaries Every N Steps}
 \usage{
-hook_summary_saver(save_steps = NULL, save_secs = NULL, output_dir = NULL,
-  summary_writer = NULL, scaffold = NULL, summary_op = NULL)
+hook_summary_saver(save_steps = NULL, save_secs = NULL,
+  output_dir = NULL, summary_writer = NULL, scaffold = NULL,
+  summary_op = NULL)
 }
 \arguments{
 \item{save_steps}{An integer indicating saving summaries every N steps. Exactly one of
@@ -41,3 +42,4 @@ Other session_run_hook wrappers: \code{\link{hook_checkpoint_saver}},
   \code{\link{hook_stop_at_step}},
   \code{\link{session_run_hook}}
 }
+\concept{session_run_hook wrappers}

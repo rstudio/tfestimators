@@ -19,9 +19,9 @@ input_fn(object, ...)
   batch_size = 128, shuffle = "auto", num_epochs = 1,
   queue_capacity = 1000, num_threads = 1, ...)
 
-\method{input_fn}{list}(object, features, response = NULL, batch_size = 128,
-  shuffle = "auto", num_epochs = 1, queue_capacity = 1000,
-  num_threads = 1, ...)
+\method{input_fn}{list}(object, features, response = NULL,
+  batch_size = 128, shuffle = "auto", num_epochs = 1,
+  queue_capacity = 1000, num_threads = 1, ...)
 
 \method{input_fn}{matrix}(object, ...)
 }
@@ -91,3 +91,5 @@ input_fn1 <- input_fn(
 \seealso{
 Other input functions: \code{\link{numpy_input_fn}}
 }
+\concept{input function constructors}
+\concept{input functions}

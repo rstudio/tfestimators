@@ -65,3 +65,4 @@ Other custom estimator methods: \code{\link{estimator_spec}},
   \code{\link{export_savedmodel.tf_estimator}},
   \code{\link{train.tf_estimator}}
 }
+\concept{custom estimator methods}

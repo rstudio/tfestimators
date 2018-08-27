@@ -2,9 +2,7 @@
 % Please edit documentation in R/boosted_trees_estimators.R
 \name{boosted_trees_estimators}
 \alias{boosted_trees_estimators}
-\alias{boosted_trees_estimators}
 \alias{boosted_trees_regressor}
-\alias{boosted_trees_estimators}
 \alias{boosted_trees_classifier}
 \title{Boosted Trees Estimator}
 \usage{
@@ -83,3 +81,4 @@ Other canned estimators: \code{\link{dnn_estimators}},
   \code{\link{dnn_linear_combined_estimators}},
   \code{\link{linear_estimators}}
 }
+\concept{canned estimators}

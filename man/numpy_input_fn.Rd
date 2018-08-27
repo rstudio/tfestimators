@@ -44,3 +44,4 @@ a dict or \code{shuffle} is not bool.
 \seealso{
 Other input functions: \code{\link{input_fn}}
 }
+\concept{input functions}

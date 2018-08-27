@@ -63,3 +63,4 @@ Other feature column constructors: \code{\link{column_bucketized}},
   \code{\link{column_crossed}},
   \code{\link{column_embedding}}, \code{\link{input_layer}}
 }
+\concept{feature column constructors}

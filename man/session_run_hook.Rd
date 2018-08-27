@@ -6,8 +6,8 @@
 \usage{
 session_run_hook(begin = function() { },
   after_create_session = function(session, coord) { },
-  before_run = function(context) { }, after_run = function(context, values)
-  { }, end = function(session) { })
+  before_run = function(context) { }, after_run = function(context,
+  values) { }, end = function(session) { })
 }
 \arguments{
 \item{begin}{\code{function()}: An \R function, to be called once before using the session.}
@@ -46,3 +46,4 @@ Other session_run_hook wrappers: \code{\link{hook_checkpoint_saver}},
   \code{\link{hook_stop_at_step}},
   \code{\link{hook_summary_saver}}
 }
+\concept{session_run_hook wrappers}

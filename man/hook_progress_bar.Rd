@@ -21,3 +21,4 @@ Other session_run_hook wrappers: \code{\link{hook_checkpoint_saver}},
   \code{\link{hook_summary_saver}},
   \code{\link{session_run_hook}}
 }
+\concept{session_run_hook wrappers}

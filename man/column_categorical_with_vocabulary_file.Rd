@@ -4,8 +4,9 @@
 \alias{column_categorical_with_vocabulary_file}
 \title{Construct a Categorical Column with a Vocabulary File}
 \usage{
-column_categorical_with_vocabulary_file(..., vocabulary_file, vocabulary_size,
-  num_oov_buckets = 0L, default_value = NULL, dtype = tf$string)
+column_categorical_with_vocabulary_file(..., vocabulary_file,
+  vocabulary_size, num_oov_buckets = 0L, default_value = NULL,
+  dtype = tf$string)
 }
 \arguments{
 \item{...}{Expression(s) identifying input feature(s). Used as the column
@@ -64,3 +65,4 @@ Other feature column constructors: \code{\link{column_bucketized}},
   \code{\link{column_embedding}},
   \code{\link{column_numeric}}, \code{\link{input_layer}}
 }
+\concept{feature column constructors}

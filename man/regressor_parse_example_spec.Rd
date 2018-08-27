@@ -5,8 +5,8 @@
 \title{Generates Parsing Spec for TensorFlow Example to be Used with Regressors}
 \usage{
 regressor_parse_example_spec(feature_columns, label_key,
-  label_dtype = tf$float32, label_default = NULL, label_dimension = 1L,
-  weight_column = NULL)
+  label_dtype = tf$float32, label_default = NULL,
+  label_dimension = 1L, weight_column = NULL)
 }
 \arguments{
 \item{feature_columns}{An iterable containing all feature columns. All items
@@ -65,3 +65,4 @@ related information from users (key, dtype).
 \seealso{
 Other parsing utilities: \code{\link{classifier_parse_example_spec}}
 }
+\concept{parsing utilities}

@@ -44,3 +44,4 @@ storage.
 Other training methods: \code{\link{train_and_evaluate.tf_estimator}},
   \code{\link{train_spec}}
 }
+\concept{training methods}

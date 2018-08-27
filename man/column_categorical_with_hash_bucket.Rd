@@ -4,7 +4,8 @@
 \alias{column_categorical_with_hash_bucket}
 \title{Represents Sparse Feature where IDs are set by Hashing}
 \usage{
-column_categorical_with_hash_bucket(..., hash_bucket_size, dtype = tf$string)
+column_categorical_with_hash_bucket(..., hash_bucket_size,
+  dtype = tf$string)
 }
 \arguments{
 \item{...}{Expression(s) identifying input feature(s). Used as the column
@@ -46,3 +47,4 @@ Other feature column constructors: \code{\link{column_bucketized}},
   \code{\link{column_embedding}},
   \code{\link{column_numeric}}, \code{\link{input_layer}}
 }
+\concept{feature column constructors}
