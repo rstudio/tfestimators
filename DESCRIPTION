@@ -17,6 +17,7 @@ Authors@R: c(
   person("RStudio", role = c("cph", "fnd")),  
   person(family = "Google Inc.", role = c("cph"))
   )
+Maintainer: Kevin Kuo <kevin.kuo@rstudio.com>
 Description: Interface to 'TensorFlow' Estimators 
     <https://www.tensorflow.org/programmers_guide/estimators>, a high-level 
     API that provides implementations of many different model types 
