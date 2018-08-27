@@ -49,7 +49,7 @@ optimizer.}
 actual activation function (e.g. \code{tf$nn$relu}), or the name of an
 activation function (e.g. \code{"relu"}). Defaults to the
 \code{"relu"} activation function. See
-\url{https://www.tensorflow.org/versions/r0.12/api_docs/python/nn/activation_functions_}
+\url{https://www.tensorflow.org/api_guides/python/nn#Activation_Functions}
 for documentation related to the set of activation functions available
 in TensorFlow.}
 
