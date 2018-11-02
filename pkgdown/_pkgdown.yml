@@ -51,6 +51,8 @@ reference:
       - dnn_classifier
       - dnn_linear_combined_regressor
       - dnn_linear_combined_classifier
+      - boosted_trees_regressor
+      - boosted_trees_classifier
       
   - title: "Estimator Methods"
     contents:
