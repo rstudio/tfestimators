@@ -186,7 +186,7 @@ column_categorical_with_vocabulary_file <- function(...,
 #'
 #' Typically, this is used for contiguous ranges of integer indexes, but it
 #' doesn't have to be. This might be inefficient, however, if many of IDs are
-#' unused. Consider `categorical_column_with_hash_bucket` in that case.
+#' unused. Consider `column_categorical_with_hash_bucket()` in that case.
 #'
 #' For input dictionary `features`, `features$key` is either tensor or sparse 
 #' tensor object. If it's tensor object, missing values can be represented by `-1` for
@@ -224,11 +224,11 @@ column_categorical_with_identity <- function(...,
 
 #' Represents Multi-Hot Representation of Given Categorical Column
 #'
-#' Used to wrap any `categorical_column_*` (e.g., to feed to DNN). Use
-#' `embedding_column` if the inputs are sparse.
+#' Used to wrap any `column_categorical()*` (e.g., to feed to DNN). Use
+#' `column_embedding()` if the inputs are sparse.
 #'
 #' @param categorical_column A categorical column which is created by
-#'   the `categorical_column_with_*()` or `crossed_column()` functions.
+#'   the `column_categorical_with_*()` or `column_crossed()` functions.
 #'
 #' @return An indicator column.
 #'

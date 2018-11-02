@@ -28,7 +28,7 @@ fail.
 \details{
 Typically, this is used for contiguous ranges of integer indexes, but it
 doesn't have to be. This might be inefficient, however, if many of IDs are
-unused. Consider \code{categorical_column_with_hash_bucket} in that case.
+unused. Consider \code{column_categorical_with_hash_bucket()} in that case.
 
 For input dictionary \code{features}, \code{features$key} is either tensor or sparse
 tensor object. If it's tensor object, missing values can be represented by \code{-1} for

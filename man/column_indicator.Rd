@@ -8,12 +8,12 @@ column_indicator(categorical_column)
 }
 \arguments{
 \item{categorical_column}{A categorical column which is created by
-the \code{categorical_column_with_*()} or \code{crossed_column()} functions.}
+the \code{column_categorical_with_*()} or \code{column_crossed()} functions.}
 }
 \value{
 An indicator column.
 }
 \description{
-Used to wrap any \code{categorical_column_*} (e.g., to feed to DNN). Use
-\code{embedding_column} if the inputs are sparse.
+Used to wrap any \code{column_categorical()*} (e.g., to feed to DNN). Use
+\code{column_embedding()} if the inputs are sparse.
 }
