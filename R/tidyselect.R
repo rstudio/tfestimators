@@ -1,9 +1,3 @@
-tidyselect_data <- function() {
-  tidyselect <- asNamespace("tidyselect")
-  exports <- getNamespaceExports(tidyselect)
-  mget(exports, tidyselect, inherits = TRUE)
-}
-
 #' Establish a Feature Columns Selection Scope
 #' 
 #' This helper function provides a set of names to be
