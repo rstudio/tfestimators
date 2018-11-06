@@ -1,3 +1,7 @@
+# tfestimators 1.9.0.9000 (unreleased)
+
+* Fixes for rlang 0.3 compatibility (#156, #159).
+
 # tfestimators 1.9.0
 
 * Add input checking to exported functions (#150).

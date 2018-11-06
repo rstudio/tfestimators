@@ -14,9 +14,7 @@ feature_columns <- function(..., names = NULL) {
   # scope names when they are provided
   if (!is.null(names))
     tidyselect::scoped_vars(object_names(names))
-  
-  # evaluate in an environment where 'tidyselect' is available
-  data <- tidyselect_data()
+
   selections <- lapply(quos(...), function(quo) {
     
     # if this is a two-sided formula, transform call from e.g.
@@ -34,13 +32,13 @@ feature_columns <- function(..., names = NULL) {
       lhs <- expr[[2]]; rhs <- expr[[3]]
       
       # inject lhs as first argument to rhs
-      injected <- as.call(c(lang_head(rhs), lhs, lang_tail(rhs)))
+      injected <- as.call(c(node_car(get_expr(rhs)), lhs, node_cdr(get_expr(rhs))))
       
       # update expression
       quo <- set_expr(quo, injected)
     }
     
-    rlang::eval_tidy(quo, data = data)
+    rlang::eval_tidy(quo)
   })
   
   # flatten our (potentially recursive) list
