@@ -31,11 +31,11 @@ linear_regressor <- function(feature_columns,
     tf$estimator$LinearRegressor(
       feature_columns = ensure_nullable_list(feature_columns),
       model_dir = resolve_model_dir(model_dir),
-      weight_column = ensure_scalar_character(weight_column, allow.null = TRUE),
+      weight_column = cast_nullable_string(weight_column),
       optimizer = optimizer,
       config = config,
       partitioner = partitioner,
-      label_dimension = ensure_scalar_integer(label_dimension)
+      label_dimension = cast_scalar_integer(label_dimension)
     )
   )
 
@@ -61,8 +61,8 @@ linear_classifier <- function(feature_columns,
     tf$estimator$LinearClassifier(
       feature_columns = ensure_nullable_list(feature_columns),
       model_dir = resolve_model_dir(model_dir),
-      n_classes = ensure_scalar_integer(n_classes),
-      weight_column = ensure_scalar_character(weight_column, allow.null = TRUE),
+      n_classes = cast_scalar_integer(n_classes),
+      weight_column = cast_nullable_string(weight_column),
       label_vocabulary = label_vocabulary,
       optimizer = optimizer,
       config = config,
