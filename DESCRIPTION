@@ -30,6 +30,7 @@ LazyData: true
 Depends:
     R (>= 3.1)
 Imports:
+    forge,
     magrittr,
     progress,
     reticulate (>= 1.10), 

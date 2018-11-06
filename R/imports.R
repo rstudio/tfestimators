@@ -2,6 +2,7 @@
 #' @import rlang
 #' @import tensorflow
 #' @import tidyselect
+#' @import forge
 #' 
 #' @importFrom magrittr %>%
 #' @importFrom stats coef
