@@ -40,14 +40,14 @@ dnn_regressor <- function(hidden_units,
   
   estimator <- py_suppress_warnings(
     tf$estimator$DNNRegressor(
-      hidden_units = lapply(hidden_units, ensure_scalar_integer),
+      hidden_units = cast_integer_list(hidden_units),
       feature_columns = ensure_nullable_list(feature_columns),
       model_dir = resolve_model_dir(model_dir),
-      label_dimension = ensure_scalar_integer(label_dimension),
-      weight_column = ensure_scalar_character(weight_column, allow.null = TRUE),
+      label_dimension = cast_scalar_integer(label_dimension),
+      weight_column = cast_nullable_string(weight_column),
       optimizer = optimizer,
       activation_fn = resolve_activation_fn(activation_fn),
-      dropout = ensure_scalar_double(dropout, allow.null = TRUE),
+      dropout = cast_nullable_scalar_double(dropout),
       input_layer_partitioner = input_layer_partitioner,
       config = config
     )
@@ -76,15 +76,15 @@ dnn_classifier <- function(hidden_units,
   
   estimator <- py_suppress_warnings(
     tf$estimator$DNNClassifier(
-      hidden_units = lapply(hidden_units, ensure_scalar_integer),
+      hidden_units = cast_integer_list(hidden_units),
       feature_columns = ensure_nullable_list(feature_columns),
       model_dir = resolve_model_dir(model_dir),
-      n_classes = ensure_scalar_integer(n_classes),
-      weight_column = ensure_scalar_character(weight_column, allow.null = TRUE),
+      n_classes = cast_scalar_integer(n_classes),
+      weight_column = cast_nullable_string(weight_column),
       label_vocabulary = label_vocabulary,
       optimizer = optimizer,
       activation_fn = resolve_activation_fn(activation_fn),
-      dropout = ensure_scalar_double(dropout, allow.null = TRUE),
+      dropout = cast_nullable_scalar_double(dropout),
       input_layer_partitioner = input_layer_partitioner,
       config = config
     )

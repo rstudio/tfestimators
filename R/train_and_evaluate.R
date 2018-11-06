@@ -87,7 +87,7 @@ train_spec <- function(input_fn,
     list(
       args = list(
         input_fn = input_fn,
-        max_steps = ensure_scalar_integer(max_steps, allow.null = TRUE),
+        max_steps = cast_nullable_scalar_integer(max_steps),
         hooks = resolve_train_hooks(hooks, max_steps)
       )
     ),
@@ -133,12 +133,12 @@ eval_spec <- function(input_fn,
     list(
       args = list(
         input_fn = input_fn,
-        steps = ensure_scalar_integer(steps, allow.null = TRUE),
+        steps = cast_nullable_scalar_integer(steps),
         name = name,
         hooks = resolve_eval_hooks(hooks, steps),
         exporters = exporters,
-        start_delay_secs = ensure_scalar_integer(start_delay_secs),
-        throttle_secs = ensure_scalar_integer(throttle_secs)
+        start_delay_secs = cast_scalar_integer(start_delay_secs),
+        throttle_secs = cast_scalar_integer(throttle_secs)
       )
     ),
     class = "eval_spec"

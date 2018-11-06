@@ -75,10 +75,10 @@ input_fn.data.frame <- function(object,
     response <- vars_select(all_names, !! eq_response)
   }
   
-  num_epochs <- ensure_scalar_integer(num_epochs, allow.null = TRUE)
-  batch_size <- ensure_scalar_integer(batch_size)
-  queue_capacity <- ensure_scalar_integer(queue_capacity)
-  num_threads <- ensure_scalar_integer(num_threads)
+  num_epochs <- cast_nullable_scalar_integer(num_epochs)
+  batch_size <- cast_scalar_integer(batch_size)
+  queue_capacity <- cast_scalar_integer(queue_capacity)
+  num_threads <- cast_scalar_integer(num_threads)
   
   # convert 'shuffle' at runtime based on call context
   resolve_shuffle <- function(shuffle) {
@@ -271,11 +271,11 @@ numpy_input_fn <- function(x,
     tf$estimator$inputs$numpy_input_fn(
       x = x,
       y = y,
-      batch_size = ensure_scalar_integer(batch_size),
-      num_epochs = ensure_scalar_integer(num_epochs, allow.null = TRUE),
+      batch_size = cast_scalar_integer(batch_size),
+      num_epochs = cast_nullable_scalar_integer(num_epochs),
       shuffle = shuffle,
-      queue_capacity = ensure_scalar_integer(queue_capacity),
-      num_threads = ensure_scalar_integer(num_threads)
+      queue_capacity = cast_scalar_integer(queue_capacity),
+      num_threads = cast_scalar_integer(num_threads)
     )
   }
 }

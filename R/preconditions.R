@@ -37,17 +37,6 @@ ensure_not_null <- function(object) {
   object %||% stop(sprintf("'%s' is NULL", deparse(substitute(object))))
 }
 
-ensure_scalar <- function(object) {
-
-  if (length(object) != 1 || !is.numeric(object)) {
-    stopf(
-      "'%s' is not a length-one numeric value",
-      deparse(substitute(object))
-    )
-  }
-  object
-}
-
 ensure_dict <- function(x, named = FALSE) {
   if (is.list(x)) {
     if (named && is.null(names(x))) {
@@ -68,70 +57,6 @@ ensure_nullable_list <- function(x) {
     x
   unname(result)
 }
-
-make_ensure_scalar_impl <- function(checker, message, converter) {
-  fn <- function(object,
-                 allow.na = FALSE,
-                 allow.null = FALSE,
-                 default = NULL)
-  {
-    object <- object %||% default
-    
-    if (allow.null && is.null(object)) return(object)
-
-    if (!checker(object))
-      stopf("'%s' is not %s", deparse(substitute(object)), message)
-
-    if (is.na(object)) object <- NA_integer_
-    if (!allow.na)     ensure_not_na(object)
-
-    converter(object)
-  }
-
-  environment(fn) <- parent.frame()
-
-  body(fn) <- do.call(
-    substitute,
-    list(
-      body(fn),
-      list(
-        checker = substitute(checker),
-        message = substitute(message),
-        converter = substitute(converter)
-      )
-    )
-  )
-
-  fn
-}
-
-ensure_scalar_integer <- function(x, allow.null = FALSE) {
-  if (rlang::is_null(x) && allow.null)
-    return(x)
-  if (!rlang::is_bare_numeric(x, 1))
-    stop(x, " is not a length-one numeric or integer vector",
-         call. = FALSE)
-  rlang::as_integer(x)
-}
-
-ensure_scalar_double <- make_ensure_scalar_impl(
-  is.numeric,
-  "a length-one numeric vector",
-  as.double
-)
-
-ensure_scalar_boolean <- make_ensure_scalar_impl(
-  is.logical,
-  "a length-one logical vector",
-  as.logical
-)
-
-ensure_scalar_character <- make_ensure_scalar_impl(
-  is.character,
-  "a length-one character vector",
-  as.character
-)
-
 
 require_file_exists <- function(path, fmt = NULL) {
   fmt <- fmt %||% "no file at path '%s'"
