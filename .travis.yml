@@ -2,7 +2,7 @@ sudo: false
 
 language: r
 
-warnings_are_errors: false
+warnings_are_errors: true
 
 env:
   global:
