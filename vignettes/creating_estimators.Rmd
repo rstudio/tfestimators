@@ -83,7 +83,7 @@ contains 7 examples on which to make predictions.
 
 The following sections walk through writing the `Estimator` code step by step;
 the [full, final code is available
-here](https://www.tensorflow.org/code/tensorflow/examples/tutorials/estimators/abalone.py).
+here](https://github.com/tensorflow/tensorflow/blob/r1.3/tensorflow/examples/tutorials/estimators/abalone.py).
 
 # Downloading and Loading Abalone CSV Data
 

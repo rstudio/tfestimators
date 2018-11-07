@@ -5,6 +5,4 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
-
-* Change of maintainer from JJ Allaire to Kevin Kuo.
+0 errors | 0 warnings | 0 notes

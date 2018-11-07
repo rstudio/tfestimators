@@ -190,7 +190,7 @@ hook_summary_saver <- function(save_steps = NULL,
 #' @export
 hook_global_step_waiter <- function(wait_until_step) {
   tf$python$training$basic_session_run_hooks$GlobalStepWaiterHook(
-    wait_until_step = cast_calar_integer(wait_until_step)
+    wait_until_step = cast_scalar_integer(wait_until_step)
   )
 }
 

@@ -1,4 +1,4 @@
-# tfestimators 1.9.0.9000 (unreleased)
+# tfestimators 1.9.1
 
 * Fixes for rlang 0.3 compatibility (#156, #159).
 
