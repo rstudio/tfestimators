@@ -169,7 +169,7 @@ column_categorical_with_vocabulary_file <- function(...,
       vocabulary_file = vocabulary_file,
       vocabulary_size = vocabulary_size,
       num_oov_buckets = cast_scalar_integer(num_oov_buckets),
-      default_value = cast_nullable_scalar_integer(default_value, allow.null = TRUE),
+      default_value = cast_nullable_scalar_integer(default_value),
       dtype = dtype
     )
   })
