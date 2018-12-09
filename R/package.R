@@ -67,7 +67,7 @@ check_tensorflow_version <- function(displayed_warning) {
   required_least_ver <- "1.3"
   if (current_tf_ver < required_least_ver) {
     if (!displayed_warning) {
-      message("tfestimators requires TensorFlow version > ", required_least_ver, " ",
+      message("tfestimators requires TensorFlow version >= ", required_least_ver, " ",
               "(you are currently running version ", current_tf_ver, ").\n")
       displayed_warning <<- TRUE
     }
