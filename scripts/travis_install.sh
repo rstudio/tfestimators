@@ -1,4 +1,4 @@
-pip2.7 install --upgrade --ignore-installed --user travis pip setuptools wheel virtualenv
+pip2.7 install --upgrade --ignore-installed --user travis virtualenv
 
 echo "Installing TensorFlow v$TF_VERSION..."
 Rscript -e 'tensorflow::install_tensorflow(version = Sys.getenv("TF_VERSION"))';
