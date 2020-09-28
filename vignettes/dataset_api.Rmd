@@ -85,7 +85,7 @@ iris_validation <- text_line_dataset(
   dataset_repeat(1)
 ```
 
-The `csv_record_spec()` function is a helper function that creates a specification from a sample file; the returned specification is required by the `text_line_dataset()` function to parse the files. There are many [transformations](https://tensorflow.rstudio.com/tools/tfdatasets/reference/index.html#section-transforming-datasets) available for dataset objects, but here we just demonstrate `dataset_batch()` and `dataset_repeat()` which control the batch size and how many times we iterate through the dataset files, respectively.
+The `csv_record_spec()` function is a helper function that creates a specification from a sample file; the returned specification is required by the `text_line_dataset()` function to parse the files. There are many [transformations](https://tensorflow.rstudio.com/guide/tfdatasets/introduction/#transformations) available for dataset objects, but here we just demonstrate `dataset_batch()` and `dataset_repeat()` which control the batch size and how many times we iterate through the dataset files, respectively.
 
 ## Training and Evaluation
 
