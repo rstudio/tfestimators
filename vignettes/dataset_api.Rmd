@@ -67,7 +67,7 @@ classifier <- dnn_classifier(
 
 ## Input Function
 
-The creation of the input function is similar to the [in-memory case](https://tensorflow.rstudio.com/tfestimators/articles/input_functions.html). However, instead of passing data frames or matrices to `iris_input_fn()`, we pass TensorFlow dataset objects which are internally iterators of the dataset files.
+The creation of the input function is similar to the [in-memory case](https://tensorflow.rstudio.com/guide/tfestimators/estimator_basics/#input-functions). However, instead of passing data frames or matrices to `iris_input_fn()`, we pass TensorFlow dataset objects which are internally iterators of the dataset files.
 
 ```{r}
 iris_input_fn <- function(data) {
