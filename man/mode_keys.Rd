@@ -25,7 +25,8 @@ modes$TRAIN
 
 }
 \seealso{
-Other estimator keys: \code{\link{metric_keys}},
-  \code{\link{prediction_keys}}
+Other estimator keys: 
+\code{\link{metric_keys}()},
+\code{\link{prediction_keys}()}
 }
 \concept{estimator keys}

@@ -6,17 +6,38 @@
 \alias{boosted_trees_classifier}
 \title{Boosted Trees Estimator}
 \usage{
-boosted_trees_regressor(feature_columns, n_batches_per_layer,
-  model_dir = NULL, label_dimension = 1L, weight_column = NULL,
-  n_trees = 100L, max_depth = 6L, learning_rate = 0.1,
-  l1_regularization = 0, l2_regularization = 0, tree_complexity = 0,
-  min_node_weight = 0, config = NULL)
+boosted_trees_regressor(
+  feature_columns,
+  n_batches_per_layer,
+  model_dir = NULL,
+  label_dimension = 1L,
+  weight_column = NULL,
+  n_trees = 100L,
+  max_depth = 6L,
+  learning_rate = 0.1,
+  l1_regularization = 0,
+  l2_regularization = 0,
+  tree_complexity = 0,
+  min_node_weight = 0,
+  config = NULL
+)
 
-boosted_trees_classifier(feature_columns, n_batches_per_layer,
-  model_dir = NULL, n_classes = 2L, weight_column = NULL,
-  label_vocabulary = NULL, n_trees = 100L, max_depth = 6L,
-  learning_rate = 0.1, l1_regularization = 0, l2_regularization = 0,
-  tree_complexity = 0, min_node_weight = 0, config = NULL)
+boosted_trees_classifier(
+  feature_columns,
+  n_batches_per_layer,
+  model_dir = NULL,
+  n_classes = 2L,
+  weight_column = NULL,
+  label_vocabulary = NULL,
+  n_trees = 100L,
+  max_depth = 6L,
+  learning_rate = 0.1,
+  l1_regularization = 0,
+  l2_regularization = 0,
+  tree_complexity = 0,
+  min_node_weight = 0,
+  config = NULL
+)
 }
 \arguments{
 \item{feature_columns}{An \R list containing all of the feature columns used
@@ -31,7 +52,7 @@ estimator to continue training a previously saved model.}
 
 \item{label_dimension}{Number of regression targets per example. This is the
 size of the last dimension of the labels and logits \code{Tensor} objects
-(typically, these have shape \code{[batch_size, label_dimension]}).}
+(typically, these have shape \verb{[batch_size, label_dimension]}).}
 
 \item{weight_column}{A string, or a numeric column created by
 \code{\link[=column_numeric]{column_numeric()}} defining feature column representing weights. It is used
@@ -69,16 +90,17 @@ settings.}
 \item{label_vocabulary}{A list of strings represents possible label values.
 If given, labels must be string type and have any value in
 \code{label_vocabulary}. If it is not given, that means labels are already
-encoded as integer or float within \code{[0, 1]} for \code{n_classes == 2} and
-encoded as integer values in \code{{0, 1,..., n_classes  -1}} for \code{n_classes > 2}. Also there will be errors if vocabulary is not provided and labels are
+encoded as integer or float within \verb{[0, 1]} for \code{n_classes == 2} and
+encoded as integer values in \verb{\{0, 1,..., n_classes  -1\}} for \code{n_classes > 2}. Also there will be errors if vocabulary is not provided and labels are
 string.}
 }
 \description{
 Construct a boosted trees estimator.
 }
 \seealso{
-Other canned estimators: \code{\link{dnn_estimators}},
-  \code{\link{dnn_linear_combined_estimators}},
-  \code{\link{linear_estimators}}
+Other canned estimators: 
+\code{\link{dnn_estimators}},
+\code{\link{dnn_linear_combined_estimators}},
+\code{\link{linear_estimators}}
 }
 \concept{canned estimators}

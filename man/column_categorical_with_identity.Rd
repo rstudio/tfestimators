@@ -14,13 +14,13 @@ and feature columns.}
 \item{num_buckets}{Number of unique values.}
 
 \item{default_value}{If \code{NULL}, this column's graph operations will fail for
-out-of-range inputs. Otherwise, this value must be in the range \code{[0, num_buckets)}, and will replace inputs in that range.}
+out-of-range inputs. Otherwise, this value must be in the range \verb{[0, num_buckets)}, and will replace inputs in that range.}
 }
 \value{
 A categorical column that returns identity values.
 }
 \description{
-Use this when your inputs are integers in the range \code{[0, num_buckets)}, and
+Use this when your inputs are integers in the range \verb{[0, num_buckets)}, and
 you want to use the input value itself as the categorical ID. Values outside
 this range will result in \code{default_value} if specified, otherwise it will
 fail.
@@ -39,18 +39,20 @@ int and \code{''} for string. Note that these values are independent of the
 
 \itemize{
 \item ValueError: if \code{num_buckets} is less than one.
-\item ValueError: if \code{default_value} is not in range \code{[0, num_buckets)}.
+\item ValueError: if \code{default_value} is not in range \verb{[0, num_buckets)}.
 }
 }
 
 \seealso{
-Other feature column constructors: \code{\link{column_bucketized}},
-  \code{\link{column_categorical_weighted}},
-  \code{\link{column_categorical_with_hash_bucket}},
-  \code{\link{column_categorical_with_vocabulary_file}},
-  \code{\link{column_categorical_with_vocabulary_list}},
-  \code{\link{column_crossed}},
-  \code{\link{column_embedding}},
-  \code{\link{column_numeric}}, \code{\link{input_layer}}
+Other feature column constructors: 
+\code{\link{column_bucketized}()},
+\code{\link{column_categorical_weighted}()},
+\code{\link{column_categorical_with_hash_bucket}()},
+\code{\link{column_categorical_with_vocabulary_file}()},
+\code{\link{column_categorical_with_vocabulary_list}()},
+\code{\link{column_crossed}()},
+\code{\link{column_embedding}()},
+\code{\link{column_numeric}()},
+\code{\link{input_layer}()}
 }
 \concept{feature column constructors}

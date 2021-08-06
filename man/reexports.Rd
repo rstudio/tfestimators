@@ -40,16 +40,16 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{magrittr}{\code{\link[magrittr]{\%>\%}}}
+  \item{magrittr}{\code{\link[magrittr:pipe]{\%>\%}}}
 
-  \item{reticulate}{\code{\link[reticulate]{use_python}}, \code{\link[reticulate]{use_virtualenv}}, \code{\link[reticulate]{use_condaenv}}, \code{\link[reticulate]{array_reshape}}}
+  \item{reticulate}{\code{\link[reticulate]{array_reshape}}, \code{\link[reticulate:use_python]{use_condaenv}}, \code{\link[reticulate]{use_python}}, \code{\link[reticulate:use_python]{use_virtualenv}}}
 
-  \item{tensorflow}{\code{\link[tensorflow]{tf}}, \code{\link[tensorflow]{shape}}, \code{\link[tensorflow]{install_tensorflow}}, \code{\link[tensorflow]{tf_config}}, \code{\link[tensorflow]{tensorboard}}, \code{\link[tensorflow]{evaluate}}, \code{\link[tensorflow]{train}}, \code{\link[tensorflow]{train_and_evaluate}}, \code{\link[tensorflow]{export_savedmodel}}}
+  \item{tensorflow}{\code{\link[tensorflow]{evaluate}}, \code{\link[tensorflow]{export_savedmodel}}, \code{\link[tensorflow]{install_tensorflow}}, \code{\link[tensorflow]{shape}}, \code{\link[tensorflow]{tensorboard}}, \code{\link[tensorflow]{tf}}, \code{\link[tensorflow]{tf_config}}, \code{\link[tensorflow]{train}}, \code{\link[tensorflow]{train_and_evaluate}}}
 
-  \item{tfruns}{\code{\link[tfruns]{flags}}, \code{\link[tfruns]{flag_numeric}}, \code{\link[tfruns]{flag_integer}}, \code{\link[tfruns]{flag_string}}, \code{\link[tfruns]{flag_boolean}}, \code{\link[tfruns]{run_dir}}}
+  \item{tfruns}{\code{\link[tfruns:flags]{flag_boolean}}, \code{\link[tfruns:flags]{flag_integer}}, \code{\link[tfruns:flags]{flag_numeric}}, \code{\link[tfruns:flags]{flag_string}}, \code{\link[tfruns]{flags}}, \code{\link[tfruns]{run_dir}}}
 
-  \item{tibble}{\code{\link[tibble]{glimpse}}}
+  \item{tibble}{\code{\link[tibble:reexports]{glimpse}}}
 
-  \item{tidyselect}{\code{\link[tidyselect]{contains}}, \code{\link[tidyselect]{ends_with}}, \code{\link[tidyselect]{everything}}, \code{\link[tidyselect]{matches}}, \code{\link[tidyselect]{num_range}}, \code{\link[tidyselect]{one_of}}, \code{\link[tidyselect]{starts_with}}, \code{\link[tidyselect]{last_col}}}
+  \item{tidyselect}{\code{\link[tidyselect:starts_with]{contains}}, \code{\link[tidyselect:starts_with]{ends_with}}, \code{\link[tidyselect]{everything}}, \code{\link[tidyselect:everything]{last_col}}, \code{\link[tidyselect:starts_with]{matches}}, \code{\link[tidyselect:starts_with]{num_range}}, \code{\link[tidyselect]{one_of}}, \code{\link[tidyselect]{starts_with}}}
 }}
 

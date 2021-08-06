@@ -47,7 +47,7 @@ write.csv(iris_sample, "iris_sample.csv", row.names = FALSE)
 
 ## Estimator Construction
 
-We construct the classifier as usual -- see [Estimator Basics](https://tensorflow.rstudio.com/tfestimators/articles/estimator_basics.html) for details on feature columns and creating estimators.
+We construct the classifier as usual -- see [Estimator Basics](https://tensorflow.rstudio.com/guide/tfestimators/estimator_basics/) for details on feature columns and creating estimators.
 
 ```{r}
 library(tfestimators)

@@ -4,9 +4,16 @@
 \alias{evaluate.tf_estimator}
 \title{Evaluate an Estimator}
 \usage{
-\method{evaluate}{tf_estimator}(object, input_fn, steps = NULL,
-  checkpoint_path = NULL, name = NULL, hooks = NULL,
-  simplify = TRUE, ...)
+\method{evaluate}{tf_estimator}(
+  object,
+  input_fn,
+  steps = NULL,
+  checkpoint_path = NULL,
+  name = NULL,
+  hooks = NULL,
+  simplify = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{A TensorFlow estimator.}
@@ -54,10 +61,11 @@ of data. Evaluation continues until:
 }
 }
 \seealso{
-Other custom estimator methods: \code{\link{estimator_spec}},
-  \code{\link{estimator}},
-  \code{\link{export_savedmodel.tf_estimator}},
-  \code{\link{predict.tf_estimator}},
-  \code{\link{train.tf_estimator}}
+Other custom estimator methods: 
+\code{\link{estimator_spec}()},
+\code{\link{estimator}()},
+\code{\link{export_savedmodel.tf_estimator}()},
+\code{\link{predict.tf_estimator}()},
+\code{\link{train.tf_estimator}()}
 }
 \concept{custom estimator methods}

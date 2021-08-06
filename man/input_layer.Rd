@@ -4,8 +4,12 @@
 \alias{input_layer}
 \title{Construct an Input Layer}
 \usage{
-input_layer(features, feature_columns, weight_collections = NULL,
-  trainable = TRUE)
+input_layer(
+  features,
+  feature_columns,
+  weight_collections = NULL,
+  trainable = TRUE
+)
 }
 \arguments{
 \item{features}{A mapping from key to tensors. Feature columns look up via
@@ -44,14 +48,15 @@ to a single tensor.
 }
 
 \seealso{
-Other feature column constructors: \code{\link{column_bucketized}},
-  \code{\link{column_categorical_weighted}},
-  \code{\link{column_categorical_with_hash_bucket}},
-  \code{\link{column_categorical_with_identity}},
-  \code{\link{column_categorical_with_vocabulary_file}},
-  \code{\link{column_categorical_with_vocabulary_list}},
-  \code{\link{column_crossed}},
-  \code{\link{column_embedding}},
-  \code{\link{column_numeric}}
+Other feature column constructors: 
+\code{\link{column_bucketized}()},
+\code{\link{column_categorical_weighted}()},
+\code{\link{column_categorical_with_hash_bucket}()},
+\code{\link{column_categorical_with_identity}()},
+\code{\link{column_categorical_with_vocabulary_file}()},
+\code{\link{column_categorical_with_vocabulary_list}()},
+\code{\link{column_crossed}()},
+\code{\link{column_embedding}()},
+\code{\link{column_numeric}()}
 }
 \concept{feature column constructors}

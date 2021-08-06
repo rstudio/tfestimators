@@ -43,7 +43,7 @@ In addition, there are APIs that cover more advanced usages:
 
 - SavedModel export utilities (exports the trained model to be deployed in places like CloudML)
 
-Please read our [white paper](http://terrytangyuan.github.io/data/papers/tf-estimators-kdd-paper.pdf) if you are interested in the detailed design of the above components. 
+Please read our [white paper](https://terrytangyuan.github.io/data/papers/tf-estimators-kdd-paper.pdf) if you are interested in the detailed design of the above components. 
 
 Below we enumerate some of the core functions in each of these components to provide a high level overview of what's available. See the linked articles for more details on using all of the components together. 
 

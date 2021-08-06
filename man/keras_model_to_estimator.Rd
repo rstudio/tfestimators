@@ -4,8 +4,13 @@
 \alias{keras_model_to_estimator}
 \title{Keras Estimators}
 \usage{
-keras_model_to_estimator(keras_model = NULL, keras_model_path = NULL,
-  custom_objects = NULL, model_dir = NULL, config = NULL)
+keras_model_to_estimator(
+  keras_model = NULL,
+  keras_model_path = NULL,
+  custom_objects = NULL,
+  model_dir = NULL,
+  config = NULL
+)
 }
 \arguments{
 \item{keras_model}{A keras model.}

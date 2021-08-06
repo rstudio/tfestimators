@@ -17,6 +17,7 @@ task_type()$MASTER
 
 }
 \seealso{
-Other run_config methods: \code{\link{run_config}}
+Other run_config methods: 
+\code{\link{run_config}()}
 }
 \concept{run_config methods}

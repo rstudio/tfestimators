@@ -4,13 +4,20 @@
 \alias{column_embedding}
 \title{Construct a Dense Column}
 \usage{
-column_embedding(categorical_column, dimension, combiner = "mean",
-  initializer = NULL, ckpt_to_load_from = NULL,
-  tensor_name_in_ckpt = NULL, max_norm = NULL, trainable = TRUE)
+column_embedding(
+  categorical_column,
+  dimension,
+  combiner = "mean",
+  initializer = NULL,
+  ckpt_to_load_from = NULL,
+  tensor_name_in_ckpt = NULL,
+  max_norm = NULL,
+  trainable = TRUE
+)
 }
 \arguments{
 \item{categorical_column}{A categorical column created by a
-\code{column_categorical_*()} function. This column produces the sparse IDs
+\verb{column_categorical_*()} function. This column produces the sparse IDs
 that are inputs to the embedding lookup.}
 
 \item{dimension}{A positive integer, specifying dimension of the embedding.}
@@ -45,7 +52,7 @@ A dense column that converts from sparse input.
 \description{
 Use this when your inputs are sparse, but you want to convert them to a dense
 representation (e.g., to feed to a DNN). Inputs must be a
-categorical column created by any of the \code{column_categorical_*()}
+categorical column created by any of the \verb{column_categorical_*()}
 functions.
 }
 \section{Raises}{
@@ -59,13 +66,15 @@ is specified.
 }
 
 \seealso{
-Other feature column constructors: \code{\link{column_bucketized}},
-  \code{\link{column_categorical_weighted}},
-  \code{\link{column_categorical_with_hash_bucket}},
-  \code{\link{column_categorical_with_identity}},
-  \code{\link{column_categorical_with_vocabulary_file}},
-  \code{\link{column_categorical_with_vocabulary_list}},
-  \code{\link{column_crossed}},
-  \code{\link{column_numeric}}, \code{\link{input_layer}}
+Other feature column constructors: 
+\code{\link{column_bucketized}()},
+\code{\link{column_categorical_weighted}()},
+\code{\link{column_categorical_with_hash_bucket}()},
+\code{\link{column_categorical_with_identity}()},
+\code{\link{column_categorical_with_vocabulary_file}()},
+\code{\link{column_categorical_with_vocabulary_list}()},
+\code{\link{column_crossed}()},
+\code{\link{column_numeric}()},
+\code{\link{input_layer}()}
 }
 \concept{feature column constructors}

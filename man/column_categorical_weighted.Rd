@@ -4,12 +4,15 @@
 \alias{column_categorical_weighted}
 \title{Construct a Weighted Categorical Column}
 \usage{
-column_categorical_weighted(categorical_column, weight_feature_key,
-  dtype = tf$float32)
+column_categorical_weighted(
+  categorical_column,
+  weight_feature_key,
+  dtype = tf$float32
+)
 }
 \arguments{
 \item{categorical_column}{A categorical column created by
-\code{column_categorical_*()} functions.}
+\verb{column_categorical_*()} functions.}
 
 \item{weight_feature_key}{String key for weight values.}
 
@@ -35,13 +38,15 @@ frequencies, you can provide 2 parallel sparse input features ('terms' and
 }
 
 \seealso{
-Other feature column constructors: \code{\link{column_bucketized}},
-  \code{\link{column_categorical_with_hash_bucket}},
-  \code{\link{column_categorical_with_identity}},
-  \code{\link{column_categorical_with_vocabulary_file}},
-  \code{\link{column_categorical_with_vocabulary_list}},
-  \code{\link{column_crossed}},
-  \code{\link{column_embedding}},
-  \code{\link{column_numeric}}, \code{\link{input_layer}}
+Other feature column constructors: 
+\code{\link{column_bucketized}()},
+\code{\link{column_categorical_with_hash_bucket}()},
+\code{\link{column_categorical_with_identity}()},
+\code{\link{column_categorical_with_vocabulary_file}()},
+\code{\link{column_categorical_with_vocabulary_list}()},
+\code{\link{column_crossed}()},
+\code{\link{column_embedding}()},
+\code{\link{column_numeric}()},
+\code{\link{input_layer}()}
 }
 \concept{feature column constructors}

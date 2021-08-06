@@ -6,20 +6,36 @@
 \alias{dnn_linear_combined_classifier}
 \title{Linear Combined Deep Neural Networks}
 \usage{
-dnn_linear_combined_regressor(model_dir = NULL,
-  linear_feature_columns = NULL, linear_optimizer = "Ftrl",
-  dnn_feature_columns = NULL, dnn_optimizer = "Adagrad",
-  dnn_hidden_units = NULL, dnn_activation_fn = "relu",
-  dnn_dropout = NULL, label_dimension = 1L, weight_column = NULL,
-  input_layer_partitioner = NULL, config = NULL)
+dnn_linear_combined_regressor(
+  model_dir = NULL,
+  linear_feature_columns = NULL,
+  linear_optimizer = "Ftrl",
+  dnn_feature_columns = NULL,
+  dnn_optimizer = "Adagrad",
+  dnn_hidden_units = NULL,
+  dnn_activation_fn = "relu",
+  dnn_dropout = NULL,
+  label_dimension = 1L,
+  weight_column = NULL,
+  input_layer_partitioner = NULL,
+  config = NULL
+)
 
-dnn_linear_combined_classifier(model_dir = NULL,
-  linear_feature_columns = NULL, linear_optimizer = "Ftrl",
-  dnn_feature_columns = NULL, dnn_optimizer = "Adagrad",
-  dnn_hidden_units = NULL, dnn_activation_fn = "relu",
-  dnn_dropout = NULL, n_classes = 2L, weight_column = NULL,
-  label_vocabulary = NULL, input_layer_partitioner = NULL,
-  config = NULL)
+dnn_linear_combined_classifier(
+  model_dir = NULL,
+  linear_feature_columns = NULL,
+  linear_optimizer = "Ftrl",
+  dnn_feature_columns = NULL,
+  dnn_optimizer = "Adagrad",
+  dnn_hidden_units = NULL,
+  dnn_activation_fn = "relu",
+  dnn_dropout = NULL,
+  n_classes = 2L,
+  weight_column = NULL,
+  label_vocabulary = NULL,
+  input_layer_partitioner = NULL,
+  config = NULL
+)
 }
 \arguments{
 \item{model_dir}{Directory to save the model parameters, graph, and so on.
@@ -49,7 +65,7 @@ has 32 nodes.}
 actual activation function (e.g. \code{tf$nn$relu}), or the name of an
 activation function (e.g. \code{"relu"}). Defaults to the
 \code{"relu"} activation function. See
-\url{https://www.tensorflow.org/api_guides/python/nn#Activation_Functions}
+\url{https://www.tensorflow.org/versions/r1.15/api_docs/python/tf/nn}
 for documentation related to the set of activation functions available
 in TensorFlow.}
 
@@ -58,7 +74,7 @@ coordinate.}
 
 \item{label_dimension}{Number of regression targets per example. This is the
 size of the last dimension of the labels and logits \code{Tensor} objects
-(typically, these have shape \code{[batch_size, label_dimension]}).}
+(typically, these have shape \verb{[batch_size, label_dimension]}).}
 
 \item{weight_column}{A string, or a numeric column created by
 \code{\link[=column_numeric]{column_numeric()}} defining feature column representing weights. It is used
@@ -79,8 +95,8 @@ settings.}
 \item{label_vocabulary}{A list of strings represents possible label values.
 If given, labels must be string type and have any value in
 \code{label_vocabulary}. If it is not given, that means labels are already
-encoded as integer or float within \code{[0, 1]} for \code{n_classes == 2} and
-encoded as integer values in \code{{0, 1,..., n_classes  -1}} for \code{n_classes > 2}. Also there will be errors if vocabulary is not provided and labels are
+encoded as integer or float within \verb{[0, 1]} for \code{n_classes == 2} and
+encoded as integer values in \verb{\{0, 1,..., n_classes  -1\}} for \code{n_classes > 2}. Also there will be errors if vocabulary is not provided and labels are
 string.}
 }
 \description{
@@ -88,8 +104,9 @@ Also known as \code{wide-n-deep} estimators, these are estimators for
 TensorFlow Linear and DNN joined models for regression.
 }
 \seealso{
-Other canned estimators: \code{\link{boosted_trees_estimators}},
-  \code{\link{dnn_estimators}},
-  \code{\link{linear_estimators}}
+Other canned estimators: 
+\code{\link{boosted_trees_estimators}},
+\code{\link{dnn_estimators}},
+\code{\link{linear_estimators}}
 }
 \concept{canned estimators}

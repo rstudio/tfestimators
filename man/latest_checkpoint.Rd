@@ -15,6 +15,7 @@ latest_checkpoint(checkpoint_dir, ...)
 Get the Latest Checkpoint in a Checkpoint Directory
 }
 \seealso{
-Other utility functions: \code{\link{graph_keys}}
+Other utility functions: 
+\code{\link{graph_keys}()}
 }
 \concept{utility functions}

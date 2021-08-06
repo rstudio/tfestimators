@@ -54,6 +54,7 @@ graph_keys()$LOSSES
 
 }
 \seealso{
-Other utility functions: \code{\link{latest_checkpoint}}
+Other utility functions: 
+\code{\link{latest_checkpoint}()}
 }
 \concept{utility functions}

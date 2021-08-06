@@ -4,8 +4,15 @@
 \alias{numpy_input_fn}
 \title{Construct Input Function Containing Python Dictionaries of Numpy Arrays}
 \usage{
-numpy_input_fn(x, y = NULL, batch_size = 128, num_epochs = 1,
-  shuffle = NULL, queue_capacity = 1000, num_threads = 1)
+numpy_input_fn(
+  x,
+  y = NULL,
+  batch_size = 128,
+  num_epochs = 1,
+  shuffle = NULL,
+  queue_capacity = 1000,
+  num_threads = 1
+)
 }
 \arguments{
 \item{x}{dict of numpy array object.}
@@ -42,6 +49,7 @@ a dict or \code{shuffle} is not bool.
 }
 
 \seealso{
-Other input functions: \code{\link{input_fn}}
+Other input functions: 
+\code{\link{input_fn}()}
 }
 \concept{input functions}

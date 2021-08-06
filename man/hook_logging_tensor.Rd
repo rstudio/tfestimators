@@ -4,8 +4,13 @@
 \alias{hook_logging_tensor}
 \title{Prints Given Tensors Every N Local Steps, Every N Seconds, or at End}
 \usage{
-hook_logging_tensor(tensors, every_n_iter = NULL, every_n_secs = NULL,
-  formatter = NULL, at_end = FALSE)
+hook_logging_tensor(
+  tensors,
+  every_n_iter = NULL,
+  every_n_secs = NULL,
+  formatter = NULL,
+  at_end = FALSE
+)
 }
 \arguments{
 \item{tensors}{A list that maps string-valued tags to tensors/tensor names.}
@@ -30,14 +35,15 @@ Note that if \code{at_end} is \code{TRUE}, \code{tensors} should not include any
 whose evaluation produces a side effect such as consuming additional inputs.
 }
 \seealso{
-Other session_run_hook wrappers: \code{\link{hook_checkpoint_saver}},
-  \code{\link{hook_global_step_waiter}},
-  \code{\link{hook_history_saver}},
-  \code{\link{hook_nan_tensor}},
-  \code{\link{hook_progress_bar}},
-  \code{\link{hook_step_counter}},
-  \code{\link{hook_stop_at_step}},
-  \code{\link{hook_summary_saver}},
-  \code{\link{session_run_hook}}
+Other session_run_hook wrappers: 
+\code{\link{hook_checkpoint_saver}()},
+\code{\link{hook_global_step_waiter}()},
+\code{\link{hook_history_saver}()},
+\code{\link{hook_nan_tensor}()},
+\code{\link{hook_progress_bar}()},
+\code{\link{hook_step_counter}()},
+\code{\link{hook_stop_at_step}()},
+\code{\link{hook_summary_saver}()},
+\code{\link{session_run_hook}()}
 }
 \concept{session_run_hook wrappers}

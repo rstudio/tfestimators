@@ -4,10 +4,18 @@
 \alias{estimator_spec}
 \title{Define an Estimator Specification}
 \usage{
-estimator_spec(mode, predictions = NULL, loss = NULL,
-  train_op = NULL, eval_metric_ops = NULL, training_hooks = NULL,
-  evaluation_hooks = NULL, prediction_hooks = NULL,
-  training_chief_hooks = NULL, ...)
+estimator_spec(
+  mode,
+  predictions = NULL,
+  loss = NULL,
+  train_op = NULL,
+  eval_metric_ops = NULL,
+  training_hooks = NULL,
+  evaluation_hooks = NULL,
+  prediction_hooks = NULL,
+  training_chief_hooks = NULL,
+  ...
+)
 }
 \arguments{
 \item{mode}{A key that specifies whether we are performing
@@ -43,10 +51,11 @@ Define the estimator specification, used as part of the \code{model_fn} defined 
 custom estimators created by \code{\link[=estimator]{estimator()}}. See \code{\link[=estimator]{estimator()}} for more details.
 }
 \seealso{
-Other custom estimator methods: \code{\link{estimator}},
-  \code{\link{evaluate.tf_estimator}},
-  \code{\link{export_savedmodel.tf_estimator}},
-  \code{\link{predict.tf_estimator}},
-  \code{\link{train.tf_estimator}}
+Other custom estimator methods: 
+\code{\link{estimator}()},
+\code{\link{evaluate.tf_estimator}()},
+\code{\link{export_savedmodel.tf_estimator}()},
+\code{\link{predict.tf_estimator}()},
+\code{\link{train.tf_estimator}()}
 }
 \concept{custom estimator methods}

@@ -4,9 +4,14 @@
 \alias{hook_summary_saver}
 \title{Saves Summaries Every N Steps}
 \usage{
-hook_summary_saver(save_steps = NULL, save_secs = NULL,
-  output_dir = NULL, summary_writer = NULL, scaffold = NULL,
-  summary_op = NULL)
+hook_summary_saver(
+  save_steps = NULL,
+  save_secs = NULL,
+  output_dir = NULL,
+  summary_writer = NULL,
+  scaffold = NULL,
+  summary_op = NULL
+)
 }
 \arguments{
 \item{save_steps}{An integer indicating saving summaries every N steps. Exactly one of
@@ -32,14 +37,15 @@ one, they must be passed in as a list.}
 Saves Summaries Every N Steps
 }
 \seealso{
-Other session_run_hook wrappers: \code{\link{hook_checkpoint_saver}},
-  \code{\link{hook_global_step_waiter}},
-  \code{\link{hook_history_saver}},
-  \code{\link{hook_logging_tensor}},
-  \code{\link{hook_nan_tensor}},
-  \code{\link{hook_progress_bar}},
-  \code{\link{hook_step_counter}},
-  \code{\link{hook_stop_at_step}},
-  \code{\link{session_run_hook}}
+Other session_run_hook wrappers: 
+\code{\link{hook_checkpoint_saver}()},
+\code{\link{hook_global_step_waiter}()},
+\code{\link{hook_history_saver}()},
+\code{\link{hook_logging_tensor}()},
+\code{\link{hook_nan_tensor}()},
+\code{\link{hook_progress_bar}()},
+\code{\link{hook_step_counter}()},
+\code{\link{hook_stop_at_step}()},
+\code{\link{session_run_hook}()}
 }
 \concept{session_run_hook wrappers}

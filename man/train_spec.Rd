@@ -25,7 +25,8 @@ generate \code{OutOfRangeError} or \code{StopIteration} exceptions.}
 duration. Optional hooks run at various stages of training.
 }
 \seealso{
-Other training methods: \code{\link{eval_spec}},
-  \code{\link{train_and_evaluate.tf_estimator}}
+Other training methods: 
+\code{\link{eval_spec}()},
+\code{\link{train_and_evaluate.tf_estimator}()}
 }
 \concept{training methods}

@@ -132,7 +132,7 @@ estimator_spec <- function(mode,
 #' }
 #' 
 #' See [estimator_spec()] for more details as to how the estimator specification
-#' should be constructed, and <https://www.tensorflow.org/extend/estimators#constructing_the_model_fn> for
+#' should be constructed, and <https://www.tensorflow.org/versions/r1.15/api_docs/python/tf/estimator/Estimator> for
 #' more information as to how the model function should be constructed.
 #' 
 #' @param model_fn The model function. See **Model Function** for details

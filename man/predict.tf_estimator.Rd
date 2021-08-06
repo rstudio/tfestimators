@@ -4,10 +4,18 @@
 \alias{predict.tf_estimator}
 \title{Generate Predictions with an Estimator}
 \usage{
-\method{predict}{tf_estimator}(object, input_fn, checkpoint_path = NULL,
-  predict_keys = c("predictions", "classes", "class_ids", "logistic",
-  "logits", "probabilities"), hooks = NULL, as_iterable = FALSE,
-  simplify = TRUE, yield_single_examples = TRUE, ...)
+\method{predict}{tf_estimator}(
+  object,
+  input_fn,
+  checkpoint_path = NULL,
+  predict_keys = c("predictions", "classes", "class_ids", "logistic", "logits",
+    "probabilities"),
+  hooks = NULL,
+  as_iterable = FALSE,
+  simplify = TRUE,
+  yield_single_examples = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{A TensorFlow estimator.}
@@ -59,10 +67,11 @@ if \code{predict_keys} is not \code{NULL} but \code{EstimatorSpec.predictions} i
 }
 
 \seealso{
-Other custom estimator methods: \code{\link{estimator_spec}},
-  \code{\link{estimator}},
-  \code{\link{evaluate.tf_estimator}},
-  \code{\link{export_savedmodel.tf_estimator}},
-  \code{\link{train.tf_estimator}}
+Other custom estimator methods: 
+\code{\link{estimator_spec}()},
+\code{\link{estimator}()},
+\code{\link{evaluate.tf_estimator}()},
+\code{\link{export_savedmodel.tf_estimator}()},
+\code{\link{train.tf_estimator}()}
 }
 \concept{custom estimator methods}

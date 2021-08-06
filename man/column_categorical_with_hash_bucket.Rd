@@ -4,8 +4,7 @@
 \alias{column_categorical_with_hash_bucket}
 \title{Represents Sparse Feature where IDs are set by Hashing}
 \usage{
-column_categorical_with_hash_bucket(..., hash_bucket_size,
-  dtype = tf$string)
+column_categorical_with_hash_bucket(..., hash_bucket_size, dtype = tf$string)
 }
 \arguments{
 \item{...}{Expression(s) identifying input feature(s). Used as the column
@@ -18,13 +17,13 @@ and feature columns.}
 supported.}
 }
 \value{
-A \code{_HashedCategoricalColumn}.
+A \verb{_HashedCategoricalColumn}.
 }
 \description{
 Use this when your sparse features are in string or integer format, and you
 want to distribute your inputs into a finite number of buckets by hashing.
-output_id = Hash(input_feature_string) % bucket_size For input dictionary
-\code{features}, \code{features$key$} is either tensor or sparse tensor object. If it's
+output_id = Hash(input_feature_string) \% bucket_size For input dictionary
+\code{features}, \verb{features$key$} is either tensor or sparse tensor object. If it's
 tensor object, missing values can be represented by \code{-1} for int and \code{''} for
 string. Note that these values are independent of the \code{default_value}
 argument.
@@ -38,13 +37,15 @@ argument.
 }
 
 \seealso{
-Other feature column constructors: \code{\link{column_bucketized}},
-  \code{\link{column_categorical_weighted}},
-  \code{\link{column_categorical_with_identity}},
-  \code{\link{column_categorical_with_vocabulary_file}},
-  \code{\link{column_categorical_with_vocabulary_list}},
-  \code{\link{column_crossed}},
-  \code{\link{column_embedding}},
-  \code{\link{column_numeric}}, \code{\link{input_layer}}
+Other feature column constructors: 
+\code{\link{column_bucketized}()},
+\code{\link{column_categorical_weighted}()},
+\code{\link{column_categorical_with_identity}()},
+\code{\link{column_categorical_with_vocabulary_file}()},
+\code{\link{column_categorical_with_vocabulary_list}()},
+\code{\link{column_crossed}()},
+\code{\link{column_embedding}()},
+\code{\link{column_numeric}()},
+\code{\link{input_layer}()}
 }
 \concept{feature column constructors}

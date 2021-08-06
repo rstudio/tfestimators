@@ -4,10 +4,15 @@
 \alias{hook_checkpoint_saver}
 \title{Saves Checkpoints Every N Steps or Seconds}
 \usage{
-hook_checkpoint_saver(checkpoint_dir, save_secs = NULL,
-  save_steps = NULL, saver = NULL,
-  checkpoint_basename = "model.ckpt", scaffold = NULL,
-  listeners = NULL)
+hook_checkpoint_saver(
+  checkpoint_dir,
+  save_secs = NULL,
+  save_steps = NULL,
+  saver = NULL,
+  checkpoint_basename = "model.ckpt",
+  scaffold = NULL,
+  listeners = NULL
+)
 }
 \arguments{
 \item{checkpoint_dir}{The base directory for the checkpoint files.}
@@ -24,21 +29,22 @@ hook_checkpoint_saver(checkpoint_dir, save_secs = NULL,
 
 \item{listeners}{List of checkpoint saver listener subclass instances, used
 for callbacks that run immediately after the corresponding
-\code{hook_checkpoint_saver} callbacks, only in steps where \code{the hook_checkpoint_saver}
+\code{hook_checkpoint_saver} callbacks, only in steps where \verb{the hook_checkpoint_saver}
 was triggered.}
 }
 \description{
 Saves Checkpoints Every N Steps or Seconds
 }
 \seealso{
-Other session_run_hook wrappers: \code{\link{hook_global_step_waiter}},
-  \code{\link{hook_history_saver}},
-  \code{\link{hook_logging_tensor}},
-  \code{\link{hook_nan_tensor}},
-  \code{\link{hook_progress_bar}},
-  \code{\link{hook_step_counter}},
-  \code{\link{hook_stop_at_step}},
-  \code{\link{hook_summary_saver}},
-  \code{\link{session_run_hook}}
+Other session_run_hook wrappers: 
+\code{\link{hook_global_step_waiter}()},
+\code{\link{hook_history_saver}()},
+\code{\link{hook_logging_tensor}()},
+\code{\link{hook_nan_tensor}()},
+\code{\link{hook_progress_bar}()},
+\code{\link{hook_step_counter}()},
+\code{\link{hook_stop_at_step}()},
+\code{\link{hook_summary_saver}()},
+\code{\link{session_run_hook}()}
 }
 \concept{session_run_hook wrappers}

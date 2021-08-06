@@ -4,12 +4,17 @@
 \alias{classifier_parse_example_spec}
 \title{Generates Parsing Spec for TensorFlow Example to be Used with Classifiers}
 \usage{
-classifier_parse_example_spec(feature_columns, label_key,
-  label_dtype = tf$int64, label_default = NULL, weight_column = NULL)
+classifier_parse_example_spec(
+  feature_columns,
+  label_key,
+  label_dtype = tf$int64,
+  label_default = NULL,
+  weight_column = NULL
+)
 }
 \arguments{
 \item{feature_columns}{An iterable containing all feature columns. All items
-should be instances of classes derived from \code{_FeatureColumn}.}
+should be instances of classes derived from \verb{_FeatureColumn}.}
 
 \item{label_key}{A string identifying the label. It means \code{tf$Example} stores
 labels with this key.}
@@ -22,7 +27,7 @@ classification.}
 \item{label_default}{used as label if label_key does not exist in given
 \code{tf$Example}. An example usage: let's say \code{label_key} is 'clicked' and
 \code{tf$Example} contains clicked data only for positive examples in following
-format \code{key:clicked, value:1}. This means that if there is no data with key
+format \verb{key:clicked, value:1}. This means that if there is no data with key
 'clicked' it should count as negative example by setting
 \code{label_deafault=0}. Type of this value should be compatible with
 \code{label_dtype}.}
@@ -65,6 +70,7 @@ dtype).
 }
 
 \seealso{
-Other parsing utilities: \code{\link{regressor_parse_example_spec}}
+Other parsing utilities: 
+\code{\link{regressor_parse_example_spec}()}
 }
 \concept{parsing utilities}

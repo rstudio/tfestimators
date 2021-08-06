@@ -22,7 +22,8 @@ metrics$ACCURACY
 
 }
 \seealso{
-Other estimator keys: \code{\link{mode_keys}},
-  \code{\link{prediction_keys}}
+Other estimator keys: 
+\code{\link{mode_keys}()},
+\code{\link{prediction_keys}()}
 }
 \concept{estimator keys}

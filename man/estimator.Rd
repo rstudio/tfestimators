@@ -4,8 +4,13 @@
 \alias{estimator}
 \title{Construct a Custom Estimator}
 \usage{
-estimator(model_fn, model_dir = NULL, config = NULL, params = NULL,
-  class = NULL)
+estimator(
+  model_fn,
+  model_dir = NULL,
+  config = NULL,
+  params = NULL,
+  class = NULL
+)
 }
 \arguments{
 \item{model_fn}{The model function. See \strong{Model Function} for details
@@ -86,15 +91,16 @@ through the \code{estimator()} constructor. \cr
 }
 
 See \code{\link[=estimator_spec]{estimator_spec()}} for more details as to how the estimator specification
-should be constructed, and \url{https://www.tensorflow.org/extend/estimators#constructing_the_model_fn} for
+should be constructed, and \url{https://www.tensorflow.org/versions/r1.15/api_docs/python/tf/estimator/Estimator} for
 more information as to how the model function should be constructed.
 }
 
 \seealso{
-Other custom estimator methods: \code{\link{estimator_spec}},
-  \code{\link{evaluate.tf_estimator}},
-  \code{\link{export_savedmodel.tf_estimator}},
-  \code{\link{predict.tf_estimator}},
-  \code{\link{train.tf_estimator}}
+Other custom estimator methods: 
+\code{\link{estimator_spec}()},
+\code{\link{evaluate.tf_estimator}()},
+\code{\link{export_savedmodel.tf_estimator}()},
+\code{\link{predict.tf_estimator}()},
+\code{\link{train.tf_estimator}()}
 }
 \concept{custom estimator methods}

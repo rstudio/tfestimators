@@ -27,13 +27,15 @@ include the left boundary, and exclude the right boundary.
 }
 
 \seealso{
-Other feature column constructors: \code{\link{column_categorical_weighted}},
-  \code{\link{column_categorical_with_hash_bucket}},
-  \code{\link{column_categorical_with_identity}},
-  \code{\link{column_categorical_with_vocabulary_file}},
-  \code{\link{column_categorical_with_vocabulary_list}},
-  \code{\link{column_crossed}},
-  \code{\link{column_embedding}},
-  \code{\link{column_numeric}}, \code{\link{input_layer}}
+Other feature column constructors: 
+\code{\link{column_categorical_weighted}()},
+\code{\link{column_categorical_with_hash_bucket}()},
+\code{\link{column_categorical_with_identity}()},
+\code{\link{column_categorical_with_vocabulary_file}()},
+\code{\link{column_categorical_with_vocabulary_list}()},
+\code{\link{column_crossed}()},
+\code{\link{column_embedding}()},
+\code{\link{column_numeric}()},
+\code{\link{input_layer}()}
 }
 \concept{feature column constructors}

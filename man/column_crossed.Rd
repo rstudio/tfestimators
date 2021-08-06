@@ -33,19 +33,21 @@ features will be hashed according to \code{hash_bucket_size}.
 \itemize{
 \item ValueError: If \code{len(keys) < 2}.
 \item ValueError: If any of the keys is neither a string nor categorical column.
-\item ValueError: If any of the keys is \code{_HashedCategoricalColumn}.
+\item ValueError: If any of the keys is \verb{_HashedCategoricalColumn}.
 \item ValueError: If \code{hash_bucket_size < 1}.
 }
 }
 
 \seealso{
-Other feature column constructors: \code{\link{column_bucketized}},
-  \code{\link{column_categorical_weighted}},
-  \code{\link{column_categorical_with_hash_bucket}},
-  \code{\link{column_categorical_with_identity}},
-  \code{\link{column_categorical_with_vocabulary_file}},
-  \code{\link{column_categorical_with_vocabulary_list}},
-  \code{\link{column_embedding}},
-  \code{\link{column_numeric}}, \code{\link{input_layer}}
+Other feature column constructors: 
+\code{\link{column_bucketized}()},
+\code{\link{column_categorical_weighted}()},
+\code{\link{column_categorical_with_hash_bucket}()},
+\code{\link{column_categorical_with_identity}()},
+\code{\link{column_categorical_with_vocabulary_file}()},
+\code{\link{column_categorical_with_vocabulary_list}()},
+\code{\link{column_embedding}()},
+\code{\link{column_numeric}()},
+\code{\link{input_layer}()}
 }
 \concept{feature column constructors}

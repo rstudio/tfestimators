@@ -23,7 +23,8 @@ keys$PROBABILITIES
 
 }
 \seealso{
-Other estimator keys: \code{\link{metric_keys}},
-  \code{\link{mode_keys}}
+Other estimator keys: 
+\code{\link{metric_keys}()},
+\code{\link{mode_keys}()}
 }
 \concept{estimator keys}

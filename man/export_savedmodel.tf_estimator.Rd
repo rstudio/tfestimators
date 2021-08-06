@@ -4,10 +4,17 @@
 \alias{export_savedmodel.tf_estimator}
 \title{Save an Estimator}
 \usage{
-\method{export_savedmodel}{tf_estimator}(object, export_dir_base,
-  serving_input_receiver_fn = NULL, assets_extra = NULL,
-  as_text = FALSE, checkpoint_path = NULL, overwrite = TRUE,
-  versioned = !overwrite, ...)
+\method{export_savedmodel}{tf_estimator}(
+  object,
+  export_dir_base,
+  serving_input_receiver_fn = NULL,
+  assets_extra = NULL,
+  as_text = FALSE,
+  checkpoint_path = NULL,
+  overwrite = TRUE,
+  versioned = !overwrite,
+  ...
+)
 }
 \arguments{
 \item{object}{A TensorFlow estimator.}
@@ -68,10 +75,11 @@ export_outputs are provided, or no checkpoint can be found.
 }
 
 \seealso{
-Other custom estimator methods: \code{\link{estimator_spec}},
-  \code{\link{estimator}},
-  \code{\link{evaluate.tf_estimator}},
-  \code{\link{predict.tf_estimator}},
-  \code{\link{train.tf_estimator}}
+Other custom estimator methods: 
+\code{\link{estimator_spec}()},
+\code{\link{estimator}()},
+\code{\link{evaluate.tf_estimator}()},
+\code{\link{predict.tf_estimator}()},
+\code{\link{train.tf_estimator}()}
 }
 \concept{custom estimator methods}

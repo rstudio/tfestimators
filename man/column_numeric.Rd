@@ -4,8 +4,13 @@
 \alias{column_numeric}
 \title{Construct a Real-Valued Column}
 \usage{
-column_numeric(..., shape = c(1L), default_value = NULL,
-  dtype = tf$float32, normalizer_fn = NULL)
+column_numeric(
+  ...,
+  shape = c(1L),
+  default_value = NULL,
+  dtype = tf$float32,
+  normalizer_fn = NULL
+)
 }
 \arguments{
 \item{...}{Expression(s) identifying input feature(s). Used as the column
@@ -32,7 +37,7 @@ type.}
 \item{normalizer_fn}{If not \code{NULL}, a function that can be used to normalize
 the value of the tensor after \code{default_value} is applied for parsing.
 Normalizer function takes the input \code{Tensor} as its argument, and returns
-the output tensor. (e.g. \code{function(x) {(x - 3.0) / 4.2)}}. Please note that
+the output tensor. (e.g. \verb{function(x) \{(x - 3.0) / 4.2)\}}. Please note that
 even though the most common use case of this function is normalization, it
 can be used for any kind of Tensorflow transformations.}
 }
@@ -54,13 +59,15 @@ Construct a Real-Valued Column
 }
 
 \seealso{
-Other feature column constructors: \code{\link{column_bucketized}},
-  \code{\link{column_categorical_weighted}},
-  \code{\link{column_categorical_with_hash_bucket}},
-  \code{\link{column_categorical_with_identity}},
-  \code{\link{column_categorical_with_vocabulary_file}},
-  \code{\link{column_categorical_with_vocabulary_list}},
-  \code{\link{column_crossed}},
-  \code{\link{column_embedding}}, \code{\link{input_layer}}
+Other feature column constructors: 
+\code{\link{column_bucketized}()},
+\code{\link{column_categorical_weighted}()},
+\code{\link{column_categorical_with_hash_bucket}()},
+\code{\link{column_categorical_with_identity}()},
+\code{\link{column_categorical_with_vocabulary_file}()},
+\code{\link{column_categorical_with_vocabulary_list}()},
+\code{\link{column_crossed}()},
+\code{\link{column_embedding}()},
+\code{\link{input_layer}()}
 }
 \concept{feature column constructors}

@@ -4,13 +4,18 @@
 \alias{regressor_parse_example_spec}
 \title{Generates Parsing Spec for TensorFlow Example to be Used with Regressors}
 \usage{
-regressor_parse_example_spec(feature_columns, label_key,
-  label_dtype = tf$float32, label_default = NULL,
-  label_dimension = 1L, weight_column = NULL)
+regressor_parse_example_spec(
+  feature_columns,
+  label_key,
+  label_dtype = tf$float32,
+  label_default = NULL,
+  label_dimension = 1L,
+  weight_column = NULL
+)
 }
 \arguments{
 \item{feature_columns}{An iterable containing all feature columns. All items
-should be instances of classes derived from \code{_FeatureColumn}.}
+should be instances of classes derived from \verb{_FeatureColumn}.}
 
 \item{label_key}{A string identifying the label. It means \code{tf$Example} stores
 labels with this key.}
@@ -24,14 +29,14 @@ is \code{tf$float32}.}
 
 \item{label_dimension}{Number of regression targets per example. This is the
 size of the last dimension of the labels and logits \code{Tensor} objects
-(typically, these have shape \code{[batch_size, label_dimension]}).}
+(typically, these have shape \verb{[batch_size, label_dimension]}).}
 
-\item{weight_column}{A string or a \code{_NumericColumn} created by
+\item{weight_column}{A string or a \verb{_NumericColumn} created by
 \code{column_numeric} defining feature column representing
 weights. It is used to down weight or boost examples during training. It
 will be multiplied by the loss of the example. If it is a string, it is
 used as a key to fetch weight tensor from the \code{features}. If it is a
-\code{_NumericColumn}, raw tensor is fetched by key \code{weight_column$key}, then
+\verb{_NumericColumn}, raw tensor is fetched by key \code{weight_column$key}, then
 \code{weight_column$normalizer_fn} is applied on it to get weight tensor.}
 }
 \value{
@@ -56,13 +61,14 @@ related information from users (key, dtype).
 \itemize{
 \item ValueError: If label is used in \code{feature_columns}.
 \item ValueError: If weight_column is used in \code{feature_columns}.
-\item ValueError: If any of the given \code{feature_columns} is not a \code{_FeatureColumn} instance.
-\item ValueError: If \code{weight_column} is not a \code{_NumericColumn} instance.
+\item ValueError: If any of the given \code{feature_columns} is not a \verb{_FeatureColumn} instance.
+\item ValueError: If \code{weight_column} is not a \verb{_NumericColumn} instance.
 \item ValueError: if label_key is \code{NULL}.
 }
 }
 
 \seealso{
-Other parsing utilities: \code{\link{classifier_parse_example_spec}}
+Other parsing utilities: 
+\code{\link{classifier_parse_example_spec}()}
 }
 \concept{parsing utilities}

@@ -25,6 +25,7 @@ print(config)
 
 }
 \seealso{
-Other run_config methods: \code{\link{task_type}}
+Other run_config methods: 
+\code{\link{task_type}()}
 }
 \concept{run_config methods}

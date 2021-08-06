@@ -4,8 +4,15 @@
 \alias{eval_spec}
 \title{Configuration for the eval component of \code{train_and_evaluate}}
 \usage{
-eval_spec(input_fn, steps = 100, name = NULL, hooks = NULL,
-  exporters = NULL, start_delay_secs = 120, throttle_secs = 600)
+eval_spec(
+  input_fn,
+  steps = 100,
+  name = NULL,
+  hooks = NULL,
+  exporters = NULL,
+  start_delay_secs = 120,
+  throttle_secs = 600
+)
 }
 \arguments{
 \item{input_fn}{Evaluation input function returning a tuple of:
@@ -41,7 +48,8 @@ the trained model. Export writes out the trained model on to external
 storage.
 }
 \seealso{
-Other training methods: \code{\link{train_and_evaluate.tf_estimator}},
-  \code{\link{train_spec}}
+Other training methods: 
+\code{\link{train_and_evaluate.tf_estimator}()},
+\code{\link{train_spec}()}
 }
 \concept{training methods}

@@ -80,7 +80,7 @@ relative measurements of how likely it is that the image falls into each target
 class.
 
 > Note: For a more comprehensive walkthrough of CNN architecture, see Stanford
-> University's <a href="http://cs231n.github.io/convolutional-networks/">
+> University's <a href="https://cs231n.github.io/convolutional-networks/">
 > Convolutional Neural Networks for Visual Recognition course materials</a>.</p>
 
 ## Building the CNN MNIST Classifier {#building_the_cnn_mnist_classifier}
@@ -511,7 +511,7 @@ Let's take a closer look at what's happening above.
 Our `labels` tensor contains a list of predictions for our examples, e.g. `[1,
 9, ...]`. In order to calculate cross-entropy, first we need to convert `labels`
 to the corresponding
-[one-hot encoding](https://www.quora.com/What-is-one-hot-encoding-and-when-is-it-used-in-data-science):
+one-hot encoding (quora.com/What-is-one-hot-encoding-and-when-is-it-used-in-data-science):
 
 ```none
 [[0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -600,7 +600,7 @@ eval_labels <- np$asarray(mnist$test$labels, dtype = np$int32)
 We store the training feature data (the raw pixel values for 55,000 images of
 hand-drawn digits) and training labels (the corresponding value from 0–9 for
 each image) as [numpy
-arrays](https://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html)
+arrays](https://numpy.org/doc/stable/reference/generated/numpy.array.html)
 in `train_data` and `train_labels`, respectively. Similarly, we store the
 evaluation feature data (10,000 images) and evaluation labels in `eval_data`
 and `eval_labels`, respectively.

@@ -4,9 +4,14 @@
 \alias{column_categorical_with_vocabulary_file}
 \title{Construct a Categorical Column with a Vocabulary File}
 \usage{
-column_categorical_with_vocabulary_file(..., vocabulary_file,
-  vocabulary_size, num_oov_buckets = 0L, default_value = NULL,
-  dtype = tf$string)
+column_categorical_with_vocabulary_file(
+  ...,
+  vocabulary_file,
+  vocabulary_size,
+  num_oov_buckets = 0L,
+  default_value = NULL,
+  dtype = tf$string
+)
 }
 \arguments{
 \item{...}{Expression(s) identifying input feature(s). Used as the column
@@ -21,7 +26,7 @@ values are ignored.}
 
 \item{num_oov_buckets}{Non-negative integer, the number of out-of-vocabulary
 buckets. All out-of-vocabulary inputs will be assigned IDs in the range
-\code{[vocabulary_size, vocabulary_size+num_oov_buckets)} based on a hash of the
+\verb{[vocabulary_size, vocabulary_size+num_oov_buckets)} based on a hash of the
 input value. A positive \code{num_oov_buckets} can not be specified with
 \code{default_value}.}
 
@@ -56,13 +61,15 @@ independent of the \code{default_value} argument.
 }
 
 \seealso{
-Other feature column constructors: \code{\link{column_bucketized}},
-  \code{\link{column_categorical_weighted}},
-  \code{\link{column_categorical_with_hash_bucket}},
-  \code{\link{column_categorical_with_identity}},
-  \code{\link{column_categorical_with_vocabulary_list}},
-  \code{\link{column_crossed}},
-  \code{\link{column_embedding}},
-  \code{\link{column_numeric}}, \code{\link{input_layer}}
+Other feature column constructors: 
+\code{\link{column_bucketized}()},
+\code{\link{column_categorical_weighted}()},
+\code{\link{column_categorical_with_hash_bucket}()},
+\code{\link{column_categorical_with_identity}()},
+\code{\link{column_categorical_with_vocabulary_list}()},
+\code{\link{column_crossed}()},
+\code{\link{column_embedding}()},
+\code{\link{column_numeric}()},
+\code{\link{input_layer}()}
 }
 \concept{feature column constructors}

@@ -87,7 +87,7 @@ cols <- feature_columns(
 
 ## Pattern Matching
 
-Often, you will find that you want to generate a number of feature column definitions based on some pattern existing in the names of your data set. **tfestimators** uses the [tidyselect](https://github.com/tidyverse/tidyselect) package to make it easy to define feature columns, similar to what you might be familiar with in the `dplyr` package. You can use the `names = ` argument of `feature_columns()` function to define a context from which variable names will be selected.
+Often, you will find that you want to generate a number of feature column definitions based on some pattern existing in the names of your data set. **tfestimators** uses the [tidyselect](https://github.com/r-lib/tidyselect) package to make it easy to define feature columns, similar to what you might be familiar with in the `dplyr` package. You can use the `names = ` argument of `feature_columns()` function to define a context from which variable names will be selected.
 
 For example, we can use the `ends_with()` helper to assert that all columns ending with `"time"` are numeric columns as follows:
 
