@@ -50,7 +50,7 @@ measurements. You'll learn how to do the following:
 *   Define a training op for your model
 *   Generate and return predictions
 
-The complete code for this tutorial can be found [here](https://github.com/rstudio/tfestimators/blob/master/vignettes/examples/creating_estimators.Rmd).
+The complete code for this tutorial can be found [here](https://github.com/rstudio/tfestimators/blob/master/vignettes/creating_estimators.Rmd).
 
 # An Abalone Age Predictor
 
