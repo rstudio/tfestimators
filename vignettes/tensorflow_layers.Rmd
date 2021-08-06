@@ -19,7 +19,7 @@ creation of dense (fully connected) layers and convolutional layers, adding
 activation functions, and applying dropout regularization. In this tutorial,
 you'll learn how to use `layers` to build a convolutional neural network model
 to recognize the handwritten digits in the MNIST data set. The complete code
-for this tutorial can be found [here](examples/layers_tutorial.R).
+for this tutorial can be found [here](https://github.com/rstudio/tfestimators/blob/master/vignettes/tensorflow_layers.Rmd).
 
 ![handwritten digits 0–9 from the MNIST data set](https://www.tensorflow.org/images/mnist_0-9.png)
 
