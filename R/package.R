@@ -36,6 +36,10 @@ np <- NULL
 
 .onLoad <- function(libname, pkgname) {
   
+  packageStartupMessage(
+    "tfestimators is not recomended for new code. It is only compatible with Tensorflow version 1, and is not compatable with Tensorflow version 2."
+  )
+  
   # delay load handler
   displayed_warning <- FALSE
   delay_load <- list(
