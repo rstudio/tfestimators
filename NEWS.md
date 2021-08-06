@@ -1,3 +1,7 @@
+# tfestimators 1.9.2
+
+* Added rmarkdown package to suggests at request of CRAN
+
 # tfestimators 1.9.1
 
 * Fixes for rlang 0.3 compatibility (#156, #159).
