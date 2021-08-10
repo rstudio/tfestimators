@@ -28,7 +28,6 @@ URL: https://github.com/rstudio/tfestimators
 BugReports: https://github.com/rstudio/tfestimators/issues
 SystemRequirements: TensorFlow (https://www.tensorflow.org/)
 Encoding: UTF-8
-LazyData: true
 Depends:
     R (>= 3.1)
 Imports:

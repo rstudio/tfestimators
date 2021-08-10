@@ -36,10 +36,6 @@ np <- NULL
 
 .onLoad <- function(libname, pkgname) {
   
-  packageStartupMessage(
-    "tfestimators is not recomended for new code. It is only compatible with Tensorflow version 1, and is not compatable with Tensorflow version 2."
-  )
-  
   # delay load handler
   displayed_warning <- FALSE
   delay_load <- list(
@@ -57,8 +53,9 @@ np <- NULL
     }
   )
   
+ 
   # core modules
-  if (tensorflow::tf_version() <= "1.12") {
+  if (package_version(Sys.getenv("TENSORFLOW_VERSION", "1.15")) <= "1.12") {
     estimator_lib <<- import("tensorflow.python.estimator.estimator", delay_load = delay_load)
     feature_column_lib <<- import("tensorflow.python.feature_column.feature_column", delay_load = delay_load)
     canned_estimator_lib <<- import("tensorflow.python.estimator.canned", delay_load = delay_load)
@@ -90,7 +87,8 @@ check_tensorflow_version <- function(displayed_warning) {
 }
 
 .onAttach <- function(libname, pkgname) {
-
+  msg <- "tfestimators is not recomended for new code. It is only compatible with Tensorflow version 1, and is not compatable with Tensorflow version 2."
+  packageStartupMessage(msg)
 }
 
 .onDetach <- function(libpath) {

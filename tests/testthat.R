@@ -3,4 +3,6 @@
 library(testthat)
 library(tfestimators)
 
-test_check("tfestimators")
+if (identical(Sys.getenv("NOT_CRAN"), "true")) 
+  test_check("tfestimators")
+
