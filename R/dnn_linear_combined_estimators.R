@@ -46,7 +46,7 @@ dnn_linear_combined_regressor <- function(model_dir = NULL,
                                           input_layer_partitioner = NULL,
                                           config = NULL)
 {
-  args <- as.list(environment(), all = TRUE)
+  args <- as.list(environment(), all.names = TRUE)
 
   estimator <- py_suppress_warnings(
     tf$estimator$DNNLinearCombinedRegressor(
@@ -86,7 +86,7 @@ dnn_linear_combined_classifier <- function(model_dir = NULL,
                                            input_layer_partitioner = NULL,
                                            config = NULL)
 {
-  args <- as.list(environment(), all = TRUE)
+  args <- as.list(environment(), all.names = TRUE)
   
   estimator <- py_suppress_warnings(
     tf$estimator$DNNLinearCombinedClassifier(

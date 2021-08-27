@@ -48,7 +48,7 @@ boosted_trees_regressor <- function(
     stop("'boosted_trees_regressor()' requires TensorFlow 1.8+.",
          call. = FALSE)
   
-  args <- as.list(environment(), all = TRUE)
+  args <- as.list(environment(), all.names = TRUE)
   
   estimator <- py_suppress_warnings(
     tf$estimator$BoostedTreesRegressor(
@@ -95,7 +95,7 @@ boosted_trees_classifier <- function(
     stop("'boosted_trees_classifier()' requires TensorFlow 1.8+.",
          call. = FALSE)
   
-  args <- as.list(environment(), all = TRUE)
+  args <- as.list(environment(), all.names = TRUE)
   
   estimator <- py_suppress_warnings(
     tf$estimator$BoostedTreesClassifier(

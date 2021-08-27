@@ -36,7 +36,7 @@ dnn_regressor <- function(hidden_units,
                           input_layer_partitioner = NULL,
                           config = NULL)
 {
-  args <- as.list(environment(), all = TRUE)
+  args <- as.list(environment(), all.names = TRUE)
   
   estimator <- py_suppress_warnings(
     tf$estimator$DNNRegressor(
@@ -72,7 +72,7 @@ dnn_classifier <- function(hidden_units,
                            input_layer_partitioner = NULL,
                            config = NULL)
 {
-  args <- as.list(environment(), all = TRUE)
+  args <- as.list(environment(), all.names = TRUE)
   
   estimator <- py_suppress_warnings(
     tf$estimator$DNNClassifier(

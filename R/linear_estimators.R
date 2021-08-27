@@ -25,7 +25,7 @@ linear_regressor <- function(feature_columns,
                              config = NULL,
                              partitioner = NULL)
 {
-  args <- as.list(environment(), all = TRUE)
+  args <- as.list(environment(), all.names = TRUE)
   
   estimator <- py_suppress_warnings(
     tf$estimator$LinearRegressor(
@@ -55,7 +55,7 @@ linear_classifier <- function(feature_columns,
                               config = NULL,
                               partitioner = NULL)
 {
-  args <- as.list(environment(), all = TRUE)
+  args <- as.list(environment(), all.names = TRUE)
 
   estimator <- py_suppress_warnings(
     tf$estimator$LinearClassifier(
