@@ -18,7 +18,7 @@ knitr::opts_chunk$set(eval = FALSE, echo = TRUE)
 # R Interface to TensorFlow Estimators
 
 <div id="build-status">
-[![Travis-CI Build Status](https://travis-ci.org/rstudio/tfestimators.svg?branch=master)](https://travis-ci.org/rstudio/tfestimators.svg) 
+[![Travis-CI Build Status](https://travis-ci.org/rstudio/tfestimators.svg?branch=main)](https://travis-ci.org/rstudio/tfestimators.svg)
 </div>
 
 ## Overview
@@ -27,7 +27,7 @@ knitr::opts_chunk$set(eval = FALSE, echo = TRUE)
 
 The **tfestimators** package is an R interface to TensorFlow Estimators, a high-level API that provides:
 
-- Implementations of many different model types including linear models and deep neural networks. More models are coming soon such as state saving recurrent neural networks, dynamic recurrent neural networks, support vector machines, random forest, KMeans clustering, etc. 
+- Implementations of many different model types including linear models and deep neural networks. More models are coming soon such as state saving recurrent neural networks, dynamic recurrent neural networks, support vector machines, random forest, KMeans clustering, etc.
 
 - A flexible framework for defining arbitrary new model types as custom estimators.
 
@@ -82,8 +82,8 @@ library(tfestimators)
 
 # return an input_fn for a given subset of data
 mtcars_input_fn <- function(data, num_epochs = 1) {
-  input_fn(data, 
-           features = c("disp", "cyl"), 
+  input_fn(data,
+           features = c("disp", "cyl"),
            response = "mpg",
            batch_size = 32,
            num_epochs = num_epochs)
@@ -104,7 +104,7 @@ cols <- feature_columns(
 You can also define multiple feature columns at once:
 
 ```{r}
-cols <- feature_columns( 
+cols <- feature_columns(
   column_numeric("disp", "cyl")
 )
 ```
@@ -162,7 +162,7 @@ And subsequently load the saved model (in a new session) by passing the director
 
 ```{r}
 library(tfestimators)
-cols <- feature_columns( 
+cols <- feature_columns(
   column_numeric("disp", "cyl")
 )
 loaded_model <- linear_regressor(feature_columns = cols,
@@ -205,14 +205,3 @@ One of the best ways to learn is from reviewing and experimenting with examples.
 <!--
 When you have built your model and are ready to deploy it, see the [Deployment](articles/deployment.html) page for an in-depth review of deployment options.
 -->
-
-
-
-
-
-
-
-
-
-
-

@@ -1,6 +1,6 @@
 ---
 title: "Custom Estimators"
-output: 
+output:
   rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Custom Estimators}
@@ -34,8 +34,8 @@ Perhaps you need more granular control over model configuration, such as
 the ability to customize the loss function used for optimization, or specify
 different activation functions for each neural network layer. Or maybe you're
 implementing a ranking or recommendation system, and neither a classifier nor a
-regressor is appropriate for generating predictions. The figure on the right 
-illustrates the basic components of an estimator. Users can implement 
+regressor is appropriate for generating predictions. The figure on the right
+illustrates the basic components of an estimator. Users can implement
 custom behaviors and or architecture inside the `model_fn` of the estimator.
 
 This tutorial covers how to create your own `Estimator` using the building
@@ -50,7 +50,7 @@ measurements. You'll learn how to do the following:
 *   Define a training op for your model
 *   Generate and return predictions
 
-The complete code for this tutorial can be found [here](https://github.com/rstudio/tfestimators/blob/master/vignettes/creating_estimators.Rmd).
+The complete code for this tutorial can be found [here](https://github.com/rstudio/tfestimators/blob/main/vignettes/creating_estimators.Rmd).
 
 # An Abalone Age Predictor
 
@@ -429,27 +429,27 @@ and `train_op`:
 model_fn <- function(features, labels, mode, params, config) {
   # Connect the first hidden layer to input layer
   first_hidden_layer <- tf$layers$dense(features, 10L, activation = tf$nn$relu)
-  
+
   # Connect the second hidden layer to first hidden layer with relu
   second_hidden_layer <- tf$layers$dense(first_hidden_layer, 10L, activation = tf$nn$relu)
-  
+
   # Connect the output layer to second hidden layer (no activation fn)
   output_layer <- tf$layers$dense(second_hidden_layer, 1L)
-  
+
   # Reshape output layer to 1-dim Tensor to return predictions
   predictions <- tf$reshape(output_layer, list(-1L))
   predictions_list <- list(ages = predictions)
-  
+
   # Calculate loss using mean squared error
   loss <- tf$losses$mean_squared_error(labels, predictions)
-  
+
   eval_metric_ops <- list(rmse = tf$metrics$root_mean_squared_error(
     tf$cast(labels, tf$float64), predictions
   ))
-  
+
   optimizer <- tf$train$GradientDescentOptimizer(learning_rate = params$learning_rate)
   train_op <- optimizer$minimize(loss = loss, global_step = tf$train$get_global_step())
-  
+
   return(estimator_spec(
     mode = mode,
     predictions = predictions_list,
@@ -477,4 +477,3 @@ train(model, input_fn = train_input_fn, steps = 2)
 
 evaluate(model, input_fn = test_input_fn, steps = 2)
 ```
-

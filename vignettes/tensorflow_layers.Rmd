@@ -1,6 +1,6 @@
 ---
 title: "TensorFlow Layers"
-output: 
+output:
   rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Using Estimators}
@@ -19,7 +19,7 @@ creation of dense (fully connected) layers and convolutional layers, adding
 activation functions, and applying dropout regularization. In this tutorial,
 you'll learn how to use `layers` to build a convolutional neural network model
 to recognize the handwritten digits in the MNIST data set. The complete code
-for this tutorial can be found [here](https://github.com/rstudio/tfestimators/blob/master/vignettes/tensorflow_layers.Rmd).
+for this tutorial can be found [here](https://github.com/rstudio/tfestimators/blob/main/vignettes/tensorflow_layers.Rmd).
 
 ![handwritten digits 0–9 from the MNIST data set](https://www.tensorflow.org/images/mnist_0-9.png)
 
@@ -122,12 +122,12 @@ configures the CNN; and returns predictions, loss, and a training operation:
 
 ``` r
 cnn_model_fn <- function(features, labels, mode, params, config) {
-  
+
   # Input Layer
   # Reshape X to 4-D tensor: [batch_size, width, height, channels]
   # MNIST images are 28x28 pixels, and have one color channel
   input_layer <- tf$reshape(features$x, c(-1L, 28L, 28L, 1L))
-  
+
   # Convolutional Layer #1
   # Computes 32 features using a 5x5 filter with ReLU activation.
   # Padding is added to preserve width and height.
@@ -139,13 +139,13 @@ cnn_model_fn <- function(features, labels, mode, params, config) {
     kernel_size = c(5L, 5L),
     padding = "same",
     activation = tf$nn$relu)
-  
+
   # Pooling Layer #1
   # First max pooling layer with a 2x2 filter and stride of 2
   # Input Tensor Shape: [batch_size, 28, 28, 32]
   # Output Tensor Shape: [batch_size, 14, 14, 32]
   pool1 <- tf$layers$max_pooling2d(inputs = conv1, pool_size = c(2L, 2L), strides = 2L)
-  
+
   # Convolutional Layer #2
   # Computes 64 features using a 5x5 filter.
   # Padding is added to preserve width and height.
@@ -157,33 +157,33 @@ cnn_model_fn <- function(features, labels, mode, params, config) {
     kernel_size = c(5L, 5L),
     padding = "same",
     activation = tf$nn$relu)
-  
+
   # Pooling Layer #2
   # Second max pooling layer with a 2x2 filter and stride of 2
   # Input Tensor Shape: [batch_size, 14, 14, 64]
   # Output Tensor Shape: [batch_size, 7, 7, 64]
   pool2 <- tf$layers$max_pooling2d(inputs = conv2, pool_size = c(2L, 2L), strides = 2L)
-  
+
   # Flatten tensor into a batch of vectors
   # Input Tensor Shape: [batch_size, 7, 7, 64]
   # Output Tensor Shape: [batch_size, 7 * 7 * 64]
   pool2_flat <- tf$reshape(pool2, c(-1L, 7L * 7L * 64L))
-  
+
   # Dense Layer
   # Densely connected layer with 1024 neurons
   # Input Tensor Shape: [batch_size, 7 * 7 * 64]
   # Output Tensor Shape: [batch_size, 1024]
   dense <- tf$layers$dense(inputs = pool2_flat, units = 1024L, activation = tf$nn$relu)
-  
+
   # Add dropout operation; 0.6 probability that element will be kept
   dropout <- tf$layers$dropout(
     inputs = dense, rate = 0.4, training = (mode == "train"))
-  
+
   # Logits layer
   # Input Tensor Shape: [batch_size, 1024]
   # Output Tensor Shape: [batch_size, 10]
   logits <- tf$layers$dense(inputs = dropout, units = 10L)
-  
+
   # Generate Predictions (for prediction mode)
   predicted_classes <- tf$argmax(input = logits, axis = 1L, name = "predicted_classes")
   if (mode == "infer") {
@@ -193,12 +193,12 @@ cnn_model_fn <- function(features, labels, mode, params, config) {
     )
     return(estimator_spec(mode = mode, predictions = predictions))
   }
-  
+
   # Calculate Loss (for both "train" and "eval" modes)
   onehot_labels <- tf$one_hot(indices = tf$cast(labels, tf$int32), depth = 10L)
   loss <- tf$losses$softmax_cross_entropy(
     onehot_labels = onehot_labels, logits = logits)
-  
+
   # Configure the Training Op (for "train" mode)
   if (mode == "train") {
     optimizer <- tf$train$GradientDescentOptimizer(learning_rate = 0.001)
@@ -207,7 +207,7 @@ cnn_model_fn <- function(features, labels, mode, params, config) {
       global_step = tf$train$get_global_step())
     return(estimator_spec(mode = mode, loss = loss, train_op = train_op))
   }
-    
+
   # Add evaluation metrics (for EVAL mode)
   eval_metric_ops <- list(accuracy = tf$metrics$accuracy(
     labels = labels, predictions = predicted_classes))
@@ -608,7 +608,7 @@ and `eval_labels`, respectively.
 ### Create the Estimator {#create-the-estimator}
 
 Next, let's create an `estimator` (a TensorFlow class for performing high-level
-model training, evaluation, and inference) for our model. 
+model training, evaluation, and inference) for our model.
 
 ```r
 # Create the Estimator
@@ -677,7 +677,7 @@ means that the model will train on minibatches of 100 examples at each step).
 `num_epochs = NULL` means that the model will train until the specified number of
 steps is reached. We also set `shuffle = TRUE` to shuffle the training data.
 In the `train` call, we set `steps = 2`
-(which means the model will train for 10 steps total). 
+(which means the model will train for 10 steps total).
 
 ### Evaluate the Model
 
@@ -742,4 +742,3 @@ INFO:tensorflow:Evaluation [3/10]
 INFO:tensorflow:Evaluation [4/10]
 ...
 ```
-

@@ -35,7 +35,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Using
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -83,7 +83,7 @@
 <li>
   <a href="https://github.com/rstudio/tfestimators">
     <span class="fa fa-github"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -94,13 +94,13 @@
 </div>
 <!--/.navbar -->
 
-      
+
       </header><div class="row">
   <div class="col-md-9">
-    
 
-    
-    
+
+
+
 <div class="contents">
 <div id="r-interface-to-tensorflow-estimators" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
@@ -179,8 +179,8 @@
 
 <span class="co"># return an input_fn for a given subset of data</span>
 mtcars_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(data) {
-  <span class="kw"><a href="reference/input_fn.html">input_fn</a></span>(data, 
-           <span class="dt">features =</span> <span class="kw">c</span>(<span class="st">"disp"</span>, <span class="st">"cyl"</span>), 
+  <span class="kw"><a href="reference/input_fn.html">input_fn</a></span>(data,
+           <span class="dt">features =</span> <span class="kw">c</span>(<span class="st">"disp"</span>, <span class="st">"cyl"</span>),
            <span class="dt">response =</span> <span class="st">"mpg"</span>,
            <span class="dt">batch_size =</span> <span class="dv">32</span>,
            <span class="dt">num_epochs =</span> <span class="dv">10</span>)
@@ -195,7 +195,7 @@ mtcars_input_fn &lt;-<span class="st"> </span><span class="cf">function</span>(d
   <span class="kw"><a href="reference/column_numeric.html">column_numeric</a></span>(<span class="st">"cyl"</span>)
 )</code></pre></div>
 <p>You can also define multiple feature columns at once:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cols &lt;-<span class="st"> </span><span class="kw"><a href="reference/feature_columns.html">feature_columns</a></span>( 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cols &lt;-<span class="st"> </span><span class="kw"><a href="reference/feature_columns.html">feature_columns</a></span>(
   <span class="kw"><a href="reference/column_numeric.html">column_numeric</a></span>(<span class="st">"disp"</span>, <span class="st">"cyl"</span>)
 )</code></pre></div>
 <p>By using the family of <a href="reference/index.html#section-feature-columns">feature column functions</a> we can define various transformations on the data before using it for modeling.</p>
@@ -296,7 +296,7 @@ When you have built your model and are ready to deploy it, see the [Deployment](
 </ul>
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/rstudio/tfestimators.svg"><img src="https://travis-ci.org/rstudio/tfestimators.svg?branch=master" alt="Travis-CI Build Status"></a></li>
+<li><a href="https://travis-ci.org/rstudio/tfestimators.svg"><img src="https://travis-ci.org/rstudio/tfestimators.svg?branch=main" alt="Travis-CI Build Status"></a></li>
 </ul>
 </div>
 
