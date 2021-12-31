@@ -25,17 +25,17 @@ feature_columns <- function(..., names = NULL) {
     #
     #     column_numeric(starts_with("a"))
     #
-    expr <- quo_expr(quo)
+    expr <- quo_get_expr(quo)
     if (is_formula(expr, lhs = TRUE)) {
-      
+
       # extract formula expressions
       lhs <- expr[[2]]; rhs <- expr[[3]]
-      
+
       # inject lhs as first argument to rhs
-      injected <- as.call(c(node_car(get_expr(rhs)), lhs, node_cdr(get_expr(rhs))))
-      
+      injected <- call_inject_args(rhs, lhs)
+
       # update expression
-      quo <- set_expr(quo, injected)
+      quo <- quo_set_expr(quo, injected)
     }
     
     rlang::eval_tidy(quo)

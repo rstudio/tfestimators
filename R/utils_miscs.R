@@ -56,3 +56,15 @@ resolve_mode <- function() {
   
   mode
 }
+
+# Inserts `...` at the front of the argument list of `call`.
+# `call` must be a call, possibly wrapped in a formula or quosure.
+call_inject_args <- function(call, ...) {
+  expr <- get_expr(call)
+
+  stopifnot(is.call(expr))
+  args <- call_args(expr)
+  new <- call_modify(expr[1], ..., !!!args)
+
+  set_expr(call, new)
+}
