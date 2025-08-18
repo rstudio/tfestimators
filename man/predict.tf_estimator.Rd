@@ -68,8 +68,8 @@ if \code{predict_keys} is not \code{NULL} but \code{EstimatorSpec.predictions} i
 
 \seealso{
 Other custom estimator methods: 
-\code{\link{estimator_spec}()},
 \code{\link{estimator}()},
+\code{\link{estimator_spec}()},
 \code{\link{evaluate.tf_estimator}()},
 \code{\link{export_savedmodel.tf_estimator}()},
 \code{\link{train.tf_estimator}()}

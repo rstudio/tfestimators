@@ -2,6 +2,7 @@
 % Please edit documentation in R/package.R
 \docType{package}
 \name{tfestimators}
+\alias{tfestimators-package}
 \alias{tfestimators}
 \title{High-level Estimator API in TensorFlow for R}
 \description{
@@ -25,4 +26,31 @@ complete TensorFlow API from within R.
 
 For additional documentation on the tensorflow package see
 \href{https://tensorflow.rstudio.com}{https://tensorflow.rstudio.com}
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/rstudio/tfestimators}
+  \item Report bugs at \url{https://github.com/rstudio/tfestimators/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Tomasz Kalinowski \email{tomasz.kalinowski@rstudio.com}
+
+Authors:
+\itemize{
+  \item JJ Allaire \email{jj@rstudio.com}
+  \item Yuan Tang \email{terrytangyuan@gmail.com} (\href{https://orcid.org/0000-0001-5243-233X}{ORCID})
+  \item Kevin Ushey \email{kevin@rstudio.com}
+  \item Kevin Kuo \email{kevin.kuo@rstudio.com} (\href{https://orcid.org/0000-0001-7803-7901}{ORCID})
+}
+
+Other contributors:
+\itemize{
+  \item Daniel Falbel [contributor, copyright holder]
+  \item RStudio [copyright holder, funder]
+  \item  Google Inc. [copyright holder]
+}
+
 }

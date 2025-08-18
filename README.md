@@ -14,5 +14,3 @@ The **tfestimators** package is an R interface to TensorFlow Estimators, a high-
 - Standalone deployment of models (no R runtime required) in a wide variety of environments.
 
 - An Experiment API that provides distributed training and hyperparameter tuning for both canned and custom estimators.
-
-For documentation on using tfestimators, see the package website at <https://tensorflow.rstudio.com/tfestimators/>

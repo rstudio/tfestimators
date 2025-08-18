@@ -5,11 +5,16 @@
 \title{Create Custom Session Run Hooks}
 \usage{
 session_run_hook(
-  begin = function() { },
-  after_create_session = function(session, coord) { },
-  before_run = function(context) { },
-  after_run = function(context, values) { },
-  end = function(session) { }
+  begin = function() {
+ },
+  after_create_session = function(session, coord) {
+ },
+  before_run = function(context) {
+ },
+  after_run = function(context, values) {
+ },
+  end = function(session) {
+ }
 )
 }
 \arguments{
