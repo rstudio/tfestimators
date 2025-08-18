@@ -17,9 +17,9 @@ knitr::opts_chunk$set(eval = FALSE, echo = TRUE)
 
 # R Interface to TensorFlow Estimators
 
-<div id="build-status">
-[![Travis-CI Build Status](https://travis-ci.org/rstudio/tfestimators.svg?branch=main)](https://travis-ci.org/rstudio/tfestimators.svg)
-</div>
+<!-- <div id="build-status"> -->
+<!-- [![Travis-CI Build Status](https://travis-ci.org/rstudio/tfestimators.svg?branch=main)](https://travis-ci.org/rstudio/tfestimators.svg) -->
+<!-- </div> -->
 
 ## Overview
 
@@ -174,9 +174,9 @@ loaded_model
 
 These articles cover the basics of using TensorFlow Estimators:
 
-- [Estimator Basics](articles/estimator_basics.html)
-- [Input Functions](articles/input_functions.html)
-- [Feature Columns](articles/feature_columns.html)
+- [Estimator Basics](https://github.com/rstudio/tfestimators/blob/main/vignettes/estimator_basics.Rmd)
+- [Input Functions](https://github.com/rstudio/tfestimators/blob/main/vignettes/input_functions.Rmd)
+- [Feature Columns](https://github.com/rstudio/tfestimators/blob/main/vignettes/feature_columns.Rmd)
 
 <!--
 These articles provide in depth documentation and example uses of canned estimators:
