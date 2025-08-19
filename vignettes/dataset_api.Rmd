@@ -47,7 +47,7 @@ write.csv(iris_sample, "iris_sample.csv", row.names = FALSE)
 
 ## Estimator Construction
 
-We construct the classifier as usual -- see [Estimator Basics](https://tensorflow.rstudio.com/guide/tfestimators/estimator_basics/) for details on feature columns and creating estimators.
+We construct the classifier as usual -- see [Estimator Basics](https://github.com/rstudio/tfestimators/blob/main/vignettes/estimator_basics.Rmd) for details on feature columns and creating estimators.
 
 ```{r}
 library(tfestimators)
@@ -67,7 +67,7 @@ classifier <- dnn_classifier(
 
 ## Input Function
 
-The creation of the input function is similar to the [in-memory case](https://tensorflow.rstudio.com/guide/tfestimators/estimator_basics/#input-functions). However, instead of passing data frames or matrices to `iris_input_fn()`, we pass TensorFlow dataset objects which are internally iterators of the dataset files.
+The creation of the input function is similar to the [in-memory case](https://github.com/rstudio/tfestimators/blob/main/vignettes/estimator_basics.Rmd). However, instead of passing data frames or matrices to `iris_input_fn()`, we pass TensorFlow dataset objects which are internally iterators of the dataset files.
 
 ```{r}
 iris_input_fn <- function(data) {

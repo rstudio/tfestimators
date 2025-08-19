@@ -1,7 +1,7 @@
 Package: tfestimators
 Type: Package
 Title: Interface to 'TensorFlow' Estimators
-Version: 1.9.2
+Version: 1.9.3.9000
 Authors@R: c(
   person("JJ", "Allaire", role = c("aut"),
          email = "jj@rstudio.com"),
@@ -44,7 +44,7 @@ Imports:
     tibble,
     tidyr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.2
 Suggests:
     ggplot2,
     modelr (>= 0.1.1),

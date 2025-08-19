@@ -1,7 +1,7 @@
 #' High-level Estimator API in TensorFlow for R
 #'
 #' This library provides an R interface to the
-#' \href{https://github.com/tensorflow/tensorflow/tree/master/tensorflow/python/estimator}{Estimator}
+#' \href{https://github.com/tensorflow/tensorflow/tree/r1.15/tensorflow/python/estimator}{Estimator}
 #' API inside TensorFlow that's designed to streamline the process of creating,
 #' evaluating, and deploying general machine learning and deep learning models.
 #'

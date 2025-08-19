@@ -3,7 +3,7 @@
 #' Constructors for feature columns. A feature column defines the expected
 #' 'shape' of an input Tensor.
 #'
-#' @param ... One or more feature column definitions. The [tidyselect] package
+#' @param ... One or more feature column definitions. The [`tidyselect`][tidyselect::language] package
 #' is used to power generation of feature columns.
 #' @param names Available feature names (for selection / pattern matching) as a
 #'   character vector (or R object that implements `names()` or `colnames()`).

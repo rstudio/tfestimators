@@ -7,7 +7,7 @@
 feature_columns(..., names = NULL)
 }
 \arguments{
-\item{...}{One or more feature column definitions. The \link{tidyselect} package
+\item{...}{One or more feature column definitions. The \code{\link[tidyselect:language]{tidyselect}} package
 is used to power generation of feature columns.}
 
 \item{names}{Available feature names (for selection / pattern matching) as a
